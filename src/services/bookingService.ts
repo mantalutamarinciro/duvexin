@@ -1,8 +1,10 @@
 'use server';
 
 import { db } from '@/lib/firebase';
-import { collection, addDoc, getDocs, serverTimestamp, Timestamp, orderBy, query, writeBatch, doc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, serverTimestamp, Timestamp, orderBy, query, writeBatch, doc, updateDoc } from 'firebase/firestore';
 import { Quote } from './quoteService';
+
+export type BookingStatus = 'Programmé' | 'En cours' | 'Terminé' | 'Annulé';
 
 export interface Booking {
   id: string;
@@ -12,7 +14,7 @@ export interface Booking {
   destinationAddress: string;
   moveDate: string; 
   total: number;
-  status: 'Programmé' | 'En cours' | 'Terminé' | 'Annulé';
+  status: BookingStatus;
   createdAt: Timestamp;
   quoteId: string;
 }
@@ -23,23 +25,21 @@ export async function createBookingFromQuote(quote: Quote): Promise<{ id: string
 
     // 1. Create new booking
     const newBookingRef = doc(collection(db, 'bookings'));
-    const newBooking: Omit<Booking, 'id' | 'createdAt'> = {
+    const newBookingData = {
         clientName: quote.clientName,
         clientEmail: quote.clientEmail,
         originAddress: quote.originAddress,
         destinationAddress: quote.destinationAddress,
-        moveDate: quote.moveDate,
+        moveDate: new Date(quote.moveDate),
         total: quote.quote,
         status: 'Programmé',
-        quoteId: quote.id
+        quoteId: quote.id,
+        createdAt: serverTimestamp(),
     };
     
-    batch.set(newBookingRef, {
-        ...newBooking,
-        createdAt: serverTimestamp(),
-    });
+    batch.set(newBookingRef, newBookingData);
 
-    // 2. Update quote status
+    // 2. Update quote status to 'converted'
     const quoteRef = doc(db, 'quotes', quote.id);
     batch.update(quoteRef, { status: 'converted' });
 
@@ -75,4 +75,15 @@ export async function getBookings(): Promise<Booking[]> {
         console.error('Error fetching bookings: ', error);
         throw new Error('Failed to fetch bookings.');
     }
+}
+
+export async function updateBookingStatus(id: string, status: BookingStatus): Promise<void> {
+  try {
+    const bookingRef = doc(db, 'bookings', id);
+    await updateDoc(bookingRef, { status });
+    console.log(`Booking ${id} status updated to ${status}`);
+  } catch (error) {
+    console.error('Error updating booking status: ', error);
+    throw new Error('Failed to update booking status.');
+  }
 }

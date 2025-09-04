@@ -22,9 +22,9 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { MoreHorizontal, PlusCircle, CheckCircle, FileText, Trash2 } from "lucide-react"
+import { MoreHorizontal, PlusCircle, CheckCircle, XCircle, FileText, Trash2 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { getQuotes, Quote, updateQuoteStatus, QuoteStatus } from "@/services/quoteService";
+import { getQuotes, Quote, updateQuoteStatus, QuoteStatus, deleteQuote } from "@/services/quoteService";
 import { createBookingFromQuote } from "@/services/bookingService";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
@@ -35,6 +35,7 @@ import { useRouter } from "next/navigation";
 const statusLabels: Record<Quote['status'], string> = {
     pending: 'En attente',
     accepted: 'Accepté',
+    refused: 'Refusé',
     invoiced: 'Facturé',
     converted: 'Converti',
 }
@@ -43,6 +44,7 @@ const getBadgeVariant = (status: Quote['status']) => {
     switch (status) {
         case "pending": return "secondary";
         case "accepted": return "default";
+        case "refused": return "destructive";
         case "invoiced": return "outline";
         case "converted": return "default";
         default: return "secondary";
@@ -84,7 +86,7 @@ export default function QuotesPage() {
             await updateQuoteStatus(id, status);
             toast({
                 title: "Statut mis à jour",
-                description: `Le devis a été marqué comme ${statusLabels[status]}.`,
+                description: `Le devis a été marqué comme ${statusLabels[status].toLowerCase()}.`,
             });
             loadQuotes(); // Refresh data
         } catch (error) {
@@ -97,9 +99,17 @@ export default function QuotesPage() {
     };
 
     const handleConvertToBooking = async (quote: Quote) => {
+        if (quote.status !== 'accepted') {
+            toast({
+                variant: "destructive",
+                title: "Action impossible",
+                description: "Seuls les devis acceptés peuvent être convertis en réservation.",
+            });
+            return;
+        }
         try {
             await createBookingFromQuote(quote);
-            await updateQuoteStatus(quote.id, 'converted');
+            // The quote status is updated to 'converted' by the backend function
             toast({
                 title: "Réservation créée",
                 description: "Le devis a été converti en réservation avec succès.",
@@ -110,6 +120,23 @@ export default function QuotesPage() {
                 variant: "destructive",
                 title: "Erreur de conversion",
                 description: "Impossible de créer la réservation à partir de ce devis.",
+            });
+        }
+    }
+    
+    const handleDeleteQuote = async (id: string) => {
+        try {
+            await deleteQuote(id);
+            toast({
+                title: "Devis supprimé",
+                description: "Le devis a été supprimé avec succès.",
+            });
+            loadQuotes(); // Refresh data
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Erreur",
+                description: "Impossible de supprimer le devis.",
             });
         }
     }
@@ -153,7 +180,7 @@ export default function QuotesPage() {
                             <TableCell><Skeleton className="h-5 w-20" /></TableCell>
                             <TableCell><Skeleton className="h-6 w-24 rounded-full" /></TableCell>
                             <TableCell><Skeleton className="h-5 w-24" /></TableCell>
-                            <TableCell><Skeleton className="h-8 w-8" /></TableCell>
+                            <TableCell><Skeleton className="h-8 w-8 ml-auto" /></TableCell>
                         </TableRow>
                     ))
                 ) : quotes.length > 0 ? (
@@ -165,7 +192,7 @@ export default function QuotesPage() {
                         <TableCell>
                             <Badge variant={getBadgeVariant(quote.status)}>{statusLabels[quote.status]}</Badge>
                         </TableCell>
-                        <TableCell>{format(quote.createdAt.toDate(), "d MMM yyyy", { locale: fr })}</TableCell>
+                        <TableCell>{format(new Date(quote.createdAt.seconds * 1000), "d MMM yyyy", { locale: fr })}</TableCell>
                         <TableCell className="text-right">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -176,19 +203,24 @@ export default function QuotesPage() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
                                 {quote.status === 'pending' && (
+                                    <>
                                     <DropdownMenuItem onClick={() => handleUpdateStatus(quote.id, 'accepted')}>
-                                        <CheckCircle /> Marquer comme accepté
+                                        <CheckCircle className="mr-2" /> Marquer comme accepté
                                     </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => handleUpdateStatus(quote.id, 'refused')}>
+                                        <XCircle className="mr-2" /> Marquer comme refusé
+                                    </DropdownMenuItem>
+                                    </>
                                 )}
                                 {quote.status === 'accepted' && (
                                     <DropdownMenuItem onClick={() => handleConvertToBooking(quote)}>
-                                        <FileText /> Convertir en réservation
+                                        <FileText className="mr-2" /> Convertir en réservation
                                     </DropdownMenuItem>
                                 )}
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem className="text-destructive" disabled>
-                                    <Trash2 /> Supprimer
+                                <DropdownMenuItem onClick={() => handleDeleteQuote(quote.id)} className="text-destructive">
+                                    <Trash2 className="mr-2" /> Supprimer
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>

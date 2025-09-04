@@ -25,7 +25,7 @@ import { Button } from "@/components/ui/button"
 import { MoreHorizontal, PlusCircle } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton";
-import { getBookings, Booking } from "@/services/bookingService";
+import { getBookings, Booking, updateBookingStatus } from "@/services/bookingService";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 
@@ -45,25 +45,44 @@ export default function BookingsPage() {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
+  const loadBookings = async () => {
+    try {
+      setLoading(true);
+      const fetchedBookings = await getBookings();
+      setBookings(fetchedBookings);
+    } catch (error) {
+      console.error(error);
+      toast({
+        variant: 'destructive',
+        title: "Erreur",
+        description: "Impossible de charger les réservations."
+      })
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadBookings = async () => {
-      try {
-        setLoading(true);
-        const fetchedBookings = await getBookings();
-        setBookings(fetchedBookings);
-      } catch (error) {
-        console.error(error);
-        toast({
-          variant: 'destructive',
-          title: "Erreur",
-          description: "Impossible de charger les réservations."
-        })
-      } finally {
-        setLoading(false);
-      }
-    };
     loadBookings();
   }, [toast]);
+
+  const handleCancelBooking = async (id: string) => {
+    try {
+        await updateBookingStatus(id, 'Annulé');
+        toast({
+            title: "Réservation annulée",
+            description: "Le statut de la réservation a été mis à jour.",
+        });
+        loadBookings(); // Refresh data
+    } catch (error) {
+        console.error("Erreur lors de l'annulation de la réservation:", error);
+        toast({
+            variant: "destructive",
+            title: "Erreur",
+            description: "Impossible d'annuler la réservation.",
+        });
+    }
+  };
 
 
   return (
@@ -125,7 +144,11 @@ export default function BookingsPage() {
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
                           <DropdownMenuItem disabled>Assigner une équipe</DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-destructive" disabled>Annuler le déménagement</DropdownMenuItem>
+                          {booking.status !== 'Annulé' && booking.status !== 'Terminé' && (
+                            <DropdownMenuItem className="text-destructive" onClick={() => handleCancelBooking(booking.id)}>
+                                Annuler le déménagement
+                            </DropdownMenuItem>
+                          )}
                           </DropdownMenuContent>
                       </DropdownMenu>
                       </TableCell>

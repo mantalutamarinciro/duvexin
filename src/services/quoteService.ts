@@ -1,7 +1,9 @@
 'use server';
 
 import { db } from '@/lib/firebase';
-import { collection, addDoc, getDocs, serverTimestamp, Timestamp, orderBy, query, doc, updateDoc, writeBatch } from 'firebase/firestore';
+import { collection, addDoc, getDocs, serverTimestamp, Timestamp, orderBy, query, doc, updateDoc, writeBatch, deleteDoc } from 'firebase/firestore';
+
+export type QuoteStatus = 'pending' | 'accepted' | 'refused' | 'invoiced' | 'converted';
 
 export interface Quote {
   id: string;
@@ -15,14 +17,13 @@ export interface Quote {
   volume: number;
   serviceType: "basic" | "full" | "premium";
   quote: number;
-  status: 'pending' | 'accepted' | 'invoiced' | 'converted';
+  status: QuoteStatus;
   createdAt: Timestamp;
 }
 
-export type QuoteStatus = Quote['status'];
 
 export async function saveQuote(
-  quoteData: Omit<Quote, 'createdAt' | 'id' | 'status'>
+  quoteData: Omit<Quote, 'createdAt' | 'id' | 'status'> & { moveDate: string }
 ): Promise<{ id: string }> {
   try {
     const docRef = await addDoc(collection(db, 'quotes'), {
@@ -75,8 +76,8 @@ export async function updateQuoteStatus(id: string, status: QuoteStatus): Promis
 export async function deleteQuote(id: string): Promise<void> {
   try {
     const quoteRef = doc(db, 'quotes', id);
-    await updateDoc(quoteRef, { status: 'invoiced' }); // This is a placeholder for a real delete
-    console.log(`Quote ${id} status updated to invoiced (placeholder for delete)`);
+    await deleteDoc(quoteRef);
+    console.log(`Quote ${id} has been deleted.`);
   } catch (error) {
     console.error('Error deleting quote: ', error);
     throw new Error('Failed to delete quote.');
