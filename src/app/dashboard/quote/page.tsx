@@ -1,13 +1,13 @@
 
 "use client"
 
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import { Calendar as CalendarIcon, Download, Loader2, Save } from "lucide-react"
+import { Calendar as CalendarIcon, Download, Loader2, Save, RefreshCw } from "lucide-react"
 import jsPDF from "jspdf"
 import html2canvas from "html2canvas"
 import Link from "next/link"
@@ -38,6 +38,7 @@ import { cn } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
 import { QuotePDF } from "@/components/quote-pdf"
 import { saveQuote } from "@/services/quoteService"
+import { getInventoryList } from "@/services/inventoryService"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 const quoteSchema = z.object({
@@ -76,6 +77,7 @@ export default function QuotePage() {
   const [pdfLoading, setPdfLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [quoteId, setQuoteId] = useState<string | null>(null)
+  const [isSyncingVolume, setIsSyncingVolume] = useState(false)
 
   const { toast } = useToast()
   const pdfRef = useRef<HTMLDivElement>(null)
@@ -94,6 +96,39 @@ export default function QuotePage() {
       serviceType: "basic",
     },
   })
+
+  const syncVolumeFromInventory = async () => {
+    setIsSyncingVolume(true)
+    try {
+      const inventory = await getInventoryList()
+      if (inventory && inventory.totalVolume > 0) {
+        form.setValue("volume", parseFloat(inventory.totalVolume.toFixed(2)), { shouldValidate: true })
+        toast({
+          title: "Volume synchronisé",
+          description: `Le volume a été mis à jour à ${inventory.totalVolume.toFixed(2)} m³ depuis l'inventaire.`,
+        })
+      } else {
+         toast({
+          variant: "destructive",
+          title: "Inventaire vide",
+          description: "Aucun volume à synchroniser depuis l'inventaire.",
+        })
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Erreur de synchronisation",
+        description: "Impossible de récupérer le volume de l'inventaire.",
+      })
+    } finally {
+      setIsSyncingVolume(false)
+    }
+  }
+
+  useEffect(() => {
+    syncVolumeFromInventory()
+  }, [])
+
 
   function onSubmit(values: QuoteFormData) {
     const distanceCost = values.distance * 1.2; // 1.2€ par km
@@ -176,7 +211,14 @@ export default function QuotePage() {
             </div>
         </div>
       )}
-      <h1 className="font-headline text-3xl font-bold tracking-tight">Éditeur de devis</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="font-headline text-3xl font-bold tracking-tight">Éditeur de devis</h1>
+        <Button asChild variant="outline">
+            <Link href="/dashboard/inventory" target="_blank">
+                Ouvrir l'inventaire
+            </Link>
+        </Button>
+      </div>
       
       {quoteId && (
           <Alert variant="default" className="border-green-500">
@@ -330,7 +372,13 @@ export default function QuotePage() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Volume (m³)</FormLabel>
-                        <FormControl><Input type="number" placeholder="ex: 20" {...field} /></FormControl>
+                        <div className="flex items-center gap-2">
+                           <FormControl><Input type="number" step="0.01" placeholder="ex: 20" {...field} /></FormControl>
+                           <Button type="button" variant="ghost" size="icon" onClick={syncVolumeFromInventory} disabled={isSyncingVolume} title="Synchroniser depuis l'inventaire">
+                              <RefreshCw className={cn("h-4 w-4", isSyncingVolume && "animate-spin")} />
+                           </Button>
+                        </div>
+
                         <FormMessage />
                       </FormItem>
                     )}
