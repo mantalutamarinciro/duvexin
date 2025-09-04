@@ -192,7 +192,7 @@ export default function QuotesPage() {
                         <TableCell>
                             <Badge variant={getBadgeVariant(quote.status)}>{statusLabels[quote.status]}</Badge>
                         </TableCell>
-                        <TableCell>{format(new Date(quote.createdAt.seconds * 1000), "d MMM yyyy", { locale: fr })}</TableCell>
+                        <TableCell>{format(new Date(quote.createdAt), "d MMM yyyy", { locale: fr })}</TableCell>
                         <TableCell className="text-right">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
