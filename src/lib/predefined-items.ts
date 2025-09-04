@@ -1,4 +1,5 @@
-import { Sofa, Table, Armchair, Bed, Tv, Box, Lamp, Refrigerator, CaseUpper, Microwave, Book, Shirt, Monitor, Dumbbell, WashingMachine, Shower, Shelves, CookingPot, Grill, Utensils, Warehouse, Wine, Bike, ToyBrick } from 'lucide-react';
+
+import { Sofa, Table, Armchair, Bed, Tv, Box, Lamp, Refrigerator, CaseUpper, Microwave, Book, Shirt, Monitor, Dumbbell, WashingMachine, Shower, LayoutGrid, CookingPot, Utensils, Warehouse, Wine, Bike, ToyBrick } from 'lucide-react';
 
 export interface PredefinedItem {
     id: string;
@@ -36,7 +37,7 @@ export const roomCategories: RoomCategory[] = [
             { id: 'chair', name: 'Chaise', icon: Armchair, volume: 0.15 },
             { id: 'refrigerator', name: 'Réfrigérateur', icon: Refrigerator, volume: 1.0 },
             { id: 'microwave', name: 'Micro-ondes', icon: Microwave, volume: 0.08 },
-            { id: 'oven', name: 'Four', icon: Grill, volume: 0.15 },
+            { id: 'oven', name: 'Four', icon: CookingPot, volume: 0.15 },
             { id: 'dishwasher', name: 'Lave-vaisselle', icon: WashingMachine, volume: 0.4 },
             { id: 'box_dishes', name: 'Carton vaisselle', icon: CookingPot, volume: 0.12 },
             { id: 'box_utensils', name: 'Carton ustensiles', icon: Utensils, volume: 0.08 },
@@ -70,7 +71,7 @@ export const roomCategories: RoomCategory[] = [
         id: 'cellar_garage',
         name: 'Cave & Garage',
         items: [
-            { id: 'storage_shelf', name: 'Étagère', icon: Shelves, volume: 0.7 },
+            { id: 'storage_shelf', name: 'Étagère', icon: LayoutGrid, volume: 0.7 },
             { id: 'bicycle', name: 'Vélo', icon: Bike, volume: 0.5 },
             { id: 'tool_box', name: 'Caisse à outils', icon: Box, volume: 0.06 },
             { id: 'wine_rack', name: 'Casier à vin', icon: Wine, volume: 0.4 },
