@@ -1,13 +1,15 @@
 
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import { Calendar as CalendarIcon, Mail, Phone, User, Home, Pin, Truck, Boxes, Building } from "lucide-react"
+import { Calendar as CalendarIcon, Download, Loader2 } from "lucide-react"
+import jsPDF from "jspdf"
+import html2canvas from "html2canvas"
 
 import {
   Card,
@@ -33,6 +35,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
+import { QuotePDF } from "@/components/quote-pdf"
 
 const quoteSchema = z.object({
   clientName: z.string().min(2, "Le nom est requis."),
@@ -50,23 +53,29 @@ const quoteSchema = z.object({
   serviceType: z.enum(["basic", "full", "premium"]),
 })
 
-const serviceTypeCosts = {
+export const serviceTypeCosts = {
   basic: 1.0,
   full: 1.5,
   premium: 2.0,
 }
 
-const serviceTypeLabels = {
+export const serviceTypeLabels = {
   basic: "Basique (transport uniquement)",
   full: "Complet (emballage & transport)",
   premium: "Premium (emballage, transport & installation)",
 }
 
+export type QuoteFormData = z.infer<typeof quoteSchema>
+
 export default function QuotePage() {
   const [quote, setQuote] = useState<number | null>(null)
+  const [formData, setFormData] = useState<QuoteFormData | null>(null)
+  const [pdfLoading, setPdfLoading] = useState(false)
   const { toast } = useToast()
+  const pdfRef = useRef<HTMLDivElement>(null)
 
-  const form = useForm<z.infer<typeof quoteSchema>>({
+
+  const form = useForm<QuoteFormData>({
     resolver: zodResolver(quoteSchema),
     defaultValues: {
       clientName: "",
@@ -80,24 +89,59 @@ export default function QuotePage() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof quoteSchema>) {
+  function onSubmit(values: QuoteFormData) {
     const distanceCost = values.distance * 1.2; // 1.2€ par km
     const volumeCost = values.volume * 25; // 25€ par m³
     const serviceMultiplier = serviceTypeCosts[values.serviceType];
     const baseCost = 250; // Coût de base fixe
     const totalQuote = baseCost + (distanceCost + volumeCost) * serviceMultiplier;
     setQuote(totalQuote);
+    setFormData(values)
   }
   
-  function finalizeQuote() {
-      toast({
-        title: "Devis finalisé",
-        description: `Le devis de ${quote?.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })} a été enregistré et est prêt à être envoyé.`,
-      })
+  async function downloadPdf() {
+    setPdfLoading(true);
+    const input = pdfRef.current;
+    if (!input) {
+      setPdfLoading(false);
+      return;
+    }
+
+    try {
+        const canvas = await html2canvas(input, { scale: 2 });
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save("devis-DemDuVexin.pdf");
+
+        toast({
+            title: "PDF téléchargé",
+            description: "Le devis a été téléchargé avec succès.",
+        });
+    } catch (error) {
+        console.error("Erreur lors de la génération du PDF:", error);
+        toast({
+            variant: "destructive",
+            title: "Erreur PDF",
+            description: "Impossible de générer le devis en PDF.",
+        });
+    } finally {
+        setPdfLoading(false);
+    }
   }
+
 
   return (
     <div className="flex flex-col gap-6">
+       {formData && (
+        <div className="absolute -z-10 -left-[9999px] -top-[9999px]">
+            <div ref={pdfRef} className="w-[210mm]">
+                <QuotePDF data={formData} quote={quote!} />
+            </div>
+        </div>
+      )}
       <h1 className="font-headline text-3xl font-bold tracking-tight">Éditeur de devis</h1>
       
       <Form {...form}>
@@ -127,6 +171,17 @@ export default function QuotePage() {
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl><Input type="email" placeholder="jean.dupont@email.com" {...field} /></FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="clientPhone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Téléphone (facultatif)</FormLabel>
+                        <FormControl><Input type="tel" placeholder="06 12 34 56 78" {...field} /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -277,7 +332,10 @@ export default function QuotePage() {
                     <p className="text-sm text-muted-foreground">Ceci est une estimation. Le prix final peut varier. Vérifiez tous les détails avant d'envoyer le devis au client.</p>
                   </CardContent>
                   <CardFooter>
-                      <Button onClick={finalizeQuote} className="w-full">Finaliser et enregistrer le devis</Button>
+                      <Button onClick={downloadPdf} className="w-full" disabled={pdfLoading}>
+                        {pdfLoading ? <Loader2 className="mr-2 animate-spin" /> : <Download className="mr-2"/>}
+                        Télécharger le PDF
+                      </Button>
                   </CardFooter>
                 </Card>
               )}
@@ -288,5 +346,3 @@ export default function QuotePage() {
     </div>
   )
 }
-
-    
