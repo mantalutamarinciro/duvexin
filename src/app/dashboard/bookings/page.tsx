@@ -1,3 +1,9 @@
+
+'use client';
+
+import { useEffect, useState } from "react";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 import {
   Table,
   TableBody,
@@ -17,19 +23,14 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { MoreHorizontal, PlusCircle } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton";
+import { getBookings, Booking } from "@/services/bookingService";
+import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
 
-const bookings = [
-  { id: "MOV-001", customer: "Liam Johnson", date: "2024-08-15", status: "Programmé", total: 250.00 },
-  { id: "MOV-002", customer: "Olivia Smith", date: "2024-08-16", status: "En cours", total: 150.00 },
-  { id: "MOV-003", customer: "Noah Williams", date: "2024-08-17", status: "Terminé", total: 350.00 },
-  { id: "MOV-004", customer: "Emma Brown", date: "2024-08-18", status: "Programmé", total: 450.00 },
-  { id: "MOV-005", customer: "Ava Jones", date: "2024-08-19", status: "Annulé", total: 550.00 },
-  { id: "MOV-006", customer: "James Brown", date: "2024-08-20", status: "Programmé", total: 280.00 },
-  { id: "MOV-007", customer: "Sophia Davis", date: "2024-08-21", status: "Terminé", total: 720.00 },
-]
 
-const getBadgeVariant = (status: string) => {
+const getBadgeVariant = (status: Booking['status']) => {
     switch (status) {
         case "Programmé": return "secondary";
         case "En cours": return "default";
@@ -40,24 +41,51 @@ const getBadgeVariant = (status: string) => {
 }
 
 export default function BookingsPage() {
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const loadBookings = async () => {
+      try {
+        setLoading(true);
+        const fetchedBookings = await getBookings();
+        setBookings(fetchedBookings);
+      } catch (error) {
+        console.error(error);
+        toast({
+          variant: 'destructive',
+          title: "Erreur",
+          description: "Impossible de charger les réservations."
+        })
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadBookings();
+  }, [toast]);
+
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <h1 className="font-headline text-3xl font-bold tracking-tight">Réservations</h1>
-        <Button>
-          <PlusCircle className="mr-2" />
-          Nouvelle réservation
+        <Button asChild>
+            <Link href="/dashboard/quote">
+                <PlusCircle className="mr-2" />
+                Nouvelle réservation (via devis)
+            </Link>
         </Button>
       </div>
       <Card>
         <CardHeader>
             <CardTitle>Déménagements à venir et récents</CardTitle>
+            <CardDescription>Liste de toutes les réservations confirmées.</CardDescription>
         </CardHeader>
         <CardContent>
             <Table>
             <TableHeader>
                 <TableRow>
-                <TableHead>ID Déménagement</TableHead>
                 <TableHead>Client</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Statut</TableHead>
@@ -66,35 +94,48 @@ export default function BookingsPage() {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {bookings.map((booking) => (
-                <TableRow key={booking.id}>
-                    <TableCell className="font-medium">{booking.id}</TableCell>
-                    <TableCell>{booking.customer}</TableCell>
-                    <TableCell>{booking.date}</TableCell>
-                    <TableCell>
-                    <Badge variant={getBadgeVariant(booking.status)}>{booking.status}</Badge>
-                    </TableCell>
-                    <TableCell className="text-right">${booking.total.toFixed(2)}</TableCell>
-                    <TableCell className="text-right">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Ouvrir le menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>Voir les détails</DropdownMenuItem>
-                        <DropdownMenuItem>Assigner une équipe</DropdownMenuItem>
-                        <DropdownMenuItem>Envoyer une mise à jour</DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-destructive">Annuler le déménagement</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                    </TableCell>
-                </TableRow>
-                ))}
+                {loading ? (
+                  Array.from({length: 5}).map((_, i) => (
+                    <TableRow key={i}>
+                      <TableCell><Skeleton className="h-5 w-32"/></TableCell>
+                      <TableCell><Skeleton className="h-5 w-28"/></TableCell>
+                      <TableCell><Skeleton className="h-6 w-24 rounded-full"/></TableCell>
+                      <TableCell className="text-right"><Skeleton className="h-5 w-20 ml-auto"/></TableCell>
+                      <TableCell><Skeleton className="h-8 w-8 ml-auto"/></TableCell>
+                    </TableRow>
+                  ))
+                ) : bookings.length > 0 ? (
+                  bookings.map((booking) => (
+                  <TableRow key={booking.id}>
+                      <TableCell className="font-medium">{booking.clientName}</TableCell>
+                      <TableCell>{format(new Date(booking.moveDate), "d MMMM yyyy", { locale: fr })}</TableCell>
+                      <TableCell>
+                      <Badge variant={getBadgeVariant(booking.status)}>{booking.status}</Badge>
+                      </TableCell>
+                      <TableCell className="text-right">{booking.total.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</TableCell>
+                      <TableCell className="text-right">
+                      <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0">
+                              <span className="sr-only">Ouvrir le menu</span>
+                              <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuItem disabled>Assigner une équipe</DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="text-destructive" disabled>Annuler le déménagement</DropdownMenuItem>
+                          </DropdownMenuContent>
+                      </DropdownMenu>
+                      </TableCell>
+                  </TableRow>
+                  ))
+                ) : (
+                   <TableRow>
+                        <TableCell colSpan={5} className="text-center h-24">Aucune réservation trouvée.</TableCell>
+                    </TableRow>
+                )}
             </TableBody>
             </Table>
         </CardContent>

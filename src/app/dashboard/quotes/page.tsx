@@ -22,17 +22,21 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { MoreHorizontal, PlusCircle } from "lucide-react"
+import { MoreHorizontal, PlusCircle, CheckCircle, FileText, Trash2 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { getQuotes, Quote } from "@/services/quoteService";
+import { getQuotes, Quote, updateQuoteStatus, QuoteStatus } from "@/services/quoteService";
+import { createBookingFromQuote } from "@/services/bookingService";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 
 const statusLabels: Record<Quote['status'], string> = {
     pending: 'En attente',
     accepted: 'Accepté',
-    invoiced: 'Facturé'
+    invoiced: 'Facturé',
+    converted: 'Converti',
 }
 
 const getBadgeVariant = (status: Quote['status']) => {
@@ -40,6 +44,7 @@ const getBadgeVariant = (status: Quote['status']) => {
         case "pending": return "secondary";
         case "accepted": return "default";
         case "invoiced": return "outline";
+        case "converted": return "default";
         default: return "secondary";
     }
 }
@@ -48,22 +53,67 @@ export default function QuotesPage() {
     const [quotes, setQuotes] = useState<Quote[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const { toast } = useToast();
+    const router = useRouter();
+
+
+    const loadQuotes = async () => {
+        try {
+            setLoading(true);
+            const fetchedQuotes = await getQuotes();
+            setQuotes(fetchedQuotes);
+        } catch (err) {
+            setError("Impossible de charger les devis.");
+            console.error(err);
+             toast({
+                variant: "destructive",
+                title: "Erreur",
+                description: "Impossible de charger la liste des devis.",
+            });
+        } finally {
+            setLoading(false);
+        }
+    }
 
     useEffect(() => {
-        async function loadQuotes() {
-            try {
-                setLoading(true);
-                const fetchedQuotes = await getQuotes();
-                setQuotes(fetchedQuotes);
-            } catch (err) {
-                setError("Impossible de charger les devis.");
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        }
         loadQuotes();
     }, []);
+
+    const handleUpdateStatus = async (id: string, status: QuoteStatus) => {
+        try {
+            await updateQuoteStatus(id, status);
+            toast({
+                title: "Statut mis à jour",
+                description: `Le devis a été marqué comme ${statusLabels[status]}.`,
+            });
+            loadQuotes(); // Refresh data
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Erreur",
+                description: "Impossible de mettre à jour le statut du devis.",
+            });
+        }
+    };
+
+    const handleConvertToBooking = async (quote: Quote) => {
+        try {
+            await createBookingFromQuote(quote);
+            await updateQuoteStatus(quote.id, 'converted');
+            toast({
+                title: "Réservation créée",
+                description: "Le devis a été converti en réservation avec succès.",
+            });
+            router.push('/dashboard/bookings');
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Erreur de conversion",
+                description: "Impossible de créer la réservation à partir de ce devis.",
+            });
+        }
+    }
+
 
   return (
     <div className="flex flex-col gap-6">
@@ -125,13 +175,21 @@ export default function QuotesPage() {
                             </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>Voir les détails</DropdownMenuItem>
-                            <DropdownMenuItem>Marquer comme accepté</DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>Convertir en facture</DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem className="text-destructive">Supprimer</DropdownMenuItem>
+                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                {quote.status === 'pending' && (
+                                    <DropdownMenuItem onClick={() => handleUpdateStatus(quote.id, 'accepted')}>
+                                        <CheckCircle /> Marquer comme accepté
+                                    </DropdownMenuItem>
+                                )}
+                                {quote.status === 'accepted' && (
+                                    <DropdownMenuItem onClick={() => handleConvertToBooking(quote)}>
+                                        <FileText /> Convertir en réservation
+                                    </DropdownMenuItem>
+                                )}
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem className="text-destructive" disabled>
+                                    <Trash2 /> Supprimer
+                                </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                         </TableCell>

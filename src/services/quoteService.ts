@@ -1,7 +1,7 @@
 'use server';
 
 import { db } from '@/lib/firebase';
-import { collection, addDoc, getDocs, serverTimestamp, Timestamp, orderBy, query } from 'firebase/firestore';
+import { collection, addDoc, getDocs, serverTimestamp, Timestamp, orderBy, query, doc, updateDoc, writeBatch } from 'firebase/firestore';
 
 export interface Quote {
   id: string;
@@ -15,16 +15,19 @@ export interface Quote {
   volume: number;
   serviceType: "basic" | "full" | "premium";
   quote: number;
-  status: 'pending' | 'accepted' | 'invoiced';
+  status: 'pending' | 'accepted' | 'invoiced' | 'converted';
   createdAt: Timestamp;
 }
 
+export type QuoteStatus = Quote['status'];
+
 export async function saveQuote(
-  quoteData: Omit<Quote, 'createdAt' | 'id'>
+  quoteData: Omit<Quote, 'createdAt' | 'id' | 'status'>
 ): Promise<{ id: string }> {
   try {
     const docRef = await addDoc(collection(db, 'quotes'), {
       ...quoteData,
+      status: 'pending',
       moveDate: Timestamp.fromDate(new Date(quoteData.moveDate)),
       createdAt: serverTimestamp(),
     });
@@ -56,4 +59,26 @@ export async function getQuotes(): Promise<Quote[]> {
         console.error('Error fetching quotes: ', error);
         throw new Error('Failed to fetch quotes.');
     }
+}
+
+export async function updateQuoteStatus(id: string, status: QuoteStatus): Promise<void> {
+  try {
+    const quoteRef = doc(db, 'quotes', id);
+    await updateDoc(quoteRef, { status });
+    console.log(`Quote ${id} status updated to ${status}`);
+  } catch (error) {
+    console.error('Error updating quote status: ', error);
+    throw new Error('Failed to update quote status.');
+  }
+}
+
+export async function deleteQuote(id: string): Promise<void> {
+  try {
+    const quoteRef = doc(db, 'quotes', id);
+    await updateDoc(quoteRef, { status: 'invoiced' }); // This is a placeholder for a real delete
+    console.log(`Quote ${id} status updated to invoiced (placeholder for delete)`);
+  } catch (error) {
+    console.error('Error deleting quote: ', error);
+    throw new Error('Failed to delete quote.');
+  }
 }
