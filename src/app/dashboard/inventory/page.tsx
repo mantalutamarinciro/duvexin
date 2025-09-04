@@ -2,30 +2,65 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 import { Loader2, Plus, Minus, Trash2, PackagePlus, Calculator } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getInventoryList, updateInventoryList, InventoryItem } from "@/services/inventoryService"
-import { roomCategories, PredefinedItem, RoomCategory } from "@/lib/predefined-items"
+import { roomCategories, PredefinedItem } from "@/lib/predefined-items"
 
+
+const customItemSchema = z.object({
+  name: z.string().min(2, "Le nom est requis (2 caractères min)."),
+  volume: z.coerce.number().min(0.01, "Le volume doit être un nombre positif."),
+})
+
+type CustomItemFormValues = z.infer<typeof customItemSchema>
 
 export default function InventoryToolPage() {
   const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([])
   const [totalVolume, setTotalVolume] = useState(0)
   const [loading, setLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
+  const [isCustomItemDialogOpen, setIsCustomItemDialogOpen] = useState(false)
   const { toast } = useToast()
+
+  const form = useForm<CustomItemFormValues>({
+    resolver: zodResolver(customItemSchema),
+    defaultValues: {
+      name: "",
+      volume: 0.1,
+    },
+  })
 
   const fetchInventory = async () => {
     setLoading(true)
@@ -69,25 +104,21 @@ export default function InventoryToolPage() {
     })
   }
   
-  const handleAddCustomItem = () => {
-      // This is a placeholder for a more complex custom item form
-      const name = prompt("Nom de l'objet personnalisé :");
-      if (!name) return;
-      const volumeString = prompt("Volume estimé en m³ :");
-      const volume = parseFloat(volumeString || '0.2');
-
-      if (name && !isNaN(volume)) {
-        const newItem: InventoryItem = {
-            id: `custom-${Date.now()}`,
-            name: name,
-            volume: volume,
-            quantity: 1,
-            icon: 'PackagePlus'
-        };
-        setInventoryItems(prev => [...prev, newItem]);
-      } else {
-        toast({ variant: 'destructive', title: "Entrée invalide" });
-      }
+  const onCustomItemSubmit = (values: CustomItemFormValues) => {
+    const newItem: InventoryItem = {
+      id: `custom-${Date.now()}`,
+      name: values.name,
+      volume: values.volume,
+      quantity: 1,
+      icon: 'PackagePlus'
+    }
+    setInventoryItems(prev => [...prev, newItem])
+    toast({
+      title: "Objet personnalisé ajouté",
+      description: `"${values.name}" a été ajouté à l'inventaire.`,
+    })
+    form.reset()
+    setIsCustomItemDialogOpen(false)
   }
 
   const handleQuantityChange = (itemId: string, delta: number) => {
@@ -164,10 +195,55 @@ export default function InventoryToolPage() {
                                     </button>
                                 ))}
                                 {category.id === 'other' && (
-                                     <button onClick={handleAddCustomItem} className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border border-dashed bg-card hover:bg-accent hover:text-accent-foreground transition-colors aspect-square text-center">
-                                        <PackagePlus className="h-8 w-8 text-muted-foreground" />
-                                        <span className="text-xs font-medium text-muted-foreground">Objet personnalisé</span>
-                                    </button>
+                                     <Dialog open={isCustomItemDialogOpen} onOpenChange={setIsCustomItemDialogOpen}>
+                                        <DialogTrigger asChild>
+                                             <button className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border border-dashed bg-card hover:bg-accent hover:text-accent-foreground transition-colors aspect-square text-center">
+                                                <PackagePlus className="h-8 w-8 text-muted-foreground" />
+                                                <span className="text-xs font-medium text-muted-foreground">Objet personnalisé</span>
+                                            </button>
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                            <DialogHeader>
+                                                <DialogTitle>Ajouter un objet personnalisé</DialogTitle>
+                                                <DialogDescription>
+                                                    Indiquez le nom et le volume estimé de l'objet que vous souhaitez ajouter.
+                                                </DialogDescription>
+                                            </DialogHeader>
+                                            <Form {...form}>
+                                                <form onSubmit={form.handleSubmit(onCustomItemSubmit)} className="space-y-4">
+                                                    <FormField
+                                                        control={form.control}
+                                                        name="name"
+                                                        render={({ field }) => (
+                                                            <FormItem>
+                                                                <FormLabel>Nom de l'objet</FormLabel>
+                                                                <FormControl>
+                                                                    <Input placeholder="ex: Lampadaire design" {...field} />
+                                                                </FormControl>
+                                                                <FormMessage />
+                                                            </FormItem>
+                                                        )}
+                                                    />
+                                                    <FormField
+                                                        control={form.control}
+                                                        name="volume"
+                                                        render={({ field }) => (
+                                                            <FormItem>
+                                                                <FormLabel>Volume (en m³)</FormLabel>
+                                                                <FormControl>
+                                                                    <Input type="number" step="0.1" placeholder="ex: 0.5" {...field} />
+                                                                </FormControl>
+                                                                <FormMessage />
+                                                            </FormItem>
+                                                        )}
+                                                    />
+                                                    <DialogFooter>
+                                                        <Button type="submit">Ajouter l'objet</Button>
+                                                    </DialogFooter>
+                                                </form>
+                                            </Form>
+                                        </DialogContent>
+                                     </Dialog>
                                 )}
                             </div>
                          </TabsContent>
