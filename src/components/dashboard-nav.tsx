@@ -9,6 +9,7 @@ import {
   Truck,
   ClipboardList,
   Users,
+  Activity,
 } from "lucide-react"
 import {
   SidebarMenu,
@@ -23,6 +24,7 @@ const links = [
   { href: "/dashboard/teams", label: "Équipes", icon: Users },
   { href: "/dashboard/inventory", label: "Inventaire IA", icon: FileText },
   { href: "/dashboard/quote", label: "Éditeur de devis", icon: Truck },
+  { href: "/dashboard/diagnostic", label: "Diagnostic", icon: Activity },
 ]
 
 export function DashboardNav() {
