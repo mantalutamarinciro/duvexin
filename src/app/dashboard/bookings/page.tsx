@@ -28,7 +28,7 @@ import {
   DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { MoreHorizontal, PlusCircle, Users, FileText, Loader2 } from "lucide-react"
+import { MoreHorizontal, PlusCircle, Users, FileText, Loader2, Eye } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton";
 import { getBookings, Booking, updateBookingStatus, assignTeamToBooking, getBookingById } from "@/services/bookingService";
@@ -245,6 +245,12 @@ export default function BookingsPage() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuItem asChild>
+                            <Link href={`/track/${booking.id}`} target="_blank">
+                              <Eye className="mr-2 h-4 w-4" />
+                              <span>Voir la page de suivi</span>
+                            </Link>
+                          </DropdownMenuItem>
                           <DropdownMenuSeparator />
                            <DropdownMenuSub>
                               <DropdownMenuSubTrigger disabled={teams.length === 0}>
