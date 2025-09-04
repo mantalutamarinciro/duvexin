@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import { Calendar as CalendarIcon, Download, Loader2 } from "lucide-react"
+import { Calendar as CalendarIcon, Download, Loader2, Save } from "lucide-react"
 import jsPDF from "jspdf"
 import html2canvas from "html2canvas"
 
@@ -36,6 +36,7 @@ import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
 import { QuotePDF } from "@/components/quote-pdf"
+import { saveQuote } from "@/services/quoteService"
 
 const quoteSchema = z.object({
   clientName: z.string().min(2, "Le nom est requis."),
@@ -71,6 +72,9 @@ export default function QuotePage() {
   const [quote, setQuote] = useState<number | null>(null)
   const [formData, setFormData] = useState<QuoteFormData | null>(null)
   const [pdfLoading, setPdfLoading] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [quoteId, setQuoteId] = useState<string | null>(null)
+
   const { toast } = useToast()
   const pdfRef = useRef<HTMLDivElement>(null)
 
@@ -96,9 +100,36 @@ export default function QuotePage() {
     const baseCost = 250; // Coût de base fixe
     const totalQuote = baseCost + (distanceCost + volumeCost) * serviceMultiplier;
     setQuote(totalQuote);
-    setFormData(values)
+    setFormData(values);
+    setQuoteId(null); // Reset saved state when new quote is generated
   }
   
+  async function handleSaveQuote() {
+    if (!formData || !quote) return;
+    setSaving(true);
+    try {
+      const result = await saveQuote({
+        ...formData,
+        quote,
+        status: 'pending',
+      });
+      setQuoteId(result.id);
+      toast({
+        title: "Devis enregistré",
+        description: "Le devis a été sauvegardé avec succès dans la base de données.",
+      });
+    } catch (error) {
+      console.error("Erreur lors de la sauvegarde du devis:", error);
+      toast({
+        variant: "destructive",
+        title: "Erreur de sauvegarde",
+        description: "Impossible d'enregistrer le devis.",
+      });
+    } finally {
+      setSaving(false);
+    }
+  }
+
   async function downloadPdf() {
     setPdfLoading(true);
     const input = pdfRef.current;
@@ -331,8 +362,12 @@ export default function QuotePage() {
                     <Separator />
                     <p className="text-sm text-muted-foreground">Ceci est une estimation. Le prix final peut varier. Vérifiez tous les détails avant d'envoyer le devis au client.</p>
                   </CardContent>
-                  <CardFooter>
-                      <Button onClick={downloadPdf} className="w-full" disabled={pdfLoading}>
+                  <CardFooter className="flex-col gap-2 items-stretch">
+                      <Button onClick={handleSaveQuote} className="w-full" disabled={saving || !!quoteId}>
+                        {saving ? <Loader2 className="mr-2 animate-spin" /> : <Save className="mr-2"/>}
+                        {quoteId ? "Devis enregistré" : "Enregistrer le devis"}
+                      </Button>
+                      <Button onClick={downloadPdf} className="w-full" variant="secondary" disabled={pdfLoading}>
                         {pdfLoading ? <Loader2 className="mr-2 animate-spin" /> : <Download className="mr-2"/>}
                         Télécharger le PDF
                       </Button>
