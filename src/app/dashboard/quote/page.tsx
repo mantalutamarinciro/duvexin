@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import { Calendar as CalendarIcon, Download, Loader2, Save, RefreshCw } from "lucide-react"
+import { Calendar as CalendarIcon, Download, Loader2, Save, RefreshCw, Wand2 } from "lucide-react"
 import jsPDF from "jspdf"
 import html2canvas from "html2canvas"
 import Link from "next/link"
@@ -39,6 +39,7 @@ import { useToast } from "@/hooks/use-toast"
 import { QuotePDF } from "@/components/quote-pdf"
 import { saveQuote } from "@/services/quoteService"
 import { getInventoryList } from "@/services/inventoryService"
+import { getMoveDetails } from "@/ai/flows/move-details"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 const quoteSchema = z.object({
@@ -78,6 +79,7 @@ export default function QuotePage() {
   const [saving, setSaving] = useState(false)
   const [quoteId, setQuoteId] = useState<string | null>(null)
   const [isSyncingVolume, setIsSyncingVolume] = useState(false)
+  const [isAnalyzingAddress, setIsAnalyzingAddress] = useState(false);
 
   const { toast } = useToast()
   const pdfRef = useRef<HTMLDivElement>(null)
@@ -128,6 +130,41 @@ export default function QuotePage() {
   useEffect(() => {
     syncVolumeFromInventory()
   }, [])
+  
+  const handleAddressAnalysis = async () => {
+    const origin = form.getValues("originAddress");
+    const destination = form.getValues("destinationAddress");
+
+    if (!origin || !destination) {
+      toast({
+        variant: "destructive",
+        title: "Adresses manquantes",
+        description: "Veuillez saisir les adresses de départ et d'arrivée.",
+      });
+      return;
+    }
+
+    setIsAnalyzingAddress(true);
+    try {
+      const details = await getMoveDetails({ originAddress: origin, destinationAddress: destination });
+      form.setValue("originAddress", details.formattedOriginAddress, { shouldValidate: true });
+      form.setValue("destinationAddress", details.formattedDestinationAddress, { shouldValidate: true });
+      form.setValue("distance", Math.round(details.distanceKm), { shouldValidate: true });
+      toast({
+        title: "Analyse IA terminée",
+        description: `Adresses mises à jour et distance estimée à ${Math.round(details.distanceKm)} km.`,
+      });
+    } catch (error) {
+      console.error("Erreur d'analyse d'adresse par IA:", error);
+      toast({
+        variant: "destructive",
+        title: "Erreur de l'IA",
+        description: "Impossible d'analyser les adresses. Veuillez les vérifier et réessayer.",
+      });
+    } finally {
+      setIsAnalyzingAddress(false);
+    }
+  }
 
 
   function onSubmit(values: QuoteFormData) {
@@ -278,8 +315,15 @@ export default function QuotePage() {
               </Card>
 
               <Card>
-                <CardHeader>
-                  <CardTitle>Informations sur le déménagement</CardTitle>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle>Informations sur le déménagement</CardTitle>
+                    <CardDescription>Saisissez les adresses puis cliquez sur le bouton IA pour l'analyse.</CardDescription>
+                  </div>
+                  <Button type="button" size="sm" onClick={handleAddressAnalysis} disabled={isAnalyzingAddress}>
+                    {isAnalyzingAddress ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Wand2 className="mr-2 h-4 w-4" />}
+                    Analyser
+                  </Button>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid gap-4 sm:grid-cols-2">
