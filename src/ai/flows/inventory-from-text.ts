@@ -17,14 +17,14 @@ const InventoryItemSchema = z.object({
   volume: z.number().describe("Le volume unitaire estimé de l'objet en mètres cubes (m³)."),
 });
 
-export const InventoryFromTextInputSchema = z.object({
+const InventoryFromTextInputSchema = z.object({
   description: z
     .string()
     .describe("La description en langage naturel des objets à inclure dans l'inventaire."),
 });
 export type InventoryFromTextInput = z.infer<typeof InventoryFromTextInputSchema>;
 
-export const InventoryFromTextOutputSchema = z.object({
+const InventoryFromTextOutputSchema = z.object({
   items: z.array(InventoryItemSchema).describe("La liste des objets d'inventaire structurés."),
 });
 export type InventoryFromTextOutput = z.infer<typeof InventoryFromTextOutputSchema>;
@@ -67,5 +67,4 @@ const generateInventoryFromTextFlow = ai.defineFlow(
     return output!;
   }
 );
-
     
