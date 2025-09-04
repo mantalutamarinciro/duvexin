@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from "react"
@@ -9,13 +10,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Loader2, Plus, Minus, Trash2, PackagePlus, Calculator } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getInventoryList, updateInventoryList, InventoryItem } from "@/services/inventoryService"
-import { predefinedItems, PredefinedItem } from "@/lib/predefined-items"
+import { roomCategories, PredefinedItem, RoomCategory } from "@/lib/predefined-items"
 
 
 export default function InventoryToolPage() {
@@ -130,7 +132,7 @@ export default function InventoryToolPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 className="font-headline text-3xl font-bold tracking-tight">Constructeur d'inventaire</h1>
-            <p className="text-muted-foreground">Sélectionnez des objets pour les ajouter à l'inventaire et ajustez les quantités.</p>
+            <p className="text-muted-foreground">Sélectionnez une pièce, puis cliquez sur les objets pour les ajouter à l'inventaire.</p>
         </div>
         <Button onClick={handleSaveInventory} disabled={isSaving || loading}>
           {isSaving ? <Loader2 className="mr-2 animate-spin" /> : null}
@@ -143,19 +145,34 @@ export default function InventoryToolPage() {
             <Card>
                 <CardHeader>
                     <CardTitle>Bibliothèque d'objets</CardTitle>
-                    <CardDescription>Cliquez sur un objet pour l'ajouter à votre inventaire.</CardDescription>
+                    <CardDescription>Naviguez par pièce pour trouver et ajouter vos objets.</CardDescription>
                 </CardHeader>
-                <CardContent className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                    {predefinedItems.map(item => (
-                        <button key={item.id} onClick={() => handleAddItem(item)} className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border bg-card hover:bg-accent hover:text-accent-foreground transition-colors aspect-square text-center">
-                            <item.icon className="h-8 w-8 text-primary" />
-                            <span className="text-xs font-medium">{item.name}</span>
-                        </button>
-                    ))}
-                     <button onClick={handleAddCustomItem} className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border border-dashed bg-card hover:bg-accent hover:text-accent-foreground transition-colors aspect-square text-center">
-                        <PackagePlus className="h-8 w-8 text-muted-foreground" />
-                        <span className="text-xs font-medium text-muted-foreground">Objet personnalisé</span>
-                    </button>
+                <CardContent>
+                   <Tabs defaultValue={roomCategories[0].id} className="w-full">
+                      <TabsList className="grid w-full grid-cols-3 sm:grid-cols-4 lg:grid-cols-6">
+                        {roomCategories.map((category) => (
+                           <TabsTrigger key={category.id} value={category.id}>{category.name}</TabsTrigger>
+                        ))}
+                      </TabsList>
+                        {roomCategories.map((category) => (
+                         <TabsContent key={category.id} value={category.id}>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 pt-4">
+                                {category.items.map(item => (
+                                    <button key={item.id} onClick={() => handleAddItem(item)} className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border bg-card hover:bg-accent hover:text-accent-foreground transition-colors aspect-square text-center">
+                                        <item.icon className="h-8 w-8 text-primary" />
+                                        <span className="text-xs font-medium">{item.name}</span>
+                                    </button>
+                                ))}
+                                {category.id === 'other' && (
+                                     <button onClick={handleAddCustomItem} className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border border-dashed bg-card hover:bg-accent hover:text-accent-foreground transition-colors aspect-square text-center">
+                                        <PackagePlus className="h-8 w-8 text-muted-foreground" />
+                                        <span className="text-xs font-medium text-muted-foreground">Objet personnalisé</span>
+                                    </button>
+                                )}
+                            </div>
+                         </TabsContent>
+                        ))}
+                   </Tabs>
                 </CardContent>
             </Card>
         </div>
