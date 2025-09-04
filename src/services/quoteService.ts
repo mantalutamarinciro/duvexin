@@ -1,23 +1,22 @@
 'use server';
 
 import { db } from '@/lib/firebase';
-import { collection, addDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, getDocs, serverTimestamp, Timestamp, orderBy, query } from 'firebase/firestore';
 
-// Note: Omiting QuoteFormData from '@/app/dashboard/quote/page'
-// to prevent client components from being bundled with server components.
 export interface Quote {
+  id: string;
   clientName: string;
   clientEmail: string;
   clientPhone?: string;
   originAddress: string;
   destinationAddress: string;
-  moveDate: string; // Changed from Date to string
+  moveDate: string;
   distance: number;
   volume: number;
   serviceType: "basic" | "full" | "premium";
   quote: number;
   status: 'pending' | 'accepted' | 'invoiced';
-  createdAt: any;
+  createdAt: Timestamp;
 }
 
 export async function saveQuote(
@@ -35,4 +34,26 @@ export async function saveQuote(
     console.error('Error saving quote: ', error);
     throw new Error('Failed to save quote.');
   }
+}
+
+export async function getQuotes(): Promise<Quote[]> {
+    try {
+        const quotesCol = collection(db, 'quotes');
+        const q = query(quotesCol, orderBy('createdAt', 'desc'));
+        const querySnapshot = await getDocs(q);
+        const quotes = querySnapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                id: doc.id,
+                ...data,
+                // Firestore Timestamps need to be converted to serializable format
+                moveDate: (data.moveDate as Timestamp).toDate().toISOString(),
+                createdAt: data.createdAt as Timestamp, 
+            } as Quote;
+        });
+        return quotes;
+    } catch (error) {
+        console.error('Error fetching quotes: ', error);
+        throw new Error('Failed to fetch quotes.');
+    }
 }

@@ -10,6 +10,7 @@ import { fr } from "date-fns/locale"
 import { Calendar as CalendarIcon, Download, Loader2, Save } from "lucide-react"
 import jsPDF from "jspdf"
 import html2canvas from "html2canvas"
+import Link from "next/link"
 
 import {
   Card,
@@ -37,6 +38,7 @@ import { cn } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
 import { QuotePDF } from "@/components/quote-pdf"
 import { saveQuote } from "@/services/quoteService"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 const quoteSchema = z.object({
   clientName: z.string().min(2, "Le nom est requis."),
@@ -176,6 +178,18 @@ export default function QuotePage() {
       )}
       <h1 className="font-headline text-3xl font-bold tracking-tight">Éditeur de devis</h1>
       
+      {quoteId && (
+          <Alert variant="default" className="border-green-500">
+            <AlertTitle className="text-green-700">Devis enregistré !</AlertTitle>
+            <AlertDescription>
+              Le devis a bien été sauvegardé. Vous pouvez le consulter dans la liste des devis.
+              <Button asChild variant="link" className="p-0 h-auto ml-2">
+                  <Link href="/dashboard/quotes">Voir les devis</Link>
+              </Button>
+            </AlertDescription>
+          </Alert>
+      )}
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid gap-6 lg:grid-cols-3">
