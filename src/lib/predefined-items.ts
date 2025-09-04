@@ -1,5 +1,5 @@
 
-import { Sofa, Table, Armchair, Bed, Tv, Box, Lamp, Refrigerator, CaseUpper, Microwave, Book, Shirt, Monitor, Dumbbell, WashingMachine, Shower, LayoutGrid, CookingPot, Utensils, Warehouse, Wine, Bike, ToyBrick } from 'lucide-react';
+import { Sofa, Table, Armchair, Bed, Tv, Box, Lamp, Refrigerator, CaseUpper, Microwave, Book, Shirt, Monitor, Dumbbell, WashingMachine, ShowerHead, LayoutGrid, CookingPot, Utensils, Warehouse, Wine, Bike, ToyBrick } from 'lucide-react';
 
 export interface PredefinedItem {
     id: string;
@@ -62,7 +62,7 @@ export const roomCategories: RoomCategory[] = [
         name: 'Salle de bain',
         items: [
             { id: 'washing_machine', name: 'Lave-linge', icon: WashingMachine, volume: 0.4 },
-            { id: 'bathroom_cabinet', name: 'Armoire de SDB', icon: Shower, volume: 0.3 },
+            { id: 'bathroom_cabinet', name: 'Armoire de SDB', icon: ShowerHead, volume: 0.3 },
             { id: 'laundry_basket', name: 'Panier à linge', icon: Box, volume: 0.1 },
             { id: 'box_toiletries', name: 'Carton produits', icon: Box, volume: 0.05 },
         ]
