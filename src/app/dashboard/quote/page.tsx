@@ -110,6 +110,7 @@ export default function QuotePage() {
     try {
       const result = await saveQuote({
         ...formData,
+        moveDate: formData.moveDate.toISOString(),
         quote,
         status: 'pending',
       });

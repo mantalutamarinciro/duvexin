@@ -1,13 +1,23 @@
 'use server';
 
 import { db } from '@/lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import type { QuoteFormData } from '@/app/dashboard/quote/page';
+import { collection, addDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
 
-export interface Quote extends QuoteFormData {
+// Note: Omiting QuoteFormData from '@/app/dashboard/quote/page'
+// to prevent client components from being bundled with server components.
+export interface Quote {
+  clientName: string;
+  clientEmail: string;
+  clientPhone?: string;
+  originAddress: string;
+  destinationAddress: string;
+  moveDate: string; // Changed from Date to string
+  distance: number;
+  volume: number;
+  serviceType: "basic" | "full" | "premium";
   quote: number;
   status: 'pending' | 'accepted' | 'invoiced';
-  createdAt: any; // serverTimestamp will handle this
+  createdAt: any;
 }
 
 export async function saveQuote(
@@ -16,6 +26,7 @@ export async function saveQuote(
   try {
     const docRef = await addDoc(collection(db, 'quotes'), {
       ...quoteData,
+      moveDate: Timestamp.fromDate(new Date(quoteData.moveDate)),
       createdAt: serverTimestamp(),
     });
     console.log('Quote saved with ID: ', docRef.id);
