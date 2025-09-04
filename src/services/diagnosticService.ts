@@ -3,6 +3,8 @@
 
 import { db } from '@/lib/firebase';
 import { admin } from '@/lib/firebase';
+import { Booking } from './bookingService';
+import { Quote } from './quoteService';
 
 const { Timestamp } = admin.firestore;
 
@@ -49,11 +51,51 @@ export async function getDashboardStats() {
             .filter(doc => doc.data().status === 'Terminé')
             .reduce((sum, doc) => sum + doc.data().total, 0);
 
+        const bookingsData = bookingsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Booking[];
+        const quotesData = (await db.collection('quotes').get()).docs.map(doc => ({ id: doc.id, ...doc.data() as any })) as Quote[];
+
+
+        // Monthly Revenue
+        const monthlyRevenue: { [key: string]: number } = {};
+        bookingsData
+            .filter(b => b.status === 'Terminé')
+            .forEach(b => {
+                const month = new Date(b.moveDate).toLocaleString('fr-FR', { month: 'short', year: 'numeric' });
+                if (!monthlyRevenue[month]) {
+                    monthlyRevenue[month] = 0;
+                }
+                monthlyRevenue[month] += b.total;
+            });
+        
+        const revenueChartData = Object.entries(monthlyRevenue)
+            .map(([name, total]) => ({ name, total }))
+            .sort((a, b) => new Date(a.name).getTime() - new Date(b.name).getTime());
+
+
+        // Quote Statuses
+        const quoteStatusCounts = quotesData.reduce((acc, quote) => {
+            const status = quote.status;
+            if (status === 'accepted' || status === 'refused' || status === 'converted') {
+                 acc[status] = (acc[status] || 0) + 1;
+            }
+            return acc;
+        }, {} as Record<string, number>);
+
+        const quoteChartData = Object.entries(quoteStatusCounts).map(([name, value]) => ({
+            name: name === 'converted' ? 'Accepté (Converti)' : name === 'accepted' ? 'Accepté (Non converti)' : 'Refusé',
+            value: value,
+        }));
+
+
         return {
             totalRevenue: totalRevenue,
             bookingsCount: bookingsSnapshot.size,
             quotesCount: quotesSnapshot.size,
             teamsCount: teamsSnapshot.size,
+            charts: {
+                revenue: revenueChartData,
+                quotes: quoteChartData,
+            }
         }
 
     } catch (error) {
@@ -64,6 +106,10 @@ export async function getDashboardStats() {
             bookingsCount: 0,
             quotesCount: 0,
             teamsCount: 0,
+            charts: {
+                revenue: [],
+                quotes: [],
+            }
         }
     }
 }

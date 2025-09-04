@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useEffect, useState } from "react";
@@ -8,34 +9,40 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card"
-import { DollarSign, Package, Users, Activity } from "lucide-react"
+import { DollarSign, Package, Users, Activity, BarChart, PieChart } from "lucide-react"
 import { Skeleton } from "@/components/ui/skeleton";
 import { getDashboardStats } from "@/services/diagnosticService";
+import { RevenueChart } from "@/components/charts/revenue-chart";
+import { QuotesStatusChart } from "@/components/charts/quotes-status-chart";
 
-interface DashboardStats {
+interface DashboardData {
   totalRevenue: number;
   bookingsCount: number;
   teamsCount: number;
   quotesCount: number;
+  charts: {
+    revenue: { name: string; total: number }[];
+    quotes: { name: string; value: number }[];
+  };
 }
 
 export default function DashboardPage() {
-  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadStats() {
+    async function loadData() {
       try {
         setLoading(true);
-        const fetchedStats = await getDashboardStats();
-        setStats(fetchedStats);
+        const fetchedData = await getDashboardStats();
+        setData(fetchedData);
       } catch (error) {
-        console.error("Failed to load dashboard stats", error);
+        console.error("Failed to load dashboard data", error);
       } finally {
         setLoading(false);
       }
     }
-    loadStats();
+    loadData();
   }, []);
 
 
@@ -67,50 +74,50 @@ export default function DashboardPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Revenu Total"
-          value={stats ? stats.totalRevenue.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' }) : '0 €'}
+          value={data ? data.totalRevenue.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' }) : '0 €'}
           icon={DollarSign}
           description="Basé sur les réservations terminées"
           isLoading={loading}
         />
         <StatCard
           title="Réservations"
-          value={stats ? stats.bookingsCount : 0}
+          value={data ? data.bookingsCount : 0}
           icon={Package}
           description="Toutes les réservations"
           isLoading={loading}
         />
         <StatCard
           title="Devis en attente"
-          value={stats ? stats.quotesCount : 0}
+          value={data ? data.quotesCount : 0}
           icon={Activity}
           description="Devis attendant une réponse"
           isLoading={loading}
         />
         <StatCard
           title="Équipes Actives"
-          value={stats ? stats.teamsCount : 0}
+          value={data ? data.teamsCount : 0}
           icon={Users}
           description="Équipes prêtes à travailler"
           isLoading={loading}
         />
       </div>
       <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
-        <Card className="flex flex-col items-center justify-center min-h-[400px]">
+        <Card>
            <CardHeader>
-                <CardTitle>Statistiques à venir</CardTitle>
-                <CardDescription>D'autres graphiques et analyses seront bientôt disponibles ici.</CardDescription>
+                <CardTitle className="flex items-center gap-2"><BarChart/>Revenus Mensuels</CardTitle>
+                <CardDescription>Chiffre d'affaires des déménagements terminés.</CardDescription>
             </CardHeader>
-          <CardContent className="text-center">
-            <div className="text-4xl animate-pulse">📊</div>
+          <CardContent>
+             {loading ? <Skeleton className="w-full h-[350px]" /> : <RevenueChart data={data?.charts.revenue || []} />}
           </CardContent>
         </Card>
-        <Card className="flex flex-col items-center justify-center min-h-[400px]">
+        <Card>
            <CardHeader>
-                <CardTitle>Rapports futurs</CardTitle>
-                <CardDescription>Des rapports détaillés pourront être générés depuis cette section.</CardDescription>
+                <CardTitle className="flex items-center gap-2"><PieChart/>Statut des Devis</CardTitle>
+                <CardDescription>Répartition des devis acceptés et refusés.</CardDescription>
             </CardHeader>
-          <CardContent className="text-center">
-            <div className="text-4xl animate-pulse">📈</div>
+          <CardContent>
+             {loading ? <Skeleton className="w-full h-[350px]" /> : <QuotesStatusChart data={data?.charts.quotes || []} />}
           </CardContent>
         </Card>
       </div>
