@@ -11,10 +11,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { LogOut, Settings, User } from "lucide-react"
-import { ThemeToggle } from "./theme-toggle"
+import { LogOut, Settings, User, Moon, Sun } from "lucide-react"
+import { useTheme } from "next-themes"
 
 export function UserNav() {
+  const { setTheme, theme } = useTheme()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -44,9 +45,11 @@ export function UserNav() {
             <Settings className="mr-2 h-4 w-4" />
             <span>Paramètres</span>
           </DropdownMenuItem>
-           <div className="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-            <ThemeToggle />
-          </div>
+           <DropdownMenuItem onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+              <Sun className="mr-2 h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute mr-2 h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <span>Changer de thème</span>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
