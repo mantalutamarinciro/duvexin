@@ -14,6 +14,7 @@ import {
   Wand2,
   HardHat,
   Wallet,
+  Mail,
 } from "lucide-react"
 import {
   SidebarMenu,
@@ -34,6 +35,7 @@ const mainLinks = [
 const toolsLinks = [
     { href: "/dashboard/quote", label: "Éditeur de devis", icon: Truck },
     { href: "/dashboard/inventory", label: "Inventaire IA", icon: Wand2 },
+    { href: "/dashboard/communication", label: "Communication", icon: Mail },
 ]
 
 const financeLinks = [
