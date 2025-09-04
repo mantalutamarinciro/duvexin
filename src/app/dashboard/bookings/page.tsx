@@ -1,9 +1,11 @@
 
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 import {
   Table,
   TableBody,
@@ -26,13 +28,14 @@ import {
   DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { MoreHorizontal, PlusCircle, Users } from "lucide-react"
+import { MoreHorizontal, PlusCircle, Users, FileText, Loader2 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton";
-import { getBookings, Booking, updateBookingStatus, assignTeamToBooking } from "@/services/bookingService";
+import { getBookings, Booking, updateBookingStatus, assignTeamToBooking, getBookingById } from "@/services/bookingService";
 import { getTeams, Team } from "@/services/teamService";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
+import { WaybillPDF } from "@/components/waybill-pdf";
 
 
 const getBadgeVariant = (status: Booking['status']) => {
@@ -49,7 +52,11 @@ export default function BookingsPage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [teams, setTeams] = useState<Team[]>([]);
   const [loading, setLoading] = useState(true);
+  const [pdfLoading, setPdfLoading] = useState<string | null>(null);
+  const [selectedBookingForPdf, setSelectedBookingForPdf] = useState<Booking | null>(null);
   const { toast } = useToast();
+  const pdfRef = useRef<HTMLDivElement>(null);
+
 
   const loadData = async () => {
     try {
@@ -75,6 +82,12 @@ export default function BookingsPage() {
   useEffect(() => {
     loadData();
   }, []);
+  
+  useEffect(() => {
+    if (selectedBookingForPdf && pdfRef.current) {
+      generatePdf();
+    }
+  }, [selectedBookingForPdf]);
 
   const handleCancelBooking = async (id: string) => {
     try {
@@ -112,9 +125,68 @@ export default function BookingsPage() {
     }
   }
 
+  const prepareAndDownloadPdf = async (bookingId: string) => {
+    if (pdfLoading) return;
+    setPdfLoading(bookingId);
+    try {
+      const bookingDetails = await getBookingById(bookingId);
+      if (bookingDetails) {
+        setSelectedBookingForPdf(bookingDetails);
+        // The PDF generation will be triggered by the useEffect
+      } else {
+        throw new Error("Détails de la réservation introuvables.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la préparation du PDF:", error);
+      toast({
+        variant: "destructive",
+        title: "Erreur PDF",
+        description: "Impossible de récupérer les détails pour la lettre de voiture.",
+      });
+      setPdfLoading(null);
+    }
+  }
+
+  const generatePdf = async () => {
+    if (!selectedBookingForPdf || !pdfRef.current) return;
+    
+    const input = pdfRef.current;
+    try {
+        const canvas = await html2canvas(input, { scale: 2 });
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save(`lettre-de-voiture-${selectedBookingForPdf.id}.pdf`);
+
+        toast({
+            title: "PDF téléchargé",
+            description: "La lettre de voiture a été téléchargée avec succès.",
+        });
+    } catch (error) {
+        console.error("Erreur lors de la génération du PDF:", error);
+        toast({
+            variant: "destructive",
+            title: "Erreur PDF",
+            description: "Impossible de générer la lettre de voiture.",
+        });
+    } finally {
+        setPdfLoading(null);
+        setSelectedBookingForPdf(null);
+    }
+  }
 
   return (
     <div className="flex flex-col gap-6">
+       {selectedBookingForPdf && (
+        <div className="absolute -z-10 -left-[9999px] -top-[9999px]">
+            <div ref={pdfRef} className="w-[210mm]">
+                <WaybillPDF data={selectedBookingForPdf} />
+            </div>
+        </div>
+      )}
+
       <div className="flex items-center justify-between">
         <h1 className="font-headline text-3xl font-bold tracking-tight">Réservations</h1>
         <Button asChild>
@@ -173,6 +245,7 @@ export default function BookingsPage() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuSeparator />
                            <DropdownMenuSub>
                               <DropdownMenuSubTrigger disabled={teams.length === 0}>
                                 <Users className="mr-2 h-4 w-4" />
@@ -191,6 +264,11 @@ export default function BookingsPage() {
                               </DropdownMenuPortal>
                             </DropdownMenuSub>
 
+                           <DropdownMenuItem onClick={() => prepareAndDownloadPdf(booking.id)} disabled={pdfLoading === booking.id}>
+                                {pdfLoading === booking.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileText className="mr-2 h-4 w-4" />}
+                                <span>Générer Lettre de voiture</span>
+                            </DropdownMenuItem>
+                          
                           <DropdownMenuSeparator />
                           {booking.status !== 'Annulé' && booking.status !== 'Terminé' && (
                             <DropdownMenuItem className="text-destructive" onClick={() => handleCancelBooking(booking.id)}>

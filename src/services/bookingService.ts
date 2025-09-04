@@ -1,3 +1,4 @@
+
 'use server';
 
 import { db } from '@/lib/firebase';
@@ -10,10 +11,13 @@ export interface Booking {
   id: string;
   clientName: string;
   clientEmail: string;
+  clientPhone?: string;
   originAddress: string;
   destinationAddress: string;
   moveDate: string; 
   total: number;
+  volume?: number;
+  serviceType?: "basic" | "full" | "premium";
   status: BookingStatus;
   createdAt: Timestamp;
   quoteId: string;
@@ -30,10 +34,13 @@ export async function createBookingFromQuote(quote: Quote): Promise<{ id: string
     const newBookingData = {
         clientName: quote.clientName,
         clientEmail: quote.clientEmail,
+        clientPhone: quote.clientPhone,
         originAddress: quote.originAddress,
         destinationAddress: quote.destinationAddress,
         moveDate: Timestamp.fromDate(new Date(quote.moveDate)),
         total: quote.quote,
+        volume: quote.volume,
+        serviceType: quote.serviceType,
         status: 'Programmé',
         quoteId: quote.id,
         createdAt: serverTimestamp(),
