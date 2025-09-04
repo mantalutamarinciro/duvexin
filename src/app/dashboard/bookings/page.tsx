@@ -74,7 +74,7 @@ export default function BookingsPage() {
 
   useEffect(() => {
     loadData();
-  }, [toast]);
+  }, []);
 
   const handleCancelBooking = async (id: string) => {
     try {

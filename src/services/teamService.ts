@@ -11,9 +11,10 @@ export interface Team {
   id: string;
   name: string;
   members: TeamMember[];
+  createdAt: any;
 }
 
-export async function createTeam(teamData: Omit<Team, 'id'>): Promise<{ id: string }> {
+export async function createTeam(teamData: Omit<Team, 'id' | 'createdAt'>): Promise<{ id: string }> {
   try {
     const docRef = await addDoc(collection(db, 'teams'), {
       ...teamData,

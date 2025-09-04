@@ -18,6 +18,7 @@ export interface Booking {
   createdAt: Timestamp;
   quoteId: string;
   assignedTeam?: string | null;
+  assignedTeamId?: string | null;
 }
 
 export async function createBookingFromQuote(quote: Quote): Promise<{ id: string }> {
@@ -37,6 +38,7 @@ export async function createBookingFromQuote(quote: Quote): Promise<{ id: string
         quoteId: quote.id,
         createdAt: serverTimestamp(),
         assignedTeam: null,
+        assignedTeamId: null,
     };
     
     batch.set(newBookingRef, newBookingData);

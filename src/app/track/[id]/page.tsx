@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { Truck, Package, Home, MapPin, Clock, AlertTriangle } from "lucide-react"
+import { Truck, Package, Home, MapPin, Clock, AlertTriangle, Users } from "lucide-react"
 import Image from "next/image"
 import { getBookingById } from "@/services/bookingService"
 import { format } from "date-fns"
@@ -65,7 +65,7 @@ export default async function TrackingPage({ params }: { params: { id: string } 
                     </div>
                     <div className="flex items-start gap-4">
                         <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-accent/20">
-                            <MapPin className="h-6 w-6 text-accent-foreground" />
+                            <Truck className="h-6 w-6 text-accent-foreground" />
                         </div>
                         <div>
                             <h3 className="font-semibold">Statut</h3>
@@ -87,7 +87,7 @@ export default async function TrackingPage({ params }: { params: { id: string } 
                 
                 <div className="space-y-4 text-sm">
                     <div className="flex items-center">
-                        <Truck className="mr-3 h-5 w-5 text-primary"/>
+                        <Users className="mr-3 h-5 w-5 text-primary"/>
                         <p><span className="font-semibold text-muted-foreground">Équipe assignée :</span> {moveDetails.assignedTeam || "Non assignée"}</p>
                     </div>
                      <div className="flex items-center">
