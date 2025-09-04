@@ -15,6 +15,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import {
   Dialog,
   DialogContent,
@@ -32,11 +33,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Loader2, Plus, Minus, Trash2, PackagePlus, Calculator } from "lucide-react"
+import { Loader2, Plus, Minus, Trash2, PackagePlus, Calculator, Wand2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getInventoryList, updateInventoryList, InventoryItem } from "@/services/inventoryService"
 import { roomCategories, PredefinedItem } from "@/lib/predefined-items"
+import { generateInventoryFromText } from "@/ai/flows/inventory-from-text"
 
 
 const customItemSchema = z.object({
@@ -46,20 +48,34 @@ const customItemSchema = z.object({
 
 type CustomItemFormValues = z.infer<typeof customItemSchema>
 
+const aiInventorySchema = z.object({
+  description: z.string().min(10, "Veuillez fournir une description plus détaillée (10 caractères min)."),
+})
+
+type AiInventoryFormValues = z.infer<typeof aiInventorySchema>
+
 export default function InventoryToolPage() {
   const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([])
   const [totalVolume, setTotalVolume] = useState(0)
   const [loading, setLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
+  const [isGeneratingAi, setIsGeneratingAi] = useState(false)
   const [isCustomItemDialogOpen, setIsCustomItemDialogOpen] = useState(false)
   const { toast } = useToast()
 
-  const form = useForm<CustomItemFormValues>({
+  const customItemForm = useForm<CustomItemFormValues>({
     resolver: zodResolver(customItemSchema),
     defaultValues: {
       name: "",
       volume: 0.1,
     },
+  })
+
+  const aiInventoryForm = useForm<AiInventoryFormValues>({
+      resolver: zodResolver(aiInventorySchema),
+      defaultValues: {
+        description: "",
+      },
   })
 
   const fetchInventory = async () => {
@@ -86,7 +102,6 @@ export default function InventoryToolPage() {
   }, [])
 
   useEffect(() => {
-    // Recalculate total volume whenever items change
     const newTotalVolume = inventoryItems.reduce((acc, item) => acc + item.volume * item.quantity, 0)
     setTotalVolume(newTotalVolume)
   }, [inventoryItems])
@@ -117,8 +132,49 @@ export default function InventoryToolPage() {
       title: "Objet personnalisé ajouté",
       description: `"${values.name}" a été ajouté à l'inventaire.`,
     })
-    form.reset()
+    customItemForm.reset()
     setIsCustomItemDialogOpen(false)
+  }
+
+  const onAiInventorySubmit = async (values: AiInventoryFormValues) => {
+    setIsGeneratingAi(true);
+    try {
+        const { items } = await generateInventoryFromText({description: values.description});
+        
+        // Merge AI items with existing ones
+        setInventoryItems(prevItems => {
+            const newItems = [...prevItems];
+            items.forEach(aiItem => {
+                const existingItemIndex = newItems.findIndex(item => item.name.toLowerCase() === aiItem.name.toLowerCase());
+                if (existingItemIndex > -1) {
+                    newItems[existingItemIndex].quantity += aiItem.quantity;
+                } else {
+                    newItems.push({
+                      ...aiItem,
+                      id: `ai-${Date.now()}-${aiItem.name}`,
+                      icon: 'Wand2'
+                    });
+                }
+            });
+            return newItems;
+        });
+
+        toast({
+            title: "Inventaire mis à jour par l'IA",
+            description: `${items.length} type(s) d'objet(s) ont été ajoutés ou mis à jour.`,
+        });
+        aiInventoryForm.reset();
+
+    } catch (error) {
+        console.error("Erreur de génération IA:", error);
+        toast({
+            variant: "destructive",
+            title: "Erreur de l'IA",
+            description: "Impossible de générer l'inventaire. Veuillez réessayer.",
+        });
+    } finally {
+        setIsGeneratingAi(false);
+    }
   }
 
   const handleQuantityChange = (itemId: string, delta: number) => {
@@ -163,7 +219,7 @@ export default function InventoryToolPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 className="font-headline text-3xl font-bold tracking-tight">Constructeur d'inventaire</h1>
-            <p className="text-muted-foreground">Sélectionnez une pièce, puis cliquez sur les objets pour les ajouter à l'inventaire.</p>
+            <p className="text-muted-foreground">Utilisez les outils ci-dessous pour construire l'inventaire du déménagement.</p>
         </div>
         <Button onClick={handleSaveInventory} disabled={isSaving || loading}>
           {isSaving ? <Loader2 className="mr-2 animate-spin" /> : null}
@@ -172,11 +228,11 @@ export default function InventoryToolPage() {
       </div>
       
       <div className="grid gap-8 lg:grid-cols-3">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 flex flex-col gap-8">
             <Card>
                 <CardHeader>
                     <CardTitle>Bibliothèque d'objets</CardTitle>
-                    <CardDescription>Naviguez par pièce pour trouver et ajouter vos objets.</CardDescription>
+                    <CardDescription>Naviguez par pièce pour trouver et ajouter vos objets manuellement.</CardDescription>
                 </CardHeader>
                 <CardContent>
                    <Tabs defaultValue={roomCategories[0].id} className="w-full">
@@ -209,10 +265,10 @@ export default function InventoryToolPage() {
                                                     Indiquez le nom et le volume estimé de l'objet que vous souhaitez ajouter.
                                                 </DialogDescription>
                                             </DialogHeader>
-                                            <Form {...form}>
-                                                <form onSubmit={form.handleSubmit(onCustomItemSubmit)} className="space-y-4">
+                                            <Form {...customItemForm}>
+                                                <form onSubmit={customItemForm.handleSubmit(onCustomItemSubmit)} className="space-y-4">
                                                     <FormField
-                                                        control={form.control}
+                                                        control={customItemForm.control}
                                                         name="name"
                                                         render={({ field }) => (
                                                             <FormItem>
@@ -225,7 +281,7 @@ export default function InventoryToolPage() {
                                                         )}
                                                     />
                                                     <FormField
-                                                        control={form.control}
+                                                        control={customItemForm.control}
                                                         name="volume"
                                                         render={({ field }) => (
                                                             <FormItem>
@@ -251,6 +307,41 @@ export default function InventoryToolPage() {
                    </Tabs>
                 </CardContent>
             </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Assistant Inventaire IA</CardTitle>
+                    <CardDescription>Décrivez les objets en langage naturel et laissez l'IA les ajouter à votre liste.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Form {...aiInventoryForm}>
+                        <form onSubmit={aiInventoryForm.handleSubmit(onAiInventorySubmit)} className="space-y-4">
+                            <FormField
+                                control={aiInventoryForm.control}
+                                name="description"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Description des objets</FormLabel>
+                                        <FormControl>
+                                            <Textarea
+                                                placeholder="Ex: un grand canapé d'angle, une table basse en verre, une télévision 55 pouces et 3 cartons de livres..."
+                                                className="resize-none"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                             <Button type="submit" disabled={isGeneratingAi}>
+                                {isGeneratingAi ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Wand2 className="mr-2 h-4 w-4" />}
+                                Générer avec l'IA
+                            </Button>
+                        </form>
+                    </Form>
+                </CardContent>
+            </Card>
+
         </div>
 
         <div className="lg:col-span-1">
@@ -297,7 +388,7 @@ export default function InventoryToolPage() {
                         <div className="text-center py-10 text-muted-foreground">
                             <PackagePlus className="mx-auto h-10 w-10" />
                             <p className="mt-2 text-sm">L'inventaire est vide.</p>
-                            <p className="text-xs">Cliquez sur les objets à gauche pour commencer.</p>
+                            <p className="text-xs">Ajoutez des objets pour commencer.</p>
                         </div>
                     )}
                 </CardContent>
@@ -307,3 +398,5 @@ export default function InventoryToolPage() {
     </div>
   )
 }
+
+    
