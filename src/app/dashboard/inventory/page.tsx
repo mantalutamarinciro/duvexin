@@ -1,9 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useForm, FormProvider } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
 import {
   Card,
   CardContent,
@@ -13,64 +10,29 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { identifyInventoryObject, InventoryObjectIdentificationOutput } from "@/ai/flows/inventory-object-identification"
-import { Loader2, Wand2, Trash2, Package } from "lucide-react"
+import { Loader2, Plus, Minus, Trash2, PackagePlus, Calculator } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
 import { Skeleton } from "@/components/ui/skeleton"
-import { addInventoryItem, getInventoryItems, deleteInventoryItem, InventoryItem } from "@/services/inventoryService"
+import { getInventoryList, updateInventoryList, InventoryItem } from "@/services/inventoryService"
+import { predefinedItems, PredefinedItem } from "@/lib/predefined-items"
 
-
-const formSchema = z.object({
-  objectCharacteristics: z.string().min(10, {
-    message: "Veuillez décrire l'objet en au moins 10 caractères.",
-  }),
-  objectType: z.string().min(1, "Le type d'objet est requis."),
-  estimatedDimensions: z.string().optional(),
-  estimatedWeightKg: z.coerce.number().optional(),
-  fragility: z.string().optional(),
-})
 
 export default function InventoryToolPage() {
-  const [loadingAi, setLoadingAi] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [loadingInventory, setLoadingInventory] = useState(true)
   const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([])
-  const [aiSuggestion, setAiSuggestion] = useState<InventoryObjectIdentificationOutput | null>(null)
+  const [totalVolume, setTotalVolume] = useState(0)
+  const [loading, setLoading] = useState(true)
+  const [isSaving, setIsSaving] = useState(false)
   const { toast } = useToast()
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      objectCharacteristics: "",
-      objectType: "",
-      estimatedDimensions: "",
-      fragility: "",
-    },
-  })
-  
   const fetchInventory = async () => {
-    setLoadingInventory(true)
+    setLoading(true)
     try {
-      const items = await getInventoryItems()
-      setInventoryItems(items)
+      const list = await getInventoryList()
+      if (list) {
+        setInventoryItems(list.items)
+        setTotalVolume(list.totalVolume)
+      }
     } catch (error) {
       toast({
         variant: "destructive",
@@ -78,7 +40,7 @@ export default function InventoryToolPage() {
         description: "Impossible de charger l'inventaire.",
       })
     } finally {
-      setLoadingInventory(false)
+      setLoading(false)
     }
   }
 
@@ -86,259 +48,165 @@ export default function InventoryToolPage() {
     fetchInventory()
   }, [])
 
-  async function handleIdentify(values: z.infer<typeof formSchema>) {
-    setLoadingAi(true)
-    setAiSuggestion(null)
-    try {
-      const result = await identifyInventoryObject({
-        objectCharacteristics: values.objectCharacteristics,
-      })
-      setAiSuggestion(result)
-    } catch (error) {
-      console.error("L'identification par IA a échoué:", error)
-      toast({
-        variant: "destructive",
-        title: "Erreur de l'assistant IA",
-        description: "Impossible d'obtenir des suggestions. Veuillez réessayer.",
-      })
-    } finally {
-      setLoadingAi(false)
-    }
-  }
+  useEffect(() => {
+    // Recalculate total volume whenever items change
+    const newTotalVolume = inventoryItems.reduce((acc, item) => acc + item.volume * item.quantity, 0)
+    setTotalVolume(newTotalVolume)
+  }, [inventoryItems])
 
-  function applySuggestion() {
-    if (aiSuggestion) {
-      form.setValue("objectType", aiSuggestion.objectType)
-      form.setValue("estimatedDimensions", aiSuggestion.estimatedDimensions)
-      form.setValue("estimatedWeightKg", aiSuggestion.estimatedWeightKg)
-      form.setValue("fragility", aiSuggestion.fragility)
-      setAiSuggestion(null)
-    }
-  }
-
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsSubmitting(true)
-    try {
-      await addInventoryItem(values)
-      toast({
-        title: "Article ajouté",
-        description: `"${values.objectType}" a été ajouté à l'inventaire.`,
-      })
-      form.reset({
-        objectCharacteristics: values.objectCharacteristics, // Keep the description
-        objectType: "",
-        estimatedDimensions: "",
-        estimatedWeightKg: undefined,
-        fragility: "",
-      })
-      setAiSuggestion(null)
-      fetchInventory() // Refresh inventory list
-    } catch (error) {
-        toast({
-            variant: "destructive",
-            title: "Erreur",
-            description: "Impossible d'ajouter l'article à l'inventaire.",
-        })
-    } finally {
-        setIsSubmitting(false)
-    }
+  const handleAddItem = (item: PredefinedItem) => {
+    setInventoryItems(prevItems => {
+      const existingItem = prevItems.find(i => i.id === item.id)
+      if (existingItem) {
+        return prevItems.map(i =>
+          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+        )
+      } else {
+        return [...prevItems, { ...item, icon: item.icon.displayName || 'Box', quantity: 1 }]
+      }
+    })
   }
   
-  async function handleDeleteItem(id: string) {
+  const handleAddCustomItem = () => {
+      // This is a placeholder for a more complex custom item form
+      const name = prompt("Nom de l'objet personnalisé :");
+      if (!name) return;
+      const volumeString = prompt("Volume estimé en m³ :");
+      const volume = parseFloat(volumeString || '0.2');
+
+      if (name && !isNaN(volume)) {
+        const newItem: InventoryItem = {
+            id: `custom-${Date.now()}`,
+            name: name,
+            volume: volume,
+            quantity: 1,
+            icon: 'PackagePlus'
+        };
+        setInventoryItems(prev => [...prev, newItem]);
+      } else {
+        toast({ variant: 'destructive', title: "Entrée invalide" });
+      }
+  }
+
+  const handleQuantityChange = (itemId: string, delta: number) => {
+    setInventoryItems(prevItems =>
+      prevItems
+        .map(item => {
+          if (item.id === itemId) {
+            const newQuantity = item.quantity + delta
+            return newQuantity > 0 ? { ...item, quantity: newQuantity } : null
+          }
+          return item
+        })
+        .filter((item): item is InventoryItem => item !== null)
+    )
+  }
+
+  const handleRemoveItem = (itemId: string) => {
+    setInventoryItems(prevItems => prevItems.filter(item => item.id !== itemId))
+  }
+
+  const handleSaveInventory = async () => {
+    setIsSaving(true)
     try {
-      await deleteInventoryItem(id)
+      await updateInventoryList(inventoryItems)
       toast({
-        title: "Article supprimé",
-        description: "L'article a été supprimé de l'inventaire.",
+        title: "Inventaire sauvegardé",
+        description: "La liste des articles a été mise à jour avec succès.",
       })
-      fetchInventory() // Refresh inventory list
     } catch (error) {
-       toast({
+      toast({
         variant: "destructive",
-        title: "Erreur",
-        description: "Impossible de supprimer l'article.",
+        title: "Erreur de sauvegarde",
+        description: "Impossible de sauvegarder les modifications de l'inventaire.",
       })
+    } finally {
+      setIsSaving(false)
     }
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <h1 className="font-headline text-3xl font-bold tracking-tight">Assistant d'inventaire IA</h1>
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h1 className="font-headline text-3xl font-bold tracking-tight">Constructeur d'inventaire</h1>
+            <p className="text-muted-foreground">Sélectionnez des objets pour les ajouter à l'inventaire et ajustez les quantités.</p>
+        </div>
+        <Button onClick={handleSaveInventory} disabled={isSaving || loading}>
+          {isSaving ? <Loader2 className="mr-2 animate-spin" /> : null}
+          Sauvegarder l'inventaire
+        </Button>
+      </div>
       
       <div className="grid gap-8 lg:grid-cols-3">
-        <div className="lg:col-span-1 flex flex-col gap-6">
-            <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <Card>
-                <CardHeader>
-                    <CardTitle>1. Décrire un objet</CardTitle>
-                    <CardDescription>
-                    Décrivez un objet pour obtenir une suggestion de l'IA.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <FormField
-                    control={form.control}
-                    name="objectCharacteristics"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Caractéristiques de l'objet</FormLabel>
-                        <FormControl>
-                            <Textarea
-                            placeholder="ex: 'Une grande table à manger en bois avec quatre pieds, d'aspect ancien.'"
-                            {...field}
-                            />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                </CardContent>
-                <CardFooter>
-                    <Button type="button" onClick={form.handleSubmit(handleIdentify)} disabled={loadingAi}>
-                    {loadingAi ? (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : (
-                        <Wand2 className="mr-2 h-4 w-4" />
-                    )}
-                    Identifier avec l'IA
-                    </Button>
-                </CardFooter>
-                </Card>
-
-                {aiSuggestion && (
-                <Card className="border-accent">
-                    <CardHeader>
-                    <CardTitle className="text-accent">Suggestion de l'IA</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                    <p><strong>Type :</strong> {aiSuggestion.objectType}</p>
-                    <p><strong>Dimensions :</strong> {aiSuggestion.estimatedDimensions}</p>
-                    <p><strong>Poids :</strong> {aiSuggestion.estimatedWeightKg} kg</p>
-                    <p><strong>Fragilité :</strong> {aiSuggestion.fragility}</p>
-                    </CardContent>
-                    <CardFooter className="gap-2">
-                    <Button type="button" onClick={applySuggestion}>Appliquer</Button>
-                    <Button type="button" variant="ghost" onClick={() => setAiSuggestion(null)}>Rejeter</Button>
-                    </CardFooter>
-                </Card>
-                )}
-
-                <Card>
-                <CardHeader>
-                    <CardTitle>2. Ajouter à l'inventaire</CardTitle>
-                    <CardDescription>Vérifiez les détails et ajoutez l'article.</CardDescription>
-                </CardHeader>
-                <CardContent className="grid gap-4">
-                    <FormField
-                    control={form.control}
-                    name="objectType"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Type d'objet</FormLabel>
-                        <FormControl><Input placeholder="ex: Table à manger" {...field} value={field.value ?? ""} /></FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                    <FormField
-                    control={form.control}
-                    name="fragility"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Fragilité</FormLabel>
-                        <FormControl><Input placeholder="ex: Robuste" {...field} value={field.value ?? ""} /></FormControl>
-                        </FormItem>
-                    )}
-                    />
-                    <FormField
-                    control={form.control}
-                    name="estimatedDimensions"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Dimensions (LxlxH cm)</FormLabel>
-                        <FormControl><Input placeholder="ex: 200x100x75" {...field} value={field.value ?? ""} /></FormControl>
-                        </FormItem>
-                    )}
-                    />
-                    <FormField
-                    control={form.control}
-                    name="estimatedWeightKg"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Poids (kg)</FormLabel>
-                        <FormControl>
-                            <Input type="number" placeholder="ex: 50" {...field} value={field.value ?? ""} />
-                        </FormControl>
-                        </FormItem>
-                    )}
-                    />
-                </CardContent>
-                <CardFooter>
-                    <Button type="submit" disabled={isSubmitting}>
-                        {isSubmitting && <Loader2 className="mr-2 animate-spin" />}
-                        Ajouter à l'inventaire
-                    </Button>
-                </CardFooter>
-                </Card>
-            </form>
-            </FormProvider>
-        </div>
-
         <div className="lg:col-span-2">
             <Card>
                 <CardHeader>
-                    <CardTitle>Inventaire actuel</CardTitle>
-                    <CardDescription>Liste de tous les articles enregistrés.</CardDescription>
+                    <CardTitle>Bibliothèque d'objets</CardTitle>
+                    <CardDescription>Cliquez sur un objet pour l'ajouter à votre inventaire.</CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                            <TableHead>Article</TableHead>
-                            <TableHead>Poids (kg)</TableHead>
-                            <TableHead>Fragilité</TableHead>
-                            <TableHead><span className="sr-only">Actions</span></TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                             {loadingInventory ? (
-                                Array.from({length: 5}).map((_, i) => (
-                                    <TableRow key={i}>
-                                        <TableCell><Skeleton className="h-5 w-32" /></TableCell>
-                                        <TableCell><Skeleton className="h-5 w-16" /></TableCell>
-                                        <TableCell><Skeleton className="h-5 w-24" /></TableCell>
-                                        <TableCell><Skeleton className="h-8 w-8 ml-auto" /></TableCell>
-                                    </TableRow>
-                                ))
-                            ) : inventoryItems.length > 0 ? (
-                                inventoryItems.map((item) => (
-                                    <TableRow key={item.id}>
-                                        <TableCell>
-                                            <div className="font-medium">{item.objectType}</div>
-                                            <div className="text-sm text-muted-foreground">{item.estimatedDimensions}</div>
-                                        </TableCell>
-                                        <TableCell>{item.estimatedWeightKg || 'N/A'}</TableCell>
-                                        <TableCell>{item.fragility || 'N/A'}</TableCell>
-                                        <TableCell className="text-right">
-                                            <Button variant="ghost" size="icon" onClick={() => handleDeleteItem(item.id)}>
-                                                <Trash2 className="h-4 w-4" />
-                                                <span className="sr-only">Supprimer</span>
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))
-                            ) : (
-                                <TableRow>
-                                    <TableCell colSpan={4} className="h-24 text-center">
-                                        <Package className="mx-auto h-8 w-8 text-muted-foreground" />
-                                        <p className="mt-2">L'inventaire est vide.</p>
-                                        <p className="text-sm text-muted-foreground">Utilisez le formulaire pour ajouter des articles.</p>
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
+                <CardContent className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    {predefinedItems.map(item => (
+                        <button key={item.id} onClick={() => handleAddItem(item)} className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border bg-card hover:bg-accent hover:text-accent-foreground transition-colors aspect-square text-center">
+                            <item.icon className="h-8 w-8 text-primary" />
+                            <span className="text-xs font-medium">{item.name}</span>
+                        </button>
+                    ))}
+                     <button onClick={handleAddCustomItem} className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border border-dashed bg-card hover:bg-accent hover:text-accent-foreground transition-colors aspect-square text-center">
+                        <PackagePlus className="h-8 w-8 text-muted-foreground" />
+                        <span className="text-xs font-medium text-muted-foreground">Objet personnalisé</span>
+                    </button>
+                </CardContent>
+            </Card>
+        </div>
+
+        <div className="lg:col-span-1">
+            <Card className="sticky top-20">
+                <CardHeader>
+                    <CardTitle>Inventaire du déménagement</CardTitle>
+                    <div className="flex justify-between items-center text-sm text-muted-foreground">
+                        <span>Total estimé :</span>
+                         <span className="flex items-center gap-2 font-bold text-lg text-primary">
+                            <Calculator className="h-5 w-5"/>
+                            {totalVolume.toFixed(2)} m³
+                         </span>
+                    </div>
+                </CardHeader>
+                <CardContent className="max-h-[60vh] overflow-y-auto pr-3">
+                    {loading ? (
+                        <div className="space-y-4">
+                           {Array.from({length: 3}).map((_, i) => <Skeleton key={i} className="h-12 w-full" />)}
+                        </div>
+                    ) : inventoryItems.length > 0 ? (
+                        <div className="space-y-3">
+                            {inventoryItems.map(item => (
+                                <div key={item.id} className="flex items-center gap-4 p-2 rounded-md bg-muted/50">
+                                    <div className="flex-1">
+                                        <p className="font-medium">{item.name}</p>
+                                        <p className="text-xs text-muted-foreground">{item.volume} m³ / unité</p>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <Button size="icon" variant="outline" className="h-7 w-7" onClick={() => handleQuantityChange(item.id, -1)}>
+                                            <Minus className="h-4 w-4" />
+                                        </Button>
+                                        <span className="w-8 text-center font-bold">{item.quantity}</span>
+                                        <Button size="icon" variant="outline" className="h-7 w-7" onClick={() => handleQuantityChange(item.id, 1)}>
+                                            <Plus className="h-4 w-4" />
+                                        </Button>
+                                    </div>
+                                     <Button size="icon" variant="ghost" className="h-7 w-7 text-muted-foreground hover:bg-destructive/10 hover:text-destructive" onClick={() => handleRemoveItem(item.id)}>
+                                        <Trash2 className="h-4 w-4" />
+                                     </Button>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-10 text-muted-foreground">
+                            <PackagePlus className="mx-auto h-10 w-10" />
+                            <p className="mt-2 text-sm">L'inventaire est vide.</p>
+                            <p className="text-xs">Cliquez sur les objets à gauche pour commencer.</p>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
         </div>
