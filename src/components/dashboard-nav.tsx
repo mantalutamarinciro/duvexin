@@ -10,42 +10,104 @@ import {
   ClipboardList,
   Users,
   Activity,
+  Wand2,
+  HardHat,
 } from "lucide-react"
 import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarSeparator,
 } from "@/components/ui/sidebar"
 
-const links = [
+const mainLinks = [
   { href: "/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
   { href: "/dashboard/bookings", label: "Réservations", icon: Package },
   { href: "/dashboard/quotes", label: "Devis", icon: ClipboardList },
-  { href: "/dashboard/teams", label: "Équipes", icon: Users },
-  { href: "/dashboard/inventory", label: "Inventaire IA", icon: FileText },
-  { href: "/dashboard/quote", label: "Éditeur de devis", icon: Truck },
-  { href: "/dashboard/diagnostic", label: "Diagnostic", icon: Activity },
+  { href: "/dashboard/teams", label: "Équipes", icon: HardHat },
+]
+
+const toolsLinks = [
+    { href: "/dashboard/quote", label: "Éditeur de devis", icon: Truck },
+    { href: "/dashboard/inventory", label: "Inventaire IA", icon: Wand2 },
+]
+
+const adminLinks = [
+ { href: "/dashboard/diagnostic", label: "Diagnostic", icon: Activity },
 ]
 
 export function DashboardNav() {
   const pathname = usePathname()
 
+  const isActive = (href: string) => {
+    return pathname === href || (href !== "/dashboard" && pathname.startsWith(href));
+  }
+
   return (
-    <SidebarMenu>
-      {links.map((link) => (
-        <SidebarMenuItem key={link.href}>
-          <SidebarMenuButton
-            asChild
-            isActive={pathname.startsWith(link.href) && (link.href !== "/dashboard" || pathname === "/dashboard")}
-            tooltip={link.label}
-          >
-            <Link href={link.href}>
-              <link.icon />
-              <span>{link.label}</span>
-            </Link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      ))}
-    </SidebarMenu>
+    <>
+      <SidebarGroup>
+        <SidebarMenu>
+          {mainLinks.map((link) => (
+            <SidebarMenuItem key={link.href}>
+              <SidebarMenuButton
+                asChild
+                isActive={isActive(link.href)}
+                tooltip={link.label}
+              >
+                <Link href={link.href}>
+                  <link.icon />
+                  <span>{link.label}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarGroup>
+
+      <SidebarSeparator />
+
+      <SidebarGroup>
+        <SidebarGroupLabel>Outils</SidebarGroupLabel>
+        <SidebarMenu>
+          {toolsLinks.map((link) => (
+            <SidebarMenuItem key={link.href}>
+              <SidebarMenuButton
+                asChild
+                isActive={isActive(link.href)}
+                tooltip={link.label}
+              >
+                <Link href={link.href}>
+                  <link.icon />
+                  <span>{link.label}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarGroup>
+      
+      <SidebarSeparator />
+
+      <SidebarGroup>
+         <SidebarMenu>
+          {adminLinks.map((link) => (
+            <SidebarMenuItem key={link.href}>
+              <SidebarMenuButton
+                asChild
+                isActive={isActive(link.href)}
+                tooltip={link.label}
+              >
+                <Link href={link.href}>
+                  <link.icon />
+                  <span>{link.label}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarGroup>
+    </>
   )
 }

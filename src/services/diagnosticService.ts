@@ -1,7 +1,8 @@
 
 'use server';
 
-import { db, admin } from '@/lib/firebase';
+import { db } from '@/lib/firebase';
+import { admin } from '@/lib/firebase';
 
 const { Timestamp } = admin.firestore;
 
@@ -25,8 +26,6 @@ export async function getDbStatus() {
         };
     } catch (error) {
         console.error("Error connecting to Firestore: ", error);
-        // It's possible the error is because the DB hasn't been created yet.
-        // We'll pass the specific error message to the frontend to guide the user.
         if (error instanceof Error) {
            return {
                 status: 'error',
@@ -37,6 +36,35 @@ export async function getDbStatus() {
             status: 'error',
             message: 'An unknown error occurred.',
         };
+    }
+}
+
+export async function getDashboardStats() {
+    try {
+        const bookingsSnapshot = await db.collection('bookings').get();
+        const quotesSnapshot = await db.collection('quotes').where('status', '==', 'pending').get();
+        const teamsSnapshot = await db.collection('teams').get();
+
+        const totalRevenue = bookingsSnapshot.docs
+            .filter(doc => doc.data().status === 'Terminé')
+            .reduce((sum, doc) => sum + doc.data().total, 0);
+
+        return {
+            totalRevenue: totalRevenue,
+            bookingsCount: bookingsSnapshot.size,
+            quotesCount: quotesSnapshot.size,
+            teamsCount: teamsSnapshot.size,
+        }
+
+    } catch (error) {
+         console.error("Error fetching dashboard stats: ", error);
+        // Return zeroed stats on error to prevent UI crash
+        return {
+            totalRevenue: 0,
+            bookingsCount: 0,
+            quotesCount: 0,
+            teamsCount: 0,
+        }
     }
 }
 

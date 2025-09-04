@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useForm, useFieldArray } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { PlusCircle, Trash2, UserPlus, Users, Loader2 } from "lucide-react"
+import { PlusCircle, Trash2, UserPlus, Users, Loader2, HardHat } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -74,7 +74,7 @@ export default function TeamsPage() {
 
   useEffect(() => {
     loadTeams()
-  }, [toast])
+  }, [])
 
   async function onSubmit(values: z.infer<typeof teamSchema>) {
     setIsSubmitting(true)
@@ -204,7 +204,7 @@ export default function TeamsPage() {
                   {teams.map((team) => (
                     <div key={team.id} className="rounded-lg border p-4">
                       <h3 className="font-semibold text-lg flex items-center gap-2">
-                        <Users className="h-5 w-5 text-primary" />
+                        <HardHat className="h-5 w-5 text-primary" />
                         {team.name}
                       </h3>
                       <p className="text-sm text-muted-foreground mt-1">Membres de l'équipe :</p>
