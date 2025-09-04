@@ -1,5 +1,9 @@
 
 import admin from 'firebase-admin';
+import { config } from 'dotenv';
+
+// Load environment variables from .env file
+config();
 
 // Check if the environment variable is set
 if (!process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
