@@ -13,7 +13,7 @@ export interface Team {
   id: string;
   name: string;
   members: TeamMember[];
-  createdAt: admin.firestore.Timestamp;
+  createdAt: string;
 }
 
 export async function createTeam(teamData: Omit<Team, 'id' | 'createdAt'>): Promise<{ id: string }> {
@@ -36,10 +36,14 @@ export async function getTeams(): Promise<Team[]> {
     const q = teamsCol.orderBy('createdAt', 'desc');
     const querySnapshot = await q.get();
 
-    const teams = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-    } as Team));
+    const teams = querySnapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+        createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(),
+      } as Team;
+    });
 
     return teams;
   } catch (error) {

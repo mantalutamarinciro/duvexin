@@ -20,7 +20,7 @@ export interface Booking {
   volume?: number;
   serviceType?: "basic" | "full" | "premium";
   status: BookingStatus;
-  createdAt: admin.firestore.Timestamp;
+  createdAt: string;
   quoteId: string;
   assignedTeam?: string | null;
   assignedTeamId?: string | null;
@@ -42,7 +42,7 @@ export async function createBookingFromQuote(quote: Quote): Promise<{ id: string
         total: quote.quote,
         volume: quote.volume,
         serviceType: quote.serviceType,
-        status: 'Programmé',
+        status: 'Programmé' as BookingStatus,
         quoteId: quote.id,
         createdAt: Timestamp.now(),
         assignedTeam: null,
@@ -78,7 +78,7 @@ export async function getBookings(): Promise<Booking[]> {
                 id: doc.id,
                 ...data,
                 moveDate: (data.moveDate as admin.firestore.Timestamp).toDate().toISOString(),
-                createdAt: data.createdAt as admin.firestore.Timestamp,
+                createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(),
             } as Booking;
         });
         
@@ -104,7 +104,7 @@ export async function getBookingById(id: string): Promise<Booking | null> {
             id: docSnap.id,
             ...data,
             moveDate: (data.moveDate as admin.firestore.Timestamp).toDate().toISOString(),
-            createdAt: data.createdAt as admin.firestore.Timestamp,
+            createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(),
         } as Booking;
 
     } catch (error) {

@@ -20,11 +20,11 @@ export interface Quote {
   serviceType: "basic" | "full" | "premium";
   quote: number;
   status: QuoteStatus;
-  createdAt: admin.firestore.Timestamp;
+  createdAt: string;
 }
 
 export async function saveQuote(
-  quoteData: Omit<Quote, 'createdAt' | 'id' | 'status'> & { moveDate: string }
+  quoteData: Omit<Quote, 'createdAt' | 'id' | 'status'>
 ): Promise<{ id: string }> {
   try {
     const docRef = await db.collection('quotes').add({
@@ -51,9 +51,8 @@ export async function getQuotes(): Promise<Quote[]> {
             return {
                 id: doc.id,
                 ...data,
-                // Firestore Timestamps need to be converted to serializable format for the client
                 moveDate: (data.moveDate as admin.firestore.Timestamp).toDate().toISOString(),
-                createdAt: data.createdAt as admin.firestore.Timestamp, 
+                createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(), 
             } as Quote;
         });
         return quotes;
