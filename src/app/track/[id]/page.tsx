@@ -1,18 +1,32 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { Truck, Package, Home, MapPin, Clock } from "lucide-react"
+import { Truck, Package, Home, MapPin, Clock, AlertTriangle } from "lucide-react"
 import Image from "next/image"
+import { getBookingById } from "@/services/bookingService"
+import { format } from "date-fns"
+import { fr } from "date-fns/locale"
 
-export default function TrackingPage({ params }: { params: { id: string } }) {
+export default async function TrackingPage({ params }: { params: { id: string } }) {
   const moveId = params.id;
-  // Mock data for the move
-  const moveDetails = {
-    origin: "123 Rue Principale, Anytown, FR",
-    destination: "456 Avenue du Chêne, Othertown, FR",
-    status: "En transit",
-    estimatedArrival: "16 août 2024, 16:00",
-    team: "Jean D. & Marc S."
+  const moveDetails = await getBookingById(moveId);
+
+  if (!moveDetails) {
+    return (
+       <div className="flex min-h-screen w-full flex-col items-center justify-center bg-muted/40 p-4 sm:p-8">
+            <div className="w-full max-w-md text-center">
+                 <AlertTriangle className="mx-auto h-16 w-16 text-destructive" />
+                <h1 className="mt-4 font-headline text-3xl font-bold">Déménagement non trouvé</h1>
+                <p className="mt-2 text-muted-foreground">
+                    Désolé, nous n'avons pas pu trouver de déménagement correspondant à l'ID <span className="font-mono bg-muted px-1 py-0.5 rounded-sm">{moveId}</span>.
+                </p>
+                 <p className="mt-1 text-muted-foreground text-sm">Veuillez vérifier le lien ou contacter notre service client.</p>
+            </div>
+       </div>
+    )
   }
+
+  const estimatedArrival = format(new Date(moveDetails.moveDate), "d MMMM yyyy 'à' HH:mm", { locale: fr });
+
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center bg-muted/40 p-4 sm:p-8">
@@ -46,7 +60,7 @@ export default function TrackingPage({ params }: { params: { id: string } }) {
                         </div>
                         <div>
                             <h3 className="font-semibold">Origine</h3>
-                            <p className="text-sm text-muted-foreground">{moveDetails.origin}</p>
+                            <p className="text-sm text-muted-foreground">{moveDetails.originAddress}</p>
                         </div>
                     </div>
                     <div className="flex items-start gap-4">
@@ -64,7 +78,7 @@ export default function TrackingPage({ params }: { params: { id: string } }) {
                         </div>
                         <div>
                             <h3 className="font-semibold">Destination</h3>
-                            <p className="text-sm text-muted-foreground">{moveDetails.destination}</p>
+                            <p className="text-sm text-muted-foreground">{moveDetails.destinationAddress}</p>
                         </div>
                     </div>
                 </div>
@@ -74,11 +88,11 @@ export default function TrackingPage({ params }: { params: { id: string } }) {
                 <div className="space-y-4 text-sm">
                     <div className="flex items-center">
                         <Truck className="mr-3 h-5 w-5 text-primary"/>
-                        <p><span className="font-semibold text-muted-foreground">Équipe assignée :</span> {moveDetails.team}</p>
+                        <p><span className="font-semibold text-muted-foreground">Équipe assignée :</span> {moveDetails.assignedTeam || "Non assignée"}</p>
                     </div>
                      <div className="flex items-center">
                         <Clock className="mr-3 h-5 w-5 text-primary"/>
-                        <p><span className="font-semibold text-muted-foreground">Arrivée estimée :</span> {moveDetails.estimatedArrival}</p>
+                        <p><span className="font-semibold text-muted-foreground">Arrivée estimée :</span> {estimatedArrival}</p>
                     </div>
                 </div>
 

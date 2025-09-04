@@ -20,12 +20,17 @@ import {
   DropdownMenuTrigger,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { MoreHorizontal, PlusCircle } from "lucide-react"
+import { MoreHorizontal, PlusCircle, Users } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton";
-import { getBookings, Booking, updateBookingStatus } from "@/services/bookingService";
+import { getBookings, Booking, updateBookingStatus, assignTeamToBooking } from "@/services/bookingService";
+import { getTeams, Team } from "@/services/teamService";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 
@@ -42,20 +47,25 @@ const getBadgeVariant = (status: Booking['status']) => {
 
 export default function BookingsPage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [teams, setTeams] = useState<Team[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  const loadBookings = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
-      const fetchedBookings = await getBookings();
+      const [fetchedBookings, fetchedTeams] = await Promise.all([
+        getBookings(),
+        getTeams()
+      ]);
       setBookings(fetchedBookings);
+      setTeams(fetchedTeams);
     } catch (error) {
       console.error(error);
       toast({
         variant: 'destructive',
         title: "Erreur",
-        description: "Impossible de charger les réservations."
+        description: "Impossible de charger les données."
       })
     } finally {
       setLoading(false);
@@ -63,7 +73,7 @@ export default function BookingsPage() {
   };
 
   useEffect(() => {
-    loadBookings();
+    loadData();
   }, [toast]);
 
   const handleCancelBooking = async (id: string) => {
@@ -73,7 +83,7 @@ export default function BookingsPage() {
             title: "Réservation annulée",
             description: "Le statut de la réservation a été mis à jour.",
         });
-        loadBookings(); // Refresh data
+        loadData(); // Refresh data
     } catch (error) {
         console.error("Erreur lors de l'annulation de la réservation:", error);
         toast({
@@ -83,6 +93,24 @@ export default function BookingsPage() {
         });
     }
   };
+  
+  const handleAssignTeam = async (bookingId: string, team: Team) => {
+    try {
+      await assignTeamToBooking(bookingId, team.id, team.name);
+      toast({
+        title: "Équipe assignée",
+        description: `L'équipe "${team.name}" a été assignée au déménagement.`,
+      });
+      loadData(); // Refresh data
+    } catch (error) {
+      console.error("Erreur lors de l'assignation de l'équipe:", error);
+      toast({
+        variant: "destructive",
+        title: "Erreur",
+        description: "Impossible d'assigner l'équipe.",
+      });
+    }
+  }
 
 
   return (
@@ -107,6 +135,7 @@ export default function BookingsPage() {
                 <TableRow>
                 <TableHead>Client</TableHead>
                 <TableHead>Date</TableHead>
+                <TableHead>Équipe</TableHead>
                 <TableHead>Statut</TableHead>
                 <TableHead className="text-right">Total</TableHead>
                 <TableHead><span className="sr-only">Actions</span></TableHead>
@@ -118,6 +147,7 @@ export default function BookingsPage() {
                     <TableRow key={i}>
                       <TableCell><Skeleton className="h-5 w-32"/></TableCell>
                       <TableCell><Skeleton className="h-5 w-28"/></TableCell>
+                      <TableCell><Skeleton className="h-5 w-24"/></TableCell>
                       <TableCell><Skeleton className="h-6 w-24 rounded-full"/></TableCell>
                       <TableCell className="text-right"><Skeleton className="h-5 w-20 ml-auto"/></TableCell>
                       <TableCell><Skeleton className="h-8 w-8 ml-auto"/></TableCell>
@@ -128,8 +158,9 @@ export default function BookingsPage() {
                   <TableRow key={booking.id}>
                       <TableCell className="font-medium">{booking.clientName}</TableCell>
                       <TableCell>{format(new Date(booking.moveDate), "d MMMM yyyy", { locale: fr })}</TableCell>
+                       <TableCell>{booking.assignedTeam || <span className="text-muted-foreground italic">Non assignée</span>}</TableCell>
                       <TableCell>
-                      <Badge variant={getBadgeVariant(booking.status)}>{booking.status}</Badge>
+                        <Badge variant={getBadgeVariant(booking.status)}>{booking.status}</Badge>
                       </TableCell>
                       <TableCell className="text-right">{booking.total.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</TableCell>
                       <TableCell className="text-right">
@@ -142,7 +173,24 @@ export default function BookingsPage() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem disabled>Assigner une équipe</DropdownMenuItem>
+                           <DropdownMenuSub>
+                              <DropdownMenuSubTrigger disabled={teams.length === 0}>
+                                <Users className="mr-2 h-4 w-4" />
+                                <span>Assigner une équipe</span>
+                              </DropdownMenuSubTrigger>
+                              <DropdownMenuPortal>
+                                <DropdownMenuSubContent>
+                                  <DropdownMenuLabel>Choisir une équipe</DropdownMenuLabel>
+                                  <DropdownMenuSeparator />
+                                  {teams.map((team) => (
+                                    <DropdownMenuItem key={team.id} onClick={() => handleAssignTeam(booking.id, team)}>
+                                      {team.name}
+                                    </DropdownMenuItem>
+                                  ))}
+                                </DropdownMenuSubContent>
+                              </DropdownMenuPortal>
+                            </DropdownMenuSub>
+
                           <DropdownMenuSeparator />
                           {booking.status !== 'Annulé' && booking.status !== 'Terminé' && (
                             <DropdownMenuItem className="text-destructive" onClick={() => handleCancelBooking(booking.id)}>
@@ -156,7 +204,7 @@ export default function BookingsPage() {
                   ))
                 ) : (
                    <TableRow>
-                        <TableCell colSpan={5} className="text-center h-24">Aucune réservation trouvée.</TableCell>
+                        <TableCell colSpan={6} className="text-center h-24">Aucune réservation trouvée.</TableCell>
                     </TableRow>
                 )}
             </TableBody>

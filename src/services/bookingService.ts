@@ -1,7 +1,7 @@
 'use server';
 
 import { db } from '@/lib/firebase';
-import { collection, addDoc, getDocs, serverTimestamp, Timestamp, orderBy, query, writeBatch, doc, updateDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, serverTimestamp, Timestamp, orderBy, query, writeBatch, doc, updateDoc, getDoc } from 'firebase/firestore';
 import { Quote } from './quoteService';
 
 export type BookingStatus = 'Programmé' | 'En cours' | 'Terminé' | 'Annulé';
@@ -17,6 +17,7 @@ export interface Booking {
   status: BookingStatus;
   createdAt: Timestamp;
   quoteId: string;
+  assignedTeam?: string | null;
 }
 
 export async function createBookingFromQuote(quote: Quote): Promise<{ id: string }> {
@@ -30,11 +31,12 @@ export async function createBookingFromQuote(quote: Quote): Promise<{ id: string
         clientEmail: quote.clientEmail,
         originAddress: quote.originAddress,
         destinationAddress: quote.destinationAddress,
-        moveDate: new Date(quote.moveDate),
+        moveDate: Timestamp.fromDate(new Date(quote.moveDate)),
         total: quote.quote,
         status: 'Programmé',
         quoteId: quote.id,
         createdAt: serverTimestamp(),
+        assignedTeam: null,
     };
     
     batch.set(newBookingRef, newBookingData);
@@ -77,6 +79,30 @@ export async function getBookings(): Promise<Booking[]> {
     }
 }
 
+export async function getBookingById(id: string): Promise<Booking | null> {
+    try {
+        const bookingRef = doc(db, 'bookings', id);
+        const docSnap = await getDoc(bookingRef);
+
+        if (!docSnap.exists()) {
+            console.log('No such booking found!');
+            return null;
+        }
+
+        const data = docSnap.data();
+        return {
+            id: docSnap.id,
+            ...data,
+            moveDate: (data.moveDate as Timestamp).toDate().toISOString(),
+            createdAt: data.createdAt as Timestamp,
+        } as Booking;
+
+    } catch (error) {
+        console.error('Error fetching booking by ID: ', error);
+        throw new Error('Failed to fetch booking.');
+    }
+}
+
 export async function updateBookingStatus(id: string, status: BookingStatus): Promise<void> {
   try {
     const bookingRef = doc(db, 'bookings', id);
@@ -85,5 +111,19 @@ export async function updateBookingStatus(id: string, status: BookingStatus): Pr
   } catch (error) {
     console.error('Error updating booking status: ', error);
     throw new Error('Failed to update booking status.');
+  }
+}
+
+export async function assignTeamToBooking(bookingId: string, teamId: string, teamName: string): Promise<void> {
+  try {
+    const bookingRef = doc(db, 'bookings', bookingId);
+    await updateDoc(bookingRef, { 
+      assignedTeamId: teamId,
+      assignedTeam: teamName 
+    });
+    console.log(`Team ${teamName} (${teamId}) assigned to booking ${bookingId}`);
+  } catch (error) {
+    console.error('Error assigning team to booking: ', error);
+    throw new Error('Failed to assign team to booking.');
   }
 }
