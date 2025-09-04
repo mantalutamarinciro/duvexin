@@ -26,8 +26,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator"
 
 const quoteSchema = z.object({
-  distance: z.coerce.number().min(1, "Distance must be at least 1 mile."),
-  volume: z.coerce.number().min(1, "Volume must be at least 1 cubic foot."),
+  distance: z.coerce.number().min(1, "La distance doit être d'au moins 1 km."),
+  volume: z.coerce.number().min(1, "Le volume doit être d'au moins 1 m³."),
   serviceType: z.enum(["basic", "full", "premium"]),
 })
 
@@ -38,9 +38,9 @@ const serviceTypeCosts = {
 }
 
 const serviceTypeLabels = {
-  basic: "Basic (transport only)",
-  full: "Full Service (packing & transport)",
-  premium: "Premium (packing, transport & setup)",
+  basic: "Basique (transport uniquement)",
+  full: "Complet (emballage & transport)",
+  premium: "Premium (emballage, transport & installation)",
 }
 
 export default function QuotePage() {
@@ -56,8 +56,8 @@ export default function QuotePage() {
   })
 
   function onSubmit(values: z.infer<typeof quoteSchema>) {
-    const distanceCost = values.distance * 2; // $2 per mile
-    const volumeCost = values.volume * 5; // $5 per cubic foot
+    const distanceCost = values.distance * 1.2; // 1.2€ par km
+    const volumeCost = values.volume * 20; // 20€ par m³
     const serviceMultiplier = serviceTypeCosts[values.serviceType];
     const totalQuote = (distanceCost + volumeCost) * serviceMultiplier;
     setQuote(totalQuote);
@@ -65,14 +65,14 @@ export default function QuotePage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="font-headline text-3xl font-bold tracking-tight">Service Quote Calculator</h1>
+      <h1 className="font-headline text-3xl font-bold tracking-tight">Calculateur de devis de service</h1>
       <div className="grid gap-8 md:grid-cols-2">
         <Card>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <CardHeader>
-                <CardTitle>Move Details</CardTitle>
-                <CardDescription>Calculate an estimated cost for the move.</CardDescription>
+                <CardTitle>Détails du déménagement</CardTitle>
+                <CardDescription>Calculez un coût estimé pour le déménagement.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <FormField
@@ -80,7 +80,7 @@ export default function QuotePage() {
                   name="distance"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Distance (miles)</FormLabel>
+                      <FormLabel>Distance (km)</FormLabel>
                       <FormControl>
                         <Input type="number" placeholder="50" {...field} />
                       </FormControl>
@@ -93,7 +93,7 @@ export default function QuotePage() {
                   name="volume"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Volume (cubic feet)</FormLabel>
+                      <FormLabel>Volume (m³)</FormLabel>
                       <FormControl>
                         <Input type="number" placeholder="100" {...field} />
                       </FormControl>
@@ -106,11 +106,11 @@ export default function QuotePage() {
                   name="serviceType"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Service Type</FormLabel>
+                      <FormLabel>Type de service</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a service type" />
+                            <SelectValue placeholder="Sélectionnez un type de service" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -125,7 +125,7 @@ export default function QuotePage() {
                 />
               </CardContent>
               <CardFooter>
-                <Button type="submit">Calculate Quote</Button>
+                <Button type="submit">Calculer le devis</Button>
               </CardFooter>
             </form>
           </Form>
@@ -134,18 +134,18 @@ export default function QuotePage() {
         {quote !== null && (
           <Card>
             <CardHeader>
-              <CardTitle>Estimated Quote</CardTitle>
-              <CardDescription>Based on the details provided.</CardDescription>
+              <CardTitle>Devis estimé</CardTitle>
+              <CardDescription>Basé sur les détails fournis.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-4xl font-bold text-primary">
-                ${quote.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {quote.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
               </p>
               <Separator />
-              <p className="text-sm text-muted-foreground">This is an estimate. Final price may vary based on inventory and other factors.</p>
+              <p className="text-sm text-muted-foreground">Ceci est une estimation. Le prix final peut varier en fonction de l'inventaire et d'autres facteurs.</p>
             </CardContent>
             <CardFooter>
-                <Button variant="outline">Save Quote</Button>
+                <Button variant="outline">Enregistrer le devis</Button>
             </CardFooter>
           </Card>
         )}

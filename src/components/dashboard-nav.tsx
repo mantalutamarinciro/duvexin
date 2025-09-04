@@ -15,10 +15,10 @@ import {
 } from "@/components/ui/sidebar"
 
 const links = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/dashboard/bookings", label: "Bookings", icon: Package },
-  { href: "/dashboard/inventory", label: "Inventory AI", icon: FileText },
-  { href: "/dashboard/quote", label: "Get Quote", icon: Truck },
+  { href: "/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
+  { href: "/dashboard/bookings", label: "Réservations", icon: Package },
+  { href: "/dashboard/inventory", label: "Inventaire IA", icon: FileText },
+  { href: "/dashboard/quote", label: "Obtenir un devis", icon: Truck },
 ]
 
 export function DashboardNav() {

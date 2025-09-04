@@ -7,11 +7,11 @@ export default function TrackingPage({ params }: { params: { id: string } }) {
   const moveId = params.id;
   // Mock data for the move
   const moveDetails = {
-    origin: "123 Main St, Anytown, USA",
-    destination: "456 Oak Ave, Othertown, USA",
-    status: "In Transit",
-    estimatedArrival: "August 16, 2024, 4:00 PM",
-    team: "John D. & Mark S."
+    origin: "123 Rue Principale, Anytown, FR",
+    destination: "456 Avenue du Chêne, Othertown, FR",
+    status: "En transit",
+    estimatedArrival: "16 août 2024, 16:00",
+    team: "Jean D. & Marc S."
   }
 
   return (
@@ -19,22 +19,22 @@ export default function TrackingPage({ params }: { params: { id: string } }) {
       <div className="w-full max-w-4xl space-y-8">
         <header className="flex flex-col items-center text-center">
             <h1 className="font-headline text-4xl font-bold text-primary">MoveSmart</h1>
-            <p className="text-lg text-muted-foreground">Real-Time Move Tracking</p>
+            <p className="text-lg text-muted-foreground">Suivi de déménagement en temps réel</p>
         </header>
 
         <Card className="overflow-hidden shadow-lg">
             <div className="relative h-64 w-full md:h-80">
                 <Image
                     src="https://picsum.photos/1200/400"
-                    alt="Map showing truck location"
+                    alt="Carte montrant l'emplacement du camion"
                     fill
                     className="object-cover"
                     data-ai-hint="map city"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/10 flex flex-col items-center justify-end p-8 text-center">
                     <div className="text-white">
-                        <h2 className="text-3xl font-bold drop-shadow-md">Your Move is {moveDetails.status}</h2>
-                        <p className="drop-shadow-sm">Move ID: {moveId.toUpperCase()}</p>
+                        <h2 className="text-3xl font-bold drop-shadow-md">Votre déménagement est {moveDetails.status}</h2>
+                        <p className="drop-shadow-sm">ID Déménagement : {moveId.toUpperCase()}</p>
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@ export default function TrackingPage({ params }: { params: { id: string } }) {
                             <Home className="h-6 w-6 text-muted-foreground" />
                         </div>
                         <div>
-                            <h3 className="font-semibold">Origin</h3>
+                            <h3 className="font-semibold">Origine</h3>
                             <p className="text-sm text-muted-foreground">{moveDetails.origin}</p>
                         </div>
                     </div>
@@ -54,7 +54,7 @@ export default function TrackingPage({ params }: { params: { id: string } }) {
                             <MapPin className="h-6 w-6 text-accent-foreground" />
                         </div>
                         <div>
-                            <h3 className="font-semibold">Status</h3>
+                            <h3 className="font-semibold">Statut</h3>
                             <p className="text-sm font-bold text-accent-foreground">{moveDetails.status}</p>
                         </div>
                     </div>
@@ -74,11 +74,11 @@ export default function TrackingPage({ params }: { params: { id: string } }) {
                 <div className="space-y-4 text-sm">
                     <div className="flex items-center">
                         <Truck className="mr-3 h-5 w-5 text-primary"/>
-                        <p><span className="font-semibold text-muted-foreground">Assigned Team:</span> {moveDetails.team}</p>
+                        <p><span className="font-semibold text-muted-foreground">Équipe assignée :</span> {moveDetails.team}</p>
                     </div>
                      <div className="flex items-center">
                         <Clock className="mr-3 h-5 w-5 text-primary"/>
-                        <p><span className="font-semibold text-muted-foreground">Estimated Arrival:</span> {moveDetails.estimatedArrival}</p>
+                        <p><span className="font-semibold text-muted-foreground">Arrivée estimée :</span> {moveDetails.estimatedArrival}</p>
                     </div>
                 </div>
 

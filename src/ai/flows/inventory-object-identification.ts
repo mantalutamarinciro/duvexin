@@ -15,7 +15,7 @@ const InventoryObjectIdentificationInputSchema = z.object({
   objectCharacteristics: z
     .string()
     .describe(
-      'A description of the object, including its type, materials, and any notable features.'
+      "Une description de l'objet, incluant son type, ses matériaux et toute caractéristique notable."
     ),
 });
 
@@ -23,15 +23,15 @@ export type InventoryObjectIdentificationInput =
   z.infer<typeof InventoryObjectIdentificationInputSchema>;
 
 const InventoryObjectIdentificationOutputSchema = z.object({
-  objectType: z.string().describe('The identified type of the object.'),
+  objectType: z.string().describe("Le type identifié de l'objet."),
   estimatedDimensions: z
     .string()
-    .describe('Estimated dimensions of the object (e.g., length x width x height in cm).'),
-  estimatedWeightKg: z.number().describe('Estimated weight of the object in kilograms.'),
+    .describe("Dimensions estimées de l'objet (par exemple, longueur x largeur x hauteur en cm)."),
+  estimatedWeightKg: z.number().describe("Poids estimé de l'objet en kilogrammes."),
   fragility: z
     .string()
     .describe(
-      'A qualitative assessment of the object fragility (e.g., fragile, sturdy, etc.).'
+      "Une évaluation qualitative de la fragilité de l'objet (par exemple, fragile, robuste, etc.)."
     ),
 });
 
@@ -48,18 +48,18 @@ const inventoryObjectIdentificationPrompt = ai.definePrompt({
   name: 'inventoryObjectIdentificationPrompt',
   input: {schema: InventoryObjectIdentificationInputSchema},
   output: {schema: InventoryObjectIdentificationOutputSchema},
-  prompt: `You are an AI assistant designed to help users identify household objects based on provided characteristics and guess the object's dimensions, weight, and fragility.
+  prompt: `Vous êtes un assistant IA conçu pour aider les utilisateurs à identifier des objets ménagers en fonction des caractéristiques fournies et à deviner les dimensions, le poids et la fragilité de l'objet.
 
-  Based on the following characteristics:
+  En fonction des caractéristiques suivantes:
   {{objectCharacteristics}}
 
-  Please provide your best guess for the following properties:
-  - objectType: The type of the object.
-  - estimatedDimensions: Estimated dimensions of the object (e.g., length x width x height in cm).
-  - estimatedWeightKg: Estimated weight of the object in kilograms.
-  - fragility: A qualitative assessment of the object fragility (e.g., fragile, sturdy, etc.).
+  Veuillez fournir votre meilleure estimation pour les propriétés suivantes:
+  - objectType: Le type de l'objet.
+  - estimatedDimensions: Dimensions estimées de l'objet (par exemple, longueur x largeur x hauteur en cm).
+  - estimatedWeightKg: Poids estimé de l'objet en kilogrammes.
+  - fragility: Une évaluation qualitative de la fragilité de l'objet (par exemple, fragile, robuste, etc.).
 
-  Return the object properties in JSON format.
+  Retournez les propriétés de l'objet au format JSON.
   `,
 });
 

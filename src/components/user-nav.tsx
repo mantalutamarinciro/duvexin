@@ -19,7 +19,7 @@ export function UserNav() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-9 w-9 rounded-full">
           <Avatar className="h-9 w-9">
-            <AvatarImage src="https://picsum.photos/100/100" alt="User avatar" data-ai-hint="person face" />
+            <AvatarImage src="https://picsum.photos/100/100" alt="Avatar de l'utilisateur" data-ai-hint="person face" />
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
         </Button>
@@ -27,9 +27,9 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">John Doe</p>
+            <p className="text-sm font-medium leading-none">Jean Dupont</p>
             <p className="text-xs leading-none text-muted-foreground">
-              john.doe@example.com
+              jean.dupont@example.com
             </p>
           </div>
         </DropdownMenuLabel>
@@ -37,17 +37,17 @@ export function UserNav() {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
+            <span>Profil</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
+            <span>Paramètres</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <LogOut className="mr-2 h-4 w-4" />
-          <span>Log out</span>
+          <span>Se déconnecter</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
