@@ -1,7 +1,9 @@
+
 'use server';
 
-import { db } from '@/lib/firebase';
-import { collection, addDoc, getDocs, serverTimestamp, query, orderBy } from 'firebase/firestore';
+import { db, admin } from '@/lib/firebase';
+
+const { Timestamp } = admin.firestore;
 
 export interface TeamMember {
   name: string;
@@ -11,14 +13,14 @@ export interface Team {
   id: string;
   name: string;
   members: TeamMember[];
-  createdAt: any;
+  createdAt: admin.firestore.Timestamp;
 }
 
 export async function createTeam(teamData: Omit<Team, 'id' | 'createdAt'>): Promise<{ id: string }> {
   try {
-    const docRef = await addDoc(collection(db, 'teams'), {
+    const docRef = await db.collection('teams').add({
       ...teamData,
-      createdAt: serverTimestamp(),
+      createdAt: Timestamp.now(),
     });
     console.log('Team created with ID: ', docRef.id);
     return { id: docRef.id };
@@ -30,9 +32,9 @@ export async function createTeam(teamData: Omit<Team, 'id' | 'createdAt'>): Prom
 
 export async function getTeams(): Promise<Team[]> {
   try {
-    const teamsCol = collection(db, 'teams');
-    const q = query(teamsCol, orderBy('createdAt', 'desc'));
-    const querySnapshot = await getDocs(q);
+    const teamsCol = db.collection('teams');
+    const q = teamsCol.orderBy('createdAt', 'desc');
+    const querySnapshot = await q.get();
 
     const teams = querySnapshot.docs.map(doc => ({
       id: doc.id,

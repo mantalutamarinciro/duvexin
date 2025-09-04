@@ -1,19 +1,20 @@
+
 'use server';
 
-import { db } from '@/lib/firebase';
-import { collection, addDoc, getCountFromServer, Timestamp } from 'firebase/firestore';
-import { serviceTypeLabels } from '@/app/dashboard/quote/page';
+import { db, admin } from '@/lib/firebase';
+
+const { Timestamp } = admin.firestore;
 
 export async function getDbStatus() {
     try {
-        const quotesCol = collection(db, 'quotes');
-        const bookingsCol = collection(db, 'bookings');
-        const teamsCol = collection(db, 'teams');
+        const quotesCol = db.collection('quotes');
+        const bookingsCol = db.collection('bookings');
+        const teamsCol = db.collection('teams');
 
         const [quotesSnapshot, bookingsSnapshot, teamsSnapshot] = await Promise.all([
-            getCountFromServer(quotesCol),
-            getCountFromServer(bookingsCol),
-            getCountFromServer(teamsCol),
+            quotesCol.count().get(),
+            bookingsCol.count().get(),
+            teamsCol.count().get(),
         ]);
 
         return {
@@ -24,24 +25,36 @@ export async function getDbStatus() {
         };
     } catch (error) {
         console.error("Error connecting to Firestore: ", error);
+        // It's possible the error is because the DB hasn't been created yet.
+        // We'll pass the specific error message to the frontend to guide the user.
+        if (error instanceof Error) {
+           return {
+                status: 'error',
+                message: error.message,
+            };
+        }
         return {
             status: 'error',
-            message: (error as Error).message,
+            message: 'An unknown error occurred.',
         };
     }
 }
 
 export async function createTestData() {
     try {
+        const batch = db.batch();
+
         // Create a test team
-        const teamRef = await addDoc(collection(db, 'teams'), {
+        const teamRef = db.collection('teams').doc();
+        batch.set(teamRef, {
             name: `Équipe Test ${Math.floor(Math.random() * 100)}`,
             members: [{ name: "John Doe" }, { name: "Jane Smith" }],
             createdAt: Timestamp.now(),
         });
 
         // Create a test quote
-        const quoteRef = await addDoc(collection(db, 'quotes'), {
+        const quoteRef = db.collection('quotes').doc();
+        batch.set(quoteRef, {
             clientName: "Client de Test",
             clientEmail: "test@example.com",
             originAddress: "1 Rue du Test, 75001 Paris",
@@ -54,6 +67,8 @@ export async function createTestData() {
             status: 'pending',
             createdAt: Timestamp.now(),
         });
+        
+        await batch.commit();
         
         console.log(`Test data created. Team ID: ${teamRef.id}, Quote ID: ${quoteRef.id}`);
         return { success: true, teamId: teamRef.id, quoteId: quoteRef.id };

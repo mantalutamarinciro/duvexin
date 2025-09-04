@@ -1,9 +1,10 @@
 
 'use server';
 
-import { db } from '@/lib/firebase';
-import { collection, addDoc, getDocs, serverTimestamp, Timestamp, orderBy, query, writeBatch, doc, updateDoc, getDoc } from 'firebase/firestore';
-import { Quote } from './quoteService';
+import { db, admin } from '@/lib/firebase';
+import type { Quote } from './quoteService';
+
+const { Timestamp } = admin.firestore;
 
 export type BookingStatus = 'Programmé' | 'En cours' | 'Terminé' | 'Annulé';
 
@@ -19,7 +20,7 @@ export interface Booking {
   volume?: number;
   serviceType?: "basic" | "full" | "premium";
   status: BookingStatus;
-  createdAt: Timestamp;
+  createdAt: admin.firestore.Timestamp;
   quoteId: string;
   assignedTeam?: string | null;
   assignedTeamId?: string | null;
@@ -27,10 +28,10 @@ export interface Booking {
 
 export async function createBookingFromQuote(quote: Quote): Promise<{ id: string }> {
   try {
-    const batch = writeBatch(db);
+    const batch = db.batch();
 
     // 1. Create new booking
-    const newBookingRef = doc(collection(db, 'bookings'));
+    const newBookingRef = db.collection('bookings').doc();
     const newBookingData = {
         clientName: quote.clientName,
         clientEmail: quote.clientEmail,
@@ -43,7 +44,7 @@ export async function createBookingFromQuote(quote: Quote): Promise<{ id: string
         serviceType: quote.serviceType,
         status: 'Programmé',
         quoteId: quote.id,
-        createdAt: serverTimestamp(),
+        createdAt: Timestamp.now(),
         assignedTeam: null,
         assignedTeamId: null,
     };
@@ -51,7 +52,7 @@ export async function createBookingFromQuote(quote: Quote): Promise<{ id: string
     batch.set(newBookingRef, newBookingData);
 
     // 2. Update quote status to 'converted'
-    const quoteRef = doc(db, 'quotes', quote.id);
+    const quoteRef = db.collection('quotes').doc(quote.id);
     batch.update(quoteRef, { status: 'converted' });
 
     await batch.commit();
@@ -67,17 +68,17 @@ export async function createBookingFromQuote(quote: Quote): Promise<{ id: string
 
 export async function getBookings(): Promise<Booking[]> {
     try {
-        const bookingsCol = collection(db, 'bookings');
-        const q = query(bookingsCol, orderBy('moveDate', 'desc'));
-        const querySnapshot = await getDocs(q);
+        const bookingsCol = db.collection('bookings');
+        const q = bookingsCol.orderBy('moveDate', 'desc');
+        const querySnapshot = await q.get();
         
         const bookings = querySnapshot.docs.map(doc => {
             const data = doc.data();
             return {
                 id: doc.id,
                 ...data,
-                moveDate: (data.moveDate as Timestamp).toDate().toISOString(),
-                createdAt: data.createdAt as Timestamp,
+                moveDate: (data.moveDate as admin.firestore.Timestamp).toDate().toISOString(),
+                createdAt: data.createdAt as admin.firestore.Timestamp,
             } as Booking;
         });
         
@@ -90,20 +91,20 @@ export async function getBookings(): Promise<Booking[]> {
 
 export async function getBookingById(id: string): Promise<Booking | null> {
     try {
-        const bookingRef = doc(db, 'bookings', id);
-        const docSnap = await getDoc(bookingRef);
+        const bookingRef = db.collection('bookings').doc(id);
+        const docSnap = await bookingRef.get();
 
-        if (!docSnap.exists()) {
+        if (!docSnap.exists) {
             console.log('No such booking found!');
             return null;
         }
 
-        const data = docSnap.data();
+        const data = docSnap.data()!;
         return {
             id: docSnap.id,
             ...data,
-            moveDate: (data.moveDate as Timestamp).toDate().toISOString(),
-            createdAt: data.createdAt as Timestamp,
+            moveDate: (data.moveDate as admin.firestore.Timestamp).toDate().toISOString(),
+            createdAt: data.createdAt as admin.firestore.Timestamp,
         } as Booking;
 
     } catch (error) {
@@ -114,8 +115,8 @@ export async function getBookingById(id: string): Promise<Booking | null> {
 
 export async function updateBookingStatus(id: string, status: BookingStatus): Promise<void> {
   try {
-    const bookingRef = doc(db, 'bookings', id);
-    await updateDoc(bookingRef, { status });
+    const bookingRef = db.collection('bookings').doc(id);
+    await bookingRef.update({ status });
     console.log(`Booking ${id} status updated to ${status}`);
   } catch (error) {
     console.error('Error updating booking status: ', error);
@@ -125,8 +126,8 @@ export async function updateBookingStatus(id: string, status: BookingStatus): Pr
 
 export async function assignTeamToBooking(bookingId: string, teamId: string, teamName: string): Promise<void> {
   try {
-    const bookingRef = doc(db, 'bookings', bookingId);
-    await updateDoc(bookingRef, { 
+    const bookingRef = db.collection('bookings').doc(bookingId);
+    await bookingRef.update({ 
       assignedTeamId: teamId,
       assignedTeam: teamName 
     });
