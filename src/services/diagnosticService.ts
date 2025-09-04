@@ -5,6 +5,7 @@ import { db } from '@/lib/firebase';
 import { admin } from '@/lib/firebase';
 import { Booking } from './bookingService';
 import { Quote } from './quoteService';
+import { Expense } from './expenseService';
 
 const { Timestamp } = admin.firestore;
 
@@ -46,10 +47,14 @@ export async function getDashboardStats() {
         const bookingsSnapshot = await db.collection('bookings').get();
         const quotesSnapshot = await db.collection('quotes').where('status', '==', 'pending').get();
         const teamsSnapshot = await db.collection('teams').get();
+        const expensesSnapshot = await db.collection('expenses').get();
 
         const totalRevenue = bookingsSnapshot.docs
-            .filter(doc => doc.data().status === 'Terminé')
+            .filter(doc => doc.data().status === 'Terminé' || doc.data().status === 'Facturé')
             .reduce((sum, doc) => sum + doc.data().total, 0);
+            
+        const totalExpenses = expensesSnapshot.docs
+            .reduce((sum, doc) => sum + doc.data().amount, 0);
 
         const bookingsData = bookingsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Booking[];
         const quotesData = (await db.collection('quotes').get()).docs.map(doc => ({ id: doc.id, ...doc.data() as any })) as Quote[];
@@ -58,7 +63,7 @@ export async function getDashboardStats() {
         // Monthly Revenue
         const monthlyRevenue: { [key: string]: number } = {};
         bookingsData
-            .filter(b => b.status === 'Terminé')
+            .filter(b => b.status === 'Terminé' || b.status === 'Facturé')
             .forEach(b => {
                 const month = new Date(b.moveDate).toLocaleString('fr-FR', { month: 'short', year: 'numeric' });
                 if (!monthlyRevenue[month]) {
@@ -89,6 +94,7 @@ export async function getDashboardStats() {
 
         return {
             totalRevenue: totalRevenue,
+            netProfit: totalRevenue - totalExpenses,
             bookingsCount: bookingsSnapshot.size,
             quotesCount: quotesSnapshot.size,
             teamsCount: teamsSnapshot.size,
@@ -103,6 +109,7 @@ export async function getDashboardStats() {
         // Return zeroed stats on error to prevent UI crash
         return {
             totalRevenue: 0,
+            netProfit: 0,
             bookingsCount: 0,
             quotesCount: 0,
             teamsCount: 0,

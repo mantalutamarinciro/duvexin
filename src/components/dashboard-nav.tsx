@@ -1,3 +1,4 @@
+
 "use client"
 
 import Link from "next/link"
@@ -12,6 +13,7 @@ import {
   Activity,
   Wand2,
   HardHat,
+  Wallet,
 } from "lucide-react"
 import {
   SidebarMenu,
@@ -32,6 +34,10 @@ const mainLinks = [
 const toolsLinks = [
     { href: "/dashboard/quote", label: "Éditeur de devis", icon: Truck },
     { href: "/dashboard/inventory", label: "Inventaire IA", icon: Wand2 },
+]
+
+const financeLinks = [
+  { href: "/dashboard/expenses", label: "Dépenses", icon: Wallet },
 ]
 
 const adminLinks = [
@@ -90,6 +96,28 @@ export function DashboardNav() {
       
       <SidebarSeparator />
 
+      <SidebarGroup>
+        <SidebarGroupLabel>Finances</SidebarGroupLabel>
+        <SidebarMenu>
+          {financeLinks.map((link) => (
+            <SidebarMenuItem key={link.href}>
+              <SidebarMenuButton
+                asChild
+                isActive={isActive(link.href)}
+                tooltip={link.label}
+              >
+                <Link href={link.href}>
+                  <link.icon />
+                  <span>{link.label}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarGroup>
+
+      <SidebarSeparator />
+      
       <SidebarGroup>
          <SidebarMenu>
           {adminLinks.map((link) => (

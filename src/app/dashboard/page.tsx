@@ -9,7 +9,7 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card"
-import { DollarSign, Package, Users, Activity, BarChart, PieChart } from "lucide-react"
+import { DollarSign, Package, Users, Activity, BarChart, PieChart, Landmark } from "lucide-react"
 import { Skeleton } from "@/components/ui/skeleton";
 import { getDashboardStats } from "@/services/diagnosticService";
 import { RevenueChart } from "@/components/charts/revenue-chart";
@@ -17,6 +17,7 @@ import { QuotesStatusChart } from "@/components/charts/quotes-status-chart";
 
 interface DashboardData {
   totalRevenue: number;
+  netProfit: number;
   bookingsCount: number;
   teamsCount: number;
   quotesCount: number;
@@ -80,10 +81,10 @@ export default function DashboardPage() {
           isLoading={loading}
         />
         <StatCard
-          title="Réservations"
-          value={data ? data.bookingsCount : 0}
-          icon={Package}
-          description="Toutes les réservations"
+          title="Marge Nette"
+          value={data ? data.netProfit.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' }) : '0 €'}
+          icon={Landmark}
+          description="Revenu total - Dépenses"
           isLoading={loading}
         />
         <StatCard
@@ -94,10 +95,10 @@ export default function DashboardPage() {
           isLoading={loading}
         />
         <StatCard
-          title="Équipes Actives"
-          value={data ? data.teamsCount : 0}
-          icon={Users}
-          description="Équipes prêtes à travailler"
+          title="Réservations"
+          value={data ? data.bookingsCount : 0}
+          icon={Package}
+          description="Toutes les réservations"
           isLoading={loading}
         />
       </div>

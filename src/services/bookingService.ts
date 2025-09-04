@@ -6,7 +6,7 @@ import type { Quote } from './quoteService';
 
 const { Timestamp } = admin.firestore;
 
-export type BookingStatus = 'Programmé' | 'En cours' | 'Terminé' | 'Annulé';
+export type BookingStatus = 'Programmé' | 'En cours' | 'Terminé' | 'Annulé' | 'Facturé';
 
 export interface Booking {
   id: string;

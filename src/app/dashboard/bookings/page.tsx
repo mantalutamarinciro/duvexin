@@ -28,14 +28,15 @@ import {
   DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { MoreHorizontal, PlusCircle, Users, FileText, Loader2, Eye } from "lucide-react"
+import { MoreHorizontal, PlusCircle, Users, FileText, Loader2, Eye, Receipt } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton";
-import { getBookings, Booking, updateBookingStatus, assignTeamToBooking, getBookingById } from "@/services/bookingService";
+import { getBookings, Booking, updateBookingStatus, assignTeamToBooking, getBookingById, BookingStatus } from "@/services/bookingService";
 import { getTeams, Team } from "@/services/teamService";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { WaybillPDF } from "@/components/waybill-pdf";
+import { InvoicePDF } from "@/components/invoice-pdf";
 
 
 const getBadgeVariant = (status: Booking['status']) => {
@@ -43,6 +44,7 @@ const getBadgeVariant = (status: Booking['status']) => {
         case "Programmé": return "secondary";
         case "En cours": return "default";
         case "Terminé": return "outline";
+        case "Facturé": return "default";
         case "Annulé": return "destructive";
         default: return "secondary";
     }
@@ -52,7 +54,7 @@ export default function BookingsPage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [teams, setTeams] = useState<Team[]>([]);
   const [loading, setLoading] = useState(true);
-  const [pdfLoading, setPdfLoading] = useState<string | null>(null);
+  const [pdfLoading, setPdfLoading] = useState<{type: 'waybill' | 'invoice', id: string} | null>(null);
   const [selectedBookingForPdf, setSelectedBookingForPdf] = useState<Booking | null>(null);
   const { toast } = useToast();
   const pdfRef = useRef<HTMLDivElement>(null);
@@ -89,24 +91,24 @@ export default function BookingsPage() {
     }
   }, [selectedBookingForPdf]);
 
-  const handleCancelBooking = async (id: string) => {
-    try {
-        await updateBookingStatus(id, 'Annulé');
+  const handleUpdateStatus = async (id: string, status: BookingStatus) => {
+     try {
+        await updateBookingStatus(id, status);
         toast({
-            title: "Réservation annulée",
+            title: "Statut mis à jour",
             description: "Le statut de la réservation a été mis à jour.",
         });
         loadData(); // Refresh data
     } catch (error) {
-        console.error("Erreur lors de l'annulation de la réservation:", error);
+        console.error(`Erreur lors de la mise à jour du statut en ${status}:`, error);
         toast({
             variant: "destructive",
             title: "Erreur",
-            description: "Impossible d'annuler la réservation.",
+            description: "Impossible de mettre à jour le statut.",
         });
     }
-  };
-  
+  }
+
   const handleAssignTeam = async (bookingId: string, team: Team) => {
     try {
       await assignTeamToBooking(bookingId, team.id, team.name);
@@ -125,9 +127,9 @@ export default function BookingsPage() {
     }
   }
 
-  const prepareAndDownloadPdf = async (bookingId: string) => {
+  const prepareAndDownloadPdf = async (bookingId: string, type: 'waybill' | 'invoice') => {
     if (pdfLoading) return;
-    setPdfLoading(bookingId);
+    setPdfLoading({ type, id: bookingId });
     try {
       const bookingDetails = await getBookingById(bookingId);
       if (bookingDetails) {
@@ -141,14 +143,14 @@ export default function BookingsPage() {
       toast({
         variant: "destructive",
         title: "Erreur PDF",
-        description: "Impossible de récupérer les détails pour la lettre de voiture.",
+        description: `Impossible de récupérer les détails pour le document (${type}).`,
       });
       setPdfLoading(null);
     }
   }
 
   const generatePdf = async () => {
-    if (!selectedBookingForPdf || !pdfRef.current) return;
+    if (!selectedBookingForPdf || !pdfRef.current || !pdfLoading) return;
     
     const input = pdfRef.current;
     try {
@@ -158,18 +160,23 @@ export default function BookingsPage() {
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
         pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save(`lettre-de-voiture-${selectedBookingForPdf.id}.pdf`);
+        pdf.save(`${pdfLoading.type}-${selectedBookingForPdf.id}.pdf`);
 
         toast({
             title: "PDF téléchargé",
-            description: "La lettre de voiture a été téléchargée avec succès.",
+            description: `Le document (${pdfLoading.type}) a été téléchargé avec succès.`,
         });
+
+        if (pdfLoading.type === 'invoice' && selectedBookingForPdf.status !== 'Facturé') {
+            await handleUpdateStatus(selectedBookingForPdf.id, 'Facturé');
+        }
+
     } catch (error) {
         console.error("Erreur lors de la génération du PDF:", error);
         toast({
             variant: "destructive",
             title: "Erreur PDF",
-            description: "Impossible de générer la lettre de voiture.",
+            description: "Impossible de générer le document.",
         });
     } finally {
         setPdfLoading(null);
@@ -182,7 +189,8 @@ export default function BookingsPage() {
        {selectedBookingForPdf && (
         <div className="absolute -z-10 -left-[9999px] -top-[9999px]">
             <div ref={pdfRef} className="w-[210mm]">
-                <WaybillPDF data={selectedBookingForPdf} />
+                {pdfLoading?.type === 'waybill' && <WaybillPDF data={selectedBookingForPdf} />}
+                {pdfLoading?.type === 'invoice' && <InvoicePDF data={selectedBookingForPdf} />}
             </div>
         </div>
       )}
@@ -270,14 +278,19 @@ export default function BookingsPage() {
                               </DropdownMenuPortal>
                             </DropdownMenuSub>
 
-                           <DropdownMenuItem onClick={() => prepareAndDownloadPdf(booking.id)} disabled={pdfLoading === booking.id}>
-                                {pdfLoading === booking.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileText className="mr-2 h-4 w-4" />}
+                           <DropdownMenuItem onClick={() => prepareAndDownloadPdf(booking.id, 'waybill')} disabled={pdfLoading?.id === booking.id}>
+                                {pdfLoading?.type === 'waybill' && pdfLoading.id === booking.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileText className="mr-2 h-4 w-4" />}
                                 <span>Générer Lettre de voiture</span>
+                            </DropdownMenuItem>
+                             
+                             <DropdownMenuItem onClick={() => prepareAndDownloadPdf(booking.id, 'invoice')} disabled={pdfLoading?.id === booking.id || booking.status !== 'Terminé'}>
+                                {pdfLoading?.type === 'invoice' && pdfLoading.id === booking.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Receipt className="mr-2 h-4 w-4" />}
+                                <span>Générer Facture</span>
                             </DropdownMenuItem>
                           
                           <DropdownMenuSeparator />
-                          {booking.status !== 'Annulé' && booking.status !== 'Terminé' && (
-                            <DropdownMenuItem className="text-destructive" onClick={() => handleCancelBooking(booking.id)}>
+                          {booking.status !== 'Annulé' && booking.status !== 'Terminé' && booking.status !== 'Facturé' && (
+                            <DropdownMenuItem className="text-destructive" onClick={() => handleUpdateStatus(booking.id, 'Annulé')}>
                                 Annuler le déménagement
                             </DropdownMenuItem>
                           )}
