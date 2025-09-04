@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Tableau de bord MoveSmart',
+  title: 'Tableau de bord DemDuVexin',
   description: 'Gérez votre entreprise de déménagement avec facilité.',
 };
 

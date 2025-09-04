@@ -18,7 +18,7 @@ export default function TrackingPage({ params }: { params: { id: string } }) {
     <div className="flex min-h-screen w-full flex-col items-center justify-center bg-muted/40 p-4 sm:p-8">
       <div className="w-full max-w-4xl space-y-8">
         <header className="flex flex-col items-center text-center">
-            <h1 className="font-headline text-4xl font-bold text-primary">MoveSmart</h1>
+            <h1 className="font-headline text-4xl font-bold text-primary">DemDuVexin</h1>
             <p className="text-lg text-muted-foreground">Suivi de déménagement en temps réel</p>
         </header>
 
