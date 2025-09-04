@@ -2,31 +2,30 @@
 'use server';
 
 import { db, admin } from '@/lib/firebase';
-import { z } from 'zod';
 
 const { Timestamp } = admin.firestore;
 
-export const expenseCategories = [
-    'Carburant',
-    'Matériel',
-    'Salaires',
-    'Assurance',
-    'Marketing',
-    'Autre',
-] as const;
+export type ExpenseCategory = 'Carburant' | 'Matériel' | 'Salaires' | 'Assurance' | 'Marketing' | 'Autre';
 
-export const expenseSchema = z.object({
-  date: z.string().refine((d) => !isNaN(Date.parse(d)), { message: "Date invalide" }),
-  amount: z.coerce.number().positive("Le montant doit être positif"),
-  category: z.enum(expenseCategories),
-  description: z.string().min(3, "La description est trop courte"),
-  bookingId: z.string().optional(),
-});
+// This is the type for the data coming from the form, before it hits the server.
+// Dates are still strings.
+export interface ExpenseFormData {
+  date: string;
+  amount: number;
+  category: ExpenseCategory;
+  description: string;
+  bookingId?: string;
+}
 
-export type ExpenseFormData = z.infer<typeof expenseSchema>;
-
-export interface Expense extends ExpenseFormData {
+// This is the type for the data as it is stored in Firestore and retrieved in server-side functions.
+// Dates are properly typed.
+export interface Expense {
   id: string;
+  date: string; // Kept as string for simplicity on the client
+  amount: number;
+  category: ExpenseCategory;
+  description: string;
+  bookingId?: string;
   createdAt: string;
 }
 

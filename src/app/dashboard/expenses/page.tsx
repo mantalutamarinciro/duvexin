@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { Calendar as CalendarIcon, Wallet, PlusCircle, Loader2 } from "lucide-react";
@@ -41,7 +42,24 @@ import { Calendar } from "@/components/ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
-import { Expense, ExpenseFormData, createExpense, getExpenses, expenseSchema, expenseCategories } from "@/services/expenseService";
+import { Expense, createExpense, getExpenses, ExpenseFormData } from "@/services/expenseService";
+
+const expenseCategories = [
+    'Carburant',
+    'Matériel',
+    'Salaires',
+    'Assurance',
+    'Marketing',
+    'Autre',
+] as const;
+
+const expenseSchema = z.object({
+  date: z.string().refine((d) => !isNaN(Date.parse(d)), { message: "Date invalide" }),
+  amount: z.coerce.number().positive("Le montant doit être positif"),
+  category: z.enum(expenseCategories),
+  description: z.string().min(3, "La description est trop courte"),
+  bookingId: z.string().optional(),
+});
 
 
 export default function ExpensesPage() {
