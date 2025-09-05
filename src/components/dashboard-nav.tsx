@@ -15,6 +15,7 @@ import {
   HardHat,
   Wallet,
   Mail,
+  Route,
 } from "lucide-react"
 import {
   SidebarMenu,
@@ -37,6 +38,7 @@ const toolsLinks = [
     { href: "/dashboard/quote", label: "Éditeur de devis", icon: FileText },
     { href: "/dashboard/inventory", label: "Inventaire IA", icon: Wand2 },
     { href: "/dashboard/communication", label: "Communication", icon: Mail },
+    { href: "/dashboard/routing", label: "Optimisation", icon: Route },
 ]
 
 const financeLinks = [
