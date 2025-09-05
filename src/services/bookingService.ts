@@ -6,7 +6,7 @@ import type { Quote } from './quoteService';
 
 const { Timestamp } = admin.firestore;
 
-export type BookingStatus = 'Programmé' | 'En cours' | 'Terminé' | 'Annulé' | 'Facturé';
+export type BookingStatus = 'Programmé' | 'En route' | 'Arrivé chez le client' | 'En cours' | 'Terminé' | 'Annulé' | 'Facturé';
 
 export interface Booking {
   id: string;
@@ -116,6 +116,35 @@ export async function getBookingById(id: string): Promise<Booking | null> {
         throw new Error('Failed to fetch booking.');
     }
 }
+
+export async function getBookingsByTeam(teamId: string): Promise<Booking[]> {
+    try {
+        const bookingsCol = db.collection('bookings');
+        const q = bookingsCol
+            .where('assignedTeamId', '==', teamId)
+            .where('status', 'in', ['Programmé', 'En route', 'Arrivé chez le client', 'En cours'])
+            .orderBy('moveDate', 'asc');
+            
+        const querySnapshot = await q.get();
+        
+        const bookings = querySnapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                id: doc.id,
+                ...data,
+                moveDate: (data.moveDate as admin.firestore.Timestamp).toDate().toISOString(),
+                createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(),
+            } as Booking;
+        });
+        
+        return bookings;
+
+    } catch (error) {
+        console.error(`Error fetching bookings for team ${teamId}:`, error);
+        throw new Error('Failed to fetch team bookings.');
+    }
+}
+
 
 export async function updateBookingStatus(id: string, status: BookingStatus): Promise<void> {
   try {

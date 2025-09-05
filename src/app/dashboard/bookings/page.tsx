@@ -43,6 +43,8 @@ import { InvoicePDF } from "@/components/invoice-pdf";
 const getBadgeVariant = (status: Booking['status']) => {
     switch (status) {
         case "Programmé": return "secondary";
+        case "En route": return "default";
+        case "Arrivé chez le client": return "default";
         case "En cours": return "default";
         case "Terminé": return "outline";
         case "Facturé": return "default";
@@ -282,6 +284,12 @@ export default function BookingsPage() {
                             <Link href={`/track/${booking.id}`} target="_blank">
                               <Eye className="mr-2 h-4 w-4" />
                               <span>Voir la page de suivi</span>
+                            </Link>
+                          </DropdownMenuItem>
+                           <DropdownMenuItem asChild>
+                            <Link href={`/crew/${booking.assignedTeamId}`} target="_blank">
+                              <Users className="mr-2 h-4 w-4" />
+                              <span>Voir portail équipe</span>
                             </Link>
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />

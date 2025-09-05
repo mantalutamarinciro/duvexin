@@ -1,7 +1,7 @@
-
 'use server';
 
 import { db, admin } from '@/lib/firebase';
+import type { Booking } from './bookingService';
 
 const { Timestamp } = admin.firestore;
 
@@ -14,6 +14,10 @@ export interface Team {
   name: string;
   members: TeamMember[];
   createdAt: string;
+}
+
+export interface TeamWithBookings extends Team {
+    bookings: Booking[];
 }
 
 export async function createTeam(teamData: Omit<Team, 'id' | 'createdAt'>): Promise<{ id: string }> {
@@ -46,8 +50,30 @@ export async function getTeams(): Promise<Team[]> {
     });
 
     return teams;
-  } catch (error) {
+  } catch (error)
+  {
     console.error('Error fetching teams: ', error);
     throw new Error('Failed to fetch teams.');
   }
+}
+
+export async function getTeamById(teamId: string): Promise<Team | null> {
+    try {
+        const teamRef = db.collection('teams').doc(teamId);
+        const docSnap = await teamRef.get();
+
+        if (!docSnap.exists) {
+            return null;
+        }
+
+        const data = docSnap.data()!;
+        return {
+            id: docSnap.id,
+            ...data,
+            createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(),
+        } as Team;
+    } catch (error) {
+        console.error('Error fetching team by ID:', error);
+        throw new Error('Failed to fetch team details.');
+    }
 }
