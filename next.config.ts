@@ -24,6 +24,10 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  env: {
+    WORDPRESS_API_KEY: process.env.WORDPRESS_API_KEY,
+    WORDPRESS_SITE_URL: process.env.WORDPRESS_SITE_URL,
+  }
 };
 
 export default nextConfig;
