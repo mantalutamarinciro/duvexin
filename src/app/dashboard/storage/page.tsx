@@ -60,7 +60,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const contractSchema = z.object({
   clientName: z.string().min(2, "Le nom du client est requis."),
@@ -275,4 +276,3 @@ export default function StoragePage() {
     </div>
   );
 }
-
