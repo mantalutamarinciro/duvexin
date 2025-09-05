@@ -30,11 +30,12 @@ export default function LandingPage() {
             {/* Hero Section */}
             <section className="relative h-[70vh] flex items-center justify-center text-center text-white">
                 <Image 
-                    src="https://picsum.photos/1600/900"
+                    src="/images/hero-background.jpg"
                     alt="Équipe de déménageurs chargeant un camion"
                     fill
                     className="object-cover"
                     data-ai-hint="moving team truck"
+                    priority
                 />
                 <div className="absolute inset-0 bg-black/60" />
                 <div className="relative z-10 container">
