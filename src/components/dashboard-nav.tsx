@@ -16,6 +16,7 @@ import {
   Wallet,
   Mail,
   Route,
+  Warehouse,
 } from "lucide-react"
 import {
   SidebarMenu,
@@ -32,6 +33,7 @@ const mainLinks = [
   { href: "/dashboard/quotes", label: "Devis", icon: ClipboardList },
   { href: "/dashboard/teams", label: "Équipes", icon: HardHat },
   { href: "/dashboard/vehicles", label: "Flotte", icon: Truck },
+  { href: "/dashboard/storage", label: "Garde-meubles", icon: Warehouse },
 ]
 
 const toolsLinks = [
