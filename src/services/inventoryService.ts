@@ -68,11 +68,11 @@ export async function updateInventoryList(items: InventoryItem[]): Promise<void>
     const docRef = db.collection('inventories').doc(SINGLE_INVENTORY_ID);
     const totalVolume = items.reduce((acc, item) => acc + item.volume * item.quantity, 0);
 
-    await docRef.update({
+    await docRef.set({
       items: items,
       totalVolume: totalVolume,
       updatedAt: Timestamp.now()
-    });
+    }, { merge: true });
   } catch (error) {
     console.error('Error updating inventory list: ', error);
     throw new Error('Failed to update inventory list.');
