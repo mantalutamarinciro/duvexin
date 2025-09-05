@@ -2,11 +2,10 @@
 'use server';
 
 import { db, admin } from '@/lib/firebase';
+import type { VehicleType } from '@/app/dashboard/vehicles/page';
 
 const { Timestamp } = admin.firestore;
 
-export const vehicleTypes = ['Fourgon', 'Camion 12m³', 'Camion 20m³', 'Camionnette'] as const;
-export type VehicleType = typeof vehicleTypes[number];
 
 export interface Vehicle {
   id: string;

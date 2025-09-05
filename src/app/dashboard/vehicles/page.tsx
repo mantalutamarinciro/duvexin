@@ -33,8 +33,19 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
-import { createVehicle, getVehicles, Vehicle, VehicleFormData, vehicleTypes } from "@/services/vehicleService"
+import { createVehicle, getVehicles, Vehicle } from "@/services/vehicleService"
 import { Skeleton } from "@/components/ui/skeleton"
+
+export const vehicleTypes = ['Fourgon', 'Camion 12m³', 'Camion 20m³', 'Camionnette'] as const;
+export type VehicleType = typeof vehicleTypes[number];
+
+export interface VehicleFormData {
+  type: VehicleType;
+  brand: string;
+  registration: string;
+  volume: number;
+}
+
 
 const vehicleSchema = z.object({
   type: z.enum(vehicleTypes, { required_error: "Le type est requis." }),
