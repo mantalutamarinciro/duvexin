@@ -22,11 +22,20 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      // Ajout du domaine pour les photos de profil des avis Google
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      }
     ],
   },
   env: {
     WORDPRESS_API_KEY: process.env.WORDPRESS_API_KEY,
     WORDPRESS_SITE_URL: process.env.WORDPRESS_SITE_URL,
+    // Exposition des variables d'environnement Google au serveur Next.js
+    GOOGLE_ACCOUNT_ID: process.env.GOOGLE_ACCOUNT_ID,
+    GOOGLE_LOCATION_ID: process.env.GOOGLE_LOCATION_ID,
+    GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
   }
 };
 

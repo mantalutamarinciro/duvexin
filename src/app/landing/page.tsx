@@ -1,6 +1,4 @@
 
-"use client"
-
 import { useRef } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -11,6 +9,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ContactForm } from "./contact-form";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { getGoogleReviews, FormattedReview } from "@/services/reviewService";
+
 
 const services = [
     {
@@ -45,33 +45,65 @@ const services = [
     },
 ];
 
-const testimonials = [
+const fallbackTestimonials: FormattedReview[] = [
     {
+        id: "fallback-1",
         name: "Clotilde Duran",
         text: "Une équipe très réactive et très professionnelle, vraiment rien à dire, du très bon travail! Les affaires ont été emballées avec le plus grand soin. Nous conseillons les yeux fermés!",
-        time: "il y a 2 ans"
+        rating: 5,
+        createTime: "il y a 2 ans",
+        avatarUrl: `https://i.pravatar.cc/48?u=Clotilde`
     },
     {
+        id: "fallback-2",
         name: "Jean-michel Marot",
         text: "Un déménagement en Bretagne parfaitement réalisé. Professionnel du début jusqu'à la livraison finale. Très bon contact. Équipe efficace, rapide, et sympathique. Travail de qualité.",
-        time: "il y a 2 ans"
+        rating: 5,
+        createTime: "il y a 2 ans",
+        avatarUrl: `https://i.pravatar.cc/48?u=Jean-michel`
     },
      {
+        id: "fallback-3",
         name: "Robert GALAND",
         text: "Une interlocutrice réactive, une équipe ultra efficace, des affaires très bien protégées. Rapidité, professionnalisme. On voit le côté 'familial' sans prestataire ou intérimaire. Sincèrement je suis bluffé. Je recommande totalement. MERCI",
-        time: "il y a 19 jours"
+        rating: 5,
+        createTime: "il y a 19 jours",
+        avatarUrl: `https://i.pravatar.cc/48?u=Robert`
     },
     {
+        id: "fallback-4",
         name: "Nadine Mirlier",
         text: "Un très grand merci à toute l'équipe. Ravie d'avoir fait appel à eux. Tout était parfait. Tout était bien emballé et protéger.L'équipe très professionnelle. Très bon rapport qualité prix.Je recommande à 200 %.",
-        time: "il y a environ un mois"
+        rating: 5,
+        createTime: "il y a environ un mois",
+        avatarUrl: `https://i.pravatar.cc/48?u=Nadine`
     }
-]
+];
 
-export default function LandingPage() {
-    const autoplayPlugin = useRef(
-        Autoplay({ delay: 5000, stopOnInteraction: true })
+function StarRating({ rating }: { rating: number }) {
+    return (
+        <div className="flex items-center gap-1 text-amber-400">
+            {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} size={16} fill={i < rating ? "currentColor" : "none"} className={i < rating ? "" : "text-gray-300"} />
+            ))}
+        </div>
     );
+}
+
+
+export default async function LandingPage() {
+
+    let reviews: FormattedReview[] = [];
+    try {
+        reviews = await getGoogleReviews();
+        if (reviews.length === 0) {
+            reviews = fallbackTestimonials;
+        }
+    } catch (error) {
+        console.warn("Could not fetch Google Reviews, using fallback testimonials.", error);
+        reviews = fallbackTestimonials;
+    }
+
 
     return (
         <>
@@ -174,7 +206,7 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* Testimonials */}
+             {/* Testimonials */}
              <section className="py-16 md:py-24 bg-muted/50">
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
@@ -186,26 +218,20 @@ export default function LandingPage() {
                             align: "start",
                             loop: true,
                         }}
-                        plugins={[autoplayPlugin.current]}
-                        onMouseEnter={autoplayPlugin.current.stop}
-                        onMouseLeave={autoplayPlugin.current.reset}
                         className="w-full max-w-4xl mx-auto mt-12"
                         >
                         <CarouselContent>
-                            {testimonials.map((testimonial, i) => (
-                                <CarouselItem key={i} className="md:basis-1/2">
+                            {reviews.map((review) => (
+                                <CarouselItem key={review.id} className="md:basis-1/2">
                                      <Card className="h-full p-6 flex flex-col sm:flex-row gap-6">
                                         <Avatar className="h-12 w-12 hidden sm:block">
-                                            <AvatarImage src={`https://i.pravatar.cc/48?u=${testimonial.name}`} alt={testimonial.name} />
-                                            <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+                                            <AvatarImage src={review.avatarUrl} alt={review.name} />
+                                            <AvatarFallback>{review.name.charAt(0)}</AvatarFallback>
                                         </Avatar>
                                         <div className="flex-1">
-                                            <div className="flex items-center gap-1 text-amber-400 mb-2">
-                                            <Star size={16} fill="currentColor"/> <Star size={16} fill="currentColor"/> <Star size={16} fill="currentColor"/> <Star size={16} fill="currentColor"/> <Star size={16} fill="currentColor"/>
-                                            </div>
-                                            <p className="italic text-muted-foreground">"{testimonial.text}"</p>
-                                            <p className="mt-4 font-semibold text-sm">{testimonial.name}</p>
-                                            <p className="text-xs text-muted-foreground">{testimonial.time}</p>
+                                            <StarRating rating={review.rating} />
+                                            <p className="italic text-muted-foreground mt-2">"{review.text}"</p>
+                                            <p className="mt-4 font-semibold text-sm">{review.name}</p>
                                         </div>
                                     </Card>
                                 </CarouselItem>
