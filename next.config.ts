@@ -30,14 +30,8 @@ const nextConfig: NextConfig = {
       }
     ],
   },
-  env: {
-    WORDPRESS_API_KEY: process.env.WORDPRESS_API_KEY,
-    WORDPRESS_SITE_URL: process.env.WORDPRESS_SITE_URL,
-    // Exposition des variables d'environnement Google au serveur Next.js
-    GOOGLE_ACCOUNT_ID: process.env.GOOGLE_ACCOUNT_ID,
-    GOOGLE_LOCATION_ID: process.env.GOOGLE_LOCATION_ID,
-    GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
-  }
+  // Les variables d'environnement dans le .env sont automatiquement
+  // disponibles côté serveur. Il n'est pas nécessaire de les ré-exposer ici.
 };
 
 export default nextConfig;
