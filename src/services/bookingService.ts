@@ -24,6 +24,8 @@ export interface Booking {
   quoteId: string;
   assignedTeam?: string | null;
   assignedTeamId?: string | null;
+  assignedVehicleId?: string | null;
+  assignedVehicleRegistration?: string | null;
 }
 
 export async function createBookingFromQuote(quote: Quote): Promise<{ id: string }> {
@@ -47,6 +49,8 @@ export async function createBookingFromQuote(quote: Quote): Promise<{ id: string
         createdAt: Timestamp.now(),
         assignedTeam: null,
         assignedTeamId: null,
+        assignedVehicleId: null,
+        assignedVehicleRegistration: null,
     };
     
     batch.set(newBookingRef, newBookingData);
@@ -135,5 +139,19 @@ export async function assignTeamToBooking(bookingId: string, teamId: string, tea
   } catch (error) {
     console.error('Error assigning team to booking: ', error);
     throw new Error('Failed to assign team to booking.');
+  }
+}
+
+export async function assignVehicleToBooking(bookingId: string, vehicleId: string, vehicleRegistration: string): Promise<void> {
+  try {
+    const bookingRef = db.collection('bookings').doc(bookingId);
+    await bookingRef.update({ 
+      assignedVehicleId: vehicleId,
+      assignedVehicleRegistration: vehicleRegistration 
+    });
+    console.log(`Vehicle ${vehicleRegistration} (${vehicleId}) assigned to booking ${bookingId}`);
+  } catch (error) {
+    console.error('Error assigning vehicle to booking: ', error);
+    throw new Error('Failed to assign vehicle to booking.');
   }
 }

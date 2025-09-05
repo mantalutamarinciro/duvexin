@@ -28,11 +28,12 @@ import {
   DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { MoreHorizontal, PlusCircle, Users, FileText, Loader2, Eye, Receipt } from "lucide-react"
+import { MoreHorizontal, PlusCircle, Users, FileText, Loader2, Eye, Receipt, Truck } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton";
-import { getBookings, Booking, updateBookingStatus, assignTeamToBooking, getBookingById, BookingStatus } from "@/services/bookingService";
+import { getBookings, Booking, updateBookingStatus, assignTeamToBooking, getBookingById, BookingStatus, assignVehicleToBooking } from "@/services/bookingService";
 import { getTeams, Team } from "@/services/teamService";
+import { getVehicles, Vehicle } from "@/services/vehicleService";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { WaybillPDF } from "@/components/waybill-pdf";
@@ -53,6 +54,7 @@ const getBadgeVariant = (status: Booking['status']) => {
 export default function BookingsPage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [teams, setTeams] = useState<Team[]>([]);
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState(true);
   const [pdfLoading, setPdfLoading] = useState<{type: 'waybill' | 'invoice', id: string} | null>(null);
   const [selectedBookingForPdf, setSelectedBookingForPdf] = useState<Booking | null>(null);
@@ -63,12 +65,14 @@ export default function BookingsPage() {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [fetchedBookings, fetchedTeams] = await Promise.all([
+      const [fetchedBookings, fetchedTeams, fetchedVehicles] = await Promise.all([
         getBookings(),
-        getTeams()
+        getTeams(),
+        getVehicles()
       ]);
       setBookings(fetchedBookings);
       setTeams(fetchedTeams);
+      setVehicles(fetchedVehicles);
     } catch (error) {
       console.error(error);
       toast({
@@ -123,6 +127,24 @@ export default function BookingsPage() {
         variant: "destructive",
         title: "Erreur",
         description: "Impossible d'assigner l'équipe.",
+      });
+    }
+  }
+  
+  const handleAssignVehicle = async (bookingId: string, vehicle: Vehicle) => {
+    try {
+      await assignVehicleToBooking(bookingId, vehicle.id, vehicle.registration);
+      toast({
+        title: "Véhicule assigné",
+        description: `Le véhicule immatriculé "${vehicle.registration}" a été assigné au déménagement.`,
+      });
+      loadData();
+    } catch (error) {
+      console.error("Erreur lors de l'assignation du véhicule:", error);
+      toast({
+        variant: "destructive",
+        title: "Erreur",
+        description: "Impossible d'assigner le véhicule.",
       });
     }
   }
@@ -216,6 +238,7 @@ export default function BookingsPage() {
                 <TableHead>Client</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Équipe</TableHead>
+                <TableHead>Véhicule</TableHead>
                 <TableHead>Statut</TableHead>
                 <TableHead className="text-right">Total</TableHead>
                 <TableHead><span className="sr-only">Actions</span></TableHead>
@@ -228,6 +251,7 @@ export default function BookingsPage() {
                       <TableCell><Skeleton className="h-5 w-32"/></TableCell>
                       <TableCell><Skeleton className="h-5 w-28"/></TableCell>
                       <TableCell><Skeleton className="h-5 w-24"/></TableCell>
+                      <TableCell><Skeleton className="h-5 w-24"/></TableCell>
                       <TableCell><Skeleton className="h-6 w-24 rounded-full"/></TableCell>
                       <TableCell className="text-right"><Skeleton className="h-5 w-20 ml-auto"/></TableCell>
                       <TableCell><Skeleton className="h-8 w-8 ml-auto"/></TableCell>
@@ -239,6 +263,7 @@ export default function BookingsPage() {
                       <TableCell className="font-medium">{booking.clientName}</TableCell>
                       <TableCell>{format(new Date(booking.moveDate), "d MMMM yyyy", { locale: fr })}</TableCell>
                        <TableCell>{booking.assignedTeam || <span className="text-muted-foreground italic">Non assignée</span>}</TableCell>
+                      <TableCell className="font-mono text-xs">{booking.assignedVehicleRegistration || <span className="text-muted-foreground italic">Non assigné</span>}</TableCell>
                       <TableCell>
                         <Badge variant={getBadgeVariant(booking.status)}>{booking.status}</Badge>
                       </TableCell>
@@ -277,6 +302,23 @@ export default function BookingsPage() {
                                 </DropdownMenuSubContent>
                               </DropdownMenuPortal>
                             </DropdownMenuSub>
+                             <DropdownMenuSub>
+                              <DropdownMenuSubTrigger disabled={vehicles.length === 0}>
+                                <Truck className="mr-2 h-4 w-4" />
+                                <span>Assigner un véhicule</span>
+                              </DropdownMenuSubTrigger>
+                              <DropdownMenuPortal>
+                                <DropdownMenuSubContent>
+                                  <DropdownMenuLabel>Choisir un véhicule</DropdownMenuLabel>
+                                  <DropdownMenuSeparator />
+                                  {vehicles.map((vehicle) => (
+                                    <DropdownMenuItem key={vehicle.id} onClick={() => handleAssignVehicle(booking.id, vehicle)}>
+                                      {vehicle.brand} ({vehicle.registration})
+                                    </DropdownMenuItem>
+                                  ))}
+                                </DropdownMenuSubContent>
+                              </DropdownMenuPortal>
+                            </DropdownMenuSub>
 
                            <DropdownMenuItem onClick={() => prepareAndDownloadPdf(booking.id, 'waybill')} disabled={pdfLoading?.id === booking.id}>
                                 {pdfLoading?.type === 'waybill' && pdfLoading.id === booking.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileText className="mr-2 h-4 w-4" />}
@@ -301,7 +343,7 @@ export default function BookingsPage() {
                   ))
                 ) : (
                    <TableRow>
-                        <TableCell colSpan={6} className="text-center h-24">Aucune réservation trouvée.</TableCell>
+                        <TableCell colSpan={7} className="text-center h-24">Aucune réservation trouvée.</TableCell>
                     </TableRow>
                 )}
             </TableBody>

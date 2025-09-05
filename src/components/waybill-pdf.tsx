@@ -42,8 +42,9 @@ export function WaybillPDF({ data }: WaybillPDFProps) {
                     {data.clientPhone && <p>{data.clientPhone}</p>}
                 </div>
                 <div>
-                    <h3 className="text-xs font-bold text-gray-600 uppercase mb-2">Équipe de déménagement</h3>
-                    <p className="font-bold">{data.assignedTeam || 'Non spécifiée'}</p>
+                    <h3 className="text-xs font-bold text-gray-600 uppercase mb-2">Détails Opérationnels</h3>
+                    <p><strong>Équipe:</strong> {data.assignedTeam || 'Non spécifiée'}</p>
+                    <p><strong>Véhicule:</strong> {data.assignedVehicleRegistration || 'Non spécifié'}</p>
                 </div>
             </section>
             
