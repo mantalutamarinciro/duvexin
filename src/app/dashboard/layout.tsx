@@ -11,6 +11,9 @@ import {
 import { DashboardNav } from '@/components/dashboard-nav';
 import { UserNav } from '@/components/user-nav';
 import { Logo } from '@/components/logo';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 
 export default function DashboardLayout({ children }: PropsWithChildren) {
   return (
@@ -22,8 +25,13 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
         <SidebarContent>
           <DashboardNav />
         </SidebarContent>
-        <SidebarFooter className="mt-auto">
-          {/* You can add footer items here if needed */}
+        <SidebarFooter className="mt-auto p-2">
+           <Button asChild variant="ghost" className="w-full justify-start">
+              <Link href="/landing">
+                <ArrowLeft />
+                <span>Retour au site</span>
+              </Link>
+          </Button>
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
