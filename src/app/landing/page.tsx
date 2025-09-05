@@ -1,4 +1,8 @@
 
+"use client"
+
+import { useRef } from "react";
+import Autoplay from "embla-carousel-autoplay";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -65,6 +69,10 @@ const testimonials = [
 ]
 
 export default function LandingPage() {
+    const autoplayPlugin = useRef(
+        Autoplay({ delay: 5000, stopOnInteraction: true })
+    );
+
     return (
         <>
             {/* Hero Section */}
@@ -178,6 +186,9 @@ export default function LandingPage() {
                             align: "start",
                             loop: true,
                         }}
+                        plugins={[autoplayPlugin.current]}
+                        onMouseEnter={autoplayPlugin.current.stop}
+                        onMouseLeave={autoplayPlugin.current.reset}
                         className="w-full max-w-4xl mx-auto mt-12"
                         >
                         <CarouselContent>
