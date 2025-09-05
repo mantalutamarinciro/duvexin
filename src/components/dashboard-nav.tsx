@@ -17,6 +17,7 @@ import {
   Mail,
   Route,
   Warehouse,
+  Calendar,
 } from "lucide-react"
 import {
   SidebarMenu,
@@ -29,6 +30,7 @@ import {
 
 const mainLinks = [
   { href: "/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
+  { href: "/dashboard/planning", label: "Plannings", icon: Calendar },
   { href: "/dashboard/bookings", label: "Réservations", icon: Package },
   { href: "/dashboard/quotes", label: "Devis", icon: ClipboardList },
   { href: "/dashboard/teams", label: "Équipes", icon: HardHat },
