@@ -7,10 +7,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { Warehouse, PlusCircle, Loader2, Calendar, User, Truck, Package, ArrowRight, ArrowLeft } from "lucide-react";
+import { Warehouse, PlusCircle, Loader2, Calendar as CalendarIcon, PackageCheck, PackageOpen } from "lucide-react";
 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -29,261 +37,242 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 import {
-  StorageUnit,
-  createStorageUnit,
-  getStorageUnits,
-  StorageUnitFormData,
-  Movement,
-  MovementFormData,
-  getUnitMovements,
-  addMovement,
-  getStorageUnitById
+  StorageContract,
+  createStorageContract,
+  getStorageContracts,
+  markContractAsExited,
+  StorageContractFormData,
 } from "@/services/storageService";
-import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
-
-const unitSchema = z.object({
-  unitNumber: z.string().min(2, "Le numéro est requis."),
-  size: z.string().min(2, "La taille est requise (ex: 5m³)."),
+const contractSchema = z.object({
+  clientName: z.string().min(2, "Le nom du client est requis."),
+  itemsDescription: z.string().min(5, "Veuillez décrire les objets stockés."),
+  volumeM3: z.coerce.number().positive("Le volume doit être un nombre positif."),
+  entryDate: z.date({ required_error: "La date d'entrée est requise." }),
 });
 
-const movementSchema = z.object({
-    unitId: z.string(),
-    type: z.enum(["Entrée", "Sortie"]),
-    itemsDescription: z.string().min(5, "Veuillez décrire les objets."),
-    notes: z.string().optional(),
-})
-
 export default function StoragePage() {
-    const [units, setUnits] = useState<StorageUnit[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isUnitDialogOpen, setIsUnitDialogOpen] = useState(false);
+  const [contracts, setContracts] = useState<StorageContract[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { toast } = useToast();
 
-    const [selectedUnit, setSelectedUnit] = useState<StorageUnit | null>(null);
-    const [movements, setMovements] = useState<Movement[]>([]);
-    const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false);
-    const [loadingDetails, setLoadingDetails] = useState(false);
+  const form = useForm<z.infer<typeof contractSchema>>({
+    resolver: zodResolver(contractSchema),
+    defaultValues: {
+      clientName: "",
+      itemsDescription: "",
+      volumeM3: 1,
+      entryDate: new Date(),
+    },
+  });
 
-    const { toast } = useToast();
-
-    const unitForm = useForm<StorageUnitFormData>({
-        resolver: zodResolver(unitSchema),
-        defaultValues: { unitNumber: "", size: "" },
-    });
-
-    const movementForm = useForm<MovementFormData>({
-        resolver: zodResolver(movementSchema),
-    });
-
-    const loadUnits = async () => {
-        setLoading(true);
-        try {
-            const fetchedUnits = await getStorageUnits();
-            setUnits(fetchedUnits);
-        } catch (error) {
-            toast({ variant: 'destructive', title: "Erreur", description: "Impossible de charger les garde-meubles." });
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        loadUnits();
-    }, []);
-
-    const onUnitSubmit = async (values: StorageUnitFormData) => {
-        setIsSubmitting(true);
-        try {
-            await createStorageUnit(values);
-            toast({ title: "Garde-meuble créé", description: "Le nouveau box a été ajouté." });
-            setIsUnitDialogOpen(false);
-            unitForm.reset();
-            loadUnits();
-        } catch (error) {
-            toast({ variant: 'destructive', title: "Erreur", description: "Impossible de créer le box." });
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-    
-    const onMovementSubmit = async (values: MovementFormData) => {
-        setIsSubmitting(true);
-        try {
-            await addMovement(values);
-            toast({ title: "Mouvement enregistré", description: `Une ${values.type.toLowerCase()} a été ajoutée.`});
-            movementForm.reset();
-            // Refresh movements for the selected unit
-            if (selectedUnit) {
-                await openDetailDialog(selectedUnit.id);
-            }
-        } catch (error) {
-            toast({ variant: 'destructive', title: "Erreur", description: "Impossible d'enregistrer le mouvement." });
-        } finally {
-            setIsSubmitting(false);
-        }
+  const loadContracts = async () => {
+    setLoading(true);
+    try {
+      const fetchedContracts = await getStorageContracts();
+      setContracts(fetchedContracts);
+    } catch (error) {
+      toast({ variant: 'destructive', title: "Erreur", description: "Impossible de charger les contrats de stockage." });
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const openDetailDialog = async (unitId: string) => {
-        setIsDetailDialogOpen(true);
-        setLoadingDetails(true);
-        try {
-            const [unitDetails, unitMovements] = await Promise.all([
-                getStorageUnitById(unitId),
-                getUnitMovements(unitId)
-            ]);
-            
-            if (unitDetails) {
-                 setSelectedUnit(unitDetails);
-                 setMovements(unitMovements);
-                 movementForm.setValue("unitId", unitId);
-            } else {
-                toast({ variant: 'destructive', title: "Erreur", description: "Impossible de trouver les détails du box." });
-                setIsDetailDialogOpen(false);
-            }
+  useEffect(() => {
+    loadContracts();
+  }, []);
 
-        } catch (error) {
-            toast({ variant: 'destructive', title: "Erreur", description: "Impossible de charger les détails." });
-            setIsDetailDialogOpen(false);
-        } finally {
-            setLoadingDetails(false);
-        }
+  const onSubmit = async (values: z.infer<typeof contractSchema>) => {
+    setIsSubmitting(true);
+    try {
+      const formData: StorageContractFormData = {
+        ...values,
+        entryDate: values.entryDate.toISOString(),
+      };
+      await createStorageContract(formData);
+      toast({ title: "Entrée enregistrée", description: "Les biens ont été ajoutés au stock." });
+      setIsDialogOpen(false);
+      form.reset();
+      loadContracts();
+    } catch (error) {
+      toast({ variant: 'destructive', title: "Erreur", description: "Impossible d'enregistrer l'entrée." });
+    } finally {
+      setIsSubmitting(false);
     }
+  };
+  
+  const handleMarkAsExited = async (contractId: string) => {
+      try {
+          await markContractAsExited(contractId);
+          toast({ title: "Sortie enregistrée", description: "Le lot a été marqué comme sorti."});
+          loadContracts();
+      } catch (error) {
+          toast({ variant: 'destructive', title: "Erreur", description: "Impossible d'enregistrer la sortie." });
+      }
+  }
+  
+  const getStatusVariant = (status: 'Stocké' | 'Sorti') => {
+      return status === 'Stocké' ? 'secondary' : 'outline';
+  }
 
-    const getStatusVariant = (status: StorageUnitStatus) => {
-        switch (status) {
-            case "Occupé": return "destructive";
-            case "Disponible": return "default";
-            case "En maintenance": return "secondary";
-        }
-    }
+  return (
+    <div className="flex flex-col gap-6">
+      <div className="flex items-center justify-between">
+        <h1 className="font-headline text-3xl font-bold tracking-tight">Suivi de Stockage</h1>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button><PlusCircle className="mr-2" /> Nouvelle Entrée en Stock</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[480px]">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <DialogHeader>
+                  <DialogTitle>Enregistrer une Entrée</DialogTitle>
+                  <DialogDescription>
+                    Renseignez les informations sur les biens entrant dans votre entrepôt.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <FormField control={form.control} name="clientName" render={({ field }) => (
+                    <FormItem><FormLabel>Nom du Client</FormLabel><FormControl><Input placeholder="ex: Jean Dupont" {...field} /></FormControl><FormMessage /></FormItem>
+                  )}/>
+                   <FormField control={form.control} name="itemsDescription" render={({ field }) => (
+                    <FormItem><FormLabel>Description des biens</FormLabel><FormControl><Textarea placeholder="ex: 10 cartons, 1 canapé, 2 vélos..." {...field} /></FormControl><FormMessage /></FormItem>
+                  )}/>
+                  <div className="grid grid-cols-2 gap-4">
+                     <FormField control={form.control} name="volumeM3" render={({ field }) => (
+                        <FormItem><FormLabel>Volume (m³)</FormLabel><FormControl><Input type="number" step="0.1" {...field} /></FormControl><FormMessage /></FormItem>
+                    )}/>
+                     <FormField control={form.control} name="entryDate" render={({ field }) => (
+                        <FormItem className="flex flex-col"><FormLabel>Date d'entrée</FormLabel>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                            <FormControl>
+                                <Button
+                                variant={"outline"}
+                                className={cn("pl-3 text-left font-normal",!field.value && "text-muted-foreground")}>
+                                {field.value ? (format(field.value, "PPP", { locale: fr })) : (<span>Date</span>)}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                            </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus/>
+                            </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                        </FormItem>
+                    )}/>
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button type="submit" disabled={isSubmitting}>
+                    {isSubmitting && <Loader2 className="mr-2 animate-spin" />} Enregistrer
+                  </Button>
+                </DialogFooter>
+              </form>
+            </Form>
+          </DialogContent>
+        </Dialog>
+      </div>
 
-    return (
-        <div className="flex flex-col gap-6">
-            <div className="flex items-center justify-between">
-                <h1 className="font-headline text-3xl font-bold tracking-tight">Gestion des Garde-meubles</h1>
-                <Dialog open={isUnitDialogOpen} onOpenChange={setIsUnitDialogOpen}>
-                    <DialogTrigger asChild>
-                        <Button><PlusCircle className="mr-2" /> Ajouter un box</Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                        <Form {...unitForm}>
-                            <form onSubmit={unitForm.handleSubmit(onUnitSubmit)} className="space-y-6">
-                                <DialogHeader>
-                                    <DialogTitle>Nouveau Box de Stockage</DialogTitle>
-                                    <DialogDescription>
-                                        Ajoutez un nouveau garde-meuble à votre parc.
-                                    </DialogDescription>
-                                </DialogHeader>
-                                <div className="space-y-4">
-                                     <FormField control={unitForm.control} name="unitNumber" render={({ field }) => (
-                                        <FormItem><FormLabel>Numéro du box</FormLabel><FormControl><Input placeholder="ex: A-101" {...field} /></FormControl><FormMessage /></FormItem>
-                                     )}/>
-                                      <FormField control={unitForm.control} name="size" render={({ field }) => (
-                                        <FormItem><FormLabel>Taille / Volume</FormLabel><FormControl><Input placeholder="ex: 8m³" {...field} /></FormControl><FormMessage /></FormItem>
-                                     )}/>
-                                </div>
-                                <DialogFooter>
-                                    <Button type="submit" disabled={isSubmitting}>
-                                        {isSubmitting && <Loader2 className="mr-2 animate-spin" />} Ajouter
-                                    </Button>
-                                </DialogFooter>
-                            </form>
-                        </Form>
-                    </DialogContent>
-                </Dialog>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {loading ? (
-                    Array.from({length: 4}).map((_, i) => <Skeleton key={i} className="h-40 w-full" />)
-                ) : units.map(unit => (
-                    <Card key={unit.id} className="flex flex-col justify-between hover:shadow-lg transition-shadow cursor-pointer" onClick={() => openDetailDialog(unit.id)}>
-                        <CardHeader>
-                            <CardTitle className="flex items-center justify-between">
-                                <span>{unit.unitNumber}</span>
-                                <Badge variant={getStatusVariant(unit.status)}>{unit.status}</Badge>
-                            </CardTitle>
-                            <CardDescription>{unit.size}</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            {unit.status === "Occupé" ? (
-                                <div>
-                                    <p className="text-sm font-semibold flex items-center gap-2"><User className="h-4 w-4"/> {unit.clientName}</p>
-                                    <p className="text-xs text-muted-foreground flex items-center gap-2"><Calendar className="h-4 w-4"/> Depuis le {format(new Date(unit.startDate!), "P", { locale: fr })}</p>
-                                </div>
-                            ) : (
-                                <p className="text-sm text-muted-foreground italic">Ce box est actuellement disponible.</p>
-                            )}
-                        </CardContent>
-                    </Card>
-                ))}
-            </div>
-             { !loading && units.length === 0 && (
-                <Card className="col-span-full">
-                    <CardContent className="text-center py-12 text-muted-foreground">
-                        <Warehouse className="mx-auto h-12 w-12" />
-                        <p className="mt-4 text-sm">Aucun garde-meuble n'a encore été créé.</p>
-                    </CardContent>
-                </Card>
-            )}
-
-            <Dialog open={isDetailDialogOpen} onOpenChange={setIsDetailDialogOpen}>
-                <DialogContent className="max-w-2xl">
-                     <DialogHeader>
-                        {loadingDetails ? <Skeleton className="h-8 w-48"/> : <DialogTitle>Détails du Box {selectedUnit?.unitNumber}</DialogTitle>}
-                        {loadingDetails ? <Skeleton className="h-4 w-full"/> : <DialogDescription>Consultez l'historique et ajoutez des mouvements pour ce garde-meuble.</DialogDescription>}
-                    </DialogHeader>
-                    {loadingDetails ? <Loader2 className="mx-auto my-12 h-10 w-10 animate-spin text-primary"/> : (
-                    <Tabs defaultValue="history">
-                        <TabsList className="grid w-full grid-cols-2">
-                            <TabsTrigger value="history">Historique</TabsTrigger>
-                            <TabsTrigger value="movement">Nouveau Mouvement</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="history" className="mt-4 max-h-[50vh] overflow-y-auto pr-4">
-                           <div className="space-y-4">
-                             {movements.length > 0 ? movements.map(mov => (
-                                <div key={mov.id} className="flex items-start gap-4">
-                                   <div className={`mt-1 flex h-8 w-8 items-center justify-center rounded-full ${mov.type === 'Entrée' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                                        {mov.type === 'Entrée' ? <ArrowRight className="h-5 w-5"/> : <ArrowLeft className="h-5 w-5"/>}
-                                   </div>
-                                   <div className="flex-1">
-                                        <p className="font-semibold">{mov.type} - {format(new Date(mov.date), "d MMM yyyy 'à' HH:mm", {locale: fr})}</p>
-                                        <p className="text-sm text-muted-foreground">{mov.itemsDescription}</p>
-                                        {mov.notes && <p className="text-xs italic mt-1 border-l-2 pl-2">Note: {mov.notes}</p>}
-                                   </div>
-                                </div>
-                             )) : <p className="text-center text-muted-foreground py-8">Aucun mouvement enregistré.</p>}
-                           </div>
-                        </TabsContent>
-                        <TabsContent value="movement" className="mt-4">
-                             <Form {...movementForm}>
-                                <form onSubmit={movementForm.handleSubmit(onMovementSubmit)} className="space-y-4">
-                                     <FormField control={movementForm.control} name="type" render={({ field }) => (
-                                        <FormItem><FormLabel>Type de mouvement</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Sélectionnez..." /></SelectTrigger></FormControl><SelectContent><SelectItem value="Entrée">Entrée</SelectItem><SelectItem value="Sortie">Sortie</SelectItem></SelectContent></Select><FormMessage /></FormItem>
-                                     )}/>
-                                      <FormField control={movementForm.control} name="itemsDescription" render={({ field }) => (
-                                        <FormItem><FormLabel>Description des objets</FormLabel><FormControl><Textarea placeholder="ex: 10 cartons, 1 canapé, 2 vélos..." {...field} /></FormControl><FormMessage /></FormItem>
-                                     )}/>
-                                      <FormField control={movementForm.control} name="notes" render={({ field }) => (
-                                        <FormItem><FormLabel>Notes (facultatif)</FormLabel><FormControl><Input placeholder="ex: Le client a repris le vélo bleu." {...field} /></FormControl><FormMessage /></FormItem>
-                                     )}/>
-                                    <Button type="submit" disabled={isSubmitting}>
-                                        {isSubmitting ? <Loader2 className="mr-2 animate-spin"/> : <Package className="mr-2"/>} Enregistrer
-                                    </Button>
-                                </form>
-                            </Form>
-                        </TabsContent>
-                    </Tabs>
+       <Card>
+        <CardHeader>
+            <CardTitle>État du Stock</CardTitle>
+            <CardDescription>Liste de tous les biens actuellement ou anciennement en stock.</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>Client</TableHead>
+                        <TableHead>Volume</TableHead>
+                        <TableHead>Date d'entrée</TableHead>
+                        <TableHead>Date de sortie</TableHead>
+                        <TableHead>Statut</TableHead>
+                        <TableHead className="text-right">Action</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {loading ? (
+                        Array.from({length: 3}).map((_, i) => (
+                            <TableRow key={i}>
+                                <TableCell><Skeleton className="h-5 w-32"/></TableCell>
+                                <TableCell><Skeleton className="h-5 w-16"/></TableCell>
+                                <TableCell><Skeleton className="h-5 w-28"/></TableCell>
+                                <TableCell><Skeleton className="h-5 w-28"/></TableCell>
+                                <TableCell><Skeleton className="h-6 w-24 rounded-full"/></TableCell>
+                                <TableCell className="text-right"><Skeleton className="h-9 w-24 ml-auto"/></TableCell>
+                            </TableRow>
+                        ))
+                    ) : contracts.length > 0 ? (
+                        contracts.map(contract => (
+                            <TableRow key={contract.id}>
+                                <TableCell className="font-medium">{contract.clientName}</TableCell>
+                                <TableCell>{contract.volumeM3} m³</TableCell>
+                                <TableCell>{format(new Date(contract.entryDate), "d MMMM yyyy", { locale: fr })}</TableCell>
+                                <TableCell>
+                                    {contract.exitDate ? format(new Date(contract.exitDate), "d MMMM yyyy", { locale: fr }) : <span className="text-muted-foreground">-</span>}
+                                </TableCell>
+                                <TableCell>
+                                    <Badge variant={getStatusVariant(contract.status)}>{contract.status}</Badge>
+                                </TableCell>
+                                <TableCell className="text-right">
+                                    {contract.status === 'Stocké' && (
+                                         <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <Button variant="outline" size="sm"><PackageCheck className="mr-2 h-4 w-4"/> Marquer comme sorti</Button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                <AlertDialogTitle>Confirmer la sortie du stock ?</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    Cette action enregistrera la date de sortie pour le lot de "{contract.clientName}" et changera son statut. Cette action est irréversible.
+                                                </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                                <AlertDialogAction onClick={() => handleMarkAsExited(contract.id)}>Confirmer la sortie</AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
+                                    )}
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={6} className="text-center h-24">
+                                <Warehouse className="mx-auto h-10 w-10 text-muted-foreground mb-2" />
+                                Aucun bien n'est actuellement en stock.
+                            </TableCell>
+                        </TableRow>
                     )}
-                </DialogContent>
-            </Dialog>
-        </div>
-    );
+                </TableBody>
+            </Table>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }
+

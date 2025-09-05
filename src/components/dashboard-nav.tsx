@@ -33,7 +33,7 @@ const mainLinks = [
   { href: "/dashboard/quotes", label: "Devis", icon: ClipboardList },
   { href: "/dashboard/teams", label: "Équipes", icon: HardHat },
   { href: "/dashboard/vehicles", label: "Flotte", icon: Truck },
-  { href: "/dashboard/storage", label: "Garde-meubles", icon: Warehouse },
+  { href: "/dashboard/storage", label: "Stockage", icon: Warehouse },
 ]
 
 const toolsLinks = [

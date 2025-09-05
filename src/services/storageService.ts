@@ -5,132 +5,74 @@ import { db, admin } from '@/lib/firebase';
 
 const { Timestamp } = admin.firestore;
 
-export type StorageUnitStatus = 'Occupé' | 'Disponible' | 'En maintenance';
+export type StorageStatus = 'Stocké' | 'Sorti';
 
-export interface StorageUnit {
+// Représente un "contrat" de stockage pour un client
+export interface StorageContract {
   id: string;
-  unitNumber: string;
-  clientName?: string;
-  status: StorageUnitStatus;
-  size: string; // e.g. "5m³"
-  startDate?: string;
-  createdAt: string;
+  clientName: string;
+  itemsDescription: string;
+  volumeM3: number;
+  entryDate: string; // ISO String
+  exitDate: string | null; // ISO String or null
+  status: StorageStatus;
+  createdAt: string; // ISO String
 }
 
-export interface StorageUnitFormData {
-  unitNumber: string;
-  size: string;
+// Données venant du formulaire pour créer un nouveau contrat
+export interface StorageContractFormData {
+  clientName: string;
+  itemsDescription: string;
+  volumeM3: number;
+  entryDate: string; // ISO String
 }
 
-export type MovementType = 'Entrée' | 'Sortie';
-
-export interface Movement {
-    id: string;
-    type: MovementType;
-    date: string;
-    itemsDescription: string;
-    notes?: string;
-}
-
-export interface MovementFormData {
-    unitId: string;
-    type: MovementType;
-    itemsDescription: string;
-    notes?: string;
-}
-
-
-export async function createStorageUnit(formData: StorageUnitFormData): Promise<{ id: string }> {
+export async function createStorageContract(formData: StorageContractFormData): Promise<{ id: string }> {
     try {
-        const newUnitRef = db.collection('storage_units').doc();
-        const newUnitData = {
+        const newContractRef = db.collection('storage_contracts').doc();
+        const newContractData = {
             ...formData,
-            status: 'Disponible' as StorageUnitStatus,
-            clientName: null,
-            startDate: null,
+            entryDate: Timestamp.fromDate(new Date(formData.entryDate)),
+            exitDate: null,
+            status: 'Stocké' as StorageStatus,
             createdAt: Timestamp.now(),
         };
-        await newUnitRef.set(newUnitData);
-        return { id: newUnitRef.id };
+        await newContractRef.set(newContractData);
+        return { id: newContractRef.id };
     } catch (error) {
-        console.error("Error creating storage unit:", error);
-        throw new Error("Failed to create storage unit.");
+        console.error("Error creating storage contract:", error);
+        throw new Error("Failed to create storage contract.");
     }
 }
 
-export async function getStorageUnits(): Promise<StorageUnit[]> {
+export async function getStorageContracts(): Promise<StorageContract[]> {
     try {
-        const snapshot = await db.collection('storage_units').orderBy('unitNumber', 'asc').get();
+        const snapshot = await db.collection('storage_contracts').orderBy('entryDate', 'desc').get();
         return snapshot.docs.map(doc => {
             const data = doc.data();
             return {
                 id: doc.id,
                 ...data,
-                startDate: data.startDate ? (data.startDate as admin.firestore.Timestamp).toDate().toISOString() : undefined,
+                entryDate: (data.entryDate as admin.firestore.Timestamp).toDate().toISOString(),
+                exitDate: data.exitDate ? (data.exitDate as admin.firestore.Timestamp).toDate().toISOString() : null,
                 createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(),
-            } as StorageUnit;
+            } as StorageContract;
         });
     } catch (error) {
-        console.error("Error fetching storage units:", error);
-        throw new Error("Failed to fetch storage units.");
+        console.error("Error fetching storage contracts:", error);
+        throw new Error("Failed to fetch storage contracts.");
     }
 }
 
-export async function addMovement(formData: MovementFormData): Promise<{ id: string }> {
+export async function markContractAsExited(contractId: string): Promise<void> {
     try {
-        const unitRef = db.collection('storage_units').doc(formData.unitId);
-        const movementRef = unitRef.collection('movements').doc();
-
-        const newMovementData = {
-            type: formData.type,
-            itemsDescription: formData.itemsDescription,
-            notes: formData.notes || null,
-            date: Timestamp.now(),
-        };
-
-        await movementRef.set(newMovementData);
-        return { id: movementRef.id };
-    } catch (error) {
-        console.error("Error adding movement:", error);
-        throw new Error("Failed to add movement.");
-    }
-}
-
-export async function getUnitMovements(unitId: string): Promise<Movement[]> {
-    try {
-        const movementsRef = db.collection('storage_units').doc(unitId).collection('movements');
-        const snapshot = await movementsRef.orderBy('date', 'desc').get();
-
-        return snapshot.docs.map(doc => {
-            const data = doc.data();
-            return {
-                id: doc.id,
-                ...data,
-                date: (data.date as admin.firestore.Timestamp).toDate().toISOString(),
-            } as Movement;
+        const contractRef = db.collection('storage_contracts').doc(contractId);
+        await contractRef.update({
+            status: 'Sorti',
+            exitDate: Timestamp.now(),
         });
-
     } catch (error) {
-        console.error("Error fetching movements:", error);
-        throw new Error("Failed to fetch movements for unit.");
-    }
-}
-
-export async function getStorageUnitById(unitId: string): Promise<StorageUnit | null> {
-    try {
-        const doc = await db.collection('storage_units').doc(unitId).get();
-        if (!doc.exists) return null;
-        
-        const data = doc.data()!;
-        return {
-            id: doc.id,
-            ...data,
-            startDate: data.startDate ? (data.startDate as admin.firestore.Timestamp).toDate().toISOString() : undefined,
-            createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(),
-        } as StorageUnit;
-
-    } catch (error) {
-         console.error("Error fetching unit by id:", error);
-        throw new Error("Failed to fetch unit details.");
+        console.error("Error marking contract as exited:", error);
+        throw new Error("Failed to update contract status.");
     }
 }
