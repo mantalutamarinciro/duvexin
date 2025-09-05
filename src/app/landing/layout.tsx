@@ -8,7 +8,7 @@ export default function LandingLayout({ children }: PropsWithChildren) {
     return (
         <div className="min-h-svh flex flex-col bg-background">
             <div className="bg-primary text-primary-foreground">
-                <div className="container h-10 flex items-center justify-center sm:justify-end">
+                <div className="container h-10 flex items-center justify-center">
                      <a href="tel:+33130751235" className="flex items-center gap-2 text-sm font-medium hover:opacity-90 transition-opacity">
                         <Phone className="h-4 w-4" />
                         <span>Appelez-nous maintenant (+33)1 30 75 12 35</span>
