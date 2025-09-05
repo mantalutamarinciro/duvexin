@@ -34,12 +34,12 @@ const eventTypeDetails: Record<PlanningEvent['type'], { label: string; color: st
     move: {
       label: "Déménagement",
       color: "bg-blue-500 hover:bg-blue-600",
-      linkPrefix: "/dashboard/bookings" // Assuming a booking detail page could exist
+      linkPrefix: "/dashboard/bookings"
     },
     commercial: {
       label: "Commercial",
       color: "bg-amber-500 hover:bg-amber-600",
-      linkPrefix: "/dashboard/quotes" // Assuming a quote detail page could exist
+      linkPrefix: "/dashboard/quotes" // This can be updated for visits
     },
 };
 
@@ -73,6 +73,16 @@ export function CalendarView({ events }: { events: PlanningEvent[] }) {
 
   const closeDialog = () => {
     setSelectedEvent(null);
+  }
+
+  const getEventLink = (event: PlanningEvent) => {
+    if (event.id.startsWith('visit-')) {
+      return '/dashboard/visits';
+    }
+    if (event.type === 'move') {
+      return '/dashboard/bookings';
+    }
+    return '/dashboard/quotes';
   }
 
   return (
@@ -118,7 +128,8 @@ export function CalendarView({ events }: { events: PlanningEvent[] }) {
                      key={event.id}
                      className={cn(
                        "p-1.5 rounded-md text-white text-xs cursor-pointer truncate",
-                       eventTypeDetails[event.type].color
+                       eventTypeDetails[event.type].color,
+                       event.id.startsWith('visit-') && 'bg-green-500 hover:bg-green-600'
                      )}
                      title={event.title}
                      onClick={() => handleEventClick(event)}
@@ -143,20 +154,26 @@ export function CalendarView({ events }: { events: PlanningEvent[] }) {
             {selectedEvent && (
                 <div className="space-y-4 py-2">
                     <div className="flex items-center gap-4">
-                        <span className={cn("p-1 rounded-full", eventTypeDetails[selectedEvent.type].color)}></span>
+                        <span className={cn("p-1 rounded-full", eventTypeDetails[selectedEvent.type].color, selectedEvent.id.startsWith('visit-') && 'bg-green-500')}></span>
                         <h3 className="font-bold text-lg">{selectedEvent.title}</h3>
                     </div>
                      <p className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Info className="h-4 w-4"/>
-                        Type : {eventTypeDetails[selectedEvent.type].label}
+                        Type : {selectedEvent.id.startsWith('visit-') ? 'Visite' : eventTypeDetails[selectedEvent.type].label}
                     </p>
                     <p className="flex items-center gap-2 text-sm text-muted-foreground">
                         <CalendarIcon className="h-4 w-4"/>
-                        Date : {format(new Date(selectedEvent.date), "EEEE d MMMM yyyy", { locale: fr })}
+                        Date : {format(new Date(selectedEvent.date), "EEEE d MMMM yyyy 'à' HH:mm", { locale: fr })}
                     </p>
-                    <Button asChild className="w-full">
-                        <Link href={eventTypeDetails[selectedEvent.type].linkPrefix}>
-                            Voir dans {selectedEvent.type === 'move' ? 'Réservations' : 'Devis'}
+                    {selectedEvent.details && (
+                         <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <Info className="h-4 w-4"/>
+                            Détails : {selectedEvent.details}
+                        </p>
+                    )}
+                    <Button asChild className="w-full" onClick={() => setSelectedEvent(null)}>
+                        <Link href={getEventLink(selectedEvent)}>
+                            Voir dans {selectedEvent.id.startsWith('visit-') ? 'Visites' : (selectedEvent.type === 'move' ? 'Réservations' : 'Devis')}
                         </Link>
                     </Button>
                 </div>
