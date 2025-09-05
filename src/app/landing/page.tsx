@@ -6,6 +6,7 @@ import { Truck, Package, ShieldCheck, Star, Map, Globe, Building, Paintbrush, Ch
 import Image from "next/image";
 import Link from "next/link";
 import { ContactForm } from "./contact-form";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 const services = [
     {
@@ -172,24 +173,36 @@ export default function LandingPage() {
                         <h2 className="text-3xl font-bold">Nos clients nous recommandent</h2>
                          <p className="mt-4 text-muted-foreground text-lg">La satisfaction de nos clients est notre meilleure publicité. Voici ce qu'ils disent de nous.</p>
                     </div>
-                    <div className="mt-12 grid lg:grid-cols-2 gap-8">
-                        {testimonials.map((testimonial, i) => (
-                             <Card key={i} className="p-6 flex flex-col sm:flex-row gap-6">
-                                <Avatar className="h-12 w-12 hidden sm:block">
-                                    <AvatarImage src={`https://i.pravatar.cc/48?u=${testimonial.name}`} alt={testimonial.name} />
-                                    <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                                <div className="flex-1">
-                                    <div className="flex items-center gap-1 text-amber-400 mb-2">
-                                    <Star size={16} fill="currentColor"/> <Star size={16} fill="currentColor"/> <Star size={16} fill="currentColor"/> <Star size={16} fill="currentColor"/> <Star size={16} fill="currentColor"/>
-                                    </div>
-                                    <p className="italic text-muted-foreground">"{testimonial.text}"</p>
-                                    <p className="mt-4 font-semibold text-sm">{testimonial.name}</p>
-                                    <p className="text-xs text-muted-foreground">{testimonial.time}</p>
-                                </div>
-                            </Card>
-                        ))}
-                    </div>
+                     <Carousel
+                        opts={{
+                            align: "start",
+                            loop: true,
+                        }}
+                        className="w-full max-w-4xl mx-auto mt-12"
+                        >
+                        <CarouselContent>
+                            {testimonials.map((testimonial, i) => (
+                                <CarouselItem key={i} className="md:basis-1/2">
+                                     <Card className="h-full p-6 flex flex-col sm:flex-row gap-6">
+                                        <Avatar className="h-12 w-12 hidden sm:block">
+                                            <AvatarImage src={`https://i.pravatar.cc/48?u=${testimonial.name}`} alt={testimonial.name} />
+                                            <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+                                        </Avatar>
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-1 text-amber-400 mb-2">
+                                            <Star size={16} fill="currentColor"/> <Star size={16} fill="currentColor"/> <Star size={16} fill="currentColor"/> <Star size={16} fill="currentColor"/> <Star size={16} fill="currentColor"/>
+                                            </div>
+                                            <p className="italic text-muted-foreground">"{testimonial.text}"</p>
+                                            <p className="mt-4 font-semibold text-sm">{testimonial.name}</p>
+                                            <p className="text-xs text-muted-foreground">{testimonial.time}</p>
+                                        </div>
+                                    </Card>
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                        <CarouselPrevious />
+                        <CarouselNext />
+                    </Carousel>
                     <div className="text-center mt-12">
                         <Button variant="outline" asChild>
                             <Link href="https://g.page/r/your-google-page-id" target="_blank">Voir tous nos avis sur Google</Link>
