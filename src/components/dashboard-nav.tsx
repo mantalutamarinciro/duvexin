@@ -30,10 +30,11 @@ const mainLinks = [
   { href: "/dashboard/bookings", label: "Réservations", icon: Package },
   { href: "/dashboard/quotes", label: "Devis", icon: ClipboardList },
   { href: "/dashboard/teams", label: "Équipes", icon: HardHat },
+  { href: "/dashboard/vehicles", label: "Flotte", icon: Truck },
 ]
 
 const toolsLinks = [
-    { href: "/dashboard/quote", label: "Éditeur de devis", icon: Truck },
+    { href: "/dashboard/quote", label: "Éditeur de devis", icon: FileText },
     { href: "/dashboard/inventory", label: "Inventaire IA", icon: Wand2 },
     { href: "/dashboard/communication", label: "Communication", icon: Mail },
 ]
