@@ -15,11 +15,12 @@ import {
   isSameDay,
 } from "date-fns";
 import { fr } from "date-fns/locale";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, Calendar as CalendarIcon, Info } from "lucide-react";
 import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
 import { PlanningEvent } from "@/services/planningService";
 import { cn } from "@/lib/utils";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./ui/dialog";
+import Link from "next/link";
 
 const weekDays = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
 
@@ -29,13 +30,23 @@ const getDayWithOffset = (day: Date) => {
     return dayIndex === 0 ? 6 : dayIndex - 1;
 };
 
-const eventColors: Record<PlanningEvent['type'], string> = {
-    move: "bg-blue-500 hover:bg-blue-600",
-    commercial: "bg-amber-500 hover:bg-amber-600",
+const eventTypeDetails: Record<PlanningEvent['type'], { label: string; color: string; linkPrefix: string; }> = {
+    move: {
+      label: "Déménagement",
+      color: "bg-blue-500 hover:bg-blue-600",
+      linkPrefix: "/dashboard/bookings" // Assuming a booking detail page could exist
+    },
+    commercial: {
+      label: "Commercial",
+      color: "bg-amber-500 hover:bg-amber-600",
+      linkPrefix: "/dashboard/quotes" // Assuming a quote detail page could exist
+    },
 };
+
 
 export function CalendarView({ events }: { events: PlanningEvent[] }) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedEvent, setSelectedEvent] = useState<PlanningEvent | null>(null);
 
   const firstDayOfMonth = startOfMonth(currentMonth);
   const lastDayOfMonth = endOfMonth(currentMonth);
@@ -55,14 +66,23 @@ export function CalendarView({ events }: { events: PlanningEvent[] }) {
       .filter(event => isSameDay(new Date(event.date), day))
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   };
+  
+  const handleEventClick = (event: PlanningEvent) => {
+      setSelectedEvent(event);
+  }
+
+  const closeDialog = () => {
+    setSelectedEvent(null);
+  }
 
   return (
+    <>
     <div className="bg-card border rounded-lg p-4">
       <div className="flex justify-between items-center mb-4">
         <Button variant="outline" size="icon" onClick={prevMonth}>
           <ChevronLeft className="h-4 w-4" />
         </Button>
-        <h2 className="text-xl font-bold">
+        <h2 className="text-xl font-bold capitalize">
           {format(currentMonth, "MMMM yyyy", { locale: fr })}
         </h2>
         <Button variant="outline" size="icon" onClick={nextMonth}>
@@ -98,9 +118,10 @@ export function CalendarView({ events }: { events: PlanningEvent[] }) {
                      key={event.id}
                      className={cn(
                        "p-1.5 rounded-md text-white text-xs cursor-pointer truncate",
-                       eventColors[event.type]
+                       eventTypeDetails[event.type].color
                      )}
                      title={event.title}
+                     onClick={() => handleEventClick(event)}
                    >
                      {event.title}
                    </div>
@@ -111,5 +132,37 @@ export function CalendarView({ events }: { events: PlanningEvent[] }) {
         })}
       </div>
     </div>
+     <Dialog open={!!selectedEvent} onOpenChange={(isOpen) => !isOpen && closeDialog()}>
+        <DialogContent>
+            <DialogHeader>
+                <DialogTitle>Détails de l'événement</DialogTitle>
+                <DialogDescription>
+                    Informations sur l'événement sélectionné.
+                </DialogDescription>
+            </DialogHeader>
+            {selectedEvent && (
+                <div className="space-y-4 py-2">
+                    <div className="flex items-center gap-4">
+                        <span className={cn("p-1 rounded-full", eventTypeDetails[selectedEvent.type].color)}></span>
+                        <h3 className="font-bold text-lg">{selectedEvent.title}</h3>
+                    </div>
+                     <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Info className="h-4 w-4"/>
+                        Type : {eventTypeDetails[selectedEvent.type].label}
+                    </p>
+                    <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <CalendarIcon className="h-4 w-4"/>
+                        Date : {format(new Date(selectedEvent.date), "EEEE d MMMM yyyy", { locale: fr })}
+                    </p>
+                    <Button asChild className="w-full">
+                        <Link href={eventTypeDetails[selectedEvent.type].linkPrefix}>
+                            Voir dans {selectedEvent.type === 'move' ? 'Réservations' : 'Devis'}
+                        </Link>
+                    </Button>
+                </div>
+            )}
+        </DialogContent>
+    </Dialog>
+    </>
   );
 }
