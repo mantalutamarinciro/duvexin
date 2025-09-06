@@ -46,10 +46,16 @@ const services: { title: string; href: string; description: string, icon: React.
     description: "Solutions de stockage sécurisées pour courtes ou longues durées.",
     icon: <Warehouse className="h-6 w-6"/>
   },
-  {
-    title: "Objets Lourds & d'Art",
+   {
+    title: "Transport d'Objets Lourds",
     href: "/demenagement-objets-lourds",
     description: "Transport spécialisé de pianos, coffres-forts et œuvres d'art.",
+    icon: <Package className="h-6 w-6"/>
+  },
+  {
+    title: "Déménagement d'Œuvres d'Art",
+    href: "/demenagement-oeuvres-art",
+    description: "Un savoir-faire unique pour le transport de vos objets les plus précieux.",
     icon: <Paintbrush className="h-6 w-6"/>
   },
 ]
@@ -62,11 +68,9 @@ export function MainNav() {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <Link href="/landing" legacyBehavior passHref>
-                        <NavigationMenuLink active={pathname === '/landing'} className={navigationMenuTriggerStyle()}>
-                            Accueil
-                        </NavigationMenuLink>
-                    </Link>
+                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()} active={pathname === '/landing'}>
+                        <Link href="/landing">Accueil</Link>
+                    </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>À propos</NavigationMenuTrigger>
@@ -98,23 +102,21 @@ export function MainNav() {
                             </ListItem>
                         ))}
                          <li className="md:col-span-2">
-                            <Link href="/services" legacyBehavior passHref>
-                                <NavigationMenuLink className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
+                            <NavigationMenuLink asChild>
+                                <Link href="/services" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
                                     <div className="text-sm font-medium">
                                         Voir tous nos services
                                     </div>
-                                </NavigationMenuLink>
-                            </Link>
+                                </Link>
+                            </NavigationMenuLink>
                         </li>
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <Link href="/landing#contact" legacyBehavior passHref>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                            Contact
-                        </NavigationMenuLink>
-                    </Link>
+                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                        <Link href="/landing#contact">Contact</Link>
+                    </NavigationMenuLink>
                 </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
