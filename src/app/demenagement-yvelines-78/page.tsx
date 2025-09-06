@@ -22,7 +22,7 @@ const yvelinesCities = [
     { name: "Poissy", link: "/demenagement-poissy-78300" },
     { name: "Sartrouville", link: "/demenagement-sartrouville-78500" },
     { name: "Mantes-la-Jolie", link: "/demenagement-mantes-la-jolie-78200" },
-    { name: "Conflans-Sainte-Honorine", link: "#" },
+    { name: "Conflans-Sainte-Honorine", link: "/demenagement-conflans-sainte-honorine-78700" },
     { name: "Plaisir", link: "#" },
     { name: "Le Chesnay-Rocquencourt", link: "#" },
     { name: "Vélizy-Villacoublay", link: "#" },
