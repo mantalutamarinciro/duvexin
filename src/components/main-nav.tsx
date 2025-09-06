@@ -55,11 +55,9 @@ export function MainNav() {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <Link href="/landing" passHref>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                            Accueil
-                        </NavigationMenuLink>
-                    </Link>
+                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                      <Link href="/landing">Accueil</Link>
+                    </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>À propos</NavigationMenuTrigger>
@@ -94,11 +92,9 @@ export function MainNav() {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                     <Link href="/landing#contact" passHref>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                            Contact
-                        </NavigationMenuLink>
-                    </Link>
+                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                      <Link href="/landing#contact">Contact</Link>
+                    </NavigationMenuLink>
                 </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
