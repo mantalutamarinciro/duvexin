@@ -21,7 +21,7 @@ export default async function TrackingPage({ params }: { params: { id: string } 
 
   if (!moveDetails) {
     return (
-       <div className="flex min-h-screen w-full flex-col items-center justify-center bg-muted/40 p-4 sm:p-8">
+       <div className="flex min-h-[80vh] w-full flex-col items-center justify-center bg-muted/40 p-4 sm:p-8">
             <div className="w-full max-w-md text-center">
                  <AlertTriangle className="mx-auto h-16 w-16 text-destructive" />
                 <h1 className="mt-4 font-headline text-3xl font-bold">Déménagement non trouvé</h1>
@@ -38,11 +38,11 @@ export default async function TrackingPage({ params }: { params: { id: string } 
   const currentStatusIndex = statusSteps.findIndex(s => s.status === moveDetails.status);
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-center bg-muted/40 p-4 sm:p-8">
+    <div className="flex min-h-[80vh] w-full flex-col items-center bg-muted/40 p-4 sm:p-8">
       <div className="w-full max-w-4xl space-y-8 py-8">
         <header className="flex flex-col items-center text-center">
-            <h1 className="font-headline text-4xl font-bold text-primary">DemDuVexin</h1>
-            <p className="text-lg text-muted-foreground">Suivi de déménagement pour {moveDetails.clientName}</p>
+            <h1 className="font-headline text-4xl font-bold">Suivi de votre déménagement</h1>
+            <p className="text-lg text-muted-foreground">Progression pour {moveDetails.clientName}</p>
         </header>
 
         <Card className="shadow-lg">
