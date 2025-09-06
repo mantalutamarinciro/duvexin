@@ -1,3 +1,4 @@
+
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Phone, MapPin, Mail } from "lucide-react";
@@ -19,8 +20,8 @@ export default function LandingLayout({ children }: PropsWithChildren) {
                 <div className="container h-16 flex items-center justify-between">
                     <Logo />
                     <nav className="hidden lg:flex items-center gap-2">
-                        <Button variant="ghost" asChild><Link href="/">Accueil</Link></Button>
-                        <Button variant="ghost" asChild><Link href="#about">A propos</Link></Button>
+                        <Button variant="ghost" asChild><Link href="/landing">Accueil</Link></Button>
+                        <Button variant="ghost" asChild><Link href="/a-propos-de-demenagement-du-vexin">A propos</Link></Button>
                         <Button variant="ghost" asChild><Link href="#services">Services</Link></Button>
                         <Button variant="ghost" asChild><Link href="#contact">Contact</Link></Button>
                     </nav>
@@ -59,8 +60,8 @@ export default function LandingLayout({ children }: PropsWithChildren) {
                    <div className="md:col-span-1">
                         <h4 className="font-semibold mb-2">Navigation</h4>
                         <div className="flex flex-col space-y-1 text-sm text-muted-foreground">
-                           <Link href="/" className="hover:text-primary">Accueil</Link>
-                           <Link href="#about" className="hover:text-primary">A propos</Link>
+                           <Link href="/landing" className="hover:text-primary">Accueil</Link>
+                           <Link href="/a-propos-de-demenagement-du-vexin" className="hover:text-primary">A propos</Link>
                            <Link href="#services" className="hover:text-primary">Services</Link>
                            <Link href="#contact" className="hover:text-primary">Contact</Link>
                            <Link href="/dashboard/quote" className="hover:text-primary">Devis</Link>

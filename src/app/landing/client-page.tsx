@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useRef } from "react";
@@ -166,7 +167,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                             Basée dans le Val-d’Oise (95), notre entreprise familiale de déménagement intervient également dans l’Oise (60), l’Eure (27), les Yvelines (78), Paris (75) et les Hauts-de-Seine (92). Que vous soyez un particulier ou une entreprise, nous vous accompagnons dans tous vos projets de déménagement, en Île-de-France, partout en France et même à l’international.
                          </p>
                          <Button asChild className="mt-6">
-                            <Link href="#contact">Contactez-nous pour en savoir plus</Link>
+                            <Link href="/a-propos-de-demenagement-du-vexin">En savoir plus sur nous</Link>
                          </Button>
                     </div>
                     <div className="order-1 lg:order-2">
@@ -235,6 +236,9 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                             <li className="flex items-center gap-3"><MapPin className="h-5 w-5 text-primary"/><span>Eure (27)</span></li>
                             <li className="flex items-center gap-3"><MapPin className="h-5 w-5 text-primary"/><span>Yvelines (78) et Paris (75)</span></li>
                          </ul>
+                         <Button asChild className="mt-6" variant="outline">
+                            <Link href="/demenagement-du-vexin-evreux">Découvrir notre agence d'Évreux</Link>
+                         </Button>
                     </div>
                     <div>
                         <Image
