@@ -9,6 +9,8 @@ import {
   Map,
   Paintbrush,
   Warehouse,
+  Home,
+  BriefcaseBusiness,
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -25,15 +27,15 @@ import {
 const services: { title: string; href: string; description: string, icon: React.ReactNode }[] = [
   {
     title: "Déménagement de Particuliers",
-    href: "/services",
+    href: "/demenagement-particuliers",
     description: "Solutions locales, nationales et internationales pour votre résidence.",
-    icon: <Map className="h-6 w-6"/>
+    icon: <Home className="h-6 w-6"/>
   },
   {
     title: "Déménagement d'Entreprise",
     href: "/demenagement-entreprise-bureau",
     description: "Transfert de bureaux, archives et matériel professionnel.",
-    icon: <Building className="h-6 w-6"/>
+    icon: <BriefcaseBusiness className="h-6 w-6"/>
   },
   {
     title: "Garde-Meubles & Stockage",
@@ -55,9 +57,11 @@ export function MainNav() {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                      <Link href="/landing">Accueil</Link>
-                    </NavigationMenuLink>
+                    <Link href="/landing" passHref>
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                            Accueil
+                        </NavigationMenuLink>
+                    </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>À propos</NavigationMenuTrigger>
@@ -83,7 +87,7 @@ export function MainNav() {
                             href={service.href}
                             >
                                 <div className="flex items-start gap-3">
-                                    {service.icon}
+                                    <div className="text-primary">{service.icon}</div>
                                     <p className="text-muted-foreground text-sm">{service.description}</p>
                                 </div>
                             </ListItem>
@@ -92,9 +96,11 @@ export function MainNav() {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                      <Link href="/landing#contact">Contact</Link>
-                    </NavigationMenuLink>
+                    <Link href="/landing#contact" passHref>
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                            Contact
+                        </NavigationMenuLink>
+                    </Link>
                 </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
