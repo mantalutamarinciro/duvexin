@@ -22,7 +22,7 @@ const ileDeFranceDepartments = [
     { name: "Seine-Saint-Denis (93)", description: "De Montreuil à Saint-Denis, nous sommes à vos côtés.", link: "#" },
     { name: "Val-de-Marne (94)", description: "Nous intervenons dans tout le Val-de-Marne pour vos projets.", link: "/demenagement-val-de-marne-94" },
     { name: "Essonne (91)", description: "Une couverture complète du nord au sud du département.", link: "#" },
-    { name: "Seine-et-Marne (77)", description: "Même dans le plus grand département d'IDF, nous sommes là pour vous.", link: "#" },
+    { name: "Seine-et-Marne (77)", description: "Même dans le plus grand département d'IDF, nous sommes là pour vous.", link: "/demenagement-seine-et-marne-77" },
 ];
 
 const normandieDepartments = [
