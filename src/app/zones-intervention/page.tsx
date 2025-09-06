@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, MapPin } from "lucide-react";
+import { CheckCircle, MapPin, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { TestimonialsSection } from "@/components/testimonials-section";
@@ -15,22 +15,22 @@ const fallbackTestimonials: FormattedReview[] = [
 ];
 
 const ileDeFranceDepartments = [
-    { name: "Val-d'Oise (95)", description: "Notre siège et notre cœur d'activité, nous couvrons l'ensemble du département." },
-    { name: "Yvelines (78)", description: "Versailles, Saint-Germain-en-Laye... Nous connaissons parfaitement le secteur." },
-    { name: "Hauts-de-Seine (92)", description: "Nous maîtrisons les spécificités des déménagements dans ce département dense." },
-    { name: "Paris (75)", description: "Experts des déménagements parisiens, des accès difficiles aux autorisations de stationnement." },
-    { name: "Seine-Saint-Denis (93)", description: "De Montreuil à Saint-Denis, nous sommes à vos côtés." },
-    { name: "Val-de-Marne (94)", description: "Nous intervenons dans tout le Val-de-Marne pour vos projets." },
-    { name: "Essonne (91)", description: "Une couverture complète du nord au sud du département." },
-    { name: "Seine-et-Marne (77)", description: "Même dans le plus grand département d'IDF, nous sommes là pour vous." },
+    { name: "Val-d'Oise (95)", description: "Notre siège et notre cœur d'activité, nous couvrons l'ensemble du département.", link: "#" },
+    { name: "Yvelines (78)", description: "Versailles, Saint-Germain-en-Laye... Nous connaissons parfaitement le secteur.", link: "/demenagement-yvelines-78" },
+    { name: "Hauts-de-Seine (92)", description: "Nous maîtrisons les spécificités des déménagements dans ce département dense.", link: "#" },
+    { name: "Paris (75)", description: "Experts des déménagements parisiens, des accès difficiles aux autorisations de stationnement.", link: "#" },
+    { name: "Seine-Saint-Denis (93)", description: "De Montreuil à Saint-Denis, nous sommes à vos côtés.", link: "#" },
+    { name: "Val-de-Marne (94)", description: "Nous intervenons dans tout le Val-de-Marne pour vos projets.", link: "#" },
+    { name: "Essonne (91)", description: "Une couverture complète du nord au sud du département.", link: "#" },
+    { name: "Seine-et-Marne (77)", description: "Même dans le plus grand département d'IDF, nous sommes là pour vous.", link: "#" },
 ];
 
 const normandieDepartments = [
-    { name: "Eure (27)", description: "Avec notre agence à Évreux, nous sommes au plus proche de vous." },
-    { name: "Seine-Maritime (76)", description: "De Rouen au Havre, nous assurons vos déménagements." },
-    { name: "Calvados (14)", description: "Nous vous accompagnons pour vos projets à Caen et sur la côte." },
-    { name: "Orne (61)", description: "Une présence régulière pour vos déménagements dans l'Orne." },
-    { name: "Manche (50)", description: "Nous couvrons également le département de la Manche." },
+    { name: "Eure (27)", description: "Avec notre agence à Évreux, nous sommes au plus proche de vous.", link: "/demenagement-du-vexin-evreux" },
+    { name: "Seine-Maritime (76)", description: "De Rouen au Havre, nous assurons vos déménagements.", link: "#" },
+    { name: "Calvados (14)", description: "Nous vous accompagnons pour vos projets à Caen et sur la côte.", link: "#" },
+    { name: "Orne (61)", description: "Une présence régulière pour vos déménagements dans l'Orne.", link: "#" },
+    { name: "Manche (50)", description: "Nous couvrons également le département de la Manche.", link: "#" },
 ];
 
 export default function InterventionZonePage() {
@@ -92,13 +92,20 @@ export default function InterventionZonePage() {
                     </div>
                     <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {ileDeFranceDepartments.map(dept => (
-                            <Card key={dept.name}>
+                            <Card key={dept.name} className="flex flex-col">
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2"><MapPin className="h-5 w-5 text-primary"/>{dept.name}</CardTitle>
                                 </CardHeader>
-                                <CardContent>
+                                <CardContent className="flex-grow">
                                     <p className="text-muted-foreground text-sm">{dept.description}</p>
                                 </CardContent>
+                                <div className="p-6 pt-0">
+                                     <Button variant="link" className="p-0 text-primary" asChild>
+                                        <Link href={dept.link}>
+                                            En savoir plus <ArrowRight className="ml-2 h-4 w-4"/>
+                                        </Link>
+                                    </Button>
+                                </div>
                             </Card>
                         ))}
                     </div>
@@ -117,13 +124,20 @@ export default function InterventionZonePage() {
                     </div>
                     <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {normandieDepartments.map(dept => (
-                            <Card key={dept.name}>
+                            <Card key={dept.name} className="flex flex-col">
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2"><MapPin className="h-5 w-5 text-primary"/>{dept.name}</CardTitle>
                                 </CardHeader>
-                                <CardContent>
+                                <CardContent className="flex-grow">
                                     <p className="text-muted-foreground text-sm">{dept.description}</p>
                                 </CardContent>
+                                <div className="p-6 pt-0">
+                                     <Button variant="link" className="p-0 text-primary" asChild>
+                                        <Link href={dept.link}>
+                                            En savoir plus <ArrowRight className="ml-2 h-4 w-4"/>
+                                        </Link>
+                                    </Button>
+                                </div>
                             </Card>
                         ))}
                     </div>
