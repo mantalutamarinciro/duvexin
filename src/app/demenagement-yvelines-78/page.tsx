@@ -18,7 +18,7 @@ const fallbackTestimonials: FormattedReview[] = [
 const yvelinesCities = [
     { name: "Versailles", link: "/demenagement-versailles-78000" },
     { name: "Saint-Germain-en-Laye", link: "/demenagement-saint-germain-en-laye-78100" },
-    { name: "Rambouillet", link: "#" },
+    { name: "Rambouillet", link: "/demenagement-rambouillet-78120" },
     { name: "Poissy", link: "#" },
     { name: "Sartrouville", link: "#" },
     { name: "Mantes-la-Jolie", link: "#" },
