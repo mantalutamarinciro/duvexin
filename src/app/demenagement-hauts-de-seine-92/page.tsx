@@ -19,7 +19,7 @@ const hautsDeSeineCities = [
     { name: "Boulogne-Billancourt", link: "/demenagement-boulogne-billancourt-92100"},
     { name: "Nanterre", link: "/demenagement-nanterre-92000"},
     { name: "Courbevoie", link: "/demenagement-courbevoie-92400"},
-    { name: "Colombes", link: "#"},
+    { name: "Colombes", link: "/demenagement-colombes-92700"},
     { name: "Asnières-sur-Seine", link: "#"},
     { name: "Rueil-Malmaison", link: "#"},
     { name: "Levallois-Perret", link: "#"},
