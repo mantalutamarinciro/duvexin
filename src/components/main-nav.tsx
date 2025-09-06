@@ -68,11 +68,11 @@ export function MainNav() {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <NavigationMenuLink asChild active={pathname === '/landing'} className={navigationMenuTriggerStyle()}>
-                        <Link href="/landing">
+                    <Link href="/landing" legacyBehavior passHref>
+                        <NavigationMenuLink active={pathname === '/landing' || pathname === '/'} className={navigationMenuTriggerStyle()}>
                             Accueil
-                        </Link>
-                    </NavigationMenuLink>
+                        </NavigationMenuLink>
+                    </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>À propos</NavigationMenuTrigger>
@@ -80,9 +80,6 @@ export function MainNav() {
                         <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px]">
                             <ListItem href="/a-propos-de-demenagement-du-vexin" title="Notre Entreprise">
                                 Découvrez l'histoire et les valeurs de notre entreprise familiale.
-                            </ListItem>
-                             <ListItem href="/zones-intervention" title="Zones d'intervention">
-                                Voir nos zones de service en Île-de-France et Normandie.
                             </ListItem>
                             <ListItem href="/demenagement-du-vexin-evreux" title="Agence d'Évreux">
                                 Notre antenne locale pour tous vos besoins en Normandie.
@@ -118,12 +115,19 @@ export function MainNav() {
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
+                 <NavigationMenuItem>
+                    <Link href="/zones-intervention" legacyBehavior passHref>
+                        <NavigationMenuLink active={pathname === '/zones-intervention'} className={navigationMenuTriggerStyle()}>
+                            Zones d'intervention
+                        </NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
                 <NavigationMenuItem>
-                     <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                        <Link href="/landing#contact">
+                     <Link href="/landing#contact" legacyBehavior passHref>
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                             Contact
-                        </Link>
-                    </NavigationMenuLink>
+                        </NavigationMenuLink>
+                    </Link>
                 </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
