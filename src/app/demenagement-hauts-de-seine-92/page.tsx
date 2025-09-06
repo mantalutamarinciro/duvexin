@@ -23,7 +23,7 @@ const hautsDeSeineCities = [
     { name: "Asnières-sur-Seine", link: "/demenagement-asnieres-sur-seine-92600"},
     { name: "Rueil-Malmaison", link: "/demenagement-rueil-malmaison-92500"},
     { name: "Levallois-Perret", link: "/demenagement-levallois-perret-92300"},
-    { name: "Issy-les-Moulineaux", link: "#"},
+    { name: "Issy-les-Moulineaux", link: "/demenagement-issy-les-moulineaux-92130"},
     { name: "Neuilly-sur-Seine", link: "#"},
     { name: "Antony", link: "#"},
     { name: "Clichy", link: "#"},
