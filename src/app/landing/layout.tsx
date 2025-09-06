@@ -43,7 +43,22 @@ export default function LandingLayout({ children }: PropsWithChildren) {
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
-                        <Button variant="ghost" asChild><Link href="/services">Services</Link></Button>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost">
+                                    Services
+                                    <ChevronDown className="relative top-[1px] ml-1 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuItem asChild>
+                                    <Link href="/services">Tous nos services</Link>
+                                </DropdownMenuItem>
+                                 <DropdownMenuItem asChild>
+                                    <Link href="/demenagement-entreprise-bureau">Déménagement d'entreprise</Link>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                         <Button variant="ghost" asChild><Link href="/landing#contact">Contact</Link></Button>
                     </nav>
                      <Button asChild>
