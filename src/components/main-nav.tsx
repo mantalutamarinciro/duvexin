@@ -3,6 +3,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import {
   Building,
   Globe,
@@ -11,6 +12,8 @@ import {
   Warehouse,
   Home,
   BriefcaseBusiness,
+  Truck,
+  Package,
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -39,26 +42,28 @@ const services: { title: string; href: string; description: string, icon: React.
   },
   {
     title: "Garde-Meubles & Stockage",
-    href: "/services",
+    href: "/demenagement-garde-meubles",
     description: "Solutions de stockage sécurisées pour courtes ou longues durées.",
     icon: <Warehouse className="h-6 w-6"/>
   },
   {
     title: "Objets Lourds & d'Art",
-    href: "/services",
+    href: "/demenagement-objets-lourds",
     description: "Transport spécialisé de pianos, coffres-forts et œuvres d'art.",
     icon: <Paintbrush className="h-6 w-6"/>
   },
 ]
 
 export function MainNav() {
+  const pathname = usePathname();
+  
   return (
      <nav className="hidden lg:flex items-center gap-2">
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <Link href="/landing" passHref>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    <Link href="/landing" legacyBehavior passHref>
+                        <NavigationMenuLink active={pathname === '/landing'} className={navigationMenuTriggerStyle()}>
                             Accueil
                         </NavigationMenuLink>
                     </Link>
@@ -82,21 +87,30 @@ export function MainNav() {
                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                         {services.map((service) => (
                             <ListItem
-                            key={service.title}
-                            title={service.title}
-                            href={service.href}
+                                key={service.title}
+                                title={service.title}
+                                href={service.href}
                             >
                                 <div className="flex items-start gap-3">
                                     <div className="text-primary">{service.icon}</div>
-                                    <p className="text-muted-foreground text-sm">{service.description}</p>
+                                    <p className="text-muted-foreground text-sm leading-snug">{service.description}</p>
                                 </div>
                             </ListItem>
                         ))}
+                         <li className="md:col-span-2">
+                            <Link href="/services" legacyBehavior passHref>
+                                <NavigationMenuLink className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
+                                    <div className="text-sm font-medium">
+                                        Voir tous nos services
+                                    </div>
+                                </NavigationMenuLink>
+                            </Link>
+                        </li>
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <Link href="/landing#contact" passHref>
+                    <Link href="/landing#contact" legacyBehavior passHref>
                         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                             Contact
                         </NavigationMenuLink>
