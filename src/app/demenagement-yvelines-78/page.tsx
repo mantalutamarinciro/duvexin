@@ -19,7 +19,7 @@ const yvelinesCities = [
     { name: "Versailles", link: "/demenagement-versailles-78000" },
     { name: "Saint-Germain-en-Laye", link: "/demenagement-saint-germain-en-laye-78100" },
     { name: "Rambouillet", link: "/demenagement-rambouillet-78120" },
-    { name: "Poissy", link: "#" },
+    { name: "Poissy", link: "/demenagement-poissy-78300" },
     { name: "Sartrouville", link: "#" },
     { name: "Mantes-la-Jolie", link: "#" },
     { name: "Conflans-Sainte-Honorine", link: "#" },
