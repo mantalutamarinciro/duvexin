@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { CheckCircle, MapPin, ShieldCheck, Star, Users } from "lucide-react";
+import { CheckCircle, MapPin, ShieldCheck, Star, Users, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { TestimonialsSection } from "@/components/testimonials-section";
@@ -15,7 +15,21 @@ const fallbackTestimonials: FormattedReview[] = [
     { id: "fallback-3", name: "Sophie L.", text: "Une équipe au top ! Efficaces et à l'écoute pour notre installation à Rambouillet. Tout est arrivé en parfait état. Merci !", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=SophieL` },
 ];
 
-const yvelinesCities = ["Versailles", "Saint-Germain-en-Laye", "Rambouillet", "Poissy", "Sartrouville", "Mantes-la-Jolie", "Conflans-Sainte-Honorine", "Plaisir", "Le Chesnay-Rocquencourt", "Vélizy-Villacoublay", "Montigny-le-Bretonneux", "Les Mureaux"];
+const yvelinesCities = [
+    { name: "Versailles", link: "/demenagement-versailles-78000" },
+    { name: "Saint-Germain-en-Laye", link: "#" },
+    { name: "Rambouillet", link: "#" },
+    { name: "Poissy", link: "#" },
+    { name: "Sartrouville", link: "#" },
+    { name: "Mantes-la-Jolie", link: "#" },
+    { name: "Conflans-Sainte-Honorine", link: "#" },
+    { name: "Plaisir", link: "#" },
+    { name: "Le Chesnay-Rocquencourt", link: "#" },
+    { name: "Vélizy-Villacoublay", link: "#" },
+    { name: "Montigny-le-Bretonneux", link: "#" },
+    { name: "Les Mureaux", link: "#" }
+];
+
 
 const whyChooseUsItems = [
     {
@@ -140,11 +154,14 @@ export default function YvelinesPage() {
                         <h2 className="text-3xl font-bold">Nous intervenons partout dans les Yvelines</h2>
                         <p className="mt-4 text-muted-foreground text-lg">Notre service de déménagement couvre l'ensemble du département. Voici quelques-unes des villes où nous opérons régulièrement :</p>
                     </div>
-                    <div className="mt-12 flex flex-wrap justify-center gap-3">
+                    <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {yvelinesCities.map((city) => (
-                            <div key={city} className="bg-background border rounded-full px-4 py-2 text-sm font-medium shadow-sm hover:bg-primary hover:text-primary-foreground transition-colors">
-                                {city}
-                            </div>
+                            <Button asChild variant="outline" className="justify-start" key={city.name}>
+                                <Link href={city.link}>
+                                    {city.name}
+                                    <ArrowRight className="ml-auto h-4 w-4" />
+                                </Link>
+                            </Button>
                         ))}
                     </div>
                 </div>
