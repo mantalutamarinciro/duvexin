@@ -68,7 +68,7 @@ export function MainNav() {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <NavigationMenuLink asChild active={pathname === '/landing' || pathname === '/'}>
+                    <NavigationMenuLink asChild>
                         <Link href="/landing" className={navigationMenuTriggerStyle()}>
                             Accueil
                         </Link>
@@ -119,14 +119,14 @@ export function MainNav() {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                  <NavigationMenuItem>
-                    <NavigationMenuLink asChild active={pathname === '/zones-intervention'}>
+                    <NavigationMenuLink asChild>
                        <Link href="/zones-intervention" className={navigationMenuTriggerStyle()}>
                             Zones d'intervention
                         </Link>
                     </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <NavigationMenuLink asChild>
+                   <NavigationMenuLink asChild>
                         <Link href="/landing#contact" className={navigationMenuTriggerStyle()}>
                             Contact
                         </Link>
@@ -162,3 +162,4 @@ const ListItem = React.forwardRef<
   )
 })
 ListItem.displayName = "ListItem"
+
