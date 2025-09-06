@@ -55,7 +55,12 @@ export async function GET() {
     });
 
     if (!apiResponse.ok) {
-      const errorBody = await apiResponse.json();
+      let errorBody;
+      try {
+        errorBody = await apiResponse.json();
+      } catch (e) {
+        errorBody = { error: { message: `Réponse non-JSON de Google: ${await apiResponse.text()}`}};
+      }
       console.error("Erreur de l'API Google My Business:", errorBody);
       return NextResponse.json({ error: `Erreur ${apiResponse.status}: Impossible de récupérer les avis Google.`, details: errorBody }, { status: apiResponse.status });
     }
