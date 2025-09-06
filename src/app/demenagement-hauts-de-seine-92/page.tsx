@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { CheckCircle, MapPin, ShieldCheck, Star, Users, Building } from "lucide-react";
+import { CheckCircle, MapPin, ShieldCheck, Star, Users, Building, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { TestimonialsSection } from "@/components/testimonials-section";
@@ -15,7 +15,21 @@ const fallbackTestimonials: FormattedReview[] = [
     { id: "fallback-3", name: "Anne-Sophie V.", text: "Service impeccable pour mon appartement à Neuilly-sur-Seine. Le devis était clair et l'équipe a été ponctuelle et efficace. Je recommande chaudement.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=AnneSophie92` },
 ];
 
-const hautsDeSeineCities = ["Boulogne-Billancourt", "Nanterre", "Courbevoie", "Colombes", "Asnières-sur-Seine", "Rueil-Malmaison", "Levallois-Perret", "Issy-les-Moulineaux", "Neuilly-sur-Seine", "Antony", "Clichy", "Puteaux"];
+const hautsDeSeineCities = [
+    { name: "Boulogne-Billancourt", link: "/demenagement-boulogne-billancourt-92100"},
+    { name: "Nanterre", link: "#"},
+    { name: "Courbevoie", link: "#"},
+    { name: "Colombes", link: "#"},
+    { name: "Asnières-sur-Seine", link: "#"},
+    { name: "Rueil-Malmaison", link: "#"},
+    { name: "Levallois-Perret", link: "#"},
+    { name: "Issy-les-Moulineaux", link: "#"},
+    { name: "Neuilly-sur-Seine", link: "#"},
+    { name: "Antony", link: "#"},
+    { name: "Clichy", link: "#"},
+    { name: "Puteaux", link: "#"}
+];
+
 
 const whyChooseUsItems = [
     {
@@ -138,13 +152,16 @@ export default function HautsDeSeinePage() {
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
                         <h2 className="text-3xl font-bold">Nous intervenons sur l'ensemble des Hauts-de-Seine</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Nos équipes connaissent parfaitement chaque ville du 92.</p>
+                        <p className="mt-4 text-muted-foreground text-lg">Découvrez nos services dédiés pour les principales villes du 92.</p>
                     </div>
-                    <div className="mt-12 flex flex-wrap justify-center gap-3">
+                    <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {hautsDeSeineCities.map((city) => (
-                            <div key={city} className="bg-background border rounded-full px-4 py-2 text-sm font-medium shadow-sm hover:bg-primary hover:text-primary-foreground transition-colors">
-                                {city}
-                            </div>
+                            <Button asChild variant="outline" className="justify-start" key={city.name}>
+                                <Link href={city.link}>
+                                    {city.name}
+                                    <ArrowRight className="ml-auto h-4 w-4" />
+                                </Link>
+                            </Button>
                         ))}
                     </div>
                 </div>
