@@ -60,12 +60,20 @@ export default function AboutPage() {
         <div className="bg-background text-foreground">
 
             {/* Hero Section */}
-            <section className="relative bg-muted/50 py-20 md:py-32 text-center">
-                 <div className="container">
-                     <p className="text-sm font-semibold text-primary">Déménagement du Vexin</p>
-                    <h1 className="text-4xl md:text-5xl font-headline font-bold mt-2">À propos de Déménagement du Vexin</h1>
-                    <p className="mt-4 text-lg max-w-3xl mx-auto text-muted-foreground">Votre partenaire de confiance pour un déménagement serein et professionnel.</p>
-                 </div>
+             <section className="relative h-64 flex items-center justify-center text-center text-white">
+                <Image 
+                    src="https://picsum.photos/seed/happy-couple/1920/400"
+                    alt="Couple heureux dans leur nouvelle maison après le déménagement"
+                    fill
+                    className="object-cover"
+                    data-ai-hint="happy couple new home"
+                />
+                <div className="absolute inset-0 bg-black/60" />
+                <div className="relative z-10 container">
+                    <p className="text-sm font-semibold text-primary">Déménagement du Vexin</p>
+                    <h1 className="text-4xl md:text-5xl font-headline font-bold mt-2">À propos de notre entreprise</h1>
+                    <p className="mt-4 text-lg max-w-3xl mx-auto text-white/90">Votre partenaire de confiance pour un déménagement serein et professionnel.</p>
+                </div>
             </section>
             
             {/* Breadcrumb */}
@@ -254,3 +262,5 @@ export default function AboutPage() {
         </div>
     );
 }
+
+    

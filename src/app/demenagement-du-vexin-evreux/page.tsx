@@ -30,17 +30,30 @@ export default function EvreuxPage() {
     return (
         <div className="bg-background text-foreground">
              {/* Hero Section */}
-            <section className="bg-muted/50 py-20 md:py-32 text-center">
-                 <div className="container">
-                    <h1 className="text-4xl md:text-5xl font-headline font-bold">Déménagement du Vexin : Votre partenaire local à Évreux</h1>
-                    <p className="mt-4 text-lg max-w-3xl mx-auto text-muted-foreground">Bienvenue à notre agence de déménagement située à Évreux, au cœur de l’Eure et de la Normandie.</p>
-                     <div className="mt-8 flex justify-center items-center gap-4">
-                        <Button size="lg" asChild>
-                            <Link href="#contact-evreux">Demandez un devis pour la Normandie</Link>
-                        </Button>
-                    </div>
-                 </div>
+             <section className="relative h-64 flex items-center justify-center text-center text-white">
+                <Image 
+                    src="https://picsum.photos/seed/happy-couple/1920/400"
+                    alt="Couple heureux dans leur nouvelle maison après le déménagement"
+                    fill
+                    className="object-cover"
+                    data-ai-hint="happy couple new home"
+                />
+                <div className="absolute inset-0 bg-black/60" />
+                <div className="relative z-10 container">
+                    <h1 className="text-4xl md:text-5xl font-headline font-bold">Agence d'Évreux</h1>
+                    <p className="mt-4 text-lg max-w-3xl mx-auto text-white/90">Votre partenaire de déménagement au coeur de la Normandie.</p>
+                </div>
             </section>
+            
+             {/* Breadcrumb */}
+            <div className="container py-3 text-sm text-muted-foreground">
+                <Link href="/" className="hover:text-primary">Accueil</Link>
+                <span className="mx-2">&gt;</span>
+                <Link href="/a-propos-de-demenagement-du-vexin" className="hover:text-primary">A propos</Link>
+                <span className="mx-2">&gt;</span>
+                <span>Agence d'Évreux</span>
+            </div>
+
 
              {/* Agency Info */}
             <section id="agency-info" className="py-16">
@@ -172,3 +185,5 @@ export default function EvreuxPage() {
         </div>
     );
 }
+
+    
