@@ -43,7 +43,7 @@ export default function LandingLayout({ children }: PropsWithChildren) {
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
-                        <Button variant="ghost" asChild><Link href="/landing#services">Services</Link></Button>
+                        <Button variant="ghost" asChild><Link href="/services">Services</Link></Button>
                         <Button variant="ghost" asChild><Link href="/landing#contact">Contact</Link></Button>
                     </nav>
                      <Button asChild>
@@ -84,7 +84,7 @@ export default function LandingLayout({ children }: PropsWithChildren) {
                         <div className="flex flex-col space-y-1 text-sm text-muted-foreground">
                            <Link href="/landing" className="hover:text-primary">Accueil</Link>
                            <Link href="/a-propos-de-demenagement-du-vexin" className="hover:text-primary">A propos</Link>
-                           <Link href="/landing#services" className="hover:text-primary">Services</Link>
+                           <Link href="/services" className="hover:text-primary">Services</Link>
                            <Link href="/landing#contact" className="hover:text-primary">Contact</Link>
                            <Link href="/dashboard/quote" className="hover:text-primary">Devis</Link>
                         </div>

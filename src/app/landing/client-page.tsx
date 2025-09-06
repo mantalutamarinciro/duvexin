@@ -199,7 +199,9 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                                 <div className="flex justify-center mb-4">{service.icon}</div>
                                 <h3 className="text-xl font-semibold">{service.title}</h3>
                                 <p className="mt-2 text-muted-foreground flex-grow">{service.description}</p>
-                                <Button variant="link" className="mt-4">En savoir plus</Button>
+                                <Button variant="link" className="mt-4" asChild>
+                                    <Link href="/services">En savoir plus</Link>
+                                </Button>
                             </Card>
                         ))}
                     </div>
