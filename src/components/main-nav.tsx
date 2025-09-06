@@ -68,7 +68,7 @@ export function MainNav() {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <Link href="/landing" passHref>
+                    <Link href="/landing" legacyBehavior passHref>
                         <NavigationMenuLink active={pathname === '/landing'} className={navigationMenuTriggerStyle()}>
                             Accueil
                         </NavigationMenuLink>
@@ -107,7 +107,7 @@ export function MainNav() {
                             </ListItem>
                         ))}
                          <li className="md:col-span-2">
-                            <Link href="/services" passHref>
+                            <Link href="/services" passHref legacyBehavior>
                                 <NavigationMenuLink asChild>
                                     <a className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
                                         <div className="text-sm font-medium">
@@ -121,7 +121,7 @@ export function MainNav() {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                     <Link href="/landing#contact" passHref>
+                     <Link href="/landing#contact" legacyBehavior passHref>
                         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                             Contact
                         </NavigationMenuLink>
