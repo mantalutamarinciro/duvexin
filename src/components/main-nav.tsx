@@ -68,9 +68,11 @@ export function MainNav() {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()} active={pathname === '/landing'}>
-                        <Link href="/landing">Accueil</Link>
-                    </NavigationMenuLink>
+                    <Link href="/landing" legacyBehavior passHref>
+                        <NavigationMenuLink active={pathname === '/landing'} className={navigationMenuTriggerStyle()}>
+                            Accueil
+                        </NavigationMenuLink>
+                    </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>À propos</NavigationMenuTrigger>
@@ -78,6 +80,9 @@ export function MainNav() {
                         <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px]">
                             <ListItem href="/a-propos-de-demenagement-du-vexin" title="Notre Entreprise">
                                 Découvrez l'histoire et les valeurs de notre entreprise familiale.
+                            </ListItem>
+                             <ListItem href="/zones-intervention" title="Zones d'intervention">
+                                Voir nos zones de service en Île-de-France et Normandie.
                             </ListItem>
                             <ListItem href="/demenagement-du-vexin-evreux" title="Agence d'Évreux">
                                 Notre antenne locale pour tous vos besoins en Normandie.
@@ -102,21 +107,25 @@ export function MainNav() {
                             </ListItem>
                         ))}
                          <li className="md:col-span-2">
-                            <NavigationMenuLink asChild>
-                                <Link href="/services" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
-                                    <div className="text-sm font-medium">
-                                        Voir tous nos services
-                                    </div>
-                                </Link>
-                            </NavigationMenuLink>
+                            <Link href="/services" legacyBehavior passHref>
+                                <NavigationMenuLink asChild>
+                                    <a className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
+                                        <div className="text-sm font-medium">
+                                            Voir tous nos services
+                                        </div>
+                                    </a>
+                                </NavigationMenuLink>
+                            </Link>
                         </li>
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                        <Link href="/landing#contact">Contact</Link>
-                    </NavigationMenuLink>
+                     <Link href="/landing#contact" legacyBehavior passHref>
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                            Contact
+                        </NavigationMenuLink>
+                    </Link>
                 </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
@@ -131,7 +140,7 @@ const ListItem = React.forwardRef<
   return (
     <li>
       <NavigationMenuLink asChild>
-        <Link
+         <Link
           href={href!}
           ref={ref}
           className={cn(
