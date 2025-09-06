@@ -6,7 +6,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Truck, Package, ShieldCheck, Star, Map, Globe, Building, Paintbrush, CheckCircle, Rocket, Users, Handshake, BriefcaseBusiness, Award, Smile, Clock, HelpCircle } from "lucide-react";
+import { Truck, Package, ShieldCheck, Star, Map, Globe, Building, Paintbrush, CheckCircle, Rocket, Users, Handshake, BriefcaseBusiness, Award, Smile, Clock, HelpCircle, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { ContactForm } from "./contact-form";
@@ -48,26 +48,26 @@ const services = [
     },
 ];
 
-const whyUsItems = [
+const engagementItems = [
     {
-        icon: <Award className="h-8 w-8 text-primary"/>,
-        title: "Équipe Expérimentée",
-        description: "Nos équipes sont composées de professionnels salariés, garantissant un service fiable et de qualité."
+        icon: <Users className="h-8 w-8 text-primary"/>,
+        title: "Équipe 100% Salariée",
+        description: "Pas de sous-traitance ni d'intérim. Nos propres équipes pour une qualité maîtrisée."
     },
     {
         icon: <Package className="h-8 w-8 text-primary"/>,
-        title: "Solutions Personnalisées",
-        description: "Nous adaptons nos prestations à vos besoins spécifiques pour une expérience sur mesure."
+        title: "Matériel Professionnel",
+        description: "Nous utilisons des couvertures, housses et cartons adaptés pour une protection optimale."
     },
     {
         icon: <ShieldCheck className="h-8 w-8 text-primary"/>,
-        title: "Sécurité & Confiance",
-        description: "Vos biens sont précieux. Nous les traitons avec le plus grand soin et les meilleures protections."
+        title: "Assurance Garantie",
+        description: "Vos biens sont précieux. Ils sont couverts par notre assurance tout au long du déménagement."
     },
     {
-        icon: <Smile className="h-8 w-8 text-primary"/>,
-        title: "Un Service Sans Stress",
-        description: "Nous gérons tout, de la planification à l'installation, pour votre tranquillité d'esprit."
+        icon: <Handshake className="h-8 w-8 text-primary"/>,
+        title: "Devis Transparent",
+        description: "Recevez un devis détaillé, gratuit et sans surprise pour une maîtrise totale de votre budget."
     }
 ]
 
@@ -182,15 +182,15 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 </div>
             </section>
 
-             {/* Why Us Section */}
-            <section id="why-us" className="py-16 md:py-24">
+             {/* Engagements Section */}
+            <section id="engagements" className="py-16 md:py-24">
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
-                        <h2 className="text-3xl font-bold">Pourquoi choisir Déménagement Du Vexin ?</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Nous mettons l’humain au cœur de chaque déménagement. Notre engagement : votre satisfaction.</p>
+                        <h2 className="text-3xl font-bold">Nos Engagements Qualité</h2>
+                        <p className="mt-4 text-muted-foreground text-lg">Votre sérénité est notre priorité. Voici ce que nous vous garantissons à chaque étape.</p>
                     </div>
                     <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {whyUsItems.map((item, i) => (
+                        {engagementItems.map((item, i) => (
                              <div key={i} className="text-center">
                                 {item.icon}
                                 <h3 className="text-xl font-semibold mt-4">{item.title}</h3>
@@ -221,8 +221,36 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 </div>
             </section>
 
+            {/* Zone d'intervention Section */}
+            <section id="zone" className="py-16 md:py-24">
+                <div className="container grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                         <h2 className="text-3xl font-bold">Une présence locale forte en Île-de-France et Normandie</h2>
+                         <p className="mt-4 text-muted-foreground text-lg">
+                            Ancrés localement, nous intervenons principalement dans les départements suivants, tout en assurant des déménagements nationaux et internationaux.
+                         </p>
+                         <ul className="mt-6 space-y-3">
+                            <li className="flex items-center gap-3"><MapPin className="h-5 w-5 text-primary"/><span>Val-d'Oise (95) - Notre fief</span></li>
+                            <li className="flex items-center gap-3"><MapPin className="h-5 w-5 text-primary"/><span>Oise (60)</span></li>
+                            <li className="flex items-center gap-3"><MapPin className="h-5 w-5 text-primary"/><span>Eure (27)</span></li>
+                            <li className="flex items-center gap-3"><MapPin className="h-5 w-5 text-primary"/><span>Yvelines (78) et Paris (75)</span></li>
+                         </ul>
+                    </div>
+                    <div>
+                        <Image
+                            src="https://picsum.photos/seed/map/600/400"
+                            alt="Carte de notre zone d'intervention principale"
+                            width={600}
+                            height={400}
+                            className="rounded-lg shadow-lg"
+                            data-ai-hint="map region France"
+                        />
+                    </div>
+                </div>
+            </section>
+
              {/* Testimonials */}
-             <section className="py-16 md:py-24">
+             <section className="py-16 md:py-24 bg-muted/50">
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
                         <h2 className="text-3xl font-bold">Nos clients nous recommandent</h2>
@@ -265,7 +293,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             </section>
 
              {/* FAQ Section */}
-            <section id="faq" className="py-16 md:py-24 bg-muted/50">
+            <section id="faq" className="py-16 md:py-24">
                 <div className="container max-w-4xl mx-auto">
                     <div className="text-center">
                         <h2 className="text-3xl font-bold">Questions Fréquentes</h2>
@@ -291,7 +319,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
 
 
             {/* Contact Section */}
-            <section id="contact" className="py-16 md:py-24 bg-background">
+            <section id="contact" className="py-16 md:py-24 bg-muted/50">
                  <div className="container grid lg:grid-cols-2 gap-12 items-center">
                     <div>
                         <h2 className="text-3xl font-bold">Prêt à déménager ? Contactez-nous.</h2>
