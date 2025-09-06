@@ -17,7 +17,7 @@ const fallbackTestimonials: FormattedReview[] = [
 const ileDeFranceDepartments = [
     { name: "Val-d'Oise (95)", description: "Notre siège et notre cœur d'activité, nous couvrons l'ensemble du département.", link: "#" },
     { name: "Yvelines (78)", description: "Versailles, Saint-Germain-en-Laye... Nous connaissons parfaitement le secteur.", link: "/demenagement-yvelines-78" },
-    { name: "Hauts-de-Seine (92)", description: "Nous maîtrisons les spécificités des déménagements dans ce département dense.", link: "#" },
+    { name: "Hauts-de-Seine (92)", description: "Nous maîtrisons les spécificités des déménagements dans ce département dense.", link: "/demenagement-hauts-de-seine-92" },
     { name: "Paris (75)", description: "Experts des déménagements parisiens, des accès difficiles aux autorisations de stationnement.", link: "/demenagement-paris-75" },
     { name: "Seine-Saint-Denis (93)", description: "De Montreuil à Saint-Denis, nous sommes à vos côtés.", link: "/demenagement-seine-saint-denis-93" },
     { name: "Val-de-Marne (94)", description: "Nous intervenons dans tout le Val-de-Marne pour vos projets.", link: "/demenagement-val-de-marne-94" },
