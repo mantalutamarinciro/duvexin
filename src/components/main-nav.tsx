@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -67,11 +68,11 @@ export function MainNav() {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <NavigationMenuLink asChild>
-                        <Link href="/landing" className={cn(navigationMenuTriggerStyle(), { 'bg-accent/50': pathname === '/landing' || pathname === '/' })}>
+                    <Link href="/landing" legacyBehavior passHref>
+                        <NavigationMenuLink active={pathname === '/landing' || pathname === '/'} className={navigationMenuTriggerStyle()}>
                             Accueil
-                        </Link>
-                    </NavigationMenuLink>
+                        </NavigationMenuLink>
+                    </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>À propos</NavigationMenuTrigger>
@@ -118,18 +119,18 @@ export function MainNav() {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                  <NavigationMenuItem>
-                    <NavigationMenuLink asChild>
-                       <Link href="/zones-intervention" className={cn(navigationMenuTriggerStyle(), { 'bg-accent/50': pathname === '/zones-intervention' })}>
+                    <Link href="/zones-intervention" legacyBehavior passHref>
+                        <NavigationMenuLink active={pathname === '/zones-intervention'} className={navigationMenuTriggerStyle()}>
                             Zones d'intervention
-                        </Link>
-                    </NavigationMenuLink>
+                        </NavigationMenuLink>
+                    </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <NavigationMenuLink asChild>
-                        <Link href="/landing#contact" className={navigationMenuTriggerStyle()}>
+                    <Link href="/landing#contact" legacyBehavior passHref>
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                             Contact
-                        </Link>
-                    </NavigationMenuLink>
+                        </NavigationMenuLink>
+                    </Link>
                 </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
