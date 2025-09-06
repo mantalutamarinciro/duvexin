@@ -53,7 +53,7 @@ const services = [
         description: "Minimisez l'impact sur votre activité avec notre service pro.",
         imageUrl: "https://picsum.photos/seed/business-move/600/400",
         aiHint: "office moving empty",
-        link: "#"
+        link: "/demenagement-entreprise-bureau"
     },
     {
         title: "Transport d'Objets Lourds",
