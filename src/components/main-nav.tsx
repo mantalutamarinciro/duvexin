@@ -68,11 +68,11 @@ export function MainNav() {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <Link href="/landing" legacyBehavior passHref>
-                        <NavigationMenuLink active={pathname === '/landing' || pathname === '/'} className={navigationMenuTriggerStyle()}>
+                    <NavigationMenuLink asChild>
+                        <Link href="/landing" className={cn(navigationMenuTriggerStyle(), { 'bg-accent/50': pathname === '/landing' || pathname === '/' })}>
                             Accueil
-                        </NavigationMenuLink>
-                    </Link>
+                        </Link>
+                    </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>À propos</NavigationMenuTrigger>
@@ -104,7 +104,7 @@ export function MainNav() {
                             </ListItem>
                         ))}
                          <li className="md:col-span-2">
-                             <NavigationMenuLink asChild>
+                            <NavigationMenuLink asChild>
                                 <Link href="/services" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
                                     <div className="text-sm font-medium">
                                         Voir tous nos services
@@ -116,18 +116,18 @@ export function MainNav() {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                  <NavigationMenuItem>
-                    <Link href="/zones-intervention" legacyBehavior passHref>
-                        <NavigationMenuLink active={pathname === '/zones-intervention'} className={navigationMenuTriggerStyle()}>
+                    <NavigationMenuLink asChild>
+                        <Link href="/zones-intervention" className={cn(navigationMenuTriggerStyle(), { 'bg-accent/50': pathname === '/zones-intervention' })}>
                             Zones d'intervention
-                        </NavigationMenuLink>
-                    </Link>
+                        </Link>
+                    </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                     <Link href="/landing#contact" legacyBehavior passHref>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    <NavigationMenuLink asChild>
+                        <Link href="/landing#contact" className={navigationMenuTriggerStyle()}>
                             Contact
-                        </NavigationMenuLink>
-                    </Link>
+                        </Link>
+                    </NavigationMenuLink>
                 </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
