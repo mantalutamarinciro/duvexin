@@ -19,7 +19,7 @@ const ileDeFranceDepartments = [
     { name: "Yvelines (78)", description: "Versailles, Saint-Germain-en-Laye... Nous connaissons parfaitement le secteur.", link: "/demenagement-yvelines-78" },
     { name: "Hauts-de-Seine (92)", description: "Nous maîtrisons les spécificités des déménagements dans ce département dense.", link: "#" },
     { name: "Paris (75)", description: "Experts des déménagements parisiens, des accès difficiles aux autorisations de stationnement.", link: "/demenagement-paris-75" },
-    { name: "Seine-Saint-Denis (93)", description: "De Montreuil à Saint-Denis, nous sommes à vos côtés.", link: "#" },
+    { name: "Seine-Saint-Denis (93)", description: "De Montreuil à Saint-Denis, nous sommes à vos côtés.", link: "/demenagement-seine-saint-denis-93" },
     { name: "Val-de-Marne (94)", description: "Nous intervenons dans tout le Val-de-Marne pour vos projets.", link: "/demenagement-val-de-marne-94" },
     { name: "Essonne (91)", description: "Une couverture complète du nord au sud du département.", link: "#" },
     { name: "Seine-et-Marne (77)", description: "Même dans le plus grand département d'IDF, nous sommes là pour vous.", link: "/demenagement-seine-et-marne-77" },
