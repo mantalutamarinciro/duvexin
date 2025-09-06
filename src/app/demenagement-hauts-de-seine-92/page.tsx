@@ -18,7 +18,7 @@ const fallbackTestimonials: FormattedReview[] = [
 const hautsDeSeineCities = [
     { name: "Boulogne-Billancourt", link: "/demenagement-boulogne-billancourt-92100"},
     { name: "Nanterre", link: "/demenagement-nanterre-92000"},
-    { name: "Courbevoie", link: "#"},
+    { name: "Courbevoie", link: "/demenagement-courbevoie-92400"},
     { name: "Colombes", link: "#"},
     { name: "Asnières-sur-Seine", link: "#"},
     { name: "Rueil-Malmaison", link: "#"},
