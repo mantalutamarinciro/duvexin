@@ -25,7 +25,7 @@ const hautsDeSeineCities = [
     { name: "Levallois-Perret", link: "/demenagement-levallois-perret-92300"},
     { name: "Issy-les-Moulineaux", link: "/demenagement-issy-les-moulineaux-92130"},
     { name: "Neuilly-sur-Seine", link: "/demenagement-neuilly-sur-seine-92200"},
-    { name: "Antony", link: "#"},
+    { name: "Antony", link: "/demenagement-antony-92160"},
     { name: "Clichy", link: "#"},
     { name: "Puteaux", link: "#"}
 ];
