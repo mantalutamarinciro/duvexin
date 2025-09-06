@@ -43,9 +43,9 @@ function convertRatingToNumber(rating: z.infer<typeof googleReviewSchema>['starR
  * @returns Un tableau d'avis formatés.
  */
 export async function getGoogleReviews(): Promise<FormattedReview[]> {
-  const accountId = process.env.GOOGLE_ACCOUNT_ID;
-  const locationId = process.env.GOOGLE_LOCATION_ID;
-  const apiKey = process.env.GOOGLE_API_KEY;
+  const accountId = process.env.NEXT_PUBLIC_GOOGLE_ACCOUNT_ID;
+  const locationId = process.env.NEXT_PUBLIC_GOOGLE_LOCATION_ID;
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 
   if (!accountId || !locationId || !apiKey) {
     console.error("Les informations d'identification Google API ne sont pas définies dans les variables d'environnement.");
