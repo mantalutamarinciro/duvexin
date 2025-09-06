@@ -25,7 +25,7 @@ export default function LandingLayout({ children }: PropsWithChildren) {
                         <Button variant="ghost" asChild><Link href="#contact">Contact</Link></Button>
                     </nav>
                      <Button asChild>
-                        <Link href="/dashboard/quote">Obtenir un devis</Link>
+                        <Link href="#contact">Obtenir un devis</Link>
                     </Button>
                 </div>
             </header>

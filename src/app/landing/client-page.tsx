@@ -6,12 +6,12 @@ import Autoplay from "embla-carousel-autoplay";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Truck, Package, ShieldCheck, Star, Map, Globe, Building, Paintbrush, CheckCircle, Rocket, Users, Handshake, Briefcase } from "lucide-react";
+import { Truck, Package, ShieldCheck, Star, Map, Globe, Building, Paintbrush, CheckCircle, Rocket, Users, Handshake, Briefcase, Award, Smile, Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { ContactForm } from "./contact-form";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { FormattedReview } from "@/services/reviewService";
+import type { FormattedReview } from "@/services/reviewService";
 
 
 const services = [
@@ -47,6 +47,29 @@ const services = [
     },
 ];
 
+const whyUsItems = [
+    {
+        icon: <Award className="h-8 w-8 text-primary"/>,
+        title: "Équipe Expérimentée",
+        description: "Nos équipes sont composées de professionnels salariés, garantissant un service fiable et de qualité."
+    },
+    {
+        icon: <Package className="h-8 w-8 text-primary"/>,
+        title: "Solutions Personnalisées",
+        description: "Nous adaptons nos prestations à vos besoins spécifiques pour une expérience sur mesure."
+    },
+    {
+        icon: <ShieldCheck className="h-8 w-8 text-primary"/>,
+        title: "Sécurité & Confiance",
+        description: "Vos biens sont précieux. Nous les traitons avec le plus grand soin et les meilleures protections."
+    },
+    {
+        icon: <Smile className="h-8 w-8 text-primary"/>,
+        title: "Un Service Sans Stress",
+        description: "Nous gérons tout, de la planification à l'installation, pour votre tranquillité d'esprit."
+    }
+]
+
 function StarRating({ rating }: { rating: number }) {
     return (
         <div className="flex items-center gap-1 text-amber-400">
@@ -65,20 +88,20 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative min-h-[70vh] flex items-center justify-center text-center text-white py-20">
+            <section className="relative min-h-[80vh] flex items-center justify-center text-center text-white py-20">
                 <Image 
-                    src="https://picsum.photos/seed/move/1920/1080"
-                    alt="Équipe de déménageurs souriants"
+                    src="https://picsum.photos/seed/movers/1920/1080"
+                    alt="Équipe de déménageurs professionnels chargeant un camion"
                     fill
                     className="object-cover"
-                    data-ai-hint="moving team truck smiling"
+                    data-ai-hint="professional movers truck"
                     priority
                 />
-                <div className="absolute inset-0 bg-black/60" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent" />
                 <div className="relative z-10 container">
-                    <p className="font-semibold text-primary">Déménagements dans le Val-d’Oise (95), l’Oise (60), l’Eure (27) et plus...</p>
-                    <h1 className="text-4xl md:text-6xl font-headline font-bold mt-2 leading-tight">Déménagez en toute sérénité avec nos équipes</h1>
-                    <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto">Déménagement 100 % réalisé par nos propres équipes, sans sous-traitance ni intérim.</p>
+                    <p className="font-semibold text-primary drop-shadow-md">Déménagements dans le Val-d’Oise (95), l’Oise (60), l’Eure (27) et plus...</p>
+                    <h1 className="text-4xl md:text-6xl font-headline font-bold mt-2 leading-tight drop-shadow-lg">Votre déménagement, notre engagement.</h1>
+                    <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto drop-shadow-sm">Déménagement 100 % réalisé par nos propres équipes, sans sous-traitance ni intérim, pour une qualité et une sérénité garanties.</p>
                     <div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
                         <Button size="lg" asChild>
                             <Link href="#contact">Demandez un devis en 2 minutes</Link>
@@ -91,11 +114,11 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             </section>
 
              {/* Value Propositions */}
-            <section className="py-12 bg-background">
+            <section className="py-8 bg-background border-b">
                 <div className="container">
                     <div className="grid md:grid-cols-3 gap-8 text-center">
                         <div className="flex items-center justify-center gap-3">
-                            <CheckCircle className="h-6 w-6 text-primary"/>
+                            <Clock className="h-6 w-6 text-primary"/>
                             <span className="font-semibold">Devis rapide et déplacement gratuit</span>
                         </div>
                         <div className="flex items-center justify-center gap-3">
@@ -104,22 +127,18 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                         </div>
                          <div className="flex items-center justify-center gap-3">
                             <div className="flex items-center gap-1 text-amber-400">
-                                <Star size={16} fill="currentColor"/>
-                                <Star size={16} fill="currentColor"/>
-                                <Star size={16} fill="currentColor"/>
-                                <Star size={16} fill="currentColor"/>
-                                <Star size={16} fill="currentColor"/>
+                                <Star size={20} fill="currentColor"/>
                             </div>
                             <div>
-                                <span className="font-bold text-foreground">4.9</span>
-                                <span className="text-muted-foreground"> / 5 sur 231 avis Google</span>
+                                <span className="font-bold text-foreground">4.9 / 5</span>
+                                <span className="text-muted-foreground"> sur 231 avis Google</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
             
-            <div id="about" className="py-16 md:py-24 bg-muted/50">
+            <section id="about" className="py-16 md:py-24 bg-muted/50">
                 <div className="container grid lg:grid-cols-2 gap-12 items-center">
                     <div className="order-2 lg:order-1">
                          <h2 className="text-3xl font-bold">Votre partenaire de confiance pour un déménagement sans stress</h2>
@@ -127,28 +146,47 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                             Basée dans le Val-d’Oise (95), notre entreprise familiale de déménagement intervient également dans l’Oise (60), l’Eure (27), les Yvelines (78), Paris (75) et les Hauts-de-Seine (92). Que vous soyez un particulier ou une entreprise, nous vous accompagnons dans tous vos projets de déménagement, en Île-de-France, partout en France et même à l’international.
                          </p>
                          <Button asChild className="mt-6">
-                            <Link href="#contact">En savoir plus sur nous</Link>
+                            <Link href="#contact">Contactez-nous pour en savoir plus</Link>
                          </Button>
                     </div>
                     <div className="order-1 lg:order-2">
                         <Image
-                            src="https://picsum.photos/seed/team/600/400"
-                            alt="Notre équipe de déménageurs"
+                            src="https://picsum.photos/seed/team-portrait/600/400"
+                            alt="Notre équipe de déménageurs professionnels"
                             width={600}
                             height={400}
                             className="rounded-lg shadow-lg"
-                            data-ai-hint="moving team portrait"
+                            data-ai-hint="professional moving team"
                         />
                     </div>
                 </div>
-            </div>
+            </section>
 
-            {/* Services Section */}
-            <section id="services" className="py-16 md:py-24">
+             {/* Why Us Section */}
+            <section id="why-us" className="py-16 md:py-24">
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
-                        <h2 className="text-3xl font-bold">Nos services de déménagement adaptés à vos besoins</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Découvrez nos solutions de déménagement sur mesure, adaptées à toutes vos demandes.</p>
+                        <h2 className="text-3xl font-bold">Pourquoi choisir Déménagement Du Vexin ?</h2>
+                        <p className="mt-4 text-muted-foreground text-lg">Nous mettons l’humain au cœur de chaque déménagement. Notre engagement : votre satisfaction.</p>
+                    </div>
+                    <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {whyUsItems.map((item, i) => (
+                             <div key={i} className="text-center">
+                                {item.icon}
+                                <h3 className="text-xl font-semibold mt-4">{item.title}</h3>
+                                <p className="mt-2 text-muted-foreground">{item.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Services Section */}
+            <section id="services" className="py-16 md:py-24 bg-muted/50">
+                <div className="container">
+                    <div className="text-center max-w-3xl mx-auto">
+                        <h2 className="text-3xl font-bold">Nos services de déménagement sur mesure</h2>
+                        <p className="mt-4 text-muted-foreground text-lg">Découvrez nos solutions adaptées à toutes les situations, que vous soyez un particulier ou une entreprise.</p>
                     </div>
                     <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {services.map((service, i) => (
@@ -156,7 +194,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                                 <div className="flex justify-center mb-4">{service.icon}</div>
                                 <h3 className="text-xl font-semibold">{service.title}</h3>
                                 <p className="mt-2 text-muted-foreground flex-grow">{service.description}</p>
-                                <Button variant="link" className="mt-4">Voir ce service →</Button>
+                                <Button variant="link" className="mt-4">En savoir plus</Button>
                             </Card>
                         ))}
                     </div>
@@ -164,7 +202,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             </section>
 
              {/* Testimonials */}
-             <section className="py-16 md:py-24 bg-muted/50">
+             <section className="py-16 md:py-24">
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
                         <h2 className="text-3xl font-bold">Nos clients nous recommandent</h2>
@@ -188,7 +226,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                                         </Avatar>
                                         <div className="flex-1">
                                             <StarRating rating={review.rating} />
-                                            <p className="italic text-muted-foreground mt-2">"{review.text}"</p>
+                                            <p className="italic text-muted-foreground mt-2 line-clamp-4">"{review.text}"</p>
                                             <p className="mt-4 font-semibold text-sm">{review.name}</p>
                                         </div>
                                     </Card>
@@ -207,7 +245,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             </section>
 
             {/* How it works */}
-            <section className="py-16 md:py-24">
+            <section className="py-16 md:py-24 bg-muted/50">
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
                         <h2 className="text-3xl font-bold">Un déménagement réussi en 4 étapes simples</h2>
@@ -250,7 +288,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
 
 
             {/* Contact Section */}
-            <section id="contact" className="py-16 md:py-24 bg-muted/50">
+            <section id="contact" className="py-16 md:py-24 bg-background">
                  <div className="container grid lg:grid-cols-2 gap-12 items-center">
                     <div>
                         <h2 className="text-3xl font-bold">Prêt à déménager ? Contactez-nous.</h2>

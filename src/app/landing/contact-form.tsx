@@ -20,7 +20,7 @@ const contactSchema = z.object({
   clientPhone: z.string().optional(),
   originAddress: z.string().min(5, "L'adresse de départ est requise."),
   destinationAddress: z.string().min(5, "L'adresse de destination est requise."),
-  details: z.string().min(10, "Veuillez donner quelques détails."),
+  details: z.string().min(10, "Veuillez donner quelques détails sur votre projet."),
 });
 
 type ContactFormValues = z.infer<typeof contactSchema>;
@@ -47,6 +47,7 @@ export function ContactForm() {
     try {
         // This is a placeholder submission. We create a quote with dummy financial data
         // as the main goal is to capture the lead in the system.
+        // In a real app, this would trigger a more specific "contact request" flow.
         await saveQuote({
             clientName: data.clientName,
             clientEmail: data.clientEmail,
@@ -67,9 +68,7 @@ export function ContactForm() {
         description: "Nous avons bien reçu votre demande. Notre équipe vous recontactera très prochainement.",
       });
       form.reset();
-      // Redirect to a thank you page or a relevant section
-      // router.push("/dashboard/quotes");
-
+      
     } catch (error) {
       toast({
         variant: "destructive",
@@ -84,50 +83,54 @@ export function ContactForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="clientName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nom Complet</FormLabel>
-              <FormControl><Input placeholder="Jean Dupont" {...field} /></FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="clientEmail"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl><Input type="email" placeholder="votre@email.com" {...field} /></FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="originAddress"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Adresse de départ</FormLabel>
-              <FormControl><Input placeholder="Ville de départ" {...field} /></FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="destinationAddress"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Adresse d'arrivée</FormLabel>
-              <FormControl><Input placeholder="Ville d'arrivée" {...field} /></FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid sm:grid-cols-2 gap-4">
+            <FormField
+            control={form.control}
+            name="clientName"
+            render={({ field }) => (
+                <FormItem>
+                <FormLabel>Nom Complet</FormLabel>
+                <FormControl><Input placeholder="Jean Dupont" {...field} /></FormControl>
+                <FormMessage />
+                </FormItem>
+            )}
+            />
+            <FormField
+            control={form.control}
+            name="clientEmail"
+            render={({ field }) => (
+                <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl><Input type="email" placeholder="votre@email.com" {...field} /></FormControl>
+                <FormMessage />
+                </FormItem>
+            )}
+            />
+        </div>
+        <div className="grid sm:grid-cols-2 gap-4">
+            <FormField
+            control={form.control}
+            name="originAddress"
+            render={({ field }) => (
+                <FormItem>
+                <FormLabel>Adresse de départ</FormLabel>
+                <FormControl><Input placeholder="Ville de départ" {...field} /></FormControl>
+                <FormMessage />
+                </FormItem>
+            )}
+            />
+            <FormField
+            control={form.control}
+            name="destinationAddress"
+            render={({ field }) => (
+                <FormItem>
+                <FormLabel>Adresse d'arrivée</FormLabel>
+                <FormControl><Input placeholder="Ville d'arrivée" {...field} /></FormControl>
+                <FormMessage />
+                </FormItem>
+            )}
+            />
+        </div>
         <FormField
           control={form.control}
           name="details"
@@ -141,9 +144,9 @@ export function ContactForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
+        <Button type="submit" className="w-full" disabled={isSubmitting} size="lg">
           {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Envoyer ma demande
+          Envoyer ma demande de devis
         </Button>
       </form>
     </Form>

@@ -4,8 +4,8 @@ import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
-  title: 'Tableau de bord DemDuVexin',
-  description: 'Gérez votre entreprise de déménagement avec facilité.',
+  title: 'DemDuVexin - Votre Partenaire Déménagement',
+  description: 'Déménagement pour particuliers et entreprises dans le Val-d’Oise, l’Oise, l’Eure et toute la France. Obtenez votre devis gratuit.',
 };
 
 export default function RootLayout({

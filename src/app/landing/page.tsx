@@ -1,6 +1,15 @@
 
 import { getGoogleReviews, FormattedReview } from "@/services/reviewService";
 import { LandingPageClient } from "./client-page";
+import type { Metadata } from 'next';
+
+// SEO Metadata for the Landing Page
+export const metadata: Metadata = {
+  title: "Déménagement Vexin - Particuliers & Entreprises | Val-d'Oise, Oise, Eure",
+  description: "Déménagement Du Vexin, votre partenaire de confiance pour déménager sans stress dans le Val-d’Oise (95), l’Oise (60), l’Eure (27) et toute la France. Devis gratuit.",
+  keywords: "déménagement, déménageur, Val-d'Oise, 95, Oise, 60, Eure, 27, Paris, Ile-de-France, devis déménagement, entreprise de déménagement",
+};
+
 
 const fallbackTestimonials: FormattedReview[] = [
     {
@@ -46,7 +55,7 @@ export default async function LandingPage() {
             reviews = fallbackTestimonials;
         }
     } catch (error) {
-        console.warn("Could not fetch Google Reviews, using fallback testimonials.", error);
+        console.warn("Could not fetch Google Reviews, using fallback testimonials.");
         reviews = fallbackTestimonials;
     }
 
