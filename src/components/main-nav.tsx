@@ -83,6 +83,9 @@ export function MainNav() {
                             <ListItem href="/demenagement-du-vexin-evreux" title="Agence d'Évreux">
                                 Notre antenne locale pour tous vos besoins en Normandie.
                             </ListItem>
+                             <ListItem href="/zones-intervention" title="Zones d'intervention">
+                                Voir toutes les zones que nous couvrons.
+                            </ListItem>
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
@@ -116,7 +119,7 @@ export function MainNav() {
                 </NavigationMenuItem>
                  <NavigationMenuItem>
                     <NavigationMenuLink asChild>
-                        <Link href="/zones-intervention" className={cn(navigationMenuTriggerStyle(), { 'bg-accent/50': pathname === '/zones-intervention' })}>
+                       <Link href="/zones-intervention" className={cn(navigationMenuTriggerStyle(), { 'bg-accent/50': pathname === '/zones-intervention' })}>
                             Zones d'intervention
                         </Link>
                     </NavigationMenuLink>
