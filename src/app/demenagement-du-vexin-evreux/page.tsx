@@ -4,7 +4,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { CheckCircle, MapPin, Phone, Mail } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { LandingPageClient } from "@/app/landing/client-page";
+import { TestimonialsSection } from "@/components/testimonials-section";
 import type { FormattedReview } from "@/app/api/reviews/route";
 
 
@@ -157,8 +157,7 @@ export default function EvreuxPage() {
                 </div>
              </section>
 
-              {/* Testimonials */}
-             <LandingPageClient reviews={fallbackTestimonials} />
+              <TestimonialsSection reviews={fallbackTestimonials} />
             
              {/* CTA Section */}
             <section id="contact-evreux" className="py-16">
@@ -173,4 +172,3 @@ export default function EvreuxPage() {
         </div>
     );
 }
-

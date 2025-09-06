@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Award, Eye, Rocket, Users, ShieldCheck, Heart, Leaf, CheckCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { LandingPageClient } from "@/app/landing/client-page";
+import { TestimonialsSection } from "@/components/testimonials-section";
 import { FormattedReview } from "@/app/api/reviews/route";
 
 
@@ -238,8 +238,7 @@ export default function AboutPage() {
                 </div>
             </section>
 
-             {/* Testimonials section from client-page, used as a component conceptually */}
-             <LandingPageClient reviews={fallbackTestimonials} />
+             <TestimonialsSection reviews={fallbackTestimonials} />
 
 
              {/* CTA Section */}
@@ -255,4 +254,3 @@ export default function AboutPage() {
         </div>
     );
 }
-

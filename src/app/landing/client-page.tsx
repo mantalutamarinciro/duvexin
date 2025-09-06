@@ -3,17 +3,15 @@
 "use client";
 
 import { useRef } from "react";
-import Autoplay from "embla-carousel-autoplay";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Truck, Package, ShieldCheck, Star, Map, Globe, Building, Paintbrush, CheckCircle, Rocket, Users, Handshake, BriefcaseBusiness, Award, Smile, Clock, HelpCircle, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { ContactForm } from "./contact-form";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import type { FormattedReview } from "@/app/api/reviews/route";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { TestimonialsSection } from "@/components/testimonials-section";
 
 
 const services = [
@@ -91,21 +89,7 @@ const faqItems = [
   }
 ];
 
-function StarRating({ rating }: { rating: number }) {
-    return (
-        <div className="flex items-center gap-1 text-amber-400">
-            {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} size={16} fill={i < rating ? "currentColor" : "none"} className={i < rating ? "" : "text-gray-300"} />
-            ))}
-        </div>
-    );
-}
-
 export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
-    const autoplayPlugin = useRef(
-        Autoplay({ delay: 5000, stopOnInteraction: true })
-    );
-
     return (
         <>
             {/* Hero Section */}
@@ -253,48 +237,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 </div>
             </section>
 
-             {/* Testimonials */}
-             <section className="py-16 md:py-24 bg-muted/50">
-                <div className="container">
-                    <div className="text-center max-w-3xl mx-auto">
-                        <h2 className="text-3xl font-bold">Nos clients nous recommandent</h2>
-                         <p className="mt-4 text-muted-foreground text-lg">La satisfaction de nos clients est notre meilleure publicité. Voici ce qu'ils disent de nous.</p>
-                    </div>
-                     <Carousel
-                        plugins={[autoplayPlugin.current]}
-                        opts={{
-                            align: "start",
-                            loop: true,
-                        }}
-                        className="w-full max-w-4xl mx-auto mt-12"
-                        >
-                        <CarouselContent>
-                            {reviews && reviews.map((review) => (
-                                <CarouselItem key={review.id} className="md:basis-1/2 lg:basis-1/3">
-                                     <Card className="h-full p-6 flex flex-col sm:flex-row gap-6">
-                                        <Avatar className="h-12 w-12 hidden sm:block">
-                                            <AvatarImage src={review.avatarUrl} alt={review.name} />
-                                            <AvatarFallback>{review.name.charAt(0)}</AvatarFallback>
-                                        </Avatar>
-                                        <div className="flex-1">
-                                            <StarRating rating={review.rating} />
-                                            <p className="italic text-muted-foreground mt-2 line-clamp-4">"{review.text}"</p>
-                                            <p className="mt-4 font-semibold text-sm">{review.name}</p>
-                                        </div>
-                                    </Card>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                        <CarouselPrevious />
-                        <CarouselNext />
-                    </Carousel>
-                    <div className="text-center mt-12">
-                        <Button variant="outline" asChild>
-                            <Link href="https://www.google.com/maps/search/?api=1&query=Google&query_place_id=ChIJy6-L4aF-5kcR3ep22iQJkOE" target="_blank">Voir tous nos avis sur Google</Link>
-                        </Button>
-                    </div>
-                </div>
-            </section>
+             <TestimonialsSection reviews={reviews} />
 
              {/* FAQ Section */}
             <section id="faq" className="py-16 md:py-24">
