@@ -55,7 +55,7 @@ export function MainNav() {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <Link href="/landing" passHref>
+                    <Link href="/landing" legacyBehavior={false} passHref>
                         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                             Accueil
                         </NavigationMenuLink>
@@ -94,7 +94,7 @@ export function MainNav() {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                     <Link href="/landing#contact" passHref>
+                     <Link href="/landing#contact" legacyBehavior={false} passHref>
                         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                             Contact
                         </NavigationMenuLink>
@@ -130,3 +130,4 @@ const ListItem = React.forwardRef<
   )
 })
 ListItem.displayName = "ListItem"
+
