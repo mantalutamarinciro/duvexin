@@ -20,7 +20,7 @@ const ileDeFranceDepartments = [
     { name: "Hauts-de-Seine (92)", description: "Nous maîtrisons les spécificités des déménagements dans ce département dense.", link: "#" },
     { name: "Paris (75)", description: "Experts des déménagements parisiens, des accès difficiles aux autorisations de stationnement.", link: "/demenagement-paris-75" },
     { name: "Seine-Saint-Denis (93)", description: "De Montreuil à Saint-Denis, nous sommes à vos côtés.", link: "#" },
-    { name: "Val-de-Marne (94)", description: "Nous intervenons dans tout le Val-de-Marne pour vos projets.", link: "#" },
+    { name: "Val-de-Marne (94)", description: "Nous intervenons dans tout le Val-de-Marne pour vos projets.", link: "/demenagement-val-de-marne-94" },
     { name: "Essonne (91)", description: "Une couverture complète du nord au sud du département.", link: "#" },
     { name: "Seine-et-Marne (77)", description: "Même dans le plus grand département d'IDF, nous sommes là pour vous.", link: "#" },
 ];
@@ -159,7 +159,7 @@ export default function InterventionZonePage() {
                     </div>
                     <div className="order-1 lg:order-2">
                         <h2 className="text-3xl font-bold">Et partout ailleurs en France et en Europe</h2>
-                         <p className="mt-4 text-muted-foreground text-lg">Votre projet vous emmène plus loin ? Nous organisons régulièrement des déménagements longue distance.</p>
+                         <p className="mt-4 text-muted-foreground">Votre projet vous emmène plus loin ? Nous organisons régulièrement des déménagements longue distance.</p>
                          <ul className="mt-6 space-y-4">
                             <li className="flex items-start gap-4">
                                 <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
