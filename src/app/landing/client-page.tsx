@@ -265,7 +265,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                         className="w-full max-w-4xl mx-auto mt-12"
                         >
                         <CarouselContent>
-                            {reviews.map((review) => (
+                            {reviews && reviews.map((review) => (
                                 <CarouselItem key={review.id} className="md:basis-1/2 lg:basis-1/3">
                                      <Card className="h-full p-6 flex flex-col sm:flex-row gap-6">
                                         <Avatar className="h-12 w-12 hidden sm:block">
@@ -355,4 +355,3 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
         </>
     );
 }
-
