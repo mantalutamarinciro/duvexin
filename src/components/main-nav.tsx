@@ -68,11 +68,11 @@ export function MainNav() {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <Link href="/landing" passHref>
-                        <NavigationMenuLink active={pathname === '/landing'} className={navigationMenuTriggerStyle()}>
+                    <NavigationMenuLink asChild active={pathname === '/landing'} className={navigationMenuTriggerStyle()}>
+                        <Link href="/landing">
                             Accueil
-                        </NavigationMenuLink>
-                    </Link>
+                        </Link>
+                    </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>À propos</NavigationMenuTrigger>
@@ -107,25 +107,23 @@ export function MainNav() {
                             </ListItem>
                         ))}
                          <li className="md:col-span-2">
-                            <Link href="/services" passHref>
-                                <NavigationMenuLink asChild>
-                                    <a className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
-                                        <div className="text-sm font-medium">
-                                            Voir tous nos services
-                                        </div>
-                                    </a>
-                                </NavigationMenuLink>
-                            </Link>
+                             <NavigationMenuLink asChild>
+                                <Link href="/services" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
+                                    <div className="text-sm font-medium">
+                                        Voir tous nos services
+                                    </div>
+                                </Link>
+                            </NavigationMenuLink>
                         </li>
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                     <Link href="/landing#contact" passHref>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                     <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                        <Link href="/landing#contact">
                             Contact
-                        </NavigationMenuLink>
-                    </Link>
+                        </Link>
+                    </NavigationMenuLink>
                 </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
@@ -157,4 +155,3 @@ const ListItem = React.forwardRef<
   )
 })
 ListItem.displayName = "ListItem"
-
