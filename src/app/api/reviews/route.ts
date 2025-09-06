@@ -42,8 +42,8 @@ export async function GET() {
   const locationId = process.env.GOOGLE_LOCATION_ID;
   const apiKey = process.env.GOOGLE_API_KEY;
 
-  if (!accountId || !locationId || !apiKey || accountId === "VOTRE_ID_DE_COMPTE") {
-     console.error("Les informations d'identification Google API ne sont pas définies dans les variables d'environnement.");
+  if (!accountId || !locationId || !apiKey || accountId === "VOTRE_ID_DE_COMPTE" || locationId === "VOTRE_ID_DE_LIEU" || apiKey === "VOTRE_CLÉ_API") {
+     console.error("Les informations d'identification Google API ne sont pas définies ou sont des placeholders dans les variables d'environnement.");
      return NextResponse.json({ error: "Configuration du serveur incomplète pour récupérer les avis." }, { status: 500 });
   }
 

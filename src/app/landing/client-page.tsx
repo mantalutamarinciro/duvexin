@@ -6,12 +6,13 @@ import Autoplay from "embla-carousel-autoplay";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Truck, Package, ShieldCheck, Star, Map, Globe, Building, Paintbrush, CheckCircle, Rocket, Users, Handshake, Briefcase, Award, Smile, Clock } from "lucide-react";
+import { Truck, Package, ShieldCheck, Star, Map, Globe, Building, Paintbrush, CheckCircle, Rocket, Users, Handshake, BriefcaseBusiness, Award, Smile, Clock, HelpCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { ContactForm } from "./contact-form";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import type { FormattedReview } from "@/services/reviewService";
+import type { FormattedReview } from "@/app/api/reviews/route";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 
 const services = [
@@ -21,7 +22,7 @@ const services = [
         description: "Déménagez rapidement et sereinement dans le Val-d’Oise avec des experts locaux."
     },
      {
-        icon: <Briefcase className="h-10 w-10 text-primary" />,
+        icon: <BriefcaseBusiness className="h-10 w-10 text-primary" />,
         title: "Déménagement Régional",
         description: "Déménagez en toute tranquillité à travers l’Île-de-France."
     },
@@ -69,6 +70,25 @@ const whyUsItems = [
         description: "Nous gérons tout, de la planification à l'installation, pour votre tranquillité d'esprit."
     }
 ]
+
+const faqItems = [
+  {
+    question: "Quand dois-je réserver mon déménagement ?",
+    answer: "Nous recommandons de réserver votre déménagement au moins 3 à 4 semaines à l'avance, surtout pendant la haute saison (de mai à septembre) pour garantir la disponibilité de nos équipes."
+  },
+  {
+    question: "Fournissez-vous le matériel d'emballage ?",
+    answer: "Oui, nous pouvons vous fournir tout le matériel nécessaire : cartons de différentes tailles, papier bulle, adhésif, etc. Selon la formule choisie, nos équipes peuvent même se charger de l'emballage complet de vos biens."
+  },
+  {
+    question: "Comment est calculé le volume de mon déménagement ?",
+    answer: "Le volume est une estimation de l'espace que vos biens occuperont dans le camion, calculé en mètres cubes (m³). Vous pouvez utiliser notre calculateur de volume en ligne pour une première estimation, ou un de nos conseillers peut effectuer une visite technique gratuite pour une évaluation précise."
+  },
+  {
+    question: "Mes biens sont-ils assurés pendant le transport ?",
+    answer: "Absolument. Tous les déménagements que nous réalisons sont couverts par une assurance responsabilité civile et une assurance marchandise. Nous vous expliquerons les détails et les options de couverture lors de l'établissement du devis."
+  }
+];
 
 function StarRating({ rating }: { rating: number }) {
     return (
@@ -218,7 +238,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                         >
                         <CarouselContent>
                             {reviews.map((review) => (
-                                <CarouselItem key={review.id} className="md:basis-1/2">
+                                <CarouselItem key={review.id} className="md:basis-1/2 lg:basis-1/3">
                                      <Card className="h-full p-6 flex flex-col sm:flex-row gap-6">
                                         <Avatar className="h-12 w-12 hidden sm:block">
                                             <AvatarImage src={review.avatarUrl} alt={review.name} />
@@ -244,45 +264,28 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 </div>
             </section>
 
-            {/* How it works */}
-            <section className="py-16 md:py-24 bg-muted/50">
-                <div className="container">
-                    <div className="text-center max-w-3xl mx-auto">
-                        <h2 className="text-3xl font-bold">Un déménagement réussi en 4 étapes simples</h2>
-                         <p className="mt-4 text-muted-foreground text-lg">Nous simplifions votre déménagement en suivant un processus clair et efficace pour garantir une expérience sans stress.</p>
+             {/* FAQ Section */}
+            <section id="faq" className="py-16 md:py-24 bg-muted/50">
+                <div className="container max-w-4xl mx-auto">
+                    <div className="text-center">
+                        <h2 className="text-3xl font-bold">Questions Fréquentes</h2>
+                        <p className="mt-4 text-muted-foreground text-lg">Trouvez ici les réponses aux questions que vous vous posez le plus souvent.</p>
                     </div>
-                    <div className="mt-12 grid md:grid-cols-4 gap-8 text-center relative">
-                        {/* Connecting lines */}
-                        <div className="hidden md:block absolute top-8 left-0 w-full h-0.5 bg-border -z-10"></div>
-                        <div className="flex flex-col items-center">
-                            <div className="flex items-center justify-center h-16 w-16 rounded-full bg-primary text-primary-foreground mb-4 border-4 border-background ring-4 ring-primary">
-                                <span className="text-2xl font-bold">1</span>
-                            </div>
-                            <h3 className="font-semibold text-xl">Consultation</h3>
-                            <p className="text-sm text-muted-foreground mt-1">Nous discutons de vos besoins et planifions ensemble votre déménagement.</p>
-                        </div>
-                         <div className="flex flex-col items-center">
-                            <div className="flex items-center justify-center h-16 w-16 rounded-full bg-primary text-primary-foreground mb-4 border-4 border-background ring-4 ring-primary">
-                               <span className="text-2xl font-bold">2</span>
-                            </div>
-                            <h3 className="font-semibold text-xl">Préparation</h3>
-                            <p className="text-sm text-muted-foreground mt-1">Nous vous fournissons le matériel et les conseils pour un emballage réussi.</p>
-                        </div>
-                         <div className="flex flex-col items-center">
-                           <div className="flex items-center justify-center h-16 w-16 rounded-full bg-primary text-primary-foreground mb-4 border-4 border-background ring-4 ring-primary">
-                                <span className="text-2xl font-bold">3</span>
-                            </div>
-                            <h3 className="font-semibold text-xl">Réalisation</h3>
-                            <p className="text-sm text-muted-foreground mt-1">Nos équipes expertes prennent en charge le jour J avec soin et efficacité.</p>
-                        </div>
-                         <div className="flex flex-col items-center">
-                            <div className="flex items-center justify-center h-16 w-16 rounded-full bg-primary text-primary-foreground mb-4 border-4 border-background ring-4 ring-primary">
-                                <span className="text-2xl font-bold">4</span>
-                            </div>
-                            <h3 className="font-semibold text-xl">Installation</h3>
-                            <p className="text-sm text-muted-foreground mt-1">Nous déposons vos biens dans les pièces de votre choix pour une réinstallation facile.</p>
-                        </div>
-                    </div>
+                    <Accordion type="single" collapsible className="w-full mt-12">
+                        {faqItems.map((item, i) => (
+                            <AccordionItem value={`item-${i}`} key={i}>
+                                <AccordionTrigger className="text-lg text-left hover:no-underline">
+                                  <div className="flex items-center gap-3">
+                                    <HelpCircle className="h-5 w-5 text-primary"/>
+                                    {item.question}
+                                  </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="text-base text-muted-foreground pl-8">
+                                    {item.answer}
+                                </AccordionContent>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
                 </div>
             </section>
 
@@ -324,3 +327,4 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
         </>
     );
 }
+
