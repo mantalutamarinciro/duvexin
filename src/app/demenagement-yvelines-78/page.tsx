@@ -24,10 +24,10 @@ const yvelinesCities = [
     { name: "Mantes-la-Jolie", link: "/demenagement-mantes-la-jolie-78200" },
     { name: "Conflans-Sainte-Honorine", link: "/demenagement-conflans-sainte-honorine-78700" },
     { name: "Plaisir", link: "/demenagement-plaisir-78370" },
-    { name: "Le Chesnay-Rocquencourt", link: "#" },
-    { name: "Vélizy-Villacoublay", link: "#" },
-    { name: "Montigny-le-Bretonneux", link: "#" },
-    { name: "Les Mureaux", link: "#" }
+    { name: "Le Chesnay-Rocquencourt", link: "/demenagement-le-chesnay-rocquencourt-78150" },
+    { name: "Vélizy-Villacoublay", link: "/demenagement-velizy-villacoublay-78140" },
+    { name: "Montigny-le-Bretonneux", link: "/demenagement-montigny-le-bretonneux-78180" },
+    { name: "Les Mureaux", link: "/demenagement-les-mureaux-78130" }
 ];
 
 
