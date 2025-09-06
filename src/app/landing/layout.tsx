@@ -22,11 +22,11 @@ export default function LandingLayout({ children }: PropsWithChildren) {
                     <nav className="hidden lg:flex items-center gap-2">
                         <Button variant="ghost" asChild><Link href="/landing">Accueil</Link></Button>
                         <Button variant="ghost" asChild><Link href="/a-propos-de-demenagement-du-vexin">A propos</Link></Button>
-                        <Button variant="ghost" asChild><Link href="#services">Services</Link></Button>
-                        <Button variant="ghost" asChild><Link href="#contact">Contact</Link></Button>
+                        <Button variant="ghost" asChild><Link href="/landing#services">Services</Link></Button>
+                        <Button variant="ghost" asChild><Link href="/landing#contact">Contact</Link></Button>
                     </nav>
                      <Button asChild>
-                        <Link href="#contact">Obtenir un devis</Link>
+                        <Link href="/dashboard/quote">Obtenir un devis</Link>
                     </Button>
                 </div>
             </header>
@@ -55,6 +55,7 @@ export default function LandingLayout({ children }: PropsWithChildren) {
                             <p className="flex items-start gap-2"><MapPin className="h-4 w-4 mt-0.5 shrink-0"/> 22 Rue Isambard, 27000 Évreux, Normandie</p>
                             <p className="flex items-center gap-2"><Phone className="h-4 w-4 shrink-0"/> (+33) 3 74 47 44 77</p>
                             <p className="flex items-center gap-2"><Mail className="h-4 w-4 shrink-0"/> demenagementduvexin@evreux.fr</p>
+                            <Link href="/demenagement-du-vexin-evreux" className="text-primary font-semibold hover:underline text-xs pt-1">En savoir plus...</Link>
                         </div>
                    </div>
                    <div className="md:col-span-1">
@@ -62,8 +63,8 @@ export default function LandingLayout({ children }: PropsWithChildren) {
                         <div className="flex flex-col space-y-1 text-sm text-muted-foreground">
                            <Link href="/landing" className="hover:text-primary">Accueil</Link>
                            <Link href="/a-propos-de-demenagement-du-vexin" className="hover:text-primary">A propos</Link>
-                           <Link href="#services" className="hover:text-primary">Services</Link>
-                           <Link href="#contact" className="hover:text-primary">Contact</Link>
+                           <Link href="/landing#services" className="hover:text-primary">Services</Link>
+                           <Link href="/landing#contact" className="hover:text-primary">Contact</Link>
                            <Link href="/dashboard/quote" className="hover:text-primary">Devis</Link>
                         </div>
                    </div>

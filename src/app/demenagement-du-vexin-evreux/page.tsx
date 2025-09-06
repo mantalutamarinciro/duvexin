@@ -92,7 +92,7 @@ export default function EvreuxPage() {
                     </div>
                      <div className="text-center mt-12">
                          <Button asChild>
-                            <Link href="/#services">Voir tous nos services en détail</Link>
+                            <Link href="/landing#services">Voir tous nos services en détail</Link>
                          </Button>
                     </div>
                 </div>
