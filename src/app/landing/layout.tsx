@@ -1,73 +1,11 @@
 
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
-import { Phone, MapPin, Mail, ChevronDown, Map, Building, Paintbrush, Truck, Globe, Warehouse, Wrench } from "lucide-react";
+import { Phone, MapPin, Mail } from "lucide-react";
 import Link from "next/link";
 import type { PropsWithChildren } from "react";
 import * as React from "react";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
-import { cn } from "@/lib/utils";
-
-const services: { title: string; href: string; description: string, icon: React.ReactNode }[] = [
-  {
-    title: "Déménagement de Particuliers",
-    href: "/services",
-    description: "Solutions locales, nationales et internationales pour votre résidence.",
-    icon: <Map className="h-6 w-6"/>
-  },
-  {
-    title: "Déménagement d'Entreprise",
-    href: "/demenagement-entreprise-bureau",
-    description: "Transfert de bureaux, archives et matériel professionnel.",
-    icon: <Building className="h-6 w-6"/>
-  },
-  {
-    title: "Garde-Meubles & Stockage",
-    href: "/services",
-    description: "Solutions de stockage sécurisées pour courtes ou longues durées.",
-    icon: <Warehouse className="h-6 w-6"/>
-  },
-  {
-    title: "Objets Lourds & d'Art",
-    href: "/services",
-    description: "Transport spécialisé de pianos, coffres-forts et œuvres d'art.",
-    icon: <Paintbrush className="h-6 w-6"/>
-  },
-]
-
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  )
-})
-ListItem.displayName = "ListItem"
+import { MainNav } from "@/components/main-nav";
 
 
 export default function LandingLayout({ children }: PropsWithChildren) {
@@ -84,60 +22,7 @@ export default function LandingLayout({ children }: PropsWithChildren) {
             <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                 <div className="container h-16 flex items-center justify-between">
                     <Logo />
-                    <nav className="hidden lg:flex items-center gap-2">
-                       <NavigationMenu>
-                          <NavigationMenuList>
-                             <NavigationMenuItem>
-                               <Link href="/landing" legacyBehavior passHref>
-                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                    Accueil
-                                </NavigationMenuLink>
-                                </Link>
-                            </NavigationMenuItem>
-                            <NavigationMenuItem>
-                                <NavigationMenuTrigger>À propos</NavigationMenuTrigger>
-                                <NavigationMenuContent>
-                                    <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px]">
-                                        <ListItem href="/a-propos-de-demenagement-du-vexin" title="Notre Entreprise">
-                                            Découvrez l'histoire et les valeurs de notre entreprise familiale.
-                                        </ListItem>
-                                        <ListItem href="/demenagement-du-vexin-evreux" title="Agence d'Évreux">
-                                            Notre antenne locale pour tous vos besoins en Normandie.
-                                        </ListItem>
-                                    </ul>
-                                </NavigationMenuContent>
-                            </NavigationMenuItem>
-                             <NavigationMenuItem>
-                                <NavigationMenuTrigger>Services</NavigationMenuTrigger>
-                                <NavigationMenuContent>
-                                   <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                                    {services.map((service) => (
-                                       <ListItem
-                                        key={service.title}
-                                        title={service.title}
-                                        href={service.href}
-                                        className="flex items-start gap-4"
-                                      >
-                                        <div className="text-primary mt-1">{service.icon}</div>
-                                        <div className="flex-1">
-                                          <p className="font-semibold">{service.title}</p>
-                                          <p className="text-xs text-muted-foreground">{service.description}</p>
-                                        </div>
-                                      </ListItem>
-                                    ))}
-                                  </ul>
-                                </NavigationMenuContent>
-                            </NavigationMenuItem>
-                             <NavigationMenuItem>
-                               <Link href="/landing#contact" legacyBehavior passHref>
-                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                    Contact
-                                </NavigationMenuLink>
-                                </Link>
-                            </NavigationMenuItem>
-                          </NavigationMenuList>
-                       </NavigationMenu>
-                    </nav>
+                    <MainNav />
                      <Button asChild>
                         <Link href="/dashboard/quote">Obtenir un devis</Link>
                     </Button>
@@ -191,29 +76,3 @@ export default function LandingLayout({ children }: PropsWithChildren) {
         </div>
     );
 }
-
-const ListItemOld = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  )
-})
-ListItemOld.displayName = "ListItem"
