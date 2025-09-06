@@ -21,7 +21,7 @@ const yvelinesCities = [
     { name: "Rambouillet", link: "/demenagement-rambouillet-78120" },
     { name: "Poissy", link: "/demenagement-poissy-78300" },
     { name: "Sartrouville", link: "/demenagement-sartrouville-78500" },
-    { name: "Mantes-la-Jolie", link: "#" },
+    { name: "Mantes-la-Jolie", link: "/demenagement-mantes-la-jolie-78200" },
     { name: "Conflans-Sainte-Honorine", link: "#" },
     { name: "Plaisir", link: "#" },
     { name: "Le Chesnay-Rocquencourt", link: "#" },
