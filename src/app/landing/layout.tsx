@@ -1,9 +1,15 @@
 
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
-import { Phone, MapPin, Mail } from "lucide-react";
+import { Phone, MapPin, Mail, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import type { PropsWithChildren } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default function LandingLayout({ children }: PropsWithChildren) {
     return (
@@ -21,7 +27,22 @@ export default function LandingLayout({ children }: PropsWithChildren) {
                     <Logo />
                     <nav className="hidden lg:flex items-center gap-2">
                         <Button variant="ghost" asChild><Link href="/landing">Accueil</Link></Button>
-                        <Button variant="ghost" asChild><Link href="/a-propos-de-demenagement-du-vexin">A propos</Link></Button>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost">
+                                    À propos
+                                    <ChevronDown className="relative top-[1px] ml-1 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuItem asChild>
+                                    <Link href="/a-propos-de-demenagement-du-vexin">Notre entreprise</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                    <Link href="/demenagement-du-vexin-evreux">Agence d'Évreux</Link>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                         <Button variant="ghost" asChild><Link href="/landing#services">Services</Link></Button>
                         <Button variant="ghost" asChild><Link href="/landing#contact">Contact</Link></Button>
                     </nav>
