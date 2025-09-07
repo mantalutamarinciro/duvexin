@@ -15,7 +15,21 @@ const fallbackTestimonials: FormattedReview[] = [
     { id: "fallback-3", name: "Robert GALAND", text: "Une interlocutrice réactive, une équipe ultra efficace, des affaires très bien protégées. Rapidité, professionnalisme. On voit le côté 'familial' sans prestataire ou intérimaire. Sincèrement je suis bluffé. Je recommande totalement. MERCI", rating: 5, createTime: "il y a 19 jours", avatarUrl: `https://i.pravatar.cc/48?u=Robert` },
 ];
 
-const valDOiseCities = ["Cergy", "Pontoise", "Argenteuil", "Sarcelles", "Garges-lès-Gonesse", "Franconville", "Goussainville", "Ermont", "Taverny", "Villiers-le-Bel", "L'Isle-Adam", "Méry-sur-Oise"];
+const valDOiseCities = [
+    { name: "Cergy", link: "/demenagement-cergy-95000" },
+    { name: "Pontoise", link: "#" },
+    { name: "Argenteuil", link: "#" },
+    { name: "Sarcelles", link: "#" },
+    { name: "Garges-lès-Gonesse", link: "#" },
+    { name: "Franconville", link: "#" },
+    { name: "Goussainville", link: "#" },
+    { name: "Ermont", link: "#" },
+    { name: "Taverny", link: "#" },
+    { name: "Villiers-le-Bel", link: "#" },
+    { name: "L'Isle-Adam", link: "#" },
+    { name: "Méry-sur-Oise", link: "#" }
+];
+
 
 const whyChooseUsItems = [
     {
@@ -140,11 +154,14 @@ export default function ValDOisePage() {
                         <h2 className="text-3xl font-bold">Nous couvrons l'ensemble du Val-d'Oise</h2>
                         <p className="mt-4 text-muted-foreground text-lg">De l'aéroport de Roissy aux boucles de la Seine, nos équipes sont chez elles dans tout le département.</p>
                     </div>
-                    <div className="mt-12 flex flex-wrap justify-center gap-3">
+                    <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {valDOiseCities.map((city) => (
-                            <div key={city} className="bg-background border rounded-full px-4 py-2 text-sm font-medium shadow-sm hover:bg-primary hover:text-primary-foreground transition-colors">
-                                {city}
-                            </div>
+                             <Button asChild variant="outline" className="justify-start" key={city.name}>
+                                <Link href={city.link}>
+                                    {city.name}
+                                    <ArrowRight className="ml-auto h-4 w-4" />
+                                </Link>
+                            </Button>
                         ))}
                     </div>
                 </div>
