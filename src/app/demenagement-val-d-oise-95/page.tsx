@@ -20,6 +20,7 @@ const valDOiseCities = [
     { name: "Bezons", link: "/demenagement-bezons-95870" },
     { name: "Cergy", link: "/demenagement-cergy-95000" },
     { name: "Cormeilles-en-Parisis", link: "/demenagement-cormeilles-en-parisis-95240" },
+    { name: "Eaubonne", link: "/demenagement-eaubonne-95600" },
     { name: "Enghien-les-Bains", link: "/demenagement-enghien-les-bains-95880" },
     { name: "Ermont", link: "/demenagement-ermont-95120" },
     { name: "Franconville", link: "/demenagement-franconville-95130" },
@@ -194,7 +195,7 @@ export default function ValDOisePage() {
                                 <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
                                 <div>
                                     <h4 className="font-semibold">Déménagement pour particuliers</h4>
-                                    <p className="text-muted-foreground">Des formules sur-mesure, de la plus économique à la plus complète, pour s'adapter à vos besoins.</p>
+                                    <p className="text-muted-foreground">Des formules sur-mesure, de la plus économique à la plus complète, pour s'adapter à vos besoins et à votre budget.</p>
                                 </div>
                             </li>
                              <li className="flex items-start gap-4">
