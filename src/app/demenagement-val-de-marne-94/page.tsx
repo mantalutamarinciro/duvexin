@@ -18,7 +18,7 @@ const fallbackTestimonials: FormattedReview[] = [
 const valDeMarneCities = [
     { name: "Créteil", link: "/demenagement-creteil-94000"},
     { name: "Vitry-sur-Seine", link: "/demenagement-vitry-sur-seine-94400"},
-    { name: "Champigny-sur-Marne", link: "#"},
+    { name: "Champigny-sur-Marne", link: "/demenagement-champigny-sur-marne-94500"},
     { name: "Saint-Maur-des-Fossés", link: "#"},
     { name: "Ivry-sur-Seine", link: "#"},
     { name: "Maisons-Alfort", link: "#"},
