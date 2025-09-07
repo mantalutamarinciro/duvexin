@@ -23,7 +23,7 @@ const valDOiseCities = [
     { name: "Garges-lès-Gonesse", link: "/demenagement-garges-les-gonesse-95140" },
     { name: "Franconville", link: "/demenagement-franconville-95130" },
     { name: "Goussainville", link: "/demenagement-goussainville-95190" },
-    { name: "Ermont", link: "#" },
+    { name: "Ermont", link: "/demenagement-ermont-95120" },
     { name: "Taverny", link: "#" },
     { name: "Villiers-le-Bel", link: "#" },
     { name: "L'Isle-Adam", link: "#" },
