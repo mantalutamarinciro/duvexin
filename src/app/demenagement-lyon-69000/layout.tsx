@@ -4,8 +4,8 @@ import type { PropsWithChildren } from "react";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Déménagement Lyon (69) | Île-de-France <> Lyon | DemDuVexin",
-  description: "Déménagement longue distance entre Lyon (69) et l'Île-de-France. Service fiable pour particuliers et entreprises. Devis gratuit et rapide.",
+  title: "Déménagement Île-de-France → Lyon (69) | Spécialiste Longue Distance | DemDuVexin",
+  description: "Déménagement longue distance entre l'Île-de-France et Lyon (69). Service fiable et optimisé pour les particuliers et les entreprises. Devis gratuit.",
 };
 
 

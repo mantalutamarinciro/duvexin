@@ -11,14 +11,14 @@ const services = [
         description: "Un service rapide et efficace pour vos déménagements de proximité.",
         imageUrl: "https://picsum.photos/seed/local-move/600/400",
         aiHint: "local moving city",
-        link: "#"
+        link: "/demenagement-val-d-oise-95"
     },
     {
         title: "Déménagement Régional (Île-de-France)",
         description: "Nous couvrons toute la région parisienne avec professionnalisme.",
         imageUrl: "https://picsum.photos/seed/regional-move/600/400",
         aiHint: "regional moving truck",
-        link: "#"
+        link: "/zones-intervention"
     },
     {
         title: "Déménagement National (Vers toute la France)",
@@ -39,14 +39,14 @@ const services = [
         description: "Des solutions de stockage flexibles et sécurisées pour vos biens.",
         imageUrl: "https://picsum.photos/seed/storage-unit/600/400",
         aiHint: "storage unit boxes",
-        link: "#"
+        link: "/demenagement-garde-meubles"
     },
     {
         title: "Déménagement d'Œuvres d'Art",
         description: "Un savoir-faire unique pour le transport de vos objets les plus précieux.",
         imageUrl: "https://picsum.photos/seed/art-moving/600/400",
         aiHint: "art moving painting",
-        link: "#"
+        link: "/demenagement-oeuvres-art"
     },
     {
         title: "Déménagement d'Entreprise",
@@ -60,7 +60,7 @@ const services = [
         description: "Pianos, coffres-forts... Aucun objet ne nous résiste.",
         imageUrl: "https://picsum.photos/seed/heavy-moving/600/400",
         aiHint: "moving heavy piano",
-        link: "#"
+        link: "/demenagement-objets-lourds"
     }
 ];
 
@@ -122,7 +122,7 @@ export default function ServicesPage() {
                             <div className="p-6 pt-0">
                                 <Button variant="link" className="p-0" asChild>
                                     <Link href={service.link}>
-                                        Voir ce service <ArrowRight className="ml-2 h-4 w-4"/>
+                                        En savoir plus <ArrowRight className="ml-2 h-4 w-4"/>
                                     </Link>
                                 </Button>
                             </div>
