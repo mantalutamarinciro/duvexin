@@ -26,7 +26,7 @@ const valDOiseCities = [
     { name: "Ermont", link: "/demenagement-ermont-95120" },
     { name: "Taverny", link: "/demenagement-taverny-95150" },
     { name: "Villiers-le-Bel", link: "/demenagement-villiers-le-bel-95400" },
-    { name: "L'Isle-Adam", link: "#" },
+    { name: "L'Isle-Adam", link: "/demenagement-lisle-adam-95290" },
     { name: "Méry-sur-Oise", link: "#" }
 ];
 
