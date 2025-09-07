@@ -16,19 +16,20 @@ const fallbackTestimonials: FormattedReview[] = [
 ];
 
 const valDeMarneCities = [
-    { name: "Créteil", link: "/demenagement-creteil-94000"},
-    { name: "Vitry-sur-Seine", link: "/demenagement-vitry-sur-seine-94400"},
-    { name: "Champigny-sur-Marne", link: "/demenagement-champigny-sur-marne-94500"},
-    { name: "Saint-Maur-des-Fossés", link: "/demenagement-saint-maur-des-fosses-94100"},
-    { name: "Ivry-sur-Seine", link: "/demenagement-ivry-sur-seine-94200"},
-    { name: "Maisons-Alfort", link: "/demenagement-maisons-alfort-94700"},
-    { name: "Fontenay-sous-Bois", link: "/demenagement-fontenay-sous-bois-94120"},
-    { name: "Vincennes", link: "/demenagement-vincennes-94300" },
     { name: "Alfortville", link: "/demenagement-alfortville-94140" },
+    { name: "Cachan", link: "/demenagement-cachan-94230" },
+    { name: "Champigny-sur-Marne", link: "/demenagement-champigny-sur-marne-94500"},
     { name: "Choisy-le-Roi", link: "/demenagement-choisy-le-roi-94600" },
+    { name: "Créteil", link: "/demenagement-creteil-94000"},
+    { name: "Fontenay-sous-Bois", link: "/demenagement-fontenay-sous-bois-94120"},
+    { name: "Ivry-sur-Seine", link: "/demenagement-ivry-sur-seine-94200"},
     { name: "Le Perreux-sur-Marne", link: "/demenagement-le-perreux-sur-marne-94170" },
+    { name: "Maisons-Alfort", link: "/demenagement-maisons-alfort-94700"},
     { name: "Nogent-sur-Marne", link: "/demenagement-nogent-sur-marne-94130" },
     { name: "Saint-Mandé", link: "/demenagement-saint-mande-94220" },
+    { name: "Saint-Maur-des-Fossés", link: "/demenagement-saint-maur-des-fosses-94100"},
+    { name: "Vincennes", link: "/demenagement-vincennes-94300" },
+    { name: "Vitry-sur-Seine", link: "/demenagement-vitry-sur-seine-94400"},
 ];
 
 const whyChooseUsItems = [
