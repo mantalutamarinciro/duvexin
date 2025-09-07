@@ -25,7 +25,7 @@ const valDOiseCities = [
     { name: "Goussainville", link: "/demenagement-goussainville-95190" },
     { name: "Ermont", link: "/demenagement-ermont-95120" },
     { name: "Taverny", link: "/demenagement-taverny-95150" },
-    { name: "Villiers-le-Bel", link: "#" },
+    { name: "Villiers-le-Bel", link: "/demenagement-villiers-le-bel-95400" },
     { name: "L'Isle-Adam", link: "#" },
     { name: "Méry-sur-Oise", link: "#" }
 ];
@@ -68,7 +68,7 @@ const faqItems = [
         answer: "Absolument. Nous maîtrisons les défis des zones urbaines denses du Val-d'Oise. Nous gérons les demandes d'autorisation de stationnement et nous pouvons utiliser des monte-meubles pour les étages élevés, garantissant un déménagement rapide et sécurisé."
     },
     {
-        question: "Quels sont vos délais pour un déménagement au sein du Val-d'Oise ?",
+        question: "Quels sont vos délais pour organiser un déménagement dans le Val-d'Oise ?",
         answer: "En tant qu'acteur local, nous offrons une grande réactivité. Idéalement, contactez-nous 2 à 3 semaines à l'avance. Cependant, nous nous efforçons toujours de trouver des solutions pour des besoins plus urgents. N'hésitez pas à nous appeler pour connaître nos disponibilités."
     }
 ];
