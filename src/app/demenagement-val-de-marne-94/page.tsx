@@ -20,6 +20,7 @@ const valDeMarneCities = [
     { name: "Arcueil", link: "/demenagement-arcueil-94110" },
     { name: "Cachan", link: "/demenagement-cachan-94230" },
     { name: "Champigny-sur-Marne", link: "/demenagement-champigny-sur-marne-94500"},
+    { name: "Charenton-le-Pont", link: "/demenagement-charenton-le-pont-94220"},
     { name: "Choisy-le-Roi", link: "/demenagement-choisy-le-roi-94600" },
     { name: "Créteil", link: "/demenagement-creteil-94000"},
     { name: "Fontenay-sous-Bois", link: "/demenagement-fontenay-sous-bois-94120"},
