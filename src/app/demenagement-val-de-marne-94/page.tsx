@@ -20,7 +20,7 @@ const valDeMarneCities = [
     { name: "Vitry-sur-Seine", link: "/demenagement-vitry-sur-seine-94400"},
     { name: "Champigny-sur-Marne", link: "/demenagement-champigny-sur-marne-94500"},
     { name: "Saint-Maur-des-Fossés", link: "/demenagement-saint-maur-des-fosses-94100"},
-    { name: "Ivry-sur-Seine", link: "#"},
+    { name: "Ivry-sur-Seine", link: "/demenagement-ivry-sur-seine-94200"},
     { name: "Maisons-Alfort", link: "#"},
     { name: "Fontenay-sous-Bois", link: "#"},
     { name: "Vincennes", link: "#" },
