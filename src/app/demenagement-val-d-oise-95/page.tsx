@@ -17,6 +17,7 @@ const fallbackTestimonials: FormattedReview[] = [
 
 const valDOiseCities = [
     { name: "Argenteuil", link: "/demenagement-argenteuil-95100" },
+    { name: "Bezons", link: "/demenagement-bezons-95870" },
     { name: "Cergy", link: "/demenagement-cergy-95000" },
     { name: "Cormeilles-en-Parisis", link: "/demenagement-cormeilles-en-parisis-95240" },
     { name: "Ermont", link: "/demenagement-ermont-95120" },
