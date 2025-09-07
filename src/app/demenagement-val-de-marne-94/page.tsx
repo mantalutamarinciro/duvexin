@@ -22,7 +22,7 @@ const valDeMarneCities = [
     { name: "Saint-Maur-des-Fossés", link: "/demenagement-saint-maur-des-fosses-94100"},
     { name: "Ivry-sur-Seine", link: "/demenagement-ivry-sur-seine-94200"},
     { name: "Maisons-Alfort", link: "/demenagement-maisons-alfort-94700"},
-    { name: "Fontenay-sous-Bois", link: "#"},
+    { name: "Fontenay-sous-Bois", link: "/demenagement-fontenay-sous-bois-94120"},
     { name: "Vincennes", link: "#" },
     { name: "Alfortville", link: "#" },
     { name: "Choisy-le-Roi", link: "#" },
