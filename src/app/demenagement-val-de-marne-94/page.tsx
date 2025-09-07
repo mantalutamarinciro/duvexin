@@ -21,7 +21,7 @@ const valDeMarneCities = [
     { name: "Champigny-sur-Marne", link: "/demenagement-champigny-sur-marne-94500"},
     { name: "Saint-Maur-des-Fossés", link: "/demenagement-saint-maur-des-fosses-94100"},
     { name: "Ivry-sur-Seine", link: "/demenagement-ivry-sur-seine-94200"},
-    { name: "Maisons-Alfort", link: "#"},
+    { name: "Maisons-Alfort", link: "/demenagement-maisons-alfort-94700"},
     { name: "Fontenay-sous-Bois", link: "#"},
     { name: "Vincennes", link: "#" },
     { name: "Alfortville", link: "#" },
