@@ -18,7 +18,7 @@ const fallbackTestimonials: FormattedReview[] = [
 const valDOiseCities = [
     { name: "Cergy", link: "/demenagement-cergy-95000" },
     { name: "Pontoise", link: "/demenagement-pontoise-95300" },
-    { name: "Argenteuil", link: "#" },
+    { name: "Argenteuil", link: "/demenagement-argenteuil-95100" },
     { name: "Sarcelles", link: "#" },
     { name: "Garges-lès-Gonesse", link: "#" },
     { name: "Franconville", link: "#" },
