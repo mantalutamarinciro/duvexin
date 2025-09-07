@@ -17,6 +17,7 @@ const fallbackTestimonials: FormattedReview[] = [
 
 const valDeMarneCities = [
     { name: "Alfortville", link: "/demenagement-alfortville-94140" },
+    { name: "Arcueil", link: "/demenagement-arcueil-94110" },
     { name: "Cachan", link: "/demenagement-cachan-94230" },
     { name: "Champigny-sur-Marne", link: "/demenagement-champigny-sur-marne-94500"},
     { name: "Choisy-le-Roi", link: "/demenagement-choisy-le-roi-94600" },
