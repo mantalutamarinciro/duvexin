@@ -30,6 +30,7 @@ const valDeMarneCities = [
     { name: "Saint-Maur-des-Fossés", link: "/demenagement-saint-maur-des-fosses-94100"},
     { name: "Vincennes", link: "/demenagement-vincennes-94300" },
     { name: "Vitry-sur-Seine", link: "/demenagement-vitry-sur-seine-94400"},
+    { name: "Villejuif", link: "/demenagement-villejuif-94800"},
 ];
 
 const whyChooseUsItems = [
@@ -62,7 +63,7 @@ const faqItems = [
     },
     {
         question: "Proposez-vous des solutions pour les déménagements en appartement dans les grands ensembles de Créteil ou Vitry ?",
-        answer: "Oui, absolument. Nous sommes équipés pour intervenir dans tous types d'habitations. Nous évaluons en amont les accès, la présence d'ascenseurs et si nécessaire, nous pouvons déployer un monte-meubles pour passer par la fenêtre. Cela permet de protéger les parties communes et de déménager rapidement et en toute sécurité."
+        answer: "Oui, absolument. Nous sommes équipés pour intervenir dans tous types d'habitations. Nous évaluons en amont les accès, la présence d'ascenseurs et si nécessaire, nous pouvons déployer un monte-meubles pour passer par la fenêtre. Cela permet de proteger les parties communes et de déménager rapidement et en toute sécurité."
     },
     {
         question: "Quels sont vos délais d'intervention pour un déménagement dans le 94 ?",
