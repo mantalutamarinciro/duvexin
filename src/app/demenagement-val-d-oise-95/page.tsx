@@ -27,6 +27,7 @@ const valDOiseCities = [
     { name: "Herblay-sur-Seine", link: "/demenagement-herblay-sur-seine-95220" },
     { name: "L'Isle-Adam", link: "/demenagement-lisle-adam-95290" },
     { name: "Méry-sur-Oise", link: "/demenagement-mery-sur-oise-95540" },
+    { name: "Montmorency", link: "/demenagement-montmorency-95160" },
     { name: "Pontoise", link: "/demenagement-pontoise-95300" },
     { name: "Sarcelles", link: "/demenagement-sarcelles-95200" },
     { name: "Taverny", link: "/demenagement-taverny-95150" },
