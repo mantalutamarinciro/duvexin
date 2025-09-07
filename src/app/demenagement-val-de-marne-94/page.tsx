@@ -28,6 +28,7 @@ const valDeMarneCities = [
     { name: "Choisy-le-Roi", link: "/demenagement-choisy-le-roi-94600" },
     { name: "Le Perreux-sur-Marne", link: "/demenagement-le-perreux-sur-marne-94170" },
     { name: "Nogent-sur-Marne", link: "/demenagement-nogent-sur-marne-94130" },
+    { name: "Saint-Mandé", link: "/demenagement-saint-mande-94220" },
 ];
 
 const whyChooseUsItems = [
@@ -154,7 +155,7 @@ export default function ValDeMarnePage() {
                         <p className="mt-4 text-muted-foreground text-lg">Nos équipes interviennent quotidiennement dans l'ensemble des communes du département.</p>
                     </div>
                     <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {valDeMarneCities.map((city) => (
+                        {valDeMarneCities.sort((a, b) => a.name.localeCompare(b.name)).map((city) => (
                             <Button asChild variant="outline" className="justify-start" key={city.name}>
                                 <Link href={city.link}>
                                     {city.name}
