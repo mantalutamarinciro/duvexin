@@ -20,6 +20,7 @@ const valDOiseCities = [
     { name: "Bezons", link: "/demenagement-bezons-95870" },
     { name: "Cergy", link: "/demenagement-cergy-95000" },
     { name: "Cormeilles-en-Parisis", link: "/demenagement-cormeilles-en-parisis-95240" },
+    { name: "Enghien-les-Bains", link: "/demenagement-enghien-les-bains-95880" },
     { name: "Ermont", link: "/demenagement-ermont-95120" },
     { name: "Franconville", link: "/demenagement-franconville-95130" },
     { name: "Garges-lès-Gonesse", link: "/demenagement-garges-les-gonesse-95140" },
