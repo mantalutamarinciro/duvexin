@@ -24,7 +24,7 @@ const valDOiseCities = [
     { name: "Franconville", link: "/demenagement-franconville-95130" },
     { name: "Goussainville", link: "/demenagement-goussainville-95190" },
     { name: "Ermont", link: "/demenagement-ermont-95120" },
-    { name: "Taverny", link: "#" },
+    { name: "Taverny", link: "/demenagement-taverny-95150" },
     { name: "Villiers-le-Bel", link: "#" },
     { name: "L'Isle-Adam", link: "#" },
     { name: "Méry-sur-Oise", link: "#" }
