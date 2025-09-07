@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { CheckCircle, MapPin, ShieldCheck, Star, Users } from "lucide-react";
+import { CheckCircle, MapPin, ShieldCheck, Star, Users, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { TestimonialsSection } from "@/components/testimonials-section";
@@ -15,7 +15,20 @@ const fallbackTestimonials: FormattedReview[] = [
     { id: "fallback-3", name: "Société Innov+", text: "Transfert de nos bureaux à Créteil réalisé dans les temps. L'équipe a été rapide et a minimisé l'impact sur notre activité. Parfait.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Innov94` },
 ];
 
-const valDeMarneCities = ["Créteil", "Vitry-sur-Seine", "Champigny-sur-Marne", "Saint-Maur-des-Fossés", "Ivry-sur-Seine", "Maisons-Alfort", "Fontenay-sous-Bois", "Vincennes", "Alfortville", "Choisy-le-Roi", "Le Perreux-sur-Marne", "Nogent-sur-Marne"];
+const valDeMarneCities = [
+    { name: "Créteil", link: "/demenagement-creteil-94000"},
+    { name: "Vitry-sur-Seine", link: "#"},
+    { name: "Champigny-sur-Marne", link: "#"},
+    { name: "Saint-Maur-des-Fossés", link: "#"},
+    { name: "Ivry-sur-Seine", link: "#"},
+    { name: "Maisons-Alfort", link: "#"},
+    { name: "Fontenay-sous-Bois", link: "#"},
+    { name: "Vincennes", link: "#" },
+    { name: "Alfortville", link: "#" },
+    { name: "Choisy-le-Roi", link: "#" },
+    { name: "Le Perreux-sur-Marne", link: "#" },
+    { name: "Nogent-sur-Marne", link: "#" },
+];
 
 const whyChooseUsItems = [
     {
@@ -140,11 +153,14 @@ export default function ValDeMarnePage() {
                         <h2 className="text-3xl font-bold">Nous couvrons tout le Val-de-Marne</h2>
                         <p className="mt-4 text-muted-foreground text-lg">Nos équipes interviennent quotidiennement dans l'ensemble des communes du département.</p>
                     </div>
-                    <div className="mt-12 flex flex-wrap justify-center gap-3">
+                    <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {valDeMarneCities.map((city) => (
-                            <div key={city} className="bg-background border rounded-full px-4 py-2 text-sm font-medium shadow-sm hover:bg-primary hover:text-primary-foreground transition-colors">
-                                {city}
-                            </div>
+                            <Button asChild variant="outline" className="justify-start" key={city.name}>
+                                <Link href={city.link}>
+                                    {city.name}
+                                    <ArrowRight className="ml-auto h-4 w-4" />
+                                </Link>
+                            </Button>
                         ))}
                     </div>
                 </div>
