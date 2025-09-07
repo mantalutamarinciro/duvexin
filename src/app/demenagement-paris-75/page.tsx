@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { CheckCircle, MapPin, ShieldCheck, Star, Users, ArrowRight, Truck } from "lucide-react";
+import { CheckCircle, MapPin, ShieldCheck, Star, Users, ArrowRight, Truck, Landmark } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { TestimonialsSection } from "@/components/testimonials-section";
@@ -15,7 +15,16 @@ const fallbackTestimonials: FormattedReview[] = [
     { id: "fallback-3", name: "Entreprise Innovatech", text: "Transfert de nos bureaux près de La Défense sans aucune interruption de notre activité. Une planification parfaite et une exécution sans faille. Bravo à toute l'équipe.", rating: 5, createTime: "il y a 10 mois", avatarUrl: `https://i.pravatar.cc/48?u=Innovatech` },
 ];
 
-const parisArrondissements = ["Le Marais (3e, 4e)", "Quartier Latin (5e)", "Saint-Germain (6e)", "Opéra (9e)", "Montmartre (18e)", "Batignolles (17e)", "Passy (16e)", "Vaugirard (15e)", "Buttes-Chaumont (19e)", "Bercy (12e)", "La Villette (19e)", "Et tous les autres arrondissements..."];
+const parisQuartiers = [
+    { name: "Le Marais (3e, 4e)", id: "marais", icon: <Landmark className="mr-2"/> },
+    { name: "Montmartre (18e)", id: "montmartre", icon: <Landmark className="mr-2"/> },
+    { name: "Saint-Germain (6e)", id: "saint-germain", icon: <Landmark className="mr-2"/> },
+    { name: "Quartier Latin (5e)", id: "quartier-latin", icon: <Landmark className="mr-2"/> },
+    { name: "Passy (16e)", id: "passy", icon: <Landmark className="mr-2"/> },
+    { name: "Batignolles (17e)", id: "batignolles", icon: <Landmark className="mr-2"/> },
+    { name: "Opéra (9e)", id: "opera", icon: <Landmark className="mr-2"/> },
+    { name: "Et bien d'autres...", id: "faq-paris", icon: <Landmark className="mr-2"/> },
+];
 
 const whyChooseUsItems = [
     {
@@ -138,17 +147,54 @@ export default function ParisPage() {
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
                         <h2 className="text-3xl font-bold">Nous intervenons dans tous les arrondissements de Paris</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Que vous emménagiez sur la Rive Gauche ou la Rive Droite, notre connaissance de Paris est votre meilleur atout.</p>
+                        <p className="mt-4 text-muted-foreground text-lg">Que vous emménagiez sur la Rive Gauche ou la Rive Droite, notre connaissance de Paris est votre meilleur atout. Découvrez notre expertise dans les quartiers les plus emblématiques.</p>
                     </div>
-                    <div className="mt-12 flex flex-wrap justify-center gap-3">
-                        {parisArrondissements.map((arr) => (
-                            <div key={arr} className="bg-background border rounded-full px-4 py-2 text-sm font-medium shadow-sm">
-                                {arr}
-                            </div>
+                    <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                       {parisQuartiers.map((quartier) => (
+                            <Button key={quartier.id} variant="outline" className="justify-start" asChild>
+                                <Link href={`#${quartier.id}`}>
+                                    {quartier.icon}
+                                    {quartier.name}
+                                </Link>
+                            </Button>
                         ))}
                     </div>
                 </div>
              </section>
+             
+             {/* Quartiers Details Section */}
+             <div className="space-y-16 py-16">
+                <section id="marais" className="container grid lg:grid-cols-2 gap-12 items-center">
+                     <div className="order-2 lg:order-1">
+                        <Image src="https://picsum.photos/seed/marais-paris/600/400" alt="Une rue pittoresque du quartier du Marais à Paris" width={600} height={400} className="rounded-lg shadow-lg" data-ai-hint="marais paris street"/>
+                    </div>
+                    <div className="order-1 lg:order-2">
+                        <h3 className="text-2xl font-bold">Déménager dans le Marais (3e, 4e)</h3>
+                        <p className="mt-4 text-muted-foreground">Avec ses rues étroites et ses cours pavées, le Marais demande une logistique de précision. Nous utilisons des véhicules adaptés et des monte-meubles pour accéder à votre domicile en toute sécurité et dans le respect de ce quartier historique.</p>
+                    </div>
+                </section>
+                
+                 <section id="montmartre" className="container grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 className="text-2xl font-bold">Déménager à Montmartre (18e)</h3>
+                        <p className="mt-4 text-muted-foreground">La butte Montmartre et ses escaliers sont un défi que nous relevons avec expertise. Nos équipes sont entraînées au portage en escalier et nous planifions chaque intervention pour gérer les rues en pente et les accès difficiles.</p>
+                    </div>
+                     <div>
+                        <Image src="https://picsum.photos/seed/montmartre-paris/600/400" alt="Vue sur les escaliers de Montmartre" width={600} height={400} className="rounded-lg shadow-lg" data-ai-hint="montmartre paris stairs"/>
+                    </div>
+                </section>
+
+                <section id="saint-germain" className="container grid lg:grid-cols-2 gap-12 items-center">
+                     <div className="order-2 lg:order-1">
+                        <Image src="https://picsum.photos/seed/saint-germain-paris/600/400" alt="Un café typique du quartier de Saint-Germain-des-Prés" width={600} height={400} className="rounded-lg shadow-lg" data-ai-hint="saint germain paris cafe"/>
+                    </div>
+                    <div className="order-1 lg:order-2">
+                        <h3 className="text-2xl font-bold">Déménager à Saint-Germain-des-Prés (6e)</h3>
+                        <p className="mt-4 text-muted-foreground">Ce quartier chic exige une discrétion et un soin de tous les instants. Nous protégeons les parties communes des immeubles haussmanniens et assurons un service haut de gamme pour vos biens de valeur.</p>
+                    </div>
+                </section>
+             </div>
+
 
              {/* Services Section */}
             <section className="py-16 bg-muted/50">
