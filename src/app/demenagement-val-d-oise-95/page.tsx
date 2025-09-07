@@ -20,7 +20,7 @@ const valDOiseCities = [
     { name: "Pontoise", link: "/demenagement-pontoise-95300" },
     { name: "Argenteuil", link: "/demenagement-argenteuil-95100" },
     { name: "Sarcelles", link: "/demenagement-sarcelles-95200" },
-    { name: "Garges-lès-Gonesse", link: "#" },
+    { name: "Garges-lès-Gonesse", link: "/demenagement-garges-les-gonesse-95140" },
     { name: "Franconville", link: "#" },
     { name: "Goussainville", link: "#" },
     { name: "Ermont", link: "#" },
