@@ -25,7 +25,7 @@ const valDeMarneCities = [
     { name: "Fontenay-sous-Bois", link: "/demenagement-fontenay-sous-bois-94120"},
     { name: "Vincennes", link: "/demenagement-vincennes-94300" },
     { name: "Alfortville", link: "/demenagement-alfortville-94140" },
-    { name: "Choisy-le-Roi", link: "#" },
+    { name: "Choisy-le-Roi", link: "/demenagement-choisy-le-roi-94600" },
     { name: "Le Perreux-sur-Marne", link: "#" },
     { name: "Nogent-sur-Marne", link: "#" },
 ];
