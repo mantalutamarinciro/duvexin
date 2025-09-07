@@ -23,6 +23,7 @@ const valDeMarneCities = [
     { name: "Créteil", link: "/demenagement-creteil-94000"},
     { name: "Fontenay-sous-Bois", link: "/demenagement-fontenay-sous-bois-94120"},
     { name: "Ivry-sur-Seine", link: "/demenagement-ivry-sur-seine-94200"},
+    { name: "L'Haÿ-les-Roses", link: "/demenagement-lhay-les-roses-94240"},
     { name: "Le Perreux-sur-Marne", link: "/demenagement-le-perreux-sur-marne-94170" },
     { name: "Maisons-Alfort", link: "/demenagement-maisons-alfort-94700"},
     { name: "Nogent-sur-Marne", link: "/demenagement-nogent-sur-marne-94130" },
