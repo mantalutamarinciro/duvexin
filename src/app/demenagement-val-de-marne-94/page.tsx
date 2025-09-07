@@ -26,7 +26,7 @@ const valDeMarneCities = [
     { name: "Vincennes", link: "/demenagement-vincennes-94300" },
     { name: "Alfortville", link: "/demenagement-alfortville-94140" },
     { name: "Choisy-le-Roi", link: "/demenagement-choisy-le-roi-94600" },
-    { name: "Le Perreux-sur-Marne", link: "#" },
+    { name: "Le Perreux-sur-Marne", link: "/demenagement-le-perreux-sur-marne-94170" },
     { name: "Nogent-sur-Marne", link: "#" },
 ];
 
