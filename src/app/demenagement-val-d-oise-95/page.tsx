@@ -16,18 +16,19 @@ const fallbackTestimonials: FormattedReview[] = [
 ];
 
 const valDOiseCities = [
-    { name: "Cergy", link: "/demenagement-cergy-95000" },
-    { name: "Pontoise", link: "/demenagement-pontoise-95300" },
     { name: "Argenteuil", link: "/demenagement-argenteuil-95100" },
-    { name: "Sarcelles", link: "/demenagement-sarcelles-95200" },
-    { name: "Garges-lès-Gonesse", link: "/demenagement-garges-les-gonesse-95140" },
-    { name: "Franconville", link: "/demenagement-franconville-95130" },
-    { name: "Goussainville", link: "/demenagement-goussainville-95190" },
+    { name: "Cergy", link: "/demenagement-cergy-95000" },
     { name: "Ermont", link: "/demenagement-ermont-95120" },
+    { name: "Franconville", link: "/demenagement-franconville-95130" },
+    { name: "Garges-lès-Gonesse", link: "/demenagement-garges-les-gonesse-95140" },
+    { name: "Goussainville", link: "/demenagement-goussainville-95190" },
+    { name: "Herblay-sur-Seine", link: "/demenagement-herblay-sur-seine-95220" },
+    { name: "L'Isle-Adam", link: "/demenagement-lisle-adam-95290" },
+    { name: "Méry-sur-Oise", link: "/demenagement-mery-sur-oise-95540" },
+    { name: "Pontoise", link: "/demenagement-pontoise-95300" },
+    { name: "Sarcelles", link: "/demenagement-sarcelles-95200" },
     { name: "Taverny", link: "/demenagement-taverny-95150" },
     { name: "Villiers-le-Bel", link: "/demenagement-villiers-le-bel-95400" },
-    { name: "L'Isle-Adam", link: "/demenagement-lisle-adam-95290" },
-    { name: "Méry-sur-Oise", link: "/demenagement-mery-sur-oise-95540" }
 ];
 
 
@@ -155,7 +156,7 @@ export default function ValDOisePage() {
                         <p className="mt-4 text-muted-foreground text-lg">De l'aéroport de Roissy aux boucles de la Seine, nos équipes sont chez elles dans tout le département.</p>
                     </div>
                     <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {valDOiseCities.map((city) => (
+                        {valDOiseCities.sort((a,b) => a.name.localeCompare(b.name)).map((city) => (
                              <Button asChild variant="outline" className="justify-start" key={city.name}>
                                 <Link href={city.link}>
                                     {city.name}
