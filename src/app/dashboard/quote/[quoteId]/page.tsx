@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import { Loader2, Wand2, Calendar as CalendarIcon, FileText, ArrowLeft } from "lucide-react"
+import { Loader2, Wand2, Calendar as CalendarIcon, FileText, ArrowLeft, Info } from "lucide-react"
 
 import {
   Card,
@@ -36,13 +36,14 @@ import { useToast } from "@/hooks/use-toast"
 import { getQuoteById, updateQuote, Quote } from "@/services/quoteService"
 import { getMoveDetails } from "@/ai/flows/move-details"
 import { Skeleton } from "@/components/ui/skeleton"
-import { serviceTypeLabels } from "./page"
+import { serviceTypeLabels } from "../page"
 import Link from "next/link"
 import { Textarea } from "@/components/ui/textarea"
 import { generateQuote, QuoteInput } from "@/ai/flows/quote-generation-flow"
 import jsPDF from "jspdf"
 import html2canvas from "html2canvas"
 import { QuotePDF } from "@/components/quote-pdf"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 
 export const quoteFormSchema = z.object({
@@ -88,6 +89,9 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
         },
     });
 
+    const originAddress = form.watch("originAddress");
+    const destinationAddress = form.watch("destinationAddress");
+
     useEffect(() => {
         if (params.quoteId) {
             getQuoteById(params.quoteId)
@@ -125,13 +129,26 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
             form.setValue("originAddress", details.formattedOriginAddress, { shouldValidate: true });
             form.setValue("destinationAddress", details.formattedDestinationAddress, { shouldValidate: true });
             form.setValue("distance", Math.round(details.distanceKm), { shouldValidate: true });
-            toast({ title: "Analyse d'adresse réussie", description: "Les adresses et la distance ont été mises à jour." });
+            toast({ title: "Analyse d'adresse réussie", description: "Les adresses et la distance ont été mises à jour automatiquement." });
         } catch (error) {
-            toast({ variant: "destructive", title: "Erreur d'analyse", description: "Impossible d'analyser les adresses via l'IA." });
+            toast({ variant: "destructive", title: "Erreur d'analyse", description: "Impossible d'analyser les adresses via l'IA. Veuillez vérifier et réessayer, ou saisir la distance manuellement si le problème persiste." });
         } finally {
             setIsAnalyzing(false);
         }
     };
+    
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            if (originAddress && destinationAddress && (originAddress !== quote?.originAddress || destinationAddress !== quote?.destinationAddress)) {
+                handleAddressAnalysis();
+            }
+        }, 2000);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [originAddress, destinationAddress, quote]);
+
 
     const handleGenerateQuote = async () => {
         const values = form.getValues();
@@ -215,6 +232,7 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
     }
 
     return (
+        <TooltipProvider>
         <div className="flex flex-col gap-6">
             {pdfLoading && generatedQuote && (
                 <div className="absolute -z-10 -left-[9999px] -top-[9999px]">
@@ -247,20 +265,21 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
                     </Card>
 
                      <Card>
-                        <CardHeader><CardTitle>Trajet et Dates</CardTitle></CardHeader>
+                        <CardHeader>
+                            <div className="flex items-center justify-between">
+                                <CardTitle>Trajet et Dates</CardTitle>
+                                {isAnalyzing && <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />}
+                            </div>
+                        </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <FormField control={form.control} name="originAddress" render={({ field }) => (
-                                    <FormItem><FormLabel>Adresse de départ</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                                    <FormItem><FormLabel>Adresse de départ</FormLabel><FormControl><Input {...field} autoComplete="off"/></FormControl><FormMessage /></FormItem>
                                 )}/>
                                 <FormField control={form.control} name="destinationAddress" render={({ field }) => (
-                                    <FormItem><FormLabel>Adresse d'arrivée</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                                    <FormItem><FormLabel>Adresse d'arrivée</FormLabel><FormControl><Input {...field} autoComplete="off" /></FormControl><FormMessage /></FormItem>
                                 )}/>
                             </div>
-                            <Button type="button" onClick={handleAddressAnalysis} disabled={isAnalyzing}>
-                                {isAnalyzing ? <Loader2 className="mr-2 animate-spin"/> : <Wand2 className="mr-2"/>}
-                                Vérifier adresses (IA)
-                            </Button>
                              <div className="grid gap-4 sm:grid-cols-2">
                                 <FormField control={form.control} name="moveDate" render={({ field }) => (
                                     <FormItem className="flex flex-col">
@@ -281,8 +300,21 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
                                         <FormMessage />
                                     </FormItem>
                                 )}/>
-                                <FormField control={form.control} name="distance" render={({ field }) => (
-                                    <FormItem><FormLabel>Distance (km)</FormLabel><FormControl><Input type="number" {...field} /></FormControl><FormMessage /></FormItem>
+                                 <FormField control={form.control} name="distance" render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Distance (km)</FormLabel>
+                                         <Tooltip>
+                                            <TooltipTrigger className="w-full">
+                                                <FormControl>
+                                                    <Input type="number" readOnly {...field} className="bg-muted cursor-not-allowed"/>
+                                                </FormControl>
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                <p className="flex items-center gap-2"><Wand2 className="h-4 w-4"/> Distance calculée automatiquement par l'IA</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                        <FormMessage />
+                                    </FormItem>
                                 )}/>
                              </div>
                         </CardContent>
@@ -349,5 +381,6 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
              </Form>
 
         </div>
+        </TooltipProvider>
     )
 }

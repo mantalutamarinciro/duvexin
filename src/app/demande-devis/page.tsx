@@ -93,7 +93,7 @@ export default function PublicQuotePage() {
     const destination = form.getValues("destinationAddress");
 
     if (!origin || origin.length < 5 || !destination || destination.length < 5) {
-      return;
+        return;
     }
 
     setIsAnalyzingAddress(true);
@@ -407,6 +407,4 @@ export default function PublicQuotePage() {
     </div>
   )
 }
-    
-
     
