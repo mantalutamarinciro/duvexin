@@ -23,6 +23,7 @@ const topDestinations = [
     { name: "Toulouse", link: "/demenagement-ile-de-france-toulouse" },
     { name: "Strasbourg", link: "/demenagement-ile-de-france-strasbourg" },
     { name: "Nice", link: "/demenagement-ile-de-france-nice" },
+    { name: "Rennes", link: "/demenagement-ile-de-france-rennes" },
 ];
 
 export default function DemenagementNationalPage() {
@@ -86,7 +87,7 @@ export default function DemenagementNationalPage() {
                         <p className="mt-4 text-muted-foreground text-lg">Nous desservons l'ensemble du territoire, avec des liaisons fréquentes vers les plus grandes métropoles françaises.</p>
                     </div>
                     <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {topDestinations.map((city) => (
+                        {topDestinations.sort((a,b) => a.name.localeCompare(b.name)).map((city) => (
                             <Button asChild variant={city.link === '#' ? 'outline' : 'default'} className="justify-start text-base p-6" key={city.name}>
                                 <Link href={city.link}>
                                     {city.name}
