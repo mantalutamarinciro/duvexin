@@ -28,7 +28,7 @@ const ileDeFranceDepartments = [
 const normandieDepartments = [
     { name: "Eure (27)", description: "Avec notre agence à Évreux, nous sommes au plus proche de vous.", link: "/demenagement-eure-27" },
     { name: "Seine-Maritime (76)", description: "De Rouen au Havre, nous assurons vos déménagements.", link: "/demenagement-seine-maritime-76" },
-    { name: "Calvados (14)", description: "Nous vous accompagnons pour vos projets à Caen et sur la côte.", link: "#" },
+    { name: "Calvados (14)", description: "Nous vous accompagnons pour vos projets à Caen et sur la côte.", link: "/demenagement-calvados-14" },
     { name: "Orne (61)", description: "Une présence régulière pour vos déménagements dans l'Orne.", link: "#" },
     { name: "Manche (50)", description: "Nous couvrons également le département de la Manche.", link: "#" },
 ];
