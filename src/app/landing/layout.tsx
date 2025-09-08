@@ -24,7 +24,7 @@ export default function LandingLayout({ children }: PropsWithChildren) {
                     <Logo />
                     <MainNav />
                      <Button asChild>
-                        <Link href="/dashboard/quote">Obtenir un devis</Link>
+                        <Link href="/demande-devis">Obtenir un devis</Link>
                     </Button>
                 </div>
             </header>
@@ -63,7 +63,7 @@ export default function LandingLayout({ children }: PropsWithChildren) {
                            <Link href="/a-propos-de-demenagement-du-vexin" className="hover:text-primary">A propos</Link>
                            <Link href="/services" className="hover:text-primary">Services</Link>
                            <Link href="/landing#contact" className="hover:text-primary">Contact</Link>
-                           <Link href="/dashboard/quote" className="hover:text-primary">Devis</Link>
+                           <Link href="/demande-devis" className="hover:text-primary">Devis</Link>
                         </div>
                    </div>
                 </div>
@@ -76,3 +76,4 @@ export default function LandingLayout({ children }: PropsWithChildren) {
         </div>
     );
 }
+    

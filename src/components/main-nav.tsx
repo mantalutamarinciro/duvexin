@@ -122,7 +122,7 @@ export function MainNav() {
                  <NavigationMenuItem>
                     <NavigationMenuLink asChild>
                        <Link href="/calculateur-volume" className={navigationMenuTriggerStyle()}>
-                            <Calculator className="mr-2"/> Calculateur de volume
+                            Calculateur de volume
                         </Link>
                     </NavigationMenuLink>
                 </NavigationMenuItem>

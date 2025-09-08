@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import { useRef } from "react";
@@ -109,10 +108,10 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                     <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto drop-shadow-sm">Déménagement 100 % réalisé par nos propres équipes, sans sous-traitance ni intérim, pour une qualité et une sérénité garanties.</p>
                     <div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
                         <Button size="lg" asChild>
-                            <Link href="#contact">Demandez un devis en 2 minutes</Link>
+                            <Link href="/demande-devis">Demandez un devis en 2 minutes</Link>
                         </Button>
                          <Button size="lg" variant="secondary" asChild>
-                            <Link href="/dashboard/inventory">Calculez votre volume</Link>
+                            <Link href="/calculateur-volume">Calculez votre volume</Link>
                         </Button>
                     </div>
                 </div>

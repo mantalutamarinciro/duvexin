@@ -206,7 +206,7 @@ export default function VolumeCalculatorPage() {
         title: "Inventaire sauvegardé",
         description: "Votre volume est enregistré. Vous allez être redirigé pour créer votre devis.",
       })
-      router.push("/dashboard/quote");
+      router.push("/demande-devis");
     } catch (error) {
       toast({
         variant: "destructive",

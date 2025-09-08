@@ -41,7 +41,7 @@ const mainLinks = [
 ]
 
 const toolsLinks = [
-    { href: "/dashboard/quote", label: "Éditeur de devis", icon: FileText },
+    { href: "/demande-devis", label: "Éditeur de devis", icon: FileText },
     { href: "/calculateur-volume", label: "Calculateur Volume", icon: Calculator },
     { href: "/dashboard/visits", label: "Visites", icon: Contact },
     { href: "/dashboard/communication", label: "Communication", icon: Mail },
@@ -151,3 +151,4 @@ export function DashboardNav() {
     </>
   )
 }
+    

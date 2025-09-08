@@ -1,3 +1,4 @@
+
 import type { PropsWithChildren } from 'react';
 import {
   SidebarProvider,
@@ -46,3 +47,5 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
     </SidebarProvider>
   );
 }
+
+    
