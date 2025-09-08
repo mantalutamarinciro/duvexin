@@ -38,6 +38,7 @@ import { getMoveDetails } from "@/ai/flows/move-details"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Calendar as CalendarIcon, RefreshCw, CheckCircle } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 const quoteRequestSchema = z.object({
   clientName: z.string().min(2, "Le nom est requis."),
@@ -46,6 +47,7 @@ const quoteRequestSchema = z.object({
 
   originAddress: z.string().min(5, "L'adresse de départ est requise."),
   destinationAddress: z.string().min(5, "L'adresse de destination est requise."),
+  distance: z.coerce.number().min(0),
 
   moveDate: z.date({
     required_error: "Une date pour le déménagement est requise.",
@@ -79,6 +81,7 @@ export default function PublicQuotePage() {
       clientPhone: "",
       originAddress: "",
       destinationAddress: "",
+      distance: 0,
       volume: 10,
       serviceType: "basic",
       details: "",
@@ -101,9 +104,10 @@ export default function PublicQuotePage() {
       const details = await getMoveDetails({ originAddress: origin, destinationAddress: destination });
       form.setValue("originAddress", details.formattedOriginAddress, { shouldValidate: true });
       form.setValue("destinationAddress", details.formattedDestinationAddress, { shouldValidate: true });
+      form.setValue("distance", Math.round(details.distanceKm), { shouldValidate: true });
       toast({
         title: "Analyse IA terminée",
-        description: `Adresses mises à jour pour plus de précision.`,
+        description: `Adresses et distance mises à jour pour plus de précision.`,
       });
     } catch (error) {
       console.error("Erreur d'analyse d'adresse par IA:", error);
@@ -165,11 +169,10 @@ export default function PublicQuotePage() {
     setSaving(true);
     setQuoteId(null);
     try {
-      // We send a dummy distance and quote, they will be calculated by the admin in the dashboard
+      // We send a dummy quote price, it will be calculated by the admin in the dashboard
       const result = await saveQuote({
         ...values,
         moveDate: values.moveDate.toISOString(),
-        distance: 1, 
         quote: 0, 
         status: 'pending',
       });
@@ -192,6 +195,7 @@ export default function PublicQuotePage() {
   }
 
   return (
+    <TooltipProvider>
     <div className="container py-16">
         <div className="max-w-2xl mx-auto">
 
@@ -292,45 +296,67 @@ export default function PublicQuotePage() {
                             )}
                             />
                         </div>
-                        <FormField
-                            control={form.control}
-                            name="moveDate"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                <FormLabel>Date souhaitée du déménagement</FormLabel>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                    <FormControl>
-                                        <Button
-                                        variant={"outline"}
-                                        className={cn(
-                                            "w-[280px] pl-3 text-left font-normal",
-                                            !field.value && "text-muted-foreground"
-                                        )}
-                                        >
-                                        {field.value ? (
-                                            format(field.value, "PPP", { locale: fr })
-                                        ) : (
-                                            <span>Choisissez une date</span>
-                                        )}
-                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                        </Button>
-                                    </FormControl>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0" align="start">
-                                    <Calendar
-                                        mode="single"
-                                        selected={field.value}
-                                        onSelect={field.onChange}
-                                        disabled={(date) => date < new Date() || date < new Date("1900-01-01")}
-                                        initialFocus
-                                    />
-                                    </PopoverContent>
-                                </Popover>
-                                <FormMessage />
-                                </FormItem>
-                            )}
+                         <div className="grid gap-4 sm:grid-cols-2">
+                            <FormField
+                                control={form.control}
+                                name="moveDate"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-col">
+                                    <FormLabel>Date souhaitée du déménagement</FormLabel>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button
+                                            variant={"outline"}
+                                            className={cn(
+                                                "w-full pl-3 text-left font-normal",
+                                                !field.value && "text-muted-foreground"
+                                            )}
+                                            >
+                                            {field.value ? (
+                                                format(field.value, "PPP", { locale: fr })
+                                            ) : (
+                                                <span>Choisissez une date</span>
+                                            )}
+                                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                            </Button>
+                                        </FormControl>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0" align="start">
+                                        <Calendar
+                                            mode="single"
+                                            selected={field.value}
+                                            onSelect={field.onChange}
+                                            disabled={(date) => date < new Date() || date < new Date("1900-01-01")}
+                                            initialFocus
+                                        />
+                                        </PopoverContent>
+                                    </Popover>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
                             />
+                            <FormField
+                                control={form.control}
+                                name="distance"
+                                render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Distance (km)</FormLabel>
+                                    <Tooltip>
+                                        <TooltipTrigger className="w-full">
+                                            <FormControl>
+                                                <Input type="number" readOnly {...field} className="bg-muted cursor-not-allowed"/>
+                                            </FormControl>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p className="flex items-center gap-2"><Wand2 className="h-4 w-4"/> Distance calculée automatiquement par l'IA</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                    <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                        </div>
                         </CardContent>
                     </Card>
 
@@ -405,6 +431,7 @@ export default function PublicQuotePage() {
             )}
         </div>
     </div>
+    </TooltipProvider>
   )
 }
     
