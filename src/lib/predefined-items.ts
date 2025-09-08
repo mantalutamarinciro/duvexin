@@ -1,5 +1,5 @@
 
-import { Sofa, Table, Armchair, Bed, Tv, Box, Lamp, Refrigerator, CaseUpper, Microwave, Book, Shirt, Monitor, Dumbbell, WashingMachine, ShowerHead, LayoutGrid, CookingPot, Utensils, Warehouse, Wine, Bike, ToyBrick, CookingPot as Stool, Trash2, BedDouble, Luggage, Layers, Piano, Baby, Briefcase, Printer, Square } from 'lucide-react';
+import { Sofa, Table, Armchair, Bed, Tv, Box, Lamp, Refrigerator, CaseUpper, Microwave, Book, Shirt, Monitor, Dumbbell, WashingMachine, ShowerHead, LayoutGrid, CookingPot, Utensils, Warehouse, Wine, Bike, ToyBrick, Layers, Piano, Baby, Briefcase, Printer, Square, Truck } from 'lucide-react';
 
 export interface PredefinedItem {
     id: string;
@@ -45,7 +45,7 @@ export const roomCategories: RoomCategory[] = [
             { id: 'oven', name: 'Four', icon: CookingPot, volume: 0.15 },
             { id: 'dishwasher', name: 'Lave-vaisselle', icon: WashingMachine, volume: 0.4 },
             { id: 'kitchen_island', name: 'Îlot de cuisine', icon: CaseUpper, volume: 1.2 },
-            { id: 'stool', name: 'Tabouret de bar', icon: Stool, volume: 0.1 },
+            { id: 'stool', name: 'Tabouret de bar', icon: CookingPot, volume: 0.1 },
             { id: 'trash_can', name: 'Poubelle', icon: Trash2, volume: 0.1 },
             { id: 'box_dishes', name: 'Carton vaisselle', icon: CookingPot, volume: 0.12 },
             { id: 'box_utensils', name: 'Carton ustensiles', icon: Utensils, volume: 0.08 },
