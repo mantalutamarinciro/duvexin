@@ -17,6 +17,7 @@ import {
   Calculator,
   Camera,
   Trophy,
+  BookOpen,
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -93,9 +94,6 @@ export function MainNav() {
                             <ListItem href="/demenagement-du-vexin-evreux" title="Agence d'Évreux">
                                 Notre antenne locale pour tous vos besoins en Normandie.
                             </ListItem>
-                             <ListItem href="/zones-intervention" title="Zones d'intervention">
-                                Voir toutes les zones que nous couvrons en IDF et Normandie.
-                            </ListItem>
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
@@ -138,6 +136,13 @@ export function MainNav() {
                     <NavigationMenuLink asChild>
                        <Link href="/zones-intervention" className={navigationMenuTriggerStyle()}>
                             Zones d'intervention
+                        </Link>
+                    </NavigationMenuLink>
+                </NavigationMenuItem>
+                 <NavigationMenuItem>
+                    <NavigationMenuLink asChild>
+                       <Link href="/blog" className={navigationMenuTriggerStyle()}>
+                            Blog
                         </Link>
                     </NavigationMenuLink>
                 </NavigationMenuItem>
