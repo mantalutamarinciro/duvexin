@@ -22,7 +22,7 @@ const topDestinations = [
     { name: "Nantes", link: "/demenagement-ile-de-france-nantes" },
     { name: "Toulouse", link: "/demenagement-ile-de-france-toulouse" },
     { name: "Strasbourg", link: "/demenagement-ile-de-france-strasbourg" },
-    { name: "Nice", link: "#" },
+    { name: "Nice", link: "/demenagement-ile-de-france-nice" },
 ];
 
 export default function DemenagementNationalPage() {
