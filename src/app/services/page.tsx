@@ -25,7 +25,7 @@ const services = [
         description: "Peu importe votre destination en France, nous assurons un transport sécurisé.",
         imageUrl: "https://picsum.photos/seed/national-move/600/400",
         aiHint: "national moving highway",
-        link: "/demenagement-ile-de-france-lyon"
+        link: "/demenagement-national"
     },
     {
         title: "Déménagement International (Europe)",
