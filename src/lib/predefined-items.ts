@@ -1,5 +1,5 @@
 
-import { Sofa, Table, Armchair, Bed, Tv, Box, Lamp, Refrigerator, CaseUpper, Microwave, Book, Shirt, Monitor, Dumbbell, WashingMachine, ShowerHead, LayoutGrid, CookingPot, Utensils, Warehouse, Wine, Bike, ToyBrick, Rug, Shelves, CookingPot as Stool, Trash2, BedDouble, Luggage, Layers, Piano, Baby, Briefcase, Printer, Square } from 'lucide-react';
+import { Sofa, Table, Armchair, Bed, Tv, Box, Lamp, Refrigerator, CaseUpper, Microwave, Book, Shirt, Monitor, Dumbbell, WashingMachine, ShowerHead, LayoutGrid, CookingPot, Utensils, Warehouse, Wine, Bike, ToyBrick, Shelves, CookingPot as Stool, Trash2, BedDouble, Luggage, Layers, Piano, Baby, Briefcase, Printer, Square } from 'lucide-react';
 
 export interface PredefinedItem {
     id: string;
@@ -27,7 +27,7 @@ export const roomCategories: RoomCategory[] = [
             { id: 'tv', name: 'Télévision', icon: Tv, volume: 0.2 },
             { id: 'bookshelf', name: 'Bibliothèque', icon: Book, volume: 1.0 },
             { id: 'lamp', name: 'Lampadaire', icon: Lamp, volume: 0.15 },
-            { id: 'rug', name: 'Tapis', icon: Rug, volume: 0.2 },
+            { id: 'rug', name: 'Tapis', icon: LayoutGrid, volume: 0.2 },
             { id: 'side_table', name: 'Table d\'appoint', icon: Table, volume: 0.1 },
             { id: 'plant_large', name: 'Grande plante', icon: Lamp, volume: 0.4 },
             { id: 'box_generic', name: 'Carton (divers)', icon: Box, volume: 0.1 },
@@ -108,7 +108,7 @@ export const roomCategories: RoomCategory[] = [
         id: 'cellar_garage',
         name: 'Cave & Garage',
         items: [
-            { id: 'storage_shelf', name: 'Étagère de rangement', icon: LayoutGrid, volume: 0.7 },
+            { id: 'storage_shelf', name: 'Étagère de rangement', icon: Shelves, volume: 0.7 },
             { id: 'bicycle', name: 'Vélo', icon: Bike, volume: 0.5 },
             { id: 'tool_box', name: 'Caisse à outils', icon: Box, volume: 0.06 },
             { id: 'wine_rack', name: 'Casier à vin', icon: Wine, volume: 0.4 },
