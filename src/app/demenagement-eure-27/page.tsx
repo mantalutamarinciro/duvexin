@@ -18,7 +18,7 @@ const fallbackTestimonials: FormattedReview[] = [
 const eureCities = [
     { name: "Évreux", link: "/demenagement-evreux-27000"},
     { name: "Vernon", link: "/demenagement-vernon-27200"},
-    { name: "Louviers", link: "#"},
+    { name: "Louviers", link: "/demenagement-louviers-27400"},
     { name: "Val-de-Reuil", link: "#"},
     { name: "Gisors", link: "#"},
     { name: "Bernay", link: "#"},
