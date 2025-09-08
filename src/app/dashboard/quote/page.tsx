@@ -251,8 +251,8 @@ export default function QuotePage() {
       <div className="flex justify-between items-center">
         <h1 className="font-headline text-3xl font-bold tracking-tight">Éditeur de devis</h1>
         <Button asChild variant="outline">
-            <Link href="/dashboard/inventory" target="_blank">
-                Ouvrir l'inventaire
+            <Link href="/calculateur-volume" target="_blank">
+                Ouvrir le calculateur
             </Link>
         </Button>
       </div>
@@ -488,5 +488,4 @@ export default function QuotePage() {
     </div>
   )
 }
-
     
