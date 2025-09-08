@@ -2,9 +2,10 @@
 "use client";
 
 import { useRef } from "react";
+import Autoplay from "embla-carousel-autoplay";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Truck, Package, ShieldCheck, Star, Map, Globe, Building, CheckCircle, Rocket, Users, Handshake, BriefcaseBusiness, Award, Smile, Clock, HelpCircle, MapPin, Calculator } from "lucide-react";
+import { Truck, Package, ShieldCheck, Star, Map, Globe, Building, CheckCircle, Rocket, Users, Handshake, BriefcaseBusiness, Award, Smile, Clock, HelpCircle, MapPin, Calculator, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { ContactForm } from "./contact-form";
@@ -18,19 +19,25 @@ const services = [
         icon: <Map className="h-8 w-8 text-primary" />,
         title: "Déménagement Local & Régional",
         description: "Experts du Val-d’Oise, des Yvelines et de toute l'Île-de-France pour un service de proximité rapide et fiable.",
-        link: "/demenagement-val-d-oise-95"
+        link: "/demenagement-val-d-oise-95",
+        imageUrl: "https://picsum.photos/seed/local-move/600/400",
+        aiHint: "local moving city"
     },
      {
         icon: <Globe className="h-8 w-8 text-primary" />,
         title: "Déménagement National",
         description: "Nous vous accompagnons partout en France grâce à nos lignes régulières vers les grandes métropoles.",
-        link: "/demenagement-national"
+        link: "/demenagement-national",
+        imageUrl: "https://picsum.photos/seed/national-move/600/400",
+        aiHint: "national moving highway"
     },
     {
         icon: <BriefcaseBusiness className="h-8 w-8 text-primary" />,
         title: "Déménagement d'Entreprise",
         description: "Transfert de bureaux, d'archives ou de matériel sensible, planifié pour minimiser l'impact sur votre activité.",
-        link: "/demenagement-entreprise-bureau"
+        link: "/demenagement-entreprise-bureau",
+        imageUrl: "https://picsum.photos/seed/business-move/600/400",
+        aiHint: "office moving empty"
     },
 ];
 
@@ -80,8 +87,8 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative min-h-[90vh] flex items-center bg-gradient-to-t from-background via-background/80 to-transparent">
-                <div className="container grid lg:grid-cols-2 gap-12 items-center py-20">
+            <section className="relative bg-background">
+                <div className="container grid lg:grid-cols-2 gap-12 items-center min-h-[80vh] py-20">
                      <div className="text-center lg:text-left">
                         <p className="font-semibold text-primary">Déménagez l'esprit tranquille.</p>
                         <h1 className="text-4xl md:text-6xl font-headline font-bold mt-2 leading-tight">Votre déménagement, notre engagement.</h1>
@@ -98,7 +105,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                             </Button>
                         </div>
                     </div>
-                     <div className="relative h-64 lg:h-[450px] w-full">
+                     <div className="relative h-80 lg:h-[500px] w-full">
                          <Image 
                             src="https://picsum.photos/seed/movers/1920/1080"
                             alt="Équipe de déménageurs professionnels souriants chargeant un camion"
@@ -119,14 +126,25 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                     </div>
                     <div className="mt-12 grid sm:grid-cols-1 lg:grid-cols-3 gap-8">
                         {services.map((service, i) => (
-                             <Card key={i} className="text-center p-6 flex flex-col items-center hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                                <div className="p-4 bg-primary/10 rounded-full mb-4">{service.icon}</div>
-                                <h3 className="text-xl font-semibold">{service.title}</h3>
-                                <p className="mt-2 text-muted-foreground flex-grow text-sm">{service.description}</p>
-                                <Button variant="link" className="mt-4 p-0" asChild>
-                                    <Link href={service.link}>En savoir plus</Link>
-                                </Button>
-                            </Card>
+                             <Link key={i} href={service.link} className="block group">
+                                 <Card className="overflow-hidden relative h-80">
+                                     <Image 
+                                        src={service.imageUrl}
+                                        alt={service.title}
+                                        fill
+                                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                        data-ai-hint={service.aiHint}
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"/>
+                                    <div className="absolute bottom-0 left-0 p-6 text-white">
+                                        <h3 className="text-xl font-bold">{service.title}</h3>
+                                        <p className="mt-2 text-white/80 text-sm">{service.description}</p>
+                                         <div className="mt-4 flex items-center text-sm font-semibold">
+                                            En savoir plus <ArrowRight className="ml-2 h-4 w-4"/>
+                                        </div>
+                                    </div>
+                                 </Card>
+                             </Link>
                         ))}
                     </div>
                 </div>
@@ -167,10 +185,10 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                     </div>
                     <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
                         {engagementItems.map((item, i) => (
-                            <Card key={i} className="p-6">
-                                <div className="p-3 bg-primary/10 rounded-full w-fit mb-4">{item.icon}</div>
+                            <Card key={i} className="p-6 text-center flex flex-col items-center">
+                                <div className="p-4 bg-primary/10 rounded-full w-fit mb-4">{item.icon}</div>
                                 <h3 className="text-xl font-semibold">{item.title}</h3>
-                                <p className="mt-2 text-muted-foreground text-sm">{item.description}</p>
+                                <p className="mt-2 text-muted-foreground text-sm flex-grow">{item.description}</p>
                             </Card>
                         ))}
                     </div>
