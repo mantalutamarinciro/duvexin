@@ -16,7 +16,7 @@ const fallbackTestimonials: FormattedReview[] = [
 
 const topDestinations = [
     { name: "Lyon", link: "/demenagement-ile-de-france-lyon" },
-    { name: "Marseille", link: "#" },
+    { name: "Marseille", link: "/demenagement-ile-de-france-marseille" },
     { name: "Bordeaux", link: "#" },
     { name: "Lille", link: "#" },
     { name: "Nantes", link: "#" },
