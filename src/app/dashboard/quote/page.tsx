@@ -70,6 +70,8 @@ export default function PublicQuotePage() {
   const [quoteId, setQuoteId] = useState<string | null>(null)
   const [isSyncingVolume, setIsSyncingVolume] = useState(false)
   const [isAnalyzingAddress, setIsAnalyzingAddress] = useState(false);
+  const analyzedAddresses = useRef({ origin: "", destination: "" });
+
 
   const { toast } = useToast()
 
@@ -95,8 +97,13 @@ export default function PublicQuotePage() {
     const origin = form.getValues("originAddress");
     const destination = form.getValues("destinationAddress");
 
-    if (!origin || origin.length < 5 || !destination || destination.length < 5) {
+    if (!origin || origin.length < 5 || !destination || destination.length < 5 || isAnalyzingAddress) {
         return;
+    }
+    
+    // Empêche de relancer si les adresses n'ont pas changé depuis la dernière analyse
+    if (origin === analyzedAddresses.current.origin && destination === analyzedAddresses.current.destination) {
+      return;
     }
 
     setIsAnalyzingAddress(true);
@@ -105,6 +112,10 @@ export default function PublicQuotePage() {
       form.setValue("originAddress", details.formattedOriginAddress, { shouldValidate: true });
       form.setValue("destinationAddress", details.formattedDestinationAddress, { shouldValidate: true });
       form.setValue("distance", Math.round(details.distanceKm), { shouldValidate: true });
+      
+      // Stocke les adresses analysées pour éviter la boucle
+      analyzedAddresses.current = { origin: details.formattedOriginAddress, destination: details.formattedDestinationAddress };
+
       toast({
         title: "Analyse IA terminée",
         description: `Adresses et distance mises à jour pour plus de précision.`,
@@ -129,7 +140,9 @@ export default function PublicQuotePage() {
     return () => {
         clearTimeout(handler);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [originAddress, destinationAddress]);
+
 
   const syncVolumeFromInventory = async () => {
     setIsSyncingVolume(true)
@@ -168,7 +181,7 @@ export default function PublicQuotePage() {
     setSaving(true);
     setQuoteId(null);
     try {
-      // We send a dummy distance and quote, they will be calculated by the admin in the dashboard
+      // We send a dummy quote price, it will be calculated by the admin in the dashboard
       const result = await saveQuote({
         ...values,
         moveDate: values.moveDate.toISOString(),
@@ -188,6 +201,8 @@ export default function PublicQuotePage() {
         title: "Erreur de sauvegarde",
         description: "Impossible d'envoyer votre demande de devis. Veuillez réessayer.",
       });
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -293,7 +308,7 @@ export default function PublicQuotePage() {
                             )}
                             />
                         </div>
-                        <div className="grid gap-4 sm:grid-cols-2">
+                         <div className="grid gap-4 sm:grid-cols-2">
                             <FormField
                                 control={form.control}
                                 name="moveDate"
@@ -431,6 +446,3 @@ export default function PublicQuotePage() {
     </TooltipProvider>
   )
 }
-    
-
-    

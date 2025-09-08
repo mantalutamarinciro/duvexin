@@ -22,7 +22,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { MoreHorizontal, PlusCircle, CheckCircle, XCircle, FileText, Trash2 } from "lucide-react"
+import { MoreHorizontal, PlusCircle, CheckCircle, XCircle, FileEdit, Trash2, BookUser } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { getQuotes, Quote, updateQuoteStatus, QuoteStatus, deleteQuote } from "@/services/quoteService";
 import { createBookingFromQuote } from "@/services/bookingService";
@@ -188,7 +188,7 @@ export default function QuotesPage() {
                     <TableRow key={quote.id}>
                         <TableCell className="font-medium">{quote.clientName}</TableCell>
                         <TableCell>{format(new Date(quote.moveDate), "d MMMM yyyy", { locale: fr })}</TableCell>
-                        <TableCell>{quote.quote.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</TableCell>
+                        <TableCell>{quote.quote > 0 ? quote.quote.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' }) : <span className="text-muted-foreground text-xs italic">Non chiffré</span>}</TableCell>
                         <TableCell>
                             <Badge variant={getBadgeVariant(quote.status)}>{statusLabels[quote.status]}</Badge>
                         </TableCell>
@@ -203,24 +203,31 @@ export default function QuotesPage() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                <DropdownMenuItem asChild>
+                                    <Link href={`/dashboard/quote/${quote.id}`}>
+                                        <FileEdit className="mr-2 h-4 w-4" />
+                                        Modifier / Chiffrer
+                                    </Link>
+                                </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 {quote.status === 'pending' && (
                                     <>
                                     <DropdownMenuItem onClick={() => handleUpdateStatus(quote.id, 'accepted')}>
-                                        <CheckCircle className="mr-2" /> Marquer comme accepté
+                                        <CheckCircle className="mr-2 h-4 w-4 text-green-500" /> Marquer comme accepté
                                     </DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => handleUpdateStatus(quote.id, 'refused')}>
-                                        <XCircle className="mr-2" /> Marquer comme refusé
+                                        <XCircle className="mr-2 h-4 w-4 text-red-500" /> Marquer comme refusé
                                     </DropdownMenuItem>
                                     </>
                                 )}
                                 {quote.status === 'accepted' && (
                                     <DropdownMenuItem onClick={() => handleConvertToBooking(quote)}>
-                                        <FileText className="mr-2" /> Convertir en réservation
+                                        <BookUser className="mr-2 h-4 w-4 text-blue-500" /> Convertir en réservation
                                     </DropdownMenuItem>
                                 )}
-                                <DropdownMenuItem onClick={() => handleDeleteQuote(quote.id)} className="text-destructive">
-                                    <Trash2 className="mr-2" /> Supprimer
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem onClick={() => handleDeleteQuote(quote.id)} className="text-destructive focus:bg-destructive/10 focus:text-destructive">
+                                    <Trash2 className="mr-2 h-4 w-4" /> Supprimer
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>

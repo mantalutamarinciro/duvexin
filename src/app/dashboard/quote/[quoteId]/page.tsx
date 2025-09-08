@@ -391,5 +391,3 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
         </TooltipProvider>
     )
 }
-
-    
