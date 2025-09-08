@@ -14,6 +14,7 @@ import {
   BriefcaseBusiness,
   Truck,
   Package,
+  Calculator,
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -68,7 +69,7 @@ export function MainNav() {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <NavigationMenuLink asChild active={pathname === '/landing' || pathname === '/'}>
+                    <NavigationMenuLink asChild>
                         <Link href="/landing" className={navigationMenuTriggerStyle()}>
                             Accueil
                         </Link>
@@ -116,7 +117,14 @@ export function MainNav() {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                  <NavigationMenuItem>
-                    <NavigationMenuLink asChild active={pathname === '/zones-intervention'}>
+                    <NavigationMenuLink asChild>
+                       <Link href="/calculateur-volume" className={navigationMenuTriggerStyle()}>
+                            <Calculator className="mr-2"/> Calculateur de volume
+                        </Link>
+                    </NavigationMenuLink>
+                </NavigationMenuItem>
+                 <NavigationMenuItem>
+                    <NavigationMenuLink asChild>
                        <Link href="/zones-intervention" className={navigationMenuTriggerStyle()}>
                             Zones d'intervention
                         </Link>

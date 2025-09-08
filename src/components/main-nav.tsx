@@ -14,6 +14,7 @@ import {
   BriefcaseBusiness,
   Truck,
   Package,
+  Calculator,
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -120,6 +121,13 @@ export function MainNav() {
                 </NavigationMenuItem>
                  <NavigationMenuItem>
                     <NavigationMenuLink asChild>
+                       <Link href="/calculateur-volume" className={navigationMenuTriggerStyle()}>
+                            <Calculator className="mr-2"/> Calculateur de volume
+                        </Link>
+                    </NavigationMenuLink>
+                </NavigationMenuItem>
+                 <NavigationMenuItem>
+                    <NavigationMenuLink asChild>
                        <Link href="/zones-intervention" className={navigationMenuTriggerStyle()}>
                             Zones d'intervention
                         </Link>
@@ -162,4 +170,3 @@ const ListItem = React.forwardRef<
   )
 })
 ListItem.displayName = "ListItem"
-

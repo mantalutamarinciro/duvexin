@@ -2,6 +2,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
@@ -55,7 +56,7 @@ const aiInventorySchema = z.object({
 
 type AiInventoryFormValues = z.infer<typeof aiInventorySchema>
 
-export default function InventoryToolPage() {
+export default function VolumeCalculatorPage() {
   const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([])
   const [totalVolume, setTotalVolume] = useState(0)
   const [loading, setLoading] = useState(true)
@@ -63,6 +64,7 @@ export default function InventoryToolPage() {
   const [isGeneratingAi, setIsGeneratingAi] = useState(false)
   const [isCustomItemDialogOpen, setIsCustomItemDialogOpen] = useState(false)
   const { toast } = useToast()
+  const router = useRouter()
 
   const customItemForm = useForm<CustomItemFormValues>({
     resolver: zodResolver(customItemSchema),
@@ -195,14 +197,15 @@ export default function InventoryToolPage() {
     setInventoryItems(prevItems => prevItems.filter(item => item.id !== itemId))
   }
 
-  const handleSaveInventory = async () => {
+  const handleProceedToQuote = async () => {
     setIsSaving(true)
     try {
       await updateInventoryList(inventoryItems)
       toast({
         title: "Inventaire sauvegardé",
-        description: "Votre volume est sauvegardé. Vous pouvez maintenant créer votre devis.",
+        description: "Votre volume est enregistré. Vous allez être redirigé pour créer votre devis.",
       })
+      router.push("/dashboard/quote");
     } catch (error) {
       toast({
         variant: "destructive",
@@ -215,7 +218,7 @@ export default function InventoryToolPage() {
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="container py-16">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div>
             <h1 className="font-headline text-3xl font-bold tracking-tight">Calculateur de volume</h1>
@@ -223,18 +226,9 @@ export default function InventoryToolPage() {
               Utilisez nos outils pour estimer le volume de votre déménagement. Ajoutez des objets depuis notre bibliothèque, utilisez l'assistant IA ou ajoutez des objets personnalisés.
             </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
-            <Button onClick={handleSaveInventory} disabled={isSaving || loading}>
-              {isSaving ? <Loader2 className="mr-2 animate-spin" /> : null}
-              Sauvegarder le volume
-            </Button>
-            <Button asChild>
-                <Link href="/dashboard/quote">Créer un devis avec ce volume</Link>
-            </Button>
-        </div>
       </div>
       
-      <div className="grid gap-8 lg:grid-cols-3">
+      <div className="mt-8 grid gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2 flex flex-col gap-8">
             <Card>
                 <CardHeader>
@@ -400,6 +394,12 @@ export default function InventoryToolPage() {
                         </div>
                     )}
                 </CardContent>
+                 <CardFooter className="flex-col gap-2 items-stretch border-t pt-4">
+                      <Button onClick={handleProceedToQuote} disabled={isSaving || loading || totalVolume === 0} size="lg">
+                        {isSaving ? <Loader2 className="mr-2 animate-spin" /> : null}
+                        Utiliser ce volume pour mon devis
+                      </Button>
+                  </CardFooter>
             </Card>
         </div>
       </div>

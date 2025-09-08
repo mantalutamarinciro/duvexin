@@ -19,6 +19,7 @@ import {
   Warehouse,
   Calendar,
   Contact,
+  Calculator,
 } from "lucide-react"
 import {
   SidebarMenu,
@@ -41,7 +42,7 @@ const mainLinks = [
 
 const toolsLinks = [
     { href: "/dashboard/quote", label: "Éditeur de devis", icon: FileText },
-    { href: "/dashboard/inventory", label: "Inventaire IA", icon: Wand2 },
+    { href: "/calculateur-volume", label: "Calculateur Volume", icon: Calculator },
     { href: "/dashboard/visits", label: "Visites", icon: Contact },
     { href: "/dashboard/communication", label: "Communication", icon: Mail },
     { href: "/dashboard/routing", label: "Optimisation", icon: Route },
