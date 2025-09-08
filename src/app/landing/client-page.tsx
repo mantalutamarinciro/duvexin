@@ -127,7 +127,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                     <div className="mt-12 grid sm:grid-cols-1 lg:grid-cols-3 gap-8">
                         {services.map((service, i) => (
                              <Link key={i} href={service.link} className="block group">
-                                 <Card className="overflow-hidden relative h-80">
+                                 <Card className="overflow-hidden relative h-80 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                                      <Image 
                                         src={service.imageUrl}
                                         alt={service.title}
@@ -139,7 +139,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                                     <div className="absolute bottom-0 left-0 p-6 text-white">
                                         <h3 className="text-xl font-bold">{service.title}</h3>
                                         <p className="mt-2 text-white/80 text-sm">{service.description}</p>
-                                         <div className="mt-4 flex items-center text-sm font-semibold">
+                                         <div className="mt-4 flex items-center text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                             En savoir plus <ArrowRight className="ml-2 h-4 w-4"/>
                                         </div>
                                     </div>
@@ -185,7 +185,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                     </div>
                     <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
                         {engagementItems.map((item, i) => (
-                            <Card key={i} className="p-6 text-center flex flex-col items-center">
+                            <Card key={i} className="p-6 text-center flex flex-col items-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                                 <div className="p-4 bg-primary/10 rounded-full w-fit mb-4">{item.icon}</div>
                                 <h3 className="text-xl font-semibold">{item.title}</h3>
                                 <p className="mt-2 text-muted-foreground text-sm flex-grow">{item.description}</p>
