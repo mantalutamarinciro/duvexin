@@ -39,6 +39,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { getInventoryList, updateInventoryList, InventoryItem } from "@/services/inventoryService"
 import { roomCategories, PredefinedItem } from "@/lib/predefined-items"
 import { generateInventoryFromText } from "@/ai/flows/inventory-from-text"
+import Link from "next/link"
 
 
 const customItemSchema = z.object({
@@ -141,7 +142,6 @@ export default function InventoryToolPage() {
     try {
         const { items } = await generateInventoryFromText({description: values.description});
         
-        // Merge AI items with existing ones
         setInventoryItems(prevItems => {
             const newItems = [...prevItems];
             items.forEach(aiItem => {
@@ -201,7 +201,7 @@ export default function InventoryToolPage() {
       await updateInventoryList(inventoryItems)
       toast({
         title: "Inventaire sauvegardé",
-        description: "La liste des articles a été mise à jour avec succès.",
+        description: "Votre volume est sauvegardé. Vous pouvez maintenant créer votre devis.",
       })
     } catch (error) {
       toast({
@@ -216,15 +216,22 @@ export default function InventoryToolPage() {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div>
-            <h1 className="font-headline text-3xl font-bold tracking-tight">Constructeur d'inventaire</h1>
-            <p className="text-muted-foreground">Utilisez les outils ci-dessous pour construire l'inventaire du déménagement.</p>
+            <h1 className="font-headline text-3xl font-bold tracking-tight">Calculateur de volume</h1>
+            <p className="text-muted-foreground mt-2 max-w-2xl">
+              Utilisez nos outils pour estimer le volume de votre déménagement. Ajoutez des objets depuis notre bibliothèque, utilisez l'assistant IA ou ajoutez des objets personnalisés.
+            </p>
         </div>
-        <Button onClick={handleSaveInventory} disabled={isSaving || loading}>
-          {isSaving ? <Loader2 className="mr-2 animate-spin" /> : null}
-          Sauvegarder l'inventaire
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-2">
+            <Button onClick={handleSaveInventory} disabled={isSaving || loading}>
+              {isSaving ? <Loader2 className="mr-2 animate-spin" /> : null}
+              Sauvegarder le volume
+            </Button>
+            <Button asChild>
+                <Link href="/dashboard/quote">Créer un devis avec ce volume</Link>
+            </Button>
+        </div>
       </div>
       
       <div className="grid gap-8 lg:grid-cols-3">
@@ -311,7 +318,7 @@ export default function InventoryToolPage() {
             <Card>
                 <CardHeader>
                     <CardTitle>Assistant Inventaire IA</CardTitle>
-                    <CardDescription>Décrivez les objets en langage naturel et laissez l'IA les ajouter à votre liste.</CardDescription>
+                    <CardDescription>Décrivez vos objets en langage naturel et laissez l'IA les ajouter à votre liste.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Form {...aiInventoryForm}>
@@ -321,11 +328,12 @@ export default function InventoryToolPage() {
                                 name="description"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Description des objets</FormLabel>
+                                        <FormLabel>Décrivez simplement ce que vous déménagez</FormLabel>
                                         <FormControl>
                                             <Textarea
-                                                placeholder="Ex: un grand canapé d'angle, une table basse en verre, une télévision 55 pouces et 3 cartons de livres..."
+                                                placeholder="Ex: un grand canapé d'angle, une table basse en verre, une télévision 55 pouces et une dizaine de cartons de livres..."
                                                 className="resize-none"
+                                                rows={4}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -335,7 +343,7 @@ export default function InventoryToolPage() {
                             />
                              <Button type="submit" disabled={isGeneratingAi}>
                                 {isGeneratingAi ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Wand2 className="mr-2 h-4 w-4" />}
-                                Générer avec l'IA
+                                Calculer avec l'IA
                             </Button>
                         </form>
                     </Form>
@@ -347,9 +355,9 @@ export default function InventoryToolPage() {
         <div className="lg:col-span-1">
             <Card className="sticky top-20">
                 <CardHeader>
-                    <CardTitle>Inventaire du déménagement</CardTitle>
-                    <div className="flex justify-between items-center text-sm text-muted-foreground">
-                        <span>Total estimé :</span>
+                    <CardTitle>Votre Inventaire</CardTitle>
+                    <div className="flex justify-between items-center text-sm text-muted-foreground pt-2">
+                        <span>Volume total estimé :</span>
                          <span className="flex items-center gap-2 font-bold text-lg text-primary">
                             <Calculator className="h-5 w-5"/>
                             {totalVolume.toFixed(2)} m³
@@ -387,8 +395,8 @@ export default function InventoryToolPage() {
                     ) : (
                         <div className="text-center py-10 text-muted-foreground">
                             <PackagePlus className="mx-auto h-10 w-10" />
-                            <p className="mt-2 text-sm">L'inventaire est vide.</p>
-                            <p className="text-xs">Ajoutez des objets pour commencer.</p>
+                            <p className="mt-2 text-sm">Votre inventaire est vide.</p>
+                            <p className="text-xs">Ajoutez des objets pour commencer le calcul.</p>
                         </div>
                     )}
                 </CardContent>
