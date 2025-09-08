@@ -70,6 +70,7 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
     const [generatedQuote, setGeneratedQuote] = useState<number | null>(null);
     const [pdfLoading, setPdfLoading] = useState<boolean>(false);
     const pdfRef = useRef<HTMLDivElement>(null);
+    const analyzedAddresses = useRef({ origin: "", destination: "" });
 
     const { toast } = useToast();
     const router = useRouter();
@@ -101,10 +102,12 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
                         notFound();
                     } else {
                         setQuote(data);
-                        form.reset({
+                        const formData = {
                             ...data,
                             moveDate: new Date(data.moveDate),
-                        });
+                        };
+                        form.reset(formData);
+                        analyzedAddresses.current = { origin: data.originAddress, destination: data.destinationAddress };
                         if (data.quote) {
                             setGeneratedQuote(data.quote);
                         }
@@ -121,7 +124,11 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
         const origin = form.getValues("originAddress");
         const destination = form.getValues("destinationAddress");
 
-        if (!origin || !destination) return;
+        if (!origin || !destination || isAnalyzing) return;
+        
+        if (origin === analyzedAddresses.current.origin && destination === analyzedAddresses.current.destination) {
+            return;
+        }
         
         setIsAnalyzing(true);
         try {
@@ -129,6 +136,7 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
             form.setValue("originAddress", details.formattedOriginAddress, { shouldValidate: true });
             form.setValue("destinationAddress", details.formattedDestinationAddress, { shouldValidate: true });
             form.setValue("distance", Math.round(details.distanceKm), { shouldValidate: true });
+            analyzedAddresses.current = { origin: details.formattedOriginAddress, destination: details.formattedDestinationAddress };
             toast({ title: "Analyse d'adresse réussie", description: "Les adresses et la distance ont été mises à jour automatiquement." });
         } catch (error) {
             toast({ variant: "destructive", title: "Erreur d'analyse", description: "Impossible d'analyser les adresses via l'IA. Veuillez vérifier et réessayer, ou saisir la distance manuellement si le problème persiste." });
@@ -139,15 +147,14 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
     
     useEffect(() => {
         const handler = setTimeout(() => {
-            if (originAddress && destinationAddress && (originAddress !== quote?.originAddress || destinationAddress !== quote?.destinationAddress)) {
-                handleAddressAnalysis();
-            }
+            handleAddressAnalysis();
         }, 2000);
 
         return () => {
             clearTimeout(handler);
         };
-    }, [originAddress, destinationAddress, quote]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [originAddress, destinationAddress]);
 
 
     const handleGenerateQuote = async () => {
@@ -384,3 +391,5 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
         </TooltipProvider>
     )
 }
+
+    
