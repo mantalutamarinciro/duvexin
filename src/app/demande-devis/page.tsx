@@ -84,6 +84,49 @@ export default function PublicQuotePage() {
       details: "",
     },
   })
+  
+  const originAddress = form.watch("originAddress");
+  const destinationAddress = form.watch("destinationAddress");
+
+  const handleAddressAnalysis = async () => {
+    const origin = form.getValues("originAddress");
+    const destination = form.getValues("destinationAddress");
+
+    if (!origin || origin.length < 5 || !destination || destination.length < 5) {
+      return;
+    }
+
+    setIsAnalyzingAddress(true);
+    try {
+      const details = await getMoveDetails({ originAddress: origin, destinationAddress: destination });
+      form.setValue("originAddress", details.formattedOriginAddress, { shouldValidate: true });
+      form.setValue("destinationAddress", details.formattedDestinationAddress, { shouldValidate: true });
+      toast({
+        title: "Analyse IA terminée",
+        description: `Adresses mises à jour pour plus de précision.`,
+      });
+    } catch (error) {
+      console.error("Erreur d'analyse d'adresse par IA:", error);
+      toast({
+        variant: "destructive",
+        title: "Erreur de l'IA",
+        description: "Impossible d'analyser les adresses. Veuillez les vérifier et réessayer.",
+      });
+    } finally {
+      setIsAnalyzingAddress(false);
+    }
+  }
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+        handleAddressAnalysis();
+    }, 2000); // 2 seconds debounce
+
+    return () => {
+        clearTimeout(handler);
+    };
+  }, [originAddress, destinationAddress]);
+
 
   const syncVolumeFromInventory = async () => {
     setIsSyncingVolume(true)
@@ -117,39 +160,6 @@ export default function PublicQuotePage() {
     syncVolumeFromInventory()
   }, [])
   
-  const handleAddressAnalysis = async () => {
-    const origin = form.getValues("originAddress");
-    const destination = form.getValues("destinationAddress");
-
-    if (!origin || !destination) {
-      toast({
-        variant: "destructive",
-        title: "Adresses manquantes",
-        description: "Veuillez saisir les adresses de départ et d'arrivée.",
-      });
-      return;
-    }
-
-    setIsAnalyzingAddress(true);
-    try {
-      const details = await getMoveDetails({ originAddress: origin, destinationAddress: destination });
-      form.setValue("originAddress", details.formattedOriginAddress, { shouldValidate: true });
-      form.setValue("destinationAddress", details.formattedDestinationAddress, { shouldValidate: true });
-      toast({
-        title: "Analyse IA terminée",
-        description: `Adresses mises à jour pour plus de précision.`,
-      });
-    } catch (error) {
-      console.error("Erreur d'analyse d'adresse par IA:", error);
-      toast({
-        variant: "destructive",
-        title: "Erreur de l'IA",
-        description: "Impossible d'analyser les adresses. Veuillez les vérifier et réessayer.",
-      });
-    } finally {
-      setIsAnalyzingAddress(false);
-    }
-  }
 
   async function onSubmit(values: QuoteRequestFormData) {
     setSaving(true);
@@ -248,15 +258,14 @@ export default function PublicQuotePage() {
                     </Card>
 
                     <Card>
-                        <CardHeader className="flex flex-row items-center justify-between">
-                        <div>
-                            <CardTitle>Votre déménagement</CardTitle>
-                            <CardDescription>Où et quand ?</CardDescription>
-                        </div>
-                        <Button type="button" size="sm" variant="outline" onClick={handleAddressAnalysis} disabled={isAnalyzingAddress}>
-                            {isAnalyzingAddress ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Wand2 className="mr-2 h-4 w-4" />}
-                            Vérifier adresses (IA)
-                        </Button>
+                        <CardHeader>
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <CardTitle>Votre déménagement</CardTitle>
+                                    <CardDescription>Où et quand ?</CardDescription>
+                                </div>
+                                {isAnalyzingAddress && <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />}
+                            </div>
                         </CardHeader>
                         <CardContent className="space-y-4">
                         <div className="grid gap-4 sm:grid-cols-2">

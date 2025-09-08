@@ -84,6 +84,9 @@ export default function PublicQuotePage() {
       details: "",
     },
   })
+  
+  const originAddress = form.watch("originAddress");
+  const destinationAddress = form.watch("destinationAddress");
 
   const syncVolumeFromInventory = async () => {
     setIsSyncingVolume(true)
@@ -121,13 +124,8 @@ export default function PublicQuotePage() {
     const origin = form.getValues("originAddress");
     const destination = form.getValues("destinationAddress");
 
-    if (!origin || !destination) {
-      toast({
-        variant: "destructive",
-        title: "Adresses manquantes",
-        description: "Veuillez saisir les adresses de départ et d'arrivée.",
-      });
-      return;
+    if (!origin || origin.length < 5 || !destination || destination.length < 5) {
+        return;
     }
 
     setIsAnalyzingAddress(true);
@@ -150,6 +148,16 @@ export default function PublicQuotePage() {
       setIsAnalyzingAddress(false);
     }
   }
+  
+  useEffect(() => {
+    const handler = setTimeout(() => {
+        handleAddressAnalysis();
+    }, 2000); // 2 seconds debounce
+
+    return () => {
+        clearTimeout(handler);
+    };
+  }, [originAddress, destinationAddress]);
 
   async function onSubmit(values: QuoteRequestFormData) {
     setSaving(true);
@@ -248,15 +256,14 @@ export default function PublicQuotePage() {
                     </Card>
 
                     <Card>
-                        <CardHeader className="flex flex-row items-center justify-between">
-                        <div>
-                            <CardTitle>Votre déménagement</CardTitle>
-                            <CardDescription>Où et quand ?</CardDescription>
-                        </div>
-                        <Button type="button" size="sm" variant="outline" onClick={handleAddressAnalysis} disabled={isAnalyzingAddress}>
-                            {isAnalyzingAddress ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Wand2 className="mr-2 h-4 w-4" />}
-                            Vérifier adresses (IA)
-                        </Button>
+                        <CardHeader>
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <CardTitle>Votre déménagement</CardTitle>
+                                    <CardDescription>Où et quand ?</CardDescription>
+                                </div>
+                                {isAnalyzingAddress && <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />}
+                            </div>
                         </CardHeader>
                         <CardContent className="space-y-4">
                         <div className="grid gap-4 sm:grid-cols-2">
