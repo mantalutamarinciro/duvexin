@@ -134,6 +134,13 @@ export function MainNav() {
                         </Link>
                     </NavigationMenuLink>
                 </NavigationMenuItem>
+                 <NavigationMenuItem>
+                    <NavigationMenuLink asChild>
+                       <Link href="/zones-intervention" className={navigationMenuTriggerStyle()}>
+                            Zones d'intervention
+                        </Link>
+                    </NavigationMenuLink>
+                </NavigationMenuItem>
                 <NavigationMenuItem>
                    <NavigationMenuLink asChild>
                         <Link href="/landing#contact" className={navigationMenuTriggerStyle()}>

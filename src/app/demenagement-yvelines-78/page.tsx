@@ -207,7 +207,7 @@ export default function YvelinesPage() {
                             </li>
                         </ul>
                          <Button asChild className="mt-8" variant="outline">
-                            <Link href="/services">Découvrir tous nos services</Link>
+                            <Link href="/services">Explorer tous nos services</Link>
                          </Button>
                     </div>
                 </div>
