@@ -1,5 +1,5 @@
 
-import { Sofa, Table, Armchair, Bed, Tv, Box, Lamp, Refrigerator, CaseUpper, Microwave, Book, Shirt, Monitor, Dumbbell, WashingMachine, ShowerHead, LayoutGrid, CookingPot, Utensils, Warehouse, Wine, Bike, ToyBrick, Layers, Piano, Baby, Briefcase, Printer, Square, Truck } from 'lucide-react';
+import { Sofa, Table, Armchair, Bed, Tv, Box, Lamp, Refrigerator, CaseUpper, Microwave, Book, Shirt, Monitor, Dumbbell, WashingMachine, ShowerHead, LayoutGrid, CookingPot, Utensils, Warehouse, Wine, Bike, ToyBrick, Layers, Piano, Baby, Briefcase, Printer, Square, Truck, Trash2, BedDouble, Luggage } from 'lucide-react';
 
 export interface PredefinedItem {
     id: string;
