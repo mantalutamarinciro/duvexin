@@ -17,7 +17,7 @@ const fallbackTestimonials: FormattedReview[] = [
 
 const eureCities = [
     { name: "Évreux", link: "/demenagement-evreux-27000"},
-    { name: "Vernon", link: "#"},
+    { name: "Vernon", link: "/demenagement-vernon-27200"},
     { name: "Louviers", link: "#"},
     { name: "Val-de-Reuil", link: "#"},
     { name: "Gisors", link: "#"},
@@ -133,7 +133,7 @@ export default function EurePage() {
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
                         <h2 className="text-3xl font-bold">L'avantage d'un expert local pour votre projet dans le 27</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Nous sommes un acteur normand, et cela change tout.</p>
+                        <p className="mt-4 text-muted-foreground text-lg">Nous sommes un acteur normand, et cela fait toute la différence.</p>
                     </div>
                     <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
                         {whyChooseUsItems.map((item, i) => (
