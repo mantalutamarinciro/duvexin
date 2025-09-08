@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, MapPin, ArrowRight } from "lucide-react";
+import { CheckCircle, MapPin, ArrowRight, ShieldCheck, Users, Globe, Truck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { TestimonialsSection } from "@/components/testimonials-section";
@@ -26,7 +26,7 @@ const ileDeFranceDepartments = [
 ];
 
 const normandieDepartments = [
-    { name: "Eure (27)", description: "Avec notre agence à Évreux, nous sommes au plus proche de vous.", link: "/demenagement-du-vexin-evreux" },
+    { name: "Eure (27)", description: "Avec notre agence à Évreux, nous sommes au plus proche de vous.", link: "/demenagement-eure-27" },
     { name: "Seine-Maritime (76)", description: "De Rouen au Havre, nous assurons vos déménagements.", link: "#" },
     { name: "Calvados (14)", description: "Nous vous accompagnons pour vos projets à Caen et sur la côte.", link: "#" },
     { name: "Orne (61)", description: "Une présence régulière pour vos déménagements dans l'Orne.", link: "#" },
