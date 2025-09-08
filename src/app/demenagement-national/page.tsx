@@ -20,7 +20,7 @@ const topDestinations = [
     { name: "Bordeaux", link: "/demenagement-ile-de-france-bordeaux" },
     { name: "Lille", link: "/demenagement-ile-de-france-lille" },
     { name: "Nantes", link: "/demenagement-ile-de-france-nantes" },
-    { name: "Toulouse", link: "#" },
+    { name: "Toulouse", link: "/demenagement-ile-de-france-toulouse" },
     { name: "Strasbourg", link: "#" },
     { name: "Nice", link: "#" },
 ];
