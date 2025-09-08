@@ -65,7 +65,7 @@ export function MainNav() {
   const pathname = usePathname();
   
   return (
-     <nav className="hidden lg:flex items-center gap-2">
+     <nav className="hidden lg:flex items-center gap-1">
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
@@ -86,7 +86,7 @@ export function MainNav() {
                                 Notre antenne locale pour tous vos besoins en Normandie.
                             </ListItem>
                              <ListItem href="/zones-intervention" title="Zones d'intervention">
-                                Voir toutes les zones que nous couvrons.
+                                Voir toutes les zones que nous couvrons en IDF et Normandie.
                             </ListItem>
                         </ul>
                     </NavigationMenuContent>
@@ -123,13 +123,6 @@ export function MainNav() {
                     <NavigationMenuLink asChild>
                        <Link href="/calculateur-volume" className={navigationMenuTriggerStyle()}>
                             Calculateur de volume
-                        </Link>
-                    </NavigationMenuLink>
-                </NavigationMenuItem>
-                 <NavigationMenuItem>
-                    <NavigationMenuLink asChild>
-                       <Link href="/zones-intervention" className={navigationMenuTriggerStyle()}>
-                            Zones d'intervention
                         </Link>
                     </NavigationMenuLink>
                 </NavigationMenuItem>
