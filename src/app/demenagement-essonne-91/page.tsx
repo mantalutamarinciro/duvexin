@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { CheckCircle, MapPin, ShieldCheck, Star, Users, Microscope, Home } from "lucide-react";
+import { CheckCircle, MapPin, ShieldCheck, Star, Users, Microscope, Home, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { TestimonialsSection } from "@/components/testimonials-section";
@@ -15,7 +15,20 @@ const fallbackTestimonials: FormattedReview[] = [
     { id: "fallback-3", name: "Laboratoire Innov'Science", text: "Le transfert de notre matériel sensible sur le plateau de Saclay a été géré avec une rigueur exemplaire. Emballages spécifiques, transport sécurisé, tout était parfait.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=InnovScience91` },
 ];
 
-const essonneCities = ["Évry-Courcouronnes", "Corbeil-Essonnes", "Massy", "Savigny-sur-Orge", "Sainte-Geneviève-des-Bois", "Palaiseau", "Athis-Mons", "Vigneux-sur-Seine", "Draveil", "Grigny", "Brétigny-sur-Orge", "Étampes"];
+const essonneCities = [
+    { name: "Évry-Courcouronnes", link: "#"},
+    { name: "Corbeil-Essonnes", link: "#"},
+    { name: "Massy", link: "#"},
+    { name: "Savigny-sur-Orge", link: "#"},
+    { name: "Sainte-Geneviève-des-Bois", link: "#"},
+    { name: "Palaiseau", link: "#"},
+    { name: "Athis-Mons", link: "#"},
+    { name: "Vigneux-sur-Seine", link: "#"},
+    { name: "Draveil", link: "#"},
+    { name: "Grigny", link: "#"},
+    { name: "Brétigny-sur-Orge", link: "#"},
+    { name: "Étampes", link: "#"}
+];
 
 const whyChooseUsItems = [
     {
@@ -140,11 +153,14 @@ export default function EssonnePage() {
                         <h2 className="text-3xl font-bold">Nous intervenons sur l'ensemble de l'Essonne</h2>
                         <p className="mt-4 text-muted-foreground text-lg">Nos équipes couvrent la totalité du département, des portes de Paris au sud de l'Île-de-France.</p>
                     </div>
-                    <div className="mt-12 flex flex-wrap justify-center gap-3">
+                    <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {essonneCities.map((city) => (
-                            <div key={city} className="bg-background border rounded-full px-4 py-2 text-sm font-medium shadow-sm hover:bg-primary hover:text-primary-foreground transition-colors">
-                                {city}
-                            </div>
+                            <Button asChild variant="outline" className="justify-start" key={city.name}>
+                                <Link href={city.link}>
+                                    {city.name}
+                                    <ArrowRight className="ml-auto h-4 w-4" />
+                                </Link>
+                            </Button>
                         ))}
                     </div>
                 </div>

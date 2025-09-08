@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { CheckCircle, MapPin, ShieldCheck, Star, Users } from "lucide-react";
+import { CheckCircle, MapPin, ShieldCheck, Star, Users, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { TestimonialsSection } from "@/components/testimonials-section";
