@@ -1,5 +1,5 @@
 
-import { Sofa, Table, Armchair, Bed, Tv, Box, Lamp, Refrigerator, CaseUpper, Microwave, Book, Shirt, Monitor, Dumbbell, WashingMachine, ShowerHead, LayoutGrid, CookingPot, Utensils, Warehouse, Wine, Bike, ToyBrick, Rug, Shelves, CookingPot as Stool, Trash2, BedDouble, Luggage, Mirror, Dryer, Piano, Baby, Briefcase } from 'lucide-react';
+import { Sofa, Table, Armchair, Bed, Tv, Box, Lamp, Refrigerator, CaseUpper, Microwave, Book, Shirt, Monitor, Dumbbell, WashingMachine, ShowerHead, LayoutGrid, CookingPot, Utensils, Warehouse, Wine, Bike, ToyBrick, Rug, Shelves, CookingPot as Stool, Trash2, BedDouble, Luggage, Layers, Piano, Baby, Briefcase, Printer, Square } from 'lucide-react';
 
 export interface PredefinedItem {
     id: string;
@@ -64,7 +64,7 @@ export const roomCategories: RoomCategory[] = [
             { id: 'bedside_table', name: 'Table de chevet', icon: Table, volume: 0.1 },
             { id: 'desk', name: 'Bureau', icon: Monitor, volume: 0.9 },
             { id: 'office_chair', name: 'Chaise de bureau', icon: Armchair, volume: 0.3 },
-            { id: 'mirror', name: 'Miroir sur pied', icon: Mirror, volume: 0.15 },
+            { id: 'mirror', name: 'Miroir sur pied', icon: Square, volume: 0.15 },
             { id: 'suitcase', name: 'Valise', icon: Luggage, volume: 0.1 },
             { id: 'box_clothes', name: 'Carton vêtements', icon: Shirt, volume: 0.1 },
             { id: 'box_books', name: 'Carton livres', icon: Book, volume: 0.08 },
@@ -87,7 +87,7 @@ export const roomCategories: RoomCategory[] = [
         name: 'Salle de bain',
         items: [
             { id: 'washing_machine', name: 'Lave-linge', icon: WashingMachine, volume: 0.4 },
-            { id: 'dryer', name: 'Sèche-linge', icon: Dryer, volume: 0.4 },
+            { id: 'dryer', name: 'Sèche-linge', icon: Layers, volume: 0.4 },
             { id: 'bathroom_cabinet', name: 'Armoire de SDB', icon: ShowerHead, volume: 0.3 },
             { id: 'laundry_basket', name: 'Panier à linge', icon: Box, volume: 0.1 },
             { id: 'box_toiletries', name: 'Carton produits', icon: Box, volume: 0.05 },
@@ -112,7 +112,7 @@ export const roomCategories: RoomCategory[] = [
             { id: 'bicycle', name: 'Vélo', icon: Bike, volume: 0.5 },
             { id: 'tool_box', name: 'Caisse à outils', icon: Box, volume: 0.06 },
             { id: 'wine_rack', name: 'Casier à vin', icon: Wine, volume: 0.4 },
-            { id: 'lawn_mower', name: 'Tondeuse', icon: Car, volume: 0.5 },
+            { id: 'lawn_mower', name: 'Tondeuse', icon: Truck, volume: 0.5 },
             { id: 'tires', name: 'Pneus', icon: Dumbbell, volume: 0.15 },
         ]
     },
