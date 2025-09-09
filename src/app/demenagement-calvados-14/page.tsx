@@ -17,7 +17,7 @@ const fallbackTestimonials: FormattedReview[] = [
 const calvadosCities = [
     { name: "Caen", link: "/demenagement-caen-14000"},
     { name: "Lisieux", link: "/demenagement-lisieux-14100"},
-    { name: "Hérouville-Saint-Clair", link: "#"},
+    { name: "Hérouville-Saint-Clair", link: "/demenagement-herouville-saint-clair-14200"},
     { name: "Bayeux", link: "#"},
     { name: "Vire", link: "#"},
     { name: "Ifs", link: "#"},
