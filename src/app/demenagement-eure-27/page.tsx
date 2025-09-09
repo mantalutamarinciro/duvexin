@@ -24,7 +24,7 @@ const eureCities = [
     { name: "Bernay", link: "/demenagement-bernay-27300"},
     { name: "Pont-Audemer", link: "/demenagement-pont-audemer-27500"},
     { name: "Les Andelys", link: "/demenagement-les-andelys-27700"},
-    { name: "Gaillon", link: "#"},
+    { name: "Gaillon", link: "/demenagement-gaillon-27600"},
     { name: "Verneuil d'Avre et d'Iton", link: "#"}
 ];
 
