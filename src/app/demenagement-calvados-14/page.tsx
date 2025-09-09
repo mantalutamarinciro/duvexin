@@ -18,7 +18,7 @@ const calvadosCities = [
     { name: "Caen", link: "/demenagement-caen-14000"},
     { name: "Lisieux", link: "/demenagement-lisieux-14100"},
     { name: "Hérouville-Saint-Clair", link: "/demenagement-herouville-saint-clair-14200"},
-    { name: "Bayeux", link: "#"},
+    { name: "Bayeux", link: "/demenagement-bayeux-14400"},
     { name: "Vire", link: "#"},
     { name: "Ifs", link: "#"},
     { name: "Mondeville", link: "#"},
@@ -157,7 +157,7 @@ export default function CalvadosPage() {
                     </div>
                      <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {calvadosCities.map((city) => (
-                            <Button asChild variant="outline" className="justify-start" key={city.name}>
+                            <Button asChild variant={city.link === '#' ? 'outline' : 'default'} className="justify-start" key={city.name}>
                                 <Link href={city.link}>
                                     {city.name}
                                     <ArrowRight className="ml-auto h-4 w-4" />

@@ -1,0 +1,19 @@
+
+import LandingLayout from "@/app/landing/layout";
+import type { PropsWithChildren } from "react";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Déménagement Bayeux (14400) - Expert Patrimoine Normand | DemDuVexin",
+  description: "Déménageur professionnel à Bayeux (14400). Service fiable pour particuliers et entreprises au cœur de l'histoire normande. Devis gratuit et sur-mesure.",
+};
+
+
+export default function BayeuxPageLayout({ children }: PropsWithChildren) {
+    // We reuse the main landing page layout to keep the header and footer consistent.
+    return (
+        <LandingLayout>
+            {children}
+        </LandingLayout>
+    )
+}
