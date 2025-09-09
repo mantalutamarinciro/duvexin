@@ -26,7 +26,7 @@ const calvadosCities = [
     { name: "Falaise", link: "/demenagement-falaise-14700"},
     { name: "Honfleur", link: "/demenagement-honfleur-14600"},
     { name: "Deauville", link: "/demenagement-deauville-14800"},
-    { name: "Trouville-sur-Mer", link: "#"}
+    { name: "Trouville-sur-Mer", link: "/demenagement-trouville-sur-mer-14360"}
 ];
 
 const whyChooseUsItems = [
