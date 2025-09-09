@@ -23,7 +23,7 @@ const calvadosCities = [
     { name: "Ifs", link: "/demenagement-ifs-14123"},
     { name: "Mondeville", link: "/demenagement-mondeville-14200"},
     { name: "Ouistreham", link: "/demenagement-ouistreham-14150"},
-    { name: "Falaise", link: "#"},
+    { name: "Falaise", link: "/demenagement-falaise-14700"},
     { name: "Honfleur", link: "#"},
     { name: "Deauville", link: "#"},
     { name: "Trouville-sur-Mer", link: "#"}
