@@ -19,7 +19,7 @@ const calvadosCities = [
     { name: "Lisieux", link: "/demenagement-lisieux-14100"},
     { name: "Hérouville-Saint-Clair", link: "/demenagement-herouville-saint-clair-14200"},
     { name: "Bayeux", link: "/demenagement-bayeux-14400"},
-    { name: "Vire", link: "#"},
+    { name: "Vire", link: "/demenagement-vire-14500"},
     { name: "Ifs", link: "#"},
     { name: "Mondeville", link: "#"},
     { name: "Ouistreham", link: "#"},
