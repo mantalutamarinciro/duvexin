@@ -14,7 +14,20 @@ const fallbackTestimonials: FormattedReview[] = [
     { id: "fallback-3", name: "Marc D.", text: "Devis clair, équipe ponctuelle et matériel de qualité. Mon déménagement s'est déroulé sans stress grâce à leur organisation.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MarcD14` },
 ];
 
-const calvadosCities = ["Caen", "Lisieux", "Hérouville-Saint-Clair", "Bayeux", "Vire", "Ifs", "Mondeville", "Ouistreham", "Falaise", "Honfleur", "Deauville", "Trouville-sur-Mer"];
+const calvadosCities = [
+    { name: "Caen", link: "/demenagement-caen-14000"},
+    { name: "Lisieux", link: "#"},
+    { name: "Hérouville-Saint-Clair", link: "#"},
+    { name: "Bayeux", link: "#"},
+    { name: "Vire", link: "#"},
+    { name: "Ifs", link: "#"},
+    { name: "Mondeville", link: "#"},
+    { name: "Ouistreham", link: "#"},
+    { name: "Falaise", link: "#"},
+    { name: "Honfleur", link: "#"},
+    { name: "Deauville", link: "#"},
+    { name: "Trouville-sur-Mer", link: "#"}
+];
 
 const whyChooseUsItems = [
     {
@@ -142,11 +155,14 @@ export default function CalvadosPage() {
                         <h2 className="text-3xl font-bold">Nous couvrons l'ensemble du Calvados</h2>
                         <p className="mt-4 text-muted-foreground text-lg">Nos équipes interviennent sur toutes les communes du département.</p>
                     </div>
-                     <div className="mt-12 flex flex-wrap justify-center gap-3">
+                     <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {calvadosCities.map((city) => (
-                            <div key={city} className="bg-background border rounded-full px-4 py-2 text-sm font-medium shadow-sm hover:bg-primary hover:text-primary-foreground transition-colors">
-                                {city}
-                            </div>
+                            <Button asChild variant="outline" className="justify-start" key={city.name}>
+                                <Link href={city.link}>
+                                    {city.name}
+                                    <ArrowRight className="ml-auto h-4 w-4" />
+                                </Link>
+                            </Button>
                         ))}
                     </div>
                 </div>
