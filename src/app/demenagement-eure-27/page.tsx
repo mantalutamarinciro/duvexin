@@ -25,7 +25,7 @@ const eureCities = [
     { name: "Pont-Audemer", link: "/demenagement-pont-audemer-27500"},
     { name: "Les Andelys", link: "/demenagement-les-andelys-27700"},
     { name: "Gaillon", link: "/demenagement-gaillon-27600"},
-    { name: "Verneuil d'Avre et d'Iton", link: "#"}
+    { name: "Verneuil d'Avre et d'Iton", link: "/demenagement-verneuil-davre-et-diton-27130"}
 ];
 
 const whyChooseUsItems = [
