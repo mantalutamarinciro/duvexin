@@ -1,4 +1,3 @@
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -87,7 +86,7 @@ export default function AboutPage() {
             <section className="py-16">
                 <div className="container grid lg:grid-cols-2 gap-12 items-center">
                     <div>
-                        <h2 className="text-3xl font-bold">Une entreprise familiale, spécialisée dans les déménagements locaux, nationaux et internationaux</h2>
+                        <h2 className="text-3xl font-headline font-bold">Une entreprise familiale, spécialisée dans les déménagements locaux, nationaux et internationaux</h2>
                         <p className="mt-4 text-muted-foreground text-lg">
                            Déménagement du Vexin est une entreprise familiale, fièrement implantée dans le Val-d’Oise. Nous mettons à votre disposition notre expertise et notre équipe de professionnels pour gérer votre déménagement avec soin, efficacité et sécurité. Que vous soyez un particulier ou une entreprise, nous offrons des solutions personnalisées pour tous vos besoins de déménagement.
                         </p>
@@ -111,14 +110,14 @@ export default function AboutPage() {
                     <div className="flex items-start gap-6">
                         <Rocket className="h-10 w-10 text-primary flex-shrink-0 mt-1" />
                         <div>
-                            <h3 className="text-2xl font-bold">Notre Mission</h3>
+                            <h3 className="text-2xl font-headline font-bold">Notre Mission</h3>
                             <p className="mt-2 text-muted-foreground">Notre mission est de rendre chaque déménagement aussi simple, rapide et sécurisé que possible, tout en offrant un service de qualité, professionnel et adapté aux besoins de chaque client. Nous sommes engagés à fournir un service personnalisé qui garantit un déménagement sans stress, que vous soyez à la recherche d’une solution locale, nationale ou internationale.</p>
                         </div>
                     </div>
                      <div className="flex items-start gap-6">
                         <Eye className="h-10 w-10 text-primary flex-shrink-0 mt-1" />
                         <div>
-                            <h3 className="text-2xl font-bold">Notre Vision</h3>
+                            <h3 className="text-2xl font-headline font-bold">Notre Vision</h3>
                             <p className="mt-2 text-muted-foreground">Notre vision est d’être reconnus comme le leader du déménagement dans la région du Val-d’Oise, avec un service qui se distingue par son excellence. Nous nous engageons à fournir à nos clients une expérience de déménagement exceptionnelle, grâce à une équipe professionnelle, une planification minutieuse et une approche respectueuse des biens à transporter.</p>
                         </div>
                     </div>
@@ -129,7 +128,7 @@ export default function AboutPage() {
             <section className="py-16">
                  <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
-                        <h2 className="text-3xl font-bold">Nos Valeurs</h2>
+                        <h2 className="text-3xl font-headline font-bold">Nos Valeurs</h2>
                         <p className="mt-4 text-muted-foreground text-lg">Chez Déménagement du Vexin, nous croyons que chaque déménagement mérite une attention particulière. Voici les valeurs qui guident notre travail au quotidien :</p>
                     </div>
                     <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -166,7 +165,7 @@ export default function AboutPage() {
                         />
                     </div>
                     <div className="order-1 lg:order-2">
-                        <h2 className="text-3xl font-bold">Notre Histoire</h2>
+                        <h2 className="text-3xl font-headline font-bold">Notre Histoire</h2>
                         <p className="mt-4 text-muted-foreground text-lg">
                            Fondée il y a plusieurs années par une équipe passionnée et dédiée, Déménagement du Vexin a rapidement su se faire une place sur le marché du déménagement dans le Val-d’Oise. Au fil des années, nous avons étendu nos services pour inclure des déménagements à l’échelle nationale et internationale. Aujourd’hui, notre entreprise familiale est synonyme de fiabilité, de professionnalisme et de qualité de service.
                         </p>
@@ -178,7 +177,7 @@ export default function AboutPage() {
             <section className="py-16">
                  <div className="container grid lg:grid-cols-2 gap-12 items-center">
                     <div>
-                        <h2 className="text-3xl font-bold">Pourquoi Choisir Déménagement du Vexin ?</h2>
+                        <h2 className="text-3xl font-headline font-bold">Pourquoi Choisir Déménagement du Vexin ?</h2>
                         <p className="mt-4 text-muted-foreground text-lg">Voici quelques raisons pour lesquelles nos clients nous choisissent pour leur déménagement :</p>
                          <ul className="mt-6 space-y-4">
                             <li className="flex items-start gap-4">
@@ -228,7 +227,7 @@ export default function AboutPage() {
             <section className="py-16 bg-muted/50">
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
-                        <h2 className="text-3xl font-bold">Rencontrez Notre Équipe</h2>
+                        <h2 className="text-3xl font-headline font-bold">Rencontrez Notre Équipe</h2>
                         <p className="mt-4 text-muted-foreground text-lg">Des professionnels passionnés et expérimentés pour vous accompagner à chaque étape de votre déménagement. Chez Déménagement du Vexin, chaque membre de notre équipe joue un rôle clé pour garantir le succès de votre déménagement.</p>
                     </div>
                     <div className="mt-12 grid sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -252,7 +251,7 @@ export default function AboutPage() {
              {/* CTA Section */}
             <section id="contact" className="py-16">
                 <div className="container text-center">
-                    <h2 className="text-3xl font-bold">Demandez un devis gratuit pour votre déménagement</h2>
+                    <h2 className="text-3xl font-headline font-bold">Demandez un devis gratuit pour votre déménagement</h2>
                     <p className="mt-4 text-lg max-w-2xl mx-auto text-muted-foreground">Obtenez une estimation personnalisée en quelques minutes. Nous vous répondons rapidement !</p>
                     <Button size="lg" className="mt-8" asChild>
                         <Link href="/dashboard/quote">Obtenir mon devis</Link>
@@ -262,5 +261,3 @@ export default function AboutPage() {
         </div>
     );
 }
-
-    
