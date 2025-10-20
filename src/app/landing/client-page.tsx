@@ -16,7 +16,7 @@ import { TestimonialsSection } from "@/components/testimonials-section";
 
 const services = [
     {
-        icon: <Map className="h-8 w-8 text-accent" />,
+        icon: <Map className="h-8 w-8 text-primary" />,
         title: "Déménagement Local & Régional",
         description: "Experts du Val-d’Oise, des Yvelines et de toute l'Île-de-France pour un service de proximité rapide et fiable.",
         link: "/demenagement-val-d-oise-95",
@@ -24,7 +24,7 @@ const services = [
         aiHint: "local moving city"
     },
      {
-        icon: <Globe className="h-8 w-8 text-accent" />,
+        icon: <Globe className="h-8 w-8 text-primary" />,
         title: "Déménagement National",
         description: "Nous vous accompagnons partout en France grâce à nos lignes régulières vers les grandes métropoles.",
         link: "/demenagement-national",
@@ -32,7 +32,7 @@ const services = [
         aiHint: "national moving highway"
     },
     {
-        icon: <BriefcaseBusiness className="h-8 w-8 text-accent" />,
+        icon: <BriefcaseBusiness className="h-8 w-8 text-primary" />,
         title: "Déménagement d'Entreprise",
         description: "Transfert de bureaux, d'archives ou de matériel sensible, planifié pour minimiser l'impact sur votre activité.",
         link: "/demenagement-entreprise-bureau",
@@ -43,22 +43,22 @@ const services = [
 
 const engagementItems = [
     {
-        icon: <Users className="h-10 w-10 text-accent"/>,
+        icon: <Users className="h-10 w-10 text-primary"/>,
         title: "Équipe 100% Salariée",
         description: "Aucun intermédiaire. Nos propres équipes pour une qualité et une fiabilité maîtrisées de bout en bout."
     },
     {
-        icon: <Package className="h-10 w-10 text-accent"/>,
+        icon: <Package className="h-10 w-10 text-primary"/>,
         title: "Matériel Professionnel",
         description: "Nous utilisons des couvertures, housses et cartons adaptés pour une protection optimale de vos biens."
     },
     {
-        icon: <ShieldCheck className="h-10 w-10 text-accent"/>,
+        icon: <ShieldCheck className="h-10 w-10 text-primary"/>,
         title: "Assurance & Garantie",
         description: "Vos biens sont précieux. Ils sont couverts par notre assurance tout au long du déménagement."
     },
     {
-        icon: <Handshake className="h-10 w-10 text-accent"/>,
+        icon: <Handshake className="h-10 w-10 text-primary"/>,
         title: "Devis Clair et Transparent",
         description: "Recevez un devis détaillé, gratuit et sans surprise pour une maîtrise totale de votre budget."
     }
@@ -90,11 +90,11 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             <section className="relative bg-background">
                 <div className="container grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-104px)] py-20">
                      <div className="text-center lg:text-left">
-                        <p className="font-semibold text-accent">Déménagement Du Vexin</p>
+                        <p className="font-semibold text-primary">Déménagement Du Vexin</p>
                         <h1 className="text-4xl md:text-6xl font-headline font-bold mt-2 leading-tight">Le déménagement, la sérénité en plus.</h1>
                         <p className="mt-4 text-lg md:text-xl max-w-xl mx-auto lg:mx-0 text-muted-foreground">Experts du déménagement pour particuliers et entreprises. Confiez-nous votre projet pour une expérience fluide, sécurisée et sans stress, partout en France.</p>
                         <div className="mt-8 flex flex-col sm:flex-row justify-center lg:justify-start items-center gap-4">
-                            <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                            <Button size="lg" asChild>
                                 <Link href="/demande-devis">Demander un devis en 2 minutes</Link>
                             </Button>
                              <Button size="lg" variant="ghost" asChild>
@@ -163,7 +163,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                         />
                     </div>
                      <div>
-                         <p className="text-sm font-semibold text-accent uppercase">Notre histoire</p>
+                         <p className="text-sm font-semibold text-primary uppercase">Notre histoire</p>
                          <h2 className="text-3xl font-bold mt-2">Votre partenaire de confiance depuis des années</h2>
                          <p className="mt-4 text-muted-foreground text-lg">
                             Basée dans le Val-d’Oise (95), notre entreprise familiale de déménagement intervient également dans l’Oise (60), l’Eure (27) et dans toute l'Île-de-France. Que vous soyez un particulier ou une entreprise, nous vous accompagnons dans tous vos projets de déménagement, en local, national ou même international.
@@ -179,14 +179,14 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             <section id="engagements" className="py-16 md:py-24 bg-card">
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
-                         <p className="text-sm font-semibold text-accent uppercase">Notre promesse</p>
+                         <p className="text-sm font-semibold text-primary uppercase">Notre promesse</p>
                         <h2 className="text-3xl font-bold mt-2">Qualité, Confiance, Sérénité.</h2>
                         <p className="mt-4 text-muted-foreground text-lg">Votre tranquillité d'esprit est notre priorité. Voici nos 4 engagements fondamentaux.</p>
                     </div>
                     <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
                         {engagementItems.map((item, i) => (
                             <div key={i} className="text-center flex flex-col items-center">
-                                <div className="p-4 bg-accent/10 rounded-full w-fit mb-4">{item.icon}</div>
+                                <div className="p-4 bg-primary/10 rounded-full w-fit mb-4">{item.icon}</div>
                                 <h3 className="text-xl font-semibold">{item.title}</h3>
                                 <p className="mt-2 text-muted-foreground text-sm flex-grow">{item.description}</p>
                             </div>
@@ -222,10 +222,10 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             {/* Contact Section */}
             <section id="contact" className="py-16 md:py-24 bg-card">
                  <div className="container">
-                     <Card className="grid lg:grid-cols-2 overflow-hidden shadow-xl border-accent">
-                        <div className="p-8 md:p-12 bg-accent text-accent-foreground flex flex-col justify-center">
+                     <Card className="grid lg:grid-cols-2 overflow-hidden shadow-xl border-primary">
+                        <div className="p-8 md:p-12 bg-primary text-primary-foreground flex flex-col justify-center">
                             <h2 className="text-3xl font-bold">Prêt à déménager ? Contactez-nous.</h2>
-                            <p className="mt-4 text-accent-foreground/80">Nos experts sont à votre disposition pour planifier votre déménagement. Remplissez ce formulaire et obtenez votre devis gratuit en 24H.</p>
+                            <p className="mt-4 text-primary-foreground/80">Nos experts sont à votre disposition pour planifier votre déménagement. Remplissez ce formulaire et obtenez votre devis gratuit en 24H.</p>
                         </div>
                         <div className="p-8 md:p-12">
                             <div >
