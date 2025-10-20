@@ -18,6 +18,7 @@ import {
   Camera,
   Trophy,
   BookOpen,
+  Menu,
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -30,6 +31,8 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"
+import { Button } from "./ui/button"
 
 const services: { title: string; href: string; description: string, icon: React.ReactNode }[] = [
   {
@@ -68,94 +71,120 @@ export function MainNav() {
   const pathname = usePathname();
   
   return (
-     <nav className="hidden lg:flex items-center gap-1">
-        <NavigationMenu>
-            <NavigationMenuList>
-                <NavigationMenuItem>
-                    <NavigationMenuLink asChild>
-                        <Link href="/landing" className={navigationMenuTriggerStyle()}>
-                            Accueil
-                        </Link>
-                    </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <NavigationMenuTrigger>À propos</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                        <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px]">
-                            <ListItem href="/a-propos-de-demenagement-du-vexin" title="Notre Entreprise">
-                                Découvrez l'histoire et les valeurs de notre entreprise familiale.
-                            </ListItem>
-                             <ListItem href="/nos-realisations" title="Nos Réalisations">
-                                Voir des exemples concrets de notre savoir-faire.
-                            </ListItem>
-                             <ListItem href="/galerie" title="Galerie">
-                                Découvrez notre équipe et notre matériel en images.
-                            </ListItem>
-                            <ListItem href="/demenagement-du-vexin-evreux" title="Agence d'Évreux">
-                                Notre antenne locale pour tous vos besoins en Normandie.
-                            </ListItem>
-                        </ul>
-                    </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <NavigationMenuTrigger>Services</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                        {services.map((service) => (
-                            <ListItem
-                                key={service.title}
-                                title={service.title}
-                                href={service.href}
-                            >
-                                <div className="flex items-start gap-3">
-                                    <div className="text-primary">{service.icon}</div>
-                                    <p className="text-muted-foreground text-sm leading-snug">{service.description}</p>
-                                </div>
-                            </ListItem>
-                        ))}
-                         <li className="md:col-span-2">
-                             <NavigationMenuLink asChild>
-                                <Link href="/services" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
-                                    <div className="text-sm font-medium">
-                                        Voir tous nos services
+    <>
+        {/* Mobile Menu */}
+        <div className="lg:hidden">
+            <Sheet>
+                <SheetTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                        <Menu className="h-6 w-6" />
+                        <span className="sr-only">Ouvrir le menu</span>
+                    </Button>
+                </SheetTrigger>
+                <SheetContent side="left">
+                    <nav className="grid gap-6 text-lg font-medium mt-8">
+                         <Link href="/landing" className="hover:text-primary">Accueil</Link>
+                         <Link href="/a-propos-de-demenagement-du-vexin" className="text-muted-foreground hover:text-primary">Notre Entreprise</Link>
+                         <Link href="/services" className="text-muted-foreground hover:text-primary">Services</Link>
+                         <Link href="/calculateur-volume" className="text-muted-foreground hover:text-primary">Calculateur de volume</Link>
+                         <Link href="/zones-intervention" className="text-muted-foreground hover:text-primary">Zones d'intervention</Link>
+                         <Link href="/blog" className="text-muted-foreground hover:text-primary">Blog</Link>
+                         <Link href="/landing#contact" className="text-muted-foreground hover:text-primary">Contact</Link>
+                    </nav>
+                </SheetContent>
+            </Sheet>
+        </div>
+
+        {/* Desktop Menu */}
+        <nav className="hidden lg:flex items-center gap-1">
+            <NavigationMenu>
+                <NavigationMenuList>
+                    <NavigationMenuItem>
+                        <NavigationMenuLink asChild>
+                            <Link href="/landing" className={navigationMenuTriggerStyle()}>
+                                Accueil
+                            </Link>
+                        </NavigationMenuLink>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuTrigger>À propos</NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px]">
+                                <ListItem href="/a-propos-de-demenagement-du-vexin" title="Notre Entreprise">
+                                    Découvrez l'histoire et les valeurs de notre entreprise familiale.
+                                </ListItem>
+                                <ListItem href="/nos-realisations" title="Nos Réalisations">
+                                    Voir des exemples concrets de notre savoir-faire.
+                                </ListItem>
+                                <ListItem href="/galerie" title="Galerie">
+                                    Découvrez notre équipe et notre matériel en images.
+                                </ListItem>
+                                <ListItem href="/demenagement-du-vexin-evreux" title="Agence d'Évreux">
+                                    Notre antenne locale pour tous vos besoins en Normandie.
+                                </ListItem>
+                            </ul>
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                            {services.map((service) => (
+                                <ListItem
+                                    key={service.title}
+                                    title={service.title}
+                                    href={service.href}
+                                >
+                                    <div className="flex items-start gap-3">
+                                        <div className="text-primary">{service.icon}</div>
+                                        <p className="text-muted-foreground text-sm leading-snug">{service.description}</p>
                                     </div>
-                                </Link>
-                            </NavigationMenuLink>
-                        </li>
-                        </ul>
-                    </NavigationMenuContent>
-                </NavigationMenuItem>
-                 <NavigationMenuItem>
+                                </ListItem>
+                            ))}
+                            <li className="md:col-span-2">
+                                <NavigationMenuLink asChild>
+                                    <Link href="/services" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
+                                        <div className="text-sm font-medium">
+                                            Voir tous nos services
+                                        </div>
+                                    </Link>
+                                </NavigationMenuLink>
+                            </li>
+                            </ul>
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuLink asChild>
+                        <Link href="/calculateur-volume" className={navigationMenuTriggerStyle()}>
+                                Calculateur de volume
+                            </Link>
+                        </NavigationMenuLink>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuLink asChild>
+                        <Link href="/zones-intervention" className={navigationMenuTriggerStyle()}>
+                                Zones d'intervention
+                            </Link>
+                        </NavigationMenuLink>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuLink asChild>
+                        <Link href="/blog" className={navigationMenuTriggerStyle()}>
+                                Blog
+                            </Link>
+                        </NavigationMenuLink>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
                     <NavigationMenuLink asChild>
-                       <Link href="/calculateur-volume" className={navigationMenuTriggerStyle()}>
-                            Calculateur de volume
-                        </Link>
-                    </NavigationMenuLink>
-                </NavigationMenuItem>
-                 <NavigationMenuItem>
-                    <NavigationMenuLink asChild>
-                       <Link href="/zones-intervention" className={navigationMenuTriggerStyle()}>
-                            Zones d'intervention
-                        </Link>
-                    </NavigationMenuLink>
-                </NavigationMenuItem>
-                 <NavigationMenuItem>
-                    <NavigationMenuLink asChild>
-                       <Link href="/blog" className={navigationMenuTriggerStyle()}>
-                            Blog
-                        </Link>
-                    </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                   <NavigationMenuLink asChild>
-                        <Link href="/landing#contact" className={navigationMenuTriggerStyle()}>
-                            Contact
-                        </Link>
-                    </NavigationMenuLink>
-                </NavigationMenuItem>
-            </NavigationMenuList>
-        </NavigationMenu>
-     </nav>
+                            <Link href="/landing#contact" className={navigationMenuTriggerStyle()}>
+                                Contact
+                            </Link>
+                        </NavigationMenuLink>
+                    </NavigationMenuItem>
+                </NavigationMenuList>
+            </NavigationMenu>
+        </nav>
+    </>
   )
 }
 
@@ -183,3 +212,5 @@ const ListItem = React.forwardRef<
   )
 })
 ListItem.displayName = "ListItem"
+
+    
