@@ -1,6 +1,7 @@
 
 "use client";
 
+import * as React from "react";
 import { useRef } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { Button } from "@/components/ui/button";
@@ -87,25 +88,38 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative bg-background">
+            <section className="relative bg-background overflow-hidden">
                 <div className="container grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-104px)] py-20">
-                     <div className="text-center lg:text-left">
+                     <div className="relative z-10 text-center lg:text-left">
                         <p className="font-semibold text-primary">Déménagement Du Vexin</p>
                         <h1 className="text-4xl md:text-6xl font-headline font-bold mt-2 leading-tight">Le déménagement, la sérénité en plus.</h1>
                         <p className="mt-4 text-lg md:text-xl max-w-xl mx-auto lg:mx-0 text-muted-foreground">Experts du déménagement pour particuliers et entreprises. Confiez-nous votre projet pour une expérience fluide, sécurisée et sans stress, partout en France.</p>
                         <div className="mt-8 flex flex-col sm:flex-row justify-center lg:justify-start items-center gap-4">
-                            <Button size="lg" asChild>
-                                <Link href="/demande-devis">Demander un devis en 2 minutes</Link>
+                            <Button size="lg" asChild className="shadow-lg shadow-primary/20">
+                                <Link href="/demande-devis">Demander un devis</Link>
                             </Button>
                              <Button size="lg" variant="ghost" asChild>
                                 <Link href="/calculateur-volume">
-                                    <Calculator className="mr-2"/>
-                                    Calculer mon volume
+                                    Calculer mon volume <ArrowRight className="ml-2"/>
                                 </Link>
                             </Button>
                         </div>
+                         <div className="mt-12 flex justify-center lg:justify-start gap-8 text-center">
+                            <div>
+                                <p className="text-3xl font-bold font-headline">10+</p>
+                                <p className="text-sm text-muted-foreground">Années d'expérience</p>
+                            </div>
+                             <div>
+                                <p className="text-3xl font-bold font-headline">4.9/5</p>
+                                <p className="text-sm text-muted-foreground">Note moyenne clients</p>
+                            </div>
+                             <div>
+                                <p className="text-3xl font-bold font-headline">100%</p>
+                                <p className="text-sm text-muted-foreground">Équipes salariées</p>
+                            </div>
+                        </div>
                     </div>
-                     <div className="relative h-80 lg:h-[500px] w-full">
+                     <div className="relative h-80 lg:h-[600px] w-full">
                          <Image 
                             src="https://picsum.photos/seed/movers/1920/1080"
                             alt="Équipe de déménageurs professionnels souriants chargeant un camion"
@@ -118,16 +132,16 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 </div>
             </section>
             
-            <section id="services" className="py-16 md:py-24 bg-card">
+            <section id="services" className="py-24 bg-card">
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
                         <h2 className="text-3xl font-bold">Un service complet pour un déménagement réussi</h2>
                         <p className="mt-4 text-muted-foreground text-lg">Que vous soyez un particulier ou une entreprise, que vous déménagiez à côté ou à l'autre bout de la France, nous avons la solution adaptée à vos besoins.</p>
                     </div>
-                    <div className="mt-12 grid sm:grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div className="mt-16 grid sm:grid-cols-1 lg:grid-cols-3 gap-8">
                         {services.map((service, i) => (
                              <Link key={i} href={service.link} className="block group">
-                                 <Card className="overflow-hidden relative h-80 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                                 <Card className="overflow-hidden relative h-96 transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
                                      <Image 
                                         src={service.imageUrl}
                                         alt={service.title}
@@ -135,8 +149,11 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                                         className="object-cover group-hover:scale-105 transition-transform duration-300"
                                         data-ai-hint={service.aiHint}
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"/>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"/>
                                     <div className="absolute bottom-0 left-0 p-6 text-white">
+                                        <div className="p-3 bg-primary/20 backdrop-blur-sm rounded-full w-fit mb-4 border border-primary/30">
+                                            {React.cloneElement(service.icon, {className: "h-6 w-6 text-primary-foreground"})}
+                                        </div>
                                         <h3 className="text-xl font-bold">{service.title}</h3>
                                         <p className="mt-2 text-white/80 text-sm">{service.description}</p>
                                          <div className="mt-4 flex items-center text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -150,7 +167,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 </div>
             </section>
 
-             <section id="about" className="py-16 md:py-24">
+             <section id="about" className="py-24">
                 <div className="container grid lg:grid-cols-2 gap-16 items-center">
                     <div>
                         <Image
@@ -164,7 +181,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                     </div>
                      <div>
                          <p className="text-sm font-semibold text-primary uppercase">Notre histoire</p>
-                         <h2 className="text-3xl font-bold mt-2">Votre partenaire de confiance depuis des années</h2>
+                         <h2 className="text-3xl font-bold mt-2">Votre partenaire de confiance depuis plus de 10 ans</h2>
                          <p className="mt-4 text-muted-foreground text-lg">
                             Basée dans le Val-d’Oise (95), notre entreprise familiale de déménagement intervient également dans l’Oise (60), l’Eure (27) et dans toute l'Île-de-France. Que vous soyez un particulier ou une entreprise, nous vous accompagnons dans tous vos projets de déménagement, en local, national ou même international.
                          </p>
@@ -176,14 +193,14 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 </div>
             </section>
             
-            <section id="engagements" className="py-16 md:py-24 bg-card">
+            <section id="engagements" className="py-24 bg-card">
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
                          <p className="text-sm font-semibold text-primary uppercase">Notre promesse</p>
                         <h2 className="text-3xl font-bold mt-2">Qualité, Confiance, Sérénité.</h2>
                         <p className="mt-4 text-muted-foreground text-lg">Votre tranquillité d'esprit est notre priorité. Voici nos 4 engagements fondamentaux.</p>
                     </div>
-                    <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
                         {engagementItems.map((item, i) => (
                             <div key={i} className="text-center flex flex-col items-center">
                                 <div className="p-4 bg-primary/10 rounded-full w-fit mb-4">{item.icon}</div>
@@ -198,7 +215,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
              <TestimonialsSection reviews={reviews} />
 
              {/* FAQ Section */}
-            <section id="faq" className="py-16 md:py-24">
+            <section id="faq" className="py-24">
                 <div className="container max-w-4xl mx-auto">
                     <div className="text-center">
                         <h2 className="text-3xl font-bold">Vos Questions, Nos Réponses</h2>
@@ -220,7 +237,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             </section>
 
             {/* Contact Section */}
-            <section id="contact" className="py-16 md:py-24 bg-card">
+            <section id="contact" className="py-24 bg-card">
                  <div className="container">
                      <Card className="grid lg:grid-cols-2 overflow-hidden shadow-xl border-primary">
                         <div className="p-8 md:p-12 bg-primary text-primary-foreground flex flex-col justify-center">
