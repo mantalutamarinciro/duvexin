@@ -10,9 +10,11 @@ export function SectionTitle({ children, className }: { children: React.ReactNod
       const parts = node.split(/<u>(.*?)<\/u>/g);
       return parts.map((part, index) => {
         if (index % 2 === 1) {
+          // The content inside <u> tags
           return <u key={index}>{part}</u>;
         }
-        return part;
+        // The content outside <u> tags
+        return <span key={index}>{part}</span>;
       });
     }
     if (React.isValidElement(node) && Array.isArray((node.props as any).children)) {
