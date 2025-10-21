@@ -48,18 +48,23 @@ const fallbackTestimonials: FormattedReview[] = [
 ];
 
 export default async function LandingPage() {
-
-    let reviews: FormattedReview[] = [];
+    let reviews: FormattedReview[] = fallbackTestimonials;
+    
+    // Pour l'instant, nous utilisons les données de secours pour éviter l'erreur.
+    // L'étape suivante consistera à dé-commenter ce bloc une fois les variables d'environnement
+    // GOOGLE_ACCOUNT_ID, GOOGLE_LOCATION_ID, et GOOGLE_API_KEY correctement configurées.
+    /*
     try {
-        reviews = await getGoogleReviews();
-        if (reviews.length === 0) {
+        const googleReviews = await getGoogleReviews();
+        if (googleReviews.length > 0) {
+            reviews = googleReviews;
+        } else {
             console.warn("No Google Reviews found, using fallback testimonials.");
-            reviews = fallbackTestimonials;
         }
     } catch (error) {
         console.error("Could not fetch Google Reviews, using fallback testimonials:", error);
-        reviews = fallbackTestimonials;
     }
+    */
 
     return <LandingPageClient reviews={reviews} />;
 }
