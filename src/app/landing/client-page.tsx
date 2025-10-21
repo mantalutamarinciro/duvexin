@@ -16,21 +16,21 @@ import { cn } from "@/lib/utils";
 const services = [
   {
     title: "Déménagement de Particuliers",
-    description: "Une expertise pour chaque étape de votre vie, de votre premier studio à la maison familiale. Nous vous garantissons un service sur-mesure, adapté à vos besoins et à votre budget, pour une transition en toute sérénité.",
+    description: "Une expertise pour chaque étape de votre vie, de votre premier studio à la maison familiale.",
     link: "/demenagement-particuliers",
     imageUrl: "https://picsum.photos/seed/particuliers/800/600",
     aiHint: "happy couple new home"
   },
   {
     title: "Déménagement d'Entreprise",
-    description: "Transferts de bureaux, d'archives ou de matériel sensible. Notre planification rigoureuse et notre exécution discrète assurent une continuité parfaite de votre activité.",
+    description: "Transferts de bureaux, d'archives ou de matériel sensible pour une continuité parfaite de votre activité.",
     link: "/demenagement-entreprise-bureau",
     imageUrl: "https://picsum.photos/seed/entreprise/800/600",
     aiHint: "modern office interior"
   },
   {
     title: "Déménagement National",
-    description: "Nous vous accompagnons partout en France. Grâce à nos lignes régulières vers les grandes métropoles, nous offrons une solution fiable et compétitive pour vos projets longue distance.",
+    description: "Une solution fiable et compétitive pour vos projets longue distance, partout en France.",
     link: "/demenagement-national",
     imageUrl: "https://picsum.photos/seed/national/800/600",
     aiHint: "highway france landscape"
@@ -124,30 +124,32 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             
             {/* Services Section */}
             <section id="services" className="py-24">
-                <div className="container">
-                    <div className="text-center max-w-3xl mx-auto">
+                <div className="container grid lg:grid-cols-2 gap-16 items-start">
+                    <div className="lg:sticky top-24">
                         <h2 className="text-3xl md:text-4xl font-headline font-bold">Un savoir-faire pour chaque projet</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">
+                        <p className="mt-4 text-muted-foreground text-lg max-w-lg">
                             Que vous soyez un particulier ou une entreprise, que vous déménagiez à côté ou à l'autre bout de la France, nous avons la solution sur-mesure.
                         </p>
+                         <Button asChild size="lg" variant="outline" className="mt-8">
+                             <Link href="/services">Découvrir tous nos services</Link>
+                        </Button>
                     </div>
-                    <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 gap-8">
                         {services.map((service) => (
                             <Link href={service.link} key={service.title} className="group block">
-                                <Card className="overflow-hidden h-full flex flex-col">
-                                    <div className="relative aspect-[4/3]">
-                                        <Image 
-                                            src={service.imageUrl}
-                                            alt={service.title}
-                                            fill
-                                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                            data-ai-hint={service.aiHint}
-                                        />
-                                    </div>
-                                    <div className="p-6 flex-grow flex flex-col">
-                                        <h3 className="text-xl font-bold font-headline">{service.title}</h3>
-                                        <p className="mt-2 text-muted-foreground text-sm flex-grow">{service.description}</p>
-                                        <div className="mt-4 text-primary font-semibold flex items-center gap-2">
+                                <Card className="overflow-hidden relative aspect-[4/3] rounded-2xl">
+                                    <Image 
+                                        src={service.imageUrl}
+                                        alt={service.title}
+                                        fill
+                                        className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+                                        data-ai-hint={service.aiHint}
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"/>
+                                    <div className="absolute bottom-0 left-0 p-6 text-white">
+                                        <h3 className="text-2xl font-bold font-headline">{service.title}</h3>
+                                        <p className="mt-1 text-white/80 max-w-sm">{service.description}</p>
+                                        <div className="mt-4 text-primary font-semibold flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                             En savoir plus <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                                         </div>
                                     </div>
@@ -155,13 +157,9 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                             </Link>
                         ))}
                     </div>
-                     <div className="text-center mt-12">
-                         <Button asChild size="lg" variant="outline">
-                             <Link href="/services">Découvrir tous nos services</Link>
-                        </Button>
-                    </div>
                 </div>
             </section>
+            
 
              {/* Engagement Section */}
             <section className="py-24 relative overflow-hidden bg-gray-900 text-white">
@@ -241,5 +239,3 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
         </div>
     );
 }
-
-    
