@@ -103,7 +103,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                      <h1 className="text-4xl md:text-6xl font-headline font-bold leading-tight drop-shadow-md">
                         Le déménagement,
                         <br />
-                        <span className="text-primary">la sérénité en plus.</span>
+                        <span className="text-primary font-light">la sérénité</span> en plus.
                     </h1>
                     <p className="mt-6 text-lg md:text-xl max-w-2xl mx-auto text-white/90 drop-shadow">
                         Confiez-nous votre projet pour une expérience fluide et sécurisée. 

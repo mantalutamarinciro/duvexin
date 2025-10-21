@@ -6,22 +6,20 @@ export function SectionTitle({ children, className }: { children: React.ReactNod
 
   const parseChildren = (node: React.ReactNode): React.ReactNode => {
     if (typeof node === 'string') {
-      const parts = node.split(/<u>(.*?)<\/u>/g);
-      
-      return parts.map((part, index) => {
-        if (index % 2 === 1) {
-          // The magic happens here: font-light and text-primary
-          return <span key={index} className="text-primary font-light">{part}</span>;
-        }
-        return part;
-      });
+      return node;
     }
 
-    if (React.isValidElement(node) && (node.props as any).children) {
-      return React.cloneElement(node, {
-        ...node.props,
-        children: React.Children.map((node.props as any).children, parseChildren)
-      });
+    if (React.isValidElement(node)) {
+        if (node.type === 'u') {
+            return <span className="font-light text-primary">{node.props.children}</span>
+        }
+        
+        if (node.props.children) {
+            return React.cloneElement(node, {
+                ...node.props,
+                children: React.Children.map(node.props.children, parseChildren)
+            });
+        }
     }
 
     return node;
@@ -30,7 +28,7 @@ export function SectionTitle({ children, className }: { children: React.ReactNod
   const processedChildren = React.Children.map(children, parseChildren);
 
   return (
-    <h2 className={cn("text-3xl md:text-4xl font-headline font-bold section-title", className)}>
+    <h2 className={cn("text-3xl md:text-4xl font-headline font-bold", className)}>
       {processedChildren}
     </h2>
   );
