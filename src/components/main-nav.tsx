@@ -31,7 +31,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
 import { Button } from "./ui/button"
 
 const services: { title: string; href: string; description: string, icon: React.ReactNode }[] = [
@@ -82,6 +82,9 @@ export function MainNav() {
                     </Button>
                 </SheetTrigger>
                 <SheetContent side="left">
+                    <SheetHeader className="sr-only">
+                        <SheetTitle>Navigation</SheetTitle>
+                    </SheetHeader>
                     <nav className="grid gap-6 text-lg font-medium mt-8">
                          <Link href="/landing" className="hover:text-primary">Accueil</Link>
                          <Link href="/a-propos-de-demenagement-du-vexin" className="text-muted-foreground hover:text-primary">Notre Entreprise</Link>
