@@ -131,29 +131,34 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                             Que vous soyez un particulier ou une entreprise, que vous déménagiez à côté ou à l'autre bout de la France, nous avons la solution sur-mesure.
                         </p>
                     </div>
-                    <div className="mt-20 space-y-24">
-                        {services.map((service, index) => (
-                            <div key={service.title} className="grid lg:grid-cols-2 gap-12 items-center">
-                                <div className={cn("relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg", index % 2 === 1 && "lg:order-last")}>
-                                     <Image 
-                                        src={service.imageUrl}
-                                        alt={service.title}
-                                        fill
-                                        className="object-cover"
-                                        data-ai-hint={service.aiHint}
-                                    />
-                                </div>
-                                <div className="lg:px-8">
-                                    <h3 className="text-2xl font-bold font-headline">{service.title}</h3>
-                                    <p className="mt-4 text-muted-foreground">{service.description}</p>
-                                    <Button asChild variant="link" className="p-0 mt-4">
-                                         <Link href={service.link}>
-                                            En savoir plus <ArrowRight className="ml-2 h-4 w-4"/>
-                                        </Link>
-                                    </Button>
-                                </div>
-                            </div>
+                    <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {services.map((service) => (
+                            <Link href={service.link} key={service.title} className="group block">
+                                <Card className="overflow-hidden h-full flex flex-col">
+                                    <div className="relative aspect-[4/3]">
+                                        <Image 
+                                            src={service.imageUrl}
+                                            alt={service.title}
+                                            fill
+                                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                            data-ai-hint={service.aiHint}
+                                        />
+                                    </div>
+                                    <div className="p-6 flex-grow flex flex-col">
+                                        <h3 className="text-xl font-bold font-headline">{service.title}</h3>
+                                        <p className="mt-2 text-muted-foreground text-sm flex-grow">{service.description}</p>
+                                        <div className="mt-4 text-primary font-semibold flex items-center gap-2">
+                                            En savoir plus <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                                        </div>
+                                    </div>
+                                </Card>
+                            </Link>
                         ))}
+                    </div>
+                     <div className="text-center mt-12">
+                         <Button asChild size="lg" variant="outline">
+                             <Link href="/services">Découvrir tous nos services</Link>
+                        </Button>
                     </div>
                 </div>
             </section>
@@ -237,3 +242,4 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
     );
 }
 
+    
