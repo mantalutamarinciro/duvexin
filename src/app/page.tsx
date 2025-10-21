@@ -1,3 +1,4 @@
+
 import { FormattedReview } from "@/app/api/reviews/route";
 import { LandingPageClient } from "@/app/landing/client-page";
 import type { Metadata } from 'next';
@@ -49,6 +50,7 @@ const fallbackTestimonials: FormattedReview[] = [
 export default async function LandingPage() {
     let reviews: FormattedReview[] = fallbackTestimonials;
     
+    /*
     // Pour l'instant, nous utilisons les données de secours pour éviter l'erreur.
     // L'étape suivante consistera à dé-commenter ce bloc une fois les variables d'environnement
     // GOOGLE_ACCOUNT_ID, GOOGLE_LOCATION_ID, et GOOGLE_API_KEY correctement configurées.
@@ -63,7 +65,7 @@ export default async function LandingPage() {
     } catch (error) {
         console.error("Could not fetch Google Reviews, using fallback testimonials:", error);
     }
-    
+    */
 
     return <LandingPageClient reviews={reviews} />;
 }
