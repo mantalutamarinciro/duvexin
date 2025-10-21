@@ -80,7 +80,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
     return (
         <div className="bg-background text-foreground">
             
-            {/* Hero Section */}
+             {/* Hero Section */}
             <section className="relative min-h-[80vh] flex items-center justify-center text-center text-white py-20">
                 <Image
                     src="https://picsum.photos/seed/hero-image/1920/1280"
@@ -158,42 +158,40 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 </div>
             </section>
 
-             {/* About/Engagement Section */}
-            <section className="py-24 bg-card">
-                 <div className="container grid lg:grid-cols-2 gap-16 items-center">
-                    <div>
-                        <h2 className="text-3xl md:text-4xl font-headline font-bold">La qualité comme signature. La sérénité comme promesse.</h2>
-                        <p className="mt-6 text-muted-foreground text-lg">
-                           Depuis plus de 10 ans, notre entreprise familiale s'engage à offrir un service qui va au-delà du simple transport. Notre réputation s'est bâtie sur la confiance, la fiabilité et une obsession pour le travail bien fait.
+             {/* Engagement Section */}
+            <section className="py-24 relative overflow-hidden bg-gray-900 text-white">
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="absolute top-0 left-0 w-full h-full object-cover opacity-20"
+                >
+                    <source src="https://firebasestorage.googleapis.com/v0/b/movesmart-dashboard.appspot.com/o/moving-video.mp4?alt=media&token=24a259c6-13a8-430c-848e-04f7626966f0" type="video/mp4" />
+                </video>
+                <div className="container relative z-10">
+                    <div className="max-w-3xl">
+                        <h2 className="text-3xl md:text-4xl font-headline font-bold">La qualité comme signature.
+                            <br />
+                            La sérénité comme promesse.</h2>
+                        <p className="mt-6 text-white/80 text-lg">
+                           Notre réputation s'est bâtie sur la confiance, la fiabilité et une obsession pour le travail bien fait. Chaque déménagement est une promesse tenue.
                         </p>
-                         <div className="mt-10 grid grid-cols-2 gap-8">
-                           {engagements.map((engagement) => (
-                               <div key={engagement.title} className="flex items-start gap-4">
-                                   <div className="text-primary bg-primary/10 p-3 rounded-full">
-                                       <engagement.icon className="h-6 w-6"/>
-                                   </div>
-                                   <div>
-                                       <h4 className="font-bold">{engagement.title}</h4>
-                                       <p className="mt-1 text-muted-foreground text-sm">{engagement.description}</p>
-                                   </div>
-                               </div>
-                           ))}
-                        </div>
-                         <Button asChild variant="outline" className="mt-12">
-                            <Link href="/a-propos-de-demenagement-du-vexin">Découvrir notre histoire</Link>
-                        </Button>
                     </div>
-                     <div className="relative h-[600px] w-full hidden lg:block">
-                        <Image
-                            src="https://picsum.photos/seed/engagement-team/600/800"
-                            alt="Un déménageur professionnel de l'équipe Déménagement du Vexin"
-                            fill
-                            className="object-cover rounded-2xl shadow-lg"
-                            data-ai-hint="professional mover portrait"
-                        />
+                    <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                       {engagements.map((engagement, index) => (
+                           <Card key={engagement.title} className="bg-white/10 backdrop-blur-lg border-white/20 text-white transform hover:-translate-y-2 transition-transform duration-300">
+                               <CardContent className="p-6">
+                                   <engagement.icon className="h-8 w-8 text-primary mb-4"/>
+                                   <h4 className="font-bold text-lg">{engagement.title}</h4>
+                                   <p className="mt-2 text-sm text-white/70">{engagement.description}</p>
+                               </CardContent>
+                           </Card>
+                       ))}
                     </div>
                 </div>
             </section>
+
 
             <TestimonialsSection reviews={reviews} />
             
@@ -239,4 +237,3 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
     );
 }
 
-    
