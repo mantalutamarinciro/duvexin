@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -10,25 +11,26 @@ import { TestimonialsSection } from "@/components/testimonials-section";
 import type { FormattedReview } from "@/app/api/reviews/route";
 import { ContactForm } from "./contact-form";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 
 const services = [
   {
     title: "Déménagement de Particuliers",
-    description: "Une expertise pour chaque étape de votre vie, de votre premier studio à la maison familiale.",
+    description: "Une expertise pour chaque étape de votre vie, de votre premier studio à la maison familiale. Nous vous garantissons un service sur-mesure, adapté à vos besoins et à votre budget, pour une transition en toute sérénité.",
     link: "/demenagement-particuliers",
     imageUrl: "https://picsum.photos/seed/particuliers/800/600",
     aiHint: "happy couple new home"
   },
   {
     title: "Déménagement d'Entreprise",
-    description: "Transferts de bureaux planifiés pour une transition fluide et sans interruption de votre activité.",
+    description: "Transferts de bureaux, d'archives ou de matériel sensible. Notre planification rigoureuse et notre exécution discrète assurent une continuité parfaite de votre activité.",
     link: "/demenagement-entreprise-bureau",
     imageUrl: "https://picsum.photos/seed/entreprise/800/600",
     aiHint: "modern office interior"
   },
   {
     title: "Déménagement National",
-    description: "Nous vous accompagnons partout en France avec nos lignes régulières vers les grandes métropoles.",
+    description: "Nous vous accompagnons partout en France. Grâce à nos lignes régulières vers les grandes métropoles, nous offrons une solution fiable et compétitive pour vos projets longue distance.",
     link: "/demenagement-national",
     imageUrl: "https://picsum.photos/seed/national/800/600",
     aiHint: "highway france landscape"
@@ -116,7 +118,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 </div>
             </section>
             
-             {/* Services Section */}
+            {/* Services Section */}
             <section id="services" className="py-24">
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
@@ -125,27 +127,28 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                             Que vous soyez un particulier ou une entreprise, que vous déménagiez à côté ou à l'autre bout de la France, nous avons la solution sur-mesure.
                         </p>
                     </div>
-                    <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {services.map((service) => (
-                            <Link href={service.link} key={service.title} className="group block">
-                                <div className="overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-shadow duration-300">
-                                    <Image 
+                    <div className="mt-20 space-y-24">
+                        {services.map((service, index) => (
+                            <div key={service.title} className="grid lg:grid-cols-2 gap-12 items-center">
+                                <div className={cn("relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg", index % 2 === 1 && "lg:order-last")}>
+                                     <Image 
                                         src={service.imageUrl}
                                         alt={service.title}
-                                        width={800}
-                                        height={600}
-                                        className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
+                                        fill
+                                        className="object-cover"
                                         data-ai-hint={service.aiHint}
                                     />
-                                    <div className="p-6 bg-card">
-                                        <h3 className="text-xl font-bold">{service.title}</h3>
-                                        <p className="mt-2 text-muted-foreground text-sm">{service.description}</p>
-                                        <div className="mt-4 text-sm font-semibold text-primary flex items-center">
-                                            En savoir plus <ArrowRight className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform"/>
-                                        </div>
-                                    </div>
                                 </div>
-                            </Link>
+                                <div className="lg:px-8">
+                                    <h3 className="text-2xl font-bold font-headline">{service.title}</h3>
+                                    <p className="mt-4 text-muted-foreground">{service.description}</p>
+                                    <Button asChild variant="link" className="p-0 mt-4">
+                                         <Link href={service.link}>
+                                            En savoir plus <ArrowRight className="ml-2 h-4 w-4"/>
+                                        </Link>
+                                    </Button>
+                                </div>
+                            </div>
                         ))}
                     </div>
                 </div>
