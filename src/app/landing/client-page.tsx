@@ -2,7 +2,7 @@
 "use client";
 
 import * as React from "react";
-import { ArrowRight, Star, Quote } from "lucide-react";
+import { ArrowRight, Star, Quote, Users, FileText, ShieldCheck, Truck, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
@@ -39,18 +39,22 @@ const services = [
 
 const engagements = [
     {
+        icon: Users,
         title: "Équipe 100% Salariée",
         description: "Fiabilité et qualité constantes grâce à nos propres équipes formées."
     },
     {
+        icon: FileText,
         title: "Devis Transparent",
         description: "Une estimation claire, détaillée et sans surprise pour maîtriser votre budget."
     },
     {
+        icon: ShieldCheck,
         title: "Protection Garantie",
         description: "Matériel professionnel et assurance incluse pour une tranquillité d'esprit totale."
     },
     {
+        icon: Lightbulb,
         title: "Sérénité Assurée",
         description: "Nous gérons les autorisations et la logistique pour un déménagement sans stress."
     }
@@ -156,8 +160,30 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
 
              {/* About/Engagement Section */}
             <section className="py-24 bg-card">
-                <div className="container grid lg:grid-cols-2 gap-16 items-center">
-                     <div className="relative h-96 w-full hidden lg:block">
+                 <div className="container grid lg:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <h2 className="text-3xl md:text-4xl font-headline font-bold">La qualité comme signature. La sérénité comme promesse.</h2>
+                        <p className="mt-6 text-muted-foreground text-lg">
+                           Depuis plus de 10 ans, notre entreprise familiale s'engage à offrir un service qui va au-delà du simple transport. Notre réputation s'est bâtie sur la confiance, la fiabilité et une obsession pour le travail bien fait.
+                        </p>
+                         <div className="mt-10 grid grid-cols-2 gap-8">
+                           {engagements.map((engagement) => (
+                               <div key={engagement.title} className="flex items-start gap-4">
+                                   <div className="text-primary bg-primary/10 p-3 rounded-full">
+                                       <engagement.icon className="h-6 w-6"/>
+                                   </div>
+                                   <div>
+                                       <h4 className="font-bold">{engagement.title}</h4>
+                                       <p className="mt-1 text-muted-foreground text-sm">{engagement.description}</p>
+                                   </div>
+                               </div>
+                           ))}
+                        </div>
+                         <Button asChild variant="outline" className="mt-12">
+                            <Link href="/a-propos-de-demenagement-du-vexin">Découvrir notre histoire</Link>
+                        </Button>
+                    </div>
+                     <div className="relative h-[600px] w-full hidden lg:block">
                         <Image
                             src="https://picsum.photos/seed/engagement-team/600/800"
                             alt="Un déménageur professionnel de l'équipe Déménagement du Vexin"
@@ -165,20 +191,6 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                             className="object-cover rounded-2xl shadow-lg"
                             data-ai-hint="professional mover portrait"
                         />
-                    </div>
-                    <div>
-                        <h2 className="text-3xl md:text-4xl font-headline font-bold">La qualité n'est pas une option, c'est notre engagement.</h2>
-                        <p className="mt-6 text-muted-foreground text-lg">
-                            Depuis plus de 10 ans, notre entreprise familiale s'engage à offrir un service qui va au-delà du simple transport. Notre réputation s'est bâtie sur la confiance, la fiabilité et une obsession pour le travail bien fait.
-                        </p>
-                        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-8">
-                           {engagements.map((engagement) => (
-                               <div key={engagement.title}>
-                                   <h4 className="font-bold text-lg">{engagement.title}</h4>
-                                   <p className="mt-1 text-muted-foreground text-sm">{engagement.description}</p>
-                               </div>
-                           ))}
-                        </div>
                     </div>
                 </div>
             </section>
@@ -226,3 +238,5 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
         </div>
     );
 }
+
+    
