@@ -100,7 +100,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/30"></div>
                 <div className="container relative z-10">
-                    <h1 className="text-4xl md:text-6xl font-headline font-bold leading-tight drop-shadow-md">
+                     <h1 className="text-4xl md:text-6xl font-headline font-bold leading-tight drop-shadow-md">
                         Le déménagement,
                         <br />
                         <span className="text-primary">la sérénité en plus.</span>
