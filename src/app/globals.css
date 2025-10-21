@@ -72,6 +72,5 @@
   }
   .section-title u {
     text-decoration: none;
-    @apply font-normal text-muted-foreground;
   }
 }

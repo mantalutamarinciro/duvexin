@@ -12,6 +12,7 @@ import type { FormattedReview } from "@/app/api/reviews/route";
 import { ContactForm } from "./contact-form";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { SectionTitle } from "@/components/section-title";
+import { cn } from "@/lib/utils";
 
 const services = [
   {
@@ -130,7 +131,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             </section>
             
             {/* Services Section */}
-             <section id="services" className="py-24">
+            <section id="services" className="py-24">
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
                          <SectionTitle>Un savoir-faire pour <u>chaque projet</u></SectionTitle>
@@ -185,7 +186,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 </video>
                 <div className="container relative z-10">
                     <div className="max-w-3xl">
-                         <SectionTitle className="text-white">La qualité comme <u>signature</u>. La sérénité comme <u>promesse</u>.</SectionTitle>
+                         <SectionTitle className="text-white">La <u>qualité</u> comme signature. La <u>sérénité</u> comme promesse.</SectionTitle>
                         <p className="mt-6 text-white/80 text-lg">
                            Notre réputation s'est bâtie sur la confiance, la fiabilité et une obsession pour le travail bien fait. Chaque déménagement est une promesse tenue.
                         </p>
@@ -248,4 +249,3 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
         </div>
     );
 }
-
