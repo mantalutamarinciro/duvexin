@@ -2,6 +2,7 @@
 import { FormattedReview } from "@/app/api/reviews/route";
 import { LandingPageClient } from "./client-page";
 import type { Metadata } from 'next';
+import { getGoogleReviews } from "@/services/reviewService";
 
 // SEO Metadata for the Landing Page
 export const metadata: Metadata = {
@@ -48,20 +49,17 @@ const fallbackTestimonials: FormattedReview[] = [
 
 export default async function LandingPage() {
 
-    // let reviews: FormattedReview[] = [];
-    // try {
-    //     // NOTE: Google Reviews API call is temporarily disabled to resolve a persistent error.
-    //     // This ensures the site remains stable while API credentials and permissions are verified.
-    //     // To re-enable, uncomment the following lines and ensure the API service is working correctly.
-    //     //
-    //     // reviews = await getGoogleReviews();
-    //     // if (reviews.length === 0) {
-    //     //     reviews = fallbackTestimonials;
-    //     // }
-    // } catch (error) {
-    //     console.warn("Could not fetch Google Reviews, using fallback testimonials.");
-    //     reviews = fallbackTestimonials;
-    // }
+    let reviews: FormattedReview[] = [];
+    try {
+        reviews = await getGoogleReviews();
+        if (reviews.length === 0) {
+            console.warn("No Google Reviews found, using fallback testimonials.");
+            reviews = fallbackTestimonials;
+        }
+    } catch (error) {
+        console.error("Could not fetch Google Reviews, using fallback testimonials:", error);
+        reviews = fallbackTestimonials;
+    }
 
-    return <LandingPageClient reviews={fallbackTestimonials} />;
+    return <LandingPageClient reviews={reviews} />;
 }
