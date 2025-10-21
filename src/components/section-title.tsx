@@ -1,4 +1,3 @@
-
 import { cn } from "@/lib/utils";
 import React from 'react';
 
@@ -11,7 +10,8 @@ export function SectionTitle({ children, className }: { children: React.ReactNod
       
       return parts.map((part, index) => {
         if (index % 2 === 1) {
-          return <u key={index} className="text-primary font-normal no-underline">{part}</u>;
+          // The magic happens here: font-light and text-primary
+          return <u key={index} className="text-primary font-light no-underline">{part}</u>;
         }
         return part;
       });
