@@ -11,7 +11,7 @@ export function SectionTitle({ children, className }: { children: React.ReactNod
       return parts.map((part, index) => {
         if (index % 2 === 1) {
           // The magic happens here: font-light and text-primary
-          return <u key={index} className="text-primary font-light no-underline">{part}</u>;
+          return <span key={index} className="text-primary font-light">{part}</span>;
         }
         return part;
       });
