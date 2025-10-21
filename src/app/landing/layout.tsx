@@ -10,27 +10,8 @@ import { MainNav } from "@/components/main-nav";
 
 export default function LandingLayout({ children }: PropsWithChildren) {
     return (
-        <div className="min-h-svh flex flex-col bg-background">
-             <div className="bg-primary text-primary-foreground">
-                <div className="container h-10 flex items-center justify-center">
-                    <a href="tel:+33130751235" className="flex items-center gap-2 text-sm font-medium hover:opacity-90 transition-opacity">
-                       <Phone className="h-4 w-4" />
-                       <span>Appelez-nous maintenant (+33)1 30 75 12 35</span>
-                    </a>
-                </div>
-            </div>
-            <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                <div className="container h-16 flex items-center justify-between">
-                    <Logo />
-                    <MainNav />
-                     <Button asChild className="hidden lg:inline-flex bg-accent hover:bg-accent/90 text-accent-foreground">
-                        <Link href="/demande-devis">Obtenir un devis</Link>
-                    </Button>
-                </div>
-            </header>
-            <main className="flex-1">
-                {children}
-            </main>
+        <>
+            {children}
             <footer className="border-t bg-gray-900 text-gray-300">
                 <div className="container py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
                    <div className="md:col-span-1">
@@ -59,11 +40,11 @@ export default function LandingLayout({ children }: PropsWithChildren) {
                    <div className="md:col-span-1">
                         <h4 className="font-semibold mb-2 text-white">Navigation</h4>
                         <div className="flex flex-col space-y-1 text-sm text-gray-400">
-                           <Link href="/landing" className="hover:text-accent">Accueil</Link>
+                           <Link href="/" className="hover:text-accent">Accueil</Link>
                            <Link href="/a-propos-de-demenagement-du-vexin" className="hover:text-accent">À propos</Link>
                            <Link href="/services" className="hover:text-accent">Services</Link>
                            <Link href="/blog" className="hover:text-accent">Blog</Link>
-                           <Link href="/landing#contact" className="hover:text-accent">Contact</Link>
+                           <Link href="/#contact" className="hover:text-accent">Contact</Link>
                            <Link href="/demande-devis" className="hover:text-accent">Devis</Link>
                         </div>
                    </div>
@@ -74,8 +55,6 @@ export default function LandingLayout({ children }: PropsWithChildren) {
                     </div>
                 </div>
             </footer>
-        </div>
+        </>
     );
 }
-    
-    

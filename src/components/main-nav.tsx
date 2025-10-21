@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -86,13 +85,13 @@ export function MainNav() {
                         <SheetTitle className="sr-only">Navigation</SheetTitle>
                     </SheetHeader>
                     <nav className="grid gap-6 text-lg font-medium mt-8">
-                         <Link href="/landing" className="hover:text-primary">Accueil</Link>
+                         <Link href="/" className="hover:text-primary">Accueil</Link>
                          <Link href="/a-propos-de-demenagement-du-vexin" className="text-muted-foreground hover:text-primary">Notre Entreprise</Link>
                          <Link href="/services" className="text-muted-foreground hover:text-primary">Services</Link>
                          <Link href="/calculateur-volume" className="text-muted-foreground hover:text-primary">Calculateur de volume</Link>
                          <Link href="/zones-intervention" className="text-muted-foreground hover:text-primary">Zones d'intervention</Link>
                          <Link href="/blog" className="text-muted-foreground hover:text-primary">Blog</Link>
-                         <Link href="/landing#contact" className="text-muted-foreground hover:text-primary">Contact</Link>
+                         <Link href="/#contact" className="text-muted-foreground hover:text-primary">Contact</Link>
                     </nav>
                 </SheetContent>
             </Sheet>
@@ -104,7 +103,7 @@ export function MainNav() {
                 <NavigationMenuList>
                     <NavigationMenuItem>
                         <NavigationMenuLink asChild>
-                            <Link href="/landing" className={navigationMenuTriggerStyle()}>
+                            <Link href="/" className={navigationMenuTriggerStyle()}>
                                 Accueil
                             </Link>
                         </NavigationMenuLink>
@@ -179,7 +178,7 @@ export function MainNav() {
                     </NavigationMenuItem>
                     <NavigationMenuItem>
                     <NavigationMenuLink asChild>
-                            <Link href="/landing#contact" className={navigationMenuTriggerStyle()}>
+                            <Link href="/#contact" className={navigationMenuTriggerStyle()}>
                                 Contact
                             </Link>
                         </NavigationMenuLink>
@@ -215,5 +214,3 @@ const ListItem = React.forwardRef<
   )
 })
 ListItem.displayName = "ListItem"
-
-    
