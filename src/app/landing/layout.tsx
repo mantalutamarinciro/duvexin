@@ -60,8 +60,9 @@ export default function LandingLayout({ children }: PropsWithChildren) {
                         <h4 className="font-semibold mb-2 text-white">Navigation</h4>
                         <div className="flex flex-col space-y-1 text-sm text-gray-400">
                            <Link href="/landing" className="hover:text-accent">Accueil</Link>
-                           <Link href="/a-propos-de-demenagement-du-vexin" className="hover:text-accent">A propos</Link>
+                           <Link href="/a-propos-de-demenagement-du-vexin" className="hover:text-accent">À propos</Link>
                            <Link href="/services" className="hover:text-accent">Services</Link>
+                           <Link href="/blog" className="hover:text-accent">Blog</Link>
                            <Link href="/landing#contact" className="hover:text-accent">Contact</Link>
                            <Link href="/demande-devis" className="hover:text-accent">Devis</Link>
                         </div>
