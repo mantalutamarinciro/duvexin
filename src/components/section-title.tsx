@@ -1,8 +1,9 @@
+
 import { cn } from "@/lib/utils";
 import React from 'react';
 
 // This is a server-side component
-export function SectionTitle({ children, className }: { children: React.ReactNode, className?: string }) {
+export function SectionTitle({ children, className, as: Component = "h2" }: { children: React.ReactNode, className?: string, as?: 'h1' | 'h2' | 'h3' | 'span' }) {
 
   const parseChildren = (node: React.ReactNode): React.ReactNode => {
     if (typeof node === 'string') {
@@ -10,6 +11,7 @@ export function SectionTitle({ children, className }: { children: React.ReactNod
     }
 
     if (React.isValidElement(node)) {
+        // Look for <u> tags to apply the special styling
         if (node.type === 'u') {
             return <span className="font-light text-primary">{node.props.children}</span>
         }
@@ -28,8 +30,8 @@ export function SectionTitle({ children, className }: { children: React.ReactNod
   const processedChildren = React.Children.map(children, parseChildren);
 
   return (
-    <h2 className={cn("text-3xl md:text-4xl font-headline font-bold", className)}>
+    <Component className={cn("text-3xl md:text-4xl font-headline font-bold", className)}>
       {processedChildren}
-    </h2>
+    </Component>
   );
 }

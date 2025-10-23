@@ -2,14 +2,14 @@
 "use client";
 
 import * as React from "react";
-import { ArrowRight, Star, Quote, Users, FileText, ShieldCheck, Truck, Lightbulb, Package, BriefcaseBusiness, Globe, Warehouse, Paintbrush, Calculator } from "lucide-react";
+import { ArrowRight, Star, Quote, Users, FileText, ShieldCheck, Truck, Lightbulb, Package, BriefcaseBusiness, Globe, Warehouse, Paintbrush, Calculator, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import type { FormattedReview } from "@/app/api/reviews/route";
-import { ContactForm } from "./landing/contact-form";
+import { ContactForm } from "@/app/landing/contact-form";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { SectionTitle } from "@/components/section-title";
 import { cn } from "@/lib/utils";
@@ -122,10 +122,8 @@ export default function LandingPage() {
     let reviews: FormattedReview[] = fallbackTestimonials;
     
     /*
-    // Pour l'instant, nous utilisons les données de secours pour éviter l'erreur.
-    // L'étape suivante consistera à dé-commenter ce bloc une fois les variables d'environnement
-    // GOOGLE_ACCOUNT_ID, GOOGLE_LOCATION_ID, et GOOGLE_API_KEY correctement configurées.
-    
+    // La récupération des avis Google est temporairement désactivée pour éviter les erreurs.
+    // Il faudra configurer les variables d'environnement GOOGLE_* pour la réactiver.
     try {
         const googleReviews = await getGoogleReviews();
         if (googleReviews.length > 0) {
@@ -134,7 +132,7 @@ export default function LandingPage() {
             console.warn("No Google Reviews found, using fallback testimonials.");
         }
     } catch (error) {
-        console.error("Could not fetch Google Reviews, using fallback testimonials:", error);
+        // console.error("Could not fetch Google Reviews, using fallback testimonials:", error);
     }
     */
    
@@ -156,7 +154,7 @@ export default function LandingPage() {
                      <h1 className="text-4xl md:text-6xl font-headline font-bold leading-tight drop-shadow-md">
                         Le déménagement,
                         <br />
-                        la <span className="font-light text-primary">sérénité</span> en plus.
+                        <SectionTitle as="span">la <u>sérénité</u> en plus.</SectionTitle>
                     </h1>
                     <p className="mt-6 text-lg md:text-xl max-w-2xl mx-auto text-white/90 drop-shadow">
                         Confiez-nous votre projet pour une expérience fluide et sécurisée. 
@@ -187,7 +185,7 @@ export default function LandingPage() {
             <section id="services" className="py-24">
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
-                        <SectionTitle>Un savoir-faire pour <span className="text-primary font-light">chaque projet</span></SectionTitle>
+                        <SectionTitle>Un savoir-faire pour <u>chaque projet</u></SectionTitle>
                         <p className="mt-4 text-muted-foreground text-lg">
                             Que vous soyez un particulier ou une entreprise, que vous déménagiez à côté ou à l'autre bout de la France, nous avons la solution sur-mesure.
                         </p>
@@ -202,7 +200,7 @@ export default function LandingPage() {
                                     className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
                                     data-ai-hint={service.aiHint}
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80 transition-opacity group-hover:opacity-100" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80 transition-opacity group-hover:opacity-100" />
                                 <div className="absolute bottom-0 left-0 p-6 text-white flex flex-col justify-end h-full w-full">
                                     <div>
                                         <h3 className="text-2xl font-bold font-headline transition-transform duration-300 group-hover:-translate-y-16">{service.title}</h3>
@@ -219,33 +217,43 @@ export default function LandingPage() {
                     </div>
                     <div className="text-center mt-12">
                         <Button asChild size="lg" variant="outline">
-                            <Link href="/services">Découvrir tous nos services</Link>
+                             <Link href="/services">Découvrir tous nos services</Link>
                         </Button>
                     </div>
                 </div>
             </section>
             
             {/* Engagement Section */}
-            <section className="py-24 bg-muted/50">
+             <section className="py-24 bg-muted/50">
                 <div className="container">
-                    <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <div className="grid md:grid-cols-2 gap-12 lg:gap-24 items-center">
+                        <div className="relative aspect-square md:aspect-[3/4] rounded-2xl overflow-hidden shadow-lg">
+                           <Image
+                                src="https://picsum.photos/seed/engagement/800/1000"
+                                alt="Déménageur protégeant un meuble avec une couverture"
+                                fill
+                                className="object-cover"
+                                data-ai-hint="mover protecting furniture"
+                            />
+                        </div>
                         <div className="max-w-md">
-                           <SectionTitle>La <span className="text-primary font-light">qualité</span> comme signature. La <span className="text-primary font-light">sérénité</span> comme promesse.</SectionTitle>
+                           <SectionTitle>La <u>qualité</u> comme signature. La <u>sérénité</u> comme promesse.</SectionTitle>
                            <p className="mt-6 text-muted-foreground text-lg">
                                Notre réputation s'est bâtie sur la confiance, la fiabilité et une obsession pour le travail bien fait. Chaque déménagement est une promesse tenue.
                            </p>
-                        </div>
-                         <div className="space-y-8">
-                           {engagements.map((engagement) => (
-                               <div key={engagement.title} className="relative pl-12">
-                                   <div className="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
-                                       <engagement.icon className="h-5 w-5"/>
-                                   </div>
-                                   <h4 className="font-bold text-lg">{engagement.title}</h4>
-                                   <p className="mt-1 text-muted-foreground">{engagement.description}</p>
-                                   <div className="absolute left-4 top-8 bottom-0 w-px bg-border -z-10"></div>
-                               </div>
-                           ))}
+                           <ul className="mt-8 space-y-6">
+                                {engagements.map((engagement) => (
+                                    <li key={engagement.title} className="flex items-start gap-4">
+                                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary flex-shrink-0 mt-1">
+                                            <engagement.icon className="h-5 w-5"/>
+                                        </div>
+                                        <div>
+                                           <h4 className="font-bold text-lg">{engagement.title}</h4>
+                                           <p className="mt-1 text-muted-foreground">{engagement.description}</p>
+                                        </div>
+                                    </li>
+                                ))}
+                           </ul>
                         </div>
                     </div>
                 </div>
@@ -258,7 +266,7 @@ export default function LandingPage() {
             <section id="faq" className="py-16">
                 <div className="container max-w-4xl mx-auto">
                     <div className="text-center">
-                         <SectionTitle>Vos <span className="text-primary font-light">questions</span>, nos <span className="text-primary font-light">réponses</span></SectionTitle>
+                         <SectionTitle>Vos <u>questions</u>, nos <u>réponses</u></SectionTitle>
                         <p className="mt-4 text-muted-foreground text-lg">Nous avons rassemblé ici les questions les plus fréquentes pour vous aider à préparer votre projet en toute sérénité.</p>
                     </div>
                     <Accordion type="single" collapsible className="w-full mt-12">
@@ -280,7 +288,7 @@ export default function LandingPage() {
             <section id="contact" className="py-24">
                 <div className="container">
                     <div className="bg-primary text-primary-foreground rounded-2xl p-8 md:p-16 text-center shadow-2xl shadow-primary/20">
-                         <SectionTitle className="text-primary-foreground">Prêt pour un déménagement <span className="font-light text-white">sans stress</span> ?</SectionTitle>
+                         <SectionTitle className="text-primary-foreground">Prêt pour un déménagement <u>sans stress</u> ?</SectionTitle>
                         <p className="mt-4 text-lg max-w-2xl mx-auto text-primary-foreground/80">
                             Notre équipe est prête à vous accompagner. Obtenez une estimation gratuite et personnalisée pour votre projet.
                         </p>
