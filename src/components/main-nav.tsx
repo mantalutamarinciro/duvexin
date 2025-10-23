@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -66,6 +67,33 @@ const services: { title: string; href: string; description: string, icon: React.
   },
 ]
 
+const aboutItems: { title: string; href: string; description: string, icon: React.ReactNode }[] = [
+    {
+        title: "Notre Entreprise",
+        href: "/a-propos-de-demenagement-du-vexin",
+        description: "Découvrez l'histoire et les valeurs de notre entreprise familiale.",
+        icon: <Trophy className="h-6 w-6"/>
+    },
+    {
+        title: "Nos Réalisations",
+        href: "/nos-realisations",
+        description: "Voir des exemples concrets de notre savoir-faire.",
+        icon: <BookOpen className="h-6 w-6"/>
+    },
+    {
+        title: "Galerie Photos",
+        href: "/galerie",
+        description: "Découvrez notre équipe et notre matériel en images.",
+        icon: <Camera className="h-6 w-6"/>
+    },
+    {
+        title: "Agence d'Évreux",
+        href: "/demenagement-du-vexin-evreux",
+        description: "Notre antenne locale pour tous vos besoins en Normandie.",
+        icon: <Building className="h-6 w-6"/>
+    }
+]
+
 export function MainNav() {
   const pathname = usePathname();
   
@@ -112,18 +140,18 @@ export function MainNav() {
                         <NavigationMenuTrigger>À propos</NavigationMenuTrigger>
                         <NavigationMenuContent>
                             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px]">
-                                <ListItem href="/a-propos-de-demenagement-du-vexin" title="Notre Entreprise">
-                                    Découvrez l'histoire et les valeurs de notre entreprise familiale.
-                                </ListItem>
-                                <ListItem href="/nos-realisations" title="Nos Réalisations">
-                                    Voir des exemples concrets de notre savoir-faire.
-                                </ListItem>
-                                <ListItem href="/galerie" title="Galerie">
-                                    Découvrez notre équipe et notre matériel en images.
-                                </ListItem>
-                                <ListItem href="/demenagement-du-vexin-evreux" title="Agence d'Évreux">
-                                    Notre antenne locale pour tous vos besoins en Normandie.
-                                </ListItem>
+                               {aboutItems.map((item) => (
+                                    <ListItem
+                                        key={item.title}
+                                        title={item.title}
+                                        href={item.href}
+                                    >
+                                        <div className="flex items-start gap-3">
+                                            <div className="text-primary">{item.icon}</div>
+                                            <p className="text-muted-foreground text-sm leading-snug">{item.description}</p>
+                                        </div>
+                                    </ListItem>
+                                ))}
                             </ul>
                         </NavigationMenuContent>
                     </NavigationMenuItem>

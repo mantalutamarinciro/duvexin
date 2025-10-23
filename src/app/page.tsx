@@ -119,64 +119,54 @@ const fallbackTestimonials: FormattedReview[] = [
 ];
 
 export default function LandingPage() {
-    let reviews: FormattedReview[] = fallbackTestimonials;
+    // La récupération des avis Google est désactivée.
+    // Pour la réactiver, décommentez le bloc try/catch et configurez les variables d'environnement Google.
+    const reviews: FormattedReview[] = fallbackTestimonials;
     
-    /*
-    // La récupération des avis Google est temporairement désactivée pour éviter les erreurs.
-    // Il faudra configurer les variables d'environnement GOOGLE_* pour la réactiver.
-    try {
-        const googleReviews = await getGoogleReviews();
-        if (googleReviews.length > 0) {
-            reviews = googleReviews;
-        } else {
-            console.warn("No Google Reviews found, using fallback testimonials.");
-        }
-    } catch (error) {
-        // console.error("Could not fetch Google Reviews, using fallback testimonials:", error);
-    }
-    */
-   
     return (
         <div className="bg-background text-foreground">
             
              {/* Hero Section */}
-            <section className="relative min-h-[80vh] flex items-center justify-center text-center text-white py-20">
-                <Image
-                    src="https://picsum.photos/seed/hero-image/1920/1280"
-                    alt="Équipe de déménageurs professionnels souriants chargeant un camion"
-                    fill
-                    className="object-cover"
-                    data-ai-hint="professional movers smiling"
-                    priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/30"></div>
-                <div className="container relative z-10">
-                     <h1 className="text-4xl md:text-6xl font-headline font-bold leading-tight drop-shadow-md">
-                        Le déménagement,
-                        <br />
-                        <SectionTitle as="span">la <u>sérénité</u> en plus.</SectionTitle>
-                    </h1>
-                    <p className="mt-6 text-lg md:text-xl max-w-2xl mx-auto text-white/90 drop-shadow">
-                        Confiez-nous votre projet pour une expérience fluide et sécurisée. 
-                        Notre expertise au service de votre tranquillité, partout en France.
-                    </p>
-                    <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
-                        <Button size="lg" asChild>
-                            <Link href="/demande-devis">Obtenir mon devis gratuit</Link>
-                        </Button>
-                    </div>
-                     <div className="mt-12 flex justify-center items-center gap-4">
-                        <div className="flex -space-x-2">
-                           <Image className="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://i.pravatar.cc/48?u=client1" alt="Témoin 1" width={40} height={40}/>
-                           <Image className="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://i.pravatar.cc/48?u=client2" alt="Témoin 2" width={40} height={40}/>
-                           <Image className="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://i.pravatar.cc/48?u=client3" alt="Témoin 3" width={40} height={40}/>
+            <section className="relative min-h-[90vh] bg-background">
+                <div className="container grid lg:grid-cols-2 h-full items-center gap-12 py-24">
+                     <div className="relative z-10 text-center lg:text-left">
+                         <h1 className="text-4xl md:text-6xl font-headline font-bold leading-tight">
+                            Le déménagement,
+                            <br />
+                            <SectionTitle as="span">la <u>sérénité</u> en plus.</SectionTitle>
+                        </h1>
+                        <p className="mt-6 text-lg md:text-xl max-w-xl mx-auto lg:mx-0 text-muted-foreground">
+                            Confiez-nous votre projet pour une expérience fluide et sécurisée. 
+                            Notre expertise au service de votre tranquillité, partout en France.
+                        </p>
+                        <div className="mt-10 flex flex-col sm:flex-row justify-center lg:justify-start items-center gap-4">
+                            <Button size="lg" asChild>
+                                <Link href="/demande-devis">Obtenir mon devis gratuit</Link>
+                            </Button>
                         </div>
-                        <div className="text-sm text-left">
-                            <div className="flex items-center gap-0.5">
-                                {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 text-amber-400 fill-amber-400" />)}
+                         <div className="mt-12 flex justify-center lg:justify-start items-center gap-4">
+                            <div className="flex -space-x-2">
+                               <Image className="inline-block h-10 w-10 rounded-full ring-2 ring-background" src="https://i.pravatar.cc/48?u=client1" alt="Témoin 1" width={40} height={40}/>
+                               <Image className="inline-block h-10 w-10 rounded-full ring-2 ring-background" src="https://i.pravatar.cc/48?u=client2" alt="Témoin 2" width={40} height={40}/>
+                               <Image className="inline-block h-10 w-10 rounded-full ring-2 ring-background" src="https://i.pravatar.cc/48?u=client3" alt="Témoin 3" width={40} height={40}/>
                             </div>
-                            <p className="text-white/80">Basé sur <span className="font-semibold text-white">150+ avis</span> sur Google</p>
+                            <div className="text-sm text-left">
+                                <div className="flex items-center gap-0.5">
+                                    {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 text-amber-400 fill-amber-400" />)}
+                                </div>
+                                <p className="text-muted-foreground">Basé sur <span className="font-semibold text-foreground">150+ avis</span> sur Google</p>
+                            </div>
                         </div>
+                    </div>
+                     <div className="relative h-64 lg:h-auto lg:aspect-[4/5] hidden lg:block rounded-3xl overflow-hidden">
+                        <Image
+                            src="https://picsum.photos/seed/hero-image/1200/1500"
+                            alt="Équipe de déménageurs professionnels souriants chargeant un camion"
+                            fill
+                            className="object-cover"
+                            data-ai-hint="professional movers smiling"
+                            priority
+                        />
                     </div>
                 </div>
             </section>
@@ -190,32 +180,29 @@ export default function LandingPage() {
                             Que vous soyez un particulier ou une entreprise, que vous déménagiez à côté ou à l'autre bout de la France, nous avons la solution sur-mesure.
                         </p>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mt-12">
+                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mt-12">
                         {services.map((service) => (
-                            <Link href={service.link} key={service.title} className="group block relative aspect-[4/5] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
-                                <Image
-                                    src={service.imageUrl}
-                                    alt={service.title}
-                                    fill
-                                    className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
-                                    data-ai-hint={service.aiHint}
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80 transition-opacity group-hover:opacity-100" />
-                                <div className="absolute bottom-0 left-0 p-6 text-white flex flex-col justify-end h-full w-full">
-                                    <div>
-                                        <h3 className="text-2xl font-bold font-headline transition-transform duration-300 group-hover:-translate-y-16">{service.title}</h3>
-                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute bottom-6 left-6 right-6">
-                                            <p className="text-white/80 text-sm max-w-sm">{service.description}</p>
-                                            <div className="mt-4 text-primary font-semibold flex items-center gap-2">
-                                                En savoir plus <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                                            </div>
-                                        </div>
+                           <Link href={service.link} key={service.title} className="group block rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                                <div className="relative aspect-[4/3] overflow-hidden">
+                                    <Image 
+                                        src={service.imageUrl}
+                                        alt={service.title}
+                                        fill
+                                        className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+                                        data-ai-hint={service.aiHint}
+                                    />
+                                </div>
+                                <div className="p-6 bg-card">
+                                    <h3 className="text-xl font-bold font-headline">{service.title}</h3>
+                                    <p className="mt-2 text-muted-foreground text-sm">{service.description}</p>
+                                    <div className="mt-4 text-primary font-semibold flex items-center gap-2">
+                                        En savoir plus <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                                     </div>
                                 </div>
                             </Link>
                         ))}
                     </div>
-                    <div className="text-center mt-12">
+                     <div className="text-center mt-12">
                         <Button asChild size="lg" variant="outline">
                              <Link href="/services">Découvrir tous nos services</Link>
                         </Button>
@@ -224,41 +211,27 @@ export default function LandingPage() {
             </section>
             
             {/* Engagement Section */}
-             <section className="py-24 bg-muted/50">
+            <section className="py-24 bg-muted/50">
                 <div className="container">
-                    <div className="grid md:grid-cols-2 gap-12 lg:gap-24 items-center">
-                        <div className="relative aspect-square md:aspect-[3/4] rounded-2xl overflow-hidden shadow-lg">
-                           <Image
-                                src="https://picsum.photos/seed/engagement/800/1000"
-                                alt="Déménageur protégeant un meuble avec une couverture"
-                                fill
-                                className="object-cover"
-                                data-ai-hint="mover protecting furniture"
-                            />
-                        </div>
-                        <div className="max-w-md">
-                           <SectionTitle>La <u>qualité</u> comme signature. La <u>sérénité</u> comme promesse.</SectionTitle>
-                           <p className="mt-6 text-muted-foreground text-lg">
-                               Notre réputation s'est bâtie sur la confiance, la fiabilité et une obsession pour le travail bien fait. Chaque déménagement est une promesse tenue.
-                           </p>
-                           <ul className="mt-8 space-y-6">
-                                {engagements.map((engagement) => (
-                                    <li key={engagement.title} className="flex items-start gap-4">
-                                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary flex-shrink-0 mt-1">
-                                            <engagement.icon className="h-5 w-5"/>
-                                        </div>
-                                        <div>
-                                           <h4 className="font-bold text-lg">{engagement.title}</h4>
-                                           <p className="mt-1 text-muted-foreground">{engagement.description}</p>
-                                        </div>
-                                    </li>
-                                ))}
-                           </ul>
-                        </div>
+                     <div className="text-center max-w-3xl mx-auto">
+                        <SectionTitle>La <u>qualité</u> comme signature. La <u>sérénité</u> comme promesse.</SectionTitle>
+                        <p className="mt-4 text-muted-foreground text-lg">
+                           Notre réputation s'est bâtie sur la confiance, la fiabilité et une obsession pour le travail bien fait. Chaque déménagement est une promesse tenue.
+                        </p>
+                    </div>
+                    <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                       {engagements.map((engagement) => (
+                           <div key={engagement.title} className="text-center">
+                               <div className="mx-auto h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
+                                   <engagement.icon className="h-6 w-6"/>
+                               </div>
+                               <h4 className="font-bold text-lg">{engagement.title}</h4>
+                               <p className="mt-1 text-muted-foreground">{engagement.description}</p>
+                           </div>
+                       ))}
                     </div>
                 </div>
             </section>
-
 
             <TestimonialsSection reviews={reviews} />
             
