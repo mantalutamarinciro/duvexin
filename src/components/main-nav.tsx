@@ -1,9 +1,7 @@
-
 "use client"
 
 import * as React from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import {
   Building,
   Globe,
@@ -95,13 +93,13 @@ const aboutItems: { title: string; href: string; description: string, icon: Reac
 ]
 
 export function MainNav() {
-  const pathname = usePathname();
+  const [isOpen, setIsOpen] = React.useState(false);
   
   return (
     <>
         {/* Mobile Menu */}
         <div className="lg:hidden">
-            <Sheet>
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
                     <Button variant="ghost" size="icon">
                         <Menu className="h-6 w-6" />
@@ -112,14 +110,14 @@ export function MainNav() {
                     <SheetHeader>
                         <SheetTitle className="sr-only">Navigation</SheetTitle>
                     </SheetHeader>
-                    <nav className="grid gap-6 text-lg font-medium mt-8">
-                         <Link href="/" className="hover:text-primary">Accueil</Link>
-                         <Link href="/a-propos-de-demenagement-du-vexin" className="text-muted-foreground hover:text-primary">Notre Entreprise</Link>
-                         <Link href="/services" className="text-muted-foreground hover:text-primary">Services</Link>
-                         <Link href="/calculateur-volume" className="text-muted-foreground hover:text-primary">Calculateur de volume</Link>
-                         <Link href="/zones-intervention" className="text-muted-foreground hover:text-primary">Zones d'intervention</Link>
-                         <Link href="/blog" className="text-muted-foreground hover:text-primary">Blog</Link>
-                         <Link href="/#contact" className="text-muted-foreground hover:text-primary">Contact</Link>
+                    <nav className="grid gap-4 text-lg font-medium mt-8">
+                         <Link href="/" onClick={() => setIsOpen(false)} className="hover:text-primary">Accueil</Link>
+                         <Link href="/a-propos-de-demenagement-du-vexin" onClick={() => setIsOpen(false)} className="text-muted-foreground hover:text-primary">Notre Entreprise</Link>
+                         <Link href="/services" onClick={() => setIsOpen(false)} className="text-muted-foreground hover:text-primary">Services</Link>
+                         <Link href="/calculateur-volume" onClick={() => setIsOpen(false)} className="text-muted-foreground hover:text-primary">Calculateur de volume</Link>
+                         <Link href="/zones-intervention" onClick={() => setIsOpen(false)} className="text-muted-foreground hover:text-primary">Zones d'intervention</Link>
+                         <Link href="/blog" onClick={() => setIsOpen(false)} className="text-muted-foreground hover:text-primary">Blog</Link>
+                         <Link href="/#contact" onClick={() => setIsOpen(false)} className="text-muted-foreground hover:text-primary">Contact</Link>
                     </nav>
                 </SheetContent>
             </Sheet>
