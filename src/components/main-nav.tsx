@@ -165,41 +165,47 @@ export function MainNav() {
                     <NavigationMenuItem>
                         <NavigationMenuTrigger>Services</NavigationMenuTrigger>
                         <NavigationMenuContent>
-                            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                            {services.map((service) => (
-                                <ListItem
-                                    key={service.title}
-                                    title={service.title}
-                                    href={service.href}
-                                >
-                                    <div className="flex items-start gap-3">
-                                        <div className="text-primary">{service.icon}</div>
-                                        <p className="text-muted-foreground text-sm leading-snug">{service.description}</p>
-                                    </div>
-                                </ListItem>
-                            ))}
-                            <li className="md:col-span-2">
-                                <NavigationMenuLink asChild>
-                                    <Link href="/services" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
-                                        <div className="text-sm font-medium">
-                                            Voir tous nos services
-                                        </div>
-                                    </Link>
-                                </NavigationMenuLink>
-                            </li>
-                            </ul>
+                           <div className="grid w-[600px] grid-cols-2 gap-3 p-4 md:w-[700px] lg:w-[800px]">
+                                <ul className="col-span-1 flex flex-col gap-1 list-none">
+                                    {services.map((service) => (
+                                        <ListItem
+                                            key={service.title}
+                                            title={service.title}
+                                            href={service.href}
+                                        >
+                                            <div className="flex items-start gap-3">
+                                                <div className="text-primary">{service.icon}</div>
+                                                <p className="text-muted-foreground text-sm leading-snug">{service.description}</p>
+                                            </div>
+                                        </ListItem>
+                                    ))}
+                                </ul>
+                                <div className="col-span-1 h-full">
+                                     <NavigationMenuLink asChild>
+                                        <Link href="/calculateur-volume" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
+                                            <Calculator className="h-8 w-8 text-primary"/>
+                                            <div className="mb-2 mt-4 text-lg font-medium">
+                                                Estimez votre volume
+                                            </div>
+                                            <p className="text-sm leading-tight text-muted-foreground">
+                                                Utilisez notre outil gratuit pour obtenir une estimation précise du volume de vos biens en quelques clics.
+                                            </p>
+                                        </Link>
+                                    </NavigationMenuLink>
+                                </div>
+                           </div>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
                         <NavigationMenuLink asChild>
-                        <Link href="/calculateur-volume" className={navigationMenuTriggerStyle()}>
+                       <Link href="/calculateur-volume" className={navigationMenuTriggerStyle()}>
                                 Calculateur de volume
                             </Link>
                         </NavigationMenuLink>
                     </NavigationMenuItem>
-                    <NavigationMenuItem>
+                     <NavigationMenuItem>
                         <NavigationMenuLink asChild>
-                        <Link href="/zones-intervention" className={navigationMenuTriggerStyle()}>
+                       <Link href="/zones-intervention" className={navigationMenuTriggerStyle()}>
                                 Zones d'intervention
                             </Link>
                         </NavigationMenuLink>
@@ -212,7 +218,7 @@ export function MainNav() {
                         </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
-                    <NavigationMenuLink asChild>
+                   <NavigationMenuLink asChild>
                             <Link href="/#contact" className={navigationMenuTriggerStyle()}>
                                 Contact
                             </Link>
