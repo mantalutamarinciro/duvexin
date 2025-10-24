@@ -6,18 +6,15 @@ import React from 'react';
 // for this specific text-styling purpose, avoiding complex tree traversal.
 export function SectionTitle({ children, className, as: Component = "h2" }: { children: React.ReactNode, className?: string, as?: 'h1' | 'h2' | 'h3' | 'span' }) {
   
+  const baseClasses = (Component === 'h1') 
+    ? "text-4xl md:text-6xl font-headline font-bold" 
+    : "text-3xl md:text-4xl font-headline font-bold";
+
   if (typeof children !== 'string') {
-    const baseClasses = (Component === 'h1') 
-      ? "text-4xl md:text-6xl font-headline font-bold" 
-      : "text-3xl md:text-4xl font-headline font-bold";
     return <Component className={cn(baseClasses, className)}>{children}</Component>
   }
   
   const parts = children.split(/<u>(.*?)<\/u>/g);
-
-  const baseClasses = (Component === 'h1') 
-    ? "text-4xl md:text-6xl font-headline font-bold" 
-    : "text-3xl md:text-4xl font-headline font-bold";
 
   return (
     <Component className={cn(baseClasses, className)}>
