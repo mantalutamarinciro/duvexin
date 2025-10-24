@@ -48,12 +48,12 @@ export default function RootLayout({
                     <MainNav />
                      <div className="hidden lg:flex items-center gap-2">
                         <Button asChild variant="ghost">
-                           <Link href="/dashboard">
+                           <Link href="/login">
                                 <LogIn className="mr-2 h-4 w-4" />
                                 Dashboard
                            </Link>
                         </Button>
-                        <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                        <Button asChild>
                             <Link href="/demande-devis">Obtenir un devis</Link>
                         </Button>
                      </div>
@@ -73,29 +73,29 @@ export default function RootLayout({
                    <div className="md:col-span-1">
                         <h4 className="font-semibold mb-2 text-white">Agence Île-de-France</h4>
                         <div className="space-y-2 text-sm text-gray-400">
-                            <p className="flex items-start gap-2"><MapPin className="h-4 w-4 mt-0.5 shrink-0 text-accent"/> 9 Rue de Pontoise, 95540 Méry-sur-Oise</p>
-                            <p className="flex items-center gap-2"><Phone className="h-4 w-4 shrink-0 text-accent"/> (+33)1 30 75 12 35</p>
-                            <p className="flex items-center gap-2"><Mail className="h-4 w-4 shrink-0 text-accent"/> contact@demenagementduvexin.fr</p>
+                            <p className="flex items-start gap-2"><MapPin className="h-4 w-4 mt-0.5 shrink-0 text-primary"/> 9 Rue de Pontoise, 95540 Méry-sur-Oise</p>
+                            <p className="flex items-center gap-2"><Phone className="h-4 w-4 shrink-0 text-primary"/> (+33)1 30 75 12 35</p>
+                            <p className="flex items-center gap-2"><Mail className="h-4 w-4 shrink-0 text-primary"/> contact@demenagementduvexin.fr</p>
                         </div>
                    </div>
                     <div className="md:col-span-1">
                         <h4 className="font-semibold mb-2 text-white">Agence Normandie</h4>
                         <div className="space-y-2 text-sm text-gray-400">
-                            <p className="flex items-start gap-2"><MapPin className="h-4 w-4 mt-0.5 shrink-0 text-accent"/> 22 Rue Isambard, 27000 Évreux, Normandie</p>
-                            <p className="flex items-center gap-2"><Phone className="h-4 w-4 shrink-0 text-accent"/> (+33) 3 74 47 44 77</p>
-                            <p className="flex items-center gap-2"><Mail className="h-4 w-4 shrink-0 text-accent"/> demenagementduvexin@evreux.fr</p>
-                            <Link href="/demenagement-du-vexin-evreux" className="text-accent font-semibold hover:underline text-xs pt-1">En savoir plus...</Link>
+                            <p className="flex items-start gap-2"><MapPin className="h-4 w-4 mt-0.5 shrink-0 text-primary"/> 22 Rue Isambard, 27000 Évreux, Normandie</p>
+                            <p className="flex items-center gap-2"><Phone className="h-4 w-4 shrink-0 text-primary"/> (+33) 3 74 47 44 77</p>
+                            <p className="flex items-center gap-2"><Mail className="h-4 w-4 shrink-0 text-primary"/> demenagementduvexin@evreux.fr</p>
+                            <Link href="/demenagement-du-vexin-evreux" className="text-primary font-semibold hover:underline text-xs pt-1">En savoir plus...</Link>
                         </div>
                    </div>
                    <div className="md:col-span-1">
                         <h4 className="font-semibold mb-2 text-white">Navigation</h4>
                         <div className="flex flex-col space-y-1 text-sm text-gray-400">
-                           <Link href="/" className="hover:text-accent">Accueil</Link>
-                           <Link href="/a-propos-de-demenagement-du-vexin" className="hover:text-accent">À propos</Link>
-                           <Link href="/services" className="hover:text-accent">Services</Link>
-                           <Link href="/blog" className="hover:text-accent">Blog</Link>
-                           <Link href="/#contact" className="hover:text-accent">Contact</Link>
-                           <Link href="/demande-devis" className="hover:text-accent">Devis</Link>
+                           <Link href="/" className="hover:text-primary">Accueil</Link>
+                           <Link href="/a-propos-de-demenagement-du-vexin" className="hover:text-primary">À propos</Link>
+                           <Link href="/services" className="hover:text-primary">Services</Link>
+                           <Link href="/blog" className="hover:text-primary">Blog</Link>
+                           <Link href="/#contact" className="hover:text-primary">Contact</Link>
+                           <Link href="/demande-devis" className="hover:text-primary">Devis</Link>
                         </div>
                    </div>
                 </div>
@@ -112,3 +112,4 @@ export default function RootLayout({
     </html>
   );
 }
+
