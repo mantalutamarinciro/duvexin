@@ -7,7 +7,10 @@ import React from 'react';
 export function SectionTitle({ children, className, as: Component = "h2" }: { children: React.ReactNode, className?: string, as?: 'h1' | 'h2' | 'h3' | 'span' }) {
   
   if (typeof children !== 'string') {
-    return <Component className={cn("text-3xl md:text-4xl font-headline font-bold", className)}>{children}</Component>
+    const baseClasses = (Component === 'h1') 
+      ? "text-4xl md:text-6xl font-headline font-bold" 
+      : "text-3xl md:text-4xl font-headline font-bold";
+    return <Component className={cn(baseClasses, className)}>{children}</Component>
   }
   
   const parts = children.split(/<u>(.*?)<\/u>/g);
