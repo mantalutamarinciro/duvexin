@@ -187,7 +187,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                             />
                         </div>
                         <div className="order-1 lg:order-2">
-                            <SectionTitle>La qualité comme <u>signature</u>. La sérénité comme <u>promesse</u>.</SectionTitle>
+                            <SectionTitle>La <u>qualité</u> comme signature. La <u>sérénité</u> comme promesse.</SectionTitle>
                             <p className="mt-6 text-muted-foreground text-lg">
                                 Notre réputation s'est bâtie sur la confiance, la fiabilité et une obsession pour le travail bien fait. Chaque déménagement est une promesse tenue.
                             </p>
