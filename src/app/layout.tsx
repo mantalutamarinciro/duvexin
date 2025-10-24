@@ -5,7 +5,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
-import { Phone, MapPin, Mail } from "lucide-react";
+import { Phone, MapPin, Mail, LogIn } from "lucide-react";
 import Link from "next/link";
 import { MainNav } from "@/components/main-nav";
 
@@ -43,12 +43,20 @@ export default function RootLayout({
                 </div>
             </div>
             <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                <div className="container h-16 flex items-center justify-between">
+                <div className="container h-16 flex items-center justify-between gap-4">
                     <Logo />
                     <MainNav />
-                     <Button asChild className="hidden lg:inline-flex bg-accent hover:bg-accent/90 text-accent-foreground">
-                        <Link href="/demande-devis">Obtenir un devis</Link>
-                    </Button>
+                     <div className="hidden lg:flex items-center gap-2">
+                        <Button asChild variant="ghost">
+                           <Link href="/dashboard">
+                                <LogIn className="mr-2 h-4 w-4" />
+                                Dashboard
+                           </Link>
+                        </Button>
+                        <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                            <Link href="/demande-devis">Obtenir un devis</Link>
+                        </Button>
+                     </div>
                 </div>
             </header>
             <main className="flex-1">
