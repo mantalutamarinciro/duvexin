@@ -197,162 +197,166 @@ export function VolumeCalculatorClient({ roomCategories, initialItems }: VolumeC
   const DynamicIcon = ({ name, ...props }: { name: string;[key: string]: any }) => {
     const IconComponent = (LucideIcons as any)[name];
     if (!IconComponent) {
-      return <LucideIcons.Box {...props} />; // Fallback icon
+      return <LucideIcons.Package {...props} />; // Fallback icon
     }
     return <IconComponent {...props} />;
   };
 
   return (
-    <div className="mt-8 grid gap-8 lg:grid-cols-12">
-      <aside className="lg:col-span-3 xl:col-span-2">
-         {/* Mobile horizontal scroll */}
-        <div className="lg:hidden">
-            <ScrollArea className="w-full whitespace-nowrap rounded-md">
-                <div className="flex w-max space-x-2 p-1">
-                    {roomCategories.map(category => (
-                        <Button
-                            key={category.id}
-                            variant={activeCategory === category.id ? "secondary" : "ghost"}
-                            className="shrink-0"
-                            onClick={() => setActiveCategory(category.id)}
-                        >
-                            {category.name}
-                        </Button>
-                    ))}
-                </div>
-                <ScrollBar orientation="horizontal" className="h-2" />
-            </ScrollArea>
-        </div>
-        
-        {/* Desktop vertical nav */}
-        <nav className="hidden lg:block space-y-1 lg:sticky lg:top-20">
-            {roomCategories.map(category => (
-                <Button
-                    key={category.id}
-                    variant={activeCategory === category.id ? "secondary" : "ghost"}
-                    className="w-full justify-start"
-                    onClick={() => setActiveCategory(category.id)}
-                >
-                    {category.name}
-                </Button>
-            ))}
-        </nav>
-      </aside>
+    <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-8">
+        <div className="md:col-span-12 lg:col-span-9">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                 <aside className="lg:col-span-3 xl:col-span-3">
+                    {/* Mobile horizontal scroll */}
+                    <div className="lg:hidden">
+                        <ScrollArea className="w-full whitespace-nowrap rounded-md">
+                            <div className="flex w-max space-x-2 p-1">
+                                {roomCategories.map(category => (
+                                    <Button
+                                        key={category.id}
+                                        variant={activeCategory === category.id ? "secondary" : "ghost"}
+                                        className="shrink-0"
+                                        onClick={() => setActiveCategory(category.id)}
+                                    >
+                                        {category.name}
+                                    </Button>
+                                ))}
+                            </div>
+                            <ScrollBar orientation="horizontal" className="h-2" />
+                        </ScrollArea>
+                    </div>
+                    
+                    {/* Desktop vertical nav */}
+                    <nav className="hidden lg:block space-y-1 lg:sticky lg:top-20">
+                        {roomCategories.map(category => (
+                            <Button
+                                key={category.id}
+                                variant={activeCategory === category.id ? "secondary" : "ghost"}
+                                className="w-full justify-start"
+                                onClick={() => setActiveCategory(category.id)}
+                            >
+                                {category.name}
+                            </Button>
+                        ))}
+                    </nav>
+                </aside>
 
-      <main className="lg:col-span-6 xl:col-span-7">
-        <AnimatePresence mode="wait">
-            <motion.div
-                 key={activeCategory}
-                 initial={{ opacity: 0, y: 20 }}
-                 animate={{ opacity: 1, y: 0 }}
-                 exit={{ opacity: 0, y: -20 }}
-                 transition={{ duration: 0.2 }}
-            >
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                    {roomCategories.find(cat => cat.id === activeCategory)?.items.map(item => (
-                        <motion.button 
-                            key={item.id} 
-                            onClick={() => handleAddItem(item)} 
-                            className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border bg-card hover:bg-accent hover:text-accent-foreground transition-colors aspect-square text-center focus:outline-none focus:ring-2 focus:ring-ring"
-                            whileTap={{ scale: 0.95 }}
+                <main className="lg:col-span-9 xl:col-span-9">
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={activeCategory}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.2 }}
                         >
-                            <DynamicIcon name={item.icon} className="h-7 w-7 text-primary" />
-                            <span className="text-xs font-medium text-center">{item.name}</span>
-                        </motion.button>
-                    ))}
-                    {activeCategory === 'other' && (
-                         <Dialog open={isCustomItemDialogOpen} onOpenChange={setIsCustomItemDialogOpen}>
-                            <DialogTrigger asChild>
-                                <motion.button 
-                                    className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border-2 border-dashed bg-card hover:bg-accent hover:text-accent-foreground transition-colors aspect-square text-center"
-                                    whileTap={{ scale: 0.95 }}
-                                >
-                                    <PackagePlus className="h-7 w-7 text-muted-foreground" />
-                                    <span className="text-xs font-medium text-muted-foreground">Objet personnalisé</span>
-                                </motion.button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <DialogHeader>
-                                    <DialogTitle>Ajouter un objet personnalisé</DialogTitle>
-                                    <DialogDescription>
-                                        Indiquez le nom et le volume estimé de l'objet que vous souhaitez ajouter.
-                                    </DialogDescription>
-                                </DialogHeader>
-                                <Form {...customItemForm}>
-                                    <form onSubmit={customItemForm.handleSubmit(onCustomItemSubmit)} className="space-y-4">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                                {roomCategories.find(cat => cat.id === activeCategory)?.items.map(item => (
+                                    <motion.button 
+                                        key={item.id} 
+                                        onClick={() => handleAddItem(item)} 
+                                        className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border bg-card hover:bg-accent hover:text-accent-foreground transition-colors aspect-square text-center focus:outline-none focus:ring-2 focus:ring-ring"
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        <DynamicIcon name={item.icon} className="h-7 w-7 text-primary" />
+                                        <span className="text-xs font-medium text-center">{item.name}</span>
+                                    </motion.button>
+                                ))}
+                                {activeCategory === 'other' && (
+                                    <Dialog open={isCustomItemDialogOpen} onOpenChange={setIsCustomItemDialogOpen}>
+                                        <DialogTrigger asChild>
+                                            <motion.button 
+                                                className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border-2 border-dashed bg-card hover:bg-accent hover:text-accent-foreground transition-colors aspect-square text-center"
+                                                whileTap={{ scale: 0.95 }}
+                                            >
+                                                <PackagePlus className="h-7 w-7 text-muted-foreground" />
+                                                <span className="text-xs font-medium text-muted-foreground">Objet personnalisé</span>
+                                            </motion.button>
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                            <DialogHeader>
+                                                <DialogTitle>Ajouter un objet personnalisé</DialogTitle>
+                                                <DialogDescription>
+                                                    Indiquez le nom et le volume estimé de l'objet que vous souhaitez ajouter.
+                                                </DialogDescription>
+                                            </DialogHeader>
+                                            <Form {...customItemForm}>
+                                                <form onSubmit={customItemForm.handleSubmit(onCustomItemSubmit)} className="space-y-4">
+                                                    <FormField
+                                                        control={customItemForm.control}
+                                                        name="name"
+                                                        render={({ field }) => (
+                                                            <FormItem>
+                                                                <FormLabel>Nom de l'objet</FormLabel>
+                                                                <FormControl>
+                                                                    <Input placeholder="ex: Lampadaire design" {...field} />
+                                                                </FormControl>
+                                                                <FormMessage />
+                                                            </FormItem>
+                                                        )}
+                                                    />
+                                                    <FormField
+                                                        control={customItemForm.control}
+                                                        name="volume"
+                                                        render={({ field }) => (
+                                                            <FormItem>
+                                                                <FormLabel>Volume (en m³)</FormLabel>
+                                                                <FormControl>
+                                                                    <Input type="number" step="0.1" placeholder="ex: 0.5" {...field} />
+                                                                </FormControl>
+                                                                <FormMessage />
+                                                            </FormItem>
+                                                        )}
+                                                    />
+                                                    <DialogFooter>
+                                                        <Button type="submit">Ajouter l'objet</Button>
+                                                    </DialogFooter>
+                                                </form>
+                                            </Form>
+                                        </DialogContent>
+                                    </Dialog>
+                                )}
+                            </div>
+                        </motion.div>
+                    </AnimatePresence>
+                    <Card className="mt-8">
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2"><Wand2/> Assistant Inventaire IA</CardTitle>
+                                <CardDescription>Décrivez vos objets en langage naturel et laissez l'IA les ajouter à votre liste.</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <Form {...aiInventoryForm}>
+                                    <form onSubmit={aiInventoryForm.handleSubmit(onAiInventorySubmit)} className="space-y-4">
                                         <FormField
-                                            control={customItemForm.control}
-                                            name="name"
+                                            control={aiInventoryForm.control}
+                                            name="description"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>Nom de l'objet</FormLabel>
                                                     <FormControl>
-                                                        <Input placeholder="ex: Lampadaire design" {...field} />
+                                                        <Textarea
+                                                            placeholder="Ex: un grand canapé d'angle, une table basse en verre, une télévision 55 pouces et une dizaine de cartons de livres..."
+                                                            className="resize-none"
+                                                            rows={3}
+                                                            {...field}
+                                                        />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
                                             )}
                                         />
-                                        <FormField
-                                            control={customItemForm.control}
-                                            name="volume"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Volume (en m³)</FormLabel>
-                                                    <FormControl>
-                                                        <Input type="number" step="0.1" placeholder="ex: 0.5" {...field} />
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <DialogFooter>
-                                            <Button type="submit">Ajouter l'objet</Button>
-                                        </DialogFooter>
+                                        <Button type="submit" disabled={isGeneratingAi}>
+                                            {isGeneratingAi ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Wand2 className="mr-2 h-4 w-4" />}
+                                            Générer l'inventaire par IA
+                                        </Button>
                                     </form>
                                 </Form>
-                            </DialogContent>
-                         </Dialog>
-                    )}
-                </div>
-            </motion.div>
-        </AnimatePresence>
-        <Card className="mt-8">
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2"><Wand2/> Assistant Inventaire IA</CardTitle>
-                    <CardDescription>Décrivez vos objets en langage naturel et laissez l'IA les ajouter à votre liste.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <Form {...aiInventoryForm}>
-                        <form onSubmit={aiInventoryForm.handleSubmit(onAiInventorySubmit)} className="space-y-4">
-                            <FormField
-                                control={aiInventoryForm.control}
-                                name="description"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <Textarea
-                                                placeholder="Ex: un grand canapé d'angle, une table basse en verre, une télévision 55 pouces et une dizaine de cartons de livres..."
-                                                className="resize-none"
-                                                rows={3}
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                             <Button type="submit" disabled={isGeneratingAi}>
-                                {isGeneratingAi ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Wand2 className="mr-2 h-4 w-4" />}
-                                Générer l'inventaire par IA
-                            </Button>
-                        </form>
-                    </Form>
-                </CardContent>
-            </Card>
-      </main>
+                            </CardContent>
+                        </Card>
+                </main>
+            </div>
+        </div>
 
-      <aside className="lg:col-span-3 xl:col-span-3">
+      <aside className="md:col-span-12 lg:col-span-3">
         <Card className="sticky top-20">
           <CardHeader>
             <CardTitle>Votre Inventaire</CardTitle>
@@ -364,7 +368,7 @@ export function VolumeCalculatorClient({ roomCategories, initialItems }: VolumeC
               </span>
             </div>
           </CardHeader>
-          <CardContent className="max-h-[60vh] overflow-y-auto pr-3">
+           <CardContent className="max-h-[45vh] lg:max-h-[60vh] overflow-y-auto pr-3">
             {inventoryItems.length > 0 ? (
               <div className="space-y-2">
                 <AnimatePresence>
