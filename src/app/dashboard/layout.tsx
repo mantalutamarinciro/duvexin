@@ -28,7 +28,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
         </SidebarContent>
         <SidebarFooter className="mt-auto p-2">
            <Button asChild variant="ghost" className="w-full justify-start">
-              <Link href="/landing">
+              <Link href="/">
                 <ArrowLeft />
                 <span>Retour au site</span>
               </Link>
