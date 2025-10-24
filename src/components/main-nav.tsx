@@ -196,13 +196,6 @@ export function MainNav() {
                            </div>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <NavigationMenuLink asChild>
-                       <Link href="/calculateur-volume" className={navigationMenuTriggerStyle()}>
-                                Calculateur de volume
-                            </Link>
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
                      <NavigationMenuItem>
                         <NavigationMenuLink asChild>
                        <Link href="/zones-intervention" className={navigationMenuTriggerStyle()}>
