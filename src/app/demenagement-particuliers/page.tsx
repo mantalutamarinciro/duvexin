@@ -1,7 +1,7 @@
 
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, ShieldCheck, Truck, Package, Phone, FileText, Gift, Sparkles, Star, Calendar, MessageSquare, Handshake, MapPin, Search, Wand2, Lightbulb } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
