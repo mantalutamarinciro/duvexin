@@ -1,13 +1,12 @@
 
-
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Award, Eye, Rocket, Users, ShieldCheck, Heart, Leaf, CheckCircle } from "lucide-react";
+import { Award, ShieldCheck, Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import { FormattedReview } from "@/app/api/reviews/route";
 import { cn } from "@/lib/utils";
+import { Card, CardContent } from "@/components/ui/card";
 
 
 const fallbackTestimonials: FormattedReview[] = [
@@ -141,18 +140,18 @@ export default function AboutPage() {
                         <h2 className="text-3xl font-headline font-bold">L'équipe qui fait la différence</h2>
                         <p className="mt-4 text-muted-foreground text-lg">Derrière chaque déménagement réussi, il y a des visages, des expertises et une passion commune pour le travail bien fait.</p>
                     </div>
-                    <div className="mt-16 space-y-16">
-                        {teamMembers.map((member, index) => (
-                             <div key={member.name} className="grid lg:grid-cols-2 gap-12 items-center">
-                                <div className={cn("relative aspect-[4/5] rounded-lg overflow-hidden shadow-xl", index % 2 === 1 && "lg:order-2")}>
+                    <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {teamMembers.map((member) => (
+                             <Card key={member.name} className="text-center overflow-hidden">
+                                <div className="relative aspect-[4/5]">
                                     <Image src={member.imageUrl} alt={`Portrait de ${member.name}`} fill className="object-cover" data-ai-hint={member.aiHint}/>
                                 </div>
-                                <div className={cn(index % 2 === 1 && "lg:order-1")}>
-                                     <p className="font-semibold text-primary">{member.role}</p>
-                                    <h3 className="text-2xl font-bold mt-1">{member.name}</h3>
-                                    <p className="mt-4 text-muted-foreground">{member.description}</p>
-                                </div>
-                            </div>
+                                <CardContent className="p-6">
+                                     <h3 className="text-xl font-bold">{member.name}</h3>
+                                     <p className="font-semibold text-primary text-sm">{member.role}</p>
+                                    <p className="mt-2 text-muted-foreground text-xs">{member.description}</p>
+                                </CardContent>
+                            </Card>
                         ))}
                     </div>
                 </div>
@@ -173,4 +172,3 @@ export default function AboutPage() {
         </div>
     );
 }
-
