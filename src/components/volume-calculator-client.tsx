@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
+import * as LucideIcons from "lucide-react"
 import {
   Card,
   CardContent,
@@ -34,7 +35,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Loader2, Plus, Minus, Trash2, PackagePlus, Calculator, Wand2, ArrowRight } from "lucide-react"
+import { Loader2, Plus, Minus, Trash2, PackagePlus, Calculator, Wand2, ArrowRight, CheckCircle } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { updateInventoryList, type InventoryItem } from "@/services/inventoryService"
 import { type RoomCategory, type PredefinedItem } from "@/lib/predefined-items"
@@ -43,7 +44,6 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 import { useDebouncedCallback } from 'use-debounce';
-
 
 const customItemSchema = z.object({
   name: z.string().min(2, "Le nom est requis (2 caractères min)."),
@@ -85,7 +85,6 @@ export function VolumeCalculatorClient({ roomCategories, initialItems }: VolumeC
     defaultValues: { description: "" },
   })
 
-  // Debounced save function
   const debouncedSave = useDebouncedCallback(async (items: InventoryItem[]) => {
      startSavingTransition(async () => {
         try {
@@ -93,10 +92,9 @@ export function VolumeCalculatorClient({ roomCategories, initialItems }: VolumeC
             console.log("Inventory autosaved.");
         } catch (error) {
             console.error("Autosave failed:", error);
-            // Optionally, show a subtle toast notification on failure
         }
      });
-  }, 1000); // Autosave 1 second after the last change
+  }, 1000);
 
   useEffect(() => {
     const newTotalVolume = inventoryItems.reduce((acc, item) => acc + item.volume * item.quantity, 0)
@@ -114,7 +112,7 @@ export function VolumeCalculatorClient({ roomCategories, initialItems }: VolumeC
           i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
         )
       } else {
-        return [...prevItems, { ...item, icon: item.icon.displayName || 'Box', quantity: 1 }]
+        return [...prevItems, { ...item, quantity: 1 }]
       }
     })
   }
@@ -195,6 +193,14 @@ export function VolumeCalculatorClient({ roomCategories, initialItems }: VolumeC
     router.push("/demande-devis");
   }
 
+  const DynamicIcon = ({ name, ...props }: { name: string;[key: string]: any }) => {
+    const IconComponent = (LucideIcons as any)[name];
+    if (!IconComponent) {
+      return <LucideIcons.Box {...props} />; // Fallback icon
+    }
+    return <IconComponent {...props} />;
+  };
+
   return (
     <div className="mt-8 grid gap-8 lg:grid-cols-12">
       <aside className="lg:col-span-3 xl:col-span-2">
@@ -229,7 +235,7 @@ export function VolumeCalculatorClient({ roomCategories, initialItems }: VolumeC
                             className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg border bg-card hover:bg-accent hover:text-accent-foreground transition-colors aspect-square text-center focus:outline-none focus:ring-2 focus:ring-ring"
                             whileTap={{ scale: 0.95 }}
                         >
-                            <item.icon className="h-7 w-7 text-primary" />
+                            <DynamicIcon name={item.icon} className="h-7 w-7 text-primary" />
                             <span className="text-xs font-medium text-center">{item.name}</span>
                         </motion.button>
                     ))}
