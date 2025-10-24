@@ -1,7 +1,8 @@
 
 import { LandingPageClient } from "./landing/client-page";
 import { getGoogleReviews, FormattedReview } from "@/services/reviewService";
-import LandingLayout from "./landing/layout";
+import { BlogSection } from "./landing/blog-section";
+
 
 // Données de secours si l'API Google ne répond pas
 const fallbackTestimonials: FormattedReview[] = [
@@ -44,8 +45,9 @@ export default async function Home() {
     // }
 
     return (
-        <LandingLayout>
+        <>
             <LandingPageClient reviews={reviews} />
-        </LandingLayout>
+            <BlogSection />
+        </>
     );
 }
