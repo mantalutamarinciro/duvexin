@@ -1,6 +1,7 @@
 
 import { LandingPageClient } from "./landing/client-page";
 import { getGoogleReviews, FormattedReview } from "@/services/reviewService";
+import LandingLayout from "./landing/layout";
 
 // Données de secours si l'API Google ne répond pas
 const fallbackTestimonials: FormattedReview[] = [
@@ -26,7 +27,7 @@ const fallbackTestimonials: FormattedReview[] = [
     }
 ];
 
-export default async function LandingPage() {
+export default async function Home() {
     let reviews: FormattedReview[] = fallbackTestimonials;
     
     // try {
@@ -42,5 +43,9 @@ export default async function LandingPage() {
     //     // L'application continue de fonctionner avec les 'fallbackTestimonials', assurant qu'il n'y a pas de crash.
     // }
 
-    return <LandingPageClient reviews={reviews} />;
+    return (
+        <LandingLayout>
+            <LandingPageClient reviews={reviews} />
+        </LandingLayout>
+    );
 }
