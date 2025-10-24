@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, ShieldCheck, Box, CalendarDays, Lock, Truck, Search } from "lucide-react";
+import { CheckCircle, ShieldCheck, Box, CalendarDays, Lock, Truck, Search, Package, Warehouse } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -32,21 +32,25 @@ const features = [
 
 const processSteps = [
     {
-        icon: <Search className="h-8 w-8"/>,
+        step: 1,
+        icon: <Search className="h-8 w-8" />,
         title: "Évaluation de vos besoins",
         description: "Nous estimons ensemble le volume à stocker pour vous proposer la solution la plus adaptée."
     },
     {
+        step: 2,
         icon: <Package className="h-8 w-8"/>,
         title: "Emballage Professionnel",
         description: "Nos équipes protègent et emballent vos meubles et objets pour garantir leur conservation."
     },
     {
+        step: 3,
         icon: <Truck className="h-8 w-8"/>,
         title: "Transport Sécurisé",
         description: "Nous transportons vos biens de votre domicile jusqu'à notre entrepôt de stockage."
     },
     {
+        step: 4,
         icon: <Warehouse className="h-8 w-8"/>,
         title: "Mise en conteneur",
         description: "Vos affaires sont inventoriées et rangées avec soin dans votre conteneur individuel et scellé."
@@ -174,7 +178,7 @@ export default function GardeMeublesPage() {
                                <div className="mx-auto h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
                                    {step.icon}
                                </div>
-                               <h3 className="text-lg font-bold">{step.title}</h3>
+                               <h3 className="text-lg font-bold">Étape {step.step}: {step.title}</h3>
                                <p className="text-muted-foreground mt-2 text-sm">{step.description}</p>
                            </Card>
                         ))}
