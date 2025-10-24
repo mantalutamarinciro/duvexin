@@ -1,17 +1,20 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, CalendarDays, Package, Wrench, Truck, BriefcaseBusiness, FolderArchive, Building, Globe, Store, Factory } from "lucide-react";
+import { CheckCircle, Building, Globe, Store, Factory } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { SectionTitle } from "@/components/section-title";
+
 
 const enterpriseServices = [
-    { icon: <CalendarDays className="h-8 w-8 text-primary"/>, title: "Planification et préparation", description: "Nous établissons un plan détaillé pour garantir une organisation optimale et une exécution sans accroc." },
-    { icon: <Package className="h-8 w-8 text-primary"/>, title: "Emballage et protection", description: "Nous emballons vos équipements, meubles et documents de manière sécurisée pour éviter tout dommage." },
-    { icon: <Wrench className="h-8 w-8 text-primary"/>, title: "Démontage et remontage", description: "Notre équipe s’occupe du démontage et remontage du mobilier pour une installation rapide et efficace." },
-    { icon: <Truck className="h-8 w-8 text-primary"/>, title: "Transport sécurisé et suivi", description: "Nous assurons le transport de vos biens dans des véhicules adaptés, avec un suivi en temps réel." },
-    { icon: <BriefcaseBusiness className="h-8 w-8 text-primary"/>, title: "Installation des bureaux", description: "À votre arrivée, nous nous chargeons de l’aménagement et de l’installation de vos espaces." },
-    { icon: <FolderArchive className="h-8 w-8 text-primary"/>, title: "Déménagement d’archives", description: "Nous déplaçons vos documents professionnels et archives en toute sécurité et confidentialité." },
+    { title: "Planification et préparation", description: "Nous établissons un plan détaillé pour garantir une organisation optimale et une exécution sans accroc." },
+    { title: "Emballage et protection", description: "Nous emballons vos équipements, meubles et documents de manière sécurisée pour éviter tout dommage." },
+    { title: "Démontage et remontage", description: "Notre équipe s’occupe du démontage et remontage du mobilier pour une installation rapide et efficace." },
+    { title: "Transport sécurisé et suivi", description: "Nous assurons le transport de vos biens dans des véhicules adaptés, avec un suivi en temps réel." },
+    { title: "Installation des bureaux", description: "À votre arrivée, nous nous chargeons de l’aménagement et de l’installation de vos espaces." },
+    { title: "Déménagement d’archives", description: "Nous déplaçons vos documents professionnels et archives en toute sécurité et confidentialité." },
 ];
 
 const enterpriseTypes = [
@@ -21,13 +24,49 @@ const enterpriseTypes = [
     { icon: <Factory className="h-8 w-8 text-primary"/>, title: "Industrie et ateliers", description: "Services adaptés pour le déménagement de machines et d’équipements lourds." },
 ];
 
+const faqItems = [
+    {
+        question: "Comment minimisez-vous l'impact sur notre activité ?",
+        answer: "La planification est la clé. Nous travaillons avec vous pour établir un calendrier précis. Nous pouvons intervenir en dehors de vos heures de bureau, le soir, le week-end ou pendant les périodes creuses pour assurer une transition transparente, sans interruption pour vos équipes et vos clients."
+    },
+    {
+        question: "Gérez-vous le déménagement de matériel informatique et de serveurs ?",
+        answer: "Oui, c'est une de nos spécialités. Nous utilisons des emballages antistatiques, des caisses renforcées et des techniques de manutention spécifiques. Nous pouvons également nous coordonner avec votre service informatique pour débrancher et rebrancher le matériel, et assurer un redémarrage rapide de votre infrastructure."
+    },
+    {
+        question: "Notre déménagement est-il assuré ?",
+        answer: "Absolument. Tous nos déménagements d'entreprise sont couverts par une assurance responsabilité civile et une assurance marchandises. Nous pouvons également vous proposer des assurances complémentaires 'ad valorem' pour couvrir votre matériel à sa valeur réelle en cas de besoin."
+    },
+    {
+        question: "Prenez-vous en charge le transfert d'archives confidentielles ?",
+        answer: "Oui. Nous garantissons la confidentialité et la sécurité de vos archives. Nous utilisons des conteneurs scellés et un processus de suivi rigoureux du chargement à la livraison pour assurer l'intégrité de vos documents sensibles."
+    }
+];
+
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+
 export default function DemenagementEntreprisePage() {
     return (
         <div className="bg-background text-foreground">
+             <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
+            />
             {/* Hero Section */}
-            <section className="relative h-64 flex items-center justify-center text-center text-white">
+            <section className="relative h-80 flex items-center justify-center text-center text-white">
                 <Image 
-                    src="https://picsum.photos/seed/business-move/1920/400"
+                    src="https://picsum.photos/seed/business-move/1920/500"
                     alt="Bannière pour déménagement d'entreprise"
                     fill
                     className="object-cover"
@@ -35,8 +74,8 @@ export default function DemenagementEntreprisePage() {
                 />
                 <div className="absolute inset-0 bg-black/60" />
                 <div className="relative z-10 container">
-                    <h1 className="text-4xl md:text-5xl font-headline font-bold">Déménagement d'Entreprise</h1>
-                    <p className="mt-4 text-lg max-w-3xl mx-auto text-white/90">Simplifiez votre transition avec des professionnels.</p>
+                    <SectionTitle as="h1" className="text-white">Déménagement d'<u>Entreprise</u></SectionTitle>
+                    <p className="mt-4 text-lg max-w-3xl mx-auto text-white/90">Minimisez l'impact, maximisez l'efficacité. Votre transition professionnelle, gérée par des experts.</p>
                 </div>
             </section>
             
@@ -53,9 +92,12 @@ export default function DemenagementEntreprisePage() {
             <section className="py-16">
                 <div className="container grid lg:grid-cols-2 gap-12 items-center">
                     <div>
-                        <h2 className="text-3xl font-bold">Un déménagement professionnel rapide, sécurisé et sans impact sur vos activités</h2>
+                        <SectionTitle as="h2">Un déménagement pro, <u>sans interruption</u></SectionTitle>
                         <p className="mt-4 text-muted-foreground text-lg">
-                           Le déménagement d’une entreprise peut s’avérer complexe. Chez Déménagement du Vexin, nous offrons des services spécialement conçus pour les entreprises, assurant une transition fluide et rapide, avec un minimum de perturbation. Nous vous accompagnons dans chaque étape pour garantir une reprise efficace de vos activités.
+                           Le transfert de vos locaux est une étape stratégique qui doit être exécutée avec précision pour ne pas affecter votre productivité. Chez Déménagement du Vexin, nous comprenons les enjeux uniques du déménagement d'entreprise : respect des délais, sécurité du matériel sensible, et confidentialité des données.
+                        </p>
+                         <p className="mt-4 text-muted-foreground">
+                            Nous développons un plan d'action sur-mesure, en étroite collaboration avec vos équipes, pour assurer une transition fluide et une reprise d'activité dans les meilleurs délais.
                         </p>
                     </div>
                     <div>
@@ -85,27 +127,27 @@ export default function DemenagementEntreprisePage() {
                         />
                     </div>
                     <div className="order-1 lg:order-2">
-                        <h2 className="text-3xl font-bold">Pourquoi nous choisir pour le déménagement de votre entreprise ?</h2>
+                        <SectionTitle as="h2">Notre expertise à <u>votre service</u></SectionTitle>
                          <ul className="mt-6 space-y-4">
                             <li className="flex items-start gap-4">
                                 <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
                                 <div>
-                                    <h4 className="font-semibold">Expertise en déménagement d'entreprises</h4>
-                                    <p className="text-muted-foreground">Nous avons une vaste expérience dans le déménagement de sociétés de toutes tailles.</p>
+                                    <h4 className="font-semibold">Planification rigoureuse</h4>
+                                    <p className="text-muted-foreground">Un chef de projet dédié élabore avec vous un cahier des charges précis et un rétroplanning détaillé.</p>
                                 </div>
                             </li>
                              <li className="flex items-start gap-4">
                                 <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
                                 <div>
-                                    <h4 className="font-semibold">Rapidité et flexibilité</h4>
-                                    <p className="text-muted-foreground">Nous nous engageons à respecter vos délais et à nous adapter à vos contraintes horaires.</p>
+                                    <h4 className="font-semibold">Flexibilité & Discrétion</h4>
+                                    <p className="text-muted-foreground">Nous nous adaptons à vos contraintes en intervenant en horaires décalés, les week-ends ou la nuit pour minimiser l'impact sur votre activité.</p>
                                 </div>
                             </li>
                              <li className="flex items-start gap-4">
                                 <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
                                 <div>
-                                    <h4 className="font-semibold">Minimisation des interruptions</h4>
-                                    <p className="text-muted-foreground">Nous organisons le déménagement pour qu’il n’impacte pas vos activités quotidiennes.</p>
+                                    <h4 className="font-semibold">Savoir-faire technique</h4>
+                                    <p className="text-muted-foreground">Nos équipes sont formées pour l'emballage et le transport de matériel informatique, de serveurs, d'archives et de mobilier de bureau.</p>
                                 </div>
                             </li>
                         </ul>
@@ -117,18 +159,15 @@ export default function DemenagementEntreprisePage() {
             <section id="services-entreprise" className="py-16">
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
-                        <h2 className="text-3xl font-bold">Nos services dédiés aux entreprises</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Nous proposons une gamme complète de services pour rendre le déménagement de votre entreprise aussi simple et rapide que possible.</p>
+                        <SectionTitle>Une prestation <u>complète</u></SectionTitle>
+                        <p className="mt-4 text-muted-foreground text-lg">Nous gérons chaque aspect de votre transfert pour vous permettre de rester concentré sur votre cœur de métier.</p>
                     </div>
                     <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {enterpriseServices.map((service, i) => (
-                            <div key={i} className="flex items-start gap-6">
-                                {service.icon}
-                                <div>
-                                    <h3 className="text-xl font-semibold">{service.title}</h3>
-                                    <p className="mt-2 text-muted-foreground">{service.description}</p>
-                                </div>
-                            </div>
+                             <Card key={i} className="p-6 text-center">
+                                <h3 className="text-xl font-semibold">{service.title}</h3>
+                                <p className="mt-2 text-muted-foreground text-sm h-12">{service.description}</p>
+                            </Card>
                         ))}
                     </div>
                 </div>
@@ -138,8 +177,8 @@ export default function DemenagementEntreprisePage() {
             <section id="types-entreprise" className="py-16 bg-muted/50">
                 <div className="container">
                     <div className="text-center max-w-3xl mx-auto">
-                        <h2 className="text-3xl font-bold">Un service adapté à tous types d’entreprises</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Que vous soyez une PME ou une grande entreprise, nous avons la solution pour vous.</p>
+                        <SectionTitle>Adapté à <u>tous les secteurs</u></SectionTitle>
+                        <p className="mt-4 text-muted-foreground text-lg">Que vous soyez une startup, une PME, un grand groupe ou un commerce, nous avons la solution.</p>
                     </div>
                     <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {enterpriseTypes.map((type, i) => (
@@ -153,13 +192,36 @@ export default function DemenagementEntreprisePage() {
                 </div>
             </section>
 
+             {/* FAQ Section */}
+            <section id="faq-entreprise" className="py-16">
+                <div className="container max-w-4xl mx-auto">
+                    <div className="text-center">
+                        <SectionTitle>Questions <u>fréquentes</u></SectionTitle>
+                        <p className="mt-4 text-muted-foreground text-lg">Vos interrogations, nos réponses claires pour un transfert d'entreprise réussi.</p>
+                    </div>
+                    <Accordion type="single" collapsible className="w-full mt-12">
+                        {faqItems.map((item, i) => (
+                            <AccordionItem value={`item-${i}`} key={i}>
+                                <AccordionTrigger className="text-lg text-left hover:no-underline">
+                                    {item.question}
+                                </AccordionTrigger>
+                                <AccordionContent className="text-base text-muted-foreground">
+                                    {item.answer}
+                                </AccordionContent>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
+                </div>
+            </section>
+
+
              {/* CTA Section */}
             <section id="contact-entreprise" className="py-16">
                 <div className="container text-center">
-                    <h2 className="text-3xl font-bold">Obtenez votre devis gratuit pour un déménagement d’entreprise</h2>
-                    <p className="mt-4 text-lg max-w-2xl mx-auto text-muted-foreground">Prêt à déménager votre entreprise ? Demandez dès maintenant un devis gratuit et personnalisé. Nous vous fournirons une estimation détaillée et adaptée à vos besoins.</p>
+                    <SectionTitle>Planifiez votre transfert <u>dès aujourd'hui</u></SectionTitle>
+                    <p className="mt-4 text-lg max-w-2xl mx-auto text-muted-foreground">Contactez nos spécialistes du déménagement d'entreprise pour une étude personnalisée et un devis détaillé adapté à votre cahier des charges.</p>
                     <Button size="lg" className="mt-8" asChild>
-                        <Link href="/dashboard/quote">Obtenir mon devis gratuit</Link>
+                        <Link href="/demande-devis">Obtenir un devis professionnel</Link>
                     </Button>
                 </div>
             </section>
