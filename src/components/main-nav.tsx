@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -31,6 +32,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
 import { Button } from "./ui/button"
+import Image from "next/image"
 
 const services: { title: string; href: string; description: string, icon: React.ReactNode }[] = [
   {
@@ -66,12 +68,6 @@ const services: { title: string; href: string; description: string, icon: React.
 ]
 
 const aboutItems: { title: string; href: string; description: string, icon: React.ReactNode }[] = [
-    {
-        title: "Notre Entreprise",
-        href: "/a-propos-de-demenagement-du-vexin",
-        description: "Découvrez l'histoire et les valeurs de notre entreprise familiale.",
-        icon: <Trophy className="h-6 w-6"/>
-    },
     {
         title: "Nos Réalisations",
         href: "/nos-realisations",
@@ -137,20 +133,33 @@ export function MainNav() {
                     <NavigationMenuItem>
                         <NavigationMenuTrigger>À propos</NavigationMenuTrigger>
                         <NavigationMenuContent>
-                            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px]">
-                               {aboutItems.map((item) => (
+                             <div className="grid md:grid-cols-2 gap-3 p-4 md:w-[600px] lg:w-[700px]">
+                                <div className="row-span-3">
+                                    <NavigationMenuLink asChild>
+                                        <Link href="/a-propos-de-demenagement-du-vexin" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
+                                            <Trophy className="h-8 w-8 text-primary"/>
+                                            <div className="mb-2 mt-4 text-lg font-medium">
+                                                Déménagement du Vexin
+                                            </div>
+                                            <p className="text-sm leading-tight text-muted-foreground">
+                                                Découvrez l'histoire, les valeurs et les visages qui font de notre entreprise familiale votre partenaire de confiance.
+                                            </p>
+                                        </Link>
+                                    </NavigationMenuLink>
+                                </div>
+                                {aboutItems.map((item) => (
                                     <ListItem
                                         key={item.title}
                                         title={item.title}
                                         href={item.href}
                                     >
-                                        <div className="flex items-start gap-3">
+                                         <div className="flex items-start gap-3">
                                             <div className="text-primary">{item.icon}</div>
                                             <p className="text-muted-foreground text-sm leading-snug">{item.description}</p>
                                         </div>
                                     </ListItem>
                                 ))}
-                            </ul>
+                            </div>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
