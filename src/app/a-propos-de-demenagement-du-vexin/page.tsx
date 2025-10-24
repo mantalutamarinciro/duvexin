@@ -1,4 +1,5 @@
 
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Award, Eye, Rocket, Users, ShieldCheck, Heart, Leaf, CheckCircle } from "lucide-react";
@@ -6,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import { FormattedReview } from "@/app/api/reviews/route";
+import { cn } from "@/lib/utils";
 
 
 const fallbackTestimonials: FormattedReview[] = [
