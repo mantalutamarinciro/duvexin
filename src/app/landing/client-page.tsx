@@ -173,34 +173,38 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             </section>
             
             {/* Engagement Section */}
-            <section className="py-24 relative overflow-hidden bg-gray-900 text-white">
-                <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="absolute top-0 left-0 w-full h-full object-cover opacity-20"
-                    poster="https://picsum.photos/seed/video-poster/1920/1080"
-                >
-                    <source src="https://firebasestorage.googleapis.com/v0/b/movesmart-dashboard.appspot.com/o/moving-video.mp4?alt=media&token=24a259c6-13a8-430c-848e-04f7626966f0" type="video/mp4" />
-                </video>
-                <div className="container relative z-10">
-                    <div className="max-w-3xl">
-                         <SectionTitle className="text-white">La <u>qualité</u> comme signature. La <u>sérénité</u> comme promesse.</SectionTitle>
-                        <p className="mt-6 text-white/80 text-lg">
-                           Notre réputation s'est bâtie sur la confiance, la fiabilité et une obsession pour le travail bien fait. Chaque déménagement est une promesse tenue.
-                        </p>
-                    </div>
-                    <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                       {engagements.map((engagement) => (
-                           <Card key={engagement.title} className="bg-white/10 backdrop-blur-lg border-white/20 text-white transform hover:-translate-y-2 transition-transform duration-300">
-                               <CardContent className="p-6">
-                                   <engagement.icon className="h-8 w-8 text-primary mb-4"/>
-                                   <h4 className="font-bold text-lg">{engagement.title}</h4>
-                                   <p className="mt-2 text-sm text-white/70">{engagement.description}</p>
-                               </CardContent>
-                           </Card>
-                       ))}
+            <section className="py-24 bg-muted/50">
+                <div className="container">
+                    <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        <div className="order-2 lg:order-1">
+                            <Image
+                                src="https://picsum.photos/seed/team-commitment/800/900"
+                                alt="Déménageur professionnel protégeant un meuble"
+                                width={800}
+                                height={900}
+                                className="rounded-2xl shadow-lg object-cover w-full h-full"
+                                data-ai-hint="professional mover furniture"
+                            />
+                        </div>
+                        <div className="order-1 lg:order-2">
+                            <SectionTitle>La qualité comme <u>signature</u>. La sérénité comme <u>promesse</u>.</SectionTitle>
+                            <p className="mt-6 text-muted-foreground text-lg">
+                                Notre réputation s'est bâtie sur la confiance, la fiabilité et une obsession pour le travail bien fait. Chaque déménagement est une promesse tenue.
+                            </p>
+                            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                {engagements.map((engagement) => (
+                                    <div key={engagement.title} className="flex items-start gap-4">
+                                        <div className="bg-primary/10 text-primary p-3 rounded-full">
+                                            <engagement.icon className="h-6 w-6"/>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold">{engagement.title}</h4>
+                                            <p className="mt-1 text-sm text-muted-foreground">{engagement.description}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
