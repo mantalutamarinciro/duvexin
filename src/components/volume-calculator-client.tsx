@@ -44,6 +44,7 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 import { useDebouncedCallback } from 'use-debounce';
+import { ScrollArea, ScrollBar } from "./ui/scroll-area"
 
 const customItemSchema = z.object({
   name: z.string().min(2, "Le nom est requis (2 caractères min)."),
@@ -204,7 +205,27 @@ export function VolumeCalculatorClient({ roomCategories, initialItems }: VolumeC
   return (
     <div className="mt-8 grid gap-8 lg:grid-cols-12">
       <aside className="lg:col-span-3 xl:col-span-2">
-        <nav className="space-y-1 lg:sticky lg:top-20">
+         {/* Mobile horizontal scroll */}
+        <div className="lg:hidden">
+            <ScrollArea className="w-full whitespace-nowrap rounded-md">
+                <div className="flex w-max space-x-2 p-1">
+                    {roomCategories.map(category => (
+                        <Button
+                            key={category.id}
+                            variant={activeCategory === category.id ? "secondary" : "ghost"}
+                            className="shrink-0"
+                            onClick={() => setActiveCategory(category.id)}
+                        >
+                            {category.name}
+                        </Button>
+                    ))}
+                </div>
+                <ScrollBar orientation="horizontal" className="h-2" />
+            </ScrollArea>
+        </div>
+        
+        {/* Desktop vertical nav */}
+        <nav className="hidden lg:block space-y-1 lg:sticky lg:top-20">
             {roomCategories.map(category => (
                 <Button
                     key={category.id}
