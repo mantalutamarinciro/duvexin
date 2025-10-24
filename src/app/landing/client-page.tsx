@@ -100,11 +100,11 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/30"></div>
                 <div className="container relative z-10">
-                     <h1 className="text-4xl md:text-6xl font-headline font-bold leading-tight drop-shadow-md">
+                     <SectionTitle as="h1" className="text-4xl md:text-6xl text-white leading-tight drop-shadow-md">
                         Le déménagement,
                         <br />
-                        <span className="text-primary font-light">la sérénité</span> en plus.
-                    </h1>
+                        <u>la sérénité</u> en plus.
+                    </SectionTitle>
                     <p className="mt-6 text-lg md:text-xl max-w-2xl mx-auto text-white/90 drop-shadow">
                         Confiez-nous votre projet pour une expérience fluide et sécurisée. 
                         Notre expertise au service de votre tranquillité, partout en France.

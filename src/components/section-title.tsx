@@ -12,8 +12,12 @@ export function SectionTitle({ children, className, as: Component = "h2" }: { ch
   
   const parts = children.split(/<u>(.*?)<\/u>/g);
 
+  const baseClasses = (Component === 'h1') 
+    ? "text-4xl md:text-6xl font-headline font-bold" 
+    : "text-3xl md:text-4xl font-headline font-bold";
+
   return (
-    <Component className={cn("text-3xl md:text-4xl font-headline font-bold", className)}>
+    <Component className={cn(baseClasses, className)}>
       {parts.map((part, i) =>
         i % 2 === 1 ? (
           <span key={i} className="font-light text-primary">
