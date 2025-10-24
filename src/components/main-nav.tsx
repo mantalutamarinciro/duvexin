@@ -133,8 +133,8 @@ export function MainNav() {
                     <NavigationMenuItem>
                         <NavigationMenuTrigger>À propos</NavigationMenuTrigger>
                         <NavigationMenuContent>
-                             <div className="grid md:grid-cols-2 gap-3 p-4 md:w-[600px] lg:w-[700px]">
-                                <div className="row-span-3">
+                             <ul className="grid grid-cols-2 gap-3 p-4 md:w-[600px] lg:w-[700px] list-none">
+                                <li className="row-span-3">
                                     <NavigationMenuLink asChild>
                                         <Link href="/a-propos-de-demenagement-du-vexin" className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
                                             <Trophy className="h-8 w-8 text-primary"/>
@@ -146,7 +146,7 @@ export function MainNav() {
                                             </p>
                                         </Link>
                                     </NavigationMenuLink>
-                                </div>
+                                </li>
                                 {aboutItems.map((item) => (
                                     <ListItem
                                         key={item.title}
@@ -159,7 +159,7 @@ export function MainNav() {
                                         </div>
                                     </ListItem>
                                 ))}
-                            </div>
+                            </ul>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
@@ -249,3 +249,5 @@ const ListItem = React.forwardRef<
   )
 })
 ListItem.displayName = "ListItem"
+
+    
