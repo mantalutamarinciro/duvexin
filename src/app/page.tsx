@@ -45,13 +45,14 @@ const fallbackTestimonials: FormattedReview[] = [
 export default async function HomePage() {
   let reviews: FormattedReview[] = fallbackTestimonials;
     
-    try {
-        const googleReviews = await getGoogleReviews();
-        if (googleReviews.length > 0) {
-            reviews = googleReviews;
-        }
-    } catch (error) {
-        console.error("Impossible de récupérer les avis Google, utilisation des données de secours. Erreur:", error);
-    }
+    // La récupération des avis Google est temporairement désactivée pour résoudre une erreur d'API.
+    // try {
+    //     const googleReviews = await getGoogleReviews();
+    //     if (googleReviews.length > 0) {
+    //         reviews = googleReviews;
+    //     }
+    // } catch (error) {
+    //     console.error("Impossible de récupérer les avis Google, utilisation des données de secours. Erreur:", error);
+    // }
   return <LandingPageClient reviews={reviews} />;
 }
