@@ -275,7 +275,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
               {ZONES.map((z) => (
                 <Link
-                  key={z.href}
+                  key={z.label}
                   href={z.href}
                   className="inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1 text-xs text-white/90 ring-1 ring-white/15 hover:bg-white/15"
                 >
@@ -537,7 +537,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 <p className="font-semibold">Zones couvertes</p>
                 <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
                   {ZONES.map((z) => (
-                    <li key={z.href}>
+                    <li key={z.label}>
                       <Link className="hover:text-foreground" href={z.href}>{z.label}</Link>
                     </li>
                   ))}
