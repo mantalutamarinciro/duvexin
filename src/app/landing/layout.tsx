@@ -70,6 +70,7 @@ export default function LandingLayout({ children }: PropsWithChildren) {
                            <Link href="/" className="hover:text-primary">Accueil</Link>
                            <Link href="/a-propos-de-demenagement-du-vexin" className="hover:text-primary">À propos</Link>
                            <Link href="/services" className="hover:text-primary">Services</Link>
+                           <Link href="/calculateur-volume" className="hover:text-primary">Calculateur de volume</Link>
                            <Link href="/blog" className="hover:text-primary">Blog</Link>
                            <Link href="/#contact" className="hover:text-primary">Contact</Link>
                            <Link href="/demande-devis" className="hover:text-primary">Devis</Link>
