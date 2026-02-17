@@ -1,10 +1,23 @@
+import type { Metadata } from "next";
+import { LandingPageClient } from "./(home)/landing-page-client";
+import type { FormattedReview } from "@/app/api/reviews/route";
+import { getGoogleReviews } from "@/services/reviewService";
 
-import { LandingPageClient } from "./landing/client-page";
-import { getGoogleReviews, FormattedReview } from "@/services/reviewService";
-import { BlogSection } from "./landing/blog-section";
-import LandingLayout from "./landing/layout";
 
-// Données de secours si l'API Google ne répond pas
+export const metadata: Metadata = {
+  title: "Déménagement du Vexin | Déménageur premium, fiable et sans stress",
+  description:
+    "Déménagement du Vexin : particuliers & entreprises. Équipes salariées, protection pro, devis clair, organisation millimétrée. Intervention Vexin, Val-d’Oise, Yvelines, Île-de-France et national.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Déménagement du Vexin | Déménageur premium",
+    description:
+      "Une organisation parfaite, une protection pro, des équipes fiables. Devis gratuit, accompagnement complet.",
+    url: "/",
+    type: "website",
+  },
+};
+
 const fallbackTestimonials: FormattedReview[] = [
     {
         id: "fallback-1", name: "Clotilde Duran",
@@ -16,7 +29,7 @@ const fallbackTestimonials: FormattedReview[] = [
         text: "Un déménagement en Bretagne parfaitement réalisé. Professionnel du début jusqu'à la livraison finale. Très bon contact. Équipe efficace, rapide, et sympathique. Travail de qualité.",
         rating: 5, createTime: "il y a 2 ans", avatarUrl: `https://i.pravatar.cc/48?u=Jean-michel`
     },
-    {
+     {
         id: "fallback-3", name: "Robert GALAND",
         text: "Une interlocutrice réactive, une équipe ultra efficace, des affaires très bien protégées. Rapidité, professionnalisme. On voit le côté 'familial' sans prestataire ou intérimaire. Sincèrement je suis bluffé. Je recommande totalement. MERCI",
         rating: 5, createTime: "il y a 19 jours", avatarUrl: `https://i.pravatar.cc/48?u=Robert`
@@ -28,26 +41,17 @@ const fallbackTestimonials: FormattedReview[] = [
     }
 ];
 
-export default async function Home() {
-    let reviews: FormattedReview[] = fallbackTestimonials;
-    
-    // try {
-    //     // Cette ligne tente de récupérer les avis frais depuis l'API.
-    //     // Si elle échoue (par exemple, clé API non configurée), le bloc catch prendra le relais.
-    //     const googleReviews = await getGoogleReviews();
-    //     if (googleReviews.length > 0) {
-    //         reviews = googleReviews;
-    //     }
-    // } catch (error) {
-    //     // L'erreur est journalisée sur le serveur pour le débogage.
-    //     console.error("Impossible de récupérer les avis Google, utilisation des données de secours. Erreur:", error);
-    //     // L'application continue de fonctionner avec les 'fallbackTestimonials', assurant qu'il n'y a pas de crash.
-    // }
 
-    return (
-        <LandingLayout>
-            <LandingPageClient reviews={reviews} />
-            <BlogSection />
-        </LandingLayout>
-    );
+export default async function HomePage() {
+  let reviews: FormattedReview[] = fallbackTestimonials;
+    
+    try {
+        const googleReviews = await getGoogleReviews();
+        if (googleReviews.length > 0) {
+            reviews = googleReviews;
+        }
+    } catch (error) {
+        console.error("Impossible de récupérer les avis Google, utilisation des données de secours. Erreur:", error);
+    }
+  return <LandingPageClient reviews={reviews} />;
 }
