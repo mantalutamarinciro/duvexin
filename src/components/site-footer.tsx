@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { MapPin, Phone, Mail, Instagram, Facebook, Linkedin, ArrowRight } from "lucide-react";
@@ -33,19 +35,15 @@ export function SiteFooter() {
                             <Logo /> 
                         </div>
                         <p className="text-sm leading-relaxed text-slate-400 mb-8 max-w-sm">
-                            Expert du déménagement en Île-de-France et Normandie depuis plus de 10 ans. 
-                            Une entreprise familiale qui privilégie la qualité, la protection de vos biens et le contact humain.
+                            L'excellence du déménagement en Île-de-France et Normandie. 
+                            Une entreprise familiale qui privilégie la qualité, l'humain et le soin de vos biens.
                         </p>
                         <div className="flex gap-4">
-                            <a href="#" className="h-10 w-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-primary hover:text-white transition-all border border-slate-800">
-                                <Facebook className="h-4 w-4" />
-                            </a>
-                            <a href="#" className="h-10 w-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-primary hover:text-white transition-all border border-slate-800">
-                                <Instagram className="h-4 w-4" />
-                            </a>
-                            <a href="#" className="h-10 w-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-primary hover:text-white transition-all border border-slate-800">
-                                <Linkedin className="h-4 w-4" />
-                            </a>
+                            {[Facebook, Instagram, Linkedin].map((Icon, i) => (
+                                <Link key={i} href="#" className="h-10 w-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-primary hover:text-white transition-all border border-slate-800">
+                                    <Icon className="h-4 w-4" />
+                                </Link>
+                            ))}
                         </div>
                     </div>
 
@@ -55,16 +53,16 @@ export function SiteFooter() {
                             <h4 className="font-bold text-white mb-6">Services</h4>
                             <ul className="space-y-4 text-sm">
                                 {[
-                                    { name: "Particuliers", href: "/demenagement-particuliers" },
-                                    { name: "Entreprises", href: "/demenagement-entreprise-bureau" },
-                                    { name: "Garde-Meubles", href: "/demenagement-garde-meubles" },
-                                    { name: "Objets Lourds", href: "/demenagement-objets-lourds" },
-                                    { name: "National", href: "/demenagement-national" }
-                                ].map(link => (
-                                    <li key={link.name}>
-                                        <Link href={link.href} className="hover:text-primary transition-colors flex items-center group">
+                                    { label: "Particuliers", href: "/demenagement-particuliers" },
+                                    { label: "Entreprises", href: "/demenagement-entreprise-bureau" },
+                                    { label: "National", href: "/demenagement-national" },
+                                    { label: "Garde-Meubles", href: "/demenagement-garde-meubles" },
+                                    { label: "Objets Lourds", href: "/demenagement-objets-lourds" },
+                                ].map(item => (
+                                    <li key={item.label}>
+                                        <Link href={item.href} className="hover:text-primary transition-colors flex items-center group">
                                             <span className="w-1.5 h-1.5 rounded-full bg-slate-800 mr-2 group-hover:bg-primary transition-colors"></span>
-                                            {link.name}
+                                            {item.label}
                                         </Link>
                                     </li>
                                 ))}
@@ -92,13 +90,21 @@ export function SiteFooter() {
                         </div>
 
                         <div>
-                            <h4 className="font-bold text-white mb-6">Ressources</h4>
+                            <h4 className="font-bold text-white mb-6">L'entreprise</h4>
                             <ul className="space-y-4 text-sm">
-                                <li><Link href="/calculateur-volume" className="hover:text-white transition-colors text-slate-500">Calculateur volume</Link></li>
-                                <li><Link href="/zones-intervention" className="hover:text-white transition-colors text-slate-500">Zones d'intervention</Link></li>
-                                <li><Link href="/blog" className="hover:text-white transition-colors text-slate-500">Blog & Conseils</Link></li>
-                                <li><Link href="/nos-realisations" className="hover:text-white transition-colors text-slate-500">Réalisations</Link></li>
-                                <li><Link href="/login" className="hover:text-white transition-colors text-slate-500">Espace Client</Link></li>
+                                {[
+                                    { label: "À propos", href: "/a-propos-de-demenagement-du-vexin" },
+                                    { label: "Zones", href: "/zones-intervention" },
+                                    { label: "Blog", href: "/blog" },
+                                    { label: "Réalisations", href: "/nos-realisations" },
+                                    { label: "Galerie", href: "/galerie" },
+                                ].map(item => (
+                                    <li key={item.label}>
+                                        <Link href={item.href} className="hover:text-white transition-colors text-slate-500">
+                                            {item.label}
+                                        </Link>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                     </div>
@@ -108,7 +114,7 @@ export function SiteFooter() {
                 <div className="pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
                     <p>© {new Date().getFullYear()} Déménagement Du Vexin. Tous droits réservés.</p>
                     <p className="flex items-center gap-1">
-                        Conçu avec passion par <span className="text-slate-400">Agence Creow</span>
+                        Design by <span className="text-slate-400">Creow</span>
                     </p>
                 </div>
             </div>
