@@ -1,0 +1,33 @@
+
+{
+  "hero": {
+    "url": "https://picsum.photos/seed/moving-hero/1920/1080",
+    "alt": "Équipe de déménagement professionnelle en action",
+    "hint": "professional moving"
+  },
+  "service-particuliers": {
+    "url": "https://picsum.photos/seed/moving-private/800/600",
+    "alt": "Déménagement pour particuliers",
+    "hint": "moving home"
+  },
+  "service-entreprise": {
+    "url": "https://picsum.photos/seed/moving-business/800/600",
+    "alt": "Déménagement d'entreprise",
+    "hint": "office relocation"
+  },
+  "service-national": {
+    "url": "https://picsum.photos/seed/moving-national/800/600",
+    "alt": "Déménagement national",
+    "hint": "highway truck"
+  },
+  "service-stockage": {
+    "url": "https://picsum.photos/seed/storage/800/600",
+    "alt": "Garde-Meubles & Stockage",
+    "hint": "storage units"
+  },
+  "method": {
+    "url": "https://picsum.photos/seed/moving-method/800/1000",
+    "alt": "Protection professionnelle des meubles",
+    "hint": "moving protection"
+  }
+}

@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -22,7 +23,7 @@ import {
   FileText,
   Lightbulb,
   Check,
-  Clock3,
+  Clock,
   Users,
 } from "lucide-react";
 
@@ -36,6 +37,7 @@ import {
 } from "@/components/ui/accordion";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import type { FormattedReview } from "@/app/api/reviews/route";
+import placeholders from "@/app/lib/placeholder-images.json";
 
 /* ================== Animations ================== */
 const fadeInUp = {
@@ -75,28 +77,32 @@ const SERVICES = [
     desc: "Studio, appartement ou maison : nous protégeons vos souvenirs.",
     href: "/demenagement-particuliers",
     icon: Package,
-    image: "https://images.unsplash.com/photo-1600518464441-9154a4dea21b?q=80&w=800",
+    image: placeholders["service-particuliers"].url,
+    aiHint: placeholders["service-particuliers"].hint,
   },
   {
     title: "Entreprises",
     desc: "Transfert de bureaux et archives avec continuité d'activité.",
     href: "/demenagement-entreprise-bureau",
     icon: BriefcaseBusiness,
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800",
+    image: placeholders["service-entreprise"].url,
+    aiHint: placeholders["service-entreprise"].hint,
   },
   {
     title: "National",
     desc: "Longue distance partout en France avec logistique optimisée.",
     href: "/demenagement-national",
     icon: Truck,
-    image: "https://images.unsplash.com/photo-1519003722824-194d4455a60c?q=80&w=800",
+    image: placeholders["service-national"].url,
+    aiHint: placeholders["service-national"].hint,
   },
   {
     title: "Garde-Meubles",
     desc: "Stockage sécurisé et propre pour vos biens en transition.",
     href: "/demenagement-garde-meubles",
     icon: Warehouse,
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800",
+    image: placeholders["service-stockage"].url,
+    aiHint: placeholders["service-stockage"].hint,
   },
 ];
 
@@ -181,23 +187,35 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
     <div className="bg-white selection:bg-primary/10">
       
       {/* --- HERO SECTION --- */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-        <div className="container relative z-10">
+      <section className="relative min-h-[85vh] flex items-center pt-20 overflow-hidden">
+        {/* Background Image */}
+        <Image
+          src={placeholders.hero.url}
+          alt={placeholders.hero.alt}
+          fill
+          className="object-cover"
+          priority
+          data-ai-hint={placeholders.hero.hint}
+        />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-background" />
+
+        <div className="container relative z-10 py-20 lg:py-32">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-4xl mx-auto text-center"
+            className="max-w-4xl mx-auto text-center text-white"
           >
-            <div className="inline-flex items-center gap-2 rounded-full bg-slate-50 border border-slate-200 px-4 py-1.5 mb-8">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-4 py-1.5 mb-8 backdrop-blur-sm">
               <Sparkles className="h-4 w-4 text-primary" />
-              <span className="text-sm font-medium text-slate-600">L'art du déménagement sans effort</span>
+              <span className="text-sm font-medium text-white/90">L'art du déménagement sans effort</span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-slate-900 mb-8 leading-[1.1]">
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-[1.1]">
               Déménagez avec <span className="text-primary italic">clarté</span> et sérénité.
             </h1>
             
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-10">
+            <p className="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed mb-10">
               Une expertise artisanale alliée à une logistique moderne pour vos transferts dans le Vexin et toute l'Île-de-France.
             </p>
 
@@ -205,21 +223,25 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
               <Button size="lg" className="h-14 px-8 rounded-full text-md font-semibold transition-all hover:scale-105 shadow-xl shadow-primary/20" asChild>
                 <Link href="/demande-devis">Obtenir mon devis gratuit</Link>
               </Button>
-              <Button size="lg" variant="ghost" className="h-14 px-8 rounded-full text-md font-medium text-slate-600 hover:bg-slate-50" asChild>
+              <Button size="lg" variant="secondary" className="h-14 px-8 rounded-full text-md font-medium" asChild>
                 <Link href="/contact"><Phone className="mr-2 h-4 w-4" /> Nous appeler</Link>
               </Button>
             </div>
-          </motion.div>
-        </div>
 
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-40 pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full" />
-          <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-blue-100 blur-[100px] rounded-full" />
+            {/* Micro maillage Hero */}
+            <div className="mt-12 flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm text-white/60">
+              {ZONES.slice(0, 4).map((zone) => (
+                <Link key={zone.name} href={zone.href} className="hover:text-primary transition-colors flex items-center gap-1">
+                  <MapPin className="h-3 w-3" /> {zone.name}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* --- REASSURANCE (Floating Bar) --- */}
-      <section className="container -mt-10 mb-24 relative z-20">
+      <section className="container -mt-12 mb-24 relative z-20">
         <div className="bg-white border border-slate-100 shadow-2xl shadow-slate-200/50 rounded-[32px] p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
           {TRUST_POINTS.map((item) => (
             <div key={item.title} className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-50 transition-colors">
@@ -251,15 +273,20 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {SERVICES.map((s, i) => (
               <motion.div key={s.title} {...fadeInUp} transition={{ delay: i * 0.1 }}>
-                <Link href={s.href} className="group block h-full p-8 rounded-[32px] border border-slate-100 bg-white hover:border-primary/20 hover:shadow-xl hover:shadow-slate-200/40 transition-all duration-300">
-                  <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
-                    <s.icon className="h-6 w-6" />
+                <Link href={s.href} className="group block h-full overflow-hidden rounded-[32px] border border-slate-100 bg-white hover:border-primary/20 hover:shadow-xl hover:shadow-slate-200/40 transition-all duration-300">
+                  <div className="relative h-48 w-full">
+                    <Image src={s.image} alt={s.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" data-ai-hint={s.aiHint} />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">{s.title}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed mb-6">{s.desc}</p>
-                  <span className="text-primary font-semibold text-sm inline-flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    Détails <ArrowRight className="h-4 w-4" />
-                  </span>
+                  <div className="p-8">
+                    <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
+                      <s.icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-3">{s.title}</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed mb-6">{s.desc}</p>
+                    <span className="text-primary font-semibold text-sm inline-flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      Détails <ArrowRight className="h-4 w-4" />
+                    </span>
+                  </div>
                 </Link>
               </motion.div>
             ))}
