@@ -23,6 +23,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
       // Ajout du domaine pour les photos de profil des avis Google
       {
         protocol: 'https',
