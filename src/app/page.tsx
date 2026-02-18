@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { LandingPageClient } from "./(home)/landing-page-client";
 import type { FormattedReview } from "@/app/api/reviews/route";
 import { getGoogleReviews } from "@/services/reviewService";
+import LandingLayout from "@/app/landing/layout";
 
 
 export const metadata: Metadata = {
@@ -54,5 +55,9 @@ export default async function HomePage() {
     // } catch (error) {
     //     console.error("Impossible de récupérer les avis Google, utilisation des données de secours. Erreur:", error);
     // }
-  return <LandingPageClient reviews={reviews} />;
+  return (
+    <LandingLayout>
+      <LandingPageClient reviews={reviews} />
+    </LandingLayout>
+  );
 }
