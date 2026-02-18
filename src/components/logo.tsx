@@ -1,11 +1,17 @@
 
-export function Logo() {
+import { cn } from "@/lib/utils";
+
+interface LogoProps {
+  className?: string;
+}
+
+export function Logo({ className }: LogoProps) {
   return (
-    <div className="flex items-center gap-3 p-2">
+    <div className={cn("flex items-center gap-3", className)}>
       <img 
         src="/logo.png" 
-        alt="Logo Demenagement Du Vexin"
-        style={{ height: '40px', width: 'auto' }}
+        alt="Logo Déménagement Du Vexin"
+        className="h-10 w-auto object-contain"
       />
     </div>
   );
