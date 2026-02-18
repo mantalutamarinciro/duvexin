@@ -1,4 +1,3 @@
-// src/app/(home)/landing-page-client.tsx
 "use client";
 
 import * as React from "react";
@@ -8,254 +7,277 @@ import Script from "next/script";
 import {
   ArrowRight,
   Star,
-  ShieldCheck,
+  Users,
   FileText,
-  MapPin,
-  Clock,
-  Phone,
+  ShieldCheck,
+  Lightbulb,
   Check,
+  Clock3,
+  MapPin,
+  PhoneCall,
+  BriefcaseBusiness,
   Package,
-  Building2,
-  Truck,
   Warehouse,
+  Calculator,
+  Truck,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { SectionTitle } from "@/components/section-title";
+import { cn } from "@/lib/utils";
+
 import { TestimonialsSection } from "@/components/testimonials-section";
 import type { FormattedReview } from "@/app/api/reviews/route";
 
-// Types
-type Zone = { label: string; href: string };
-type Service = {
+type ServiceCard = {
   title: string;
-  desc: string;
-  href: string;
+  description: string;
+  link: string;
   icon: React.ElementType;
+  imageUrl: string;
+  imageAlt: string;
+  aiHint?: string;
 };
 
-// Données statiques
-const ZONES: Zone[] = [
-  { label: "Vexin", href: "/zones/vexin" },
-  { label: "Val-d'Oise", href: "/zones/val-doise" },
-  { label: "Yvelines", href: "/zones/yvelines" },
-  { label: "Paris", href: "/zones/paris" },
-  { label: "Île-de-France", href: "/zones/ile-de-france" },
-];
-
-const SERVICES: Service[] = [
+const SERVICES: ServiceCard[] = [
   {
-    title: "Particuliers",
-    desc: "Protection premium, exécution soignée, zéro stress.",
-    href: "/demenagement-particuliers",
+    title: "Déménagement Particuliers",
+    description:
+      "Studio, appartement, maison : une organisation fluide, des protections irréprochables et une équipe fiable du début à la fin.",
+    link: "/demenagement-particuliers",
     icon: Package,
+    imageUrl: "https://images.unsplash.com/photo-1600518464441-9154a4dea21b?q=80&w=800",
+    imageAlt: "Déménageurs professionnels chargeant un camion",
+    aiHint: "professional movers",
   },
   {
-    title: "Entreprises",
-    desc: "Transfert maîtrisé, planning net, continuité d'activité.",
-    href: "/demenagement-entreprise-bureau",
-    icon: Building2,
+    title: "Déménagement d’Entreprise",
+    description:
+      "Transfert de bureaux, archives, matériel sensible : continuité d’activité, planning maîtrisé, exécution propre.",
+    link: "/demenagement-entreprise-bureau",
+    icon: BriefcaseBusiness,
+    imageUrl: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800",
+    imageAlt: "Bureaux modernes en cours de déménagement",
+    aiHint: "office relocation",
   },
   {
-    title: "National",
-    desc: "Longue distance, logistique solide, timing précis.",
-    href: "/demenagement-national",
+    title: "Déménagement National",
+    description:
+      "Longue distance partout en France : logistique solide, chargement sécurisé, livraison au bon timing.",
+    link: "/demenagement-national",
     icon: Truck,
+    imageUrl: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800",
+    imageAlt: "Camion de transport sur l'autoroute",
+    aiHint: "delivery truck highway",
   },
   {
-    title: "Garde-meubles",
-    desc: "Stockage propre et sécurisé, solution entre deux dates.",
-    href: "/garde-meubles",
+    title: "Garde-Meubles & Stockage",
+    description:
+      "Stockage propre et sécurisé : solution idéale entre deux logements ou pour libérer de l’espace en toute sérénité.",
+    link: "/demenagement-garde-meubles",
     icon: Warehouse,
+    imageUrl: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?q=80&w=800",
+    imageAlt: "Entrepôt de stockage sécurisé",
+    aiHint: "storage facility",
   },
 ];
 
-const HIGHLIGHTS = [
+const ENGAGEMENTS = [
   {
-    icon: ShieldCheck,
-    title: "Équipe fiable",
-    desc: "Ponctualité, soin, méthode — une organisation sans approximation.",
+    icon: Users,
+    title: "Équipes fiables",
+    description: "Des déménageurs formés, salariés et soigneux. Une exécution propre, sans approximation.",
   },
   {
     icon: FileText,
-    title: "Devis clair",
-    desc: "Détaillé, transparent, sans surprise ni frais cachés.",
+    title: "Devis clair & détaillé",
+    description: "Tarification lisible, options transparentes, aucune surprise. Vous gardez le contrôle.",
   },
   {
-    icon: Star,
-    title: "Avis clients",
-    desc: "Note moyenne de 5/5 — des retours authentiques et vérifiés.",
+    icon: ShieldCheck,
+    title: "Protection premium",
+    description: "Couvertures, housses, sangles, emballages adaptés. Assurance et méthode pro.",
   },
+  {
+    icon: Lightbulb,
+    title: "Organisation millimétrée",
+    description: "Accès, portage, stationnement : on anticipe tout pour éviter les imprévus le jour J.",
+  },
+] as const;
+
+const PROCESS = [
+  {
+    title: "Évaluation rapide",
+    desc: "Volume, accès, contraintes. Visite technique si nécessaire pour un chiffrage précis.",
+    icon: Calculator,
+  },
+  {
+    title: "Devis & plan d’action",
+    desc: "Formule adaptée, planning, protections. Vous savez exactement ce qui est prévu.",
+    icon: FileText,
+  },
+  {
+    title: "Jour J : exécution propre",
+    desc: "Protection, manutention, chargement sécurisé, respect des délais et des lieux.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Livraison & installation",
+    desc: "Déchargement, mise en place, remontage : on termine parfaitement votre installation.",
+    icon: Check,
+  },
+] as const;
+
+const ZONES = [
+  { label: "Val-d’Oise (95)", href: "/demenagement-val-d-oise-95" },
+  { label: "Yvelines (78)", href: "/demenagement-yvelines-78" },
+  { label: "Eure (27)", href: "/demenagement-eure-27" },
+  { label: "Paris (75)", href: "/demenagement-paris-75" },
+  { label: "National", href: "/demenagement-national" },
 ] as const;
 
 const FAQ = [
   {
-    q: "Quand réserver mon déménagement ?",
-    a: "En haute saison (mai-septembre), idéalement 4 à 8 semaines à l'avance. En basse saison, 2 à 3 semaines suffisent. Plus vous anticipez, plus on sécurise vos dates.",
+    q: "Quand dois-je commencer à organiser mon déménagement ?",
+    a: "Idéalement 4 à 8 semaines à l’avance en haute saison (mai à septembre). En basse saison ou pour un petit volume, 2 à 3 semaines peuvent suffire. Plus vous anticipez, plus on sécurise les créneaux et l’organisation (stationnement, accès, autorisations).",
   },
   {
-    q: "Comment est calculé le prix ?",
-    a: "Le tarif dépend du volume (m³), de la distance, de la formule choisie et des accès (étage, ascenseur, stationnement). Le devis est détaillé poste par poste.",
+    q: "Comment est calculé le prix d’un déménagement ?",
+    a: "Le prix dépend du volume (m³), de la distance, de la formule choisie, et des accès (étage, ascenseur, portage, stationnement). Nous détaillons chaque poste dans un devis clair pour éviter toute surprise.",
   },
   {
-    q: "La visite technique est-elle payante ?",
-    a: "Non, elle est gratuite et sans engagement. Recommandée dès 20-25 m³ pour un chiffrage précis.",
+    q: "La visite technique est-elle obligatoire et payante ?",
+    a: "La visite technique est gratuite et sans engagement. Elle n’est pas obligatoire pour les petits volumes, mais fortement recommandée dès ~20–25 m³, pour évaluer précisément le volume et les contraintes d’accès.",
+  },
+  {
+    q: "Protégez-vous les meubles fragiles et l’électroménager ?",
+    a: "Oui. Nous utilisons housses, couvertures, bulles, cartons renforcés, protections d’angles et sangles. Chaque type de bien a sa méthode : le but est d’éviter les chocs, frottements et compressions.",
+  },
+  {
+    q: "Pouvez-vous gérer l’autorisation de stationnement ?",
+    a: "Oui, selon la commune. On vous guide sur les démarches, et on peut prendre en charge la demande si le périmètre le permet. C’est souvent ce qui évite 80% des galères le jour J.",
   },
 ] as const;
 
-// SEO JSON-LD
-const buildFaqJsonLd = (items: readonly typeof FAQ[number][]) => ({
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: items.map((item) => ({
-    "@type": "Question",
-    name: item.q,
-    acceptedAnswer: { "@type": "Answer", text: item.a },
-  })),
-});
+function buildFaqJsonLd(items: readonly { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((it) => ({
+      "@type": "Question",
+      name: it.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: it.a,
+      },
+    })),
+  };
+}
 
-const buildLocalBusinessJsonLd = () => ({
-  "@context": "https://schema.org",
-  "@type": "MovingCompany",
-  name: "Déménagement du Vexin",
-  url: "https://demenagementduvexin.fr",
-  logo: "https://demenagementduvexin.fr/logo.png",
-  image: "https://demenagementduvexin.fr/og-image.jpg",
-  description: "Déménageur professionnel dans le Vexin et l'Île-de-France. Devis gratuit, équipe fiable, protection premium.",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Vexin",
-    addressRegion: "Île-de-France",
-    addressCountry: "FR",
-  },
-  areaServed: ["Vexin", "Val-d'Oise", "Yvelines", "Île-de-France", "France"],
-  priceRange: "€€",
-  telephone: "+33123456789",
-  openingHours: "Mo-Fr 08:00-19:00",
-});
-
-// Hook personnalisé
-const useHeaderOffset = () => 84;
+function buildLocalBusinessJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "MovingCompany",
+    name: "Déménagement du Vexin",
+    url: "https://demenagementduvexin.fr",
+    areaServed: ["Vexin", "Val-d’Oise", "Yvelines", "Eure", "Île-de-France", "France"],
+    serviceType: [
+      "Déménagement particuliers",
+      "Déménagement entreprise",
+      "Déménagement national",
+      "Garde-meubles",
+    ],
+  };
+}
 
 export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
-  const headerOffset = useHeaderOffset();
-
-  const scrollToSection = React.useCallback((id: string) => {
-    const element = document.getElementById(id);
-    if (!element) return;
-    const y = element.getBoundingClientRect().top + window.scrollY - headerOffset;
-    window.scrollTo({ top: y, behavior: "smooth" });
-  }, [headerOffset]);
+  const faqJsonLd = React.useMemo(() => buildFaqJsonLd(FAQ), []);
+  const businessJsonLd = React.useMemo(() => buildLocalBusinessJsonLd(), []);
 
   return (
     <div className="bg-background text-foreground">
-      {/* SEO JSON-LD */}
-      <Script
-        id="jsonld-faq"
-        type="application/ld+json"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildFaqJsonLd(FAQ)) }}
-      />
-      <Script
-        id="jsonld-business"
-        type="application/ld+json"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildLocalBusinessJsonLd()) }}
-      />
+      {/* JSON-LD (SEO) */}
+      <Script id="ldjson-faq" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify(faqJsonLd)}
+      </Script>
+      <Script id="ldjson-localbusiness" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify(businessJsonLd)}
+      </Script>
 
-      {/* Hero - Épuré et immersif */}
-      <section className="relative min-h-[90vh] flex items-center">
-        {/* Background avec overlay minimal */}
-        <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1600518464441-9154a4dea21b?q=80&w=2000&auto=format&fit=crop"
-            alt="Déménageurs professionnels préparant un déménagement avec soin"
-            fill
-            className="object-cover"
-            priority
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
-        </div>
-
+      {/* HERO */}
+      <section className="relative min-h-[82vh] flex items-center py-16 md:py-24">
+        <Image
+          src="https://images.unsplash.com/photo-1600518464441-9154a4dea21b?q=80&w=2000&auto=format&fit=crop"
+          alt="Déménageurs professionnels chargeant un camion avec protection des meubles"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-black/20" />
         <div className="container relative z-10">
-          <div className="max-w-2xl text-white">
-            {/* Badge de localisation */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-8">
-              <MapPin className="h-4 w-4" />
-              <span className="text-sm font-medium">Vexin • Île-de-France • National</span>
+          <div className="mx-auto max-w-4xl text-center text-white">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm text-white/90 ring-1 ring-white/15">
+              <Clock3 className="h-4 w-4" />
+              Intervention Vexin • Île-de-France • National
             </div>
 
-            {/* Titre principal */}
-            <h1 className="text-5xl md:text-7xl font-light leading-tight tracking-tight">
-              Déménagement
+            <SectionTitle
+              as="h1"
+              className="mt-6 text-white text-4xl md:text-6xl leading-tight drop-shadow-md"
+            >
+              Déménagez l’esprit <u>tranquille</u>.
               <br />
-              <span className="font-semibold">sans accroc</span>
-            </h1>
+              Organisation premium, exécution <u>irréprochable</u>.
+            </SectionTitle>
 
-            <p className="mt-6 text-xl text-white/80 max-w-xl">
-              Devis transparent, équipe experte, protection soignée. 
-              On s'occupe de tout pour que vous ne pensiez à rien.
+            <p className="mt-6 text-lg md:text-xl text-white/90 drop-shadow">
+              Particuliers & entreprises. Équipes fiables, protection pro, devis clair.
+              On anticipe chaque détail pour un déménagement fluide — sans stress.
             </p>
 
-            {/* CTA */}
-            <div className="mt-10 flex flex-col sm:flex-row gap-4">
-              <Button size="lg" asChild className="gap-2 text-base px-8">
+            <div className="mt-10 flex flex-col sm:flex-row justify-center gap-3">
+              <Button size="lg" asChild className="gap-2 rounded-full h-14 px-8 text-lg">
                 <Link href="/demande-devis">
-                  Devis gratuit <ArrowRight className="h-4 w-4" />
+                  Obtenir mon devis gratuit <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                asChild 
-                className="gap-2 text-base border-white/20 text-white hover:bg-white/10"
-              >
-                <Link href="/contact">
-                  <Phone className="h-4 w-4" /> Être rappelé
+              <Button size="lg" variant="secondary" asChild className="gap-2 rounded-full h-14 px-8 text-lg bg-white/10 border-white/20 backdrop-blur-md text-white hover:bg-white/20">
+                <Link href="/#contact">
+                  Nous contacter <PhoneCall className="h-4 w-4" />
                 </Link>
               </Button>
             </div>
 
-            {/* Preuve sociale minimaliste */}
-            <div className="mt-12 flex items-center gap-6">
+            {/* Proof */}
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
               <div className="flex items-center gap-2">
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-amber-400 text-amber-400" />
+                <div className="flex items-center gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-amber-400 fill-amber-400" />
                   ))}
                 </div>
-                <span className="text-sm text-white/80">
-                  <strong className="text-white font-semibold">5/5</strong> (avis vérifiés)
-                </span>
+                <p className="text-sm text-white/85">
+                  Noté <span className="font-semibold text-white">5/5</span> (avis clients)
+                </p>
               </div>
-              
-              <div className="h-4 w-px bg-white/20" />
-              
-              <button
-                onClick={() => scrollToSection("services")}
-                className="text-sm text-white/80 hover:text-white transition-colors"
-              >
-                Découvrir nos services →
-              </button>
+              <div className="hidden sm:block h-5 w-px bg-white/25" />
+              <p className="text-sm text-white/85">
+                Devis détaillé • Protection premium • Organisation complète
+              </p>
             </div>
 
-            {/* Zones - Liens internes discrets */}
-            <div className="mt-12 flex flex-wrap gap-2">
-              {ZONES.map((zone) => (
+            {/* Quick internal links (maillage intelligent) */}
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
+              {ZONES.map((z) => (
                 <Link
-                  key={zone.href}
-                  href={zone.href}
-                  className="px-3 py-1.5 text-xs bg-white/10 backdrop-blur-sm rounded-full text-white/80 hover:bg-white/20 transition-colors"
+                  key={z.label}
+                  href={z.href}
+                  className="inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1 text-xs text-white/90 ring-1 ring-white/15 hover:bg-white/15 transition-colors"
                 >
-                  {zone.label}
+                  <MapPin className="h-3.5 w-3.5" />
+                  {z.label}
                 </Link>
               ))}
             </div>
@@ -263,197 +285,280 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
         </div>
       </section>
 
-      {/* Highlights - 3 cartes aérées */}
-      <section className="py-20">
-        <div className="container">
-          <div className="grid md:grid-cols-3 gap-6">
-            {HIGHLIGHTS.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Card key={item.title} className="border-0 shadow-none bg-muted/30">
-                  <CardContent className="p-8">
-                    <div className="rounded-2xl bg-primary/5 w-12 h-12 flex items-center justify-center mb-6">
-                      <Icon className="h-6 w-6 text-primary" />
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                    <p className="text-muted-foreground">{item.desc}</p>
-                  </CardContent>
-                </Card>
-              );
-            })}
+      {/* TRUST STRIP */}
+      <section className="border-y bg-muted/30">
+        <div className="container py-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {ENGAGEMENTS.map((e) => (
+              <Card key={e.title} className="rounded-2xl border-none bg-transparent shadow-none">
+                <CardContent className="p-6 flex items-start gap-4">
+                  <div className="rounded-full bg-primary/10 p-3 text-primary shrink-0">
+                    <e.icon className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-bold">{e.title}</p>
+                    <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{e.description}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Services - Grille claire */}
-      <section id="services" className="py-20 bg-muted/30">
+      {/* SERVICES */}
+      <section id="services" className="py-20 md:py-24">
         <div className="container">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <SectionTitle>
-              Des services <span className="text-primary">sur mesure</span>
-            </SectionTitle>
-            <p className="text-lg text-muted-foreground mt-4">
-              Particuliers, entreprises, longue distance ou stockage — 
-              on a la solution adaptée à votre situation.
+          <div className="text-center max-w-3xl mx-auto">
+            <SectionTitle>Un savoir-faire pour <u>chaque projet</u></SectionTitle>
+            <p className="mt-4 text-muted-foreground text-lg">
+              Particulier, entreprise, national ou stockage : on adapte la méthode, le matériel et le planning.
+              Objectif : une exécution propre, sans mauvaise surprise.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {SERVICES.map((service) => {
-              const Icon = service.icon;
-              return (
-                <Link
-                  key={service.href}
-                  href={service.href}
-                  className="group"
-                >
-                  <Card className="h-full hover:shadow-lg transition-all duration-300">
-                    <CardContent className="p-6">
-                      <div className="rounded-xl bg-primary/5 w-12 h-12 flex items-center justify-center mb-4">
-                        <Icon className="h-6 w-6 text-primary" />
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8">
+            {SERVICES.map((s) => (
+              <Link
+                href={s.link}
+                key={s.title}
+                className="group relative block overflow-hidden rounded-2xl border bg-card shadow-sm hover:shadow-xl transition-all"
+              >
+                <div className="relative aspect-[4/3]">
+                  <Image
+                    src={s.imageUrl}
+                    alt={s.imageAlt}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+                </div>
+
+                <div className="p-6">
+                  <div className="flex items-start gap-3">
+                    <div className="mt-0.5 rounded-full bg-primary/10 p-2 text-primary shrink-0">
+                      <s.icon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold leading-snug">{s.title}</h3>
+                      <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{s.description}</p>
+                      <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary">
+                        En savoir plus <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </div>
-                      <h3 className="text-lg font-semibold mb-2">{service.title}</h3>
-                      <p className="text-sm text-muted-foreground mb-4">{service.desc}</p>
-                      <span className="text-sm font-medium text-primary inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                        En savoir plus <ArrowRight className="h-3 w-3" />
-                      </span>
-                    </CardContent>
-                  </Card>
-                </Link>
-              );
-            })}
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <Button asChild size="lg" variant="outline" className="rounded-full">
+              <Link href="/services">Découvrir tous nos services</Link>
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* Méthode - Section épurée */}
-      <section className="py-20">
+      {/* PROCESS */}
+      <section className="py-20 md:py-24 bg-muted/40">
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <SectionTitle>
-                Une méthode <span className="text-primary">simple</span> en 4 étapes
+                Une méthode simple.
+                <br />
+                Un résultat <u>parfait</u>.
               </SectionTitle>
-              <p className="text-lg text-muted-foreground mt-4 mb-10">
-                De l'évaluation à l'installation finale, on vous guide à chaque étape.
+              <p className="mt-5 text-muted-foreground text-lg">
+                Le “sans stress” n’est pas une promesse marketing : c’est une procédure éprouvée.
+                Chaque étape réduit le risque et améliore la fluidité de votre installation.
               </p>
 
-              <div className="space-y-6">
-                {[
-                  { step: "01", title: "Évaluation précise", desc: "Volume, accès, contraintes — on analyse tout" },
-                  { step: "02", title: "Devis détaillé", desc: "Tarif transparent, planning clair" },
-                  { step: "03", title: "Exécution soignée", desc: "Protections, manutention, transport" },
-                  { step: "04", title: "Installation finale", desc: "Mise en place et contrôle qualité" },
-                ].map((item) => (
-                  <div key={item.step} className="flex gap-4">
-                    <div className="text-2xl font-light text-primary/50">{item.step}</div>
-                    <div>
-                      <h4 className="font-semibold mb-1">{item.title}</h4>
-                      <p className="text-sm text-muted-foreground">{item.desc}</p>
-                    </div>
-                  </div>
+              <div className="mt-8 grid sm:grid-cols-2 gap-4">
+                {PROCESS.map((p) => (
+                  <Card key={p.title} className="rounded-2xl border-none shadow-sm">
+                    <CardContent className="p-6">
+                      <div className="flex items-start gap-3">
+                        <div className="rounded-full bg-primary/10 p-2 text-primary shrink-0">
+                          <p.icon className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <p className="font-bold">{p.title}</p>
+                          <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
                 ))}
               </div>
 
-              <div className="mt-10">
-                <Button asChild size="lg" className="gap-2">
-                  <Link href="/demande-devis">
-                    Demander un devis <ArrowRight className="h-4 w-4" />
+              <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                <Button asChild className="rounded-full px-8">
+                  <Link href="/demande-devis">Demander un devis</Link>
+                </Button>
+                <Button variant="outline" asChild className="gap-2 rounded-full px-8">
+                  <Link href="/calculateur-volume">
+                    Estimer mon volume <Calculator className="h-4 w-4" />
                   </Link>
                 </Button>
               </div>
             </div>
 
-            {/* Image */}
-            <div className="relative aspect-square rounded-3xl overflow-hidden">
-              <Image
-                src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?q=80&w=1000&auto=format&fit=crop"
-                alt="Déménageur protégeant soigneusement un meuble"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
+            <div className="relative overflow-hidden rounded-[2.5rem] border bg-card shadow-2xl rotate-1">
+              <div className="relative aspect-[4/5]">
+                <Image
+                  src="https://images.unsplash.com/photo-1583947215259-38e31be8751f?q=80&w=1200"
+                  alt="Protection professionnelle des meubles avec couvertures et housses"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent" />
+              </div>
+              <div className="p-8">
+                <p className="font-bold text-xl mb-4">Ce qui change vraiment</p>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3 text-muted-foreground">
+                    <Check className="h-5 w-5 mt-0.5 text-primary shrink-0" />
+                    <span>Protection adaptée à chaque bien (fragile, lourd, volumineux).</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-muted-foreground">
+                    <Check className="h-5 w-5 mt-0.5 text-primary shrink-0" />
+                    <span>Anticipation des accès & stationnement (vitesse et sérénité).</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-muted-foreground">
+                    <Check className="h-5 w-5 mt-0.5 text-primary shrink-0" />
+                    <span>Chargement sécurisé avec du matériel de capitonnage pro.</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Avis */}
-      <section id="avis" className="py-10">
-        <TestimonialsSection reviews={reviews} />
-      </section>
+      {/* TESTIMONIALS */}
+      <TestimonialsSection reviews={reviews} />
 
-      {/* FAQ - Compacte et utile */}
-      <section id="faq" className="py-20 bg-muted/30">
-        <div className="container max-w-3xl">
-          <div className="text-center mb-12">
+      {/* FAQ */}
+      <section id="faq" className="py-20 md:py-24">
+        <div className="container max-w-4xl mx-auto">
+          <div className="text-center">
             <SectionTitle>
-              Questions <span className="text-primary">fréquentes</span>
+              Vos <u>questions</u>, nos <u>réponses</u>
             </SectionTitle>
-            <p className="text-muted-foreground">
-              Les réponses dont vous avez besoin pour avancer sereinement
+            <p className="mt-4 text-muted-foreground text-lg">
+              L’objectif : vous donner les bons repères pour décider sereinement.
             </p>
           </div>
 
-          <Accordion type="single" collapsible className="w-full">
-            {FAQ.map((item, index) => (
-              <AccordionItem key={index} value={`faq-${index}`}>
-                <AccordionTrigger className="text-left text-lg hover:no-underline">
+          <Accordion type="single" collapsible className="w-full mt-12 space-y-4">
+            {FAQ.map((item, i) => (
+              <AccordionItem value={`faq-${i}`} key={i} className="border rounded-2xl px-6 hover:bg-slate-50 transition-colors border-slate-100">
+                <AccordionTrigger className="text-left font-bold text-lg hover:no-underline py-6">
                   {item.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
+                <AccordionContent className="text-lg text-muted-foreground leading-relaxed pb-6">
                   {item.a}
                 </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
 
-          <div className="mt-10 text-center">
-            <p className="text-sm text-muted-foreground mb-4">
-              Vous avez d'autres questions ? Notre équipe est là pour vous répondre.
-            </p>
-            <Button asChild variant="outline">
-              <Link href="/contact">Nous contacter</Link>
+          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Button asChild size="lg" className="rounded-full px-8">
+              <Link href="/demande-devis">Obtenir mon devis gratuit</Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="rounded-full px-8">
+              <Link href="/blog">Conseils déménagement</Link>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* CTA Final - Minimal */}
-      <section className="py-20">
+      {/* FINAL CTA */}
+      <section id="contact" className="py-20 md:py-24">
         <div className="container">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-light mb-4">
-              Prêt à déménager <span className="font-semibold text-primary">sereinement</span> ?
-            </h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              Demandez votre devis gratuit en 2 minutes. Sans engagement.
-            </p>
-            <Button size="lg" asChild className="gap-2 text-base px-8">
-              <Link href="/demande-devis">
-                Commencer <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+          <div className="rounded-[3rem] border bg-primary text-primary-foreground p-8 md:p-20 shadow-2xl shadow-primary/20 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/5 rounded-full -ml-32 -mb-32" />
+            
+            <div className="mx-auto max-w-3xl text-center relative z-10">
+              <SectionTitle className="text-primary-foreground text-4xl md:text-6xl">
+                Prêt pour un déménagement <u>sans stress</u> ?
+              </SectionTitle>
+              <p className="mt-6 text-xl text-primary-foreground/85 leading-relaxed">
+                Dites-nous votre ville de départ, votre destination et le volume estimé.
+                On vous répond avec une proposition claire et une organisation parfaite.
+              </p>
+              <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Button size="lg" variant="secondary" asChild className="rounded-full h-16 px-10 text-lg shadow-xl">
+                  <Link href="/demande-devis">Obtenir mon devis gratuit</Link>
+                </Button>
+                <Button size="lg" variant="outline" className={cn("rounded-full h-16 px-10 text-lg border-white/35 text-white hover:bg-white/10")} asChild>
+                  <Link href="/#contact">Contact rapide</Link>
+                </Button>
+              </div>
 
-      {/* Footer minimal */}
-      <footer className="border-t">
-        <div className="container py-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-            <div>© {new Date().getFullYear()} Déménagement du Vexin</div>
-            <div className="flex gap-6">
-              <Link href="/mentions-legales" className="hover:text-foreground transition-colors">
-                Mentions légales
-              </Link>
-              <Link href="/confidentialite" className="hover:text-foreground transition-colors">
-                Confidentialité
-              </Link>
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-4 text-sm text-primary-foreground/85">
+                <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 ring-1 ring-white/15">
+                  <ShieldCheck className="h-4 w-4" /> Protection pro
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 ring-1 ring-white/15">
+                  <FileText className="h-4 w-4" /> Devis détaillé
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 ring-1 ring-white/15">
+                  <Clock3 className="h-4 w-4" /> Planning maîtrisé
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </footer>
+      </section>
+
+      {/* FOOTER LINKS (maillage interne stratégique) */}
+      <section className="pb-24">
+        <div className="container">
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="rounded-[2rem] border-slate-100 bg-slate-50/50">
+              <CardContent className="p-8">
+                <p className="font-bold text-lg mb-4">Pages services</p>
+                <ul className="space-y-3 text-sm text-muted-foreground">
+                  <li><Link className="hover:text-primary transition-colors" href="/demenagement-particuliers">Déménagement particuliers</Link></li>
+                  <li><Link className="hover:text-primary transition-colors" href="/demenagement-entreprise-bureau">Déménagement entreprise</Link></li>
+                  <li><Link className="hover:text-primary transition-colors" href="/demenagement-national">Déménagement national</Link></li>
+                  <li><Link className="hover:text-primary transition-colors" href="/demenagement-garde-meubles">Garde-meubles</Link></li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="rounded-[2rem] border-slate-100 bg-slate-50/50">
+              <CardContent className="p-8">
+                <p className="font-bold text-lg mb-4">Zones couvertes</p>
+                <ul className="space-y-3 text-sm text-muted-foreground">
+                  {ZONES.map((z) => (
+                    <li key={z.label}>
+                      <Link className="hover:text-primary transition-colors" href={z.href}>{z.label}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="rounded-[2rem] border-slate-100 bg-slate-50/50">
+              <CardContent className="p-8">
+                <p className="font-bold text-lg mb-4">Ressources</p>
+                <ul className="space-y-3 text-sm text-muted-foreground">
+                  <li><Link className="hover:text-primary transition-colors" href="/blog">Guides & conseils</Link></li>
+                  <li><Link className="hover:text-primary transition-colors" href="/calculateur-volume">Calculateur de volume</Link></li>
+                  <li><Link className="hover:text-primary transition-colors" href="/demande-devis">Demande de devis</Link></li>
+                  <li><Link className="hover:text-primary transition-colors" href="/a-propos-de-demenagement-du-vexin">À propos de nous</Link></li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

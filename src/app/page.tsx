@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { LandingPageClient } from "./(home)/landing-page-client";
 import type { FormattedReview } from "@/app/api/reviews/route";
-import { getGoogleReviews } from "@/services/reviewService";
 import LandingLayout from "@/app/landing/layout";
-
 
 export const metadata: Metadata = {
   title: "Déménagement du Vexin | Déménageur premium, fiable et sans stress",
@@ -42,19 +40,14 @@ const fallbackTestimonials: FormattedReview[] = [
     }
 ];
 
+async function getReviews(): Promise<FormattedReview[]> {
+  // L'appel API est pour l'instant simulé avec les données de secours pour éviter les erreurs de build/runtime
+  // sans configuration des clés Google.
+  return fallbackTestimonials;
+}
 
 export default async function HomePage() {
-  let reviews: FormattedReview[] = fallbackTestimonials;
-    
-    // La récupération des avis Google est temporairement désactivée pour résoudre une erreur d'API.
-    // try {
-    //     const googleReviews = await getGoogleReviews();
-    //     if (googleReviews.length > 0) {
-    //         reviews = googleReviews;
-    //     }
-    // } catch (error) {
-    //     console.error("Impossible de récupérer les avis Google, utilisation des données de secours. Erreur:", error);
-    // }
+  const reviews = await getReviews();
   return (
     <LandingLayout>
       <LandingPageClient reviews={reviews} />
