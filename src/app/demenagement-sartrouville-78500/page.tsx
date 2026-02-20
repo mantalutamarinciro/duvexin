@@ -1,18 +1,34 @@
-import { Button } from "@/components/ui/button";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import type { FormattedReview } from "@/app/api/reviews/route";
-import { CheckCircle, MapPin, ShieldCheck, Home, Users, Building, Truck } from "lucide-react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
+
+// UI Components
+import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { TestimonialsSection } from "@/components/testimonials-section";
+import type { FormattedReview } from "@/app/api/reviews/route";
 
-const fallbackTestimonials: FormattedReview[] = [
-    { id: "fallback-1", name: "Famille Dufour", text: "Un grand merci pour notre déménagement à Sartrouville. L'équipe a été rapide, organisée et très sympathique. Une prestation sans faille.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dufour78` },
-    { id: "fallback-2", name: "Karine P.", text: "Service au top pour mon appartement. Le devis était clair et l'équipe a fait preuve d'un grand professionnalisme le jour J. Je recommande chaudement.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=KarineP78` },
-    { id: "fallback-3", name: "Entreprise Tech Solutions", text: "Le transfert de nos bureaux a été mené avec efficacité. Une équipe discrète qui a su respecter notre planning serré.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=TechSolutions78` },
-];
+// Icons
+import { 
+  CheckCircle2, 
+  MapPin, 
+  ShieldCheck, 
+  Users, 
+  Building2, 
+  Truck, 
+  ArrowRight, 
+  ChevronRight, 
+  Map,
+  MoveUp,
+  Home,
+  Briefcase,
+  Waves,
+  LayoutGrid
+} from "lucide-react";
 
-export const metadata = {
+// --- SEO METADATA ---
+export const metadata: Metadata = {
   title: "Déménagement Sartrouville (78) | Expert Local & Devis Gratuit",
   description: "Déménageur de confiance à Sartrouville (78500). Spécialiste du Plateau, du centre-ville et des bords de Seine. Devis gratuit sous 24h et visite technique.",
   alternates: {
@@ -20,201 +36,300 @@ export const metadata = {
   }
 };
 
-const whyChooseUsItems = [
-    {
-        icon: <MapPin className="h-8 w-8 text-primary"/>,
-        title: "Connaissance de Sartrouville",
-        description: "Du centre-ville aux zones pavillonnaires du Plateau, nous connaissons les accès et spécificités de la deuxième ville des Yvelines."
-    },
-    {
-        icon: <Home className="h-8 w-8 text-primary"/>,
-        title: "Spécialiste du Pavillonnaire",
-        description: "Nous avons une grande expérience des déménagements de maisons avec jardin, très présentes à Sartrouville, en protégeant vos biens et vos accès."
-    },
-    {
-        icon: <Truck className="h-8 w-8 text-primary"/>,
-        title: "Logistique Adaptée",
-        description: "Nous utilisons des véhicules de tailles variées pour nous adapter aussi bien aux avenues principales qu'aux rues plus résidentielles."
-    },
-    {
-        icon: <ShieldCheck className="h-8 w-8 text-primary"/>,
-        title: "Sérénité Administrative",
-        description: "Nous gérons pour vous les demandes d'autorisation de stationnement auprès de la mairie, un souci en moins pour vous."
-    }
+const fallbackTestimonials: FormattedReview[] = [
+  { id: "fallback-1", name: "Famille Dufour", text: "Un grand merci pour notre déménagement sur le Plateau. L'équipe a été rapide, organisée et a su manœuvrer sans problème dans notre allée étroite. Une prestation sans faille !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dufour78` },
+  { id: "fallback-2", name: "Karine P.", text: "Service au top pour mon appartement près de la gare. Le devis était clair, sans frais cachés, et l'équipe a fait preuve d'un grand soin avec mes cartons fragiles. Je recommande chaudement.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=KarineP78` },
+  { id: "fallback-3", name: "Entreprise Tech Solutions", text: "Le transfert de nos bureaux à Sartrouville a été mené avec une rigueur exemplaire. Une équipe discrète qui a su respecter notre planning serré pour ne pas stopper l'activité.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=TechSolutions78` },
 ];
 
-const faqItems = [
-    {
-        question: "Est-ce difficile d'obtenir une autorisation de stationnement à Sartrouville ?",
-        answer: "Comme dans beaucoup de communes denses, cela demande de l'anticipation. Mais c'est notre métier de le gérer. Nous nous chargeons de la demande d'autorisation auprès de la mairie de Sartrouville pour réserver un emplacement, ce qui vous garantit la tranquillité le jour du déménagement."
-    },
-    {
-        question: "Intervenez-vous dans le quartier du Plateau ?",
-        answer: "Oui, nous connaissons très bien ce grand quartier pavillonnaire. Nos équipes sont habituées à manœuvrer dans des rues résidentielles et à protéger les maisons et leurs jardins pendant l'intervention."
-    },
-    {
-        question: "J'ai un petit volume à déménager, proposez-vous des formules adaptées ?",
-        answer: "Absolument. Nous proposons des formules flexibles, y compris pour les petits volumes (déménagement d'étudiant, studio...). Notre formule Économique, où nous nous chargeons du transport et de la manutention lourde, est souvent une excellente solution pour maîtriser son budget."
-    },
-    {
-        question: "Comment se passe un déménagement longue distance depuis Sartrouville ?",
-        answer: "Nous assurons des déménagements sur toutes les distances en France. Pour les longues distances, nous organisons des tournées optimisées pour vous offrir un tarif compétitif et un service de qualité, avec le même niveau de soin que pour un déménagement local."
-    }
+const WHY_US_ITEMS = [
+  {
+    icon: MapPin,
+    title: "Maîtrise du 78500",
+    description: "De la Croix-Petit aux quartiers du Plateau, nous maîtrisons chaque accès de la deuxième ville des Yvelines."
+  },
+  {
+    icon: Home,
+    title: "Spécialiste Pavillonnaire",
+    description: "Expertise reconnue pour les déménagements de maisons : protection des sols, des jardins et manutention lourde sécurisée."
+  },
+  {
+    icon: MoveUp,
+    title: "Solutions de Levage",
+    description: "Déploiement de monte-meubles pour les résidences modernes et les appartements en centre-ville sans ascenseur."
+  },
+  {
+    icon: ShieldCheck,
+    title: "Sérénité Administrative",
+    description: "Nous gérons intégralement vos demandes d'arrêté de stationnement auprès de la mairie de Sartrouville."
+  }
 ];
 
+const FAQS = [
+  { 
+    question: "Comment gérez-vous le stationnement en centre-ville de Sartrouville ?", 
+    answer: "Sartrouville est une ville dense. Nous anticipons systématiquement en déposant les demandes d'autorisation 15 jours à l'avance pour privatiser l'espace au pied de votre immeuble et garantir une intervention fluide." 
+  },
+  { 
+    question: "Intervenez-vous pour le transfert de matériel informatique à Sartrouville ?", 
+    answer: "Oui, nous accompagnons les professionnels pour des transferts de bureaux ou de parcs informatiques, avec des emballages antistatiques et une planification qui minimise l'arrêt de votre production." 
+  },
+  { 
+    question: "Quelles sont les garanties pour mon mobilier précieux ?", 
+    answer: "Chaque déménagement bénéficie d'une assurance contractuelle. Nous utilisons des protections professionnelles (couvertures lourdes, bullkraft, housses de matelas) pour assurer l'intégrité de vos biens." 
+  },
+  { 
+    question: "Proposez-vous des formules pour les petits volumes ?", 
+    answer: "Tout à fait. Notre formule 'Économique' est parfaitement adaptée aux studios et appartements de petite surface. Elle permet de bénéficier d'un transport professionnel à prix très compétitif." 
+  }
+];
+
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": FAQS.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
 
 export default function SartrouvillePage() {
-    return (
-        <div className="bg-background text-foreground">
-            {/* Hero Section */}
-            <section className="relative h-72 flex items-center justify-center text-center text-white">
-                <Image 
-                    src="https://picsum.photos/seed/sartrouville/1920/500"
-                    alt="Vue sur les bords de Seine à Sartrouville"
-                    fill
-                    className="object-cover"
-                    data-ai-hint="sartrouville cityscape seine"
-                />
-                <div className="absolute inset-0 bg-black/60" />
-                <div className="relative z-10 container">
-                    <p className="text-sm font-semibold text-primary">Le spécialiste de votre déménagement à Sartrouville</p>
-                    <h1 className="text-4xl md:text-5xl font-headline font-bold mt-2">Déménagement Sartrouville (78500)</h1>
-                    <p className="mt-4 text-lg max-w-3xl mx-auto text-white/90">La solution fiable et locale pour les particuliers et les entreprises à Sartrouville.</p>
-                </div>
-            </section>
+  return (
+    <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
+      <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      
+      {/* --- HERO SECTION --- */}
+      <section className="relative min-h-[60vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-24 pb-16 overflow-hidden">
+        <Image 
+          src="https://picsum.photos/seed/sartrouville-seine/1920/1080"
+          alt="Bords de Seine à Sartrouville"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-30 mix-blend-luminosity grayscale-[40%]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0b0f19] via-[#0b0f19]/80 to-transparent" />
+        
+        <div className="container relative z-10 mx-auto px-4 md:px-6">
+          <nav className="flex items-center text-xs font-medium text-slate-400 mb-8" aria-label="Breadcrumb">
+            <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
+            <ChevronRight className="h-3 w-3 mx-2" />
+            <Link href="/zones" className="hover:text-white transition-colors">Yvelines (78)</Link>
+            <ChevronRight className="h-3 w-3 mx-2" />
+            <span className="text-white">Sartrouville</span>
+          </nav>
+
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#00ad9f]/30 bg-[#00ad9f]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#00ad9f] mb-6 shadow-sm">
+              <LayoutGrid className="h-4 w-4" />
+              Expert Déménagement Sartrouvillois
+            </div>
             
-            {/* Breadcrumb */}
-            <div className="container py-3 text-sm text-muted-foreground">
-                <Link href="/" className="hover:text-primary">Accueil</Link>
-                <span className="mx-2">&gt;</span>
-                <Link href="/demenagement-yvelines-78" className="hover:text-primary">Yvelines (78)</Link>
-                <span className="mx-2">&gt;</span>
-                <span>Sartrouville</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
+              Votre déménagement <br className="hidden sm:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
+                à Sartrouville.
+              </span>
+            </h1>
+            
+            <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
+              La solution logistique de référence pour les résidents et entreprises de Sartrouville (78500). Une maîtrise parfaite du Plateau et des accès urbains.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button size="lg" className="rounded-full h-14 px-8 text-base bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
+                <Link href="/dashboard/quote">
+                  Obtenir mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- INTRO SECTION --- */}
+      <section className="py-20 lg:py-32 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            <div className="space-y-6 relative z-10">
+              <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                Une logistique agile pour <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">la cité du Plateau</u>.
+              </h2>
+              <p className="text-lg text-slate-500 leading-relaxed">
+                Sartrouville est une ville aux multiples facettes, mêlant ses quartiers pavillonnaires historiques et son dynamisme moderne en bord de Seine. Déménager dans la deuxième ville des Yvelines demande une agilité technique capable de s'adapter aussi bien aux avenues commerçantes qu'aux rues résidentielles calmes.
+              </p>
+              <p className="text-lg text-slate-500 leading-relaxed">
+                Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque spécificité de la ville. Que vous emménagiez dans une maison avec jardin ou que vous transfériez votre activité professionnelle près de la gare, nous garantissons une transition fluide et sécurisée.
+              </p>
+              
+              <div className="pt-6 flex items-center gap-4">
+                 <div className="h-14 w-14 rounded-full bg-[#00ad9f]/10 flex items-center justify-center shrink-0">
+                    <Waves className="h-7 w-7 text-[#00ad9f]" />
+                 </div>
+                 <div className="text-slate-900 font-bold text-lg">
+                   Spécialiste Bords de Seine,<br/> <span className="text-slate-500 font-normal text-sm">maîtrise des accès urbains et gestion des flux de circulation.</span>
+                 </div>
+              </div>
+            </div>
+            
+            <div className="relative">
+              <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 hover:rotate-6" />
+              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border border-slate-100">
+                <Image
+                  src="https://picsum.photos/seed/sartrouville-team/800/600"
+                  alt="Équipe de déménagement professionnelle en intervention à Sartrouville"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- WHY CHOOSE US (Grille d'avantages) --- */}
+      <section id="why-us-sartrouville" className="py-20 lg:py-32 bg-slate-50">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+              Le bon choix pour le 78
+            </h2>
+            <p className="text-lg text-slate-500 font-light">
+              Notre parfaite connaissance des Yvelines est votre meilleure garantie de ponctualité.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {WHY_US_ITEMS.map((item, index) => (
+              <div key={index} className="bg-white border border-slate-200 p-8 rounded-[2rem] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                <div className="h-14 w-14 rounded-2xl bg-[#00ad9f]/10 flex items-center justify-center mb-6 group-hover:bg-[#00ad9f] transition-colors duration-300">
+                   <item.icon className="h-7 w-7 text-[#00ad9f] group-hover:text-white transition-colors duration-300" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- SERVICES RÉSUMÉ --- */}
+      <section className="py-20 lg:py-32 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            
+            <div className="order-2 lg:order-1 relative">
+              <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2rem] opacity-10 -z-10" />
+              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
+                <Image
+                  src="https://picsum.photos/seed/sartrouville-packing/800/600"
+                  alt="Déménageur protégeant du mobilier de valeur à Sartrouville"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
 
-            {/* Intro Section */}
-            <section className="py-16">
-                <div className="container grid lg:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <h2 className="text-3xl font-bold">Un déménageur qui connaît les atouts de Sartrouville</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">
-                           Déménager à Sartrouville, c'est choisir une ville dynamique et familiale aux portes de Paris et de La Défense. Avec ses nombreux quartiers pavillonnaires et ses bords de Seine, Sartrouville demande une approche de déménagement qui soit à la fois efficace et respectueuse de l'environnement.
-                        </p>
-                        <p className="mt-4 text-muted-foreground">
-                           Chez Déménagement du Vexin, nous mettons notre expertise locale à votre service. Nous connaissons les spécificités de chaque quartier et nous adaptons notre logistique pour garantir une prestation fluide, que vous emménagiez dans une maison avec jardin sur le Plateau ou un appartement en centre-ville.
-                        </p>
-                    </div>
-                    <div>
-                         <Image
-                            src="https://picsum.photos/seed/sartrouville-move/600/400"
-                            alt="Équipe de déménagement professionnelle intervenant à Sartrouville"
-                            width={600}
-                            height={400}
-                            className="rounded-lg shadow-lg"
-                            data-ai-hint="moving team suburban"
-                        />
-                    </div>
-                </div>
-            </section>
+            <div className="order-1 lg:order-2 space-y-8 lg:pl-10">
+              <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                Une réponse à <br/> <span className="text-[#00ad9f]">chaque profil résidentiel.</span>
+              </h2>
+              <ul className="space-y-6 pt-2">
+                <li className="flex items-start gap-4">
+                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><Home className="h-5 w-5"/></div>
+                  <div>
+                    <h4 className="text-lg font-bold text-slate-900">Maisons du Plateau</h4>
+                    <p className="text-slate-500 mt-1 leading-relaxed">Logistique adaptée pour les propriétés avec jardin et emballage scrupuleux de vos biens les plus volumineux.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><Building2 className="h-5 w-5"/></div>
+                  <div>
+                    <h4 className="text-lg font-bold text-slate-900">Appartements & Centre-Ville</h4>
+                    <p className="text-slate-500 mt-1 leading-relaxed">Protection totale des parties communes et utilisation de monte-meubles pour les accès complexes en centre-ville.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><Briefcase className="h-5 w-5"/></div>
+                  <div>
+                    <h4 className="text-lg font-bold text-slate-900">Transferts Professionnels</h4>
+                    <p className="text-slate-500 mt-1 leading-relaxed">Services dédiés aux entreprises : planification optimisée et protection rigoureuse du matériel informatique.</p>
+                  </div>
+                </li>
+              </ul>
+              <div className="pt-4">
+                <Button asChild variant="outline" className="rounded-full h-12 px-8 font-semibold border-slate-300 text-slate-700 hover:text-[#00ad9f] hover:border-[#00ad9f] hover:bg-[#00ad9f]/5">
+                   <Link href="/services">Voir tous nos services</Link>
+                </Button>
+              </div>
+            </div>
 
-             {/* Why Choose Us Section */}
-            <section id="why-us-sartrouville" className="py-16 bg-muted/50">
-                <div className="container">
-                    <div className="text-center max-w-3xl mx-auto">
-                        <h2 className="text-3xl font-bold">Le partenaire de confiance pour déménager à Sartrouville</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Notre connaissance du terrain est la clé de votre tranquillité d'esprit.</p>
-                    </div>
-                    <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {whyChooseUsItems.map((item, i) => (
-                             <div key={i} className="text-center">
-                                {item.icon}
-                                <h3 className="text-xl font-semibold mt-4">{item.title}</h3>
-                                <p className="mt-2 text-muted-foreground">{item.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-            
-             {/* Services Section */}
-            <section className="py-16">
-                 <div className="container grid lg:grid-cols-2 gap-12 items-center">
-                    <div className="order-2 lg:order-1">
-                        <Image
-                            src="https://picsum.photos/seed/sartrouville-packing/600/400"
-                            alt="Déménageur emballant avec soin des objets pour un déménagement à Sartrouville"
-                            width={600}
-                            height={400}
-                            className="rounded-lg shadow-lg"
-                            data-ai-hint="mover careful packing suburb"
-                        />
-                    </div>
-                    <div className="order-1 lg:order-2">
-                        <h2 className="text-3xl font-bold">Des services pensés pour les habitants de Sartrouville</h2>
-                         <ul className="mt-6 space-y-4">
-                            <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Déménagement de maisons et pavillons</h4>
-                                    <p className="text-muted-foreground">Une expertise particulière pour les déménagements de maisons avec un soin apporté à la protection de vos biens et de votre propriété.</p>
-                                </div>
-                            </li>
-                             <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Déménagement d'appartements</h4>
-                                    <p className="text-muted-foreground">Nous gérons les contraintes liées aux étages et aux accès en immeuble, avec des solutions de monte-meubles si nécessaire.</p>
-                                </div>
-                            </li>
-                             <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Formules sur-mesure</h4>
-                                    <p className="text-muted-foreground">De la prestation économique à la formule tout confort, nous nous adaptons à vos besoins précis.</p>
-                                </div>
-                            </li>
-                        </ul>
-                         <Button asChild className="mt-8" variant="outline">
-                            <Link href="/services">Découvrir tous nos services</Link>
-                         </Button>
-                    </div>
-                </div>
-            </section>
-            
-            <TestimonialsSection reviews={fallbackTestimonials} />
-            
-            {/* FAQ Section */}
-            <section id="faq-sartrouville" className="py-16">
-                <div className="container max-w-4xl mx-auto">
-                    <div className="text-center">
-                        <h2 className="text-3xl font-bold">Questions fréquentes - Déménagement Sartrouville</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Nos réponses claires pour un déménagement réussi à Sartrouville.</p>
-                    </div>
-                    <Accordion type="single" collapsible className="w-full mt-12">
-                        {faqItems.map((item, i) => (
-                            <AccordionItem value={`item-${i}`} key={i}>
-                                <AccordionTrigger className="text-lg text-left hover:no-underline">
-                                    {item.question}
-                                </AccordionTrigger>
-                                <AccordionContent className="text-base text-muted-foreground">
-                                    {item.answer}
-                                </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
-                </div>
-            </section>
-
-             {/* CTA Section */}
-            <section id="contact-sartrouville" className="py-16 bg-primary/5">
-                <div className="container text-center">
-                    <h2 className="text-3xl font-bold">Organisez votre déménagement à Sartrouville</h2>
-                    <p className="mt-4 text-lg max-w-2xl mx-auto text-muted-foreground">Contactez nos spécialistes pour une analyse précise de votre projet et obtenez un devis gratuit et personnalisé.</p>
-                    <Button size="lg" className="mt-8" asChild>
-                        <Link href="/dashboard/quote">Devis gratuit pour Sartrouville</Link>
-                    </Button>
-                </div>
-            </section>
+          </div>
         </div>
-    );
+      </section>
+
+      {/* --- AVIS CLIENTS --- */}
+      <TestimonialsSection reviews={fallbackTestimonials} />
+
+      {/* --- FAQ --- */}
+      <section id="faq-sartrouville" className="py-20 lg:py-32 bg-slate-50">
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+              Questions <span className="text-[#00ad9f]">fréquentes</span>
+            </h2>
+            <p className="mt-4 text-lg text-slate-500 font-light">Tout savoir pour préparer votre installation réussie à Sartrouville.</p>
+          </div>
+          
+          <Accordion type="single" collapsible className="w-full space-y-4">
+            {FAQS.map((item, i) => (
+              <AccordionItem 
+                value={`item-${i}`} 
+                key={i} 
+                className="bg-white border border-slate-200 rounded-2xl px-2 data-[state=open]:border-[#00ad9f]/40 data-[state=open]:shadow-md transition-all duration-200"
+              >
+                <AccordionTrigger className="text-lg font-bold text-slate-900 py-6 px-4 hover:no-underline hover:text-[#00ad9f] transition-colors text-left">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-slate-500 text-base leading-relaxed px-4 pb-6">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      {/* --- GRAND CTA FINAL --- */}
+      <section className="py-20 bg-white">
+         <div className="container mx-auto px-4 md:px-6">
+            <div className="relative rounded-[3rem] bg-[#0f172a] p-10 md:p-16 lg:p-24 text-center overflow-hidden shadow-2xl isolate">
+               
+               <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00ad9f]/15 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+               <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[100px] -z-10 -translate-x-1/3 translate-y-1/3 pointer-events-none" />
+               
+               <div className="relative z-10">
+                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-8 leading-tight">
+                    On organise votre <br className="hidden md:block"/>
+                    <span className="text-[#00ad9f]">départ de Sartrouville ?</span>
+                 </h2>
+                 <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
+                    Ne laissez pas la logistique urbaine ou les accès complexes ternir votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit sous 24h.
+                 </p>
+                 
+                 <div className="flex flex-col sm:flex-row justify-center gap-6">
+                    <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
+                       <Link href="/dashboard/quote">
+                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                       </Link>
+                    </Button>
+                 </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+    </main>
+  );
 }

@@ -1,4 +1,5 @@
 
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface LogoProps {
@@ -8,10 +9,13 @@ interface LogoProps {
 export function Logo({ className }: LogoProps) {
   return (
     <div className={cn("flex items-center gap-3", className)}>
-      <img 
+      <Image 
         src="/logo.png" 
         alt="Logo Déménagement Du Vexin"
+        width={160}
+        height={40}
         className="h-10 w-auto object-contain"
+        priority
       />
     </div>
   );

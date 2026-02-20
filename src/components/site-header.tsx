@@ -15,6 +15,7 @@ import {
   Warehouse,
   Menu,
   Phone,
+  Sparkles,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -34,26 +35,34 @@ const MENU_SERVICES = [
   {
     title: "Particuliers",
     href: "/demenagement-particuliers",
-    desc: "Formules adaptées à votre logement.",
+    desc: "Formules sur-mesure pour votre foyer.",
     icon: Package,
+    color: "text-blue-600",
+    bg: "bg-blue-50",
   },
   {
     title: "Entreprises",
     href: "/demenagement-entreprise-bureau",
-    desc: "Transfert de bureaux et archives.",
+    desc: "Transfert de bureaux et parcs IT.",
     icon: Building2,
+    color: "text-emerald-600",
+    bg: "bg-emerald-50",
   },
   {
     title: "Garde-Meubles",
     href: "/demenagement-garde-meubles",
-    desc: "Stockage sécurisé sous surveillance.",
+    desc: "Stockage plombé et sécurisé.",
     icon: Warehouse,
+    color: "text-amber-600",
+    bg: "bg-amber-50",
   },
   {
     title: "Objets Lourds",
     href: "/demenagement-objets-lourds",
-    desc: "Pianos, coffres-forts, œuvres d'art.",
+    desc: "Pianos, coffres et œuvres d'art.",
     icon: Paintbrush,
+    color: "text-purple-600",
+    bg: "bg-purple-50",
   },
 ] as const;
 
@@ -61,13 +70,13 @@ const MENU_OUTILS = [
   {
     title: "Calculateur de volume",
     href: "/calculateur-volume",
-    desc: "Estimez vos m³ en 2 min.",
+    desc: "Estimez vos m³ avec précision.",
     icon: Calculator,
   },
   {
     title: "Zones d'intervention",
     href: "/zones-intervention",
-    desc: "Île-de-France & Normandie.",
+    desc: "95, 78, 27 et toute l'IDF.",
     icon: MapPin,
   },
   {
@@ -87,12 +96,11 @@ const MAIN_LINKS = [
 
 /* ================== Helpers ================== */
 
-function useScrolled(threshold = 10) {
+function useScrolled(threshold = 20) {
   const [isScrolled, setIsScrolled] = React.useState(false);
 
   React.useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > threshold);
-    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [threshold]);
@@ -104,265 +112,191 @@ function useScrolled(threshold = 10) {
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const isScrolled = useScrolled(8);
+  const isScrolled = useScrolled(20);
 
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full border-b transition-all",
-        isScrolled
-          ? "bg-white/80 backdrop-blur-xl border-slate-200/70 shadow-[0_8px_30px_-18px_rgba(0,0,0,0.18)]"
-          : "bg-white border-transparent"
+        "fixed top-0 z-50 w-full transition-all duration-500 ease-in-out px-4 md:px-8",
+        isScrolled ? "py-3" : "py-5"
       )}
     >
-      <div className={cn("container flex items-center justify-between", isScrolled ? "h-14" : "h-16")}>
+      <div
+        className={cn(
+          "container mx-auto flex items-center justify-between transition-all duration-500 rounded-full border px-6",
+          isScrolled
+            ? "h-14 bg-white/80 backdrop-blur-lg border-slate-200/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
+            : "h-16 bg-white border-transparent shadow-none"
+        )}
+      >
         {/* Left: Logo */}
-        <Link
-          href="/"
-          className="flex items-center gap-3 shrink-0"
-          aria-label="Accueil"
-        >
-          <Logo />
+        <Link href="/" className="hover:opacity-90 transition-opacity">
+          <Logo className={cn("transition-all", isScrolled ? "scale-90" : "scale-100")} />
         </Link>
 
         {/* Center: Desktop nav */}
         <nav className="hidden lg:flex items-center gap-1">
           {/* Services dropdown */}
           <div className="relative group">
-            <button
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-colors",
-                "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-              )}
-              aria-haspopup="menu"
-            >
+            <button className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold text-slate-600 hover:text-primary transition-colors group">
               Services
-              <ChevronDown className="h-4 w-4 opacity-60 transition-transform group-hover:rotate-180" />
+              <ChevronDown className="h-4 w-4 opacity-50 transition-transform group-hover:rotate-180" />
             </button>
 
-            <div className="absolute left-0 top-full pt-2 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200">
-              <div className="w-[420px] rounded-2xl border border-slate-200 bg-white shadow-xl p-2 ring-1 ring-slate-900/5">
+            <div className="absolute left-1/2 -translate-x-1/2 top-full pt-4 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300">
+              <div className="w-[540px] rounded-[2rem] border border-slate-100 bg-white shadow-2xl p-4 ring-1 ring-slate-900/5">
                 <div className="grid grid-cols-2 gap-2">
                   {MENU_SERVICES.map((item) => (
                     <Link
                       key={item.title}
                       href={item.href}
-                      className="group/item rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50 transition-colors p-4"
+                      className="group/item rounded-2xl p-4 transition-all hover:bg-slate-50 border border-transparent hover:border-slate-100"
                     >
-                      <div className="flex items-start gap-3">
-                        <span className="h-10 w-10 rounded-xl border border-slate-200 bg-white flex items-center justify-center text-slate-700 group-hover/item:text-primary group-hover/item:border-primary/25 transition-colors">
-                          <item.icon className="h-5 w-5" />
+                      <div className="flex items-start gap-4">
+                        <span className={cn("h-12 w-12 rounded-2xl flex items-center justify-center transition-transform group-hover/item:-translate-y-1 shadow-sm", item.bg, item.color)}>
+                          <item.icon className="h-6 w-6" />
                         </span>
                         <div>
-                          <div className="text-sm font-bold text-slate-900">
-                            {item.title}
-                          </div>
-                          <div className="mt-1 text-[11px] leading-relaxed text-slate-500">
-                            {item.desc}
-                          </div>
+                          <div className="text-sm font-extrabold text-slate-900">{item.title}</div>
+                          <div className="mt-1 text-[12px] leading-snug text-slate-500 font-medium">{item.desc}</div>
                         </div>
                       </div>
                     </Link>
                   ))}
                 </div>
-
-                <div className="mt-2 flex items-center justify-between rounded-xl bg-slate-50 border border-slate-200 px-4 py-3">
-                  <p className="text-xs text-slate-600">
-                    Besoin d&apos;une estimation rapide ?
-                  </p>
-                  <Link
-                    href="/demande-devis"
-                    className="inline-flex items-center gap-2 text-xs font-bold text-slate-900 hover:text-primary"
-                  >
-                    Devis gratuit <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
+                <div className="mt-4 p-4 rounded-2xl bg-primary/5 border border-primary/10 flex items-center justify-between group/cta">
+                    <div className="flex items-center gap-3">
+                        <Sparkles className="h-5 w-5 text-primary animate-pulse" />
+                        <span className="text-xs font-bold text-slate-700">Prêt à emménager ?</span>
+                    </div>
+                    <Link href="/demande-devis" className="text-xs font-black text-primary flex items-center gap-1 group-hover/cta:gap-2 transition-all uppercase tracking-tighter">
+                        Devis instantané <ArrowRight className="h-3 w-3" />
+                    </Link>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Ressources dropdown */}
+          {/* Outils/Ressources dropdown */}
           <div className="relative group">
-            <button
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-colors",
-                "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-              )}
-              aria-haspopup="menu"
-            >
+            <button className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold text-slate-600 hover:text-primary transition-colors group">
               Ressources
-              <ChevronDown className="h-4 w-4 opacity-60 transition-transform group-hover:rotate-180" />
+              <ChevronDown className="h-4 w-4 opacity-50 transition-transform group-hover:rotate-180" />
             </button>
-
-            <div className="absolute left-0 top-full pt-2 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200">
-              <div className="w-[360px] rounded-2xl border border-slate-200 bg-white shadow-xl p-2 ring-1 ring-slate-900/5">
+            <div className="absolute left-1/2 -translate-x-1/2 top-full pt-4 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300">
+              <div className="w-[320px] rounded-3xl border border-slate-100 bg-white shadow-2xl p-2 ring-1 ring-slate-900/5">
                 {MENU_OUTILS.map((item) => (
                   <Link
                     key={item.title}
                     href={item.href}
-                    className="group/item flex items-start gap-3 rounded-2xl px-4 py-3 hover:bg-slate-50 transition-colors"
+                    className="group/tool flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-slate-50 transition-all"
                   >
-                    <span className="h-9 w-9 rounded-xl border border-slate-200 bg-white flex items-center justify-center text-slate-600 group-hover/item:text-primary group-hover/item:border-primary/25 transition-colors">
-                      <item.icon className="h-4.5 w-4.5" />
-                    </span>
-                    <div className="min-w-0">
-                      <div className="text-sm font-bold text-slate-900">
-                        {item.title}
-                      </div>
-                      <div className="mt-0.5 text-[11px] text-slate-500 leading-relaxed">
-                        {item.desc}
-                      </div>
+                    <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-600 group-hover/tool:bg-white group-hover/tool:text-primary group-hover/tool:shadow-sm transition-all">
+                      <item.icon className="h-5 w-5" />
                     </div>
-                    <ArrowRight className="ml-auto h-4 w-4 text-slate-300 opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all" />
+                    <div className="flex-1">
+                      <div className="text-sm font-bold text-slate-900">{item.title}</div>
+                      <div className="text-[11px] text-slate-500 font-medium italic">{item.desc}</div>
+                    </div>
                   </Link>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Simple links */}
-          {MAIN_LINKS.slice(3).map((l) => {
-            const active = pathname === l.href;
-            return (
-              <Link
-                key={l.href}
-                href={l.href}
-                className={cn(
-                  "rounded-full px-4 py-2 text-sm font-semibold transition-colors",
-                  active
-                    ? "text-slate-900 bg-slate-100"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-                )}
-              >
-                {l.label}
-              </Link>
-            );
-          })}
+          {/* Standard links */}
+          <Link
+            href="/blog"
+            className="rounded-full px-4 py-2 text-sm font-bold text-slate-600 hover:text-primary transition-colors"
+          >
+            Blog
+          </Link>
+          <Link
+            href="/a-propos-de-demenagement-du-vexin"
+            className="rounded-full px-4 py-2 text-sm font-bold text-slate-600 hover:text-primary transition-colors"
+          >
+            L'entreprise
+          </Link>
         </nav>
 
         {/* Right: Actions */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-3">
           <a
             href="tel:+33130751235"
-            className="hidden md:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition-colors"
+            className="hidden xl:flex items-center gap-2.5 rounded-full px-4 py-2 text-sm font-black text-slate-900 hover:bg-slate-50 transition-all border border-transparent hover:border-slate-100"
           >
-            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            <div className="h-8 w-8 rounded-full bg-emerald-500/10 flex items-center justify-center">
+                <Phone className="h-4 w-4 text-emerald-600 fill-emerald-600/10" />
+            </div>
             01 30 75 12 35
           </a>
 
-          <Button asChild className="rounded-full px-5 h-11 font-bold hidden sm:inline-flex">
-            <Link href="/demande-devis">
-              Devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
+          <Button asChild className="rounded-full px-6 h-10 font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all hover:scale-105 active:scale-95 hidden sm:flex">
+            <Link href="/dashboard/quote">
+              Devis Gratuit
             </Link>
           </Button>
 
-          {/* Mobile menu */}
+          {/* Mobile menu toggle */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden">
+              <Button variant="ghost" size="icon" className="lg:hidden rounded-full hover:bg-slate-100">
                 <Menu className="h-6 w-6" />
-                <span className="sr-only">Ouvrir le menu</span>
               </Button>
             </SheetTrigger>
+            <SheetContent side="right" className="w-full sm:w-[400px] rounded-l-[3rem] p-0 border-none shadow-2xl">
+              <div className="flex flex-col h-full bg-white">
+                <SheetHeader className="p-8 border-b border-slate-50">
+                  <SheetTitle className="flex items-center justify-between">
+                    <Logo />
+                  </SheetTitle>
+                </SheetHeader>
 
-            <SheetContent side="right" className="w-[320px] sm:w-[380px] p-0">
-              <SheetHeader className="p-6 border-b border-slate-200 bg-white">
-                <SheetTitle className="flex items-center justify-between">
-                  <Logo />
-                  <span className="text-xs text-slate-500 font-medium">
-                    Menu
-                  </span>
-                </SheetTitle>
-              </SheetHeader>
+                <div className="flex-1 overflow-y-auto p-6 space-y-8">
+                  {/* Quick Access */}
+                  <div className="grid grid-cols-2 gap-3">
+                    {MENU_SERVICES.slice(0, 2).map((s) => (
+                        <Link key={s.title} href={s.href} className={cn("p-4 rounded-3xl border border-slate-100", s.bg)}>
+                            <s.icon className={cn("h-6 w-6 mb-2", s.color)} />
+                            <span className="font-bold text-slate-900 text-sm">{s.title}</span>
+                        </Link>
+                    ))}
+                  </div>
 
-              <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-180px)]">
-                {/* Primary links */}
-                <div className="space-y-2">
-                  {MAIN_LINKS.map((l) => {
-                    const active = pathname === l.href;
-                    return (
+                  <nav className="space-y-1">
+                    {MAIN_LINKS.map((l) => (
                       <Link
                         key={l.href}
                         href={l.href}
-                        className={cn(
-                          "flex items-center justify-between rounded-2xl px-4 py-3 border transition-colors",
-                          active
-                            ? "border-slate-200 bg-slate-50 text-slate-900"
-                            : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
-                        )}
+                        className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors group"
                       >
-                        <span className="font-semibold">{l.label}</span>
-                        <ArrowRight className="h-4 w-4 text-slate-400" />
-                      </Link>
-                    );
-                  })}
-                </div>
-
-                {/* Services */}
-                <div className="space-y-3">
-                  <p className="text-xs font-black uppercase tracking-widest text-slate-400">
-                    Services
-                  </p>
-                  <div className="grid gap-2">
-                    {MENU_SERVICES.map((item) => (
-                      <Link
-                        key={item.title}
-                        href={item.href}
-                        className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 hover:bg-slate-50 transition-colors"
-                      >
-                        <span className="h-10 w-10 rounded-xl border border-slate-200 bg-white flex items-center justify-center text-slate-700">
-                          <item.icon className="h-5 w-5" />
-                        </span>
-                        <div className="min-w-0">
-                          <div className="text-sm font-bold text-slate-900">
-                            {item.title}
-                          </div>
-                          <div className="text-[11px] text-slate-500 leading-relaxed">
-                            {item.desc}
-                          </div>
-                        </div>
+                        <span className="text-lg font-bold text-slate-800">{l.label}</span>
+                        <ChevronDown className="h-5 w-5 text-slate-300 -rotate-90 group-hover:text-primary transition-colors" />
                       </Link>
                     ))}
+                  </nav>
+
+                  <div className="p-4 rounded-3xl bg-slate-50 space-y-4">
+                    <p className="text-xs font-black uppercase text-slate-400 tracking-widest px-2">Nos Outils</p>
+                    <div className="space-y-1">
+                        {MENU_OUTILS.map((o) => (
+                            <Link key={o.title} href={o.href} className="flex items-center gap-3 p-3 rounded-xl hover:bg-white transition-all font-bold text-slate-700 text-sm">
+                                <o.icon className="h-4 w-4 text-primary" />
+                                {o.title}
+                            </Link>
+                        ))}
+                    </div>
                   </div>
                 </div>
 
-                {/* Tools */}
-                <div className="space-y-3">
-                  <p className="text-xs font-black uppercase tracking-widest text-slate-400">
-                    Outils
-                  </p>
-                  <div className="grid gap-2">
-                    {MENU_OUTILS.map((item) => (
-                      <Link
-                        key={item.title}
-                        href={item.href}
-                        className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 hover:bg-slate-50 transition-colors"
-                      >
-                        <span className="h-9 w-9 rounded-xl border border-slate-200 bg-white flex items-center justify-center text-slate-700">
-                          <item.icon className="h-4.5 w-4.5" />
-                        </span>
-                        <span className="text-sm font-semibold text-slate-800">
-                          {item.title}
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
+                <div className="p-8 border-t border-slate-50 space-y-4">
+                  <Button asChild className="w-full h-14 rounded-2xl text-lg font-black shadow-xl">
+                    <Link href="/dashboard/quote">Estimer mon projet</Link>
+                  </Button>
+                  <a href="tel:+33130751235" className="flex items-center justify-center gap-3 w-full h-14 rounded-2xl border-2 border-slate-100 font-bold text-slate-900">
+                    <Phone className="h-5 w-5" /> 01 30 75 12 35
+                  </a>
                 </div>
-              </div>
-
-              {/* Mobile bottom actions */}
-              <div className="p-6 border-t border-slate-200 bg-white space-y-3">
-                <Button asChild className="w-full h-12 rounded-xl font-bold">
-                  <Link href="/demande-devis">Obtenir mon devis</Link>
-                </Button>
-
-                <a
-                  href="tel:+33130751235"
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 font-bold text-slate-900 hover:bg-slate-50 transition-colors"
-                >
-                  <Phone className="h-4 w-4" />
-                  01 30 75 12 35
-                </a>
               </div>
             </SheetContent>
           </Sheet>
