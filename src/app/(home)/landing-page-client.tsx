@@ -234,11 +234,11 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             src={(placeholders as any).hero.url}
             alt="Déménagement premium : organisation et équipes salariées"
             fill
-            className="object-cover brightness-[0.75] contrast-[1.05]"
+            className="object-cover brightness-[0.5] contrast-[1.1]"
             priority
           />
-          <div className="absolute inset-0 bg-slate-950/20" />
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-transparent to-white/10 dark:to-slate-950/10" />
+          <div className="absolute inset-0 bg-slate-950/40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-transparent to-white/10 dark:to-slate-950/10" />
           <div className="absolute -top-32 -right-32 h-[520px] w-[520px] rounded-full bg-primary/20 blur-[110px]" />
           <div className="absolute -bottom-40 -left-40 h-[520px] w-[520px] rounded-full bg-white/10 blur-[110px]" />
         </div>
@@ -342,7 +342,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             </div>
             <Button variant="link" className="text-slate-900 dark:text-white font-bold hover:no-underline group text-lg" asChild>
               <Link href="/services">
-                Découvrir tous les services{" "}
+                Découvrir tous nos services{" "}
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </Link>
             </Button>
@@ -415,7 +415,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 )}
               >
                 {formula.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-black uppercase tracking-widest px-5 py-2 rounded-full shadow-xl">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-white text-[10px] font-black uppercase tracking-widest px-5 py-2 rounded-full shadow-xl">
                     Le plus choisi
                   </div>
                 )}
