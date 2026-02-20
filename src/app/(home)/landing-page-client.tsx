@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -44,31 +45,37 @@ const IDF_ZONES = [
     name: "Val-d’Oise (95)",
     href: "/demenagement-val-d-oise-95",
     image: placeholders["zone-val-doise"].url,
+    hint: placeholders["zone-val-doise"].hint,
   },
   {
     name: "Yvelines (78)",
     href: "/demenagement-yvelines-78",
     image: placeholders["zone-yvelines"].url,
+    hint: placeholders["zone-yvelines"].hint,
   },
   {
     name: "Paris (75)",
     href: "/demenagement-paris-75",
     image: placeholders["zone-paris"].url,
+    hint: placeholders["zone-paris"].hint,
   },
   {
     name: "Hauts-de-Seine (92)",
     href: "/demenagement-hauts-de-seine-92",
     image: placeholders["zone-hauts-de-seine"].url,
+    hint: placeholders["zone-hauts-de-seine"].hint,
   },
   {
     name: "Eure (27)",
     href: "/demenagement-eure-27",
     image: placeholders["service-national"].url,
+    hint: placeholders["service-national"].hint,
   },
   {
     name: "Seine-Maritime (76)",
     href: "/demenagement-seine-maritime-76",
     image: placeholders["service-entreprise"].url,
+    hint: placeholders["service-entreprise"].hint,
   },
 ];
 
@@ -79,6 +86,7 @@ const SERVICES = [
     href: "/demenagement-val-d-oise-95",
     icon: MapPin,
     image: placeholders["service-particuliers"].url,
+    hint: placeholders["service-particuliers"].hint,
     colSpan: "md:col-span-6",
   },
   {
@@ -87,6 +95,7 @@ const SERVICES = [
     href: "/demenagement-national",
     icon: Truck,
     image: placeholders["service-national"].url,
+    hint: placeholders["service-national"].hint,
     colSpan: "md:col-span-6",
   },
   {
@@ -95,6 +104,7 @@ const SERVICES = [
     href: "/demenagement-national",
     icon: Globe,
     image: placeholders["service-national"].url,
+    hint: placeholders["service-national"].hint,
     colSpan: "md:col-span-4",
   },
   {
@@ -103,6 +113,7 @@ const SERVICES = [
     href: "/demenagement-oeuvres-art",
     icon: Palette,
     image: placeholders["service-art"].url,
+    hint: placeholders["service-art"].hint,
     colSpan: "md:col-span-4",
   },
   {
@@ -111,6 +122,7 @@ const SERVICES = [
     href: "/demenagement-entreprise-bureau",
     icon: Briefcase,
     image: placeholders["service-entreprise"].url,
+    hint: placeholders["service-entreprise"].hint,
     colSpan: "md:col-span-4",
   },
 ];
@@ -157,6 +169,7 @@ const ARTICLES = [
     category: "Conseils",
     href: "/blog",
     image: placeholders["article-planning"].url,
+    hint: placeholders["article-planning"].hint,
   },
   {
     title: "Coût d'un déménagement : réduire les frais",
@@ -164,6 +177,7 @@ const ARTICLES = [
     category: "Budget",
     href: "/blog",
     image: placeholders["article-cost"].url,
+    hint: placeholders["article-cost"].hint,
   },
   {
     title: "5 étapes pour un déménagement réussi",
@@ -171,6 +185,7 @@ const ARTICLES = [
     category: "Guide",
     href: "/blog",
     image: placeholders["article-steps"].url,
+    hint: placeholders["article-steps"].hint,
   },
 ];
 
@@ -205,6 +220,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             fill
             className="object-cover brightness-[0.4] contrast-[1.1]"
             priority
+            data-ai-hint={placeholders.hero.hint}
           />
           <div className="absolute inset-0 bg-slate-950/40" />
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-transparent to-white/10 dark:to-slate-950/10" />
@@ -212,7 +228,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
           <div className="absolute -bottom-40 -left-40 h-[520px] w-[520px] rounded-full bg-white/10 blur-[110px]" />
         </div>
 
-        <div className="container relative py-20">
+        <div className="container relative z-10 py-20">
           <motion.div
             initial={reduceMotion ? false : { opacity: 0, y: 18 }}
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
@@ -220,7 +236,6 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             className="max-w-3xl"
           >
             <div className="flex flex-wrap items-center gap-3">
-              {/* Badge Google Premium */}
               <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 px-4 py-2 text-white shadow-xl">
                 <div className="flex text-amber-400">
                   {[...Array(5)].map((_, i) => (
@@ -336,6 +351,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                     alt={service.title}
                     fill
                     className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                    data-ai-hint={service.hint}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80 group-hover:opacity-70 transition-opacity" />
                 </div>
@@ -479,6 +495,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                       alt={`Déménagement ${zone.name}`}
                       fill
                       className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
+                      data-ai-hint={zone.hint}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-90" />
                     <div className="absolute bottom-0 left-0 p-6 w-full">
@@ -547,6 +564,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                         alt={article.title}
                         fill
                         className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                        data-ai-hint={article.hint}
                       />
                       <div className="absolute top-4 left-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-primary border border-white/20 shadow-xl">
                         {article.category}
@@ -564,7 +582,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                       </h3>
 
                       <div className="mt-auto flex items-center text-slate-500 dark:text-slate-400 text-sm font-bold group-hover:text-primary transition-colors">
-                        Lire l&apos;article <ArrowRight className="ml-2 h-4 w-4" group-hover:translate-x-2 transition-transform" />
+                        Lire l&apos;article <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-2" />
                       </div>
                     </div>
                   </div>
