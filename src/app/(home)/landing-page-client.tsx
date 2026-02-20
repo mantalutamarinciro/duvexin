@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -228,7 +227,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
           <div className="absolute -bottom-40 -left-40 h-[520px] w-[520px] rounded-full bg-white/10 blur-[110px]" />
         </div>
 
-        <div className="container relative z-10 py-20">
+        <div className="container relative z-10 pt-32 pb-20 md:pt-44 md:pb-24 lg:pt-52">
           <motion.div
             initial={reduceMotion ? false : { opacity: 0, y: 18 }}
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
