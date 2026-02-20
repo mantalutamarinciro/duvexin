@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -23,9 +22,7 @@ import {
   CalendarClock,
   ArrowUpRight,
   Phone,
-  Sparkles,
   Clock,
-  CalendarCheck,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -46,32 +43,32 @@ const IDF_ZONES = [
   {
     name: "Val-d’Oise (95)",
     href: "/demenagement-val-d-oise-95",
-    image: (placeholders as any)["zone-val-doise"].url,
+    image: placeholders["zone-val-doise"].url,
   },
   {
     name: "Yvelines (78)",
     href: "/demenagement-yvelines-78",
-    image: (placeholders as any)["zone-yvelines"].url,
+    image: placeholders["zone-yvelines"].url,
   },
   {
     name: "Paris (75)",
     href: "/demenagement-paris-75",
-    image: (placeholders as any)["zone-paris"].url,
+    image: placeholders["zone-paris"].url,
   },
   {
     name: "Hauts-de-Seine (92)",
     href: "/demenagement-hauts-de-seine-92",
-    image: (placeholders as any)["zone-hauts-de-seine"].url,
+    image: placeholders["zone-hauts-de-seine"].url,
   },
   {
     name: "Eure (27)",
     href: "/demenagement-eure-27",
-    image: (placeholders as any)["service-national"].url,
+    image: placeholders["service-national"].url,
   },
   {
     name: "Seine-Maritime (76)",
     href: "/demenagement-seine-maritime-76",
-    image: (placeholders as any)["service-entreprise"].url,
+    image: placeholders["service-entreprise"].url,
   },
 ];
 
@@ -81,7 +78,7 @@ const SERVICES = [
     desc: "Intervention rapide dans tout le Val-d'Oise et l'Île-de-France.",
     href: "/demenagement-val-d-oise-95",
     icon: MapPin,
-    image: (placeholders as any)["service-particuliers"].url,
+    image: placeholders["service-particuliers"].url,
     colSpan: "md:col-span-6",
   },
   {
@@ -89,7 +86,7 @@ const SERVICES = [
     desc: "Partout en France, logistique sécurisée.",
     href: "/demenagement-national",
     icon: Truck,
-    image: (placeholders as any)["service-national"].url,
+    image: placeholders["service-national"].url,
     colSpan: "md:col-span-6",
   },
   {
@@ -97,7 +94,7 @@ const SERVICES = [
     desc: "Vers l'Europe et le monde. Expertise douanière.",
     href: "/demenagement-national",
     icon: Globe,
-    image: (placeholders as any)["service-national"].url,
+    image: placeholders["service-national"].url,
     colSpan: "md:col-span-4",
   },
   {
@@ -105,7 +102,7 @@ const SERVICES = [
     desc: "Transport haute protection pour objets précieux.",
     href: "/demenagement-oeuvres-art",
     icon: Palette,
-    image: (placeholders as any)["service-art"].url,
+    image: placeholders["service-art"].url,
     colSpan: "md:col-span-4",
   },
   {
@@ -113,7 +110,7 @@ const SERVICES = [
     desc: "Transfert de bureaux sans arrêt d'activité.",
     href: "/demenagement-entreprise-bureau",
     icon: Briefcase,
-    image: (placeholders as any)["service-entreprise"].url,
+    image: placeholders["service-entreprise"].url,
     colSpan: "md:col-span-4",
   },
 ];
@@ -153,50 +150,27 @@ const FORMULAS = [
   },
 ];
 
-const PROCESS = [
-  {
-    step: "01",
-    title: "Échange & cadrage",
-    desc: "On comprend votre besoin (volume, accès, contraintes). Visite si nécessaire.",
-  },
-  {
-    step: "02",
-    title: "Devis clair sous 24h",
-    desc: "Prix lisible, options détaillées, planning proposé. Zéro surprise.",
-  },
-  {
-    step: "03",
-    title: "Préparation carrée",
-    desc: "Protection, cartons, stationnement : tout est anticipé avant le jour J.",
-  },
-  {
-    step: "04",
-    title: "Jour J maîtrisé",
-    desc: "Chargement sécurisé, transport, installation : propre, efficace, serein.",
-  },
-];
-
 const ARTICLES = [
   {
     title: "Combien de temps pour déménager ? Planning optimal",
     date: "Mai 2025",
     category: "Conseils",
     href: "/blog",
-    image: (placeholders as any)["article-planning"].url,
+    image: placeholders["article-planning"].url,
   },
   {
     title: "Coût d'un déménagement : réduire les frais",
     date: "Mai 2025",
     category: "Budget",
     href: "/blog",
-    image: (placeholders as any)["article-cost"].url,
+    image: placeholders["article-cost"].url,
   },
   {
     title: "5 étapes pour un déménagement réussi",
     date: "Avr 2025",
     category: "Guide",
     href: "/blog",
-    image: (placeholders as any)["article-steps"].url,
+    image: placeholders["article-steps"].url,
   },
 ];
 
@@ -214,24 +188,19 @@ function formatZoneTitle(name: string) {
   return { first: parts[0] ?? name, rest: parts.slice(1).join(" ") };
 }
 
-function ratingFromReviews(reviews: FormattedReview[]) {
-  return { rating: "4.9/5", count: "249 avis" };
-}
-
 /* ================== Component ================== */
 
 export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
   const safeReviews = reviews || [];
   const reduceMotion = useReducedMotion();
-  const { rating, count } = ratingFromReviews(safeReviews);
 
   return (
     <div className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 selection:bg-primary/20 selection:text-primary">
       {/* ================= HERO ================= */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden min-h-[85vh] flex items-center">
         <div className="absolute inset-0">
           <Image
-            src={(placeholders as any).hero.url}
+            src={placeholders.hero.url}
             alt="Déménagement premium : organisation et équipes salariées"
             fill
             className="object-cover brightness-[0.4] contrast-[1.1]"
@@ -243,7 +212,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
           <div className="absolute -bottom-40 -left-40 h-[520px] w-[520px] rounded-full bg-white/10 blur-[110px]" />
         </div>
 
-        <div className="container relative pt-32 md:pt-40 pb-20 md:pb-28">
+        <div className="container relative py-20">
           <motion.div
             initial={reduceMotion ? false : { opacity: 0, y: 18 }}
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
@@ -251,23 +220,24 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             className="max-w-3xl"
           >
             <div className="flex flex-wrap items-center gap-3">
+              {/* Badge Google Premium */}
               <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 px-4 py-2 text-white shadow-xl">
-                <Star className="h-4 w-4 text-amber-300 fill-amber-300" />
-                <span className="text-sm font-bold">{rating}</span>
-                <span className="text-sm text-white/70 font-medium">• {count}</span>
+                <div className="flex text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-3.5 w-3.5 fill-current" />
+                  ))}
+                </div>
+                <span className="text-sm font-bold">4.9/5</span>
+                <span className="text-sm text-white/70 font-medium">• 249 avis Google</span>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 px-4 py-2 text-white/90 shadow-lg">
                 <Clock className="h-4 w-4 text-primary" />
                 <span className="text-sm font-semibold">Devis sous 24h</span>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 px-4 py-2 text-white/90 shadow-lg">
-                <CalendarCheck className="h-4 w-4 text-primary" />
-                <span className="text-sm font-semibold">Prix clair & fixé</span>
-              </div>
             </div>
 
             <h1 className="mt-8 text-5xl md:text-8xl font-black tracking-tighter text-white leading-[0.95]">
-              L&apos;art du <br/>
+              L'art du <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-teal-200">
                 déménagement
               </span>.
@@ -298,7 +268,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
               >
                 <Link href="tel:+33130751235">
                   <Phone className="mr-2 h-5 w-5" />
-                  Appeler
+                  01 30 75 12 35
                 </Link>
               </Button>
             </div>
@@ -377,7 +347,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                   <h3 className="text-3xl font-black text-white mb-3 tracking-tight">{service.title}</h3>
                   <p className="text-white/80 text-base mb-8 max-w-sm font-medium leading-relaxed">{service.desc}</p>
                   <div className="inline-flex items-center gap-2 text-white font-black text-xs uppercase tracking-widest border-b-2 border-primary pb-1 group-hover:border-white transition-colors">
-                    En savoir plus <ArrowUpRight className="w-4 h-4" />
+                    En savoir plus <ArrowRight className="w-4 h-4" />
                   </div>
                 </div>
               </motion.div>
