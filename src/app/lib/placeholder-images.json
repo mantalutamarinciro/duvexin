@@ -1,68 +1,68 @@
 
 {
   "hero": {
-    "url": "/images/accueil/equipe-demenagement-du-vexin.webp",
-    "alt": "Équipe de déménagement professionnelle en action",
+    "url": "https://images.unsplash.com/photo-1520038410233-7141be7e6f97?q=80&w=1920",
+    "alt": "Équipe de déménagement professionnelle",
     "hint": "professional moving"
   },
   "service-particuliers": {
-    "url": "https://picsum.photos/seed/moving-private/800/600",
-    "alt": "Déménagement pour particuliers",
+    "url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800",
+    "alt": "Déménagement maison familiale",
     "hint": "moving home"
   },
   "service-entreprise": {
-    "url": "https://picsum.photos/seed/moving-business/800/600",
-    "alt": "Déménagement d'entreprise",
+    "url": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800",
+    "alt": "Transfert de bureaux",
     "hint": "office relocation"
   },
   "service-national": {
-    "url": "https://picsum.photos/seed/moving-national/800/600",
-    "alt": "Déménagement national",
+    "url": "https://images.unsplash.com/photo-1519003722824-194d4455a60c?q=80&w=800",
+    "alt": "Camion sur autoroute",
     "hint": "highway truck"
   },
   "service-stockage": {
-    "url": "https://picsum.photos/seed/storage/800/600",
-    "alt": "Garde-Meubles & Stockage",
+    "url": "https://images.unsplash.com/photo-1589710751893-f9a6770ad71b?q=80&w=800",
+    "alt": "Garde-meubles sécurisé",
     "hint": "storage units"
   },
-  "method": {
-    "url": "https://picsum.photos/seed/moving-method/800/1000",
-    "alt": "Protection professionnelle des meubles",
-    "hint": "moving protection"
+  "service-art": {
+    "url": "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=800",
+    "alt": "Transport d'œuvres d'art",
+    "hint": "art museum"
   },
   "zone-val-doise": {
-    "url": "https://images.unsplash.com/photo-1569342197408-22845f537633?q=80&w=600",
-    "alt": "Déménagement Val-d'Oise",
+    "url": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=800",
+    "alt": "Val-d'Oise",
     "hint": "val doise"
   },
   "zone-yvelines": {
-    "url": "https://images.unsplash.com/photo-1543429788-2b2b49605245?q=80&w=600",
-    "alt": "Déménagement Yvelines",
+    "url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800",
+    "alt": "Versailles",
     "hint": "versailles castle"
   },
   "zone-paris": {
-    "url": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=600",
-    "alt": "Déménagement Paris",
+    "url": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=800",
+    "alt": "Paris",
     "hint": "paris eiffel"
   },
   "zone-hauts-de-seine": {
-    "url": "https://images.unsplash.com/photo-1565062340847-db19716d31bc?q=80&w=600",
-    "alt": "Déménagement Hauts-de-Seine",
+    "url": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=800",
+    "alt": "La Défense",
     "hint": "la defense"
   },
   "article-planning": {
-    "url": "https://images.unsplash.com/photo-1600518464441-9154a4dea21b?q=80&w=900",
-    "alt": "Planning de déménagement",
+    "url": "https://images.unsplash.com/photo-1506784365847-bbad939e9335?q=80&w=800",
+    "alt": "Planning déménagement",
     "hint": "calendar plan"
   },
   "article-cost": {
-    "url": "https://images.unsplash.com/photo-1556740758-90de2929e79a?q=80&w=900",
-    "alt": "Coût d'un déménagement",
+    "url": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=800",
+    "alt": "Budget déménagement",
     "hint": "money budget"
   },
   "article-steps": {
-    "url": "https://images.unsplash.com/photo-1524813686514-a57563d77965?q=80&w=900",
-    "alt": "Étapes déménagement réussi",
+    "url": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=800",
+    "alt": "Étapes clés",
     "hint": "boxes moving"
   }
 }

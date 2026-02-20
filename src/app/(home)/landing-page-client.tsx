@@ -36,7 +36,7 @@ import { cn } from "@/lib/utils";
 
 /* ================== Data ================== */
 
-const USP = [
+const TRUST_POINTS = [
   { label: "Personnels salariés uniquement", icon: Users },
   { label: "Zéro sous-traitance", icon: ShieldCheck },
   { label: "Accompagnement VIP", icon: BadgeCheck },
@@ -105,7 +105,7 @@ const SERVICES = [
     desc: "Transport haute protection pour objets précieux.",
     href: "/demenagement-oeuvres-art",
     icon: Palette,
-    image: (placeholders as any)["service-stockage"].url,
+    image: (placeholders as any)["service-art"].url,
     colSpan: "md:col-span-4",
   },
   {
@@ -234,7 +234,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             src={(placeholders as any).hero.url}
             alt="Déménagement premium : organisation et équipes salariées"
             fill
-            className="object-cover brightness-[0.5] contrast-[1.1]"
+            className="object-cover brightness-[0.4] contrast-[1.1]"
             priority
           />
           <div className="absolute inset-0 bg-slate-950/40" />
@@ -304,7 +304,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             </div>
 
             <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {USP.map((item, i) => (
+              {TRUST_POINTS.map((item, i) => (
                 <motion.div
                   key={item.label}
                   initial={reduceMotion ? false : { opacity: 0, y: 10 }}
@@ -502,7 +502,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 >
                   <Link
                     href={zone.href}
-                    className="group relative block aspect-[4/5] rounded-[2.5rem] overflow-hidden bg-slate-800 shadow-2xl transition-all duration-500"
+                    className="group relative block aspect-[4/5] rounded-[2rem] overflow-hidden bg-slate-800 shadow-2xl transition-all duration-500"
                   >
                     <Image
                       src={zone.image}
@@ -594,7 +594,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                       </h3>
 
                       <div className="mt-auto flex items-center text-slate-500 dark:text-slate-400 text-sm font-bold group-hover:text-primary transition-colors">
-                        Lire l&apos;article <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                        Lire l&apos;article <ArrowRight className="ml-2 h-4 w-4" group-hover:translate-x-2 transition-transform" />
                       </div>
                     </div>
                   </div>
