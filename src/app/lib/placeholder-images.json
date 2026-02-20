@@ -29,5 +29,40 @@
     "url": "https://picsum.photos/seed/moving-method/800/1000",
     "alt": "Protection professionnelle des meubles",
     "hint": "moving protection"
+  },
+  "zone-val-doise": {
+    "url": "https://images.unsplash.com/photo-1569342197408-22845f537633?q=80&w=600",
+    "alt": "Déménagement Val-d'Oise",
+    "hint": "val doise"
+  },
+  "zone-yvelines": {
+    "url": "https://images.unsplash.com/photo-1543429788-2b2b49605245?q=80&w=600",
+    "alt": "Déménagement Yvelines",
+    "hint": "versailles castle"
+  },
+  "zone-paris": {
+    "url": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=600",
+    "alt": "Déménagement Paris",
+    "hint": "paris eiffel"
+  },
+  "zone-hauts-de-seine": {
+    "url": "https://images.unsplash.com/photo-1565062340847-db19716d31bc?q=80&w=600",
+    "alt": "Déménagement Hauts-de-Seine",
+    "hint": "la defense"
+  },
+  "article-planning": {
+    "url": "https://images.unsplash.com/photo-1600518464441-9154a4dea21b?q=80&w=900",
+    "alt": "Planning de déménagement",
+    "hint": "calendar plan"
+  },
+  "article-cost": {
+    "url": "https://images.unsplash.com/photo-1556740758-90de2929e79a?q=80&w=900",
+    "alt": "Coût d'un déménagement",
+    "hint": "money budget"
+  },
+  "article-steps": {
+    "url": "https://images.unsplash.com/photo-1524813686514-a57563d77965?q=80&w=900",
+    "alt": "Étapes déménagement réussi",
+    "hint": "boxes moving"
   }
 }

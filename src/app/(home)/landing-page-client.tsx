@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -45,26 +46,22 @@ const IDF_ZONES = [
   {
     name: "Val-d’Oise (95)",
     href: "/demenagement-val-d-oise-95",
-    image:
-      "https://images.unsplash.com/photo-1569342197408-22845f537633?q=80&w=600&auto=format&fit=crop",
+    image: (placeholders as any)["zone-val-doise"].url,
   },
   {
     name: "Yvelines (78)",
     href: "/demenagement-yvelines-78",
-    image:
-      "https://images.unsplash.com/photo-1543429788-2b2b49605245?q=80&w=600&auto=format&fit=crop",
+    image: (placeholders as any)["zone-yvelines"].url,
   },
   {
     name: "Paris (75)",
     href: "/demenagement-paris-75",
-    image:
-      "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=600&auto=format&fit=crop",
+    image: (placeholders as any)["zone-paris"].url,
   },
   {
     name: "Hauts-de-Seine (92)",
     href: "/demenagement-hauts-de-seine-92",
-    image:
-      "https://images.unsplash.com/photo-1565062340847-db19716d31bc?q=80&w=600&auto=format&fit=crop",
+    image: (placeholders as any)["zone-hauts-de-seine"].url,
   },
   {
     name: "Eure (27)",
@@ -185,24 +182,21 @@ const ARTICLES = [
     date: "Mai 2025",
     category: "Conseils",
     href: "/blog",
-    image:
-      "https://images.unsplash.com/photo-1600518464441-9154a4dea21b?q=80&w=900&auto=format&fit=crop",
+    image: (placeholders as any)["article-planning"].url,
   },
   {
     title: "Coût d'un déménagement : réduire les frais",
     date: "Mai 2025",
     category: "Budget",
     href: "/blog",
-    image:
-      "https://images.unsplash.com/photo-1556740758-90de2929e79a?q=80&w=900&auto=format&fit=crop",
+    image: (placeholders as any)["article-cost"].url,
   },
   {
     title: "5 étapes pour un déménagement réussi",
     date: "Avr 2025",
     category: "Guide",
     href: "/blog",
-    image:
-      "https://images.unsplash.com/photo-1524813686514-a57563d77965?q=80&w=900&auto=format&fit=crop",
+    image: (placeholders as any)["article-steps"].url,
   },
 ];
 
@@ -293,7 +287,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 className="h-14 px-8 rounded-full text-base font-bold bg-white text-slate-950 hover:bg-slate-100 shadow-[0_0_40px_-12px_rgba(255,255,255,0.35)]"
                 asChild
               >
-                <Link href="/demande-devis">
+                <Link href="/demande-de-devis">
                   Estimer mon projet <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
@@ -482,7 +476,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                   variant={formula.popular ? "default" : "outline"}
                   asChild
                 >
-                  <Link href="/demande-devis">Choisir</Link>
+                  <Link href="/demande-de-devis">Choisir</Link>
                 </Button>
 
                 <p className="mt-4 text-xs text-slate-500">
@@ -575,8 +569,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             <Button
               variant="outline"
               className="rounded-full border-slate-300 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-colors hidden md:flex"
-              asChild
-            >
+              asChild>
               <Link href="/blog">Lire tous les articles</Link>
             </Button>
           </div>
