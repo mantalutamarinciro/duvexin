@@ -1,214 +1,335 @@
-
-import { Button } from "@/components/ui/button";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import type { FormattedReview } from "@/app/api/reviews/route";
-import { CheckCircle, MapPin, ShieldCheck, Truck, Users, Building, Waves, Gem } from "lucide-react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { TestimonialsSection } from "@/components/testimonials-section";
+import Script from "next/script";
 
+// UI Components
+import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { TestimonialsSection } from "@/components/testimonials-section";
+import type { FormattedReview } from "@/app/api/reviews/route";
+
+// Icons
+import { 
+  CheckCircle2, 
+  MapPin, 
+  ShieldCheck, 
+  Users, 
+  Building2, 
+  Truck, 
+  Waves,
+  Gem,
+  ArrowRight, 
+  ChevronRight, 
+  Map,
+  Anchor,
+  Home,
+  Sparkles
+} from "lucide-react";
+
+// --- SEO METADATA ---
+export const metadata: Metadata = {
+  title: "Déménagement Nogent-sur-Marne (94) | Expert local & Devis Gratuit",
+  description: "Déménageur de confiance à Nogent-sur-Marne (94130). Spécialiste bords de Marne, appartements de standing et pavillons. Devis gratuit sous 24h et visite technique.",
+  alternates: {
+    canonical: "https://marnetransdem.fr/demenagement-nogent-sur-marne-94130",
+  }
+};
 
 const fallbackTestimonials: FormattedReview[] = [
-    { id: "fallback-1", name: "Famille Moreau", text: "Un déménagement parfaitement orchestré à Nogent. L'équipe a fait preuve d'un grand soin et d'une efficacité remarquable. Un service vraiment premium.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Moreau94` },
-    { id: "fallback-2", name: "Julien C.", text: "Très satisfait de la prestation pour mon appartement. Ils ont géré les accès difficiles avec le sourire et professionnalisme. Je recommande sans hésiter.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=JulienC94` },
-    { id: "fallback-3", name: "Mme. Lefevre", text: "Une équipe ponctuelle, discrète et très respectueuse des lieux. Mon déménagement s'est déroulé dans les meilleures conditions.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Lefevre94` },
+  { id: "fallback-1", name: "Famille Moreau", text: "Un déménagement parfaitement orchestré à Nogent. L'équipe a fait preuve d'un grand soin et d'une efficacité remarquable pour nos objets d'art. Un service vraiment premium que je recommande.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Moreau94` },
+  { id: "fallback-2", name: "Julien C.", text: "Très satisfait de la prestation pour mon appartement près du port. Ils ont géré les accès difficiles de la rue piétonne avec professionnalisme. Devis clair et sans surprise.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=JulienC94` },
+  { id: "fallback-3", name: "Mme. Lefevre", text: "Une équipe ponctuelle, discrète et très respectueuse des lieux. Mon installation dans ma nouvelle maison s'est déroulée dans les meilleures conditions. Merci à tous !", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Lefevre94` },
 ];
 
-const whyChooseUsItems = [
-    {
-        icon: <MapPin className="h-8 w-8 text-primary"/>,
-        title: "Expertise de Nogent",
-        description: "Du centre-ville aux bords de Marne, nous connaissons chaque quartier pour une logistique parfaitement maîtrisée."
-    },
-    {
-        icon: <Gem className="h-8 w-8 text-primary"/>,
-        title: "Respect des belles demeures",
-        description: "Nous intervenons avec un soin particulier dans les appartements de standing et les maisons de caractère."
-    },
-    {
-        icon: <Waves className="h-8 w-8 text-primary"/>,
-        title: "Spécialiste Bords de Marne",
-        description: "Nous maîtrisons les accès parfois étroits et les contraintes spécifiques liées à la proximité de la rivière."
-    },
-    {
-        icon: <ShieldCheck className="h-8 w-8 text-primary"/>,
-        title: "Sérénité administrative",
-        description: "Nous gérons pour vous les demandes d'autorisation de stationnement, une démarche clé pour déménager en toute tranquillité."
-    }
+const WHY_US_ITEMS = [
+  {
+    icon: MapPin,
+    title: "Expertise du 94130",
+    description: "Du quartier du Viaduc aux bords de Marne, nous maîtrisons chaque rue et plan de circulation de Nogent."
+  },
+  {
+    icon: Gem,
+    title: "Soin Belles Demeures",
+    description: "Protection spécifique pour le mobilier ancien et les objets de valeur. Emballage premium pour vos pièces fragiles."
+  },
+  {
+    icon: Waves,
+    title: "Logistique Riveraine",
+    description: "Spécialiste des accès étroits près de la Marne. Véhicules adaptés pour une manutention fluide et sécurisée."
+  },
+  {
+    icon: ShieldCheck,
+    title: "Sérénité Administrative",
+    description: "Gestion complète des demandes d'autorisation de stationnement auprès de la mairie de Nogent-sur-Marne."
+  }
 ];
 
-const faqItems = [
-    {
-        question: "Comment se déroule un déménagement dans les rues étroites du centre de Nogent ?",
-        answer: "C'est une situation que nous anticipons. Une visite technique nous permet de choisir le véhicule le plus adapté. La réservation de stationnement, que nous prenons en charge, est essentielle pour garantir une place et une intervention efficace, en minimisant la gêne pour le voisinage."
-    },
-    {
-        question: "Déménagez-vous les maisons avec des objets de valeur ou fragiles ?",
-        answer: "Oui, c'est l'une de nos spécialités. Nous proposons un service d'emballage professionnel pour vos biens les plus précieux (vaisselle, œuvres d'art, etc.) et nos équipes sont formées pour manipuler les meubles de valeur avec le plus grand soin. Des assurances complémentaires peuvent aussi être souscrites."
-    },
-    {
-        question: "Est-ce difficile d'obtenir une autorisation de stationnement à Nogent-sur-Marne ?",
-        answer: "Le stationnement peut y être réglementé. C'est pourquoi nous incluons la gestion de cette démarche dans nos prestations. Nous nous occupons des formalités auprès de la mairie pour vous garantir un emplacement réservé."
-    },
-    {
-        question: "Quelles sont vos formules pour un appartement en étage élevé ?",
-        answer: "Pour les appartements, notamment dans les étages sans ascenseur ou avec un ascenseur non adapté, nous évaluons systématiquement l'utilité d'un monte-meubles. C'est souvent la solution la plus sûre et la plus rapide. Nos formules sont flexibles pour inclure ce service."
-    }
+const FAQS = [
+  { 
+    question: "Comment gérez-vous un déménagement dans le centre de Nogent ?", 
+    answer: "Le centre de Nogent possède des rues étroites et un stationnement réglementé. Nous réalisons systématiquement une étude d'accès pour choisir le gabarit de camion idéal. Nous gérons l'arrêté municipal 15 jours en amont pour bloquer l'espace nécessaire au pied de votre porte." 
+  },
+  { 
+    question: "Proposez-vous l'emballage complet pour les objets de valeur ?", 
+    answer: "Oui, notre formule 'Prestige' inclut l'emballage intégral de vos effets fragiles (vaisselle, miroirs, tableaux) avec des matériaux haute protection (bullkraft renforcé, caisses sur-mesure). Vos biens voyagent en toute sécurité." 
+  },
+  { 
+    question: "Est-il nécessaire d'utiliser un monte-meubles à Nogent ?", 
+    answer: "Pour les appartements en étage sans ascenseur large (fréquent dans l'ancien), le monte-meubles est souvent indispensable. Il sécurise votre mobilier, préserve les parties communes de l'immeuble et accélère l'opération de 30%." 
+  },
+  { 
+    question: "Quel est le délai pour obtenir une visite technique ?", 
+    answer: "Grâce à notre présence constante dans le Val-de-Marne, nous pouvons intervenir sous 48h pour une visite à domicile ou organiser une visio-évaluation immédiate pour votre devis gratuit." 
+  }
 ];
 
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": FAQS.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
 
 export default function NogentSurMarnePage() {
-    return (
-        <div className="bg-background text-foreground">
-            {/* Hero Section */}
-            <section className="relative h-72 flex items-center justify-center text-center text-white">
-                <Image 
-                    src="https://picsum.photos/seed/nogent/1920/500"
-                    alt="Bords de Marne à Nogent-sur-Marne"
-                    fill
-                    className="object-cover"
-                    data-ai-hint="nogent sur marne riverside"
-                />
-                <div className="absolute inset-0 bg-black/60" />
-                <div className="relative z-10 container">
-                    <p className="text-sm font-semibold text-primary">Le spécialiste de votre déménagement à Nogent</p>
-                    <h1 className="text-4xl md:text-5xl font-headline font-bold mt-2">Déménagement Nogent-sur-Marne</h1>
-                    <p className="mt-4 text-lg max-w-3xl mx-auto text-white/90">Un service d'excellence pour votre projet à Nogent-sur-Marne (94130).</p>
-                </div>
-            </section>
+  return (
+    <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
+      <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      
+      {/* --- HERO SECTION --- */}
+      <section className="relative min-h-[60vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-24 pb-16 overflow-hidden">
+        <Image 
+          src="https://picsum.photos/seed/nogent-94/1920/1080"
+          alt="Bords de Marne à Nogent-sur-Marne"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-40 mix-blend-luminosity grayscale-[20%]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0b0f19] via-[#0b0f19]/80 to-transparent" />
+        
+        <div className="container relative z-10 mx-auto px-4 md:px-6">
+          <nav className="flex items-center text-xs font-medium text-slate-400 mb-8" aria-label="Breadcrumb">
+            <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
+            <ChevronRight className="h-3 w-3 mx-2" />
+            <Link href="/zones" className="hover:text-white transition-colors">Val-de-Marne (94)</Link>
+            <ChevronRight className="h-3 w-3 mx-2" />
+            <span className="text-white">Nogent-sur-Marne</span>
+          </nav>
+
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#00ad9f]/30 bg-[#00ad9f]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#00ad9f] mb-6 shadow-sm">
+              <Sparkles className="h-4 w-4" />
+              Service Déménagement d'Excellence
+            </div>
             
-            {/* Breadcrumb */}
-            <div className="container py-3 text-sm text-muted-foreground">
-                <Link href="/" className="hover:text-primary">Accueil</Link>
-                <span className="mx-2">&gt;</span>
-                <Link href="/demenagement-val-de-marne-94" className="hover:text-primary">Val-de-Marne (94)</Link>
-                <span className="mx-2">&gt;</span>
-                <span>Nogent-sur-Marne</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
+              Votre déménagement <br className="hidden sm:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
+                à Nogent-sur-Marne.
+              </span>
+            </h1>
+            
+            <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
+              L'expertise logistique au service du cadre de vie nogentais (94130). Une maîtrise parfaite des bords de Marne et des résidences de standing.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button size="lg" className="rounded-full h-14 px-8 text-base bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
+                <Link href="/demande-de-devis">
+                  Obtenir mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- INTRO SECTION --- */}
+      <section className="py-20 lg:py-32 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            <div className="space-y-6 relative z-10">
+              <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                Une logistique d'orfèvre <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">pour une ville d'exception</u>.
+              </h2>
+              <p className="text-lg text-slate-500 leading-relaxed">
+                Nogent-sur-Marne se distingue par son charme Belle Époque et sa qualité de vie au bord de l'eau. Déménager dans ce secteur demande une approche qui concilie efficacité urbaine et respect d'un patrimoine architectural délicat.
+              </p>
+              <p className="text-lg text-slate-500 leading-relaxed">
+                Chez Marne Transdem, nous maîtrisons chaque spécificité du territoire nogentais. Que vous emménagiez dans un appartement de standing avec vue sur le port ou dans une maison de caractère, nous planifions chaque détail logistique pour préserver votre tranquillité.
+              </p>
+              
+              <div className="pt-6 flex items-center gap-4">
+                 <div className="h-14 w-14 rounded-full bg-[#00ad9f]/10 flex items-center justify-center shrink-0">
+                    <Anchor className="h-7 w-7 text-[#00ad9f]" />
+                 </div>
+                 <div className="text-slate-900 font-bold text-lg">
+                   Expertise Bords de Marne,<br/> <span className="text-slate-500 font-normal text-sm">maîtrise des accès restreints et stationnements complexes.</span>
+                 </div>
+              </div>
+            </div>
+            
+            <div className="relative">
+              <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 hover:rotate-6" />
+              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border border-slate-100">
+                <Image
+                  src="https://picsum.photos/seed/nogent-move-pro/800/600"
+                  alt="Équipe de déménagement professionnelle en intervention à Nogent"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- WHY CHOOSE US (Grid Avantages) --- */}
+      <section id="why-us-nogent" className="py-20 lg:py-32 bg-slate-50">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+              Le bon choix pour le 94
+            </h2>
+            <p className="text-lg text-slate-500 font-light">
+              Notre parfaite connaissance de Nogent-sur-Marne est votre meilleure garantie de ponctualité et de soin.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {WHY_US_ITEMS.map((item, index) => (
+              <div key={index} className="bg-white border border-slate-200 p-8 rounded-[2rem] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                <div className="h-14 w-14 rounded-2xl bg-[#00ad9f]/10 flex items-center justify-center mb-6 group-hover:bg-[#00ad9f] transition-colors duration-300">
+                   <item.icon className="h-7 w-7 text-[#00ad9f] group-hover:text-white transition-colors duration-300" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- SERVICES RÉSUMÉ --- */}
+      <section className="py-20 lg:py-32 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            
+            <div className="order-2 lg:order-1 relative">
+              <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2rem] opacity-10 -z-10" />
+              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
+                <Image
+                  src="https://picsum.photos/seed/nogent-packing-box/800/600"
+                  alt="Déménageur protégeant du mobilier fragile à Nogent"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
 
-            {/* Intro Section */}
-            <section className="py-16">
-                <div className="container grid lg:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <h2 className="text-3xl font-bold">Un déménageur qui comprend le cadre de vie de Nogent</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">
-                           Déménager à Nogent-sur-Marne, c'est choisir un cadre de vie privilégié, réputé pour son charme, son port de plaisance et ses guinguettes. Ce caractère résidentiel et haut de gamme demande un service de déménagement à la hauteur, alliant efficacité, soin et discrétion.
-                        </p>
-                        <p className="mt-4 text-muted-foreground">
-                           Chez Déménagement du Vexin, nous avons une connaissance approfondie de Nogent. Que vous emménagiez dans un appartement de standing, une maison de caractère ou une résidence moderne, nous planifions chaque détail pour préserver votre patrimoine et vous garantir une installation en toute sérénité.
-                        </p>
-                    </div>
-                    <div>
-                         <Image
-                            src="https://picsum.photos/seed/nogent-move/600/400"
-                            alt="Équipe de déménagement professionnelle intervenant à Nogent-sur-Marne"
-                            width={600}
-                            height={400}
-                            className="rounded-lg shadow-lg"
-                            data-ai-hint="moving team luxury suburb"
-                        />
-                    </div>
-                </div>
-            </section>
+            <div className="order-1 lg:order-2 space-y-8 lg:pl-10">
+              <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                Une réponse à <br/> <span className="text-[#00ad9f]">chaque profil résidentiel.</span>
+              </h2>
+              <ul className="space-y-6 pt-2">
+                <li className="flex items-start gap-4">
+                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><Building2 className="h-5 w-5"/></div>
+                  <div>
+                    <h4 className="text-lg font-bold text-slate-900">Appartements de Standing</h4>
+                    <p className="text-slate-500 mt-1 leading-relaxed">Protection totale des parties communes (ascenseurs, sols) et utilisation de monte-meubles pour les accès en étage sur les quais.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><Home className="h-5 w-5"/></div>
+                  <div>
+                    <h4 className="text-lg font-bold text-slate-900">Maisons & Pavillons de Caractère</h4>
+                    <p className="text-slate-500 mt-1 leading-relaxed">Logistique soignée pour les demeures du 94 avec emballage scrupuleux de vos objets précieux et mobilier lourd.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><CheckCircle2 className="h-5 w-5"/></div>
+                  <div>
+                    <h4 className="text-lg font-bold text-slate-900">Formule "Clefs en main"</h4>
+                    <p className="text-slate-500 mt-1 leading-relaxed">Emballage complet de vos effets fragiles, déballage et remise en place pour une sérénité absolue.</p>
+                  </div>
+                </li>
+              </ul>
+              <div className="pt-4">
+                <Button asChild variant="outline" className="rounded-full h-12 px-8 font-semibold border-slate-300 text-slate-700 hover:text-[#00ad9f] hover:border-[#00ad9f] hover:bg-[#00ad9f]/5">
+                   <Link href="/services">Voir tous nos services</Link>
+                </Button>
+              </div>
+            </div>
 
-             {/* Why Choose Us Section */}
-            <section id="why-us-nogent" className="py-16 bg-muted/50">
-                <div className="container">
-                    <div className="text-center max-w-3xl mx-auto">
-                        <h2 className="text-3xl font-bold">Le partenaire privilégié pour déménager à Nogent</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Notre expertise est votre meilleure garantie pour un déménagement sans fausse note.</p>
-                    </div>
-                    <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {whyChooseUsItems.map((item, i) => (
-                             <div key={i} className="text-center">
-                                {item.icon}
-                                <h3 className="text-xl font-semibold mt-4">{item.title}</h3>
-                                <p className="mt-2 text-muted-foreground">{item.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-            
-             {/* Services Section */}
-            <section className="py-16">
-                 <div className="container grid lg:grid-cols-2 gap-12 items-center">
-                    <div className="order-2 lg:order-1">
-                        <Image
-                            src="https://picsum.photos/seed/nogent-packing/600/400"
-                            alt="Déménageur emballant avec soin des objets de valeur"
-                            width={600}
-                            height={400}
-                            className="rounded-lg shadow-lg"
-                            data-ai-hint="mover packing fragile items"
-                        />
-                    </div>
-                    <div className="order-1 lg:order-2">
-                        <h2 className="text-3xl font-bold">Des prestations sur-mesure pour votre projet nogentais</h2>
-                         <ul className="mt-6 space-y-4">
-                            <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Déménagement d'appartements et maisons</h4>
-                                    <p className="text-muted-foreground">Une logistique adaptée aux grands volumes et à la manipulation d'objets précieux et encombrants.</p>
-                                </div>
-                            </li>
-                             <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Déménagement d'objets d'art</h4>
-                                    <p className="text-muted-foreground">Une expertise pointue pour la protection et le transport de vos biens les plus précieux.</p>
-                                </div>
-                            </li>
-                             <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Formule "Prestige" clé en main</h4>
-                                    <p className="text-muted-foreground">Nous nous occupons de tout : emballage intégral, déballage, remontage et installation pour votre confort absolu.</p>
-                                </div>
-                            </li>
-                        </ul>
-                         <Button asChild className="mt-8" variant="outline">
-                            <Link href="/services">Découvrir tous nos services</Link>
-                         </Button>
-                    </div>
-                </div>
-            </section>
-            
-            <TestimonialsSection reviews={fallbackTestimonials} />
-            
-            {/* FAQ Section */}
-            <section id="faq-nogent" className="py-16">
-                <div className="container max-w-4xl mx-auto">
-                    <div className="text-center">
-                        <h2 className="text-3xl font-bold">Questions fréquentes - Déménagement Nogent-sur-Marne</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Nos réponses claires pour un déménagement réussi.</p>
-                    </div>
-                    <Accordion type="single" collapsible className="w-full mt-12">
-                        {faqItems.map((item, i) => (
-                            <AccordionItem value={`item-${i}`} key={i}>
-                                <AccordionTrigger className="text-lg text-left hover:no-underline">
-                                    {item.question}
-                                </AccordionTrigger>
-                                <AccordionContent className="text-base text-muted-foreground">
-                                    {item.answer}
-                                </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
-                </div>
-            </section>
-
-             {/* CTA Section */}
-            <section id="contact-nogent" className="py-16 bg-primary/5">
-                <div className="container text-center">
-                    <h2 className="text-3xl font-bold">Organisez votre déménagement à Nogent-sur-Marne</h2>
-                    <p className="mt-4 text-lg max-w-2xl mx-auto text-muted-foreground">Contactez nos conseillers pour une étude personnalisée de votre projet et obtenez un devis à la hauteur de vos attentes.</p>
-                    <Button size="lg" className="mt-8" asChild>
-                        <Link href="/dashboard/quote">Devis gratuit pour Nogent-sur-Marne</Link>
-                    </Button>
-                </div>
-            </section>
+          </div>
         </div>
-    );
+      </section>
+
+      {/* --- AVIS CLIENTS --- */}
+      <TestimonialsSection reviews={fallbackTestimonials} />
+
+      {/* --- FAQ --- */}
+      <section id="faq-nogent" className="py-20 lg:py-32 bg-slate-50">
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+              Questions <span className="text-[#00ad9f]">fréquentes</span>
+            </h2>
+            <p className="mt-4 text-lg text-slate-500 font-light">Tout savoir pour préparer votre installation réussie à Nogent-sur-Marne.</p>
+          </div>
+          
+          <Accordion type="single" collapsible className="w-full space-y-4">
+            {FAQS.map((item, i) => (
+              <AccordionItem 
+                value={`item-${i}`} 
+                key={i} 
+                className="bg-white border border-slate-200 rounded-2xl px-2 data-[state=open]:border-[#00ad9f]/40 data-[state=open]:shadow-md transition-all duration-200"
+              >
+                <AccordionTrigger className="text-lg font-bold text-slate-900 py-6 px-4 hover:no-underline hover:text-[#00ad9f] transition-colors text-left">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-slate-500 text-base leading-relaxed px-4 pb-6">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      {/* --- GRAND CTA FINAL --- */}
+      <section className="py-20 bg-white">
+         <div className="container mx-auto px-4 md:px-6">
+            <div className="relative rounded-[3rem] bg-[#0f172a] p-10 md:p-16 lg:p-24 text-center overflow-hidden shadow-2xl isolate">
+               
+               <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00ad9f]/15 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+               <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[100px] -z-10 -translate-x-1/3 translate-y-1/3 pointer-events-none" />
+               
+               <div className="relative z-10">
+                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-8 leading-tight">
+                    On organise votre <br className="hidden md:block"/>
+                    <span className="text-[#00ad9f]">départ de Nogent ?</span>
+                 </h2>
+                 <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
+                    Ne laissez pas la logistique ternir votre projet dans ce cadre privilégié. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                 </p>
+                 
+                 <div className="flex flex-col sm:flex-row justify-center gap-6">
+                    <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
+                       <Link href="/demande-de-devis">
+                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                       </Link>
+                    </Button>
+                 </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+    </main>
+  );
 }

@@ -1,214 +1,322 @@
-
-import { Button } from "@/components/ui/button";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import type { FormattedReview } from "@/app/api/reviews/route";
-import { CheckCircle, MapPin, ShieldCheck, Truck, Users, Building, TreePine, Waves } from "lucide-react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { TestimonialsSection } from "@/components/testimonials-section";
+import Script from "next/script";
 
+// UI Components
+import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { TestimonialsSection } from "@/components/testimonials-section";
+import type { FormattedReview } from "@/app/api/reviews/route";
+
+// Icons
+import { 
+  CheckCircle2, 
+  MapPin, 
+  ShieldCheck, 
+  Truck, 
+  Users, 
+  Building, 
+  TreePine, 
+  Waves,
+  ArrowRight, 
+  ChevronRight, 
+  Map,
+  Briefcase
+} from "lucide-react";
+
+// --- SEO METADATA ---
+export const metadata: Metadata = {
+  title: "Déménagement Charenton-le-Pont (94) | Standing & Proximité Paris",
+  description: "Déménageur expert à Charenton-le-Pont (94220). Spécialiste des immeubles de standing, bords de Marne et Bois de Vincennes. Devis gratuit sous 24h.",
+  alternates: {
+    canonical: "https://demenagementduvexin.fr/demenagement-charenton-le-pont-94220",
+  }
+};
 
 const fallbackTestimonials: FormattedReview[] = [
-    { id: "fallback-1", name: "Famille Dubois", text: "Un déménagement parfaitement géré à Charenton. L'équipe a été très professionnelle et a su s'adapter à notre rue. Service de grande qualité.", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dubois94220` },
-    { id: "fallback-2", name: "Sophie M.", text: "Très satisfaite de la prestation. Efficaces, rapides et sympathiques. Ils ont rendu mon déménagement beaucoup moins stressant. Je recommande.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieM94` },
-    { id: "fallback-3", name: "Cabinet Conseil", text: "Le transfert de nos bureaux a été mené avec rigueur et discrétion. Une équipe professionnelle sur qui l'on peut compter.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Conseil94` },
+  { id: "fallback-1", name: "Famille Dubois", text: "Un déménagement parfaitement géré à Charenton. L'équipe a été très professionnelle et a su s'adapter à l'étroitesse de notre rue près du bois. Service de grande qualité.", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dubois94220` },
+  { id: "fallback-2", name: "Sophie M.", text: "Très satisfaite de la prestation. Efficaces, rapides et sympathiques. Ils ont rendu mon déménagement vers le centre de Charenton beaucoup moins stressant.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieM94` },
+  { id: "fallback-3", name: "Cabinet Conseil", text: "Le transfert de nos bureaux à Charenton a été mené avec rigueur et discrétion. Une équipe professionnelle sur qui l'on peut compter pour le mobilier de standing.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Conseil94` },
 ];
 
-const whyChooseUsItems = [
-    {
-        icon: <MapPin className="h-8 w-8 text-primary"/>,
-        title: "Expertise de Charenton",
-        description: "Du Pont de Charenton aux bords de Marne, nous connaissons les accès et les réglementations pour une logistique sans faille."
-    },
-    {
-        icon: <Building className="h-8 w-8 text-primary"/>,
-        title: "Gestion des immeubles de standing",
-        description: "Nous intervenons avec un soin particulier, en protégeant les parties communes et en utilisant des monte-meubles si nécessaire."
-    },
-    {
-        icon: <TreePine className="h-8 w-8 text-primary"/>,
-        title: "Proximité du Bois de Vincennes",
-        description: "Nous maîtrisons les accès spécifiques des rues bordant le bois, en alliant efficacité et respect de cet environnement privilégié."
-    },
-    {
-        icon: <ShieldCheck className="h-8 w-8 text-primary"/>,
-        title: "Sérénité administrative",
-        description: "Nous gérons pour vous les demandes d'autorisation de stationnement, une démarche indispensable aux portes de Paris."
-    }
+const WHY_US_ITEMS = [
+  {
+    icon: MapPin,
+    title: "Expertise de Charenton",
+    description: "Du Pont de Charenton aux bords de Marne, nous maîtrisons chaque accès et les contraintes de stationnement du 94220."
+  },
+  {
+    icon: Building,
+    title: "Immeubles de Standing",
+    description: "Nous intervenons avec une protection totale des parties communes et utilisons des monte-meubles pour préserver les intérieurs."
+  },
+  {
+    icon: TreePine,
+    title: "Secteur Bois de Vincennes",
+    description: "Habitués aux rues bordant le bois, nous planifions nos interventions pour respecter le calme et la configuration de ces zones."
+  },
+  {
+    icon: ShieldCheck,
+    title: "Sérénité Administrative",
+    description: "Nous gérons les demandes d'autorisation de stationnement en mairie, une démarche capitale aux portes de Paris."
+  }
 ];
 
-const faqItems = [
-    {
-        question: "Le stationnement est-il difficile à obtenir pour un déménagement à Charenton-le-Pont ?",
-        answer: "Le stationnement peut être un vrai défi, mais c'est notre métier de le gérer. Nous nous chargeons de la demande d'autorisation auprès de la mairie bien en amont pour réserver un emplacement le jour J. Cela vous garantit la tranquillité et nous permet de travailler dans les meilleures conditions."
-    },
-    {
-        question: "Proposez-vous des formules pour les petits appartements ?",
-        answer: "Oui, absolument. Nous avons des formules économiques qui sont idéales pour les plus petits volumes. Elles vous permettent de bénéficier de notre savoir-faire professionnel pour la partie la plus physique (transport, manutention) tout en maîtrisant votre budget."
-    },
-    {
-        question: "Vous occupez-vous des déménagements d'entreprises à Charenton ?",
-        answer: "Oui, Charenton accueille de nombreuses entreprises. Nous avons une grande expérience dans le transfert de bureaux. Nous planifions l'opération avec vous pour minimiser l'impact sur votre activité, en intervenant si besoin en dehors des heures de bureau."
-    },
-    {
-        question: "Comment protégez-vous les parties communes de mon immeuble ?",
-        answer: "Le respect des lieux est une priorité. Nos équipes protègent systématiquement les zones de passage : ascenseurs, couloirs, cages d'escalier... avec des couvertures et des protections adaptées pour ne laisser aucune trace de notre passage."
-    }
+const FAQS = [
+  { question: "Le stationnement est-il difficile pour un déménagement à Charenton ?", answer: "Oui, le stationnement est un défi majeur à Charenton-le-Pont. C'est pourquoi nous incluons la gestion administrative des arrêtés de voirie dans nos prestations. Nous réservons l'emplacement exact pour notre camion bien en amont afin de garantir un accès direct." },
+  { question: "Comment protégez-vous les parties communes de mon immeuble de standing ?", answer: "Le respect des lieux est primordial. Nos équipes installent systématiquement un capitonnage dans les ascenseurs et des tapis de protection au sol dans les couloirs. Cela évite toute dégradation et assure une relation sereine avec votre copropriété." },
+  { question: "Proposez-vous des transferts de bureaux pour les entreprises à Charenton ?", answer: "Oui, Charenton accueille de nombreux sièges sociaux et cabinets libéraux. Nous avons une grande expérience dans le transfert de bureaux. Nous planifions l'opération (horaires décalés possibles) pour minimiser l'impact sur votre activité." },
+  { question: "Quelles sont les formules pour un petit volume (studio/T2) ?", answer: "Nous proposons la formule 'Économique'. Elle est parfaite pour les appartements de petite taille : nos déménageurs s'occupent de la protection du mobilier, de la manutention lourde et du transport, tandis que vous gérez vos cartons." }
 ];
 
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": FAQS.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
 
 export default function CharentonLePontPage() {
-    return (
-        <div className="bg-background text-foreground">
-            {/* Hero Section */}
-            <section className="relative h-72 flex items-center justify-center text-center text-white">
-                <Image 
-                    src="https://picsum.photos/seed/charenton/1920/500"
-                    alt="Vue sur Charenton-le-Pont et la Marne"
-                    fill
-                    className="object-cover"
-                    data-ai-hint="charenton le pont cityscape"
-                />
-                <div className="absolute inset-0 bg-black/60" />
-                <div className="relative z-10 container">
-                    <p className="text-sm font-semibold text-primary">Le spécialiste de votre déménagement</p>
-                    <h1 className="text-4xl md:text-5xl font-headline font-bold mt-2">Déménagement Charenton-le-Pont</h1>
-                    <p className="mt-4 text-lg max-w-3xl mx-auto text-white/90">La solution efficace et professionnelle pour votre projet à Charenton-le-Pont (94220).</p>
-                </div>
-            </section>
+  return (
+    <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
+      <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      
+      {/* --- HERO SECTION --- */}
+      <section className="relative min-h-[60vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-24 pb-16 overflow-hidden">
+        <Image 
+          src="https://picsum.photos/seed/charenton-marne/1920/1080"
+          alt="Vue panoramique de Charenton-le-Pont et des bords de Marne"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-30 mix-blend-luminosity grayscale-[40%]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0b0f19] via-[#0b0f19]/80 to-transparent" />
+        
+        <div className="container relative z-10 mx-auto px-4 md:px-6">
+          <nav className="flex items-center text-xs font-medium text-slate-400 mb-8" aria-label="Breadcrumb">
+            <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
+            <ChevronRight className="h-3 w-3 mx-2" />
+            <Link href="/demenagement-val-de-marne-94" className="hover:text-white transition-colors">Val-de-Marne (94)</Link>
+            <ChevronRight className="h-3 w-3 mx-2" />
+            <span className="text-white">Charenton-le-Pont</span>
+          </nav>
+
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#00ad9f]/30 bg-[#00ad9f]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#00ad9f] mb-6 shadow-sm">
+              <Map className="h-4 w-4" />
+              Expert Local 94
+            </div>
             
-            {/* Breadcrumb */}
-            <div className="container py-3 text-sm text-muted-foreground">
-                <Link href="/" className="hover:text-primary">Accueil</Link>
-                <span className="mx-2">&gt;</span>
-                <Link href="/demenagement-val-de-marne-94" className="hover:text-primary">Val-de-Marne (94)</Link>
-                <span className="mx-2">&gt;</span>
-                <span>Charenton-le-Pont</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
+              Votre déménagement <br className="hidden sm:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
+                à Charenton.
+              </span>
+            </h1>
+            
+            <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
+              La solution logistique de standing pour les particuliers et les entreprises à Charenton (94220). Une maîtrise parfaite des accès aux portes de Paris.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button size="lg" className="rounded-full h-14 px-8 text-base bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
+                <Link href="/demande-de-devis">
+                  Obtenir mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- INTRO SECTION --- */}
+      <section className="py-20 lg:py-32 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            <div className="space-y-6 relative z-10">
+              <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                Une logistique adaptée <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">à l'excellence urbaine</u>.
+              </h2>
+              <p className="text-lg text-slate-500 leading-relaxed">
+                Charenton-le-Pont est une ville prisée, idéalement située au confluent de la Seine et de la Marne et bordée par le Bois de Vincennes. Cet emplacement stratégique s'accompagne d'une forte densité urbaine.
+              </p>
+              <p className="text-lg text-slate-500 leading-relaxed">
+                Chez Marne Transdem, nous maîtrisons ces spécificités. Que vous emménagiez dans un appartement de caractère près du bois ou dans un bureau moderne sur les quais, nous planifions chaque détail logistique pour garantir une journée fluide, rapide et sans le moindre stress.
+              </p>
+              
+              <div className="pt-6 flex items-center gap-4">
+                 <div className="h-14 w-14 rounded-full bg-[#00ad9f]/10 flex items-center justify-center shrink-0">
+                    <Waves className="h-7 w-7 text-[#00ad9f]" />
+                 </div>
+                 <div className="text-slate-900 font-bold text-lg">
+                   Spécialiste Confluence,<br/> <span className="text-slate-500 font-normal text-sm">gestion des bords de Seine et de Marne.</span>
+                 </div>
+              </div>
+            </div>
+            
+            <div className="relative">
+              <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 hover:rotate-6" />
+              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border border-slate-100">
+                <Image
+                  src="https://picsum.photos/seed/charenton-team-94/800/600"
+                  alt="Équipe professionnelle de déménagement à Charenton"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- WHY CHOOSE US --- */}
+      <section id="why-us-charenton" className="py-20 lg:py-32 bg-slate-50">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+              Le bon choix pour Charenton
+            </h2>
+            <p className="text-lg text-slate-500 font-light">
+              Une connaissance millimétrée du terrain pour un service ponctuel et réactif.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {WHY_US_ITEMS.map((item, index) => (
+              <div key={index} className="bg-white border border-slate-200 p-8 rounded-[2rem] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                <div className="h-14 w-14 rounded-2xl bg-[#00ad9f]/10 flex items-center justify-center mb-6 group-hover:bg-[#00ad9f] transition-colors duration-300">
+                   <item.icon className="h-7 w-7 text-[#00ad9f] group-hover:text-white transition-colors duration-300" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- SERVICES RÉSUMÉ --- */}
+      <section className="py-20 lg:py-32 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            
+            <div className="order-2 lg:order-1 relative">
+              <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2rem] opacity-10 -z-10" />
+              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
+                <Image
+                  src="https://picsum.photos/seed/charenton-packing-secure/800/600"
+                  alt="Déménageurs emballant avec soin du matériel de standing"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
 
-            {/* Intro Section */}
-            <section className="py-16">
-                <div className="container grid lg:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <h2 className="text-3xl font-bold">Un déménageur expert pour la ville de Charenton-le-Pont</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">
-                           Déménager à Charenton-le-Pont, c'est s'installer dans une ville prisée, idéalement située aux portes de Paris, au confluent de la Seine et de la Marne. Cet emplacement stratégique implique une forte densité et des défis logistiques que seuls des professionnels expérimentés peuvent maîtriser.
-                        </p>
-                        <p className="mt-4 text-muted-foreground">
-                           Chez Déménagement du Vexin, nous avons l'expertise pour naviguer dans cet environnement urbain complexe. Que vous emménagiez dans un appartement de standing ou que vous transfériez vos bureaux, nous planifions chaque détail pour un déménagement fluide, rapide et sans stress.
-                        </p>
-                    </div>
-                    <div>
-                         <Image
-                            src="https://picsum.photos/seed/charenton-move/600/400"
-                            alt="Équipe de déménagement professionnelle en intervention à Charenton-le-Pont"
-                            width={600}
-                            height={400}
-                            className="rounded-lg shadow-lg"
-                            data-ai-hint="urban moving team riverside"
-                        />
-                    </div>
-                </div>
-            </section>
+            <div className="order-1 lg:order-2 space-y-8 lg:pl-10">
+              <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                Une réponse à <br/> <span className="text-[#00ad9f]">chaque profil.</span>
+              </h2>
+              <ul className="space-y-6 pt-2">
+                <li className="flex items-start gap-4">
+                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><Building className="h-5 w-5"/></div>
+                  <div>
+                    <h4 className="text-lg font-bold text-slate-900">Appartements de Standing</h4>
+                    <p className="text-slate-500 mt-1 leading-relaxed">Protection experte des parties communes et utilisation de monte-meubles pour les étages élevés en toute sécurité.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><Briefcase className="h-5 w-5"/></div>
+                  <div>
+                    <h4 className="text-lg font-bold text-slate-900">Transfert de Bureaux</h4>
+                    <p className="text-slate-500 mt-1 leading-relaxed">Logistique dédiée aux entreprises charentonnaises : transfert d'archives, informatique et mobilier avec planification optimisée.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><CheckCircle2 className="h-5 w-5"/></div>
+                  <div>
+                    <h4 className="text-lg font-bold text-slate-900">Formules Modulables</h4>
+                    <p className="text-slate-500 mt-1 leading-relaxed">De l'offre 'Éco' à la prestation 'Confort' (emballage complet et remise en place), nous nous adaptons à vos attentes.</p>
+                  </div>
+                </li>
+              </ul>
+              <div className="pt-4">
+                <Button asChild variant="outline" className="rounded-full h-12 px-8 font-semibold border-slate-300 text-slate-700 hover:text-[#00ad9f] hover:border-[#00ad9f] hover:bg-[#00ad9f]/5 transition-all">
+                   <Link href="/formules-de-demenagement">Détail de nos formules</Link>
+                </Button>
+              </div>
+            </div>
 
-             {/* Why Choose Us Section */}
-            <section id="why-us-charenton" className="py-16 bg-muted/50">
-                <div className="container">
-                    <div className="text-center max-w-3xl mx-auto">
-                        <h2 className="text-3xl font-bold">Le partenaire de confiance pour déménager à Charenton</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Notre connaissance du terrain est votre meilleure garantie de sérénité.</p>
-                    </div>
-                    <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {whyChooseUsItems.map((item, i) => (
-                             <div key={i} className="text-center">
-                                {item.icon}
-                                <h3 className="text-xl font-semibold mt-4">{item.title}</h3>
-                                <p className="mt-2 text-muted-foreground">{item.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-            
-             {/* Services Section */}
-            <section className="py-16">
-                 <div className="container grid lg:grid-cols-2 gap-12 items-center">
-                    <div className="order-2 lg:order-1">
-                        <Image
-                            src="https://picsum.photos/seed/charenton-packing/600/400"
-                            alt="Déménageur emballant avec soin des objets pour un déménagement"
-                            width={600}
-                            height={400}
-                            className="rounded-lg shadow-lg"
-                            data-ai-hint="mover careful packing urban"
-                        />
-                    </div>
-                    <div className="order-1 lg:order-2">
-                        <h2 className="text-3xl font-bold">Des services adaptés aux spécificités de Charenton</h2>
-                         <ul className="mt-6 space-y-4">
-                            <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Déménagement d'appartements</h4>
-                                    <p className="text-muted-foreground">Solutions sur-mesure pour les appartements de toutes tailles, des résidences neuves aux immeubles plus anciens.</p>
-                                </div>
-                            </li>
-                             <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Transfert de bureaux et de commerces</h4>
-                                    <p className="text-muted-foreground">Un service efficace, planifié pour minimiser l'impact sur votre activité professionnelle.</p>
-                                </div>
-                            </li>
-                             <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Formules personnalisées</h4>
-                                    <p className="text-muted-foreground">De la prestation économique à la formule tout confort, nous nous adaptons à vos besoins précis.</p>
-                                </div>
-                            </li>
-                        </ul>
-                         <Button asChild className="mt-8" variant="outline">
-                            <Link href="/services">Découvrir tous nos services</Link>
-                         </Button>
-                    </div>
-                </div>
-            </section>
-            
-            <TestimonialsSection reviews={fallbackTestimonials} />
-            
-            {/* FAQ Section */}
-            <section id="faq-charenton" className="py-16">
-                <div className="container max-w-4xl mx-auto">
-                    <div className="text-center">
-                        <h2 className="text-3xl font-bold">Questions fréquentes - Déménagement Charenton</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Nos réponses claires pour un déménagement réussi à Charenton-le-Pont.</p>
-                    </div>
-                    <Accordion type="single" collapsible className="w-full mt-12">
-                        {faqItems.map((item, i) => (
-                            <AccordionItem value={`item-${i}`} key={i}>
-                                <AccordionTrigger className="text-lg text-left hover:no-underline">
-                                    {item.question}
-                                </AccordionTrigger>
-                                <AccordionContent className="text-base text-muted-foreground">
-                                    {item.answer}
-                                </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
-                </div>
-            </section>
-
-             {/* CTA Section */}
-            <section id="contact-charenton" className="py-16 bg-primary/5">
-                <div className="container text-center">
-                    <h2 className="text-3xl font-bold">Planifiez votre déménagement à Charenton-le-Pont</h2>
-                    <p className="mt-4 text-lg max-w-2xl mx-auto text-muted-foreground">Contactez nos spécialistes pour une analyse précise de votre projet et obtenez un devis gratuit et personnalisé.</p>
-                    <Button size="lg" className="mt-8" asChild>
-                        <Link href="/dashboard/quote">Devis gratuit pour Charenton</Link>
-                    </Button>
-                </div>
-            </section>
+          </div>
         </div>
-    );
+      </section>
+
+      {/* --- AVIS CLIENTS --- */}
+      <TestimonialsSection reviews={fallbackTestimonials} />
+
+      {/* --- FAQ --- */}
+      <section id="faq-charenton" className="py-20 lg:py-32 bg-slate-50">
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+              Questions <span className="text-[#00ad9f]">fréquentes</span>
+            </h2>
+            <p className="mt-4 text-lg text-slate-500">Nos réponses pour préparer votre installation à Charenton.</p>
+          </div>
+          
+          <Accordion type="single" collapsible className="w-full space-y-4">
+            {FAQS.map((item, i) => (
+              <AccordionItem 
+                value={`item-${i}`} 
+                key={i} 
+                className="bg-white border border-slate-200 rounded-2xl px-2 data-[state=open]:border-[#00ad9f]/40 data-[state=open]:shadow-md transition-all duration-200"
+              >
+                <AccordionTrigger className="text-lg font-bold text-slate-900 py-6 px-4 hover:no-underline hover:text-[#00ad9f] transition-colors text-left">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-slate-500 text-base leading-relaxed px-4 pb-6">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      {/* --- GRAND CTA FINAL --- */}
+      <section className="py-20 bg-white">
+         <div className="container mx-auto px-4 md:px-6">
+            <div className="relative rounded-[3rem] bg-[#0f172a] p-10 md:p-16 lg:p-24 text-center overflow-hidden shadow-2xl isolate">
+               
+               {/* Deco de fond fluide avec z-index et pointer-events-none */}
+               <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00ad9f]/15 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+               <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[100px] -z-10 -translate-x-1/3 translate-y-1/3 pointer-events-none" />
+               
+               <div className="relative z-10">
+                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-8 leading-tight">
+                    On organise votre <br className="hidden md:block"/>
+                    <span className="text-[#00ad9f]">départ de Charenton ?</span>
+                 </h2>
+                 <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
+                    Ne laissez pas la logistique au hasard dans cette zone dense. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                 </p>
+                 
+                 <div className="flex flex-col sm:flex-row justify-center gap-6">
+                    <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
+                       <Link href="/demande-de-devis">
+                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                       </Link>
+                    </Button>
+                 </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+    </main>
+  );
 }

@@ -1,216 +1,333 @@
-
-import { Button } from "@/components/ui/button";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import type { FormattedReview } from "@/app/api/reviews/route";
-import { CheckCircle, MapPin, ShieldCheck, Truck, Users, Wine, Building } from "lucide-react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { TestimonialsSection } from "@/components/testimonials-section";
+import Script from "next/script";
 
+// UI Components
+import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { TestimonialsSection } from "@/components/testimonials-section";
+import type { FormattedReview } from "@/app/api/reviews/route";
+
+// Icons
+import { 
+  CheckCircle2, 
+  MapPin, 
+  ShieldCheck, 
+  Truck, 
+  Users, 
+  Wine, 
+  Building2, 
+  ArrowRight,
+  ChevronRight,
+  Route,
+  PackageCheck,
+  Scale
+} from "lucide-react";
+
+// --- SEO METADATA ---
+export const metadata: Metadata = {
+  title: "Déménagement Paris → Bordeaux (33) | Devis Gratuit & Groupage",
+  description: "Déménageur expert sur l'axe Paris-Bordeaux. Liaisons hebdomadaires, solutions de groupage et transport de caves à vin. Devis gratuit en 24h.",
+  alternates: {
+    canonical: "https://marnetransdem.fr/demenagement-idf-bordeaux",
+  }
+};
 
 const fallbackTestimonials: FormattedReview[] = [
-    { id: "fallback-1", name: "Famille Dupuis", text: "Le déménagement de nos vies de Paris à Bordeaux a été une réussite totale. L'équipe a été d'un professionnalisme exemplaire du début à la fin. Un grand merci !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dupuis33` },
-    { id: "fallback-2", name: "Antoine G.", text: "Service impeccable pour mon déménagement longue distance. La formule groupage était parfaite pour mon budget et tout est arrivé sans une égratignure. Je recommande.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=AntoineG33` },
-    { id: "fallback-3", name: "Cave & Châteaux", text: "Le transfert de notre stock a été géré avec un soin particulier. Une équipe qui comprend les contraintes du transport de biens fragiles. Des vrais pros.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=CaveChateaux33` },
+  { id: "fallback-1", name: "Famille Dupuis", text: "Le déménagement de nos vies de Paris à Bordeaux a été une réussite totale. L'équipe a été d'un professionnalisme exemplaire du début à la fin malgré les 500km. Un grand merci !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dupuis33` },
+  { id: "fallback-2", name: "Antoine G.", text: "Service impeccable pour mon déménagement longue distance. La formule groupage était parfaite pour mon budget de jeune actif et tout est arrivé intact. Je recommande.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=AntoineG33` },
+  { id: "fallback-3", name: "Cave & Châteaux", text: "Le transfert de notre stock de grands crus a été géré avec un soin particulier. Une équipe qui comprend les contraintes du transport de biens fragiles. Des vrais pros.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=CaveChateaux33` },
 ];
 
-const whyChooseUsItems = [
-    {
-        icon: <MapPin className="h-8 w-8 text-primary"/>,
-        title: "Expertise de l'Axe Paris-Bordeaux",
-        description: "Nous réalisons des liaisons régulières vers la Nouvelle-Aquitaine, garantissant une logistique optimisée et des délais fiables."
-    },
-    {
-        icon: <Truck className="h-8 w-8 text-primary"/>,
-        title: "Transport Longue Distance Sécurisé",
-        description: "Nos camions modernes et nos techniques d'arrimage professionnelles assurent un voyage sans encombre pour vos biens."
-    },
-    {
-        icon: <Building className="h-8 w-8 text-primary"/>,
-        title: "Adaptabilité aux Deux Régions",
-        description: "Nous connaissons les contraintes des déménagements en Île-de-France et les spécificités de l'habitat bordelais."
-    },
-    {
-        icon: <Wine className="h-8 w-8 text-primary"/>,
-        title: "Soin Particulier",
-        description: "Nous portons une attention spéciale à vos biens fragiles, y compris les caves à vin, avec des solutions d'emballage dédiées."
-    }
+const WHY_US_ITEMS = [
+  {
+    icon: Route,
+    title: "Liaisons Hebdomadaires",
+    description: "Nous réalisons des trajets réguliers vers la Gironde, garantissant une logistique optimisée et des délais fiables."
+  },
+  {
+    icon: Truck,
+    title: "Sécurité Longue Distance",
+    description: "Arrimage professionnel et camions capitonnés pour protéger vos biens sur les 600 km de trajet."
+  },
+  {
+    icon: Scale,
+    title: "Options de Groupage",
+    description: "Économisez jusqu'à 40% sur votre budget en partageant les frais de route pour vos petits volumes."
+  },
+  {
+    icon: Wine,
+    title: "Spécialiste Grands Crus",
+    description: "Emballages spécifiques et manutention délicate pour vos caves à vin et objets d'art fragiles."
+  }
 ];
 
-const faqItems = [
-    {
-        question: "Combien de temps faut-il prévoir pour un déménagement Île-de-France - Bordeaux ?",
-        answer: "Un déménagement vers Bordeaux s'organise généralement sur deux jours. Nous consacrons le premier jour au chargement soigné de vos affaires en Île-de-France. Le second jour est dédié au transport et à la livraison et l'installation dans votre nouveau domicile bordelais."
-    },
-    {
-        question: "Le groupage est-il une option intéressante pour Bordeaux ?",
-        answer: "Oui, c'est une solution très avantageuse pour les petits volumes. En partageant le camion avec d'autres clients, vous réduisez considérablement le coût du transport. Nous organisons fréquemment des tournées de groupage vers la Nouvelle-Aquitaine."
-    },
-    {
-        question: "Comment est calculé le prix d'un déménagement vers Bordeaux ?",
-        answer: "Le tarif se base sur le volume (m³), la distance et la formule de service choisie. Grâce à nos trajets réguliers sur cet axe, nous optimisons la logistique pour vous proposer un devis très compétitif. Une évaluation précise par téléphone, vidéo ou visite technique nous permettra de vous donner un prix ferme."
-    },
-    {
-        question: "J'ai une cave à vin à déménager, comment faites-vous ?",
-        answer: "Nous avons l'habitude de transporter des caves et des bouteilles de vin. Nous utilisons des cartons spécifiques avec des croisillons (cartons barrels) qui protègent chaque bouteille individuellement des chocs et des variations de température. Vos grands crus voyageront en première classe !"
-    }
+const FAQS = [
+  { 
+    question: "Quelle est la durée d'un déménagement Paris-Bordeaux ?", 
+    answer: "Il faut généralement prévoir 48 heures. Le premier jour est dédié au chargement en Île-de-France et au début du trajet. Le second jour est consacré à la fin du transport, au déchargement et à l'installation dans votre nouveau domicile bordelais." 
+  },
+  { 
+    question: "Comment fonctionne le groupage vers Bordeaux ?", 
+    answer: "Le groupage consiste à mutualiser un grand camion pour plusieurs clients ayant de petits volumes. Cela permet de diviser les frais de péage et de carburant. Nous organisons ces tournées 2 à 3 fois par mois vers la Nouvelle-Aquitaine." 
+  },
+  { 
+    question: "Comment obtenir un prix précis pour cette distance ?", 
+    answer: "Le tarif dépend du volume (m³), de l'accessibilité aux deux adresses et des services choisis. Nous réalisons des devis par visioconférence ou visite technique pour vous garantir un prix ferme et définitif, sans surprise le jour J." 
+  },
+  { 
+    question: "Gérez-vous le déménagement de caves à vin ?", 
+    answer: "C'est l'une de nos expertises phares pour Bordeaux. Nous utilisons des cartons 'barrels' avec croisillons renforcés et des protections thermiques si nécessaire. Vos bouteilles sont transportées à plat ou debout selon vos exigences de conservation." 
+  }
 ];
 
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": FAQS.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
 
 export default function BordeauxPage() {
-    return (
-        <div className="bg-background text-foreground">
-            {/* Hero Section */}
-            <section className="relative h-72 flex items-center justify-center text-center text-white">
-                <Image 
-                    src="https://picsum.photos/seed/bordeaux/1920/500"
-                    alt="La Place de la Bourse à Bordeaux"
-                    fill
-                    className="object-cover"
-                    data-ai-hint="bordeaux water mirror"
-                />
-                <div className="absolute inset-0 bg-black/60" />
-                <div className="relative z-10 container">
-                    <p className="text-sm font-semibold text-primary">Spécialiste de la longue distance</p>
-                    <h1 className="text-4xl md:text-5xl font-headline font-bold mt-2">Déménagement Île-de-France → Bordeaux</h1>
-                    <p className="mt-4 text-lg max-w-3xl mx-auto text-white/90">La solution fiable et optimisée pour votre nouvelle vie au cœur du vignoble bordelais.</p>
-                </div>
-            </section>
+  return (
+    <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
+      <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      
+      {/* --- HERO SECTION --- */}
+      <section className="relative min-h-[60vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-24 pb-16 overflow-hidden">
+        <Image 
+          src="https://picsum.photos/seed/bordeaux-place/1920/1080"
+          alt="La Place de la Bourse à Bordeaux et son miroir d'eau"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-30 mix-blend-luminosity grayscale-[40%]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0b0f19] via-[#0b0f19]/80 to-transparent" />
+        
+        <div className="container relative z-10 mx-auto px-4 md:px-6">
+          <nav className="flex items-center text-xs font-medium text-slate-400 mb-8" aria-label="Breadcrumb">
+            <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
+            <ChevronRight className="h-3 w-3 mx-2" />
+            <Link href="/services" className="hover:text-white transition-colors">Déménagement National</Link>
+            <ChevronRight className="h-3 w-3 mx-2" />
+            <span className="text-white">Axe Paris-Bordeaux</span>
+          </nav>
+
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#00ad9f]/30 bg-[#00ad9f]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#00ad9f] mb-6 shadow-sm">
+              <Route className="h-4 w-4" />
+              Liaison Nationale IDF → Gironde
+            </div>
             
-            {/* Breadcrumb */}
-            <div className="container py-3 text-sm text-muted-foreground">
-                <Link href="/" className="hover:text-primary">Accueil</Link>
-                <span className="mx-2">&gt;</span>
-                <Link href="/services" className="hover:text-primary">Services</Link>
-                <span className="mx-2">&gt;</span>
-                 <Link href="/demenagement-national" className="hover:text-primary">Déménagement National</Link>
-                <span className="mx-2">&gt;</span>
-                <span>Destination Bordeaux</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
+              Votre déménagement <br className="hidden sm:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
+                Paris - Bordeaux.
+              </span>
+            </h1>
+            
+            <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
+              Spécialiste de la longue distance vers la Nouvelle-Aquitaine. Profitez d'une logistique optimisée pour votre installation en Gironde.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button size="lg" className="rounded-full h-14 px-8 text-base bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
+                <Link href="/demande-de-devis">
+                  Obtenir mon devis national <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- INTRO SECTION --- */}
+      <section className="py-20 lg:py-32 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            <div className="space-y-6 relative z-10">
+              <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                De la Seine à la Garonne, <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">une transition sans couture</u>.
+              </h2>
+              <p className="text-lg text-slate-500 leading-relaxed">
+                Quitter l'Île-de-France pour Bordeaux est un projet ambitieux qui nécessite une expertise logistique pointue. Les 600 kilomètres qui séparent ces deux métropoles imposent une rigueur totale dans la protection des biens et la planification du transport.
+              </p>
+              <p className="text-lg text-slate-500 leading-relaxed">
+                Chez Marne Transdem, nous avons fait de cet axe une spécialité. Nous gérons aussi bien les accès denses du centre-ville bordelais que les livraisons dans les domaines viticoles ou les pavillons de l'agglomération (Mérignac, Pessac, Talence).
+              </p>
+              
+              <div className="pt-6 flex items-center gap-4">
+                 <div className="h-14 w-14 rounded-full bg-[#00ad9f]/10 flex items-center justify-center shrink-0">
+                    <PackageCheck className="h-7 w-7 text-[#00ad9f]" />
+                 </div>
+                 <div className="text-slate-900 font-bold text-lg">
+                   Logistique longue distance,<br/> <span className="text-slate-500 font-normal text-sm">protection renforcée pour les trajets autoroutiers.</span>
+                 </div>
+              </div>
+            </div>
+            
+            <div className="relative">
+              <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 hover:rotate-6" />
+              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border border-slate-100">
+                <Image
+                  src="https://picsum.photos/seed/bordeaux-truck/800/600"
+                  alt="Déménagement longue distance vers Bordeaux"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- WHY CHOOSE US (Grille d'avantages) --- */}
+      <section id="why-us-bordeaux" className="py-20 lg:py-32 bg-slate-50">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+              Pourquoi nous confier votre trajet ?
+            </h2>
+            <p className="text-lg text-slate-500 font-light">
+              Notre connaissance millimétrée de l'axe Paris-Bordeaux est votre meilleur atout.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {WHY_US_ITEMS.map((item, index) => (
+              <div key={index} className="bg-white border border-slate-200 p-8 rounded-[2rem] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                <div className="h-14 w-14 rounded-2xl bg-[#00ad9f]/10 flex items-center justify-center mb-6 group-hover:bg-[#00ad9f] transition-colors duration-300">
+                   <item.icon className="h-7 w-7 text-[#00ad9f] group-hover:text-white transition-colors duration-300" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- SERVICES RÉSUMÉ --- */}
+      <section className="py-20 lg:py-32 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            
+            <div className="order-2 lg:order-1 relative">
+              <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2rem] opacity-10 -z-10" />
+              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
+                <Image
+                  src="https://picsum.photos/seed/bordeaux-wine-pack/800/600"
+                  alt="Protection de cave à vin pour déménagement"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
 
-            {/* Intro Section */}
-            <section className="py-16">
-                <div className="container grid lg:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <h2 className="text-3xl font-bold">De la Seine à la Garonne, un déménagement en toute confiance</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">
-                           Changer de région pour s'installer à Bordeaux est un projet de vie enthousiasmant. Pour que cette transition soit une réussite, un déménagement longue distance doit être parfaitement maîtrisé. C'est là que notre savoir-faire entre en jeu.
-                        </p>
-                        <p className="mt-4 text-muted-foreground">
-                           Forts de notre expérience sur les grands axes nationaux, nous avons fait de la liaison Île-de-France - Bordeaux une de nos spécialités. Nous vous assurons une organisation rigoureuse, un transport sécurisé et une équipe à votre écoute pour que vous puissiez vous concentrer sur l'essentiel : votre nouvelle vie en Gironde.
-                        </p>
-                    </div>
-                    <div>
-                         <Image
-                            src="https://picsum.photos/seed/bordeaux-move/600/400"
-                            alt="Équipe de déménagement professionnelle en intervention à Bordeaux"
-                            width={600}
-                            height={400}
-                            className="rounded-lg shadow-lg"
-                            data-ai-hint="moving team city historic"
-                        />
-                    </div>
-                </div>
-            </section>
+            <div className="order-1 lg:order-2 space-y-8 lg:pl-10">
+              <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                Une réponse à <br/> <span className="text-[#00ad9f]">chaque besoin national.</span>
+              </h2>
+              <ul className="space-y-6 pt-2">
+                <li className="flex items-start gap-4">
+                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><Truck className="h-5 w-5"/></div>
+                  <div>
+                    <h4 className="text-lg font-bold text-slate-900">Camion Dédié ou Groupage</h4>
+                    <p className="text-slate-500 mt-1 leading-relaxed">Le choix entre l'exclusivité d'un véhicule pour votre volume total ou l'économie d'un voyage mutualisé.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><Wine className="h-5 w-5"/></div>
+                  <div>
+                    <h4 className="text-lg font-bold text-slate-900">Expertise Objets Fragiles</h4>
+                    <p className="text-slate-500 mt-1 leading-relaxed">Emballages renforcés et calages spécifiques pour vos bouteilles, miroirs et mobilier de créateur.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><CheckCircle2 className="h-5 w-5"/></div>
+                  <div>
+                    <h4 className="text-lg font-bold text-slate-900">Formules Tout Confort</h4>
+                    <p className="text-slate-500 mt-1 leading-relaxed">Nous prenons en charge l'intégralité de l'emballage et du déballage pour une installation immédiate.</p>
+                  </div>
+                </li>
+              </ul>
+              <div className="pt-4">
+                <Button asChild variant="outline" className="rounded-full h-12 px-8 font-semibold border-slate-300 text-slate-700 hover:text-[#00ad9f] hover:border-[#00ad9f] hover:bg-[#00ad9f]/5">
+                   <Link href="/formules-de-demenagement">Comparer nos formules</Link>
+                </Button>
+              </div>
+            </div>
 
-             {/* Why Choose Us Section */}
-            <section id="why-us-bordeaux" className="py-16 bg-muted/50">
-                <div className="container">
-                    <div className="text-center max-w-3xl mx-auto">
-                        <h2 className="text-3xl font-bold">Le partenaire de confiance pour votre déménagement vers Bordeaux</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Notre connaissance de l'axe Paris-Bordeaux est votre meilleure garantie.</p>
-                    </div>
-                    <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {whyChooseUsItems.map((item, i) => (
-                             <div key={i} className="text-center">
-                                {item.icon}
-                                <h3 className="text-xl font-semibold mt-4">{item.title}</h3>
-                                <p className="mt-2 text-muted-foreground">{item.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-            
-             {/* Services Section */}
-            <section className="py-16">
-                 <div className="container grid lg:grid-cols-2 gap-12 items-center">
-                    <div className="order-2 lg:order-1">
-                        <Image
-                            src="https://picsum.photos/seed/bordeaux-packing/600/400"
-                            alt="Déménageur emballant avec soin des bouteilles de vin"
-                            width={600}
-                            height={400}
-                            className="rounded-lg shadow-lg"
-                            data-ai-hint="mover packing wine bottles"
-                        />
-                    </div>
-                    <div className="order-1 lg:order-2">
-                        <h2 className="text-3xl font-bold">Des services adaptés aux déménagements longue distance</h2>
-                         <ul className="mt-6 space-y-4">
-                            <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Déménagement dédié ou groupé</h4>
-                                    <p className="text-muted-foreground">Choisissez entre un camion entièrement dédié à votre déménagement ou une formule de groupage plus économique pour les petits volumes.</p>
-                                </div>
-                            </li>
-                             <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Formules flexibles</h4>
-                                    <p className="text-muted-foreground">De la formule économique où vous emballez vos cartons à la prestation tout confort, c'est vous qui décidez.</p>
-                                </div>
-                            </li>
-                             <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Emballage professionnel</h4>
-                                    <p className="text-muted-foreground">Pour les longs trajets, la qualité de l'emballage est primordiale. Nous utilisons du matériel renforcé pour une protection optimale.</p>
-                                </div>
-                            </li>
-                        </ul>
-                         <Button asChild className="mt-8" variant="outline">
-                            <Link href="/services">Découvrir tous nos services</Link>
-                         </Button>
-                    </div>
-                </div>
-            </section>
-            
-            <TestimonialsSection reviews={fallbackTestimonials} />
-            
-            {/* FAQ Section */}
-            <section id="faq-bordeaux" className="py-16">
-                <div className="container max-w-4xl mx-auto">
-                    <div className="text-center">
-                        <h2 className="text-3xl font-bold">Questions fréquentes - Déménagement vers Bordeaux</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Nos réponses claires pour un déménagement réussi vers le Sud-Ouest.</p>
-                    </div>
-                    <Accordion type="single" collapsible className="w-full mt-12">
-                        {faqItems.map((item, i) => (
-                            <AccordionItem value={`item-${i}`} key={i}>
-                                <AccordionTrigger className="text-lg text-left hover:no-underline">
-                                    {item.question}
-                                </AccordionTrigger>
-                                <AccordionContent className="text-base text-muted-foreground">
-                                    {item.answer}
-                                </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
-                </div>
-            </section>
-
-             {/* CTA Section */}
-            <section id="contact-bordeaux" className="py-16 bg-primary/5">
-                <div className="container text-center">
-                    <h2 className="text-3xl font-bold">Organisez votre déménagement vers Bordeaux</h2>
-                    <p className="mt-4 text-lg max-w-2xl mx-auto text-muted-foreground">Contactez nos spécialistes pour une analyse précise de votre projet et obtenez un devis gratuit et personnalisé.</p>
-                    <Button size="lg" className="mt-8" asChild>
-                        <Link href="/dashboard/quote">Devis gratuit pour Bordeaux</Link>
-                    </Button>
-                </div>
-            </section>
+          </div>
         </div>
-    );
+      </section>
+
+      {/* --- AVIS CLIENTS --- */}
+      <TestimonialsSection reviews={fallbackTestimonials} />
+
+      {/* --- FAQ --- */}
+      <section id="faq-bordeaux" className="py-20 lg:py-32 bg-slate-50">
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+              Questions <span className="text-[#00ad9f]">fréquentes</span>
+            </h2>
+            <p className="mt-4 text-lg text-slate-500">Nos réponses pour préparer votre départ vers le Sud-Ouest.</p>
+          </div>
+          
+          <Accordion type="single" collapsible className="w-full space-y-4">
+            {FAQS.map((item, i) => (
+              <AccordionItem 
+                value={`item-${i}`} 
+                key={i} 
+                className="bg-white border border-slate-200 rounded-2xl px-2 data-[state=open]:border-[#00ad9f]/40 data-[state=open]:shadow-md transition-all duration-200"
+              >
+                <AccordionTrigger className="text-lg font-bold text-slate-900 py-6 px-4 hover:no-underline hover:text-[#00ad9f] transition-colors text-left">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-slate-500 text-base leading-relaxed px-4 pb-6">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      {/* --- GRAND CTA FINAL --- */}
+      <section className="py-20 bg-white">
+         <div className="container mx-auto px-4 md:px-6">
+            <div className="relative rounded-[3rem] bg-[#0f172a] p-10 md:p-16 lg:p-24 text-center overflow-hidden shadow-2xl isolate">
+               
+               <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00ad9f]/15 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+               <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[100px] -z-10 -translate-x-1/3 translate-y-1/3 pointer-events-none" />
+               
+               <div className="relative z-10">
+                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-8 leading-tight">
+                    Prêt pour votre nouvelle <br className="hidden md:block"/>
+                    <span className="text-[#00ad9f]">vie à Bordeaux ?</span>
+                 </h2>
+                 <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
+                    Ne laissez pas la distance compliquer votre projet. Contactez-nous pour une étude personnalisée et recevez un devis gratuit sous 24h.
+                 </p>
+                 
+                 <div className="flex flex-col sm:flex-row justify-center gap-6">
+                    <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
+                       <Link href="/demande-de-devis">
+                          Mon devis gratuit sous 24h <ArrowRight className="ml-2 h-4 w-4" />
+                       </Link>
+                    </Button>
+                 </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+    </main>
+  );
 }

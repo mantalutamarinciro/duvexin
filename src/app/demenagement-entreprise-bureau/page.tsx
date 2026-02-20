@@ -1,46 +1,69 @@
-
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, Building, Globe, Store, Factory } from "lucide-react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
+
+// UI Components
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { SectionTitle } from "@/components/section-title";
 
+// Icons
+import { 
+  CheckCircle2, 
+  Building2, 
+  Globe2, 
+  Store, 
+  Factory, 
+  ArrowRight, 
+  ShieldCheck, 
+  Clock, 
+  Server, 
+  FileText,
+  Truck,
+  LayoutDashboard
+} from "lucide-react";
+
+// --- SEO METADATA ---
+export const metadata: Metadata = {
+  title: "Déménagement d'Entreprise & Transfert de Bureaux | Marne Transdem",
+  description: "Expert en transfert d'entreprise : bureaux, informatique, archives et industries. Solutions sur-mesure avec continuité d'activité garantie. Devis pro sous 24h.",
+};
 
 const enterpriseServices = [
-    { title: "Planification et préparation", description: "Nous établissons un plan détaillé pour garantir une organisation optimale et une exécution sans accroc." },
-    { title: "Emballage et protection", description: "Nous emballons vos équipements, meubles et documents de manière sécurisée pour éviter tout dommage." },
-    { title: "Démontage et remontage", description: "Notre équipe s’occupe du démontage et remontage du mobilier pour une installation rapide et efficace." },
-    { title: "Transport sécurisé et suivi", description: "Nous assurons le transport de vos biens dans des véhicules adaptés, avec un suivi en temps réel." },
-    { title: "Installation des bureaux", description: "À votre arrivée, nous nous chargeons de l’aménagement et de l’installation de vos espaces." },
-    { title: "Déménagement d’archives", description: "Nous déplaçons vos documents professionnels et archives en toute sécurité et confidentialité." },
+  { title: "Ingénierie de transfert", icon: LayoutDashboard, description: "Cahier des charges précis, rétroplanning et pilotage complet de votre projet." },
+  { title: "Parc Informatique", icon: Server, description: "Déconnexion, emballage antistatique et reconnexion de vos serveurs et postes." },
+  { title: "Mobilier & Montage", icon: Building2, description: "Démontage et remontage de vos postes de travail et espaces collaboratifs." },
+  { title: "Gestion d'Archives", icon: FileText, description: "Transfert sécurisé et confidentiel de vos documents avec inventaire rigoureux." },
+  { title: "Logistique Adaptée", icon: Truck, description: "Véhicules capitonnés et monte-meubles pour une manutention sans risque." },
+  { title: "Aménagement Final", icon: CheckCircle2, description: "Installation selon vos plans d'implantation pour une reprise immédiate." },
 ];
 
 const enterpriseTypes = [
-    { icon: <Building className="h-8 w-8 text-primary"/>, title: "Bureaux et PME", description: "Déménagement rapide et discret pour tous types de bureaux." },
-    { icon: <Globe className="h-8 w-8 text-primary"/>, title: "Entreprises multi-sites", description: "Nous organisons des déménagements complexes à l’échelle nationale ou internationale." },
-    { icon: <Store className="h-8 w-8 text-primary"/>, title: "Commerces et boutiques", description: "Nous déménageons également des commerces, en veillant à ne pas perturber votre activité." },
-    { icon: <Factory className="h-8 w-8 text-primary"/>, title: "Industrie et ateliers", description: "Services adaptés pour le déménagement de machines et d’équipements lourds." },
+  { icon: Building2, title: "Tertiaire & PME", description: "Déménagement de bureaux agile pour minimiser l'impact sur vos collaborateurs." },
+  { icon: Globe2, title: "Multi-sites", description: "Coordination de transferts complexes entre plusieurs pôles géographiques." },
+  { icon: Store, title: "Retail & Commerces", description: "Gestion des stocks, présentoirs et mobilier commercial avec rapidité." },
+  { icon: Factory, title: "Industrie & Ateliers", description: "Transfert de machines-outils et équipements lourds avec levage spécialisé." },
 ];
 
 const faqItems = [
-    {
-        question: "Comment minimisez-vous l'impact sur notre activité ?",
-        answer: "La planification est la clé. Nous travaillons avec vous pour établir un calendrier précis. Nous pouvons intervenir en dehors de vos heures de bureau, le soir, le week-end ou pendant les périodes creuses pour assurer une transition transparente, sans interruption pour vos équipes et vos clients."
-    },
-    {
-        question: "Gérez-vous le déménagement de matériel informatique et de serveurs ?",
-        answer: "Oui, c'est une de nos spécialités. Nous utilisons des emballages antistatiques, des caisses renforcées et des techniques de manutention spécifiques. Nous pouvons également nous coordonner avec votre service informatique pour débrancher et rebrancher le matériel, et assurer un redémarrage rapide de votre infrastructure."
-    },
-    {
-        question: "Notre déménagement est-il assuré ?",
-        answer: "Absolument. Tous nos déménagements d'entreprise sont couverts par une assurance responsabilité civile et une assurance marchandises. Nous pouvons également vous proposer des assurances complémentaires 'ad valorem' pour couvrir votre matériel à sa valeur réelle en cas de besoin."
-    },
-    {
-        question: "Prenez-vous en charge le transfert d'archives confidentielles ?",
-        answer: "Oui. Nous garantissons la confidentialité et la sécurité de vos archives. Nous utilisons des conteneurs scellés et un processus de suivi rigoureux du chargement à la livraison pour assurer l'intégrité de vos documents sensibles."
-    }
+  {
+    question: "Comment garantissez-vous la continuité de notre activité ?",
+    answer: "Nous proposons des interventions en horaires décalés : soirées, week-ends ou jours fériés. L'objectif est que vos collaborateurs quittent leurs bureaux le vendredi soir et retrouvent leur poste opérationnel le lundi matin."
+  },
+  {
+    question: "Gérez-vous le matériel informatique sensible ?",
+    answer: "Oui, c'est un point critique. Nous utilisons des bacs de protection scellés, des protections antistatiques et des chariots informatiques spécifiques. Nous pouvons travailler de concert avec votre DSI pour le rackage de vos serveurs."
+  },
+  {
+    question: "Quelle assurance couvre le matériel professionnel ?",
+    answer: "En plus de notre RC Professionnelle, nous proposons systématiquement une assurance 'Ad Valorem'. Elle garantit votre matériel à sa valeur d'usage ou à neuf selon vos besoins, couvrant l'intégralité des risques liés au transport."
+  },
+  {
+    question: "Pouvez-vous recycler le mobilier obsolète ?",
+    answer: "Absolument. Dans une démarche RSE, nous proposons l'évacuation de votre ancien mobilier vers des centres de tri agréés ou des associations partenaires pour le réemploi."
+  }
 ];
 
 const faqStructuredData = {
@@ -49,182 +72,199 @@ const faqStructuredData = {
   "mainEntity": faqItems.map(item => ({
     "@type": "Question",
     "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer
-    }
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
   }))
 };
 
 export default function DemenagementEntreprisePage() {
-    return (
-        <div className="bg-background text-foreground">
-             <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
-            />
-            {/* Hero Section */}
-            <section className="relative h-80 flex items-center justify-center text-center text-white">
-                <Image 
-                    src="https://picsum.photos/seed/business-move/1920/500"
-                    alt="Bannière pour déménagement d'entreprise"
-                    fill
-                    className="object-cover"
-                    data-ai-hint="modern office building"
-                />
-                <div className="absolute inset-0 bg-black/60" />
-                <div className="relative z-10 container">
-                    <SectionTitle as="h1" className="text-white">Déménagement d'<u>Entreprise</u></SectionTitle>
-                    <p className="mt-4 text-lg max-w-3xl mx-auto text-white/90">Minimisez l'impact, maximisez l'efficacité. Votre transition professionnelle, gérée par des experts.</p>
-                </div>
-            </section>
-            
-            {/* Breadcrumb */}
-            <div className="container py-3 text-sm text-muted-foreground">
-                <Link href="/" className="hover:text-primary">Accueil</Link>
-                <span className="mx-2">&gt;</span>
-                <Link href="/services" className="hover:text-primary">Services</Link>
-                <span className="mx-2">&gt;</span>
-                <span>Déménagement d'entreprise</span>
+  return (
+    <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
+      <Script
+        id="faq-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
+      />
+
+      {/* --- HERO SECTION --- */}
+      <section className="relative h-[450px] flex items-center justify-center text-white overflow-hidden">
+        <Image 
+          src="https://picsum.photos/seed/corporate-move/1920/1080"
+          alt="Transfert de bureaux professionnel"
+          fill
+          priority
+          className="object-cover opacity-40 mix-blend-luminosity grayscale-[40%]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent" />
+        
+        <div className="container relative z-10 mx-auto px-4 md:px-6">
+          <div className="max-w-3xl space-y-6">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[#00ad9f]/20 px-4 py-1.5 text-sm font-bold uppercase tracking-wider text-[#00ad9f] backdrop-blur-md border border-[#00ad9f]/30">
+              <Clock className="h-4 w-4" />
+              Continuité d'activité garantie
             </div>
-
-            {/* Intro Section */}
-            <section className="py-16">
-                <div className="container grid lg:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <SectionTitle as="h2">Un déménagement pro, <u>sans interruption</u></SectionTitle>
-                        <p className="mt-4 text-muted-foreground text-lg">
-                           Le transfert de vos locaux est une étape stratégique qui doit être exécutée avec précision pour ne pas affecter votre productivité. Chez Déménagement du Vexin, nous comprenons les enjeux uniques du déménagement d'entreprise : respect des délais, sécurité du matériel sensible, et confidentialité des données.
-                        </p>
-                         <p className="mt-4 text-muted-foreground">
-                            Nous développons un plan d'action sur-mesure, en étroite collaboration avec vos équipes, pour assurer une transition fluide et une reprise d'activité dans les meilleurs délais.
-                        </p>
-                    </div>
-                    <div>
-                         <Image
-                            src="https://picsum.photos/seed/office-planning/600/400"
-                            alt="Planification d'un déménagement de bureaux"
-                            width={600}
-                            height={400}
-                            className="rounded-lg shadow-lg"
-                            data-ai-hint="office relocation planning"
-                        />
-                    </div>
-                </div>
-            </section>
-
-             {/* Why Choose Us */}
-            <section className="py-16 bg-muted/50">
-                 <div className="container grid lg:grid-cols-2 gap-12 items-center">
-                      <div className="order-2 lg:order-1">
-                        <Image
-                            src="https://picsum.photos/seed/secure-transport/600/400"
-                            alt="Transport sécurisé de matériel informatique"
-                            width={600}
-                            height={400}
-                            className="rounded-lg shadow-lg"
-                            data-ai-hint="secure equipment transport"
-                        />
-                    </div>
-                    <div className="order-1 lg:order-2">
-                        <SectionTitle as="h2">Notre expertise à <u>votre service</u></SectionTitle>
-                         <ul className="mt-6 space-y-4">
-                            <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Planification rigoureuse</h4>
-                                    <p className="text-muted-foreground">Un chef de projet dédié élabore avec vous un cahier des charges précis et un rétroplanning détaillé.</p>
-                                </div>
-                            </li>
-                             <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Flexibilité & Discrétion</h4>
-                                    <p className="text-muted-foreground">Nous nous adaptons à vos contraintes en intervenant en horaires décalés, les week-ends ou la nuit pour minimiser l'impact sur votre activité.</p>
-                                </div>
-                            </li>
-                             <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Savoir-faire technique</h4>
-                                    <p className="text-muted-foreground">Nos équipes sont formées pour l'emballage et le transport de matériel informatique, de serveurs, d'archives et de mobilier de bureau.</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            {/* Enterprise Services Section */}
-            <section id="services-entreprise" className="py-16">
-                <div className="container">
-                    <div className="text-center max-w-3xl mx-auto">
-                        <SectionTitle>Une prestation <u>complète</u></SectionTitle>
-                        <p className="mt-4 text-muted-foreground text-lg">Nous gérons chaque aspect de votre transfert pour vous permettre de rester concentré sur votre cœur de métier.</p>
-                    </div>
-                    <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {enterpriseServices.map((service, i) => (
-                             <Card key={i} className="p-6 text-center">
-                                <h3 className="text-xl font-semibold">{service.title}</h3>
-                                <p className="mt-2 text-muted-foreground text-sm h-12">{service.description}</p>
-                            </Card>
-                        ))}
-                    </div>
-                </div>
-            </section>
-            
-            {/* Enterprise Types Section */}
-            <section id="types-entreprise" className="py-16 bg-muted/50">
-                <div className="container">
-                    <div className="text-center max-w-3xl mx-auto">
-                        <SectionTitle>Adapté à <u>tous les secteurs</u></SectionTitle>
-                        <p className="mt-4 text-muted-foreground text-lg">Que vous soyez une startup, une PME, un grand groupe ou un commerce, nous avons la solution.</p>
-                    </div>
-                    <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {enterpriseTypes.map((type, i) => (
-                            <Card key={i} className="text-center p-6">
-                                {type.icon}
-                                <h3 className="text-xl font-semibold mt-4">{type.title}</h3>
-                                <p className="mt-2 text-muted-foreground text-sm">{type.description}</p>
-                            </Card>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-             {/* FAQ Section */}
-            <section id="faq-entreprise" className="py-16">
-                <div className="container max-w-4xl mx-auto">
-                    <div className="text-center">
-                        <SectionTitle>Questions <u>fréquentes</u></SectionTitle>
-                        <p className="mt-4 text-muted-foreground text-lg">Vos interrogations, nos réponses claires pour un transfert d'entreprise réussi.</p>
-                    </div>
-                    <Accordion type="single" collapsible className="w-full mt-12">
-                        {faqItems.map((item, i) => (
-                            <AccordionItem value={`item-${i}`} key={i}>
-                                <AccordionTrigger className="text-lg text-left hover:no-underline">
-                                    {item.question}
-                                </AccordionTrigger>
-                                <AccordionContent className="text-base text-muted-foreground">
-                                    {item.answer}
-                                </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
-                </div>
-            </section>
-
-
-             {/* CTA Section */}
-            <section id="contact-entreprise" className="py-16">
-                <div className="container text-center">
-                    <SectionTitle>Planifiez votre transfert <u>dès aujourd'hui</u></SectionTitle>
-                    <p className="mt-4 text-lg max-w-2xl mx-auto text-muted-foreground">Contactez nos spécialistes du déménagement d'entreprise pour une étude personnalisée et un devis détaillé adapté à votre cahier des charges.</p>
-                    <Button size="lg" className="mt-8" asChild>
-                        <Link href="/demande-devis">Obtenir un devis professionnel</Link>
-                    </Button>
-                </div>
-            </section>
+            <SectionTitle as="h1" className="text-white text-4xl md:text-6xl font-extrabold leading-tight">
+              Transfert d'<u>Entreprise</u> & Bureaux
+            </SectionTitle>
+            <p className="text-lg md:text-xl text-slate-300 max-w-2xl font-light">
+              Parce que votre temps est précieux, nous orchestrons votre déménagement pro avec une précision chirurgicale. Zéro interruption, efficacité totale.
+            </p>
+            <div className="flex flex-wrap gap-4 pt-4">
+              <Button size="lg" className="rounded-full h-14 px-8 text-base bg-[#00ad9f] hover:bg-[#009286] text-white shadow-xl transition-all hover:scale-105" asChild>
+                <Link href="/demande-devis">Estimation Professionnelle <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              </Button>
+            </div>
+          </div>
         </div>
-    );
+      </section>
+
+      {/* --- BREADCRUMB --- */}
+      <div className="bg-white border-b">
+        <div className="container py-4 text-xs font-medium text-slate-500 uppercase tracking-widest flex items-center gap-2">
+          <Link href="/" className="hover:text-[#00ad9f] transition-colors">Accueil</Link>
+          <span>/</span>
+          <Link href="/services" className="hover:text-[#00ad9f] transition-colors">Services</Link>
+          <span>/</span>
+          <span className="text-slate-900">Transfert Entreprise</span>
+        </div>
+      </div>
+
+      {/* --- INTRO SECTION --- */}
+      <section className="py-20 lg:py-32 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <div className="inline-block p-3 rounded-2xl bg-teal-50">
+                <ShieldCheck className="h-8 w-8 text-[#00ad9f]" />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                Le transfert de vos locaux, <br />
+                <span className="text-[#00ad9f]">sans aucune perte de productivité.</span>
+              </h2>
+              <div className="space-y-4 text-slate-600 text-lg font-light leading-relaxed">
+                <p>
+                  Un déménagement d'entreprise n'est pas qu'une affaire de cartons. C'est un défi logistique et humain qui impacte directement vos résultats. 
+                </p>
+                <p>
+                  Chez **Marne Transdem**, nous traitons chaque transfert comme un projet stratégique. Nos chefs de projets dédiés collaborent avec vos services (Moyens Généraux, DSI, RH) pour garantir que votre infrastructure informatique et vos espaces de travail soient opérationnels dès la première heure à votre nouvelle adresse.
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-8 pt-4">
+                <div>
+                  <p className="text-3xl font-bold text-slate-900">24h</p>
+                  <p className="text-sm text-slate-500 uppercase tracking-tighter">Réponse devis pro</p>
+                </div>
+                <div>
+                  <p className="text-3xl font-bold text-slate-900">100%</p>
+                  <p className="text-sm text-slate-500 uppercase tracking-tighter">Salariés formés</p>
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-2 transform -z-10" />
+              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl">
+                <Image
+                  src="https://picsum.photos/seed/office-relocation/800/600"
+                  alt="Planification de transfert de bureaux"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- SERVICES GRID --- */}
+      <section className="py-24 bg-slate-900 text-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">Une expertise à <span className="text-[#00ad9f]">360 degrés</span></h2>
+            <p className="text-slate-400 text-lg font-light">Nous prenons en charge l'intégralité de la chaîne logistique de votre transfert.</p>
+          </div>
+          
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {enterpriseServices.map((service, i) => (
+              <div key={i} className="group p-8 rounded-[2rem] bg-slate-800/50 border border-slate-700 hover:border-[#00ad9f]/50 hover:bg-slate-800 transition-all">
+                <div className="h-12 w-12 rounded-xl bg-[#00ad9f]/10 flex items-center justify-center mb-6 group-hover:bg-[#00ad9f] transition-colors duration-300">
+                  <service.icon className="h-6 w-6 text-[#00ad9f] group-hover:text-white transition-colors" />
+                </div>
+                <h3 className="text-xl font-bold mb-3">{service.title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed font-light">{service.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- SECTOR ADAPTABILITY --- */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <div className="max-w-2xl">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">Adapté à votre <span className="text-[#00ad9f]">secteur d'activité</span></h2>
+              <p className="mt-4 text-slate-500 font-light">Chaque métier possède ses propres contraintes. Nous avons l'expérience pour y répondre.</p>
+            </div>
+          </div>
+          
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {enterpriseTypes.map((type, i) => (
+              <Card key={i} className="border-none shadow-lg rounded-[2.5rem] p-8 bg-slate-50 hover:bg-white hover:shadow-xl transition-all group">
+                <div className="h-16 w-16 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <type.icon className="h-8 w-8 text-[#00ad9f]" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">{type.title}</h3>
+                <p className="text-slate-500 text-sm leading-relaxed">{type.description}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- FAQ SECTION --- */}
+      <section className="py-24 bg-slate-50">
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl">
+          <div className="text-center mb-16 space-y-4">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight italic">Expertise & FAQ</h2>
+            <p className="text-slate-500 font-light">Tout ce que vous devez savoir pour un transfert réussi.</p>
+          </div>
+          
+          <Accordion type="single" collapsible className="w-full space-y-4">
+            {faqItems.map((item, i) => (
+              <AccordionItem key={i} value={`item-${i}`} className="bg-white border-none rounded-3xl px-6 shadow-sm overflow-hidden">
+                <AccordionTrigger className="text-left font-bold text-slate-900 hover:no-underline hover:text-[#00ad9f] py-6 transition-colors">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-slate-600 text-base leading-relaxed pb-6 font-light">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      {/* --- CTA SECTION --- */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="relative rounded-[3.5rem] bg-slate-900 p-12 md:p-24 text-center overflow-hidden isolate shadow-2xl">
+            <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-[#00ad9f]/20 rounded-full blur-[100px] -z-10" />
+            <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-96 h-96 bg-indigo-500/20 rounded-full blur-[100px] -z-10" />
+            
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-8">
+              Planifiez votre transfert <br />
+              <span className="text-[#00ad9f]">dès aujourd'hui.</span>
+            </h2>
+            <p className="text-slate-400 text-lg mb-12 max-w-2xl mx-auto font-light leading-relaxed">
+              Nos experts vous accompagnent pour établir un devis détaillé basé sur votre cahier des charges spécifique. Réponse assurée sous 24 heures ouvrées.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-6">
+              <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.5)]" asChild>
+                <Link href="/demande-devis">Parler à un expert transfert</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
 }

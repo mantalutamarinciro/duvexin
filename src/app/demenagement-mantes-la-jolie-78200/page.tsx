@@ -1,214 +1,335 @@
-
-import { Button } from "@/components/ui/button";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import type { FormattedReview } from "@/app/api/reviews/route";
-import { CheckCircle, MapPin, ShieldCheck, Ship, Users, Building, Truck } from "lucide-react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { TestimonialsSection } from "@/components/testimonials-section";
+import Script from "next/script";
 
+// UI Components
+import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { TestimonialsSection } from "@/components/testimonials-section";
+import type { FormattedReview } from "@/app/api/reviews/route";
+
+// Icons
+import { 
+  CheckCircle2, 
+  MapPin, 
+  ShieldCheck, 
+  Users, 
+  Building2, 
+  Truck, 
+  ArrowRight, 
+  ChevronRight, 
+  Map,
+  Landmark,
+  Home,
+  Briefcase,
+  Waves
+} from "lucide-react";
+
+// --- SEO METADATA ---
+export const metadata: Metadata = {
+  title: "Déménagement Mantes-la-Jolie (78) | Expert Mantois & Devis Gratuit",
+  description: "Déménageur de confiance à Mantes-la-Jolie (78200). Spécialiste du centre historique, du Val Fourré et des zones d'activités. Devis gratuit sous 24h.",
+  alternates: {
+    canonical: "https://demenagementduvexin.fr/demenagement-mantes-la-jolie-78200",
+  }
+};
 
 const fallbackTestimonials: FormattedReview[] = [
-    { id: "fallback-1", name: "Famille Dubois", text: "Très bonne expérience pour notre déménagement à Mantes-la-Jolie. L'équipe a été efficace, ponctuelle et très professionnelle. Nous recommandons vivement.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dubois78` },
-    { id: "fallback-2", name: "Sophie G.", text: "Un service client parfait et une équipe de déménageurs au top pour mon appartement. Ils ont su gérer les accès du centre-ville sans problème.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieG78` },
-    { id: "fallback-3", name: "Entreprise Mantois BTP", text: "Le transfert de nos bureaux a été rapide et bien organisé. Une équipe sérieuse sur qui on peut compter.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MantoisBTP` },
+  { id: "fallback-1", name: "Famille Dubois", text: "Très bonne expérience pour notre déménagement à Mantes. L'équipe a été efficace, ponctuelle et très précautionneuse avec nos meubles anciens. Nous recommandons vivement Marne Transdem.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dubois78` },
+  { id: "fallback-2", name: "Sophie G.", text: "Service client parfait et équipe au top pour mon appartement en centre-ville. Ils ont su gérer les accès difficiles de la rue piétonne sans aucun souci. Un vrai soulagement !", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieG78` },
+  { id: "fallback-3", name: "Entreprise Mantois BTP", text: "Le transfert de nos bureaux s'est fait avec une rigueur exemplaire. Une équipe qui comprend les enjeux de planning pour une société. Très satisfaits de la prestation.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MantoisBTP` },
 ];
 
-const whyChooseUsItems = [
-    {
-        icon: <MapPin className="h-8 w-8 text-primary"/>,
-        title: "Expertise du Mantois",
-        description: "Du centre-ville historique aux nouveaux quartiers, nous connaissons les accès et les spécificités de Mantes-la-Jolie et ses alentours."
-    },
-    {
-        icon: <Truck className="h-8 w-8 text-primary"/>,
-        title: "Maîtrise des axes routiers",
-        description: "Nous planifions nos interventions en tenant compte de la proximité de l'A13 pour une logistique et une ponctualité optimales."
-    },
-    {
-        icon: <Building className="h-8 w-8 text-primary"/>,
-        title: "Solutions pour tous les logements",
-        description: "Que vous soyez en appartement en centre-ville ou dans un pavillon en périphérie, nous avons le matériel et l'équipe adaptés."
-    },
-    {
-        icon: <ShieldCheck className="h-8 w-8 text-primary"/>,
-        title: "Sérénité administrative",
-        description: "Nous nous occupons des demandes d'autorisation de stationnement auprès de la mairie, une démarche clé pour un déménagement sans stress."
-    }
+const WHY_US_ITEMS = [
+  {
+    icon: MapPin,
+    title: "Expertise du Mantois",
+    description: "Du centre historique aux nouveaux éco-quartiers, nous maîtrisons chaque accès et plan de circulation de Mantes-la-Jolie."
+  },
+  {
+    icon: Landmark,
+    title: "Soin du Patrimoine",
+    description: "Spécialiste du bâti ancien : nous gérons les escaliers étroits et les sols fragiles des immeubles de caractère mantois."
+  },
+  {
+    icon: Truck,
+    title: "Logistique A13/A14",
+    description: "Une organisation rodée pour vos déménagements vers Paris ou la Normandie, garantissant une ponctualité totale."
+  },
+  {
+    icon: ShieldCheck,
+    title: "Sérénité Administrative",
+    description: "Gestion complète des demandes d'autorisation de stationnement auprès de la mairie de Mantes-la-Jolie."
+  }
 ];
 
-const faqItems = [
-    {
-        question: "Comment se passe un déménagement dans le centre-ville de Mantes-la-Jolie ?",
-        answer: "Le centre de Mantes peut présenter des défis d'accès. Nous effectuons systématiquement une analyse en amont, souvent via une visite technique, pour choisir le véhicule le plus adapté. La réservation de stationnement, que nous gérons, est cruciale pour garantir une place et une intervention efficace."
-    },
-    {
-        question: "Déménagez-vous aussi des entreprises dans la zone d'activités ?",
-        answer: "Oui, nous avons une offre B2B dédiée. Mantes-la-Jolie est un pôle économique important, et nous sommes habitués à réaliser des transferts de bureaux. Nous planifions l'opération avec vous pour assurer une transition rapide et limiter au maximum l'interruption de votre activité."
-    },
-    {
-        question: "Quelles solutions proposez-vous pour les déménagements longue distance depuis ou vers Mantes-la-Jolie ?",
-        answer: "Nous assurons des déménagements sur toutes les distances en France. Pour les longues distances, nous organisons des tournées groupées ou des voyages spéciaux selon vos contraintes, pour vous offrir un tarif compétitif et un service de haute qualité."
-    },
-    {
-        question: "Comment sont protégés mes meubles les plus fragiles ?",
-        answer: "La protection de vos biens est notre priorité. Nous utilisons des couvertures de protection épaisses, des housses spéciales pour la literie et les canapés, et du film à bulles ou des cartons renforcés pour les objets les plus délicats comme la vaisselle, les cadres ou les miroirs."
-    }
+const FAQS = [
+  { 
+    question: "Comment gérez-vous un déménagement dans le centre historique de Mantes ?", 
+    answer: "Le centre ancien possède des rues étroites et parfois piétonnes. Nous réalisons systématiquement une étude d'accès pour choisir le véhicule idéal. Nous gérons l'arrêté municipal de stationnement 15 jours en amont pour sécuriser l'emplacement au pied de votre domicile." 
+  },
+  { 
+    question: "Intervenez-vous pour des transferts d'entreprises ?", 
+    answer: "Oui, c'est l'une de nos spécialités. Nous accompagnons les sociétés du Mantois pour des transferts de bureaux, de parcs informatiques ou de stocks, avec une planification qui minimise l'impact sur votre activité." 
+  },
+  { 
+    question: "Proposez-vous la location de monte-meubles à Mantes-la-Jolie ?", 
+    answer: "Absolument. Pour les appartements en étage sans ascenseur large, le monte-meubles est indispensable. Il sécurise votre mobilier, protège les parties communes et accélère l'opération." 
+  },
+  { 
+    question: "Quelles sont les garanties pour mes objets fragiles ?", 
+    answer: "Nous utilisons des protections professionnelles : couvertures lourdes, housses matelassées pour matelas et cartons 'barrels' renforcés pour la vaisselle. Chaque déménagement bénéficie d'une assurance contractuelle incluse." 
+  }
 ];
 
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": FAQS.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
 
 export default function MantesLaJoliePage() {
-    return (
-        <div className="bg-background text-foreground">
-            {/* Hero Section */}
-            <section className="relative h-72 flex items-center justify-center text-center text-white">
-                <Image 
-                    src="https://picsum.photos/seed/mantes-la-jolie/1920/500"
-                    alt="Vue sur la Collégiale Notre-Dame de Mantes-la-Jolie"
-                    fill
-                    className="object-cover"
-                    data-ai-hint="mantes la jolie church"
-                />
-                <div className="absolute inset-0 bg-black/60" />
-                <div className="relative z-10 container">
-                    <p className="text-sm font-semibold text-primary">Le spécialiste de votre déménagement à Mantes-la-Jolie</p>
-                    <h1 className="text-4xl md:text-5xl font-headline font-bold mt-2">Déménagement Mantes-la-Jolie</h1>
-                    <p className="mt-4 text-lg max-w-3xl mx-auto text-white/90">La solution experte et locale pour votre déménagement au cœur du Mantois (78200).</p>
-                </div>
-            </section>
+  return (
+    <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
+      <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      
+      {/* --- HERO SECTION --- */}
+      <section className="relative min-h-[60vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-24 pb-16 overflow-hidden">
+        <Image 
+          src="https://picsum.photos/seed/mantes-collegiale/1920/1080"
+          alt="Vue sur la Collégiale de Mantes-la-Jolie"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-30 mix-blend-luminosity grayscale-[40%]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0b0f19] via-[#0b0f19]/80 to-transparent" />
+        
+        <div className="container relative z-10 mx-auto px-4 md:px-6">
+          <nav className="flex items-center text-xs font-medium text-slate-400 mb-8" aria-label="Breadcrumb">
+            <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
+            <ChevronRight className="h-3 w-3 mx-2" />
+            <Link href="/demenagement-yvelines-78" className="hover:text-white transition-colors">Yvelines (78)</Link>
+            <ChevronRight className="h-3 w-3 mx-2" />
+            <span className="text-white">Mantes-la-Jolie</span>
+          </nav>
+
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#00ad9f]/30 bg-[#00ad9f]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#00ad9f] mb-6 shadow-sm">
+              <Waves className="h-4 w-4" />
+              Expert Déménagement Mantois
+            </div>
             
-            {/* Breadcrumb */}
-            <div className="container py-3 text-sm text-muted-foreground">
-                <Link href="/" className="hover:text-primary">Accueil</Link>
-                <span className="mx-2">&gt;</span>
-                <Link href="/demenagement-yvelines-78" className="hover:text-primary">Yvelines (78)</Link>
-                <span className="mx-2">&gt;</span>
-                <span>Mantes-la-Jolie</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
+              Votre déménagement <br className="hidden sm:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
+                à Mantes-la-Jolie.
+              </span>
+            </h1>
+            
+            <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
+              L'excellence logistique pour vos projets résidentiels et professionnels au 78200. Une maîtrise parfaite des accès en bord de Seine et du centre historique.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button size="lg" className="rounded-full h-14 px-8 text-base bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
+                <Link href="/demande-de-devis">
+                  Obtenir mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- INTRO SECTION --- */}
+      <section className="py-20 lg:py-32 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            <div className="space-y-6 relative z-10">
+              <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                Une logistique experte <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">pour la capitale du Mantois</u>.
+              </h2>
+              <p className="text-lg text-slate-500 leading-relaxed">
+                Mantes-la-Jolie est une ville dynamique, mêlant patrimoine médiéval et nouveaux quartiers en plein essor. Déménager dans cet environnement exige une agilité technique capable de s'adapter aussi bien aux immeubles anciens du centre-ville qu'aux résidences modernes.
+              </p>
+              <p className="text-lg text-slate-500 leading-relaxed">
+                Chez Marne Transdem, nous maîtrisons chaque spécificité de la commune. Que vous emménagiez dans un appartement près de la Collégiale ou que vous transfériez votre entreprise vers un nouveau centre d'activités, nous garantissons une transition fluide.
+              </p>
+              
+              <div className="pt-6 flex items-center gap-4">
+                 <div className="h-14 w-14 rounded-full bg-[#00ad9f]/10 flex items-center justify-center shrink-0">
+                    <Building2 className="h-7 w-7 text-[#00ad9f]" />
+                 </div>
+                 <div className="text-slate-900 font-bold text-lg">
+                   Spécialiste Yvelines-Nord,<br/> <span className="text-slate-500 font-normal text-sm">maîtrise des accès urbains et gestion des arrêtés de voirie.</span>
+                 </div>
+              </div>
+            </div>
+            
+            <div className="relative">
+              <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 hover:rotate-6" />
+              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border border-slate-100">
+                <Image
+                  src="https://picsum.photos/seed/mantes-team/800/600"
+                  alt="Équipe de déménagement professionnelle en intervention à Mantes-la-Jolie"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- WHY CHOOSE US (Grille d'avantages) --- */}
+      <section id="why-us-mantes" className="py-20 lg:py-32 bg-slate-50">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+              Le bon choix pour le 78
+            </h2>
+            <p className="text-lg text-slate-500 font-light">
+              Notre parfaite connaissance de Mantes-la-Jolie est votre meilleure garantie de ponctualité.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {WHY_US_ITEMS.map((item, index) => (
+              <div key={index} className="bg-white border border-slate-200 p-8 rounded-[2rem] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                <div className="h-14 w-14 rounded-2xl bg-[#00ad9f]/10 flex items-center justify-center mb-6 group-hover:bg-[#00ad9f] transition-colors duration-300">
+                   <item.icon className="h-7 w-7 text-[#00ad9f] group-hover:text-white transition-colors duration-300" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- SERVICES RÉSUMÉ --- */}
+      <section className="py-20 lg:py-32 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            
+            <div className="order-2 lg:order-1 relative">
+              <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2rem] opacity-10 -z-10" />
+              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
+                <Image
+                  src="https://picsum.photos/seed/mantes-packing/800/600"
+                  alt="Déménageur protégeant du mobilier de valeur à Mantes"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
 
-            {/* Intro Section */}
-            <section className="py-16">
-                <div className="container grid lg:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <h2 className="text-3xl font-bold">Un déménageur qui connaît les atouts de Mantes-la-Jolie</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">
-                           Déménager à Mantes-la-Jolie, c'est choisir une ville au riche passé historique, aujourd'hui un pôle économique majeur de l'ouest francilien. Cette situation demande une approche logistique qui allie connaissance du centre ancien et efficacité dans les quartiers plus modernes.
-                        </p>
-                        <p className="mt-4 text-muted-foreground">
-                           Chez Déménagement du Vexin, nous sommes fiers de notre expertise locale. Que vous emménagiez dans un appartement en centre-ville, un pavillon ou que vous transfériez votre entreprise, nous vous garantissons un déménagement serein, efficace et parfaitement adapté à votre nouvelle adresse.
-                        </p>
-                    </div>
-                    <div>
-                         <Image
-                            src="https://picsum.photos/seed/mantes-move/600/400"
-                            alt="Équipe de déménagement professionnelle en intervention à Mantes-la-Jolie"
-                            width={600}
-                            height={400}
-                            className="rounded-lg shadow-lg"
-                            data-ai-hint="moving team city center"
-                        />
-                    </div>
-                </div>
-            </section>
+            <div className="order-1 lg:order-2 space-y-8 lg:pl-10">
+              <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                Une réponse à <br/> <span className="text-[#00ad9f]">chaque profil.</span>
+              </h2>
+              <ul className="space-y-6 pt-2">
+                <li className="flex items-start gap-4">
+                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><Building2 className="h-5 w-5"/></div>
+                  <div>
+                    <h4 className="text-lg font-bold text-slate-900">Appartements & Centre-Ville</h4>
+                    <p className="text-slate-500 mt-1 leading-relaxed">Protection totale des parties communes et utilisation de monte-meubles pour les accès en étage dans le centre historique.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><Home className="h-5 w-5"/></div>
+                  <div>
+                    <h4 className="text-lg font-bold text-slate-900">Maisons & Pavillons</h4>
+                    <p className="text-slate-500 mt-1 leading-relaxed">Logistique adaptée pour les propriétés avec jardin et emballage scrupuleux de vos objets précieux.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><Briefcase className="h-5 w-5"/></div>
+                  <div>
+                    <h4 className="text-lg font-bold text-slate-900">Transferts de Bureaux</h4>
+                    <p className="text-slate-500 mt-1 leading-relaxed">Services dédiés aux entreprises du Mantois : planification optimisée et protection du matériel informatique.</p>
+                  </div>
+                </li>
+              </ul>
+              <div className="pt-4">
+                <Button asChild variant="outline" className="rounded-full h-12 px-8 font-semibold border-slate-300 text-slate-700 hover:text-[#00ad9f] hover:border-[#00ad9f] hover:bg-[#00ad9f]/5">
+                   <Link href="/services">Voir tous nos services</Link>
+                </Button>
+              </div>
+            </div>
 
-             {/* Why Choose Us Section */}
-            <section id="why-us-mantes" className="py-16 bg-muted/50">
-                <div className="container">
-                    <div className="text-center max-w-3xl mx-auto">
-                        <h2 className="text-3xl font-bold">Le partenaire de confiance pour déménager à Mantes-la-Jolie</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Notre connaissance du terrain est votre meilleure garantie de sérénité.</p>
-                    </div>
-                    <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {whyChooseUsItems.map((item, i) => (
-                             <div key={i} className="text-center">
-                                {item.icon}
-                                <h3 className="text-xl font-semibold mt-4">{item.title}</h3>
-                                <p className="mt-2 text-muted-foreground">{item.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-            
-             {/* Services Section */}
-            <section className="py-16">
-                 <div className="container grid lg:grid-cols-2 gap-12 items-center">
-                    <div className="order-2 lg:order-1">
-                        <Image
-                            src="https://picsum.photos/seed/mantes-packing/600/400"
-                            alt="Déménageur emballant avec soin des objets fragiles à Mantes-la-Jolie"
-                            width={600}
-                            height={400}
-                            className="rounded-lg shadow-lg"
-                            data-ai-hint="careful mover packing city"
-                        />
-                    </div>
-                    <div className="order-1 lg:order-2">
-                        <h2 className="text-3xl font-bold">Des services adaptés aux particuliers et professionnels du Mantois</h2>
-                         <ul className="mt-6 space-y-4">
-                            <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Déménagement d'appartements</h4>
-                                    <p className="text-muted-foreground">Solutions avec monte-meubles pour les étages élevés et protection soignée de vos biens.</p>
-                                </div>
-                            </li>
-                             <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Déménagement de maisons et pavillons</h4>
-                                    <p className="text-muted-foreground">Nous gérons les déménagements de maisons avec jardin et accès spécifiques.</p>
-                                </div>
-                            </li>
-                             <li className="flex items-start gap-4">
-                                <CheckCircle className="h-6 w-6 text-primary flex-shrink-0 mt-1"/>
-                                <div>
-                                    <h4 className="font-semibold">Formules flexibles</h4>
-                                    <p className="text-muted-foreground">De la prestation économique au service tout confort, nous nous adaptons à vos attentes et votre budget.</p>
-                                </div>
-                            </li>
-                        </ul>
-                         <Button asChild className="mt-8" variant="outline">
-                            <Link href="/services">Découvrir tous nos services</Link>
-                         </Button>
-                    </div>
-                </div>
-            </section>
-            
-            <TestimonialsSection reviews={fallbackTestimonials} />
-            
-            {/* FAQ Section */}
-            <section id="faq-mantes" className="py-16">
-                <div className="container max-w-4xl mx-auto">
-                    <div className="text-center">
-                        <h2 className="text-3xl font-bold">Questions fréquentes - Déménagement Mantes</h2>
-                        <p className="mt-4 text-muted-foreground text-lg">Nos réponses claires pour un déménagement réussi à Mantes-la-Jolie.</p>
-                    </div>
-                    <Accordion type="single" collapsible className="w-full mt-12">
-                        {faqItems.map((item, i) => (
-                            <AccordionItem value={`item-${i}`} key={i}>
-                                <AccordionTrigger className="text-lg text-left hover:no-underline">
-                                    {item.question}
-                                </AccordionTrigger>
-                                <AccordionContent className="text-base text-muted-foreground">
-                                    {item.answer}
-                                </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
-                </div>
-            </section>
-
-             {/* CTA Section */}
-            <section id="contact-mantes" className="py-16 bg-primary/5">
-                <div className="container text-center">
-                    <h2 className="text-3xl font-bold">Organisez votre déménagement à Mantes-la-Jolie</h2>
-                    <p className="mt-4 text-lg max-w-2xl mx-auto text-muted-foreground">Contactez nos spécialistes pour une analyse précise de votre projet et obtenez un devis gratuit et personnalisé.</p>
-                    <Button size="lg" className="mt-8" asChild>
-                        <Link href="/dashboard/quote">Devis gratuit pour Mantes-la-Jolie</Link>
-                    </Button>
-                </div>
-            </section>
+          </div>
         </div>
-    );
+      </section>
+
+      {/* --- AVIS CLIENTS --- */}
+      <TestimonialsSection reviews={fallbackTestimonials} />
+
+      {/* --- FAQ --- */}
+      <section id="faq-mantes" className="py-20 lg:py-32 bg-slate-50">
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+              Questions <span className="text-[#00ad9f]">fréquentes</span>
+            </h2>
+            <p className="mt-4 text-lg text-slate-500 font-light">Nos réponses pour préparer votre installation réussie à Mantes-la-Jolie.</p>
+          </div>
+          
+          <Accordion type="single" collapsible className="w-full space-y-4">
+            {FAQS.map((item, i) => (
+              <AccordionItem 
+                value={`item-${i}`} 
+                key={i} 
+                className="bg-white border border-slate-200 rounded-2xl px-2 data-[state=open]:border-[#00ad9f]/40 data-[state=open]:shadow-md transition-all duration-200"
+              >
+                <AccordionTrigger className="text-lg font-bold text-slate-900 py-6 px-4 hover:no-underline hover:text-[#00ad9f] transition-colors text-left">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-slate-500 text-base leading-relaxed px-4 pb-6">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      {/* --- GRAND CTA FINAL --- */}
+      <section className="py-20 bg-white">
+         <div className="container mx-auto px-4 md:px-6">
+            <div className="relative rounded-[3rem] bg-[#0f172a] p-10 md:p-16 lg:p-24 text-center overflow-hidden shadow-2xl isolate">
+               
+               {/* Deco de fond fluide avec z-index et pointer-events-none */}
+               <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00ad9f]/15 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+               <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[100px] -z-10 -translate-x-1/3 translate-y-1/3 pointer-events-none" />
+               
+               <div className="relative z-10">
+                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-8 leading-tight">
+                    On organise votre <br className="hidden md:block"/>
+                    <span className="text-[#00ad9f]">départ de Mantes ?</span>
+                 </h2>
+                 <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
+                    Ne laissez pas la logistique urbaine ou les accès complexes ternir votre projet. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                 </p>
+                 
+                 <div className="flex flex-col sm:flex-row justify-center gap-6">
+                    <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
+                       <Link href="/demande-de-devis">
+                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                       </Link>
+                    </Button>
+                 </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+    </main>
+  );
 }

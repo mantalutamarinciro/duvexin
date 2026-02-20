@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import type { FormattedReview } from "@/app/api/reviews/route";
@@ -7,12 +6,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { TestimonialsSection } from "@/components/testimonials-section";
 
-
 const fallbackTestimonials: FormattedReview[] = [
     { id: "fallback-1", name: "Famille Dufour", text: "Un grand merci pour notre déménagement à Sartrouville. L'équipe a été rapide, organisée et très sympathique. Une prestation sans faille.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dufour78` },
     { id: "fallback-2", name: "Karine P.", text: "Service au top pour mon appartement. Le devis était clair et l'équipe a fait preuve d'un grand professionnalisme le jour J. Je recommande chaudement.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=KarineP78` },
     { id: "fallback-3", name: "Entreprise Tech Solutions", text: "Le transfert de nos bureaux a été mené avec efficacité. Une équipe discrète qui a su respecter notre planning serré.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=TechSolutions78` },
 ];
+
+export const metadata = {
+  title: "Déménagement Sartrouville (78) | Expert Local & Devis Gratuit",
+  description: "Déménageur de confiance à Sartrouville (78500). Spécialiste du Plateau, du centre-ville et des bords de Seine. Devis gratuit sous 24h et visite technique.",
+  alternates: {
+    canonical: "https://demenagementduvexin.fr/demenagement-sartrouville-78500",
+  }
+};
 
 const whyChooseUsItems = [
     {
