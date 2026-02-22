@@ -6,62 +6,62 @@
     "hint": "professional moving"
   },
   "service-particuliers": {
-    "url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800",
+    "url": "/images/services/demenagement-particuliers.webp",
     "alt": "Déménagement maison familiale",
     "hint": "moving home"
   },
   "service-entreprise": {
-    "url": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800",
+    "url": "/images/services/demenagement-entreprises.webp",
     "alt": "Transfert de bureaux",
     "hint": "office relocation"
   },
   "service-national": {
-    "url": "https://images.unsplash.com/photo-1519003722824-194d4455a60c?q=80&w=800",
+    "url": "/images/services/demenagement-national.webp",
     "alt": "Camion sur autoroute",
     "hint": "highway truck"
   },
   "service-stockage": {
-    "url": "https://images.unsplash.com/photo-1589710751893-f9a6770ad71b?q=80&w=800",
+    "url": "h/images/services/garde-meubles.webp",
     "alt": "Garde-meubles sécurisé",
     "hint": "storage units"
   },
   "service-art": {
-    "url": "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=800",
+    "url": "/images/services/demenagement-oeuvres-d-art.webp",
     "alt": "Transport d'œuvres d'art",
     "hint": "art museum"
   },
   "zone-val-doise": {
-    "url": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=800",
+    "url": "/images/zones/demenagement-val-d-oise.webp",
     "alt": "Val-d'Oise",
     "hint": "val doise"
   },
   "zone-yvelines": {
-    "url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800",
+    "url": "/images/zones/demenagement-yvelines-78.webp",
     "alt": "Versailles",
     "hint": "versailles castle"
   },
   "zone-paris": {
-    "url": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=800",
+    "url": "/images/zones/demenagement-paris.webp",
     "alt": "Paris",
     "hint": "paris eiffel"
   },
   "zone-hauts-de-seine": {
-    "url": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=800",
+    "url": "/images/zones/demenagement-hauts-de-seine.webp",
     "alt": "La Défense",
     "hint": "la defense"
   },
   "article-planning": {
-    "url": "https://images.unsplash.com/photo-1506784365847-bbad939e9335?q=80&w=800",
+    "url": "/images/blog/demenagement-planification.webp",
     "alt": "Planning déménagement",
     "hint": "calendar plan"
   },
   "article-cost": {
-    "url": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=800",
+    "url": "/images/blog/demenagement-budget.webp",
     "alt": "Budget déménagement",
     "hint": "money budget"
   },
   "article-steps": {
-    "url": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=800",
+    "url": "/images/blog/demenagement-etapes-cles.webp",
     "alt": "Étapes clés",
     "hint": "boxes moving"
   }

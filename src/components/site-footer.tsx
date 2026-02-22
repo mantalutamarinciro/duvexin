@@ -39,7 +39,7 @@ export function SiteFooter() {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-              <Button variant="outline" size="lg" className="rounded-full border-slate-700 text-white hover:bg-slate-800 h-14 px-8 font-bold" asChild>
+              <Button variant="outline" size="lg" className="rounded-full border-slate-700 text-primary hover:bg-slate-800 h-14 px-8 font-bold" asChild>
                 <Link href="tel:+33130751235">
                   <Phone className="mr-2 h-4 w-4" /> Nous appeler
                 </Link>
@@ -60,7 +60,7 @@ export function SiteFooter() {
           <div className="lg:col-span-4 space-y-8">
             <div className="space-y-6">
               <Link href="/" className="inline-block transition-transform hover:scale-105">
-                <div className="bg-white rounded-xl p-2.5 shadow-lg shadow-white/5">
+                <div className="bg-transparent rounded-xl p-2.5 shadow-lg shadow-white/5">
                   <Logo />
                 </div>
               </Link>

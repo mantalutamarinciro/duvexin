@@ -469,7 +469,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 Basés historiquement dans le Val-d&apos;Oise, nous rayonnons sur toute l&apos;Île-de-France et la Normandie.
               </p>
             </div>
-            <Button variant="outline" className="rounded-full border-slate-700 text-white hover:bg-slate-800 h-14 px-8 font-bold" asChild>
+            <Button variant="outline" className="rounded-full border-slate-700 text-primary hover:bg-slate-800 h-14 px-8 font-bold" asChild>
                 <Link href="/zones-intervention">Voir toutes les villes</Link>
             </Button>
           </div>
