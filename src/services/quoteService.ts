@@ -19,6 +19,8 @@ export interface Quote extends Omit<QuoteRequestFormData, 'moveDate'> {
   createdAt: string; // ISO string
 }
 
+const PRIMARY_COLOR = '#00ad9f';
+
 export async function saveQuote(
   quoteData: Omit<Quote, 'id' | 'createdAt' | 'status'> & { moveDate: string }
 ): Promise<{ id: string }> {
@@ -31,50 +33,102 @@ export async function saveQuote(
     });
 
     const quoteId = docRef.id;
+    const formattedDate = new Date(quoteData.moveDate).toLocaleDateString('fr-FR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+
     console.log('Quote saved with ID: ', quoteId);
 
-    // Send Notification Email via Resend
+    // Send Emails via Resend
     if (process.env.RESEND_API_KEY) {
       try {
+        // 1. NOTIFICATION ADMIN
         await resend.emails.send({
-          from: 'DemDuVexin <onboarding@resend.dev>',
+          from: 'DemDuVexin <contact@demenagementduvexin.fr>',
           to: 'mantalutamarinciro@gmail.com',
-          subject: `Nouvelle demande de devis - ${quoteData.clientName}`,
+          subject: `⚡️ Nouveau Devis : ${quoteData.clientName}`,
           html: `
-            <div style="font-family: sans-serif; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
-              <h1 style="color: #00a99d;">Nouvelle demande de devis reçue</h1>
-              <p>Une nouvelle demande vient d'être soumise sur le site DemDuVexin.</p>
-              
-              <div style="background-color: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                <h3 style="margin-top: 0;">Coordonnées Client</h3>
-                <p><strong>Nom :</strong> ${quoteData.clientName}</p>
-                <p><strong>Email :</strong> ${quoteData.clientEmail}</p>
-                <p><strong>Téléphone :</strong> ${quoteData.clientPhone || 'Non renseigné'}</p>
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden;">
+              <div style="background-color: ${PRIMARY_COLOR}; padding: 30px; text-align: center;">
+                <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.025em;">Nouveau Devis Reçu</h1>
               </div>
+              <div style="padding: 40px 30px;">
+                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 30px;">Vous avez reçu une nouvelle demande de devis via le site internet.</p>
+                
+                <h3 style="color: ${PRIMARY_COLOR}; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 15px;">Informations Client</h3>
+                <div style="background-color: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 30px;">
+                  <p style="margin: 0 0 10px 0;"><strong>Client :</strong> ${quoteData.clientName}</p>
+                  <p style="margin: 0 0 10px 0;"><strong>Email :</strong> ${quoteData.clientEmail}</p>
+                  <p style="margin: 0;"><strong>Tél :</strong> ${quoteData.clientPhone || 'Non renseigné'}</p>
+                </div>
 
-              <div style="background-color: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                <h3 style="margin-top: 0;">Détails du projet</h3>
-                <p><strong>Adresse de départ :</strong> ${quoteData.originAddress}</p>
-                <p><strong>Adresse d'arrivée :</strong> ${quoteData.destinationAddress}</p>
-                <p><strong>Date prévue :</strong> ${new Date(quoteData.moveDate).toLocaleDateString('fr-FR')}</p>
-                <p><strong>Volume estimé :</strong> ${quoteData.volume} m³</p>
-                <p><strong>Type de prestation :</strong> ${quoteData.serviceType}</p>
-                <p><strong>Informations complémentaires :</strong> ${quoteData.details || 'Aucune'}</p>
+                <h3 style="color: ${PRIMARY_COLOR}; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 15px;">Détails du Projet</h3>
+                <div style="background-color: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 40px;">
+                  <p style="margin: 0 0 10px 0;"><strong>Départ :</strong> ${quoteData.originAddress}</p>
+                  <p style="margin: 0 0 10px 0;"><strong>Arrivée :</strong> ${quoteData.destinationAddress}</p>
+                  <p style="margin: 0 0 10px 0;"><strong>Date :</strong> ${formattedDate}</p>
+                  <p style="margin: 0 0 10px 0;"><strong>Volume :</strong> ${quoteData.volume} m³</p>
+                  <p style="margin: 0;"><strong>Formule :</strong> ${quoteData.serviceType}</p>
+                </div>
+
+                <div style="text-align: center;">
+                  <a href="${process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http://localhost:9002'}/dashboard/quote/${quoteId}" 
+                     style="background-color: ${PRIMARY_COLOR}; color: #ffffff; padding: 16px 32px; text-decoration: none; border-radius: 12px; font-weight: bold; display: inline-block; box-shadow: 0 10px 15px -3px rgba(0, 169, 157, 0.3);">
+                     Traiter la demande
+                  </a>
+                </div>
               </div>
-
-              <p style="text-align: center; margin-top: 30px;">
-                <a href="${process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http://localhost:9002'}/dashboard/quote/${quoteId}" 
-                   style="background-color: #00a99d; color: white; padding: 12px 25px; text-decoration: none; border-radius: 50px; font-weight: bold;">
-                   Accéder au Devis dans le Dashboard
-                </a>
-              </p>
+              <div style="background-color: #f1f5f9; padding: 20px; text-align: center; font-size: 12px; color: #64748b;">
+                Ceci est une notification automatique générée par votre plateforme DemDuVexin.
+              </div>
             </div>
           `
         });
-        console.log('Notification email sent successfully');
+
+        // 2. CONFIRMATION CLIENT
+        await resend.emails.send({
+          from: 'Déménagement du Vexin <contact@demenagementduvexin.fr>',
+          to: quoteData.clientEmail,
+          subject: `Confirmation de votre demande de devis - DemDuVexin`,
+          html: `
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden;">
+              <div style="padding: 40px 30px; text-align: center; border-bottom: 1px solid #f1f5f9;">
+                <h1 style="color: ${PRIMARY_COLOR}; margin: 0; font-size: 28px; font-weight: 800;">Merci de votre confiance</h1>
+              </div>
+              <div style="padding: 40px 30px;">
+                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 25px;">Bonjour ${quoteData.clientName},</p>
+                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 30px;">Nous avons bien reçu votre demande de devis pour votre déménagement prévu le <strong>${formattedDate}</strong>.</p>
+                
+                <div style="background-color: #f8fafc; padding: 25px; border-radius: 12px; margin-bottom: 30px; border-left: 4px solid ${PRIMARY_COLOR};">
+                  <p style="margin: 0 0 10px 0; font-size: 14px; color: #64748b;">Rappel de votre projet :</p>
+                  <p style="margin: 0 0 5px 0;"><strong>Itinéraire :</strong> ${quoteData.originAddress} ➔ ${quoteData.destinationAddress}</p>
+                  <p style="margin: 0;"><strong>Volume estimé :</strong> ${quoteData.volume} m³</p>
+                </div>
+
+                <div style="margin-bottom: 40px;">
+                  <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 15px;">Quelle est la suite ?</h3>
+                  <ul style="padding-left: 20px; color: #475569; line-height: 1.8;">
+                    <li>Un de nos experts analyse actuellement vos informations.</li>
+                    <li>Nous vous contacterons par téléphone si des précisions sont nécessaires.</li>
+                    <li>Vous recevrez votre devis détaillé par e-mail sous <strong>24 heures ouvrées</strong>.</li>
+                  </ul>
+                </div>
+
+                <p style="font-size: 14px; color: #64748b; text-align: center; margin-bottom: 0;">L'équipe Déménagement du Vexin reste à votre entière disposition.</p>
+              </div>
+              <div style="background-color: #f8fafc; padding: 30px; text-align: center;">
+                <p style="margin: 0; font-weight: bold; color: #1e293b;">Déménagement du Vexin</p>
+                <p style="margin: 5px 0 0 0; font-size: 13px; color: #64748b;">01 30 75 12 35 | contact@demenagementduvexin.fr</p>
+              </div>
+            </div>
+          `
+        });
+
+        console.log('Dual notification emails sent successfully');
       } catch (emailError) {
-        console.error('Failed to send notification email:', emailError);
-        // We don't throw here to avoid blocking the DB save success for the user
+        console.error('Failed to send notification emails:', emailError);
       }
     }
 
