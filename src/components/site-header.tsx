@@ -1,22 +1,24 @@
-
 "use client";
 
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  ChevronDown,
-  Building2,
-  Globe,
-  Package,
-  Calculator,
-  MapPin,
   ArrowRight,
-  Paintbrush,
-  Warehouse,
+  Building2,
+  Calculator,
+  ChevronDown,
+  Globe,
+  MapPin,
   Menu,
   Phone,
   Sparkles,
+  Package,
+  Warehouse,
+  Paintbrush,
+  Train,
+  Plane,
+  Navigation,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -33,7 +35,8 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 /* ================== Data ================== */
 
-const MENU_SERVICES = [
+/** ✅ 4 services phares uniquement */
+const SERVICES_FEATURED = [
   {
     title: "Particuliers",
     href: "/demenagement-particuliers",
@@ -51,7 +54,7 @@ const MENU_SERVICES = [
     bg: "bg-emerald-50 dark:bg-emerald-950/30",
   },
   {
-    title: "Garde-Meubles",
+    title: "Garde-meubles",
     href: "/demenagement-garde-meubles",
     desc: "Stockage plombé et sécurisé.",
     icon: Warehouse,
@@ -59,7 +62,7 @@ const MENU_SERVICES = [
     bg: "bg-amber-50 dark:bg-amber-950/30",
   },
   {
-    title: "Objets Lourds",
+    title: "Objets lourds",
     href: "/demenagement-objets-lourds",
     desc: "Pianos, coffres et œuvres d'art.",
     icon: Paintbrush,
@@ -68,235 +71,496 @@ const MENU_SERVICES = [
   },
 ] as const;
 
-const MENU_OUTILS = [
+/** ✅ Zones (Local / National / International) */
+const ZONES = [
   {
-    title: "Calculateur de volume",
-    href: "/calculateur-volume",
-    desc: "Estimez vos m³ avec précision.",
-    icon: Calculator,
-  },
-  {
-    title: "Zones d'intervention",
-    href: "/zones-intervention",
-    desc: "95, 78, 27 et toute l'IDF.",
+    title: "Local",
+    desc: "Val-d’Oise & Île-de-France",
     icon: MapPin,
+    links: [
+      { label: "Val-d’Oise (95)", href: "/demenagement-val-doise-95" },
+      { label: "Île-de-France", href: "/demenagement-ile-de-france" },
+    ],
   },
   {
-    title: "Déménagement National",
-    href: "/demenagement-national",
-    desc: "Lignes régulières France entière.",
-    icon: Globe,
+    title: "National",
+    desc: "Destinations fréquentes",
+    icon: Train,
+    links: [
+      { label: "Paris → Lille", href: "/demenagement-ile-de-france-lille" },
+      { label: "Paris → Lyon", href: "/demenagement-ile-de-france-lyon" },
+      { label: "Paris → Bordeaux", href: "/demenagement-ile-de-france-bordeaux" },
+    ],
+  },
+  {
+    title: "International",
+    desc: "Pays voisins",
+    icon: Plane,
+    links: [
+      { label: "France → Belgique", href: "/demenagement-france-belgique" },
+      { label: "France → Suisse", href: "/demenagement-france-suisse" },
+      { label: "France → Luxembourg", href: "/demenagement-france-luxembourg" },
+    ],
   },
 ] as const;
 
 const MAIN_LINKS = [
-  { label: "Services", href: "/services" },
-  { label: "Zones", href: "/zones-intervention" },
-  { label: "Blog", href: "/blog" },
-  { label: "L'entreprise", href: "/a-propos-de-demenagement-du-vexin" },
+  { label: "Calculateur", href: "/calculateur-volume", icon: Calculator },
+  { label: "Blog", href: "/blog", icon: Globe },
+  { label: "L’entreprise", href: "/a-propos-de-demenagement-du-vexin", icon: Building2 },
 ] as const;
 
 /* ================== Helpers ================== */
 
-function useScrolled(threshold = 20) {
+function useScrolled(threshold = 16) {
   const [isScrolled, setIsScrolled] = React.useState(false);
-
   React.useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > threshold);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [threshold]);
-
   return isScrolled;
+}
+
+function useLockBodyScroll(locked: boolean) {
+  React.useEffect(() => {
+    if (!locked) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [locked]);
 }
 
 /* ================== Component ================== */
 
 export function SiteHeader() {
-  const isScrolled = useScrolled(20);
+  const pathname = usePathname();
+  const isScrolled = useScrolled(16);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  useLockBodyScroll(mobileOpen);
+
+  const isActive = React.useCallback(
+    (href: string) => {
+      if (!pathname) return false;
+      if (href === "/") return pathname === "/";
+      return pathname === href || pathname.startsWith(href + "/");
+    },
+    [pathname]
+  );
 
   return (
     <header
       className={cn(
-        "fixed top-0 z-50 w-full transition-all duration-500 ease-in-out px-4 md:px-8",
+        "fixed top-0 z-50 w-full px-4 md:px-8 transition-all duration-300",
         isScrolled ? "py-3" : "py-5"
       )}
     >
       <div
         className={cn(
-          "container mx-auto flex items-center justify-between transition-all duration-500 rounded-full border px-6",
+          "container mx-auto flex items-center justify-between rounded-full border px-4 sm:px-5 transition-all duration-300",
           isScrolled
-            ? "h-14 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-slate-200/50 dark:border-slate-800/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
+            ? "h-14 bg-white/80 dark:bg-slate-950/70 backdrop-blur-lg border-slate-200/60 dark:border-slate-800/60 shadow-[0_8px_30px_rgba(0,0,0,0.06)]"
             : "h-16 bg-white dark:bg-slate-950 border-transparent shadow-none"
         )}
       >
-        {/* Left: Logo */}
-        <Link href="/" className="hover:opacity-90 transition-opacity">
-          <Logo className={cn("transition-all", isScrolled ? "scale-90" : "scale-100")} />
+        {/* Left */}
+        <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
+          <Logo className={cn("transition-transform", isScrolled ? "scale-95" : "scale-100")} />
         </Link>
 
-        {/* Center: Desktop nav */}
+        {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-1">
-          {/* Services dropdown */}
+          {/* Mega menu - Services (✅ sans Zones) */}
           <div className="relative group">
-            <button className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-primary transition-colors group">
+            <button
+              type="button"
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold transition-colors",
+                "text-slate-700 dark:text-slate-200 hover:text-primary",
+                SERVICES_FEATURED.some((s) => isActive(s.href)) ? "text-primary" : ""
+              )}
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
               Services
-              <ChevronDown className="h-4 w-4 opacity-50 transition-transform group-hover:rotate-180" />
+              <ChevronDown className="h-4 w-4 opacity-60 transition-transform group-hover:rotate-180" />
             </button>
 
-            <div className="absolute left-1/2 -translate-x-1/2 top-full pt-4 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300">
-              <div className="w-[540px] rounded-[2rem] border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl p-4 ring-1 ring-slate-900/5">
+            <div className="absolute left-1/2 -translate-x-1/2 top-full pt-4 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200">
+              <div className="w-[740px] rounded-[2rem] border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-2xl p-4 ring-1 ring-slate-900/5">
+                <div className="flex items-center justify-between px-1 pb-2">
+                  <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-600">
+                    Services phares
+                  </p>
+                  <Link href="/services" className="text-[11px] font-extrabold text-primary hover:opacity-90">
+                    Tous les services
+                  </Link>
+                </div>
+
                 <div className="grid grid-cols-2 gap-2">
-                  {MENU_SERVICES.map((item) => (
+                  {SERVICES_FEATURED.map((item) => (
                     <Link
                       key={item.title}
                       href={item.href}
-                      className="group/item rounded-2xl p-4 transition-all hover:bg-slate-50 dark:hover:bg-slate-800 border border-transparent hover:border-slate-100 dark:hover:border-slate-700"
+                      className="group/item rounded-2xl p-4 transition-all hover:bg-slate-50 dark:hover:bg-slate-900 border border-transparent hover:border-slate-100 dark:hover:border-slate-800"
                     >
                       <div className="flex items-start gap-4">
-                        <span className={cn("h-12 w-12 rounded-2xl flex items-center justify-center transition-transform group-hover/item:-translate-y-1 shadow-sm", item.bg, item.color)}>
-                          <item.icon className="h-6 w-6" />
+                        <span
+                          className={cn(
+                            "h-11 w-11 rounded-2xl flex items-center justify-center shadow-sm transition-transform",
+                            "group-hover/item:-translate-y-0.5",
+                            item.bg,
+                            item.color
+                          )}
+                          aria-hidden="true"
+                        >
+                          <item.icon className="h-5 w-5" />
                         </span>
-                        <div>
-                          <div className="text-sm font-extrabold text-slate-900 dark:text-white">{item.title}</div>
-                          <div className="mt-1 text-[12px] leading-snug text-slate-500 dark:text-slate-400 font-medium">{item.desc}</div>
+                        <div className="min-w-0">
+                          <div className="text-sm font-extrabold text-slate-900 dark:text-white">
+                            {item.title}
+                          </div>
+                          <div className="mt-1 text-[12px] leading-snug text-slate-500 dark:text-slate-400 font-medium">
+                            {item.desc}
+                          </div>
                         </div>
                       </div>
                     </Link>
                   ))}
                 </div>
-                <div className="mt-4 p-4 rounded-2xl bg-primary/5 border border-primary/10 flex items-center justify-between group/cta">
-                    <div className="flex items-center gap-3">
-                        <Sparkles className="h-5 w-5 text-primary animate-pulse" />
-                        <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Prêt à emménager ?</span>
+
+                <div className="mt-3 rounded-2xl bg-primary/6 border border-primary/12 p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <span className="h-9 w-9 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <Sparkles className="h-4 w-4 text-primary" />
+                    </span>
+                    <div className="leading-tight">
+                      <div className="text-xs font-extrabold text-slate-900 dark:text-white">Devis gratuit</div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Réponse rapide</div>
                     </div>
-                    <Link href="/demande-de-devis" className="text-xs font-black text-primary flex items-center gap-1 group-hover/cta:gap-2 transition-all uppercase tracking-tighter">
-                        Devis instantané <ArrowRight className="h-3 w-3" />
-                    </Link>
+                  </div>
+
+                  <Link
+                    href="/demande-devis"
+                    className="text-[11px] font-black text-primary flex items-center gap-1.5 uppercase tracking-tight hover:gap-2 transition-all"
+                  >
+                    Démarrer <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Outils/Ressources dropdown */}
+          {/* Mega menu - Zones (✅ déplacé ici) */}
           <div className="relative group">
-            <button className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-primary transition-colors group">
-              Ressources
-              <ChevronDown className="h-4 w-4 opacity-50 transition-transform group-hover:rotate-180" />
+            <button
+              type="button"
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold transition-colors",
+                "text-slate-700 dark:text-slate-200 hover:text-primary",
+                isActive("/zones-intervention") ? "text-primary" : ""
+              )}
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Zones
+              <ChevronDown className="h-4 w-4 opacity-60 transition-transform group-hover:rotate-180" />
             </button>
-            <div className="absolute left-1/2 -translate-x-1/2 top-full pt-4 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300">
-              <div className="w-[320px] rounded-3xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl p-2 ring-1 ring-slate-900/5">
-                {MENU_OUTILS.map((item) => (
+
+            <div className="absolute left-1/2 -translate-x-1/2 top-full pt-4 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200">
+              <div className="w-[760px] rounded-[2rem] border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-2xl p-4 ring-1 ring-slate-900/5">
+                <div className="flex items-center justify-between px-1 pb-2">
+                  <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-600">
+                    Zones d’intervention
+                  </p>
                   <Link
-                    key={item.title}
-                    href={item.href}
-                    className="group/tool flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
+                    href="/zones-intervention"
+                    className="text-[11px] font-extrabold text-primary hover:opacity-90"
                   >
-                    <div className="h-10 w-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 group-hover/tool:bg-white dark:group-hover/tool:bg-slate-700 group-hover/tool:text-primary group-hover/tool:shadow-sm transition-all">
-                      <item.icon className="h-5 w-5" />
+                    Voir toutes les zones
+                  </Link>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2">
+                  {ZONES.map((zone) => (
+                    <div
+                      key={zone.title}
+                      className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/40 p-3"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="h-9 w-9 rounded-xl bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800 flex items-center justify-center text-primary">
+                          <zone.icon className="h-4 w-4" />
+                        </span>
+                        <div className="leading-tight">
+                          <div className="text-sm font-extrabold text-slate-900 dark:text-white">
+                            {zone.title}
+                          </div>
+                          <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                            {zone.desc}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-2 space-y-1">
+                        {zone.links.map((l) => (
+                          <Link
+                            key={l.href}
+                            href={l.href}
+                            className="flex items-center justify-between rounded-xl px-2.5 py-2 hover:bg-white dark:hover:bg-slate-950 transition-colors"
+                          >
+                            <span className="text-[12px] font-bold text-slate-700 dark:text-slate-200">
+                              {l.label}
+                            </span>
+                            <Navigation className="h-3.5 w-3.5 text-slate-300 dark:text-slate-700" />
+                          </Link>
+                        ))}
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <div className="text-sm font-bold text-slate-900 dark:text-white">{item.title}</div>
-                      <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium italic">{item.desc}</div>
+                  ))}
+                </div>
+
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  <Link
+                    href="/calculateur-volume"
+                    className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 px-3 py-3 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="h-9 w-9 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <Calculator className="h-4 w-4 text-primary" />
+                      </span>
+                      <div className="leading-tight">
+                        <div className="text-[12px] font-extrabold text-slate-900 dark:text-white">Calculateur</div>
+                        <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Estimer m³</div>
+                      </div>
                     </div>
                   </Link>
-                ))}
+
+                  <Link
+                    href="/demande-devis"
+                    className="rounded-2xl border border-primary/15 bg-primary/5 dark:bg-primary/10 px-3 py-3 hover:bg-primary/8 dark:hover:bg-primary/15 transition-colors"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="h-9 w-9 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <Sparkles className="h-4 w-4 text-primary" />
+                      </span>
+                      <div className="leading-tight">
+                        <div className="text-[12px] font-extrabold text-slate-900 dark:text-white">Devis gratuit</div>
+                        <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Réponse rapide</div>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Standard links */}
+          {/* Calculateur */}
+          <Link
+            href="/calculateur-volume"
+            className={cn(
+              "rounded-full px-4 py-2 text-sm font-bold transition-colors",
+              isActive("/calculateur-volume")
+                ? "text-primary"
+                : "text-slate-700 dark:text-slate-200 hover:text-primary"
+            )}
+          >
+            Calculateur
+          </Link>
+
+          {/* Blog */}
           <Link
             href="/blog"
-            className="rounded-full px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-primary transition-colors"
+            className={cn(
+              "rounded-full px-4 py-2 text-sm font-bold transition-colors",
+              isActive("/blog") ? "text-primary" : "text-slate-700 dark:text-slate-200 hover:text-primary"
+            )}
           >
             Blog
           </Link>
+
+          {/* L’entreprise */}
           <Link
             href="/a-propos-de-demenagement-du-vexin"
-            className="rounded-full px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-primary transition-colors"
+            className={cn(
+              "rounded-full px-4 py-2 text-sm font-bold transition-colors",
+              isActive("/a-propos-de-demenagement-du-vexin")
+                ? "text-primary"
+                : "text-slate-700 dark:text-slate-200 hover:text-primary"
+            )}
           >
-            L'entreprise
+            L’entreprise
           </Link>
         </nav>
 
-        {/* Right: Actions */}
+        {/* Right */}
         <div className="flex items-center gap-2">
           <a
             href="tel:+33130751235"
-            className="hidden xl:flex items-center gap-2.5 rounded-full px-4 py-2 text-sm font-black text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-all border border-transparent hover:border-slate-100 dark:hover:border-slate-700"
+            className={cn(
+              "hidden xl:flex items-center gap-2.5 rounded-full px-4 py-2 text-sm font-black transition-colors",
+              "text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-900",
+              "border border-transparent hover:border-slate-100 dark:hover:border-slate-800"
+            )}
           >
-            <div className="h-8 w-8 rounded-full bg-emerald-500/10 flex items-center justify-center">
-                <Phone className="h-4 w-4 text-emerald-600 fill-emerald-600/10" />
-            </div>
+            <span className="h-8 w-8 rounded-full bg-emerald-500/10 flex items-center justify-center">
+              <Phone className="h-4 w-4 text-emerald-600" />
+            </span>
             01 30 75 12 35
           </a>
 
-          <Button asChild className="rounded-full px-6 h-10 font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all hover:scale-105 active:scale-95 hidden sm:flex">
-            <Link href="/demande-de-devis">
-              Devis Gratuit
-            </Link>
+          <Button
+            asChild
+            className="hidden sm:flex rounded-full px-5 h-10 font-bold shadow-lg shadow-primary/15 hover:shadow-primary/25 transition-all active:scale-[0.98]"
+          >
+            <Link href="/demande-devis">Devis gratuit</Link>
           </Button>
 
           <ThemeToggle />
 
-          {/* Mobile menu toggle */}
-          <Sheet>
+          {/* Mobile */}
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="lg:hidden rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
+                aria-label="Ouvrir le menu"
+              >
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-full sm:w-[400px] rounded-l-[3rem] p-0 border-none shadow-2xl">
+
+            <SheetContent side="right" className="w-full sm:w-[420px] rounded-l-[2.5rem] p-0 border-none shadow-2xl">
               <div className="flex flex-col h-full bg-white dark:bg-slate-950">
-                <SheetHeader className="p-8 border-b border-slate-50 dark:border-slate-900">
+                <SheetHeader className="p-6 border-b border-slate-100 dark:border-slate-900">
                   <SheetTitle className="flex items-center justify-between">
                     <Logo />
+                    <ThemeToggle />
                   </SheetTitle>
                 </SheetHeader>
 
-                <div className="flex-1 overflow-y-auto p-6 space-y-8">
-                  {/* Quick Access */}
-                  <div className="grid grid-cols-2 gap-3">
-                    {MENU_SERVICES.slice(0, 2).map((s) => (
-                        <Link key={s.title} href={s.href} className={cn("p-4 rounded-3xl border border-slate-100 dark:border-slate-800", s.bg)}>
-                            <s.icon className={cn("h-6 w-6 mb-2", s.color)} />
-                            <span className="font-bold text-slate-900 dark:text-white text-sm">{s.title}</span>
-                        </Link>
-                    ))}
-                  </div>
+                <div className="flex-1 overflow-y-auto p-6 space-y-7">
+                  {/* Main links */}
+                  <nav className="space-y-2">
+                    <Link
+                      href="/zones-intervention"
+                      onClick={() => setMobileOpen(false)}
+                      className={cn(
+                        "flex items-center justify-between p-4 rounded-2xl transition-colors",
+                        "hover:bg-slate-50 dark:hover:bg-slate-900",
+                        isActive("/zones-intervention") ? "bg-slate-50 dark:bg-slate-900" : ""
+                      )}
+                    >
+                      <span className="text-base font-extrabold text-slate-900 dark:text-white">Zones</span>
+                      <MapPin className="h-5 w-5 text-slate-300 dark:text-slate-700" />
+                    </Link>
 
-                  <nav className="space-y-1">
                     {MAIN_LINKS.map((l) => (
                       <Link
                         key={l.href}
                         href={l.href}
-                        className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors group"
+                        onClick={() => setMobileOpen(false)}
+                        className={cn(
+                          "flex items-center justify-between p-4 rounded-2xl transition-colors",
+                          "hover:bg-slate-50 dark:hover:bg-slate-900",
+                          isActive(l.href) ? "bg-slate-50 dark:bg-slate-900" : ""
+                        )}
                       >
-                        <span className="text-lg font-bold text-slate-800 dark:text-slate-200">{l.label}</span>
-                        <ChevronDown className="h-5 w-5 text-slate-300 dark:text-slate-700 -rotate-90 group-hover:text-primary transition-colors" />
+                        <span className="text-base font-extrabold text-slate-900 dark:text-white">{l.label}</span>
+                        <l.icon className="h-5 w-5 text-slate-300 dark:text-slate-700" />
                       </Link>
                     ))}
                   </nav>
 
-                  <div className="p-4 rounded-3xl bg-slate-50 dark:bg-slate-900 space-y-4">
-                    <p className="text-xs font-black uppercase text-slate-400 dark:text-slate-600 tracking-widest px-2">Nos Outils</p>
-                    <div className="space-y-1">
-                        {MENU_OUTILS.map((o) => (
-                            <Link key={o.title} href={o.href} className="flex items-center gap-3 p-3 rounded-xl hover:bg-white dark:hover:bg-slate-800 transition-all font-bold text-slate-700 dark:text-slate-300 text-sm">
-                                <o.icon className="h-4 w-4 text-primary" />
-                                {o.title}
-                            </Link>
-                        ))}
+                  {/* Services */}
+                  <div className="rounded-3xl border border-slate-100 dark:border-slate-900 bg-slate-50/60 dark:bg-slate-900/40 p-4">
+                    <div className="flex items-center justify-between px-1 pb-3">
+                      <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-600">
+                        Services phares
+                      </p>
+                      <Link href="/services" onClick={() => setMobileOpen(false)} className="text-[11px] font-extrabold text-primary">
+                        Tous
+                      </Link>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      {SERVICES_FEATURED.map((s) => (
+                        <Link
+                          key={s.title}
+                          href={s.href}
+                          onClick={() => setMobileOpen(false)}
+                          className="rounded-2xl border border-slate-100 dark:border-slate-900 p-3 bg-white/70 dark:bg-slate-950/40 hover:bg-white dark:hover:bg-slate-950 transition-colors"
+                        >
+                          <div className={cn("h-10 w-10 rounded-2xl flex items-center justify-center mb-2", s.bg)}>
+                            <s.icon className={cn("h-5 w-5", s.color)} />
+                          </div>
+                          <div className="text-sm font-extrabold text-slate-900 dark:text-white">{s.title}</div>
+                          <div className="mt-1 text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-2">
+                            {s.desc}
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Zones (détails) */}
+                  <div className="rounded-3xl border border-slate-100 dark:border-slate-900 bg-slate-50/60 dark:bg-slate-900/40 p-4">
+                    <div className="flex items-center justify-between px-1 pb-3">
+                      <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-600">
+                        Zones
+                      </p>
+                      <Link href="/zones-intervention" onClick={() => setMobileOpen(false)} className="text-[11px] font-extrabold text-primary">
+                        Voir tout
+                      </Link>
+                    </div>
+
+                    <div className="space-y-2">
+                      {ZONES.map((z) => (
+                        <div
+                          key={z.title}
+                          className="rounded-2xl border border-slate-100 dark:border-slate-900 bg-white/70 dark:bg-slate-950/40 p-3"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="h-8 w-8 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex items-center justify-center text-primary">
+                              <z.icon className="h-4 w-4" />
+                            </span>
+                            <div className="leading-tight">
+                              <div className="text-sm font-extrabold text-slate-900 dark:text-white">{z.title}</div>
+                              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">{z.desc}</div>
+                            </div>
+                          </div>
+                          <div className="mt-2 space-y-1">
+                            {z.links.map((l) => (
+                              <Link
+                                key={l.href}
+                                href={l.href}
+                                onClick={() => setMobileOpen(false)}
+                                className="flex items-center justify-between rounded-xl px-2.5 py-2 hover:bg-white dark:hover:bg-slate-900 transition-colors"
+                              >
+                                <span className="text-[12px] font-bold text-slate-700 dark:text-slate-200">{l.label}</span>
+                                <ArrowRight className="h-3.5 w-3.5 text-slate-300 dark:text-slate-700" />
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
 
-                <div className="p-8 border-t border-slate-50 dark:border-slate-900 space-y-4">
-                  <Button asChild className="w-full h-14 rounded-2xl text-lg font-black shadow-xl">
-                    <Link href="/demande-de-devis">Estimer mon projet</Link>
+                <div className="p-6 border-t border-slate-100 dark:border-slate-900 space-y-3">
+                  <Button asChild className="w-full h-12 rounded-2xl text-base font-extrabold">
+                    <Link href="/demande-devis" onClick={() => setMobileOpen(false)}>
+                      Devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
                   </Button>
-                  <a href="tel:+33130751235" className="flex items-center justify-center gap-3 w-full h-14 rounded-2xl border-2 border-slate-100 dark:border-slate-800 font-bold text-slate-900 dark:text-white">
+
+                  <a
+                    href="tel:+33130751235"
+                    className="flex items-center justify-center gap-3 w-full h-12 rounded-2xl border border-slate-200 dark:border-slate-800 font-bold text-slate-900 dark:text-white"
+                  >
                     <Phone className="h-5 w-5" /> 01 30 75 12 35
                   </a>
                 </div>

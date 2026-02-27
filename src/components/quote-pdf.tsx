@@ -1,3 +1,4 @@
+
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
 import { QuoteRequestFormData, serviceTypeLabels } from "@/components/quote-form"
@@ -12,7 +13,7 @@ export function QuotePDF({ data, quote }: QuotePDFProps) {
 
     return (
         <div className="bg-white text-gray-800 p-8 font-sans text-sm">
-            <header className="flex justify-between items-start pb-4 border-b-2 border-gray-200">
+            <header className="flex justify-between items-start pb-4 border-b-2 border-gray-300">
                 <div>
                     <h1 className="text-3xl font-bold text-blue-600">DemDuVexin</h1>
                     <p className="text-gray-500">12 Rue de la République</p>

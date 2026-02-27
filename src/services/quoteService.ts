@@ -1,3 +1,4 @@
+
 'use server';
 
 import { db, admin } from '@/lib/firebase';
@@ -6,10 +7,9 @@ import { Resend } from 'resend';
 
 const { Timestamp } = admin.firestore;
 
-// Initialisation sécurisée de Resend
-// On vérifie que la clé existe et qu'elle ressemble à une vraie clé (commence par re_)
-// Cela évite que le build crash si la variable est vide ou contient un placeholder
-const apiKey = process.env.RESEND_API_KEY;
+// Initialisation ultra-sécurisée pour le build
+// Si la clé est absente ou invalide, on n'instancie pas Resend pour éviter de faire planter le build Next.js
+const apiKey = process.env.RESEND_API_KEY || '';
 const resend = (apiKey && apiKey.startsWith('re_')) ? new Resend(apiKey) : null;
 
 export type QuoteStatus = 'pending' | 'accepted' | 'refused' | 'invoiced' | 'converted';
@@ -44,7 +44,7 @@ export async function saveQuote(
 
     console.log('Quote saved with ID: ', quoteId);
 
-    // Envoi des emails via Resend si configuré
+    // Envoi des emails via Resend uniquement si configuré avec une clé valide
     if (resend) {
       try {
         const serviceLabel = serviceTypeLabels[quoteData.serviceType as keyof typeof serviceTypeLabels];
