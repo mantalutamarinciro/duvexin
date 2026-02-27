@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState } from "react";
@@ -10,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { MapPin, Clock, Package, User, Phone, Truck, Loader2, CheckCircle } from "lucide-react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { serviceTypeLabels } from "@/app/dashboard/quote/page";
+import { serviceTypeLabels } from "@/components/quote-form";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 

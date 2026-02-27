@@ -1,11 +1,9 @@
-
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import type { QuoteFormData } from "@/app/dashboard/quote/[quoteId]/page"
-import { serviceTypeLabels } from "@/app/dashboard/quote/page"
+import { QuoteRequestFormData, serviceTypeLabels } from "@/components/quote-form"
 
 interface QuotePDFProps {
-    data: QuoteFormData
+    data: QuoteRequestFormData
     quote: number
 }
 
@@ -46,7 +44,7 @@ export function QuotePDF({ data, quote }: QuotePDFProps) {
                     </div>
                      <div>
                         <p className="font-semibold">Type de service :</p>
-                        <p>{serviceTypeLabels[data.serviceType]}</p>
+                        <p>{serviceTypeLabels[data.serviceType as keyof typeof serviceTypeLabels]}</p>
                     </div>
                     <div>
                         <p className="font-semibold">Adresse de départ :</p>
@@ -78,7 +76,7 @@ export function QuotePDF({ data, quote }: QuotePDFProps) {
                     <tbody>
                         <tr className="border-b border-gray-200">
                             <td className="p-3">
-                                <p className="font-medium">Prestation de déménagement ({serviceTypeLabels[data.serviceType]})</p>
+                                <p className="font-medium">Prestation de déménagement ({serviceTypeLabels[data.serviceType as keyof typeof serviceTypeLabels]})</p>
                                 <p className="text-xs text-gray-500">Basé sur une distance de {data.distance} km et un volume de {data.volume} m³.</p>
                             </td>
                             <td className="p-3 text-right">{quote.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</td>

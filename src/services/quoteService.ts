@@ -1,13 +1,13 @@
 'use server';
 
 import { db, admin } from '@/lib/firebase';
-import { QuoteRequestFormData } from '@/components/quote-form';
+import { QuoteRequestFormData, serviceTypeLabels } from '@/components/quote-form';
 import { Resend } from 'resend';
 
 const { Timestamp } = admin.firestore;
 
-// Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend safely to avoid build errors when API key is missing
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 export type QuoteStatus = 'pending' | 'accepted' | 'refused' | 'invoiced' | 'converted';
 
@@ -41,9 +41,11 @@ export async function saveQuote(
 
     console.log('Quote saved with ID: ', quoteId);
 
-    // Send Emails via Resend
-    if (process.env.RESEND_API_KEY) {
+    // Send Emails via Resend if configured
+    if (resend) {
       try {
+        const serviceLabel = serviceTypeLabels[quoteData.serviceType as keyof typeof serviceTypeLabels];
+
         // 1. NOTIFICATION ADMIN
         await resend.emails.send({
           from: 'DemDuVexin <contact@demenagementduvexin.fr>',
@@ -70,7 +72,7 @@ export async function saveQuote(
                   <p style="margin: 0 0 10px 0;"><strong>Arrivée :</strong> ${quoteData.destinationAddress}</p>
                   <p style="margin: 0 0 10px 0;"><strong>Date :</strong> ${formattedDate}</p>
                   <p style="margin: 0 0 10px 0;"><strong>Volume :</strong> ${quoteData.volume} m³</p>
-                  <p style="margin: 0;"><strong>Formule :</strong> ${quoteData.serviceType}</p>
+                  <p style="margin: 0;"><strong>Formule :</strong> ${serviceLabel}</p>
                 </div>
 
                 <div style="text-align: center;">

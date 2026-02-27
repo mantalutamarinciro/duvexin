@@ -1,8 +1,7 @@
-
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
 import type { Booking } from "@/services/bookingService"
-import { serviceTypeLabels } from "@/app/dashboard/quote/page"
+import { serviceTypeLabels } from "@/components/quote-form"
 
 interface WaybillPDFProps {
     data: Booking

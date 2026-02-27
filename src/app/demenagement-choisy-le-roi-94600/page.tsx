@@ -45,30 +45,42 @@ const WHY_US_ITEMS = [
   {
     icon: MapPin,
     title: "Expertise de Choisy",
-    description: "Du centre-ville historique au quartier des Gondoles, nous maîtrisons chaque accès et les plans de circulation du 94600."
+    description: "Du centre-ville historique au quartier pavillonnaire des Gondoles, nous maîtrisons chaque accès et les plans de circulation du 94600."
   },
   {
     icon: Waves,
     title: "Spécialiste Bords de Seine",
-    description: "Nous gérons les accès résidentiels le long de la Seine avec des véhicules adaptés et une protection totale contre l'humidité."
+    description: "Nous gérons les accès résidentiels le long de la Seine avec des véhicules adaptés (petits porteurs) et une logistique sur-mesure."
   },
   {
     icon: Train,
     title: "Logistique Gare & RER",
-    description: "Nous anticipons les flux autour de la gare RER C pour garantir une ponctualité exemplaire, même aux heures de pointe."
+    description: "Nous anticipons les flux de voyageurs autour de la gare RER C pour garantir une ponctualité exemplaire, même aux heures de pointe."
   },
   {
     icon: ShieldCheck,
     title: "Sérénité Administrative",
-    description: "Nous gérons pour vous les demandes d'autorisation de stationnement auprès de la mairie de Choisy-le-Roi."
+    description: "Nous gérons intégralement pour vous les demandes d'autorisation de stationnement (arrêtés de voirie) auprès de la mairie."
   }
 ];
 
 const FAQS = [
-  { question: "Comment se déroule un déménagement en bord de Seine à Choisy ?", answer: "Nous connaissons parfaitement les résidences des quais. Nous effectuons une visite technique pour évaluer si un monte-meubles est nécessaire. Le jour J, nous sécurisons le périmètre et protégeons les parties communes pour une intervention rapide et discrète." },
-  { question: "Le stationnement est-il complexe à Choisy-le-Roi ?", answer: "Comme dans toute ville dense de la petite couronne, le stationnement peut être un défi. C'est pourquoi nous incluons la gestion des arrêtés de voirie dans nos prestations Standard et Confort, vous garantissant une place réservée au pied de votre immeuble." },
-  { question: "Proposez-vous des formules pour les petits appartements ?", answer: "Oui, notre formule 'Économique' est idéale pour les studios ou T2. Vous emballez vos cartons et nos déménageurs s'occupent de la protection du mobilier, du portage lourd et du transport sécurisé." },
-  { question: "Quelles protections utilisez-vous pour les objets fragiles ?", answer: "Nous utilisons des couvertures professionnelles épaisses, des housses matelassées pour la literie et des cartons renforcés. Pour le très fragile (miroirs, écrans, vaisselle), nous employons du bullkraft et des calages spécifiques." }
+  { 
+    question: "Comment se déroule un déménagement en bord de Seine à Choisy ?", 
+    answer: "Nous connaissons parfaitement les résidences des quais. Nous effectuons une visite technique pour évaluer si un monte-meubles est nécessaire ou si le portage est préférable. Le jour J, nous sécurisons le périmètre de stationnement et protégeons les parties communes pour une intervention rapide et discrète." 
+  },
+  { 
+    question: "Le stationnement est-il complexe à Choisy-le-Roi ?", 
+    answer: "Comme dans la majorité des villes denses de la petite couronne, le stationnement peut être un véritable défi. C'est pourquoi nous incluons la gestion administrative des arrêtés de voirie dans nos prestations, vous garantissant une place réservée au pied de votre immeuble le jour J." 
+  },
+  { 
+    question: "Proposez-vous des formules pour les petits appartements ?", 
+    answer: "Oui, notre formule 'Économique' est idéale pour les studios ou les T2. Le principe est simple : vous emballez l'intégralité de vos cartons, et nos déménageurs professionnels s'occupent du plus dur : la protection du mobilier, le portage lourd, le chargement et le transport sécurisé." 
+  },
+  { 
+    question: "Quelles protections utilisez-vous pour les objets fragiles ?", 
+    answer: "Nous utilisons exclusivement du matériel de protection professionnel : couvertures de fort grammage pour tout le mobilier, housses matelassées spécifiques pour la literie et les canapés, et cartons renforcés. Pour le très fragile (miroirs, écrans TV, belle vaisselle), nous employons du bullkraft et des calages sur-mesure." 
+  }
 ];
 
 const faqStructuredData = {
@@ -87,33 +99,35 @@ export default function ChoisyLeRoiPage() {
       <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
       
       {/* --- HERO SECTION --- */}
-      <section className="relative min-h-[60vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-24 pb-16 overflow-hidden">
+      <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
         <Image 
-          src="https://picsum.photos/seed/choisy-seine/1920/1080"
-          alt="Vue des bords de Seine à Choisy-le-Roi"
+          src="/images/entete-pages.webp"
+          alt="Déménageur professionnel en pleine préparation logistique"
           fill
           priority
           sizes="100vw"
-          className="object-cover opacity-30 mix-blend-luminosity grayscale-[30%]"
+          className="object-cover opacity-30 mix-blend-luminosity grayscale-[20%] scale-105 animate-in fade-in duration-1000"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0b0f19] via-[#0b0f19]/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19] via-[#0b0f19]/80 to-transparent" />
         
         <div className="container relative z-10 mx-auto px-4 md:px-6">
-          <nav className="flex items-center text-xs font-medium text-slate-400 mb-8" aria-label="Breadcrumb">
+          
+          {/* Fil d'Ariane Intégré au Hero */}
+          <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
-            <ChevronRight className="h-3 w-3 mx-2" />
-            <Link href="/demenagement-val-de-marne-94" className="hover:text-white transition-colors">Val-de-Marne (94)</Link>
-            <ChevronRight className="h-3 w-3 mx-2" />
-            <span className="text-white">Choisy-le-Roi</span>
+            <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
+            <Link href="/zones-intervention" className="hover:text-white transition-colors">Val-de-Marne (94)</Link>
+            <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
+            <span className="text-[#00ad9f]">Choisy-le-Roi</span>
           </nav>
 
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#00ad9f]/30 bg-[#00ad9f]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#00ad9f] mb-6 shadow-sm">
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-teal-300 mb-8 shadow-sm backdrop-blur-md">
               <Anchor className="h-4 w-4" />
-              Expert Local 94
+              Expert Local Val-de-Marne
             </div>
             
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
               Votre déménagement <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
                 à Choisy-le-Roi.
@@ -121,13 +135,13 @@ export default function ChoisyLeRoiPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              La solution logistique fiable pour votre projet à Choisy (94600). Maîtrise des bords de Seine et du centre-ville pour une transition sans stress.
+              La solution logistique fiable pour votre projet à Choisy (94600). Maîtrise absolue des bords de Seine et du centre-ville pour une transition sans stress.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="rounded-full h-14 px-8 text-base bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
-                <Link href="/demande-de-devis">
-                  Obtenir mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
+            <div className="flex flex-col sm:flex-row gap-5">
+              <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
+                <Link href="/demande-devis">
+                  Obtenir mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </div>
@@ -136,38 +150,41 @@ export default function ChoisyLeRoiPage() {
       </section>
 
       {/* --- INTRO SECTION --- */}
-      <section className="py-20 lg:py-32 bg-white overflow-hidden">
+      <section className="py-24 bg-white overflow-hidden">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            <div className="space-y-6 relative z-10">
-              <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+            <div className="space-y-8 relative z-10">
+              <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
                 Le spécialiste de la <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">confluence urbaine</u>.
               </h2>
-              <p className="text-lg text-slate-500 leading-relaxed">
-                Déménager à Choisy-le-Roi, c’est s’installer dans une ville connectée au carrefour de flux majeurs. Son tissu urbain mêle harmonieusement bords de Seine pavillonnaires et centre-ville dynamique.
-              </p>
-              <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons ces spécificités géographiques. De la gestion du trafic près de la gare RER C aux manœuvres délicates dans les rues résidentielles des Gondoles, nos équipes assurent une prestation fluide et sécurisée.
-              </p>
+              <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
+                <p>
+                  Déménager à Choisy-le-Roi, c’est s’installer dans une ville dynamique et ultra-connectée au carrefour de flux franciliens majeurs. Son tissu urbain mêle harmonieusement les bords de Seine résidentiels, les quartiers pavillonnaires comme Les Gondoles, et un centre-ville dense.
+                </p>
+                <p>
+                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons ces spécificités géographiques locales. De la gestion du trafic dense près de la gare RER C aux manœuvres délicates dans les ruelles résidentielles, nos équipes assurent une prestation fluide, sécurisée et d'une grande ponctualité.
+                </p>
+              </div>
               
-              <div className="pt-6 flex items-center gap-4">
-                 <div className="h-14 w-14 rounded-full bg-[#00ad9f]/10 flex items-center justify-center shrink-0">
-                    <Waves className="h-7 w-7 text-[#00ad9f]" />
+              <div className="pt-6 flex items-start gap-5">
+                 <div className="h-16 w-16 rounded-2xl bg-teal-50 flex items-center justify-center shrink-0 border border-teal-100">
+                    <Waves className="h-8 w-8 text-[#00ad9f]" />
                  </div>
-                 <div className="text-slate-900 font-bold text-lg">
-                   Expertise Bords de Seine,<br/> <span className="text-slate-500 font-normal text-sm">protection et logistique fluviale maîtrisées.</span>
+                 <div>
+                   <h3 className="text-xl font-bold text-slate-900 mb-1">Expertise Bords de Seine</h3>
+                   <p className="text-slate-500 font-light">Logistique maîtrisée des quais et protection spécifique pour le patrimoine fluvial.</p>
                  </div>
               </div>
             </div>
             
-            <div className="relative">
-              <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 hover:rotate-6" />
-              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border border-slate-100">
+            <div className="relative group">
+              <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 group-hover:-rotate-1" />
+              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="https://picsum.photos/seed/choisy-team-move/800/600"
-                  alt="Équipe de déménagement professionnelle en action à Choisy"
+                  src="/images/zones/demenagement-choisy-le-roi.webp"
+                  alt="Équipe de déménagement professionnelle en action à Choisy-le-Roi"
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
             </div>
@@ -176,25 +193,25 @@ export default function ChoisyLeRoiPage() {
       </section>
 
       {/* --- WHY CHOOSE US --- */}
-      <section id="why-us-choisy" className="py-20 lg:py-32 bg-slate-50">
+      <section id="why-us-choisy" className="py-24 bg-slate-50">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
               Le bon choix pour le 94
             </h2>
-            <p className="text-lg text-slate-500">
-              Une connaissance millimétrée de Choisy-le-Roi pour un service réactif et ponctuel.
+            <p className="text-lg text-slate-500 font-light">
+              Une connaissance millimétrée de Choisy-le-Roi pour un service réactif et sans faille.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {WHY_US_ITEMS.map((item, index) => (
-              <div key={index} className="bg-white border border-slate-200 p-8 rounded-[2rem] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-                <div className="h-14 w-14 rounded-2xl bg-[#00ad9f]/10 flex items-center justify-center mb-6 group-hover:bg-[#00ad9f] transition-colors duration-300">
-                   <item.icon className="h-7 w-7 text-[#00ad9f] group-hover:text-white transition-colors duration-300" />
+              <div key={index} className="bg-white border border-slate-100 p-10 rounded-[2.5rem] shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 group flex flex-col">
+                <div className="h-16 w-16 rounded-2xl bg-slate-50 shadow-sm flex items-center justify-center mb-8 group-hover:bg-[#00ad9f] transition-colors duration-500">
+                   <item.icon className="h-8 w-8 text-[#00ad9f] group-hover:text-white transition-colors duration-500" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
-                <p className="text-sm text-slate-500 leading-relaxed">{item.description}</p>
+                <h3 className="text-xl font-bold text-slate-900 mb-4">{item.title}</h3>
+                <p className="text-sm text-slate-500 font-light leading-relaxed flex-grow">{item.description}</p>
               </div>
             ))}
           </div>
@@ -202,49 +219,54 @@ export default function ChoisyLeRoiPage() {
       </section>
 
       {/* --- SERVICES RÉSUMÉ --- */}
-      <section className="py-20 lg:py-32 bg-white">
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             
-            <div className="order-2 lg:order-1 relative">
-              <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2rem] opacity-10 -z-10" />
-              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
+            <div className="order-2 lg:order-1 relative group">
+              <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2.5rem] opacity-10 -z-10 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0" />
+              <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="https://picsum.photos/seed/choisy-packing-furniture/800/600"
-                  alt="Déménageur protégeant du mobilier avec soin"
+                  src="/images/services/emballage-demenagement.webp"
+                  alt="Déménageur protégeant du mobilier avec un soin d'orfèvre"
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
             </div>
 
-            <div className="order-1 lg:order-2 space-y-8 lg:pl-10">
-              <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+            <div className="order-1 lg:order-2 space-y-10 lg:pl-10">
+              <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
                 Une réponse à <br/> <span className="text-[#00ad9f]">chaque profil.</span>
               </h2>
-              <ul className="space-y-6 pt-2">
-                <li className="flex items-start gap-4">
-                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><Building className="h-5 w-5"/></div>
+              <ul className="space-y-8">
+                <li className="flex items-start gap-6">
+                  <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Building className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-lg font-bold text-slate-900">Appartements & Résidences</h4>
-                    <p className="text-slate-500 mt-1 leading-relaxed">Protection totale des parties communes (ascenseurs, sols) et utilisation de monte-meubles pour les accès difficiles.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Appartements & Résidences</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Protection totale des parties communes (ascenseurs, halls, sols) et utilisation de monte-meubles pour les accès en étage complexes.</p>
                   </div>
                 </li>
-                <li className="flex items-start gap-4">
-                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><Home className="h-5 w-5"/></div>
+                <li className="flex items-start gap-6">
+                  <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Home className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-lg font-bold text-slate-900">Maisons et Pavillons</h4>
-                    <p className="text-slate-500 mt-1 leading-relaxed">Logistique adaptée pour les quartiers résidentiels (Les Gondoles) avec emballage scrupuleux de vos objets précieux.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Maisons et Pavillons</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Logistique parfaitement adaptée pour les quartiers résidentiels (Les Gondoles, etc.) avec emballage scrupuleux de vos objets précieux et extérieurs.</p>
                   </div>
                 </li>
-                <li className="flex items-start gap-4">
-                  <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><CheckCircle2 className="h-5 w-5"/></div>
+                <li className="flex items-start gap-6">
+                  <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-lg font-bold text-slate-900">Formules Modulables</h4>
-                    <p className="text-slate-500 mt-1 leading-relaxed">De la formule Éco pour les petits budgets à la prestation Confort clé en main pour un gain de temps total.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Formules Modulables</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">De la formule 'Économique' pour maîtriser les budgets, à la prestation 'Confort' (emballage complet) pour un déménagement sans aucun effort.</p>
                   </div>
                 </li>
               </ul>
+              <div className="pt-4">
+                <Button asChild variant="outline" className="rounded-full h-14 px-8 font-bold border-slate-200 text-slate-700 hover:text-[#00ad9f] hover:border-[#00ad9f] hover:bg-[#00ad9f]/5 transition-all">
+                   <Link href="/formules-de-demenagement">Comparer nos formules</Link>
+                </Button>
+              </div>
             </div>
 
           </div>
@@ -255,13 +277,13 @@ export default function ChoisyLeRoiPage() {
       <TestimonialsSection reviews={fallbackTestimonials} />
 
       {/* --- FAQ --- */}
-      <section id="faq-choisy" className="py-20 lg:py-32 bg-slate-50">
+      <section id="faq-choisy" className="py-24 bg-slate-50">
         <div className="container mx-auto px-4 md:px-6 max-w-4xl">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+          <div className="text-center mb-16 space-y-4">
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-900">
               Questions <span className="text-[#00ad9f]">fréquentes</span>
             </h2>
-            <p className="mt-4 text-lg text-slate-500">Nos réponses pour préparer votre installation réussie dans le 94.</p>
+            <p className="text-lg text-slate-500 font-light">Nos réponses pour préparer votre installation réussie dans le 94.</p>
           </div>
           
           <Accordion type="single" collapsible className="w-full space-y-4">
@@ -269,12 +291,12 @@ export default function ChoisyLeRoiPage() {
               <AccordionItem 
                 value={`item-${i}`} 
                 key={i} 
-                className="bg-white border border-slate-200 rounded-2xl px-2 data-[state=open]:border-[#00ad9f]/40 data-[state=open]:shadow-md transition-all duration-200"
+                className="bg-white border border-slate-200 rounded-2xl px-4 data-[state=open]:border-[#00ad9f]/40 data-[state=open]:shadow-md transition-all duration-300"
               >
                 <AccordionTrigger className="text-lg font-bold text-slate-900 py-6 px-4 hover:no-underline hover:text-[#00ad9f] transition-colors text-left">
                   {item.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-slate-500 text-base leading-relaxed px-4 pb-6">
+                <AccordionContent className="text-slate-500 text-base font-light leading-relaxed px-4 pb-6">
                   {item.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -284,27 +306,28 @@ export default function ChoisyLeRoiPage() {
       </section>
 
       {/* --- GRAND CTA FINAL --- */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
          <div className="container mx-auto px-4 md:px-6">
-            <div className="relative rounded-[3rem] bg-[#0f172a] p-10 md:p-16 lg:p-24 text-center overflow-hidden shadow-2xl isolate">
+            <div className="relative rounded-[4rem] bg-[#0f172a] p-12 md:p-24 text-center overflow-hidden shadow-2xl isolate">
                
-               {/* Deco de fond fluide avec z-index et pointer-events-none */}
-               <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00ad9f]/15 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
-               <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[100px] -z-10 -translate-x-1/3 translate-y-1/3 pointer-events-none" />
+               <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00ad9f]/20 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+               <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[100px] -z-10 -translate-x-1/3 translate-y-1/3 pointer-events-none" />
                
-               <div className="relative z-10">
-                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-8 leading-tight">
+               <div className="relative z-10 space-y-8">
+                 <h2 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-tight">
                     Prêt pour votre <br className="hidden md:block"/>
-                    <span className="text-[#00ad9f]">départ de Choisy ?</span>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-300">
+                      départ de Choisy ?
+                    </span>
                  </h2>
-                 <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la logistique au hasard. Contactez nos équipes pour une visite technique et recevez un devis gratuit sous 24h.
+                 <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
+                    Ne laissez pas la logistique au hasard. Contactez nos équipes pour une visite technique gratuite et recevez un devis détaillé, ferme et sans engagement sous 24h.
                  </p>
                  
-                 <div className="flex flex-col sm:flex-row justify-center gap-6">
-                    <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
-                       <Link href="/demande-de-devis">
-                          Mon devis gratuit pour Choisy <ArrowRight className="ml-2 h-4 w-4" />
+                 <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
+                    <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
+                       <Link href="/demande-devis">
+                          Mon devis gratuit pour Choisy <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>
