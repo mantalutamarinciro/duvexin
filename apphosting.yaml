@@ -5,3 +5,11 @@ runConfig:
   # Increase this value if you'd like to automatically spin up
   # more instances in response to increased traffic.
   maxInstances: 1
+
+env:
+  # La clé API Resend pour l'envoi d'e-mails
+  # Vous devez configurer cette valeur dans la console Firebase (App Hosting > Secrets)
+  - variable: RESEND_API_KEY
+    availability:
+      - BUILD
+      - RUNTIME

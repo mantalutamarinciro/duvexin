@@ -6,8 +6,11 @@ import { Resend } from 'resend';
 
 const { Timestamp } = admin.firestore;
 
-// Initialize Resend safely to avoid build errors when API key is missing
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+// Initialisation sécurisée de Resend
+// On vérifie que la clé existe et qu'elle ressemble à une vraie clé (commence par re_)
+// Cela évite que le build crash si la variable est vide ou contient un placeholder
+const apiKey = process.env.RESEND_API_KEY;
+const resend = (apiKey && apiKey.startsWith('re_')) ? new Resend(apiKey) : null;
 
 export type QuoteStatus = 'pending' | 'accepted' | 'refused' | 'invoiced' | 'converted';
 
@@ -41,7 +44,7 @@ export async function saveQuote(
 
     console.log('Quote saved with ID: ', quoteId);
 
-    // Send Emails via Resend if configured
+    // Envoi des emails via Resend si configuré
     if (resend) {
       try {
         const serviceLabel = serviceTypeLabels[quoteData.serviceType as keyof typeof serviceTypeLabels];
@@ -76,7 +79,7 @@ export async function saveQuote(
                 </div>
 
                 <div style="text-align: center;">
-                  <a href="${process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http://localhost:9002'}/dashboard/quote/${quoteId}" 
+                  <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://demenagementduvexin.fr'}/dashboard/quote/${quoteId}" 
                      style="background-color: ${PRIMARY_COLOR}; color: #ffffff; padding: 16px 32px; text-decoration: none; border-radius: 12px; font-weight: bold; display: inline-block; box-shadow: 0 10px 15px -3px rgba(0, 169, 157, 0.3);">
                      Traiter la demande
                   </a>
