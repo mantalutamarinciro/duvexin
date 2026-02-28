@@ -35,7 +35,6 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 /* ================== Data ================== */
 
-/** ✅ 4 services phares uniquement */
 const SERVICES_FEATURED = [
   {
     title: "Particuliers",
@@ -71,7 +70,6 @@ const SERVICES_FEATURED = [
   },
 ] as const;
 
-/** ✅ Zones (Local / National / International) */
 const ZONES = [
   {
     title: "Local",
@@ -447,7 +445,7 @@ export function SiteHeader() {
                         isActive("/demenagement-international") ? "bg-slate-50 dark:bg-slate-900" : ""
                       )}
                     >
-                      <span className="text-base font-extrabold text-slate-900 dark:text-white">International</span>
+                      <span className="text-base font-extrabold text-slate-900 dark:text-white">Voir toutes les destinations (INT)</span>
                       <Globe className="h-5 w-5 text-primary" />
                     </Link>
 

@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useEffect, useRef, useState } from "react"
@@ -151,7 +150,7 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
   useEffect(() => {
     const handler = setTimeout(() => {
         handleAddressAnalysis();
-    }, 3000); // Wait longer to allow user to pick a suggestion
+    }, 3000); // Attente un peu plus longue pour laisser l'utilisateur choisir une suggestion
 
     return () => {
         clearTimeout(handler);
@@ -198,7 +197,6 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
     form.setValue(field === 'origin' ? 'originAddress' : 'destinationAddress', val, { shouldValidate: true });
     setSuggestions(prev => ({ ...prev, [field]: [] }));
     setActiveSuggestionField(null);
-    // Trigger immediate analysis if both are present
     handleAddressAnalysis();
   }
   
@@ -206,18 +204,18 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
     <TooltipProvider>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <Card>
+          <Card className="rounded-[2.5rem] border-slate-100 shadow-sm">
               <CardHeader>
-              <CardTitle>Vos coordonnées</CardTitle>
+              <CardTitle className="text-xl font-black">Vos coordonnées</CardTitle>
               </CardHeader>
-              <CardContent className="grid gap-4 sm:grid-cols-2">
+              <CardContent className="grid gap-6 sm:grid-cols-2">
               <FormField
                   control={form.control}
                   name="clientName"
                   render={({ field }) => (
                   <FormItem>
                       <FormLabel>Nom complet</FormLabel>
-                      <FormControl><Input placeholder="Jean Dupont" {...field} /></FormControl>
+                      <FormControl><Input placeholder="Jean Dupont" className="rounded-xl h-12" {...field} /></FormControl>
                       <FormMessage />
                   </FormItem>
                   )}
@@ -228,7 +226,7 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                   render={({ field }) => (
                   <FormItem>
                       <FormLabel>Email</FormLabel>
-                      <FormControl><Input type="email" placeholder="jean.dupont@email.com" {...field} /></FormControl>
+                      <FormControl><Input type="email" placeholder="jean.dupont@email.com" className="rounded-xl h-12" {...field} /></FormControl>
                       <FormMessage />
                   </FormItem>
                   )}
@@ -239,7 +237,7 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                   render={({ field }) => (
                   <FormItem>
                       <FormLabel>Téléphone (facultatif)</FormLabel>
-                      <FormControl><Input type="tel" placeholder="06 12 34 56 78" {...field} /></FormControl>
+                      <FormControl><Input type="tel" placeholder="06 12 34 56 78" className="rounded-xl h-12" {...field} /></FormControl>
                       <FormMessage />
                   </FormItem>
                   )}
@@ -247,23 +245,23 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
               </CardContent>
           </Card>
 
-          <Card>
+          <Card className="rounded-[2.5rem] border-slate-100 shadow-sm">
               <CardHeader>
                   <div className="flex items-center justify-between">
                       <div>
-                          <CardTitle>Votre déménagement</CardTitle>
+                          <CardTitle className="text-xl font-black">Votre déménagement</CardTitle>
                           <CardDescription>Adresses de départ et d'arrivée</CardDescription>
                       </div>
                       {isAnalyzingAddress && (
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground animate-pulse">
-                          <Wand2 className="h-3 w-3" />
+                        <div className="flex items-center gap-2 text-xs text-primary font-bold animate-pulse">
+                          <Wand2 className="h-3.5 w-3.5" />
                           Calcul de l'itinéraire...
                         </div>
                       )}
                   </div>
               </CardHeader>
-              <CardContent className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
+              <CardContent className="space-y-6">
+              <div className="grid gap-6 sm:grid-cols-2">
                   <FormField
                   control={form.control}
                   name="originAddress"
@@ -271,28 +269,32 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                       <FormItem className="relative">
                       <FormLabel>Adresse de départ</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder="Ex: 9 Rue de Pontoise, Méry-sur-Oise" 
-                          {...field} 
-                          autoComplete="off" 
-                          onChange={(e) => {
-                            field.onChange(e);
-                            fetchSuggestions(e.target.value, 'origin');
-                            setActiveSuggestionField('origin');
-                          }}
-                          onFocus={() => setActiveSuggestionField('origin')}
-                        />
+                        <div className="relative">
+                          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                          <Input 
+                            placeholder="Ex: 9 Rue de Pontoise, Méry-sur-Oise" 
+                            className="rounded-xl h-12 pl-10"
+                            {...field} 
+                            autoComplete="off" 
+                            onChange={(e) => {
+                              field.onChange(e);
+                              fetchSuggestions(e.target.value, 'origin');
+                              setActiveSuggestionField('origin');
+                            }}
+                            onFocus={() => setActiveSuggestionField('origin')}
+                          />
+                        </div>
                       </FormControl>
                       {activeSuggestionField === 'origin' && suggestions.origin.length > 0 && (
-                        <div className="absolute z-50 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
+                        <div className="absolute z-50 w-full mt-1 bg-white border border-slate-100 rounded-2xl shadow-2xl max-h-60 overflow-auto p-1">
                           {suggestions.origin.map((s, i) => (
                             <button
                               key={i}
                               type="button"
-                              className="w-full px-4 py-2 text-left text-sm hover:bg-slate-100 flex items-center gap-2"
+                              className="w-full px-4 py-3 text-left text-sm hover:bg-slate-50 flex items-center gap-3 transition-colors rounded-xl font-medium"
                               onClick={() => selectSuggestion(s, 'origin')}
                             >
-                              <MapPin className="h-3 w-3 text-muted-foreground" />
+                              <MapPin className="h-4 w-4 text-primary/60" />
                               {s}
                             </button>
                           ))}
@@ -309,28 +311,32 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                       <FormItem className="relative">
                       <FormLabel>Adresse d'arrivée</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder="Ex: 22 Rue Isambard, Évreux" 
-                          {...field} 
-                          autoComplete="off" 
-                          onChange={(e) => {
-                            field.onChange(e);
-                            fetchSuggestions(e.target.value, 'destination');
-                            setActiveSuggestionField('destination');
-                          }}
-                          onFocus={() => setActiveSuggestionField('destination')}
-                        />
+                        <div className="relative">
+                          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                          <Input 
+                            placeholder="Ex: 22 Rue Isambard, Évreux" 
+                            className="rounded-xl h-12 pl-10"
+                            {...field} 
+                            autoComplete="off" 
+                            onChange={(e) => {
+                              field.onChange(e);
+                              fetchSuggestions(e.target.value, 'destination');
+                              setActiveSuggestionField('destination');
+                            }}
+                            onFocus={() => setActiveSuggestionField('destination')}
+                          />
+                        </div>
                       </FormControl>
                       {activeSuggestionField === 'destination' && suggestions.destination.length > 0 && (
-                        <div className="absolute z-50 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
+                        <div className="absolute z-50 w-full mt-1 bg-white border border-slate-100 rounded-2xl shadow-2xl max-h-60 overflow-auto p-1">
                           {suggestions.destination.map((s, i) => (
                             <button
                               key={i}
                               type="button"
-                              className="w-full px-4 py-2 text-left text-sm hover:bg-slate-100 flex items-center gap-2"
+                              className="w-full px-4 py-3 text-left text-sm hover:bg-slate-50 flex items-center gap-3 transition-colors rounded-xl font-medium"
                               onClick={() => selectSuggestion(s, 'destination')}
                             >
-                              <MapPin className="h-3 w-3 text-muted-foreground" />
+                              <MapPin className="h-4 w-4 text-primary/60" />
                               {s}
                             </button>
                           ))}
@@ -341,7 +347,7 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                   )}
                   />
               </div>
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-6 sm:grid-cols-2">
                   <FormField
                       control={form.control}
                       name="moveDate"
@@ -354,7 +360,7 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                                   <Button
                                   variant={"outline"}
                                   className={cn(
-                                      "w-full pl-3 text-left font-normal",
+                                      "w-full h-12 pl-3 text-left font-normal rounded-xl",
                                       !field.value && "text-muted-foreground"
                                   )}
                                   >
@@ -390,11 +396,11 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                           <Tooltip>
                               <TooltipTrigger className="w-full">
                                   <FormControl>
-                                      <Input type="number" readOnly {...field} className="bg-muted/50 cursor-default font-bold text-primary"/>
+                                      <Input type="number" readOnly {...field} className="h-12 rounded-xl bg-slate-50 cursor-default font-black text-primary border-slate-200"/>
                                   </FormControl>
                               </TooltipTrigger>
                               <TooltipContent>
-                                  <p className="flex items-center gap-2"><Wand2 className="h-4 w-4"/> Calculé automatiquement par l'IA</p>
+                                  <p className="flex items-center gap-2 font-bold"><Wand2 className="h-4 w-4"/> Calculé automatiquement par l'IA</p>
                               </TooltipContent>
                           </Tooltip>
                           <FormMessage />
@@ -405,11 +411,11 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
               </CardContent>
           </Card>
 
-          <Card>
+          <Card className="rounded-[2.5rem] border-slate-100 shadow-sm">
               <CardHeader>
-                  <CardTitle>Volume et Prestations</CardTitle>
+                  <CardTitle className="text-xl font-black">Volume et Prestations</CardTitle>
               </CardHeader>
-              <CardContent className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
+              <CardContent className="grid gap-6 sm:grid-cols-2">
               <FormField
                   control={form.control}
                   name="volume"
@@ -417,13 +423,13 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                   <FormItem>
                       <FormLabel>Volume (m³)</FormLabel>
                       <div className="flex items-center gap-2">
-                      <FormControl><Input type="number" step="1" placeholder="ex: 20" {...field} /></FormControl>
-                      <Button type="button" variant="ghost" size="icon" onClick={syncVolumeFromInventory} disabled={isSyncingVolume} title="Récupérer depuis le calculateur">
+                      <FormControl><Input type="number" step="1" placeholder="ex: 20" className="rounded-xl h-12" {...field} /></FormControl>
+                      <Button type="button" variant="outline" size="icon" onClick={syncVolumeFromInventory} disabled={isSyncingVolume} className="h-12 w-12 rounded-xl" title="Récupérer depuis le calculateur">
                           <RefreshCw className={cn("h-4 w-4", isSyncingVolume && "animate-spin")} />
                       </Button>
                       </div>
                       <FormMessage />
-                      <p className="text-xs text-muted-foreground italic">Pas sûr ? <Link href="/calculateur-volume" target="_blank" className="underline hover:text-primary">Utilisez notre calculateur</Link>.</p>
+                      <p className="text-xs text-muted-foreground italic mt-1">Pas sûr ? <Link href="/calculateur-volume" target="_blank" className="text-primary font-bold hover:underline">Utilisez notre calculateur</Link>.</p>
                   </FormItem>
                   )}
               />
@@ -435,7 +441,7 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                       <FormLabel>Formule souhaitée</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger className="rounded-xl h-12">
                           <SelectValue placeholder="Sélectionnez..." />
                           </SelectTrigger>
                       </FormControl>
@@ -455,7 +461,7 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                       <FormItem className="sm:col-span-2">
                       <FormLabel>Informations complémentaires (facultatif)</FormLabel>
                       <FormControl>
-                          <Textarea placeholder="Objets fragiles, piano, accès difficile (étages, ascenseur...), besoin de cartons ?" {...field} />
+                          <Textarea placeholder="Objets fragiles, piano, accès difficile (étages, ascenseur...), besoin de cartons ?" className="rounded-2xl min-h-[100px]" {...field} />
                       </FormControl>
                       <FormMessage />
                       </FormItem>
@@ -465,8 +471,8 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
           </Card>
 
           <div className="flex justify-end pt-4">
-              <Button type="submit" size="lg" disabled={isSaving} className="h-14 px-10 rounded-full text-base font-bold shadow-xl shadow-primary/20">
-                  {isSaving ? <Loader2 className="mr-2 animate-spin" /> : <Send className="mr-2"/>}
+              <Button type="submit" size="lg" disabled={isSaving} className="h-16 px-12 rounded-full text-lg font-black bg-primary text-white hover:bg-primary/90 shadow-[0_20px_50px_-12px_rgba(0,169,157,0.5)] transition-all hover:scale-105 active:scale-95">
+                  {isSaving ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Send className="mr-2 h-5 w-5"/>}
                   {submitButtonText}
               </Button>
           </div>
