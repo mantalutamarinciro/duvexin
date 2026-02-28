@@ -98,9 +98,9 @@ const ZONES = [
     icon: Plane,
     links: [
       { label: "France → Belgique", href: "/demenagement-france-belgique" },
-      { label: "France → Espagne", href: "/demenagement-france-espagne" },
-      { label: "France → Italie", href: "/demenagement-france-italie" },
       { label: "France → Suisse", href: "/demenagement-france-suisse" },
+      { label: "France → Pays-Bas", href: "/demenagement-france-pays-bas" },
+      { label: "France → Luxembourg", href: "/demenagement-france-luxembourg" },
     ],
   },
 ] as const;
