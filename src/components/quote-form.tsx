@@ -106,14 +106,20 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
 
     try {
       const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}&limit=5`);
-      if (!res.ok) throw new Error('API Error');
+      
+      // On échoue silencieusement si l'API ne répond pas
+      if (!res.ok) {
+        setSuggestions(prev => ({ ...prev, [field]: [] }));
+        return;
+      }
+
       const data = await res.json();
       
-      // Ajout d'une vérification de sécurité sur data.features
+      // Vérification de sécurité sur data.features
       const labels = data?.features?.map((f: any) => f.properties.label) || [];
       setSuggestions(prev => ({ ...prev, [field]: labels }));
     } catch (error) {
-      console.error("Autocomplete fetch error", error);
+      // On vide les suggestions en cas d'erreur réseau sans bloquer le formulaire
       setSuggestions(prev => ({ ...prev, [field]: [] }));
     }
   }
@@ -398,7 +404,7 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                       <FormItem>
                           <FormLabel>Distance estimée (km)</FormLabel>
                           <Tooltip>
-                              <TooltipTrigger className="w-full" asChild>
+                              <TooltipTrigger asChild>
                                   <FormControl>
                                       <Input type="number" readOnly {...field} className="h-12 rounded-xl bg-slate-50 cursor-default font-black text-primary border-slate-200"/>
                                   </FormControl>
