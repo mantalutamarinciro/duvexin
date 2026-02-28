@@ -97,15 +97,16 @@ const ZONES = [
     desc: "Pays voisins",
     icon: Plane,
     links: [
-      { label: "France → Belgique", href: "/demenagement-france-belgique" },
-      { label: "France → Suisse", href: "/demenagement-france-suisse" },
-      { label: "France → Espagne", href: "/demenagement-france-espagne" },
-      { label: "France → Portugal", href: "/demenagement-france-portugal" },
-      { label: "France → Italie", href: "/demenagement-france-italie" },
-      { label: "France → Allemagne", href: "/demenagement-france-allemagne" },
-      { label: "France → Pays-Bas", href: "/demenagement-france-pays-bas" },
-      { label: "France → Luxembourg", href: "/demenagement-france-luxembourg" },
-      { label: "France → Andorre", href: "/demenagement-france-andorre" },
+      { label: "Royaume-Uni", href: "/demenagement-france-royaume-uni" },
+      { label: "Belgique", href: "/demenagement-france-belgique" },
+      { label: "Suisse", href: "/demenagement-france-suisse" },
+      { label: "Espagne", href: "/demenagement-france-espagne" },
+      { label: "Portugal", href: "/demenagement-france-portugal" },
+      { label: "Italie", href: "/demenagement-france-italie" },
+      { label: "Allemagne", href: "/demenagement-france-allemagne" },
+      { label: "Pays-Bas", href: "/demenagement-france-pays-bas" },
+      { label: "Luxembourg", href: "/demenagement-france-luxembourg" },
+      { label: "Andorre", href: "/demenagement-france-andorre" },
     ],
   },
 ] as const;
@@ -178,7 +179,7 @@ export function SiteHeader() {
 
         {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-1">
-          {/* Mega menu - Services (✅ sans Zones) */}
+          {/* Mega menu - Services */}
           <div className="relative group">
             <button
               type="button"
@@ -259,7 +260,7 @@ export function SiteHeader() {
             </div>
           </div>
 
-          {/* Mega menu - Zones (✅ déplacé ici) */}
+          {/* Mega menu - Zones */}
           <div className="relative group">
             <button
               type="button"
@@ -362,42 +363,21 @@ export function SiteHeader() {
             </div>
           </div>
 
-          {/* Calculateur */}
-          <Link
-            href="/calculateur-volume"
-            className={cn(
-              "rounded-full px-4 py-2 text-sm font-bold transition-colors",
-              isActive("/calculateur-volume")
-                ? "text-primary"
-                : "text-slate-700 dark:text-slate-200 hover:text-primary"
-            )}
-          >
-            Calculateur
-          </Link>
-
-          {/* Blog */}
-          <Link
-            href="/blog"
-            className={cn(
-              "rounded-full px-4 py-2 text-sm font-bold transition-colors",
-              isActive("/blog") ? "text-primary" : "text-slate-700 dark:text-slate-200 hover:text-primary"
-            )}
-          >
-            Blog
-          </Link>
-
-          {/* L’entreprise */}
-          <Link
-            href="/a-propos-de-demenagement-du-vexin"
-            className={cn(
-              "rounded-full px-4 py-2 text-sm font-bold transition-colors",
-              isActive("/a-propos-de-demenagement-du-vexin")
-                ? "text-primary"
-                : "text-slate-700 dark:text-slate-200 hover:text-primary"
-            )}
-          >
-            L’entreprise
-          </Link>
+          {/* Main Links */}
+          {MAIN_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={cn(
+                "rounded-full px-4 py-2 text-sm font-bold transition-colors",
+                isActive(link.href)
+                  ? "text-primary"
+                  : "text-slate-700 dark:text-slate-200 hover:text-primary"
+              )}
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
 
         {/* Right */}
