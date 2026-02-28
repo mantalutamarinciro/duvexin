@@ -23,7 +23,6 @@ import {
   Route,
   Timer,
   Scale,
-  Euro,
   FileText,
   BadgeCheck,
   Building
@@ -88,17 +87,17 @@ const FAQS = [
   }
 ];
 
-const faqStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": FAQS.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
-  }))
-};
-
 export default function LuxembourgPage() {
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": FAQS.map(item => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+    }))
+  };
+
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
       <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
@@ -133,7 +132,7 @@ export default function LuxembourgPage() {
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
               Votre déménagement <br className="hidden sm:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200 text-shadow-sm">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
                 vers le Grand-Duché.
               </span>
             </h1>
@@ -144,7 +143,7 @@ export default function LuxembourgPage() {
             
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
-                <Link href="/demande-devis">
+                <Link href="/demande-de-devis">
                   Obtenir mon devis Luxembourg <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
@@ -186,7 +185,7 @@ export default function LuxembourgPage() {
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
                   src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=800"
-                  alt="Déménagement international haut de gamme"
+                  alt="Déménagement international vers le Luxembourg"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -357,7 +356,7 @@ export default function LuxembourgPage() {
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
-                       <Link href="/demande-devis">
+                       <Link href="/demande-de-devis">
                           Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
