@@ -98,16 +98,9 @@ const ZONES = [
     icon: Plane,
     links: [
       { label: "Royaume-Uni", href: "/demenagement-france-royaume-uni" },
-      { label: "Irlande", href: "/demenagement-france-irlande" },
-      { label: "Belgique", href: "/demenagement-france-belgique" },
       { label: "Suisse", href: "/demenagement-france-suisse" },
       { label: "Espagne", href: "/demenagement-france-espagne" },
-      { label: "Portugal", href: "/demenagement-france-portugal" },
-      { label: "Italie", href: "/demenagement-france-italie" },
-      { label: "Allemagne", href: "/demenagement-france-allemagne" },
-      { label: "Pays-Bas", href: "/demenagement-france-pays-bas" },
-      { label: "Luxembourg", href: "/demenagement-france-luxembourg" },
-      { label: "Andorre", href: "/demenagement-france-andorre" },
+      { label: "Belgique", href: "/demenagement-france-belgique" },
     ],
   },
 ] as const;
@@ -324,6 +317,17 @@ export function SiteHeader() {
                             <Navigation className="h-3.5 w-3.5 text-slate-300 dark:text-slate-700" />
                           </Link>
                         ))}
+                        {zone.title === "International" && (
+                          <Link
+                            href="/demenagement-international"
+                            className="flex items-center justify-between rounded-xl px-2.5 py-2 bg-primary/5 hover:bg-primary/10 transition-colors mt-2"
+                          >
+                            <span className="text-[12px] font-black text-primary">
+                              Hub International
+                            </span>
+                            <ArrowRight className="h-3.5 w-3.5 text-primary" />
+                          </Link>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -432,6 +436,19 @@ export function SiteHeader() {
                   {/* Main links */}
                   <nav className="space-y-2">
                     <Link
+                      href="/demenagement-international"
+                      onClick={() => setMobileOpen(false)}
+                      className={cn(
+                        "flex items-center justify-between p-4 rounded-2xl transition-colors",
+                        "hover:bg-slate-50 dark:hover:bg-slate-900",
+                        isActive("/demenagement-international") ? "bg-slate-50 dark:bg-slate-900" : ""
+                      )}
+                    >
+                      <span className="text-base font-extrabold text-slate-900 dark:text-white">International (Hub)</span>
+                      <Globe className="h-5 w-5 text-primary" />
+                    </Link>
+
+                    <Link
                       href="/zones-intervention"
                       onClick={() => setMobileOpen(false)}
                       className={cn(
@@ -488,50 +505,6 @@ export function SiteHeader() {
                             {s.desc}
                           </div>
                         </Link>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Zones (détails) */}
-                  <div className="rounded-3xl border border-slate-100 dark:border-slate-900 bg-slate-50/60 dark:bg-slate-900/40 p-4">
-                    <div className="flex items-center justify-between px-1 pb-3">
-                      <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-600">
-                        Zones
-                      </p>
-                      <Link href="/zones-intervention" onClick={() => setMobileOpen(false)} className="text-[11px] font-extrabold text-primary">
-                        Voir tout
-                      </Link>
-                    </div>
-
-                    <div className="space-y-2">
-                      {ZONES.map((z) => (
-                        <div
-                          key={z.title}
-                          className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white/70 dark:bg-slate-950/40 p-3"
-                        >
-                          <div className="flex items-center gap-2">
-                            <span className="h-8 w-8 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex items-center justify-center text-primary">
-                              <z.icon className="h-4 w-4" />
-                            </span>
-                            <div className="leading-tight">
-                              <div className="text-sm font-extrabold text-slate-900 dark:text-white">{z.title}</div>
-                              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">{z.desc}</div>
-                            </div>
-                          </div>
-                          <div className="mt-2 space-y-1">
-                            {z.links.map((l) => (
-                              <Link
-                                key={l.href}
-                                href={l.href}
-                                onClick={() => setMobileOpen(false)}
-                                className="flex items-center justify-between rounded-xl px-2.5 py-2 hover:bg-white dark:hover:bg-slate-900 transition-colors"
-                              >
-                                <span className="text-[12px] font-bold text-slate-700 dark:text-slate-200">{l.label}</span>
-                                <ArrowRight className="h-3.5 w-3.5 text-slate-300 dark:text-slate-700" />
-                              </Link>
-                            ))}
-                          </div>
-                        </div>
                       ))}
                     </div>
                   </div>
