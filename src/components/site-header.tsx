@@ -75,26 +75,29 @@ const SERVICES_FEATURED = [
 const ZONES = [
   {
     title: "Local",
-    desc: "Val-d’Oise & Île-de-France",
+    desc: "Val-d’Oise & Normandie",
     icon: MapPin,
     links: [
       { label: "Val-d’Oise (95)", href: "/demenagement-val-d-oise-95" },
-      { label: "Île-de-France", href: "/zones-intervention" },
+      { label: "Eure (27)", href: "/demenagement-eure-27" },
+      { label: "Seine-Maritime (76)", href: "/demenagement-seine-maritime-76" },
+      { label: "Toute l'Île-de-France", href: "/zones-intervention" },
     ],
   },
   {
     title: "National",
-    desc: "Destinations fréquentes",
+    desc: "Longue distance",
     icon: Train,
     links: [
-      { label: "Paris → Lille", href: "/demenagement-ile-de-france-lille" },
       { label: "Paris → Lyon", href: "/demenagement-ile-de-france-lyon" },
+      { label: "Paris → Marseille", href: "/demenagement-ile-de-france-marseille" },
       { label: "Paris → Bordeaux", href: "/demenagement-ile-de-france-bordeaux" },
+      { label: "Paris → Lille", href: "/demenagement-ile-de-france-lille" },
     ],
   },
   {
     title: "International",
-    desc: "Pays voisins",
+    desc: "Europe",
     icon: Plane,
     links: [
       { label: "Royaume-Uni", href: "/demenagement-france-royaume-uni" },
@@ -317,13 +320,13 @@ export function SiteHeader() {
                             <Navigation className="h-3.5 w-3.5 text-slate-300 dark:text-slate-700" />
                           </Link>
                         ))}
-                        {zone.title === "International" && (
+                        {(zone.title === "International" || zone.title === "National") && (
                           <Link
-                            href="/demenagement-international"
+                            href={zone.title === "International" ? "/demenagement-international" : "/demenagement-national"}
                             className="flex items-center justify-between rounded-xl px-2.5 py-2 bg-primary/5 hover:bg-primary/10 transition-colors mt-2"
                           >
                             <span className="text-[12px] font-black text-primary">
-                              Hub International
+                              Voir toutes les destinations
                             </span>
                             <ArrowRight className="h-3.5 w-3.5 text-primary" />
                           </Link>
@@ -444,7 +447,7 @@ export function SiteHeader() {
                         isActive("/demenagement-international") ? "bg-slate-50 dark:bg-slate-900" : ""
                       )}
                     >
-                      <span className="text-base font-extrabold text-slate-900 dark:text-white">International (Hub)</span>
+                      <span className="text-base font-extrabold text-slate-900 dark:text-white">International</span>
                       <Globe className="h-5 w-5 text-primary" />
                     </Link>
 
