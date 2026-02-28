@@ -98,6 +98,7 @@ const ZONES = [
     icon: Plane,
     links: [
       { label: "Royaume-Uni", href: "/demenagement-france-royaume-uni" },
+      { label: "Irlande", href: "/demenagement-france-irlande" },
       { label: "Belgique", href: "/demenagement-france-belgique" },
       { label: "Suisse", href: "/demenagement-france-suisse" },
       { label: "Espagne", href: "/demenagement-france-espagne" },
