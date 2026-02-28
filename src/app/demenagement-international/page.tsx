@@ -29,7 +29,8 @@ import {
   Ship,
   Plane,
   Languages,
-  Navigation
+  Navigation,
+  Waves
 } from "lucide-react";
 
 const fallbackTestimonials: FormattedReview[] = [
@@ -122,6 +123,13 @@ export default function InternationalHubPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19] via-[#0b0f19]/80 to-transparent" />
         
         <div className="container relative z-10 mx-auto px-4 md:px-6">
+          
+          <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
+            <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
+            <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
+            <span className="text-[#00ad9f]">Déménagement International</span>
+          </nav>
+
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-teal-300 mb-8 shadow-sm backdrop-blur-md">
               <Globe className="h-4 w-4" />
