@@ -78,8 +78,8 @@ const ZONES = [
     desc: "Val-d’Oise & Île-de-France",
     icon: MapPin,
     links: [
-      { label: "Val-d’Oise (95)", href: "/demenagement-val-doise-95" },
-      { label: "Île-de-France", href: "/demenagement-ile-de-france" },
+      { label: "Val-d’Oise (95)", href: "/demenagement-val-d-oise-95" },
+      { label: "Île-de-France", href: "/zones-intervention" },
     ],
   },
   {
@@ -98,8 +98,8 @@ const ZONES = [
     icon: Plane,
     links: [
       { label: "France → Belgique", href: "/demenagement-france-belgique" },
+      { label: "France → Espagne", href: "/demenagement-france-espagne" },
       { label: "France → Suisse", href: "/demenagement-france-suisse" },
-      { label: "France → Luxembourg", href: "/demenagement-france-luxembourg" },
     ],
   },
 ] as const;
@@ -520,7 +520,7 @@ export function SiteHeader() {
                       {ZONES.map((z) => (
                         <div
                           key={z.title}
-                          className="rounded-2xl border border-slate-100 dark:border-slate-900 bg-white/70 dark:bg-slate-950/40 p-3"
+                          className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white/70 dark:bg-slate-950/40 p-3"
                         >
                           <div className="flex items-center gap-2">
                             <span className="h-8 w-8 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex items-center justify-center text-primary">
