@@ -17,13 +17,16 @@ import {
   ChevronRight, 
   Map, 
   Building2, 
-  Compass
+  Compass,
+  Navigation,
+  Ship,
+  Plane
 } from "lucide-react";
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Nos Zones d'Intervention | Déménagement Île-de-France & Normandie",
-  description: "Déménagement du Vexin intervient sur toute l'Île-de-France (95, 78, 92, 75...), la Normandie et organise vos transferts nationaux.",
+  description: "Déménagement du Vexin intervient sur toute l'Île-de-France (95, 78, 92, 75...), la Normandie et organise vos transferts internationaux vers le Royaume-Uni, la Suisse, la Belgique et toute l'Europe.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/zones-intervention",
   }
@@ -53,11 +56,22 @@ const NORMANDIE = [
   { name: "Orne (61)", description: "Une présence logistique fiable et robuste pour vos transferts dans l'Orne.", link: "/demenagement-orne-61" },
 ];
 
+const INTERNATIONAL = [
+  { name: "Royaume-Uni", description: "Expertise post-Brexit et douanes. Liaisons régulières vers Londres, Manchester...", icon: Ship, link: "/demenagement-france-royaume-uni" },
+  { name: "Suisse", description: "Spécialiste douanes hors UE pour Genève, Lausanne, Zurich et les cantons.", icon: Navigation, link: "/demenagement-france-suisse" },
+  { name: "Belgique", description: "Navettes hebdomadaires entre Paris et Bruxelles pour expatriés et pros.", icon: Truck, link: "/demenagement-france-belgique" },
+  { name: "Luxembourg", description: "Service prestige vers le Grand-Duché : Kirchberg, Ville-Haute et environs.", icon: Building2, link: "/demenagement-france-luxembourg" },
+  { name: "Allemagne", description: "Liaisons transfrontalières rapides vers Berlin, Munich, Francfort et la Ruhr.", icon: Globe, link: "/demenagement-france-allemagne" },
+  { name: "Espagne", description: "Déménagements vers Madrid, Barcelone, Valence et toute la péninsule.", icon: Route, link: "/demenagement-france-espagne" },
+  { name: "Portugal", description: "Expertise longue distance vers Lisbonne, Porto et le sud de l'Algarve.", icon: MapPin, link: "/demenagement-france-portugal" },
+  { name: "Italie", description: "Logistique transalpine vers Rome, Milan, Turin et les régions du Nord.", icon: Route, link: "/demenagement-france-italie" },
+];
+
 export default function InterventionZonePage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
       
-      {/* --- HERO SECTION (Padding supérieur augmenté & Éditorial) --- */}
+      {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
         <Image 
           src="/images/entete-pages.webp"
@@ -71,7 +85,6 @@ export default function InterventionZonePage() {
         
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           
-          {/* Fil d'Ariane Intégré au Hero */}
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
@@ -87,18 +100,18 @@ export default function InterventionZonePage() {
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
               Proches de vous, <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-300">
-                partout en France.
+                partout en Europe.
               </span>
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl font-light mb-10">
-              Un ancrage local puissant en Île-de-France et en Normandie, couplé à un réseau logistique nous permettant de sécuriser vos transferts sur tout le territoire national.
+              Un ancrage local puissant en Île-de-France et en Normandie, couplé à une expertise logistique internationale pour sécuriser vos transferts sur tout le territoire national et européen.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
                 <Link href="#idf">
-                  Explorer nos régions <ArrowRight className="ml-2 h-5 w-5" />
+                  Explorer nos secteurs <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </div>
@@ -116,21 +129,21 @@ export default function InterventionZonePage() {
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  <strong>Déménagement du Vexin</strong> combine la réactivité d'un acteur local profondément ancré dans ses territoires (Val-d'Oise, Eure) avec la capacité technique d'intervenir sur des projets de grande envergure à l'échelle nationale.
+                  <strong>Déménagement du Vexin</strong> combine la réactivité d'un acteur local profondément ancré dans ses territoires (Val-d'Oise, Eure) avec la capacité technique d'intervenir sur des projets complexes à l'échelle européenne.
                 </p>
                 <p>
-                  Notre connaissance millimétrée du terrain est un atout majeur : nous anticipons les contraintes urbaines (arrêtés de stationnement, rues étroites, copropriétés) pour vous garantir un déménagement sans le moindre accroc.
+                  Notre connaissance millimétrée du terrain est un atout majeur : nous anticipons les contraintes urbaines, gérons les formalités douanières post-Brexit ou hors UE, et nous adaptons nos camions à la topographie de votre secteur de destination.
                 </p>
               </div>
               
               <div className="pt-6 grid grid-cols-2 gap-8 border-t border-slate-100">
                  <div className="flex flex-col gap-2">
                     <span className="text-4xl font-black text-slate-900">2</span>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Agences Locales</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Agences Physiques</span>
                  </div>
                  <div className="flex flex-col gap-2">
                     <span className="text-4xl font-black text-slate-900">100%</span>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Couverture Nationale</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Maîtrise Interne</span>
                  </div>
               </div>
             </div>
@@ -140,7 +153,7 @@ export default function InterventionZonePage() {
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white">
                 <Image
                   src="/images/services/demenagement-national.webp"
-                  alt="Logistique et transport en région"
+                  alt="Logistique et transport international"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -151,9 +164,8 @@ export default function InterventionZonePage() {
         </div>
       </section>
 
-      {/* --- ÎLE-DE-FRANCE (Grille Bento Style) --- */}
+      {/* --- ÎLE-DE-FRANCE --- */}
       <section id="idf" className="py-24 bg-slate-50 relative">
-        {/* Lueur d'arrière-plan */}
         <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#00ad9f]/5 rounded-full blur-[120px] -z-10" />
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -167,7 +179,7 @@ export default function InterventionZonePage() {
                 Île-de-France
               </h2>
               <p className="text-lg text-slate-500 font-light">
-                Notre cœur historique. Nous maîtrisons les spécificités de chaque département francilien pour y intervenir avec rapidité.
+                Notre cœur historique. Nous maîtrisons les spécificités de chaque département francilien pour y intervenir avec rapidité et précision.
               </p>
             </div>
           </div>
@@ -214,11 +226,6 @@ export default function InterventionZonePage() {
                 Grâce à notre agence physique située à Évreux (27), nous avons développé une présence logistique forte pour tous vos projets normands.
               </p>
             </div>
-            <div className="hidden md:block pb-2">
-              <Button asChild variant="outline" className="rounded-full h-14 px-8 border-slate-200 text-slate-700 hover:text-[#00ad9f] hover:border-[#00ad9f] hover:bg-[#00ad9f]/5 transition-all font-bold">
-                <Link href="/contact">Contacter notre agence normande</Link>
-              </Button>
-            </div>
           </div>
 
           <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-6">
@@ -237,25 +244,64 @@ export default function InterventionZonePage() {
                 <p className="text-sm text-slate-500 font-light leading-relaxed mb-8 flex-1">
                   {dept.description}
                 </p>
-                <div className="mt-auto pt-5 border-t border-slate-200 flex items-center justify-between text-slate-600 group-hover:text-[#00ad9f] font-bold text-sm transition-colors">
+                <div className="mt-auto pt-5 border-t border-slate-100 flex items-center justify-between text-slate-600 group-hover:text-[#00ad9f] font-bold text-sm transition-colors">
                   Découvrir ce secteur
                   <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1.5 transition-transform duration-300" />
                 </div>
               </Link>
             ))}
           </div>
-          
-          <div className="mt-10 md:hidden">
-             <Button asChild variant="outline" className="rounded-full w-full h-14 border-slate-200 font-bold">
-                <Link href="/contact">Contacter notre agence normande</Link>
-             </Button>
+        </div>
+      </section>
+
+      {/* --- INTERNATIONAL SECTION (New) --- */}
+      <section id="international" className="py-24 bg-slate-50 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[120px] -z-10" />
+        
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+            <div className="max-w-2xl space-y-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#00ad9f] border border-slate-200 shadow-sm">
+                <Globe className="h-4 w-4" />
+                Europe & Monde
+              </div>
+              <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+                Déménagement International
+              </h2>
+              <p className="text-lg text-slate-500 font-light">
+                Nous orchestrons votre mobilité vers les plus grandes destinations européennes avec un accompagnement douanier et logistique complet.
+              </p>
+            </div>
+            <Button asChild variant="outline" className="rounded-full h-14 px-8 border-slate-200 font-bold hover:bg-slate-900 hover:text-white transition-all">
+              <Link href="/demenagement-international">Voir toutes les destinations</Link>
+            </Button>
+          </div>
+
+          <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-6">
+            {INTERNATIONAL.map((dest, index) => (
+              <Link 
+                key={index} 
+                href={dest.link}
+                className="group flex flex-col bg-white border border-slate-100 rounded-[2rem] p-8 hover:shadow-2xl hover:border-[#00ad9f]/40 hover:-translate-y-2 transition-all duration-500"
+              >
+                <div className="h-12 w-12 rounded-xl bg-[#00ad9f]/10 flex items-center justify-center text-[#00ad9f] mb-6 group-hover:bg-[#00ad9f] group-hover:text-white transition-colors duration-500">
+                  <dest.icon className="h-6 w-6" />
+                </div>
+                <h3 className="font-bold text-xl text-slate-900 mb-3 group-hover:text-[#00ad9f] transition-colors">{dest.name}</h3>
+                <p className="text-sm text-slate-500 font-light leading-relaxed mb-6 flex-1">
+                  {dest.description}
+                </p>
+                <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#00ad9f]">
+                  Expertise Destination <ArrowRight className="h-3.5 w-3.5" />
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* --- NATIONAL & INTERNATIONAL (Dark Premium) --- */}
+      {/* --- NATIONAL FOCUS (Dark Premium) --- */}
       <section className="py-24 bg-[#0f172a] text-white overflow-hidden relative">
-        {/* Glow Effects */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#00ad9f]/10 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -263,40 +309,19 @@ export default function InterventionZonePage() {
             
             <div className="space-y-8">
               <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-[#00ad9f] backdrop-blur-md">
-                <Globe className="h-4 w-4" />
+                <Truck className="h-4 w-4" />
                 Longue Distance
               </div>
               <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight leading-tight">
-                Et partout ailleurs <br/> <span className="text-[#00ad9f]">en France & Europe.</span>
+                Lignes régulières <br/> <span className="text-[#00ad9f]">toute France.</span>
               </h2>
               <p className="text-lg text-slate-400 font-light leading-relaxed">
-                Votre projet vous emmène plus loin ? Nous organisons des liaisons régulières (voyages spéciaux ou groupages) pour réduire vos coûts logistiques tout en vous garantissant notre niveau d'exigence habituel.
+                Nous assurons des liaisons hebdomadaires (voyages spéciaux ou groupages) vers Lyon, Marseille, Bordeaux, Lille et toutes les régions françaises.
               </p>
               
-              <ul className="space-y-8 pt-4">
-                <li className="flex items-start gap-5">
-                  <div className="h-14 w-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#00ad9f] shrink-0">
-                    <Truck className="h-6 w-6"/>
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-bold text-white mb-2">Déménagements Nationaux</h4>
-                    <p className="text-slate-400 font-light leading-relaxed">Lignes fréquentes et optimisées vers Lyon, Marseille, Bordeaux, Lille, Nantes, Strasbourg...</p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-5">
-                  <div className="h-14 w-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#00ad9f] shrink-0">
-                    <Globe className="h-6 w-6"/>
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-bold text-white mb-2">Europe Limitrophe</h4>
-                    <p className="text-slate-400 font-light leading-relaxed">Prise en charge complète vers la Belgique, la Suisse, le Luxembourg ou l'Espagne avec formalités douanières.</p>
-                  </div>
-                </li>
-              </ul>
-              
               <div className="pt-6">
-                 <Button asChild size="lg" className="rounded-full h-14 px-8 font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105">
-                    <Link href="/demenagement-national">Découvrir le service National</Link>
+                 <Button asChild size="lg" className="rounded-full h-14 px-10 font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105">
+                    <Link href="/demenagement-national">Découvrir l'offre Nationale</Link>
                  </Button>
               </div>
             </div>
@@ -306,7 +331,7 @@ export default function InterventionZonePage() {
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden border-4 border-white/10 bg-slate-800 shadow-2xl">
                 <Image
                   src="/images/services/demenagement-paris-province.webp"
-                  alt="Transport routier européen"
+                  alt="Transport national longue distance"
                   fill
                   className="object-cover opacity-80 mix-blend-luminosity transition-transform duration-700 group-hover:scale-105"
                 />
@@ -320,14 +345,11 @@ export default function InterventionZonePage() {
       {/* --- AVIS CLIENTS --- */}
       <TestimonialsSection reviews={fallbackTestimonials} />
 
-      {/* --- GRAND CTA FINAL --- */}
+      {/* --- CTA FINAL --- */}
       <section className="py-24 bg-white">
          <div className="container mx-auto px-4 md:px-6">
             <div className="relative rounded-[4rem] bg-slate-50 p-12 md:p-24 text-center overflow-hidden border border-slate-100 shadow-sm isolate">
-               
                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00ad9f]/5 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
-               <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[100px] -z-10 -translate-x-1/3 translate-y-1/3 pointer-events-none" />
-               
                <div className="relative z-10">
                  <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-8 leading-tight">
                     Votre ville n'est pas <br className="hidden md:block"/>
@@ -336,16 +358,14 @@ export default function InterventionZonePage() {
                  <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-12 font-light leading-relaxed">
                     Pas d'inquiétude. Nos équipes sillonnent les routes quotidiennement. Contactez-nous pour vérifier notre disponibilité exacte sur votre commune.
                  </p>
-                 
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
-                    <Button size="lg" className="rounded-full h-16 px-12 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
-                       <Link href="/dashboard/quote">
-                          Vérifier ma zone & Devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
+                    <Button size="lg" className="rounded-full h-16 px-12 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
+                       <Link href="/demande-devis">
+                          Devis gratuit sous 24h <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>
                </div>
-
             </div>
          </div>
       </section>
