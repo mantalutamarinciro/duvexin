@@ -99,18 +99,22 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
 
   // --- AUTOCOMPLETE LOGIC ---
   const fetchSuggestions = async (query: string, field: 'origin' | 'destination') => {
-    if (query.length < 3) {
+    if (!query || query.length < 3) {
       setSuggestions(prev => ({ ...prev, [field]: [] }));
       return;
     }
 
     try {
       const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}&limit=5`);
+      if (!res.ok) throw new Error('API Error');
       const data = await res.json();
-      const labels = data.features.map((f: any) => f.properties.label);
+      
+      // Ajout d'une vérification de sécurité sur data.features
+      const labels = data?.features?.map((f: any) => f.properties.label) || [];
       setSuggestions(prev => ({ ...prev, [field]: labels }));
     } catch (error) {
       console.error("Autocomplete fetch error", error);
+      setSuggestions(prev => ({ ...prev, [field]: [] }));
     }
   }
 
@@ -150,7 +154,7 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
   useEffect(() => {
     const handler = setTimeout(() => {
         handleAddressAnalysis();
-    }, 3000); // Attente un peu plus longue pour laisser l'utilisateur choisir une suggestion
+    }, 3000);
 
     return () => {
         clearTimeout(handler);
@@ -394,7 +398,7 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                       <FormItem>
                           <FormLabel>Distance estimée (km)</FormLabel>
                           <Tooltip>
-                              <TooltipTrigger className="w-full">
+                              <TooltipTrigger className="w-full" asChild>
                                   <FormControl>
                                       <Input type="number" readOnly {...field} className="h-12 rounded-xl bg-slate-50 cursor-default font-black text-primary border-slate-200"/>
                                   </FormControl>
