@@ -20,7 +20,8 @@ import {
   Compass,
   Navigation,
   Ship,
-  Plane
+  Plane,
+  Route
 } from "lucide-react";
 
 // --- SEO METADATA ---
@@ -85,6 +86,7 @@ export default function InterventionZonePage() {
         
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           
+          {/* Fil d'Ariane Intégré au Hero */}
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
@@ -254,7 +256,7 @@ export default function InterventionZonePage() {
         </div>
       </section>
 
-      {/* --- INTERNATIONAL SECTION (New) --- */}
+      {/* --- INTERNATIONAL SECTION --- */}
       <section id="international" className="py-24 bg-slate-50 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[120px] -z-10" />
         
@@ -316,7 +318,7 @@ export default function InterventionZonePage() {
                 Lignes régulières <br/> <span className="text-[#00ad9f]">toute France.</span>
               </h2>
               <p className="text-lg text-slate-400 font-light leading-relaxed">
-                Nous assurons des liaisons hebdomadaires (voyages spéciaux ou groupages) vers Lyon, Marseille, Bordeaux, Lille et toutes les régions françaises.
+                Nous assurons des navettes hebdomadaires (voyages spéciaux ou groupages) vers Lyon, Marseille, Bordeaux, Lille et toutes les régions françaises.
               </p>
               
               <div className="pt-6">
@@ -355,7 +357,7 @@ export default function InterventionZonePage() {
                     Votre ville n'est pas <br className="hidden md:block"/>
                     <span className="text-[#00ad9f]">dans la liste ?</span>
                  </h2>
-                 <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+                 <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light leading-relaxed">
                     Pas d'inquiétude. Nos équipes sillonnent les routes quotidiennement. Contactez-nous pour vérifier notre disponibilité exacte sur votre commune.
                  </p>
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
