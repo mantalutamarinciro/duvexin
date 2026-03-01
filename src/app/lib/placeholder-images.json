@@ -94,5 +94,15 @@
     "url": "https://images.unsplash.com/photo-1534349735944-2b3a6f7a268f?q=80&w=800",
     "alt": "Protection de la vaisselle et verrerie",
     "hint": "packing glasses"
+  },
+  "blog-kids-hero": {
+    "url": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?q=80&w=1920",
+    "alt": "Enfants heureux pendant un déménagement",
+    "hint": "happy kids"
+  },
+  "blog-kids-packing": {
+    "url": "https://images.unsplash.com/photo-1512418490979-92798ccc1380?q=80&w=800",
+    "alt": "Enfants aidant à faire les cartons",
+    "hint": "kids packing"
   }
 }

@@ -39,6 +39,6 @@ export const blogPosts: BlogPost[] = [
     description: 'Impliquer les enfants dans le déménagement peut transformer une expérience stressante en une aventure familiale. Découvrez nos astuces pour les préparer et les aider à s\'adapter à leur nouvel environnement.',
     imageUrl: 'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?q=80&w=800',
     aiHint: 'happy family moving',
-    link: '#',
+    link: '/blog/demenager-avec-des-enfants-nos-conseils-pour-une-transition-en-douceur',
   },
 ];
