@@ -25,10 +25,19 @@ import {
   Scale,
   FileText,
   BadgeCheck,
-  Gem,
   Ship,
-  Languages
+  Languages,
+  Map as MapIcon
 } from "lucide-react";
+
+// --- SEO METADATA ---
+export const metadata: Metadata = {
+  title: "Déménagement France → Royaume-Uni | Devis Gratuit & Douanes",
+  description: "Déménageur expert sur l'axe France-UK. Liaisons régulières vers Londres, Manchester. Formalités douanières post-Brexit incluses. Devis gratuit sous 24h.",
+  alternates: {
+    canonical: "https://demenagementduvexin.fr/demenagement-france-royaume-uni",
+  }
+};
 
 const fallbackTestimonials: FormattedReview[] = [
   { id: "fallback-1", name: "Famille Harrison", text: "Déménagement de Paris vers Londres (Chelsea) parfaitement géré. L'équipe a pris en charge toute la liasse documentaire pour la douane britannique, ce qui nous a sauvé un temps précieux. Tout est arrivé intact malgré les contrôles au port.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=HarrisonUK` },
@@ -38,54 +47,54 @@ const fallbackTestimonials: FormattedReview[] = [
 
 const UK_CITIES = [
   { name: "Londres (London)", desc: "Expertise des quartiers denses (Kensington, Chelsea, Canary Wharf...)" },
-  { name: "Manchester", desc: "Gestion logistique du pôle économique du Nord." },
-  { name: "Birmingham", desc: "Liaisons régulières vers le cœur des Midlands." },
-  { name: "Bristol", desc: "Service premium vers le sud-ouest de l'Angleterre." },
-  { name: "Édimbourg (Edinburgh)", desc: "Logistique dédiée vers la capitale écossaise." },
-  { name: "Glasgow", desc: "Accompagnement pour vos projets en Écosse." },
+  { name: "Manchester", desc: "Gestion logistique du pôle économique et technologique du Nord." },
+  { name: "Birmingham", desc: "Liaisons régulières vers le cœur névralgique des Midlands." },
+  { name: "Bristol", desc: "Service premium vers le grand sud-ouest de l'Angleterre." },
+  { name: "Édimbourg (Edinburgh)", desc: "Logistique dédiée vers la majestueuse capitale écossaise." },
+  { name: "Glasgow", desc: "Accompagnement rigoureux pour vos projets en Écosse." },
   { name: "Oxford / Cambridge", desc: "Soin particulier pour les transferts universitaires et académiques." },
-  { name: "Brighton", desc: "Liaisons fréquentes vers la côte sud." }
+  { name: "Brighton", desc: "Liaisons fréquentes vers la dynamique côte sud anglaise." }
 ];
 
 const WHY_US_ITEMS = [
   {
     icon: FileText,
-    title: "Ingénierie Douanière Post-Brexit",
-    description: "Nous gérons l'intégralité de vos formalités d'exportation en France et d'importation au Royaume-Uni (TOR1) pour une franchise de taxes totale."
+    title: "Ingénierie Douanière",
+    description: "Nous gérons l'intégralité de vos formalités d'exportation en France et d'importation au Royaume-Uni (TOR1) pour une franchise de taxes."
   },
   {
     icon: Ship,
     title: "Logistique Transmanche",
-    description: "Liaisons quotidiennes via Ferry (Calais/Douvres) ou Eurotunnel. Nous choisissons la meilleure option selon l'urgence et la nature de vos biens."
+    description: "Liaisons régulières via Ferry (Calais/Douvres) ou Eurotunnel. Nous choisissons la meilleure option selon l'urgence de vos biens."
   },
   {
     icon: Languages,
     title: "Équipes Bilingues",
-    description: "Nos déménageurs maîtrisent les codes et les exigences de stationnement britanniques pour un déchargement serein outre-Manche."
+    description: "Nos déménageurs maîtrisent les codes locaux et les exigences de stationnement britanniques pour un déchargement serein."
   },
   {
     icon: ShieldCheck,
     title: "Garantie Internationale",
-    description: "Assurance Ad Valorem complète couvrant tout le trajet, incluant les traversées maritimes et les contrôles douaniers."
+    description: "Assurance Ad Valorem complète couvrant tout le trajet, incluant la manutention, les traversées maritimes et les contrôles douaniers."
   }
 ];
 
 const FAQS = [
   { 
     question: "Quelles sont les nouvelles règles depuis le Brexit pour déménager au Royaume-Uni ?", 
-    answer: "Depuis le 1er janvier 2021, tout déménagement est une exportation. Pour bénéficier de l'exonération de taxes (TOR - Transfer of Residence), vous devez prouver que vous avez vécu hors du UK pendant 12 mois et que vous possédez vos biens depuis plus de 6 mois. Nous vous accompagnons pas à pas dans la création de votre dossier." 
+    answer: "Depuis le 1er janvier 2021, tout déménagement est considéré comme une exportation/importation. Pour bénéficier de l'exonération de taxes (TOR - Transfer of Residence), vous devez prouver que vous avez vécu hors du UK pendant 12 mois consécutifs et que vous possédez vos biens depuis plus de 6 mois. Nous vous accompagnons de A à Z dans la création de votre dossier douanier." 
   },
   { 
-    question: "Combien de temps prend un Paris-Londres ?", 
-    answer: "Généralement 48h. Nous chargeons le premier jour en Île-de-France. Le camion effectue la traversée et les formalités douanières le lendemain matin, pour une livraison et réinstallation complète dans l'après-midi même à Londres." 
+    question: "Combien de temps prend un déménagement Paris-Londres ?", 
+    answer: "Il faut compter généralement 48h à 72h. Nous chargeons le premier jour en Île-de-France. Le camion effectue la traversée et les formalités douanières le lendemain matin, pour une livraison et une réinstallation complète dans l'après-midi même ou le surlendemain à Londres, selon le temps de passage en douane." 
   },
   { 
-    question: "Gérez-vous le stationnement à Londres ?", 
-    answer: "Oui, les 'Parking Suspensions' sont indispensables à Londres. Nous nous coordonnons avec les councils locaux (Westminster, Camden, etc.) pour réserver l'espace nécessaire et éviter toute amende ou blocage." 
+    question: "Gérez-vous le stationnement très strict à Londres ?", 
+    answer: "Oui, les 'Parking Suspensions' sont indispensables à Londres et dans la plupart des villes britanniques. Nous nous coordonnons avec les councils locaux (Westminster, Camden, etc.) pour réserver l'espace nécessaire et éviter toute amende (PCN) ou blocage logistique." 
   },
   { 
     question: "Proposez-vous le groupage vers l'Angleterre ?", 
-    answer: "C'est l'un de nos services les plus populaires. Pour les petits volumes (studios, chambres), nous mutualisons le transport, ce qui vous permet de diviser les frais de traversée et de route par deux tout en gardant un service pro." 
+    answer: "Absolument. C'est l'un de nos services les plus populaires. Pour les petits volumes (studios, chambres étudiantes, quelques meubles), nous mutualisons le transport. Cela vous permet de diviser les frais de traversée, de douane et de route par deux tout en gardant un service premium." 
   }
 ];
 
@@ -107,8 +116,8 @@ export default function UKPage() {
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
         <Image 
-          src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=1920"
-          alt="Vue de Londres, Tower Bridge et la City"
+          src="/images/entete-pages.webp"
+          alt="Déménageur professionnel préparant une logistique internationale post-Brexit"
           fill
           priority
           sizes="100vw"
@@ -118,10 +127,11 @@ export default function UKPage() {
         
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           
+          {/* Fil d'Ariane Intégré au Hero */}
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
-            <Link href="/services" className="hover:text-white transition-colors">Services</Link>
+            <Link href="/services" className="hover:text-white transition-colors">International</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
             <span className="text-[#00ad9f]">France - Royaume-Uni</span>
           </nav>
@@ -140,7 +150,7 @@ export default function UKPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Franchissez la Manche en toute sérénité. Profitez d'une expertise douanière post-Brexit et d'une logistique rodée pour votre installation à Londres ou dans tout le Royaume-Uni.
+              Franchissez la Manche en toute sérénité. Profitez d'une expertise douanière post-Brexit unique et d'une logistique rodée pour votre installation à Londres ou dans tout le Royaume-Uni.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -164,10 +174,10 @@ export default function UKPage() {
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  S'installer au Royaume-Uni est un projet qui demande désormais une expertise douanière irréprochable. Depuis le Brexit, le passage de la Manche n'est plus une simple formalité. L'inventaire, la valorisation et les justificatifs de résidence sont scrutés avec une rigueur accrue.
+                  S'installer au Royaume-Uni est un projet qui demande désormais une expertise douanière irréprochable. Depuis le Brexit, le passage de la Manche n'est plus une simple formalité. L'inventaire, la valorisation de vos biens et les justificatifs de résidence (Transfer of Residence) sont scrutés avec une rigueur absolue par les douanes de Sa Majesté (HMRC).
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous avons sécurisé nos processus pour cet axe stratégique. Nous gérons pour vous l'intégralité du dossier administratif (Transfer of Residence) et coordonnons les flux logistiques pour vous garantir une livraison à domicile ponctuelle, que vous habitiez une rue étroite de Notting Hill ou une résidence moderne à Manchester.
+                  Chez <strong>Déménagement du Vexin</strong>, nous avons sécurisé nos processus pour cet axe stratégique. Nous gérons pour vous l'intégralité du dossier administratif et coordonnons les flux logistiques pour vous garantir une livraison à domicile ponctuelle, que vous habitiez une rue étroite de Notting Hill ou une résidence moderne à Manchester.
                 </p>
               </div>
               
@@ -186,8 +196,8 @@ export default function UKPage() {
               <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 group-hover:-rotate-1" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?q=80&w=800"
-                  alt="Déménagement vers le Royaume-Uni"
+                  src="/images/zones/demenagement-france-royaume-uni.webp"
+                  alt="Logistique de déménagement international vers le Royaume-Uni"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -224,7 +234,7 @@ export default function UKPage() {
       </section>
 
       {/* --- CITIES GRID --- */}
-      <section id="cities-uk" className="py-24 bg-slate-900 text-white rounded-[4rem] mx-4 md:mx-8 my-12 overflow-hidden relative">
+      <section id="cities-uk" className="py-24 bg-slate-900 text-white rounded-[4rem] mx-4 md:mx-8 my-12 overflow-hidden relative isolate">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#00ad9f]/10 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mb-16 space-y-4">
@@ -240,10 +250,10 @@ export default function UKPage() {
             {UK_CITIES.map((city) => (
               <div 
                 key={city.name} 
-                className="group flex flex-col bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm"
+                className="group flex flex-col bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm cursor-default"
               >
-                <span className="font-bold text-slate-200 group-hover:text-white transition-colors mb-1">{city.name}</span>
-                <span className="text-xs text-slate-500 group-hover:text-slate-300 transition-colors">{city.desc}</span>
+                <span className="font-bold text-slate-200 group-hover:text-white transition-colors mb-2 text-lg">{city.name}</span>
+                <span className="text-sm text-slate-400 font-light group-hover:text-slate-300 transition-colors leading-relaxed">{city.desc}</span>
               </div>
             ))}
           </div>
@@ -259,8 +269,8 @@ export default function UKPage() {
               <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2.5rem] opacity-10 -z-10 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="/images/services/demenagement-international.webp"
-                  alt="Déménagement international premium vers le Royaume-Uni"
+                  src="/images/services/emballage-demenagement.webp"
+                  alt="Déménageur protégeant du mobilier de valeur pour une exportation vers l'Angleterre"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -275,7 +285,7 @@ export default function UKPage() {
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Building2 className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Expatriés & Institutionnels</h4>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Expatriés & Particuliers</h4>
                     <p className="text-slate-500 font-light leading-relaxed">Service premium incluant l'emballage complet, la gestion douanière intégrale et la réinstallation de votre intérieur pour une transition immédiate et sereine vers Londres ou Oxford.</p>
                   </div>
                 </li>
@@ -283,20 +293,20 @@ export default function UKPage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Scale className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Groupage Économique</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Divisez vos frais de traversée en mutualisant le trajet avec d'autres clients vers les grandes métropoles britanniques.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Divisez vos frais de traversée, de douane et de transport en mutualisant le trajet avec d'autres clients vers les grandes métropoles britanniques.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts Professionnels</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Logistique B2B experte : transfert informatique, d'archives et de mobiliers de bureau entre la France et le Royaume-Uni avec inventaires certifiés.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts Professionnels & B2B</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Logistique B2B experte : transfert informatique, d'archives et de mobiliers de bureau entre la France et le Royaume-Uni avec inventaires certifiés pour la douane.</p>
                   </div>
                 </li>
               </ul>
               <div className="pt-4">
                 <Button asChild variant="outline" className="rounded-full h-14 px-8 font-bold border-slate-200 text-slate-700 hover:text-[#00ad9f] hover:border-[#00ad9f] hover:bg-[#00ad9f]/5 transition-all">
-                   <Link href="/services">Voir tous nos services</Link>
+                   <Link href="/formules-de-demenagement">Comparer toutes nos formules</Link>
                 </Button>
               </div>
             </div>
@@ -353,7 +363,7 @@ export default function UKPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas le Brexit compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Ne laissez pas le Brexit compliquer votre projet d'expatriation. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
