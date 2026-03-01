@@ -48,4 +48,12 @@ export const blogPosts: BlogPost[] = [
     aiHint: 'moving team',
     link: '/blog/demenagement-sans-ascenseur',
   },
+  {
+    id: '6',
+    title: 'Checklist déménagement : la liste complète',
+    description: 'La checklist déménagement la plus simple : quoi faire 30 jours, 7 jours, 48h avant et le jour J. Démarches, cartons, accès, kit J+1 + FAQ.',
+    imageUrl: 'https://picsum.photos/seed/blog-pack/800/500',
+    aiHint: 'boxes packing',
+    link: '/blog/checklist-demenagement',
+  },
 ];

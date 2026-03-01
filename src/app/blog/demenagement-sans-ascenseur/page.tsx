@@ -169,7 +169,7 @@ export default function ArticleNoElevator() {
                 <li>Le nombre d’étages exact (départ et arrivée).</li>
                 <li>La largeur et la configuration de l’escalier (colimaçon, marches étroites).</li>
                 <li>La distance entre le camion et l’entrée de l’immeuble (distance de portage).</li>
-                <li>Le volume total en m³ et la présence d'objets lourds (> 80kg).</li>
+                <li>Le volume total en m³ et la présence d'objets lourds (+ 80kg).</li>
               </ul>
 
               <h2 className="text-2xl font-extrabold text-slate-900 mt-10 mb-4">Les erreurs à éviter absolument</h2>

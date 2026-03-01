@@ -22,10 +22,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import placeholders from "@/app/lib/placeholder-images.json";
 
 /**
- * ✅ Adapte SITE_URL + slug à ta vraie route.
+ * ✅ SEO notes:
+ * - Adapte SITE_URL + slug à ta vraie route.
  */
 const SITE_URL = "https://demenagementduvexin.fr";
-const ARTICLE_SLUG = "checklist-demenagement-30j-7j-48h-jour-j";
+const ARTICLE_SLUG = "checklist-demenagement";
 const CANONICAL_URL = `${SITE_URL}/blog/${ARTICLE_SLUG}`;
 
 const ARTICLE_TITLE =
@@ -59,7 +60,6 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     images: [
       {
-        // Idéalement une OG image sur ton domaine, sinon placeholder ok
         url: placeholders["blog-packing"].url,
         width: 1920,
         height: 1080,
