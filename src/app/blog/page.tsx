@@ -108,7 +108,7 @@ export default function BlogPage() {
       <section className="relative pt-32 pb-16 lg:pt-48 lg:pb-24 bg-[#0b0f19] text-white overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1512418490979-92798ccc1380?q=80&w=1920"
+            src="/images/blog/demenagement-planification.webp"
             alt="Bureau et planification"
             fill
             className="object-cover opacity-20 mix-blend-luminosity"

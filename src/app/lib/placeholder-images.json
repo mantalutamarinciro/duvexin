@@ -21,7 +21,7 @@
     "hint": "highway truck"
   },
   "service-stockage": {
-    "url": "h/images/services/garde-meubles.webp",
+    "url": "/images/services/garde-meubles.webp",
     "alt": "Garde-meubles sécurisé",
     "hint": "storage units"
   },
