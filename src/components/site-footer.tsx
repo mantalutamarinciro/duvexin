@@ -182,7 +182,7 @@ export function SiteFooter() {
                 ))}
              </div>
              <p className="text-[11px] text-slate-600 font-bold uppercase tracking-tighter">
-                Design by <span className="text-slate-400 hover:text-primary transition-colors cursor-pointer">Creow</span>
+                Création par <a href="mailto:vsw.contact@gmail.com" className="text-slate-400 hover:text-primary transition-colors">A Hachour</a>
              </p>
           </div>
         </div>
