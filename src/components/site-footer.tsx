@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { 
@@ -19,6 +20,13 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export function SiteFooter() {
+  // Stabilisation de l'année pour éviter les erreurs d'hydratation
+  const [year, setYear] = React.useState<number>(2026);
+
+  React.useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
   return (
     <footer className="bg-[#020617] text-slate-400 border-t border-slate-900 pt-24 pb-12 relative overflow-hidden">
       {/* Effet de lumière subtil en arrière-plan */}
@@ -150,7 +158,7 @@ export function SiteFooter() {
                   { label: "Mentions légales", href: "/mentions-legales" },
                 ].map(item => (
                   <li key={item.label}>
-                    <Link href={item.href} className="text-slate-400 hover:text-white transition-colors text-sm flex items-center gap-1 group">
+                    <Link href={item.href} className="text-slate-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-1 group">
                       {item.label}
                       <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </Link>
@@ -165,16 +173,15 @@ export function SiteFooter() {
         {/* --- BOTTOM BAR --- */}
         <div className="pt-10 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6 text-[11px] font-medium uppercase tracking-widest text-slate-500">
-            <p>© {new Date().getFullYear()} Déménagement Du Vexin</p>
+            <p>© {year} Déménagement Du Vexin</p>
             <span className="hidden md:block h-1 w-1 rounded-full bg-slate-800" />
             <Link href="/politique-confidentialite" className="hover:text-primary transition-colors">Confidentialité</Link>
             <span className="hidden md:block h-1 w-1 rounded-full bg-slate-800" />
-            <Link href="/cookies" className="hover:text-primary transition-colors">Cookies</Link>
+            <Link href="/mentions-legales" className="hover:text-primary transition-colors">Mentions légales</Link>
           </div>
           
           <div className="flex items-center gap-4">
              <div className="flex -space-x-2">
-                {/* Simulation de badges de paiement ou partenaires */}
                 {[1,2,3].map(i => (
                   <div key={i} className="h-8 w-12 rounded-md bg-slate-900 border border-white/5 flex items-center justify-center">
                     <div className="h-2 w-6 bg-slate-800 rounded-full" />
