@@ -79,5 +79,10 @@
     "url": "https://picsum.photos/seed/blog-home/800/500",
     "alt": "Nouvel appartement prêt à être aménagé",
     "hint": "empty home"
+  },
+  "blog-formulas-hero": {
+    "url": "https://images.unsplash.com/photo-1603796846097-bee99e4a601f?q=80&w=1920",
+    "alt": "Déménagement professionnel et formules de service",
+    "hint": "moving boxes"
   }
 }

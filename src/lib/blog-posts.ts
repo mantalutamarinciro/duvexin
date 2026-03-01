@@ -23,7 +23,7 @@ export const blogPosts: BlogPost[] = [
     description: 'Économique, Standard ou Confort ? Chaque formule a ses avantages. Nous vous aidons à choisir celle qui correspond le mieux à vos besoins, votre budget et votre niveau d\'implication souhaité.',
     imageUrl: 'https://images.unsplash.com/photo-1603796846097-bee99e4a601f?q=80&w=800',
     aiHint: 'boxes stacking',
-    link: '#',
+    link: '/blog/comment-choisir-la-bonne-formule-de-demenagement',
   },
   {
     id: '3',
