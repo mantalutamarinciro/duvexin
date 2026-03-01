@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -39,7 +38,7 @@ export function CookieBanner() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed bottom-6 left-4 right-4 md:left-auto md:right-8 z-[100] md:max-w-md w-auto"
+          className="fixed bottom-6 left-4 right-4 md:right-auto md:left-8 z-[100] md:max-w-md w-auto"
         >
           <div className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-[2.5rem] p-6 md:p-8 overflow-hidden relative isolate">
             {/* Décoration subtile */}
