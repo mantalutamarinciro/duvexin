@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -100,7 +101,7 @@ const SERVICES = [
   {
     title: "International",
     desc: "Vers l'Europe et le monde. Expertise douanière.",
-    href: "/demenagement-national",
+    href: "/demenagement-international",
     icon: Globe,
     image: placeholders["service-national"].url,
     hint: placeholders["service-national"].hint,
@@ -164,7 +165,7 @@ const FORMULAS = [
 const ARTICLES = [
   {
     title: "Combien de temps pour déménager ? Planning optimal",
-    date: "Mai 2025",
+    date: "01 Mars 2026",
     category: "Conseils",
     href: "/blog",
     image: placeholders["article-planning"].url,
@@ -172,7 +173,7 @@ const ARTICLES = [
   },
   {
     title: "Coût d'un déménagement : réduire les frais",
-    date: "Mai 2025",
+    date: "01 Mars 2026",
     category: "Budget",
     href: "/blog",
     image: placeholders["article-cost"].url,
@@ -180,9 +181,9 @@ const ARTICLES = [
   },
   {
     title: "5 étapes pour un déménagement réussi",
-    date: "Avr 2025",
+    date: "01 Mars 2026",
     category: "Guide",
-    href: "/blog",
+    href: "/blog/5-astuces-pour-un-demenagement-sans-stress",
     image: placeholders["article-steps"].url,
     hint: placeholders["article-steps"].hint,
   },
@@ -393,7 +394,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 {...fadeInUp}
                 transition={{ delay: i * 0.08, ...fadeInUp.transition }}
                 className={cn(
-                  "relative rounded-[2.5rem] p-8 border-2 bg-white dark:bg-slate-900 shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col group",
+                  "relative rounded-[2.5rem] p-8 border-2 bg-white dark:bg-slate-900 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 flex flex-col group",
                   formula.popular 
                     ? "border-primary/30 ring-4 ring-primary/5" 
                     : "border-slate-100 dark:border-slate-800"

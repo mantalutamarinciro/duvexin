@@ -64,5 +64,20 @@
     "url": "/images/blog/demenagement-etapes-cles.webp",
     "alt": "Étapes clés",
     "hint": "boxes moving"
+  },
+  "blog-packing": {
+    "url": "https://picsum.photos/seed/blog-pack/800/500",
+    "alt": "Préparation des cartons de déménagement",
+    "hint": "boxes packing"
+  },
+  "blog-team": {
+    "url": "https://picsum.photos/seed/blog-team/800/500",
+    "alt": "Équipe de déménageurs en action",
+    "hint": "moving team"
+  },
+  "blog-new-home": {
+    "url": "https://picsum.photos/seed/blog-home/800/500",
+    "alt": "Nouvel appartement prêt à être aménagé",
+    "hint": "empty home"
   }
 }

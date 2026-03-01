@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import Link from "next/link";
 import { blogPosts } from "@/lib/blog-posts";
@@ -63,7 +64,7 @@ export default function BlogPage() {
                   <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-primary mb-4">
                     <span className="flex items-center gap-1.5 bg-primary/5 px-3 py-1.5 rounded-full">
                       <Calendar className="h-3 w-3" />
-                      Mai 2024
+                      01 Mars 2026
                     </span>
                     <span className="flex items-center gap-1.5 text-slate-400">
                       <Clock className="h-3 w-3" />
@@ -94,7 +95,7 @@ export default function BlogPage() {
         </div>
       </section>
 
-      {/* --- NEWSLETTER / CTA --- */}
+      {/* --- CTA --- */}
       <section className="pb-24">
         <div className="container mx-auto px-4 md:px-6">
           <div className="relative rounded-[4rem] bg-[#0f172a] p-12 md:p-20 text-center overflow-hidden shadow-2xl isolate">

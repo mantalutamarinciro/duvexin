@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import placeholders from "@/app/lib/placeholder-images.json";
 
 export const metadata: Metadata = {
   title: "5 astuces pour un déménagement sans stress | Conseils DemDuVexin",
@@ -56,7 +56,7 @@ export default function ArticleStressFree() {
             <div className="flex items-center justify-center gap-6 text-sm font-medium text-slate-400">
               <span className="flex items-center gap-2">
                 <Calendar className="h-4 w-4 text-[#00ad9f]" />
-                24 Mai 2024
+                01 Mars 2026
               </span>
               <span className="flex items-center gap-2">
                 <Clock className="h-4 w-4 text-[#00ad9f]" />
@@ -71,7 +71,6 @@ export default function ArticleStressFree() {
       <div className="container mx-auto px-4 md:px-6 -mt-10 lg:-mt-16">
         <div className="max-w-4xl mx-auto">
           
-          {/* Main Card */}
           <Card className="border-none shadow-2xl rounded-[3rem] overflow-hidden bg-white p-8 md:p-16">
             <CardContent className="p-0 prose prose-slate prose-lg max-w-none dark:prose-invert">
               <p className="text-xl text-slate-600 font-light leading-relaxed mb-12 italic border-l-4 border-[#00ad9f] pl-8">
@@ -85,6 +84,17 @@ export default function ArticleStressFree() {
               <p>
                 Le stress vient souvent de la peur d'oublier quelque chose d'important. Commencez par les contrats qui demandent un délai : box internet, électricité, et surtout l'assurance habitation. 
               </p>
+
+              <div className="relative aspect-video rounded-3xl overflow-hidden my-10 shadow-lg border border-slate-100">
+                <Image 
+                  src={placeholders["blog-packing"].url} 
+                  alt={placeholders["blog-packing"].alt}
+                  fill
+                  className="object-cover"
+                  data-ai-hint={placeholders["blog-packing"].hint}
+                />
+              </div>
+
               <div className="bg-slate-50 p-6 rounded-2xl my-8 border-l-4 border-[#00ad9f]">
                 <p className="font-bold text-slate-900 flex items-center gap-2">
                   <Lightbulb className="h-5 w-5 text-[#00ad9f]" />
@@ -102,6 +112,16 @@ export default function ArticleStressFree() {
               <p>
                 Déménager, c'est l'occasion idéale de faire table rase. Ne payez pas pour transporter des objets que vous n'avez pas utilisés depuis deux ans. Donnez, vendez ou jetez. Moins vous avez de volume, moins le devis sera élevé et plus rapide sera l'installation.
               </p>
+
+              <div className="relative aspect-video rounded-3xl overflow-hidden my-10 shadow-lg border border-slate-100">
+                <Image 
+                  src={placeholders["blog-team"].url} 
+                  alt={placeholders["blog-team"].alt}
+                  fill
+                  className="object-cover"
+                  data-ai-hint={placeholders["blog-team"].hint}
+                />
+              </div>
 
               <h2 className="text-3xl font-extrabold text-slate-900 mt-16 mb-6 flex items-center gap-4">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#00ad9f] text-white text-lg">3</span>
@@ -131,8 +151,18 @@ export default function ArticleStressFree() {
               </h2>
               <p>
                 C'est l'astuce qui sauve votre première nuit. Préparez un sac séparé (que vous gardez avec vous) contenant : 
-                draps propres, nécessaire de toilette, chargeurs, documents importants, quelques outils de base et de quoi faire un premier café ou thé. Rien n'est plus stressant que de chercher sa brosse à dents parmi 50 cartons à minuit.
+                draps propres, nécessaire de toilette, chargeurs, documents importants, quelques outils de base et de quoi faire un premier café ou thé.
               </p>
+
+              <div className="relative aspect-video rounded-3xl overflow-hidden my-10 shadow-lg border border-slate-100">
+                <Image 
+                  src={placeholders["blog-new-home"].url} 
+                  alt={placeholders["blog-new-home"].alt}
+                  fill
+                  className="object-cover"
+                  data-ai-hint={placeholders["blog-new-home"].hint}
+                />
+              </div>
 
               <h2 className="text-3xl font-extrabold text-slate-900 mt-16 mb-6 flex items-center gap-4">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#00ad9f] text-white text-lg">5</span>
@@ -141,11 +171,7 @@ export default function ArticleStressFree() {
               <p>
                 Le plus gros facteur de stress est l'imprévu technique ou la casse. En choisissant une entreprise comme <strong>Déménagement du Vexin</strong>, qui travaille exclusivement avec ses propres salariés formés, vous éliminez l'aléa de la sous-traitance.
               </p>
-              <p>
-                Un professionnel saura gérer les accès difficiles, protégera vos sols et vos murs, et saura manipuler votre mobilier lourd sans risque. La sérénité a un prix, mais elle est souvent bien plus rentable que de gérer les dégâts d'une équipe non qualifiée.
-              </p>
 
-              {/* Conclusion Section */}
               <div className="mt-20 p-10 rounded-[2.5rem] bg-slate-900 text-white relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-[#00ad9f]/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
                 <h3 className="text-2xl font-bold mb-4 relative z-10">Besoin d'un accompagnement personnalisé ?</h3>
@@ -164,7 +190,6 @@ export default function ArticleStressFree() {
             </CardContent>
           </Card>
 
-          {/* Share & Footer Article */}
           <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-8 px-8">
             <div className="flex items-center gap-4">
               <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">Partager :</span>
