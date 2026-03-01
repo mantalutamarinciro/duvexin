@@ -68,7 +68,7 @@ export default function ArticleStressFree() {
       </header>
 
       {/* --- CONTENT --- */}
-      <div className="container mx-auto px-4 md:px-6 -mt-10 lg:-mt-16">
+      <div className="container mx-auto px-4 md:px-6 mt-12 lg:mt-24">
         <div className="max-w-4xl mx-auto">
           
           <Card className="border-none shadow-2xl rounded-[3rem] overflow-hidden bg-white p-8 md:p-16">

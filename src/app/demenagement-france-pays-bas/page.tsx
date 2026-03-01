@@ -25,65 +25,74 @@ import {
   Scale,
   Waves,
   Ship,
-  Bike
+  Map as MapIcon
 } from "lucide-react";
 
+// --- SEO METADATA ---
+export const metadata: Metadata = {
+  title: "Déménagement France → Pays-Bas | Devis Gratuit & Sécurisé",
+  description: "Déménageur expert sur l'axe France-Pays-Bas. Liaisons vers Amsterdam, Rotterdam, La Haye. Logistique des canaux et groupage. Devis gratuit sous 24h.",
+  alternates: {
+    canonical: "https://demenagementduvexin.fr/demenagement-france-pays-bas",
+  }
+};
+
 const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille De Groot", text: "Déménagement de Paris vers Amsterdam réalisé avec une efficacité remarquable. L'équipe a parfaitement géré l'accès très étroit de notre maison au bord du canal. Un grand professionnalisme et beaucoup de courtoisie.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=DeGrootNL` },
+  { id: "fallback-1", name: "Famille De Groot", text: "Déménagement de Paris vers Amsterdam réalisé avec une efficacité remarquable. L'équipe a parfaitement géré l'accès très étroit de notre maison au bord du canal avec un monte-meubles. Un grand professionnalisme et beaucoup de courtoisie.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=DeGrootNL` },
   { id: "fallback-2", name: "Marc-Antoine S.", text: "Très bonne expérience pour mon installation à Rotterdam. Le devis était clair et l'option groupage m'a permis de faire de vraies économies sur le trajet. Équipe ponctuelle et matériel de qualité. Je recommande !", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=MASNL` },
   { id: "fallback-3", name: "Logistique-Euro SA", text: "Le transfert de nos bureaux vers Utrecht a été mené avec une rigueur et une discrétion totales. Des experts de la logistique internationale capables de gérer des contraintes urbaines fortes.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=LogEuroNL` },
 ];
 
 const NETHERLANDS_CITIES = [
   { name: "Amsterdam", desc: "La capitale et ses quartiers iconiques aux accès complexes (Jordaan, Grachtengordel...)" },
-  { name: "Rotterdam", desc: "Gestion logistique du premier port d'Europe et des zones modernes." },
-  { name: "La Haye (Den Haag)", desc: "Service premium pour le centre politique et diplomatique." },
+  { name: "Rotterdam", desc: "Gestion logistique du premier port d'Europe et des zones ultra-modernes." },
+  { name: "La Haye (Den Haag)", desc: "Service premium pour le centre politique et diplomatique international." },
   { name: "Utrecht", desc: "Liaisons régulières vers le cœur géographique et universitaire du pays." },
-  { name: "Eindhoven", desc: "Accompagnement vers le pôle technologique et design du sud." },
-  { name: "Groningue (Groningen)", desc: "Logistique dédiée vers le nord des Pays-Bas." },
-  { name: "Tilburg", desc: "Liaisons fréquentes vers le pôle logistique du Brabant." },
-  { name: "Almere", desc: "Service adapté aux nouvelles zones résidentielles et urbaines." }
+  { name: "Eindhoven", desc: "Accompagnement logistique vers le pôle technologique et design du sud." },
+  { name: "Groningue (Groningen)", desc: "Logistique dédiée vers le grand nord des Pays-Bas." },
+  { name: "Tilburg", desc: "Liaisons fréquentes vers le pôle économique majeur du Brabant." },
+  { name: "Almere", desc: "Service adapté aux nouvelles zones résidentielles et urbaines du Flevoland." }
 ];
 
 const WHY_US_ITEMS = [
   {
     icon: Route,
     title: "Liaison A1 / A27",
-    description: "Nous assurons des navettes hebdomadaires entre l'Île-de-France et les Pays-Bas, garantissant des délais fiables."
+    description: "Nous assurons des navettes hebdomadaires entre l'Île-de-France et les Pays-Bas, garantissant des délais de livraison extrêmement fiables."
   },
   {
     icon: Ship,
     title: "Maîtrise des Canaux",
-    description: "Experts des accès difficiles en centre-ville historique : utilisation de véhicules agiles et de monte-meubles adaptés."
+    description: "Experts des accès difficiles en centre-ville historique : utilisation de véhicules légers et de monte-meubles spécifiquement adaptés."
   },
   {
     icon: Scale,
     title: "Groupage Économique",
-    description: "Divisez vos frais de transport par deux en mutualisant le trajet avec d'autres clients pour vos volumes de 5 à 15m³."
+    description: "Divisez vos frais de transport par deux en mutualisant le trajet avec d'autres clients pour vos volumes réduits (de 5 à 15m³)."
   },
   {
     icon: ShieldCheck,
     title: "Garantie Totale",
-    description: "Votre patrimoine est couvert par une assurance Ad Valorem incluse sur l'intégralité du trajet transfrontalier."
+    description: "Votre patrimoine est couvert par une assurance Ad Valorem (valeur déclarée) incluse sur l'intégralité du trajet transfrontalier."
   }
 ];
 
 const FAQS = [
   { 
     question: "Quelle est la durée d'un déménagement vers les Pays-Bas ?", 
-    answer: "Pour un trajet Paris-Amsterdam (environ 500 km), l'opération peut s'effectuer en 24h à 48h. Nous chargeons généralement le matin en France pour une livraison le lendemain matin aux Pays-Bas, garantissant ainsi le respect des temps de repos et la sécurité." 
+    answer: "Pour un trajet classique Paris-Amsterdam (environ 500 km), l'opération s'effectue généralement en 24h à 48h. Nous chargeons le matin en France pour une livraison le lendemain matin aux Pays-Bas, garantissant ainsi le respect strict des temps de repos de nos conducteurs et la sécurité de vos biens." 
   },
   { 
     question: "Comment gérez-vous le stationnement à Amsterdam ou Rotterdam ?", 
-    answer: "Les centres-villes néerlandais sont très denses. Nous nous chargeons de réserver les emplacements via les autorités locales et prévoyons, si nécessaire, des monte-meubles ou des véhicules de plus petit gabarit pour naviguer le long des canaux." 
+    answer: "Les centres-villes néerlandais (et particulièrement le bord des canaux) sont très denses et réglementés. Nous nous chargeons de réserver les emplacements via les autorités locales compétentes et prévoyons, presque systématiquement pour les étages, des monte-meubles ou des véhicules de plus petit gabarit pour naviguer sans encombre." 
   },
   { 
     question: "Proposez-vous des services pour les expatriés ?", 
-    answer: "Oui, c'est l'une de nos spécialités. Nous proposons des formules 'clé en main' incluant l'emballage complet, le déballage et la réinstallation pour que vous puissiez vous concentrer sur votre nouveau départ professionnel ou personnel." 
+    answer: "Oui, c'est l'une de nos grandes spécialités. Nous proposons des formules 'Clé en main' premium incluant l'emballage complet (mise en caisse), le déballage et la réinstallation de votre intérieur pour que vous puissiez vous concentrer immédiatement sur votre nouveau départ professionnel ou personnel." 
   },
   { 
-    question: "Quelles sont les formalités administratives ?", 
-    answer: "Au sein de l'Union Européenne, les formalités sont simplifiées. Un inventaire détaillé chiffré et vos justificatifs de changement de domicile suffisent pour assurer le transport en toute conformité réglementaire." 
+    question: "Quelles sont les formalités administratives pour la Hollande ?", 
+    answer: "Au sein de l'Union Européenne et de l'espace Schengen, les formalités sont grandement simplifiées. Un inventaire détaillé chiffré de vos biens (pour l'assurance) et vos justificatifs de changement de domicile (contrat de travail, bail) suffisent pour assurer le transport en toute conformité." 
   }
 ];
 
@@ -105,8 +114,8 @@ export default function NetherlandsPage() {
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
         <Image 
-          src="https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?q=80&w=1920"
-          alt="Vue d'Amsterdam et de ses canaux"
+          src="/images/entete-pages.webp"
+          alt="Déménageur professionnel préparant une logistique internationale vers les Pays-Bas"
           fill
           priority
           sizes="100vw"
@@ -116,10 +125,11 @@ export default function NetherlandsPage() {
         
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           
+          {/* Fil d'Ariane Intégré au Hero */}
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
-            <Link href="/services" className="hover:text-white transition-colors">Services</Link>
+            <Link href="/services" className="hover:text-white transition-colors">International</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
             <span className="text-[#00ad9f]">France - Pays-Bas</span>
           </nav>
@@ -138,7 +148,7 @@ export default function NetherlandsPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Mettez le cap vers le nord en toute sérénité. De l'Île-de-France vers Amsterdam, Rotterdam ou Utrecht, profitez d'une logistique rodée pour un déménagement international fluide.
+              Mettez le cap vers le nord en toute sérénité. De la France vers Amsterdam, Rotterdam ou Utrecht, profitez d'une logistique rodée pour un déménagement international fluide et ultra-sécurisé.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -158,14 +168,14 @@ export default function NetherlandsPage() {
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div className="space-y-8 relative z-10">
               <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                L'expertise d'un axe <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">européen dynamique</u>.
+                L'expertise d'un axe <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">européen très dynamique</u>.
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  S'installer aux Pays-Bas est un projet stimulant qui demande une maîtrise parfaite des flux logistiques nord-européens. Que vous rejoigniez le charme des canaux d'Amsterdam, le dynamisme portuaire de Rotterdam ou le centre technologique d'Eindhoven, votre déménagement exige une rigueur absolue.
+                  S'installer aux Pays-Bas est un projet stimulant qui demande une maîtrise parfaite des flux logistiques nord-européens. Que vous rejoigniez le charme des canaux étroits d'Amsterdam, le dynamisme ultra-moderne du port de Rotterdam ou le grand centre technologique d'Eindhoven, votre déménagement exige une rigueur absolue.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous sommes des spécialistes de la liaison France-Pays-Bas. Nous gérons pour vous l'intégralité du processus : de l'emballage aux standards internationaux à la gestion complexe du stationnement le long des canaux et dans les rues historiques étroites.
+                  Chez <strong>Déménagement du Vexin</strong>, nous sommes des spécialistes de la liaison France-Pays-Bas. Nous gérons pour vous l'intégralité du processus : de l'emballage aux standards internationaux à la gestion extrêmement complexe du stationnement le long des canaux et dans les rues historiques étroites.
                 </p>
               </div>
               
@@ -175,7 +185,7 @@ export default function NetherlandsPage() {
                  </div>
                  <div>
                    <h3 className="text-xl font-bold text-slate-900 mb-1">Rapidité & Ponctualité</h3>
-                   <p className="text-slate-500 font-light">Des départs réguliers chaque semaine pour une flexibilité totale de votre calendrier.</p>
+                   <p className="text-slate-500 font-light">Des départs réguliers chaque semaine pour une flexibilité totale de votre calendrier de mobilité.</p>
                  </div>
               </div>
             </div>
@@ -184,7 +194,7 @@ export default function NetherlandsPage() {
               <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 group-hover:-rotate-1" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="https://images.unsplash.com/photo-1534351590666-13e3e96b5017?q=80&w=800"
+                  src="/images/zones/demenagement-france-pays-bas.webp"
                   alt="Déménagement international longue distance vers les Pays-Bas"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -222,7 +232,7 @@ export default function NetherlandsPage() {
       </section>
 
       {/* --- CITIES GRID --- */}
-      <section id="cities-nl" className="py-24 bg-slate-900 text-white rounded-[4rem] mx-4 md:mx-8 my-12 overflow-hidden relative">
+      <section id="cities-nl" className="py-24 bg-slate-900 text-white rounded-[4rem] mx-4 md:mx-8 my-12 overflow-hidden relative isolate">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#00ad9f]/10 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mb-16 space-y-4">
@@ -230,7 +240,7 @@ export default function NetherlandsPage() {
               Nous couvrons <span className="text-[#00ad9f]">tout le pays.</span>
             </h2>
             <p className="text-lg text-slate-400 font-light leading-relaxed">
-              De la capitale aux grandes zones portuaires et technologiques, nos camions assurent des liaisons régulières vers tous les Pays-Bas.
+              De la capitale historique aux grandes zones portuaires et technologiques, nos camions assurent des liaisons régulières vers tous les Pays-Bas.
             </p>
           </div>
           
@@ -238,10 +248,10 @@ export default function NetherlandsPage() {
             {NETHERLANDS_CITIES.map((city) => (
               <div 
                 key={city.name} 
-                className="group flex flex-col bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm"
+                className="group flex flex-col bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm cursor-default"
               >
-                <span className="font-bold text-slate-200 group-hover:text-white transition-colors mb-1">{city.name}</span>
-                <span className="text-xs text-slate-500 group-hover:text-slate-300 transition-colors">{city.desc}</span>
+                <span className="font-bold text-slate-200 group-hover:text-white transition-colors mb-2 text-lg">{city.name}</span>
+                <span className="text-sm text-slate-400 font-light group-hover:text-slate-300 transition-colors leading-relaxed">{city.desc}</span>
               </div>
             ))}
           </div>
@@ -257,8 +267,8 @@ export default function NetherlandsPage() {
               <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2.5rem] opacity-10 -z-10 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="/images/services/demenagement-international.webp"
-                  alt="Déménagement international premium vers les Pays-Bas"
+                  src="/images/services/emballage-demenagement.webp"
+                  alt="Déménageur protégeant du mobilier pour une exportation internationale vers les Pays-Bas"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -274,27 +284,27 @@ export default function NetherlandsPage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Building2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Expatriés & Institutionnels</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Service premium incluant l'emballage complet, le déballage et la réinstallation de votre intérieur pour une transition immédiate et sereine vers Amsterdam ou La Haye.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Service premium incluant l'emballage complet (caisses export), le déballage et la réinstallation de votre intérieur pour une transition immédiate et sereine vers Amsterdam ou La Haye.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Scale className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Groupage Intelligent</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Optimisez vos frais de transport par deux en mutualisant le trajet avec d'autres clients vers les grandes métropoles néerlandaises.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Optimisez vos frais de transport routier par deux en mutualisant le trajet avec d'autres clients allant vers les grandes métropoles néerlandaises.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts Professionnels</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Logistique B2B experte : transfert informatique, d'archives et de mobiliers de bureau entre la France et les Pays-Bas.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts Professionnels & B2B</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Logistique B2B experte : transfert de serveurs informatiques, d'archives et de mobiliers de bureau entre la France et les Pays-Bas.</p>
                   </div>
                 </li>
               </ul>
               <div className="pt-4">
                 <Button asChild variant="outline" className="rounded-full h-14 px-8 font-bold border-slate-200 text-slate-700 hover:text-[#00ad9f] hover:border-[#00ad9f] hover:bg-[#00ad9f]/5 transition-all">
-                   <Link href="/services">Voir tous nos services</Link>
+                   <Link href="/formules-de-demenagement">Comparer toutes nos formules</Link>
                 </Button>
               </div>
             </div>
@@ -351,7 +361,7 @@ export default function NetherlandsPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Ne laissez pas les frontières ou la logistique des canaux compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
