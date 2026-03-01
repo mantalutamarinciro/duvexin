@@ -84,5 +84,15 @@
     "url": "https://images.unsplash.com/photo-1603796846097-bee99e4a601f?q=80&w=1920",
     "alt": "Déménagement professionnel et formules de service",
     "hint": "moving boxes"
+  },
+  "blog-fragile-hero": {
+    "url": "https://images.unsplash.com/photo-1581578731522-aa069009cf01?q=80&w=1920",
+    "alt": "Emballage d'objets fragiles",
+    "hint": "fragile packing"
+  },
+  "blog-glass-packing": {
+    "url": "https://images.unsplash.com/photo-1534349735944-2b3a6f7a268f?q=80&w=800",
+    "alt": "Protection de la vaisselle et verrerie",
+    "hint": "packing glasses"
   }
 }

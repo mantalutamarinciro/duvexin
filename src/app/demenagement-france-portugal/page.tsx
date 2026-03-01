@@ -24,12 +24,20 @@ import {
   Timer,
   Scale,
   Sun,
-  Map as MapIcon,
   FileText,
   Palmtree,
   Anchor,
-  Sparkles
+  Map as MapIcon
 } from "lucide-react";
+
+// --- SEO METADATA ---
+export const metadata: Metadata = {
+  title: "Déménagement France → Portugal | Devis Gratuit & Sécurisé",
+  description: "Déménageur expert sur l'axe France-Portugal. Liaisons régulières vers Lisbonne, Porto, Algarve. Groupage et transfert d'entreprise. Devis sous 24h.",
+  alternates: {
+    canonical: "https://demenagementduvexin.fr/demenagement-france-portugal",
+  }
+};
 
 const fallbackTestimonials: FormattedReview[] = [
   { id: "fallback-1", name: "Famille Silva", text: "Déménagement de la région parisienne vers Lisbonne réalisé avec un soin incroyable. L'équipe a géré le transport sur 1700 km avec un professionnalisme total. Nos meubles sont arrivés impeccables. Un grand merci pour votre efficacité !", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=SilvaPT` },
@@ -42,17 +50,17 @@ const PORTUGAL_CITIES = [
   { name: "Porto", desc: "Gestion des accès escarpés et des ruelles étroites de la cité de Granit." },
   { name: "Faro / Algarve", desc: "Liaisons régulières vers le sud ensoleillé et les zones balnéaires." },
   { name: "Coimbra", desc: "Logistique dédiée au pôle universitaire et centre du pays." },
-  { name: "Braga", desc: "Accompagnement vers le dynamisme du Minho." },
+  { name: "Braga", desc: "Accompagnement logistique vers le dynamisme du Minho." },
   { name: "Setúbal", desc: "Service premium vers la péninsule et ses zones portuaires." },
-  { name: "Aveiro", desc: "Soin particulier pour la Venise portugaise." },
-  { name: "Funchal (Madère)", desc: "Coordination maritime pour vos projets insulaires." }
+  { name: "Aveiro", desc: "Soin particulier pour les canaux de la Venise portugaise." },
+  { name: "Funchal (Madère)", desc: "Coordination maritime experte pour vos projets insulaires." }
 ];
 
 const WHY_US_ITEMS = [
   {
     icon: Route,
     title: "Liaisons France-Portugal",
-    description: "Nous assurons des navettes régulières entre l'Île-de-France et le Portugal via l'Espagne (A10 / AP-1)."
+    description: "Nous assurons des navettes régulières entre l'Île-de-France et le Portugal via l'Espagne, garantissant des délais fiables."
   },
   {
     icon: Scale,
@@ -62,31 +70,31 @@ const WHY_US_ITEMS = [
   {
     icon: Anchor,
     title: "Maîtrise des Accès",
-    description: "Nos équipes connaissent les contraintes des centres historiques portugais et utilisent des véhicules adaptés."
+    description: "Nos équipes connaissent parfaitement les contraintes des centres historiques portugais et utilisent des véhicules adaptés."
   },
   {
     icon: ShieldCheck,
     title: "Garantie Longue Distance",
-    description: "Votre patrimoine est couvert par une assurance Ad Valorem incluse sur l'intégralité du trajet européen."
+    description: "Votre patrimoine est couvert par une assurance Ad Valorem (valeur déclarée) incluse sur l'intégralité du trajet européen."
   }
 ];
 
 const FAQS = [
   { 
     question: "Quelle est la durée d'un déménagement vers le Portugal ?", 
-    answer: "Pour un trajet comme Paris-Lisbonne (environ 1700 km), il faut compter 3 à 5 jours. Le premier jour est dédié au chargement en France. Le transport s'effectue ensuite avec les arrêts obligatoires pour les chauffeurs, suivi du déchargement complet à l'arrivée au Portugal." 
+    answer: "Pour un trajet comme Paris-Lisbonne (environ 1700 km), il faut compter 3 à 5 jours. Le premier jour est dédié au chargement en France. Le transport s'effectue ensuite dans le strict respect des arrêts obligatoires pour nos chauffeurs, suivi du déchargement complet à l'arrivée au Portugal." 
   },
   { 
     question: "Comment fonctionne le groupage vers Lisbonne ou Porto ?", 
-    answer: "Le groupage est notre solution la plus plébiscitée. Nous mutualisons un grand camion pour plusieurs clients, ce qui permet de partager les frais de carburant et de péages (très élevés vers le Portugal). C'est idéal pour les volumes inférieurs à 15m³." 
+    answer: "Le groupage est notre solution la plus plébiscitée. Nous mutualisons un grand camion pour plusieurs clients, ce qui permet de partager les frais de carburant et de péages (qui sont très élevés vers le Portugal). C'est la solution idéale pour les volumes inférieurs à 15m³." 
   },
   { 
     question: "Gérez-vous le stationnement dans les quartiers escarpés de Lisbonne ?", 
-    answer: "Absolument. Les villes portugaises comme Lisbonne ou Porto ont des rues très étroites et pentues. Nous coordonnons avec nos partenaires locaux pour réserver le stationnement et utiliser, si nécessaire, des véhicules de transbordement (plus petits) pour les derniers mètres." 
+    answer: "Absolument. Les villes portugaises comme Lisbonne ou Porto possèdent des rues très étroites et pentues. Nous coordonnons avec nos partenaires locaux pour réserver le stationnement et utiliser, si nécessaire, des véhicules de transbordement (plus petits et agiles) pour les derniers mètres." 
   },
   { 
     question: "Quelles sont les formalités administratives pour le Portugal ?", 
-    answer: "Dans le cadre de l'UE, les formalités sont simplifiées. Il nous faudra un inventaire détaillé chiffré pour l'assurance et votre certificat de changement de résidence (atestado de residência) fourni par votre consulat ou mairie, ainsi que vos justificatifs de domicile." 
+    answer: "Dans le cadre de l'Union Européenne, les formalités douanières sont simplifiées. Il nous faudra principalement un inventaire détaillé et chiffré pour l'assurance et votre certificat de changement de résidence (atestado de residência) fourni par votre consulat ou mairie, ainsi que vos justificatifs de domicile." 
   }
 ];
 
@@ -108,8 +116,8 @@ export default function PortugalPage() {
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
         <Image 
-          src="https://images.unsplash.com/photo-1548705085-101177834f47?q=80&w=1920"
-          alt="Vue de Lisbonne et du Tage au coucher du soleil"
+          src="/images/entete-pages.webp"
+          alt="Déménageur professionnel préparant une logistique internationale vers la péninsule ibérique"
           fill
           priority
           sizes="100vw"
@@ -119,10 +127,11 @@ export default function PortugalPage() {
         
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           
+          {/* Fil d'Ariane Intégré au Hero */}
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
-            <Link href="/services" className="hover:text-white transition-colors">Services</Link>
+            <Link href="/services" className="hover:text-white transition-colors">International</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
             <span className="text-[#00ad9f]">France - Portugal</span>
           </nav>
@@ -141,7 +150,7 @@ export default function PortugalPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Mettez le cap vers l'Atlantique en toute sérénité. De l'Île-de-France vers Lisbonne, Porto ou l'Algarve, profitez d'une logistique rodée pour un déménagement international fluide.
+              Mettez le cap vers l'Atlantique en toute sérénité. De la France vers Lisbonne, Porto ou l'Algarve, profitez d'une logistique rodée pour un déménagement international fluide et sécurisé.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -165,10 +174,10 @@ export default function PortugalPage() {
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  S'installer au Portugal est un projet de vie magnifique qui demande une maîtrise parfaite de la logistique longue distance. Les 1700 km qui séparent Paris de Lisbonne imposent une rigueur absolue dans l'emballage, le calage et la planification du trajet.
+                  S'installer au Portugal est un projet de vie magnifique qui demande une maîtrise parfaite de la logistique longue distance. Les 1700 kilomètres qui séparent Paris de Lisbonne imposent une rigueur absolue dans l'emballage, le calage des biens et la planification du trajet routier.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous sommes des spécialistes de la liaison France-Portugal. Nous gérons pour vous l'intégralité du processus : de l'emballage aux standards internationaux à la gestion des accès délicats dans les vieux quartiers pavés de Lisbonne ou de Porto.
+                  Chez <strong>Déménagement du Vexin</strong>, nous sommes des spécialistes reconnus de la liaison France-Portugal. Nous gérons pour vous l'intégralité du processus : de l'emballage aux standards internationaux à la gestion très complexe des accès dans les vieux quartiers pavés et escarpés de Lisbonne ou de Porto.
                 </p>
               </div>
               
@@ -178,7 +187,7 @@ export default function PortugalPage() {
                  </div>
                  <div>
                    <h3 className="text-xl font-bold text-slate-900 mb-1">Ponctualité & Fiabilité</h3>
-                   <p className="text-slate-500 font-light">Des départs réguliers pour une flexibilité totale de votre calendrier d'expatriation.</p>
+                   <p className="text-slate-500 font-light">Des départs réguliers pour vous garantir une flexibilité totale de votre calendrier d'expatriation.</p>
                  </div>
               </div>
             </div>
@@ -187,8 +196,8 @@ export default function PortugalPage() {
               <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 group-hover:-rotate-1" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="https://images.unsplash.com/photo-1555881400-74d7acaacd8b?q=80&w=800"
-                  alt="Déménagement international longue distance vers le Portugal"
+                  src="/images/zones/demenagement-france-portugal.webp"
+                  alt="Logistique de déménagement international vers le Portugal"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -225,7 +234,7 @@ export default function PortugalPage() {
       </section>
 
       {/* --- CITIES GRID --- */}
-      <section id="cities-pt" className="py-24 bg-slate-900 text-white rounded-[4rem] mx-4 md:mx-8 my-12 overflow-hidden relative">
+      <section id="cities-pt" className="py-24 bg-slate-900 text-white rounded-[4rem] mx-4 md:mx-8 my-12 overflow-hidden relative isolate">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#00ad9f]/10 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mb-16 space-y-4">
@@ -233,7 +242,7 @@ export default function PortugalPage() {
               Nous couvrons <span className="text-[#00ad9f]">tout le Portugal.</span>
             </h2>
             <p className="text-lg text-slate-400 font-light leading-relaxed">
-              De la vallée du Douro aux plages de l'Algarve, nos camions assurent des liaisons régulières vers tout le pays.
+              Du Nord verdoyant aux plages ensoleillées de l'Algarve, nos camions assurent des liaisons régulières vers tout le pays.
             </p>
           </div>
           
@@ -241,10 +250,10 @@ export default function PortugalPage() {
             {PORTUGAL_CITIES.map((city) => (
               <div 
                 key={city.name} 
-                className="group flex flex-col bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm"
+                className="group flex flex-col bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm cursor-default"
               >
-                <span className="font-bold text-slate-200 group-hover:text-white transition-colors mb-1">{city.name}</span>
-                <span className="text-xs text-slate-500 group-hover:text-slate-300 transition-colors">{city.desc}</span>
+                <span className="font-bold text-slate-200 group-hover:text-white transition-colors mb-2 text-lg">{city.name}</span>
+                <span className="text-sm text-slate-400 font-light group-hover:text-slate-300 transition-colors leading-relaxed">{city.desc}</span>
               </div>
             ))}
           </div>
@@ -260,8 +269,8 @@ export default function PortugalPage() {
               <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2.5rem] opacity-10 -z-10 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="/images/services/demenagement-international.webp"
-                  alt="Déménagement international premium vers le Portugal"
+                  src="/images/services/emballage-demenagement.webp"
+                  alt="Déménageur protégeant du mobilier de valeur pour une exportation vers le Portugal"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -290,14 +299,14 @@ export default function PortugalPage() {
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts Professionnels</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Logistique B2B experte : transfert informatique, d'archives et de mobiliers de bureau entre la France et le Portugal.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts Professionnels & B2B</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Logistique experte dédiée : transfert informatique, d'archives et de mobiliers de bureau entre la France et le Portugal.</p>
                   </div>
                 </li>
               </ul>
               <div className="pt-4">
                 <Button asChild variant="outline" className="rounded-full h-14 px-8 font-bold border-slate-200 text-slate-700 hover:text-[#00ad9f] hover:border-[#00ad9f] hover:bg-[#00ad9f]/5 transition-all">
-                   <Link href="/services">Voir tous nos services</Link>
+                   <Link href="/formules-de-demenagement">Comparer toutes nos formules</Link>
                 </Button>
               </div>
             </div>
@@ -354,7 +363,7 @@ export default function PortugalPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Ne laissez pas les frontières ou la logistique longue distance compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">

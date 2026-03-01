@@ -31,7 +31,7 @@ export const blogPosts: BlogPost[] = [
     description: 'La vaisselle, les miroirs, les œuvres d\'art... l\'emballage des objets fragiles est une source de stress. Suivez notre guide pas à pas pour protéger vos biens les plus précieux comme un professionnel.',
     imageUrl: 'https://images.unsplash.com/photo-1581578731522-aa069009cf01?q=80&w=800',
     aiHint: 'fragile glass packing',
-    link: '#',
+    link: '/blog/le-guide-ultime-pour-emballer-vos-objets-fragiles',
   },
    {
     id: '4',
