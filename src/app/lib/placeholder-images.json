@@ -66,42 +66,42 @@
     "hint": "boxes moving"
   },
   "blog-packing": {
-    "url": "https://picsum.photos/seed/blog-pack/800/500",
+    "url": "/images/blog/preparation-cartons-demenagement.webp",
     "alt": "Préparation des cartons de déménagement",
     "hint": "boxes packing"
   },
   "blog-team": {
-    "url": "https://picsum.photos/seed/blog-team/800/500",
+    "url": "/images/blog/demenageurs-du-vexin.webp",
     "alt": "Équipe de déménageurs en action",
     "hint": "moving team"
   },
   "blog-new-home": {
-    "url": "https://picsum.photos/seed/blog-home/800/500",
+    "url": "/images/blog/emmenagement-nouvel-appartement.webp",
     "alt": "Nouvel appartement prêt à être aménagé",
     "hint": "empty home"
   },
   "blog-formulas-hero": {
-    "url": "https://images.unsplash.com/photo-1603796846097-bee99e4a601f?q=80&w=1920",
+    "url": "/images/blog/formules-demenagement.webp",
     "alt": "Déménagement professionnel et formules de service",
     "hint": "moving boxes"
   },
   "blog-fragile-hero": {
-    "url": "https://images.unsplash.com/photo-1581578731522-aa069009cf01?q=80&w=1920",
+    "url": "/images/blog/emballage-objets-fragiles.webp",
     "alt": "Emballage d'objets fragiles",
     "hint": "fragile packing"
   },
   "blog-glass-packing": {
-    "url": "https://images.unsplash.com/photo-1534349735944-2b3a6f7a268f?q=80&w=800",
+    "url": "/images/blog/protection-vaisselle-verrerie.webp",
     "alt": "Protection de la vaisselle et verrerie",
     "hint": "packing glasses"
   },
   "blog-kids-hero": {
-    "url": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?q=80&w=1920",
+    "url": "/images/blog/demenagement-avec-enfants.webp",
     "alt": "Enfants heureux pendant un déménagement",
     "hint": "happy kids"
   },
   "blog-kids-packing": {
-    "url": "https://images.unsplash.com/photo-1512418490979-92798ccc1380?q=80&w=800",
+    "url": "/images/blog/enfants-pendant-demenagement.webp",
     "alt": "Enfants aidant à faire les cartons",
     "hint": "kids packing"
   }
