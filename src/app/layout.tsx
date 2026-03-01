@@ -1,8 +1,8 @@
-
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/theme-provider';
+import { CookieBanner } from '@/components/cookie-banner';
 
 export const metadata: Metadata = {
   title: 'DemDuVexin - Votre Partenaire Déménagement',
@@ -29,6 +29,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
             {children}
+            <CookieBanner />
             <Toaster />
         </ThemeProvider>
       </body>
