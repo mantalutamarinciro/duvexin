@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,7 +15,6 @@ import {
   MapPin, 
   ShieldCheck, 
   Truck, 
-  Users, 
   Globe, 
   Building2, 
   ArrowRight,
@@ -24,10 +22,18 @@ import {
   Route,
   Timer,
   Scale,
-  Zap,
-  Map as MapIcon,
-  FileText
+  FileText,
+  Map as MapIcon
 } from "lucide-react";
+
+// --- SEO METADATA ---
+export const metadata: Metadata = {
+  title: "Déménagement France → Belgique | Devis Gratuit & Groupage",
+  description: "Déménageur expert sur l'axe France-Belgique. Liaisons hebdomadaires vers Bruxelles, Anvers, Liège. Groupage et formalités incluses. Devis gratuit en 24h.",
+  alternates: {
+    canonical: "https://demenagementduvexin.fr/demenagement-france-belgique",
+  }
+};
 
 const fallbackTestimonials: FormattedReview[] = [
   { id: "fallback-1", name: "Famille Vanderberg", text: "Déménagement de Paris à Bruxelles réalisé avec une efficacité incroyable. L'équipe a géré les formalités et le déchargement dans une rue étroite d'Ixelles sans aucun souci. Un grand merci !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Vanderberg` },
@@ -50,17 +56,17 @@ const WHY_US_ITEMS = [
   {
     icon: Globe,
     title: "Expertise Transfrontalière",
-    description: "Nous maîtrisons parfaitement les liaisons France-Belgique via l'A1 et l'A2, assurant des trajets hebdomadaires fluides."
+    description: "Nous maîtrisons parfaitement les liaisons France-Belgique via l'A1 et l'A2, assurant des trajets hebdomadaires fluides et ponctuels."
   },
   {
     icon: FileText,
     title: "Accompagnement Administratif",
-    description: "Bien qu'au sein de l'UE, un déménagement international demande de la rigueur sur les contrats et les assurances spécifiques."
+    description: "Bien qu'au sein de l'UE, un déménagement international demande de la rigueur sur les inventaires, le stationnement et les assurances."
   },
   {
     icon: Scale,
     title: "Solutions de Groupage",
-    description: "Divisez vos frais de transport par deux en mutualisant votre trajet vers la Belgique avec d'autres clients."
+    description: "Divisez vos frais de transport par deux en mutualisant votre trajet vers la Belgique avec d'autres clients pour les petits volumes."
   },
   {
     icon: ShieldCheck,
@@ -72,40 +78,42 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Quelle est la durée d'un déménagement vers la Belgique ?", 
-    answer: "Grâce à la proximité géographique, un déménagement vers Bruxelles ou le Hainaut peut s'effectuer en 24h à 48h. Nous chargeons le matin en France et livrons généralement le lendemain matin en Belgique pour garantir un repos réglementaire à nos chauffeurs et une sécurité maximale." 
+    answer: "Grâce à la proximité géographique, un déménagement vers Bruxelles ou le Hainaut depuis l'Île-de-France ou la Normandie peut s'effectuer en 24h à 48h. Nous chargeons le matin en France et livrons généralement le lendemain matin en Belgique pour garantir un repos réglementaire à nos chauffeurs et une sécurité maximale." 
   },
   { 
     question: "Proposez-vous le groupage pour les petits volumes ?", 
-    answer: "Oui, c'est l'une de nos offres les plus demandées sur l'axe Paris-Bruxelles. Si vous avez moins de 15m³, nous mutualisons le transport, ce qui vous permet de bénéficier de tarifs ultra-compétitifs en partageant les frais de route." 
+    answer: "Oui, c'est l'une de nos offres les plus demandées sur l'axe Paris-Bruxelles. Si vous avez moins de 15m³ (studio, appartement étudiant, quelques meubles), nous mutualisons le transport. Cela vous permet de bénéficier de tarifs ultra-compétitifs en partageant les frais de route avec d'autres clients." 
   },
   { 
     question: "Gérez-vous le stationnement à Bruxelles ou Anvers ?", 
-    answer: "Absolument. Les villes belges sont très strictes sur le stationnement. Nous coordonnons avec les services de police locaux ou des partenaires sur place pour réserver les emplacements nécessaires et installer les panneaux d'interdiction de stationner." 
+    answer: "Absolument. Les villes belges sont très strictes sur le stationnement (panneaux d'interdiction obligatoires). Nous coordonnons ces démarches avec les services de police locaux ou des partenaires sur place pour réserver les emplacements nécessaires et garantir la présence de nos camions au plus près de votre porte." 
   },
   { 
     question: "Quelles sont les formalités pour déménager en Belgique ?", 
-    answer: "En tant que citoyen de l'UE, les formalités sont simplifiées. Il vous faudra principalement un inventaire détaillé chiffré pour l'assurance et vos justificatifs de changement de résidence. Nos conseillers vous fournissent la liste exacte des documents nécessaires lors de la validation du devis." 
+    answer: "En tant que citoyen de l'Union Européenne (Espace Schengen), les formalités sont grandement simplifiées et il n'y a pas de frais de douane. Il vous faudra principalement un inventaire détaillé et chiffré pour l'assurance et vos justificatifs de changement de résidence. Nos conseillers vous accompagnent pas à pas." 
   }
 ];
 
 export default function BelgiumPage() {
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": FAQS.map(item => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+    }))
+  };
+
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
-      <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": FAQS.map(item => ({
-          "@type": "Question",
-          "name": item.question,
-          "acceptedAnswer": { "@type": "Answer", "text": item.answer }
-        }))
-      })}} />
+      <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
       
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
         <Image 
-          src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1920"
-          alt="Vue de Bruxelles, Grand Place"
+          src="/images/entete-pages.webp"
+          alt="Déménageur professionnel préparant un trajet international vers la Belgique"
           fill
           priority
           sizes="100vw"
@@ -115,10 +123,11 @@ export default function BelgiumPage() {
         
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           
+          {/* Fil d'Ariane Intégré au Hero */}
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
-            <Link href="/services" className="hover:text-white transition-colors">Services</Link>
+            <Link href="/services" className="hover:text-white transition-colors">International</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
             <span className="text-[#00ad9f]">France - Belgique</span>
           </nav>
@@ -137,7 +146,7 @@ export default function BelgiumPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Mettez le cap sur le plat pays en toute sérénité. De Paris, Lille ou toute la France, profitez d'une logistique rodée pour un déménagement international fluide et au meilleur prix.
+              Mettez le cap sur le plat pays en toute sérénité. Depuis la France, profitez d'une logistique rodée pour un déménagement international fluide, sécurisé et au meilleur prix.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -161,10 +170,10 @@ export default function BelgiumPage() {
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  S'installer en Belgique est une aventure passionnante, que ce soit pour rejoindre les institutions européennes à Bruxelles, le dynamisme économique d'Anvers ou la qualité de vie wallonne. Pour réussir cette transition, la maîtrise des liaisons transfrontalières est impérative.
+                  S'installer en Belgique est une aventure passionnante, que ce soit pour rejoindre les institutions européennes à Bruxelles, le dynamisme économique d'Anvers ou la qualité de vie reconnue de la Wallonie. Pour réussir cette transition, la parfaite maîtrise des liaisons transfrontalières est impérative.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous avons fait de l'axe France-Belgique une spécialité. Nous gérons aussi bien les accès denses des communes bruxelloises (Ixelles, Saint-Gilles, Uccle) que les livraisons dans les zones pavillonnaires ou les pôles tertiaires de toute la Belgique.
+                  Chez <strong>Déménagement du Vexin</strong>, nous avons fait de l'axe France-Belgique une de nos grandes spécialités. Nous gérons aussi bien les accès denses et souvent complexes des communes bruxelloises (Ixelles, Saint-Gilles, Uccle) que les livraisons dans les zones pavillonnaires ou les pôles tertiaires de l'ensemble du royaume belge.
                 </p>
               </div>
               
@@ -174,7 +183,7 @@ export default function BelgiumPage() {
                  </div>
                  <div>
                    <h3 className="text-xl font-bold text-slate-900 mb-1">Rapidité & Régularité</h3>
-                   <p className="text-slate-500 font-light">Des départs hebdomadaires pour garantir une flexibilité totale de vos dates.</p>
+                   <p className="text-slate-500 font-light">Des départs hebdomadaires pour garantir une flexibilité totale de vos dates d'emménagement.</p>
                  </div>
               </div>
             </div>
@@ -183,8 +192,8 @@ export default function BelgiumPage() {
               <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 group-hover:-rotate-1" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=800"
-                  alt="Équipe de déménagement internationale"
+                  src="/images/zones/demenagement-france-belgique.webp"
+                  alt="Équipe de déménagement professionnelle vers la Belgique"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -199,7 +208,7 @@ export default function BelgiumPage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-              Pourquoi nous confier votre trajet ?
+              L'excellence pour votre expatriation
             </h2>
             <p className="text-lg text-slate-500 font-light">
               Une organisation millimétrée pour une liaison France-Belgique parfaitement maîtrisée.
@@ -221,7 +230,7 @@ export default function BelgiumPage() {
       </section>
 
       {/* --- CITIES GRID --- */}
-      <section id="cities-belgium" className="py-24 bg-slate-900 text-white rounded-[4rem] mx-4 md:mx-8 my-12 overflow-hidden relative">
+      <section id="cities-belgium" className="py-24 bg-slate-900 text-white rounded-[4rem] mx-4 md:mx-8 my-12 overflow-hidden relative isolate">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#00ad9f]/10 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mb-16 space-y-4">
@@ -229,7 +238,7 @@ export default function BelgiumPage() {
               Nous couvrons <span className="text-[#00ad9f]">toute la Belgique.</span>
             </h2>
             <p className="text-lg text-slate-400 font-light leading-relaxed">
-              Nos camions assurent des liaisons régulières vers les plus grandes métropoles belges.
+              De Bruxelles à la Wallonie en passant par la Flandre, nos camions assurent des liaisons régulières vers les plus grandes métropoles belges.
             </p>
           </div>
           
@@ -237,10 +246,10 @@ export default function BelgiumPage() {
             {BELGIUM_CITIES.map((city) => (
               <div 
                 key={city.name} 
-                className="group flex flex-col bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm"
+                className="group flex flex-col bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm cursor-default"
               >
-                <span className="font-bold text-slate-200 group-hover:text-white transition-colors mb-1">{city.name}</span>
-                <span className="text-xs text-slate-500 group-hover:text-slate-300 transition-colors">{city.desc}</span>
+                <span className="font-bold text-slate-200 group-hover:text-white transition-colors mb-2 text-lg">{city.name}</span>
+                <span className="text-sm text-slate-400 font-light group-hover:text-slate-300 transition-colors leading-relaxed">{city.desc}</span>
               </div>
             ))}
           </div>
@@ -256,8 +265,8 @@ export default function BelgiumPage() {
               <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2.5rem] opacity-10 -z-10 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="/images/services/demenagement-international.webp"
-                  alt="Déménagement international premium"
+                  src="/images/services/emballage-demenagement.webp"
+                  alt="Déménageur protégeant du mobilier pour un transport international sécurisé"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -266,13 +275,13 @@ export default function BelgiumPage() {
 
             <div className="order-1 lg:order-2 space-y-10 lg:pl-10">
               <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                Une réponse à <br/> <span className="text-[#00ad9f]">chaque profil international.</span>
+                Une réponse à <br/> <span className="text-[#00ad9f]">chaque profil.</span>
               </h2>
               <ul className="space-y-8">
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Building2 className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Expatriés & Fonctionnaires</h4>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Expatriés & Institutionnels</h4>
                     <p className="text-slate-500 font-light leading-relaxed">Service premium incluant l'emballage complet, le déballage et la réinstallation de votre intérieur pour une transition sans effort vers Bruxelles.</p>
                   </div>
                 </li>
@@ -280,20 +289,20 @@ export default function BelgiumPage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Scale className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Groupage Économique</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Divisez vos frais de transport par deux en mutualisant le trajet avec d'autres clients vers les grandes villes belges.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Divisez vos frais de transport et de péages par deux en mutualisant le trajet avec d'autres clients vers les grandes villes belges.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts de Bureaux</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Logistique B2B experte : transfert informatique, d'archives et de mobiliers professionnels entre la France et la Belgique.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts Pro & Bureaux</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Logistique B2B experte : transfert informatique sécurisé, d'archives et de mobiliers professionnels entre la France et la Belgique.</p>
                   </div>
                 </li>
               </ul>
               <div className="pt-4">
                 <Button asChild variant="outline" className="rounded-full h-14 px-8 font-bold border-slate-200 text-slate-700 hover:text-[#00ad9f] hover:border-[#00ad9f] hover:bg-[#00ad9f]/5 transition-all">
-                   <Link href="/services">Voir tous nos services</Link>
+                   <Link href="/formules-de-demenagement">Comparer toutes nos formules</Link>
                 </Button>
               </div>
             </div>
@@ -350,7 +359,7 @@ export default function BelgiumPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas les frontières compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Ne laissez pas les frontières ou la réglementation compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">

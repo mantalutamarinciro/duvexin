@@ -26,8 +26,18 @@ import {
   FileText,
   BadgeCheck,
   Building,
-  Languages
+  Languages,
+  Map as MapIcon
 } from "lucide-react";
+
+// --- SEO METADATA ---
+export const metadata: Metadata = {
+  title: "Déménagement France → Allemagne | Devis Gratuit & Sécurisé",
+  description: "Déménageur expert sur l'axe France-Allemagne. Liaisons hebdomadaires vers Berlin, Munich, Francfort. Groupage et transfert d'entreprise. Devis sous 24h.",
+  alternates: {
+    canonical: "https://demenagementduvexin.fr/demenagement-france-allemagne",
+  }
+};
 
 const fallbackTestimonials: FormattedReview[] = [
   { id: "fallback-1", name: "Famille Schmidt", text: "Déménagement de Paris vers Berlin parfaitement orchestré. L'équipe a été d'une ponctualité exemplaire et a géré tout le transport de nos meubles fragiles avec un soin incroyable sur 1000 km. Un service d'élite.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=SchmidtDE` },
@@ -40,51 +50,51 @@ const GERMANY_CITIES = [
   { name: "Munich (München)", desc: "Gestion logistique du pôle bavarois et technologique." },
   { name: "Hambourg (Hamburg)", desc: "Expertise des accès portuaires et du Nord de l'Allemagne." },
   { name: "Francfort (Frankfurt)", desc: "Service premium pour le centre financier et bancaire." },
-  { name: "Cologne (Köln)", desc: "Liaisons rapides via l'axe rhénan." },
+  { name: "Cologne (Köln)", desc: "Liaisons rapides et directes via l'axe rhénan." },
   { name: "Stuttgart", desc: "Accompagnement pour les transferts vers le pôle industriel automobile." },
-  { name: "Düsseldorf", desc: "Soin particulier pour le pôle mode et design." },
-  { name: "Leipzig", desc: "Logistique dédiée à la Saxe en plein essor." }
+  { name: "Düsseldorf", desc: "Soin particulier et logistique pour le pôle mode et design." },
+  { name: "Leipzig", desc: "Logistique dédiée à la Saxe en plein essor économique." }
 ];
 
 const WHY_US_ITEMS = [
   {
     icon: Route,
     title: "Liaisons France-Allemagne",
-    description: "Nous assurons des navettes hebdomadaires entre l'Île-de-France et les grandes métropoles allemandes (A4 / A5)."
+    description: "Nous assurons des navettes régulières et fluides entre l'Île-de-France et les grandes métropoles allemandes via l'A4 / A5."
   },
   {
     icon: Languages,
     title: "Accompagnement Interculturel",
-    description: "Nos équipes maîtrisent les codes et les réglementations de stationnement spécifiques à chaque Land allemand."
+    description: "Nos équipes maîtrisent les codes locaux et les réglementations de stationnement spécifiques à chaque Land allemand."
   },
   {
     icon: Scale,
     title: "Groupage Économique",
-    description: "Optimisez votre budget en mutualisant le transport avec d'autres clients pour vos volumes entre 5 et 20m³."
+    description: "Optimisez considérablement votre budget en mutualisant le transport avec d'autres clients pour vos volumes entre 5 et 20m³."
   },
   {
     icon: ShieldCheck,
     title: "Sécurité & Assurance",
-    description: "Une protection totale via notre assurance Ad Valorem incluse pour vos biens de valeur sur tout le trajet européen."
+    description: "Une protection totale via notre assurance Ad Valorem (valeur déclarée) incluse pour vos biens sur tout le trajet européen."
   }
 ];
 
 const FAQS = [
   { 
     question: "Combien de temps faut-il prévoir pour un déménagement vers l'Allemagne ?", 
-    answer: "Pour un trajet comme Paris-Berlin (1050 km), il faut compter 48h à 72h. Le premier jour est dédié au chargement en France et au début du transit. Le second jour est consacré au transport final et à la livraison, garantissant ainsi le respect des temps de repos de nos conducteurs et la sécurité de vos biens." 
+    answer: "Pour un trajet comme Paris-Berlin (environ 1050 km), il faut compter entre 48h et 72h. Le premier jour est dédié au chargement soigneux en France et au début du transit. Le second jour est consacré au transport final et à la livraison, garantissant ainsi le respect strict des temps de repos de nos conducteurs et la sécurité de vos biens." 
   },
   { 
     question: "Gérez-vous le stationnement à Berlin ou Munich ?", 
-    answer: "Absolument. Les villes allemandes sont très strictes sur le 'Halteverbot' (interdiction de stationner). Nous nous chargeons de commander et de faire poser les panneaux de signalisation officiels 72h avant l'intervention pour garantir un emplacement réservé au camion." 
+    answer: "Absolument. Les grandes villes allemandes sont très strictes sur le 'Halteverbot' (l'interdiction de stationner). Nous nous chargeons de commander et de faire poser les panneaux de signalisation officiels par les autorités locales au moins 72h avant l'intervention pour garantir un emplacement réservé au camion." 
   },
   { 
     question: "Proposez-vous des services pour les transferts de bureaux B2B ?", 
-    answer: "Oui, nous accompagnons les entreprises pour des transferts de sièges sociaux, de bureaux et de matériel informatique entre la France et l'Allemagne avec une planification millimétrée, souvent réalisée le week-end." 
+    answer: "Oui, nous accompagnons de nombreuses entreprises pour des transferts de sièges sociaux, de bureaux et de matériel informatique lourd entre la France et l'Allemagne. Nous établissons une planification millimétrée, souvent réalisée le week-end, pour éviter toute perte d'exploitation." 
   },
   { 
     question: "Quelles sont les formalités administratives ?", 
-    answer: "En tant qu'échange au sein de l'Union Européenne, les formalités sont simplifiées. Il nous faudra principalement un inventaire détaillé et vos justificatifs de changement de domicile pour l'assurance et les éventuels contrôles routiers." 
+    answer: "En tant qu'échange au sein de l'Espace Schengen (Union Européenne), les formalités douanières sont grandement simplifiées. Il nous faudra principalement établir ensemble un inventaire détaillé et vous demander vos justificatifs de changement de domicile pour l'assurance et les éventuels contrôles routiers." 
   }
 ];
 
@@ -106,8 +116,8 @@ export default function GermanyPage() {
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
         <Image 
-          src="https://images.unsplash.com/photo-1599946347341-6cd394723cd8?q=80&w=1920"
-          alt="Vue de Berlin et de la porte de Brandebourg"
+          src="/images/entete-pages.webp"
+          alt="Déménageur professionnel préparant une logistique internationale vers l'Europe"
           fill
           priority
           sizes="100vw"
@@ -117,10 +127,11 @@ export default function GermanyPage() {
         
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           
+          {/* Fil d'Ariane Intégré au Hero */}
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
-            <Link href="/services" className="hover:text-white transition-colors">Services</Link>
+            <Link href="/services" className="hover:text-white transition-colors">International</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
             <span className="text-[#00ad9f]">France - Allemagne</span>
           </nav>
@@ -133,13 +144,13 @@ export default function GermanyPage() {
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
               Votre déménagement <br className="hidden sm:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200 text-shadow-sm">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
                 outre-Rhin.
               </span>
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Mettez le cap vers l'Allemagne en toute sérénité. De l'Île-de-France vers Berlin, Munich, Hambourg ou la Ruhr, profitez d'une logistique rodée et d'un service premium.
+              Mettez le cap vers l'Allemagne en toute sérénité. De la France vers Berlin, Munich, Hambourg ou la Ruhr, profitez d'une logistique rodée et d'un service premium.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -163,10 +174,10 @@ export default function GermanyPage() {
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  S'installer en Allemagne est un projet ambitieux qui demande une maîtrise parfaite de la logistique longue distance. Que vous rejoigniez le dynamisme de la capitale berlinoise, la puissance industrielle de Stuttgart ou le pôle financier de Francfort, votre déménagement doit être géré avec une rigueur absolue.
+                  S'installer en Allemagne est un projet de vie (ou d'entreprise) ambitieux qui demande une maîtrise absolument parfaite de la logistique longue distance. Que vous rejoigniez le formidable dynamisme de la capitale berlinoise, la puissance industrielle de Stuttgart ou le grand pôle financier de Francfort, votre déménagement doit être géré avec une rigueur absolue.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous sommes des spécialistes de la liaison France-Allemagne. Nous gérons pour vous l'intégralité du processus : de l'emballage aux standards internationaux à la gestion du stationnement complexe dans les quartiers denses des grandes villes allemandes.
+                  Chez <strong>Déménagement du Vexin</strong>, nous sommes des spécialistes reconnus de la liaison France-Allemagne. Nous gérons pour vous l'intégralité du processus : de l'emballage aux standards internationaux (caisses d'export) à la gestion très stricte du stationnement ("Halteverbot") dans les quartiers denses des grandes métropoles allemandes.
                 </p>
               </div>
               
@@ -176,7 +187,7 @@ export default function GermanyPage() {
                  </div>
                  <div>
                    <h3 className="text-xl font-bold text-slate-900 mb-1">Ponctualité & Rigueur</h3>
-                   <p className="text-slate-500 font-light">Des départs réguliers pour une flexibilité totale de votre calendrier d'expatriation.</p>
+                   <p className="text-slate-500 font-light">Des départs très réguliers pour une flexibilité totale de votre calendrier d'expatriation.</p>
                  </div>
               </div>
             </div>
@@ -185,8 +196,8 @@ export default function GermanyPage() {
               <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 group-hover:-rotate-1" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="https://images.unsplash.com/photo-1554062614-69fa39859cd6?q=80&w=800"
-                  alt="Déménagement international vers l'Allemagne"
+                  src="/images/zones/demenagement-france-allemagne.webp"
+                  alt="Logistique de déménagement international vers l'Allemagne"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -201,10 +212,10 @@ export default function GermanyPage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-              L'excellence au service de votre mobilité
+              L'excellence pour votre mobilité
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Une organisation rigoureuse pour une liaison France-Allemagne parfaitement maîtrisée.
+              Une organisation rigoureuse et normée pour une liaison transfrontalière parfaitement maîtrisée.
             </p>
           </div>
 
@@ -223,7 +234,7 @@ export default function GermanyPage() {
       </section>
 
       {/* --- CITIES GRID --- */}
-      <section id="cities-de" className="py-24 bg-slate-900 text-white rounded-[4rem] mx-4 md:mx-8 my-12 overflow-hidden relative">
+      <section id="cities-de" className="py-24 bg-slate-900 text-white rounded-[4rem] mx-4 md:mx-8 my-12 overflow-hidden relative isolate">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#00ad9f]/10 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mb-16 space-y-4">
@@ -231,7 +242,7 @@ export default function GermanyPage() {
               Nous couvrons <span className="text-[#00ad9f]">toute l'Allemagne.</span>
             </h2>
             <p className="text-lg text-slate-400 font-light leading-relaxed">
-              De Berlin aux rives du Rhin, nos camions interviennent sur tout le territoire allemand.
+              De Berlin aux rives du Rhin en passant par la Bavière, nos camions interviennent de manière hebdomadaire sur tout le territoire allemand.
             </p>
           </div>
           
@@ -239,10 +250,10 @@ export default function GermanyPage() {
             {GERMANY_CITIES.map((city) => (
               <div 
                 key={city.name} 
-                className="group flex flex-col bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm"
+                className="group flex flex-col bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm cursor-default"
               >
-                <span className="font-bold text-slate-200 group-hover:text-white transition-colors mb-1">{city.name}</span>
-                <span className="text-xs text-slate-500 group-hover:text-slate-300 transition-colors">{city.desc}</span>
+                <span className="font-bold text-slate-200 group-hover:text-white transition-colors mb-2 text-lg">{city.name}</span>
+                <span className="text-sm text-slate-400 font-light group-hover:text-slate-300 transition-colors leading-relaxed">{city.desc}</span>
               </div>
             ))}
           </div>
@@ -258,8 +269,8 @@ export default function GermanyPage() {
               <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2.5rem] opacity-10 -z-10 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="/images/services/demenagement-international.webp"
-                  alt="Déménagement international vers l'Allemagne"
+                  src="/images/services/emballage-demenagement.webp"
+                  alt="Déménageur protégeant du mobilier pour une exportation internationale"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -275,27 +286,27 @@ export default function GermanyPage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Building2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Expatriés & Institutionnels</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Service premium incluant l'emballage complet, le déballage et la réinstallation de votre intérieur pour une transition immédiate et sereine vers Berlin ou Munich.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Service premium ("gants blancs") incluant l'emballage complet, le déballage et la réinstallation de votre intérieur pour une transition immédiate et sereine vers Berlin ou Munich.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Scale className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Groupage Malin</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Divisez vos frais de transport par deux en mutualisant le trajet avec d'autres clients vers les grandes métropoles allemandes.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Groupage Malin Européen</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Divisez vos frais de transport et de péage par deux en mutualisant le trajet avec d'autres clients allant vers les mêmes grandes métropoles allemandes.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts Professionnels</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Logistique B2B experte : transfert informatique, d'archives et de mobiliers de bureau entre la France et l'Allemagne.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts B2B & Bureaux</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Logistique B2B experte : transfert de votre infrastructure informatique, de vos archives et de vos mobiliers de bureau de la France vers l'Allemagne.</p>
                   </div>
                 </li>
               </ul>
               <div className="pt-4">
                 <Button asChild variant="outline" className="rounded-full h-14 px-8 font-bold border-slate-200 text-slate-700 hover:text-[#00ad9f] hover:border-[#00ad9f] hover:bg-[#00ad9f]/5 transition-all">
-                   <Link href="/services">Voir tous nos services</Link>
+                   <Link href="/formules-de-demenagement">Comparer toutes nos formules</Link>
                 </Button>
               </div>
             </div>
@@ -352,7 +363,7 @@ export default function GermanyPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Contactez nos experts internationaux pour une étude personnalisée de vos volumes et recevez un devis ferme et gratuit sous 24h.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">

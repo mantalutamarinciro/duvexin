@@ -29,6 +29,15 @@ import {
   Palmtree
 } from "lucide-react";
 
+// --- SEO METADATA ---
+export const metadata: Metadata = {
+  title: "Déménagement France → Espagne | Devis Gratuit & Sécurisé",
+  description: "Déménageur expert sur l'axe France-Espagne. Liaisons régulières vers Madrid, Barcelone, Valence. Groupage et transfert d'entreprise. Devis sous 24h.",
+  alternates: {
+    canonical: "https://demenagementduvexin.fr/demenagement-france-espagne",
+  }
+};
+
 const fallbackTestimonials: FormattedReview[] = [
   { id: "fallback-1", name: "Famille Garcia", text: "Déménagement de Paris à Madrid réalisé avec une efficacité incroyable. L'équipe a géré le transport sur 1200 km avec un soin total. Nos meubles sont arrivés impeccables. Un grand merci !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=GarciaES` },
   { id: "fallback-2", name: "Julie M.", text: "Service parfait pour mon installation à Barcelone. La formule groupage m'a permis de faire de vraies économies. Équipe ponctuelle et matériel de protection de haute qualité. Je recommande vivement.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=JulieES` },
@@ -53,38 +62,38 @@ const WHY_US_ITEMS = [
     description: "Nous assurons des navettes régulières entre l'Île-de-France et les grandes métropoles espagnoles via l'axe A10 / AP-7."
   },
   {
+    icon: Sun,
+    title: "Expertise Ibérique",
+    description: "Nos équipes maîtrisent les spécificités d'accès locales et les réglementations de stationnement des grandes villes espagnoles."
+  },
+  {
     icon: Scale,
     title: "Groupage Économique",
     description: "Divisez vos frais de transport par deux en mutualisant le trajet avec d'autres clients pour vos volumes entre 5 et 20m³."
   },
   {
-    icon: Sun,
-    title: "Expertise Méditerranéenne",
-    description: "Nos équipes maîtrisent les spécificités d'accès et les réglementations de stationnement des grandes villes ibériques."
-  },
-  {
     icon: ShieldCheck,
     title: "Garantie Totale",
-    description: "Votre patrimoine est couvert par une assurance Ad Valorem incluse sur l'intégralité du trajet européen."
+    description: "Votre patrimoine est couvert par une assurance Ad Valorem (valeur déclarée) incluse sur l'intégralité du trajet européen."
   }
 ];
 
 const FAQS = [
   { 
     question: "Quelle est la durée d'un déménagement vers l'Espagne ?", 
-    answer: "Pour un trajet comme Paris-Barcelone (1000 km), il faut compter environ 48h à 72h. Le premier jour est dédié au chargement en France. Le transport s'effectue ensuite (temps de conduite réglementé), suivi du déchargement et de l'installation complète à l'arrivée en Espagne." 
+    answer: "Pour un trajet comme Paris-Barcelone (environ 1000 km), il faut compter entre 48h et 72h. Le premier jour est dédié au chargement très minutieux en France. Le transport s'effectue ensuite (dans le strict respect des temps de conduite réglementaires), suivi du déchargement et de l'installation complète à l'arrivée." 
   },
   { 
     question: "Comment fonctionne le groupage vers l'Espagne ?", 
-    answer: "Le groupage est idéal pour les volumes inférieurs à 15m³. Nous mutualisons le transport avec d'autres clients allant dans la même direction, ce qui permet de partager les frais de route (péages, carburant) et de vous offrir un tarif très avantageux." 
+    answer: "Le groupage est la solution idéale pour les volumes inférieurs à 15m³. Nous mutualisons le transport dans un grand camion avec d'autres clients allant dans la même direction (Catalogne, Andalousie...). Cela permet de partager les frais de route (péages très nombreux, carburant) et de vous offrir un tarif extrêmement avantageux." 
   },
   { 
     question: "Gérez-vous le stationnement à Madrid ou Barcelone ?", 
-    answer: "Absolument. Les villes espagnoles sont très denses. Nous coordonnons avec des partenaires locaux ou les services de voirie pour réserver les emplacements nécessaires et garantir que le camion puisse stationner au plus proche de votre adresse." 
+    answer: "Absolument. Les villes espagnoles sont très denses et la 'multa' (amende) peut vite arriver. Nous coordonnons avec nos partenaires locaux ou les services de voirie (Ayuntamiento) pour réserver les emplacements nécessaires et garantir que le camion puisse stationner au plus proche de votre adresse." 
   },
   { 
     question: "Quelles sont les formalités administratives ?", 
-    answer: "Pour un déménagement au sein de l'Union Européenne, les formalités sont simplifiées. Il nous faudra principalement un inventaire détaillé et vos justificatifs de changement de résidence (contrat de travail, bail, etc.) pour l'assurance et les éventuels contrôles routiers." 
+    answer: "Pour un déménagement au sein de l'Union Européenne (Espace Schengen), les formalités douanières sont simplifiées. Il nous faudra principalement établir ensemble un inventaire détaillé et vous demander vos justificatifs de changement de résidence (contrat de travail, NIE, bail) pour l'assurance et les éventuels contrôles routiers." 
   }
 ];
 
@@ -106,8 +115,8 @@ export default function SpainPage() {
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
         <Image 
-          src="https://images.unsplash.com/photo-1543783230-278358a7ec04?q=80&w=1920"
-          alt="Vue de Madrid, Palais Royal"
+          src="/images/entete-pages.webp"
+          alt="Déménageur professionnel préparant une logistique internationale vers la péninsule ibérique"
           fill
           priority
           sizes="100vw"
@@ -117,29 +126,30 @@ export default function SpainPage() {
         
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           
+          {/* Fil d'Ariane Intégré au Hero */}
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
-            <Link href="/services" className="hover:text-white transition-colors">Services</Link>
+            <Link href="/services" className="hover:text-white transition-colors">International</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
             <span className="text-[#00ad9f]">France - Espagne</span>
           </nav>
 
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-teal-300 mb-8 shadow-sm backdrop-blur-md">
-              <Globe className="h-4 w-4" />
+              <Sun className="h-4 w-4" />
               Liaison Internationale France → Espagne
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
               Votre déménagement <br className="hidden sm:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200 text-shadow-sm">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
                 vers l'Espagne.
               </span>
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Mettez le cap sur la péninsule ibérique en toute sérénité. De l'Île-de-France vers Madrid, Barcelone ou l'Andalousie, profitez d'une logistique rodée pour un déménagement international fluide.
+              Mettez le cap sur la péninsule ibérique en toute sérénité. De la France vers Madrid, Barcelone ou l'Andalousie, profitez d'une logistique rodée pour un déménagement international fluide.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -163,10 +173,10 @@ export default function SpainPage() {
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  S'installer en Espagne est un projet de vie majeur, que ce soit pour le dynamisme de Madrid, l'effervescence de Barcelone ou la douceur de vivre méditerranéenne. Pour réussir cette transition, la maîtrise des liaisons longue distance européennes est impérative.
+                  S'installer en Espagne est un projet de vie majeur, que ce soit pour le dynamisme économique de Madrid, l'effervescence culturelle de Barcelone ou la douceur de vivre méditerranéenne d'Alicante. Pour réussir cette transition, la maîtrise totale des liaisons longue distance européennes est impérative.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous avons fait de l'axe France-Espagne une spécialité. Nous gérons aussi bien les accès denses des grandes métropoles espagnoles que les livraisons dans les zones résidentielles ou les parcs d'activités tertiaires de toute la péninsule.
+                  Chez <strong>Déménagement du Vexin</strong>, nous avons fait de l'axe France-Espagne une véritable spécialité. Nous gérons aussi bien les accès très denses des grandes métropoles espagnoles que les livraisons complexes dans les zones résidentielles escarpées (Costa Blanca, Costa del Sol) ou les parcs d'activités tertiaires.
                 </p>
               </div>
               
@@ -176,7 +186,7 @@ export default function SpainPage() {
                  </div>
                  <div>
                    <h3 className="text-xl font-bold text-slate-900 mb-1">Rapidité & Fiabilité</h3>
-                   <p className="text-slate-500 font-light">Des départs réguliers chaque semaine pour garantir une flexibilité totale de vos dates.</p>
+                   <p className="text-slate-500 font-light">Des départs réguliers chaque semaine pour garantir une flexibilité de vos dates d'emménagement.</p>
                  </div>
               </div>
             </div>
@@ -185,8 +195,8 @@ export default function SpainPage() {
               <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 group-hover:-rotate-1" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="https://images.unsplash.com/photo-1551882547-ff43c63be813?q=80&w=800"
-                  alt="Déménagement international longue distance"
+                  src="/images/zones/demenagement-france-espagne.webp"
+                  alt="Logistique de déménagement international longue distance vers la péninsule ibérique"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -201,7 +211,7 @@ export default function SpainPage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-              Pourquoi nous confier votre trajet ?
+              L'excellence pour votre expatriation
             </h2>
             <p className="text-lg text-slate-500 font-light">
               Une organisation millimétrée pour une liaison France-Espagne parfaitement maîtrisée.
@@ -223,7 +233,7 @@ export default function SpainPage() {
       </section>
 
       {/* --- CITIES GRID --- */}
-      <section id="cities-es" className="py-24 bg-slate-900 text-white rounded-[4rem] mx-4 md:mx-8 my-12 overflow-hidden relative">
+      <section id="cities-es" className="py-24 bg-slate-900 text-white rounded-[4rem] mx-4 md:mx-8 my-12 overflow-hidden relative isolate">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#00ad9f]/10 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mb-16 space-y-4">
@@ -231,7 +241,7 @@ export default function SpainPage() {
               Nous couvrons <span className="text-[#00ad9f]">toute l'Espagne.</span>
             </h2>
             <p className="text-lg text-slate-400 font-light leading-relaxed">
-              De la Castille à l'Andalousie, nos camions assurent des liaisons régulières vers les plus grandes métropoles espagnoles.
+              De la Castille à l'Andalousie en passant par la Catalogne, nos camions assurent des liaisons régulières vers les plus grandes métropoles espagnoles.
             </p>
           </div>
           
@@ -239,10 +249,10 @@ export default function SpainPage() {
             {SPAIN_CITIES.map((city) => (
               <div 
                 key={city.name} 
-                className="group flex flex-col bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm"
+                className="group flex flex-col bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm cursor-default"
               >
-                <span className="font-bold text-slate-200 group-hover:text-white transition-colors mb-1">{city.name}</span>
-                <span className="text-xs text-slate-500 group-hover:text-slate-300 transition-colors">{city.desc}</span>
+                <span className="font-bold text-slate-200 group-hover:text-white transition-colors mb-2 text-lg">{city.name}</span>
+                <span className="text-sm text-slate-400 font-light group-hover:text-slate-300 transition-colors leading-relaxed">{city.desc}</span>
               </div>
             ))}
           </div>
@@ -258,8 +268,8 @@ export default function SpainPage() {
               <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2.5rem] opacity-10 -z-10 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="/images/services/demenagement-international.webp"
-                  alt="Déménagement international premium vers l'Espagne"
+                  src="/images/services/emballage-demenagement.webp"
+                  alt="Déménageur protégeant du mobilier pour une exportation internationale vers l'Espagne"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -275,27 +285,27 @@ export default function SpainPage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Building2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Expatriés & Particuliers</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Service premium incluant l'emballage complet, le déballage et la réinstallation de votre intérieur pour une transition immédiate et sereine.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Service premium incluant l'emballage complet (mise en caisse), le déballage et la réinstallation de votre intérieur pour une transition immédiate sous le soleil.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Scale className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Groupage Économique</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Divisez vos frais de transport par deux en mutualisant le trajet avec d'autres clients vers Madrid ou Barcelone.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Groupage Économique Européen</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Divisez vos frais de péages internationaux et de transport par deux en mutualisant le trajet avec d'autres clients vers Madrid ou Barcelone.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts de Bureaux</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Logistique B2B experte : transfert informatique, d'archives et de mobiliers professionnels entre la France et l'Espagne.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts de Bureaux (B2B)</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Logistique B2B experte : transfert de serveurs informatiques, d'archives sécurisées et de mobiliers professionnels entre la France et l'Espagne.</p>
                   </div>
                 </li>
               </ul>
               <div className="pt-4">
                 <Button asChild variant="outline" className="rounded-full h-14 px-8 font-bold border-slate-200 text-slate-700 hover:text-[#00ad9f] hover:border-[#00ad9f] hover:bg-[#00ad9f]/5 transition-all">
-                   <Link href="/services">Voir tous nos services</Link>
+                   <Link href="/formules-de-demenagement">Comparer toutes nos formules</Link>
                 </Button>
               </div>
             </div>
@@ -308,7 +318,7 @@ export default function SpainPage() {
       <TestimonialsSection reviews={fallbackTestimonials} />
 
       {/* --- FAQ --- */}
-      <section id="faq-spain" className="py-24 bg-slate-50">
+      <section id="faq-es" className="py-24 bg-slate-50">
         <div className="container mx-auto px-4 md:px-6 max-w-4xl">
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-900">
@@ -352,7 +362,7 @@ export default function SpainPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas les frontières compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Ne laissez pas les frontières ou les kilomètres compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">

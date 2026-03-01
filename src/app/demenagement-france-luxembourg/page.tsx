@@ -25,12 +25,22 @@ import {
   Scale,
   FileText,
   BadgeCheck,
-  Building
+  Building,
+  Map as MapIcon
 } from "lucide-react";
+
+// --- SEO METADATA ---
+export const metadata: Metadata = {
+  title: "Déménagement France → Luxembourg | Devis Gratuit & Sécurisé",
+  description: "Déménageur expert sur l'axe France-Luxembourg. Liaisons régulières, groupage et transfert de bureaux (Kirchberg). Devis gratuit sous 24h.",
+  alternates: {
+    canonical: "https://demenagementduvexin.fr/demenagement-france-luxembourg",
+  }
+};
 
 const fallbackTestimonials: FormattedReview[] = [
   { id: "fallback-1", name: "Famille Roussel", text: "Déménagement de Boulogne-Billancourt vers Luxembourg-Ville géré à la perfection. L'équipe a été d'une ponctualité exemplaire et a su s'adapter aux accès restreints de notre nouveau quartier. Un service de grande qualité.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=RousselLux` },
-  { id: "fallback-2", name: "Marc-Antoine D.", text: "Très bonne expérience pour mon installation à Kirchberg. Le devis était clair et l'option groupage m'a permis de faire de vraies économies sur le trajet. Équipe efficace et sympathique. Je recommande !", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=MALux` },
+  { id: "fallback-2", name: "Marc-Antoine D.", text: "Très bonne expérience pour mon installation à Kirchberg. Le devis était clair et l'option groupage m'a permis de faire de vraies économies sur le trajet. Équipe efficace et sympathique. Je recommande !", rating: 5, createTime: "il y a 6 മാസ", avatarUrl: `https://i.pravatar.cc/48?u=MALux` },
   { id: "fallback-3", name: "Finance-Global SA", text: "Le transfert de nos bureaux vers le centre financier du Luxembourg a été mené avec une rigueur et une discrétion totales. Des experts de la logistique internationale.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=FinanceLux` },
 ];
 
@@ -38,9 +48,9 @@ const LUX_CITIES = [
   { name: "Luxembourg-Ville", desc: "Expertise des quartiers Ville-Haute, Grund et Kirchberg." },
   { name: "Esch-sur-Alzette", desc: "Service régulier vers le pôle économique du Sud." },
   { name: "Differdange", desc: "Logistique adaptée pour tout le canton d'Esch." },
-  { name: "Dudelange", desc: "Liaisons rapides via l'axe frontalier." },
+  { name: "Dudelange", desc: "Liaisons rapides et directes via l'axe frontalier." },
   { name: "Ettelbruck", desc: "Accompagnement pour vos projets dans le Nord du pays." },
-  { name: "Diekirch", desc: "Expertise des accès en zone urbaine ancienne." },
+  { name: "Diekirch", desc: "Expertise des accès en zone urbaine historique." },
   { name: "Strassen", desc: "Service premium pour les zones résidentielles prisées." },
   { name: "Bertrange", desc: "Logistique dédiée aux pôles commerciaux et tertiaires." }
 ];
@@ -49,12 +59,12 @@ const WHY_US_ITEMS = [
   {
     icon: Route,
     title: "Liaison A4 / A31",
-    description: "Nous assurons des navettes hebdomadaires entre l'Île-de-France et le Grand-Duché, garantissant des délais courts et fiables."
+    description: "Nous assurons des navettes régulières entre l'Île-de-France et le Grand-Duché, garantissant des délais courts et extrêmement fiables."
   },
   {
     icon: Building2,
     title: "Spécialiste Expatriés",
-    description: "Une offre sur-mesure pour les cadres et fonctionnaires européens, incluant l'emballage complet et la réinstallation."
+    description: "Une offre sur-mesure pour les cadres et fonctionnaires européens, incluant l'emballage complet de vos biens de valeur."
   },
   {
     icon: Scale,
@@ -64,26 +74,26 @@ const WHY_US_ITEMS = [
   {
     icon: ShieldCheck,
     title: "Sécurité & Assurance",
-    description: "Une protection juridique et financière totale via notre assurance Ad Valorem incluse pour vos biens de valeur."
+    description: "Une protection juridique et financière totale via notre assurance Ad Valorem incluse pour vos biens durant le transit."
   }
 ];
 
 const FAQS = [
   { 
-    question: "Combien de temps faut-il prévoir pour un Paris-Luxembourg ?", 
-    answer: "Pour une distance d'environ 370 km, l'opération peut s'effectuer en 24h à 48h. Nous chargeons généralement le matin en France pour une livraison le lendemain matin au Luxembourg, ce qui permet de sécuriser le trajet et de respecter la réglementation sociale européenne." 
+    question: "Combien de temps faut-il prévoir pour un déménagement Paris-Luxembourg ?", 
+    answer: "Pour une distance d'environ 370 km, l'opération s'effectue généralement en 24h à 48h. Nous chargeons le matin en France pour une livraison le lendemain matin au Luxembourg, ce qui permet de sécuriser le trajet et de respecter la réglementation sociale européenne." 
   },
   { 
     question: "Gérez-vous le stationnement à Luxembourg-Ville ?", 
-    answer: "Absolument. Le stationnement est très réglementé au Luxembourg. Nous nous chargeons de déposer les demandes d'autorisation auprès du Service de la Circulation de la Ville de Luxembourg au moins 10 jours à l'avance pour réserver l'espace nécessaire." 
+    answer: "Absolument. Le stationnement est très réglementé au Luxembourg. Nous nous chargeons de déposer les demandes d'autorisation auprès du Service de la Circulation de la Ville de Luxembourg (ou des communes concernées) au moins 10 jours à l'avance pour réserver l'espace nécessaire au camion." 
   },
   { 
     question: "Proposez-vous des services pour les transferts de bureaux ?", 
-    answer: "Oui, le Luxembourg est un centre financier majeur. Nous accompagnons les entreprises pour des transferts de bureaux, d'archives et de matériel informatique avec une planification optimisée le week-end pour éviter toute interruption d'activité." 
+    answer: "Oui, le Luxembourg étant un centre financier majeur, nous accompagnons de nombreuses entreprises pour des transferts de bureaux, d'archives et de parcs informatiques, avec une planification optimisée le week-end pour éviter toute interruption d'activité." 
   },
   { 
     question: "Comment sont protégés mes meubles fragiles ?", 
-    answer: "Pour les trajets internationaux, nous utilisons un emballage renforcé. Vos meubles sont sous couvertures de déménagement de fort grammage, et nous proposons du bullkraft ou des caisses bois sur-mesure pour vos pièces les plus précieuses." 
+    answer: "Pour les trajets internationaux, nous utilisons un emballage renforcé. Vos meubles sont systématiquement protégés sous couvertures de déménagement de fort grammage, et nous proposons du bullkraft ou des caisses en bois sur-mesure pour vos œuvres d'art ou pièces les plus précieuses." 
   }
 ];
 
@@ -105,8 +115,8 @@ export default function LuxembourgPage() {
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
         <Image 
-          src="https://images.unsplash.com/photo-1535911062411-3280a2af5b51?q=80&w=1920"
-          alt="Vue de Luxembourg-Ville et du quartier du Grund"
+          src="/images/entete-pages.webp"
+          alt="Déménageur professionnel préparant une logistique internationale vers le Luxembourg"
           fill
           priority
           sizes="100vw"
@@ -116,10 +126,11 @@ export default function LuxembourgPage() {
         
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           
+          {/* Fil d'Ariane Intégré au Hero */}
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
-            <Link href="/services" className="hover:text-white transition-colors">Services</Link>
+            <Link href="/services" className="hover:text-white transition-colors">International</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
             <span className="text-[#00ad9f]">France - Luxembourg</span>
           </nav>
@@ -132,18 +143,18 @@ export default function LuxembourgPage() {
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
               Votre déménagement <br className="hidden sm:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200 text-shadow-sm">
                 vers le Grand-Duché.
               </span>
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Mettez le cap vers le Luxembourg en toute sérénité. De l'Île-de-France vers Luxembourg-Ville, Esch ou le Nord, profitez d'une logistique rodée et d'un service premium.
+              Mettez le cap vers le Luxembourg en toute sérénité. De la France vers Luxembourg-Ville, Esch ou le Nord, profitez d'une logistique rodée et d'un service premium sécurisé.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
-                <Link href="/demande-de-devis">
+                <Link href="/demande-devis">
                   Obtenir mon devis Luxembourg <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
@@ -162,10 +173,10 @@ export default function LuxembourgPage() {
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  S'installer au Luxembourg est un projet dynamique qui demande une maîtrise parfaite de l'axe Est. Que vous rejoigniez les institutions européennes ou le centre financier mondial, votre déménagement doit être à la hauteur de vos nouvelles exigences professionnelles.
+                  S'installer au Luxembourg est un projet de vie exigeant qui demande une maîtrise parfaite de l'axe Est. Que vous rejoigniez les institutions européennes, le pôle économique du Sud ou le centre financier mondial du Kirchberg, votre déménagement doit être à la hauteur de vos nouvelles responsabilités.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous sommes des spécialistes de la liaison France-Luxembourg. Nous gérons pour vous l'intégralité du processus : de l'emballage aux standards internationaux à la gestion du stationnement dans les quartiers denses du Kirchberg ou de la Ville-Haute.
+                  Chez <strong>Déménagement du Vexin</strong>, nous sommes des spécialistes de la liaison transfrontalière France-Luxembourg. Nous gérons pour vous l'intégralité du processus : de l'emballage haut de gamme aux standards internationaux, jusqu'à la gestion complexe du stationnement dans les quartiers très denses de la Ville-Haute ou du Grund.
                 </p>
               </div>
               
@@ -175,7 +186,7 @@ export default function LuxembourgPage() {
                  </div>
                  <div>
                    <h3 className="text-xl font-bold text-slate-900 mb-1">Ponctualité & Réactivité</h3>
-                   <p className="text-slate-500 font-light">Des départs hebdomadaires réguliers pour une flexibilité totale de votre calendrier.</p>
+                   <p className="text-slate-500 font-light">Des départs réguliers pour une flexibilité totale de votre calendrier d'installation.</p>
                  </div>
               </div>
             </div>
@@ -184,7 +195,7 @@ export default function LuxembourgPage() {
               <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 group-hover:-rotate-1" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=800"
+                  src="/images/zones/demenagement-france-luxembourg.webp"
                   alt="Déménagement international vers le Luxembourg"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -222,7 +233,7 @@ export default function LuxembourgPage() {
       </section>
 
       {/* --- CITIES GRID --- */}
-      <section id="cities-lux" className="py-24 bg-slate-900 text-white rounded-[4rem] mx-4 md:mx-8 my-12 overflow-hidden relative">
+      <section id="cities-lux" className="py-24 bg-slate-900 text-white rounded-[4rem] mx-4 md:mx-8 my-12 overflow-hidden relative isolate">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#00ad9f]/10 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mb-16 space-y-4">
@@ -230,7 +241,7 @@ export default function LuxembourgPage() {
               Nous couvrons <span className="text-[#00ad9f]">tout le Grand-Duché.</span>
             </h2>
             <p className="text-lg text-slate-400 font-light leading-relaxed">
-              De la capitale aux communes du Nord, nos camions interviennent sur tout le territoire luxembourgeois.
+              De la capitale aux communes du Nord, nos camions interviennent sur l'ensemble du territoire luxembourgeois avec la même exigence de qualité.
             </p>
           </div>
           
@@ -238,10 +249,10 @@ export default function LuxembourgPage() {
             {LUX_CITIES.map((city) => (
               <div 
                 key={city.name} 
-                className="group flex flex-col bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm"
+                className="group flex flex-col bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm cursor-default"
               >
-                <span className="font-bold text-slate-200 group-hover:text-white transition-colors mb-1">{city.name}</span>
-                <span className="text-xs text-slate-500 group-hover:text-slate-300 transition-colors">{city.desc}</span>
+                <span className="font-bold text-slate-200 group-hover:text-white transition-colors mb-2 text-lg">{city.name}</span>
+                <span className="text-sm text-slate-400 font-light group-hover:text-slate-300 transition-colors leading-relaxed">{city.desc}</span>
               </div>
             ))}
           </div>
@@ -257,8 +268,8 @@ export default function LuxembourgPage() {
               <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2.5rem] opacity-10 -z-10 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="/images/services/demenagement-international.webp"
-                  alt="Déménagement international vers le Luxembourg"
+                  src="/images/services/emballage-demenagement.webp"
+                  alt="Déménageur protégeant du mobilier de valeur pour l'international"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -274,27 +285,27 @@ export default function LuxembourgPage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Building2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Expatriés & Institutionnels</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Service premium incluant l'emballage complet, le déballage et la réinstallation de votre intérieur pour une transition immédiate et sereine.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Service premium incluant l'emballage complet de vos biens, le déballage et la réinstallation de votre intérieur pour une transition sereine et immédiate.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Scale className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Groupage Intelligent</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Divisez vos frais de transport par deux en mutualisant le trajet avec d'autres clients vers les grandes villes luxembourgeoises.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Groupage Économique</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Divisez vos frais de transport par deux en mutualisant le trajet avec d'autres clients allant vers les grandes villes luxembourgeoises.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts Professionnels</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Logistique B2B experte : transfert informatique, d'archives et de mobiliers de bureau entre la France et le Luxembourg.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts B2B & Bureaux</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Logistique experte dédiée : transfert d'infrastructures informatiques, d'archives sécurisées et de mobiliers de bureau entre la France et le Luxembourg.</p>
                   </div>
                 </li>
               </ul>
               <div className="pt-4">
                 <Button asChild variant="outline" className="rounded-full h-14 px-8 font-bold border-slate-200 text-slate-700 hover:text-[#00ad9f] hover:border-[#00ad9f] hover:bg-[#00ad9f]/5 transition-all">
-                   <Link href="/services">Voir tous nos services</Link>
+                   <Link href="/formules-de-demenagement">Comparer toutes nos formules</Link>
                 </Button>
               </div>
             </div>
@@ -351,12 +362,12 @@ export default function LuxembourgPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Ne laissez pas les frontières compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
-                       <Link href="/demande-de-devis">
+                       <Link href="/demande-devis">
                           Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>

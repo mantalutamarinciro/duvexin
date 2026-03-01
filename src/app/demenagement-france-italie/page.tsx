@@ -25,9 +25,17 @@ import {
   Scale,
   Mountain,
   Map as MapIcon,
-  FileText,
-  Pizza
+  FileText
 } from "lucide-react";
+
+// --- SEO METADATA ---
+export const metadata: Metadata = {
+  title: "Déménagement France → Italie | Devis Gratuit & Groupage",
+  description: "Déménageur expert sur l'axe France-Italie. Liaisons régulières vers Rome, Milan, Turin. Solutions de groupage économique. Devis gratuit sous 24h.",
+  alternates: {
+    canonical: "https://demenagementduvexin.fr/demenagement-france-italie",
+  }
+};
 
 const fallbackTestimonials: FormattedReview[] = [
   { id: "fallback-1", name: "Famille Rossi", text: "Déménagement de Lyon vers Milan réalisé avec une efficacité incroyable. L'équipe a géré le passage des Alpes et le déchargement dans une cour intérieure étroite sans aucun souci. Un grand merci pour votre professionnalisme !", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=RossiIT` },
@@ -40,10 +48,10 @@ const ITALY_CITIES = [
   { name: "Milan (Milano)", desc: "Gestion logistique du pôle économique et de la mode." },
   { name: "Turin (Torino)", desc: "Liaisons rapides et régulières via les tunnels alpins." },
   { name: "Florence (Firenze)", desc: "Soin extrême pour le transport vers le cœur de la Toscane." },
-  { name: "Venise (Venezia)", desc: "Coordination logistique spécifique pour la cité des Doges." },
-  { name: "Naples (Napoli)", desc: "Service longue distance vers le sud de la péninsule." },
-  { name: "Gênes (Genova)", desc: "Expertise des accès portuaires et des rues escarpées." },
-  { name: "Bologne (Bologna)", desc: "Logistique dédiée au carrefour de l'Émilie-Romagne." }
+  { name: "Venise (Venezia)", desc: "Coordination logistique ultra-spécifique pour la cité des Doges." },
+  { name: "Naples (Napoli)", desc: "Service longue distance sécurisé vers le sud de la péninsule." },
+  { name: "Gênes (Genova)", desc: "Expertise des accès portuaires et des rues escarpées de Ligurie." },
+  { name: "Bologne (Bologna)", desc: "Logistique dédiée au carrefour stratégique de l'Émilie-Romagne." }
 ];
 
 const WHY_US_ITEMS = [
@@ -55,7 +63,7 @@ const WHY_US_ITEMS = [
   {
     icon: Mountain,
     title: "Maîtrise Transalpine",
-    description: "Nos conducteurs sont formés aux contraintes de la route de montagne et nos véhicules équipés pour les cols."
+    description: "Nos conducteurs sont formés aux contraintes de la route de montagne et nos véhicules sont parfaitement équipés pour les cols."
   },
   {
     icon: Scale,
@@ -65,26 +73,26 @@ const WHY_US_ITEMS = [
   {
     icon: ShieldCheck,
     title: "Garantie Totale",
-    description: "Votre patrimoine est couvert par une assurance Ad Valorem incluse sur l'intégralité du trajet européen."
+    description: "Votre patrimoine est couvert par une assurance Ad Valorem (valeur déclarée) incluse sur l'intégralité du trajet européen."
   }
 ];
 
 const FAQS = [
   { 
     question: "Quelle est la durée d'un déménagement vers l'Italie ?", 
-    answer: "Pour un trajet comme Paris-Milan (environ 850 km), il faut compter 48h. Pour Rome ou le sud de l'Italie (plus de 1400 km), prévoyez 3 à 4 jours. Le premier jour est dédié au chargement en France, suivi du transport sécurisé et du déchargement à l'arrivée." 
+    answer: "Pour un trajet comme Paris-Milan (environ 850 km), il faut compter 48h. Pour Rome ou le sud de l'Italie (plus de 1400 km), prévoyez plutôt 3 à 4 jours. Le premier jour est dédié au chargement en France, suivi du transport sécurisé (avec respect des temps de repos) et du déchargement minutieux à l'arrivée." 
   },
   { 
     question: "Comment fonctionne le groupage vers l'Italie ?", 
-    answer: "Le groupage est notre solution la plus économique. Nous mutualisons un grand camion pour plusieurs clients allant dans la même direction (ex: axe Milan-Bologne-Rome). Cela permet de partager les frais de carburant et de tunnels alpins, très onéreux." 
+    answer: "Le groupage est notre solution la plus économique. Nous mutualisons un grand camion pour plusieurs clients allant dans la même direction (ex: axe Turin-Milan-Bologne-Rome). Cela permet de partager significativement les frais de carburant, de péages et de tunnels alpins, qui sont très onéreux." 
   },
   { 
     question: "Gérez-vous le stationnement dans les centres historiques italiens ?", 
-    answer: "Absolument. Les villes italiennes ont des 'ZTL' (Zones à Trafic Limité) très strictes. Nous coordonnons avec des partenaires locaux pour obtenir les permis d'accès et réserver les emplacements de stationnement nécessaires au plus proche de votre adresse." 
+    answer: "Absolument. Les villes italiennes ont des 'ZTL' (Zones à Trafic Limité) extrêmement strictes et surveillées par caméras. Nous coordonnons avec nos partenaires locaux pour obtenir les permis d'accès obligatoires et réserver les emplacements de stationnement nécessaires au plus proche de votre adresse." 
   },
   { 
     question: "Quelles sont les formalités administratives ?", 
-    answer: "Au sein de l'UE, les formalités sont simplifiées. Il nous faudra principalement un inventaire détaillé chiffré pour l'assurance et vos justificatifs de changement de résidence (contrat de travail, bail) pour justifier le transport international en cas de contrôle." 
+    answer: "Au sein de l'Union Européenne, les formalités douanières sont simplifiées. Il nous faudra principalement établir ensemble un inventaire détaillé et chiffré pour l'assurance et vos justificatifs de changement de résidence (contrat de travail, bail) pour justifier le transport international en cas de contrôle routier (Guardia di Finanza)." 
   }
 ];
 
@@ -106,8 +114,8 @@ export default function ItalyPage() {
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
         <Image 
-          src="https://images.unsplash.com/photo-1529260830199-42c24126f198?q=80&w=1920"
-          alt="Vue de Rome et de la place Saint-Pierre"
+          src="/images/entete-pages.webp"
+          alt="Déménageur professionnel préparant une logistique internationale vers la péninsule italienne"
           fill
           priority
           sizes="100vw"
@@ -117,10 +125,11 @@ export default function ItalyPage() {
         
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           
+          {/* Fil d'Ariane Intégré au Hero */}
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
-            <Link href="/services" className="hover:text-white transition-colors">Services</Link>
+            <Link href="/services" className="hover:text-white transition-colors">International</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
             <span className="text-[#00ad9f]">France - Italie</span>
           </nav>
@@ -139,7 +148,7 @@ export default function ItalyPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Mettez le cap sur la Dolce Vita en toute sérénité. De l'Île-de-France vers Rome, Milan ou la Toscane, profitez d'une logistique rodée pour un déménagement international fluide.
+              Mettez le cap sur la Dolce Vita en toute sérénité. De la France vers Rome, Milan ou la Toscane, profitez d'une logistique rodée pour un déménagement international fluide et ultra-sécurisé.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -163,10 +172,10 @@ export default function ItalyPage() {
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  S'installer en Italie est un projet de vie magnifique qui demande une maîtrise parfaite de la logistique transalpine. Le passage des tunnels du Mont-Blanc ou du Fréjus, ainsi que la navigation dans les centres-villes historiques italiens (ZTL), imposent une rigueur absolue.
+                  S'installer en Italie est un projet de vie magnifique qui demande une maîtrise parfaite de la logistique transalpine. Le passage des tunnels du Mont-Blanc ou du Fréjus, ainsi que la navigation minutieuse dans les centres-villes historiques italiens (les fameuses ZTL), imposent une rigueur absolue.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous sommes des spécialistes de la liaison France-Italie. Nous gérons pour vous l'intégralité du processus : de l'emballage aux standards internationaux à la gestion du stationnement complexe dans les quartiers anciens de Rome, Florence ou Milan.
+                  Chez <strong>Déménagement du Vexin</strong>, nous sommes des spécialistes reconnus de la liaison France-Italie. Nous gérons pour vous l'intégralité du processus : de l'emballage répondant aux standards internationaux à la gestion du stationnement complexe dans les quartiers anciens de Rome, Florence ou Milan.
                 </p>
               </div>
               
@@ -176,7 +185,7 @@ export default function ItalyPage() {
                  </div>
                  <div>
                    <h3 className="text-xl font-bold text-slate-900 mb-1">Rapidité & Régularité</h3>
-                   <p className="text-slate-500 font-light">Des départs hebdomadaires pour garantir une flexibilité totale de vos dates d'installation.</p>
+                   <p className="text-slate-500 font-light">Des départs réguliers pour garantir une flexibilité totale de vos dates d'installation.</p>
                  </div>
               </div>
             </div>
@@ -185,8 +194,8 @@ export default function ItalyPage() {
               <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 group-hover:-rotate-1" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="https://images.unsplash.com/photo-1520175480921-4edfa068302d?q=80&w=800"
-                  alt="Déménagement international vers l'Italie"
+                  src="/images/zones/demenagement-france-italie.webp"
+                  alt="Logistique de déménagement international vers l'Italie"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -204,7 +213,7 @@ export default function ItalyPage() {
               L'excellence au service de votre mobilité
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Une organisation millimétrée pour une liaison France-Italie parfaitement maîtrisée.
+              Une organisation millimétrée pour une liaison France-Italie parfaitement maîtrisée et sécurisée.
             </p>
           </div>
 
@@ -223,7 +232,7 @@ export default function ItalyPage() {
       </section>
 
       {/* --- CITIES GRID --- */}
-      <section id="cities-it" className="py-24 bg-slate-900 text-white rounded-[4rem] mx-4 md:mx-8 my-12 overflow-hidden relative">
+      <section id="cities-it" className="py-24 bg-slate-900 text-white rounded-[4rem] mx-4 md:mx-8 my-12 overflow-hidden relative isolate">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#00ad9f]/10 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mb-16 space-y-4">
@@ -231,7 +240,7 @@ export default function ItalyPage() {
               Nous couvrons <span className="text-[#00ad9f]">toute l'Italie.</span>
             </h2>
             <p className="text-lg text-slate-400 font-light leading-relaxed">
-              De la plaine du Pô aux côtes de Sicile, nos camions assurent des liaisons régulières vers tout le pays.
+              De la plaine du Pô aux magnifiques côtes du Sud, nos camions assurent des liaisons régulières vers tout le pays.
             </p>
           </div>
           
@@ -239,10 +248,10 @@ export default function ItalyPage() {
             {ITALY_CITIES.map((city) => (
               <div 
                 key={city.name} 
-                className="group flex flex-col bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm"
+                className="group flex flex-col bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm cursor-default"
               >
-                <span className="font-bold text-slate-200 group-hover:text-white transition-colors mb-1">{city.name}</span>
-                <span className="text-xs text-slate-500 group-hover:text-slate-300 transition-colors">{city.desc}</span>
+                <span className="font-bold text-slate-200 group-hover:text-white transition-colors mb-2 text-lg">{city.name}</span>
+                <span className="text-sm text-slate-400 font-light group-hover:text-slate-300 transition-colors leading-relaxed">{city.desc}</span>
               </div>
             ))}
           </div>
@@ -258,8 +267,8 @@ export default function ItalyPage() {
               <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2.5rem] opacity-10 -z-10 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="/images/services/demenagement-international.webp"
-                  alt="Déménagement international vers l'Italie"
+                  src="/images/services/emballage-demenagement.webp"
+                  alt="Déménageur protégeant du mobilier de valeur pour une exportation vers l'Italie"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -275,27 +284,27 @@ export default function ItalyPage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Building2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Expatriés & Particuliers</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Service premium incluant l'emballage complet, le déballage et la réinstallation de votre intérieur pour une transition immédiate vers Rome ou Milan.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Service premium incluant l'emballage complet de votre mobilier, le déballage et la réinstallation de votre intérieur pour une transition immédiate vers Rome ou Milan.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Scale className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Groupage Économique</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Divisez vos frais de transport par deux en mutualisant le trajet avec d'autres clients vers les grandes métropoles italiennes.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Divisez vos frais de transport et péages onéreux par deux en mutualisant le trajet avec d'autres clients vers les grandes métropoles italiennes.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts Professionnels</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Logistique B2B experte : transfert informatique, d'archives et de mobiliers de bureau entre la France et l'Italie.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts B2B & Professionnels</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Logistique experte dédiée aux entreprises : transfert d'infrastructures informatiques, d'archives et de mobiliers de bureau entre la France et l'Italie.</p>
                   </div>
                 </li>
               </ul>
               <div className="pt-4">
                 <Button asChild variant="outline" className="rounded-full h-14 px-8 font-bold border-slate-200 text-slate-700 hover:text-[#00ad9f] hover:border-[#00ad9f] hover:bg-[#00ad9f]/5 transition-all">
-                   <Link href="/services">Voir tous nos services</Link>
+                   <Link href="/formules-de-demenagement">Comparer toutes nos formules</Link>
                 </Button>
               </div>
             </div>
@@ -352,7 +361,7 @@ export default function ItalyPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Ne laissez pas les frontières compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
