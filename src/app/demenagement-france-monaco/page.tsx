@@ -105,7 +105,7 @@ export default function MonacoPage() {
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
         <Image 
-          src="https://images.unsplash.com/photo-1559586653-9068d302384c?q=80&w=1920"
+          src="/images/entete-pages.webp"
           alt="Vue prestigieuse de la Principauté de Monaco"
           fill
           priority
@@ -184,7 +184,7 @@ export default function MonacoPage() {
               <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 group-hover:-rotate-1" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="https://images.unsplash.com/photo-1559586653-9068d302384c?q=80&w=800"
+          src="/images/zones/demenagement-france-monaco.webp"
                   alt="Déménagement prestigieux à Monaco"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"

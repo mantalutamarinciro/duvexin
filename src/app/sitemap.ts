@@ -1,0 +1,176 @@
+import { MetadataRoute } from 'next'
+import { blogPosts } from '@/lib/blog-posts'
+
+const BASE_URL = 'https://demenagementduvexin.fr'
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  // 1. Pages statiques principales
+  const staticPages = [
+    '',
+    '/a-propos-de-demenagement-du-vexin',
+    '/services',
+    '/calculateur-volume',
+    '/zones-intervention',
+    '/blog',
+    '/nos-realisations',
+    '/mentions-legales',
+    '/politique-confidentialite',
+    '/demande-devis',
+    '/demenagement-particuliers',
+    '/demenagement-entreprise-bureau',
+    '/demenagement-garde-meubles',
+    '/demenagement-objets-lourds',
+    '/demenagement-oeuvres-art',
+    '/demenagement-national',
+    '/demenagement-international',
+    '/demenagement-val-d-oise-95',
+    '/demenagement-yvelines-78',
+    '/demenagement-val-de-marne-94',
+    '/demenagement-eure-27',
+    '/demenagement-seine-maritime-76',
+    '/demenagement-calvados-14',
+    '/demenagement-essonne-91',
+    '/demenagement-seine-saint-denis-93',
+    '/demenagement-orne-61',
+    '/demenagement-du-vexin-evreux',
+    '/galerie',
+  ].map((route) => ({
+    url: `${BASE_URL}${route}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: route === '' ? 1 : 0.8,
+  }))
+
+  // 2. Destinations Internationales
+  const internationalPages = [
+    '/demenagement-france-monaco',
+    '/demenagement-france-royaume-uni',
+    '/demenagement-france-suisse',
+    '/demenagement-france-belgique',
+    '/demenagement-france-luxembourg',
+    '/demenagement-france-allemagne',
+    '/demenagement-france-espagne',
+    '/demenagement-france-portugal',
+    '/demenagement-france-italie',
+    '/demenagement-france-pays-bas',
+    '/demenagement-france-irlande',
+    '/demenagement-france-andorre',
+  ].map((route) => ({
+    url: `${BASE_URL}${route}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
+  // 3. Liaisons Nationales
+  const nationalPages = [
+    '/demenagement-ile-de-france-lyon',
+    '/demenagement-ile-de-france-marseille',
+    '/demenagement-ile-de-france-bordeaux',
+    '/demenagement-ile-de-france-lille',
+    '/demenagement-ile-de-france-nantes',
+    '/demenagement-ile-de-france-toulouse',
+    '/demenagement-ile-de-france-strasbourg',
+    '/demenagement-ile-de-france-rennes',
+  ].map((route) => ({
+    url: `${BASE_URL}${route}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
+  // 4. Pages de Villes (Siloing SEO)
+  const cityPages = [
+    '/demenagement-alfortville-94140',
+    '/demenagement-antony-92160',
+    '/demenagement-arcueil-94110',
+    '/demenagement-argenteuil-95100',
+    '/demenagement-asnieres-sur-seine-92600',
+    '/demenagement-bayeux-14400',
+    '/demenagement-bernay-27300',
+    '/demenagement-bezons-95870',
+    '/demenagement-boulogne-billancourt-92100',
+    '/demenagement-cachan-94230',
+    '/demenagement-caen-14000',
+    '/demenagement-champigny-sur-marne-94500',
+    '/demenagement-charenton-le-pont-94220',
+    '/demenagement-choisy-le-roi-94600',
+    '/demenagement-clichy-92110',
+    '/demenagement-colombes-92700',
+    '/demenagement-conflans-sainte-honorine-78700',
+    '/demenagement-cormeilles-en-parisis-95240',
+    '/demenagement-courbevoie-92400',
+    '/demenagement-creteil-94000',
+    '/demenagement-deauville-14800',
+    '/demenagement-eaubonne-95600',
+    '/demenagement-ermont-95120',
+    '/demenagement-evreux-27000',
+    '/demenagement-falaise-14700',
+    '/demenagement-fontenay-sous-bois-94120',
+    '/demenagement-franconville-95130',
+    '/demenagement-gaillon-27600',
+    '/demenagement-garges-les-gonesse-95140',
+    '/demenagement-gisors-27140',
+    '/demenagement-goussainville-95190',
+    '/demenagement-herblay-sur-seine-95220',
+    '/demenagement-herouville-saint-clair-14200',
+    '/demenagement-honfleur-14600',
+    '/demenagement-ifs-14123',
+    '/demenagement-le-chesnay-rocquencourt-78150',
+    '/demenagement-le-perreux-sur-marne-94170',
+    '/demenagement-les-andelys-27700',
+    '/demenagement-les-mureaux-78130',
+    '/demenagement-levallois-perret-92300',
+    '/demenagement-lisieux-14100',
+    '/demenagement-lisle-adam-95290',
+    '/demenagement-louviers-27400',
+    '/demenagement-maisons-alfort-94700',
+    '/demenagement-mantes-la-jolie-78200',
+    '/demenagement-mery-sur-oise-95540',
+    '/demenagement-montigny-le-bretonneux-78180',
+    '/demenagement-montmorency-95160',
+    '/demenagement-nanterre-92000',
+    '/demenagement-nogent-sur-marne-94130',
+    '/demenagement-poissy-78300',
+    '/demenagement-pontoise-95300',
+    '/demenagement-puteaux-92800',
+    '/demenagement-rambouillet-78120',
+    '/demenagement-saint-germain-en-laye-78100',
+    '/demenagement-saint-mande-94220',
+    '/demenagement-saint-maur-des-fosses-94100',
+    '/demenagement-saint-ouen-l-aumone-95310',
+    '/demenagement-sarcelles-95200',
+    '/demenagement-sartrouville-78500',
+    '/demenagement-taverny-95150',
+    '/demenagement-trouville-sur-mer-14360',
+    '/demenagement-val-de-reuil-27100',
+    '/demenagement-verneuil-davre-et-diton-27130',
+    '/demenagement-vernon-27200',
+    '/demenagement-versailles-78000',
+    '/demenagement-villejuif-94800',
+    '/demenagement-villiers-le-bel-95400',
+    '/demenagement-vitry-sur-seine-94400',
+    '/demenagement-vire-14500',
+  ].map((route) => ({
+    url: `${BASE_URL}${route}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }))
+
+  // 5. Articles de Blog
+  const blogPages = blogPosts.map((post) => ({
+    url: `${BASE_URL}${post.link}`,
+    lastModified: new Date(post.date),
+    changeFrequency: 'weekly' as const,
+    priority: 0.7,
+  }))
+
+  return [
+    ...staticPages, 
+    ...internationalPages, 
+    ...nationalPages, 
+    ...cityPages, 
+    ...blogPages
+  ]
+}

@@ -218,7 +218,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             src={placeholders.hero.url}
             alt="Déménagement premium : organisation et équipes salariées"
             fill
-            className="object-cover brightness-[0.4] contrast-[1.1]"
+            className="object-cover brightness-[0.8] contrast-[1.1]"
             priority
             data-ai-hint={placeholders.hero.hint}
           />
