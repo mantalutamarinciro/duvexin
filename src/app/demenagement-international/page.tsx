@@ -30,7 +30,8 @@ import {
   Plane,
   Languages,
   Navigation,
-  Waves
+  Waves,
+  Crown
 } from "lucide-react";
 
 const fallbackTestimonials: FormattedReview[] = [
@@ -40,6 +41,7 @@ const fallbackTestimonials: FormattedReview[] = [
 ];
 
 const INTERNATIONAL_DESTINATIONS = [
+  { name: "Monaco", href: "/demenagement-france-monaco", desc: "Service Prestige & IGH", icon: Crown },
   { name: "Royaume-Uni", href: "/demenagement-france-royaume-uni", desc: "Expertise Brexit & Douanes", icon: Ship },
   { name: "Suisse", href: "/demenagement-france-suisse", desc: "Spécialiste Douanes Hors UE", icon: Navigation },
   { name: "Belgique", href: "/demenagement-france-belgique", desc: "Liaisons Hebdomadaires", icon: Truck },
@@ -309,7 +311,7 @@ export default function InternationalHubPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme et détaillé sous 24h ouvrées.
+                    Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h ouvrées.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
