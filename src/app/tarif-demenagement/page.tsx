@@ -7,7 +7,8 @@ import {
   ChevronRight, 
   LayoutGrid,
   CheckCircle2,
-  Info
+  Info,
+  ArrowRight
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
