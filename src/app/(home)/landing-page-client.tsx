@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -243,7 +242,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                   ))}
                 </div>
                 <span className="text-sm font-bold">4.9/5</span>
-                <span className="text-sm text-white/70 font-medium">• 249 avis Google</span>
+                <span className="text-sm text-white/70 font-medium">• 254 avis Google</span>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 px-4 py-2 text-white/90 shadow-lg">
                 <Clock className="h-4 w-4 text-primary" />
@@ -545,7 +544,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
               variant="outline"
               className="rounded-full border-slate-200 dark:border-slate-700 h-14 px-8 font-bold hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-all hidden md:flex"
               asChild>
-              <Link href="/blog">Lire tous les articles</Link>
+              <Link href="/blog">Lire tous nos articles</Link>
             </Button>
           </div>
 
