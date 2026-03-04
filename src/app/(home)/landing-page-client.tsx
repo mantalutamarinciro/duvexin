@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -269,7 +270,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 className="h-16 px-10 rounded-2xl text-lg font-black bg-primary text-white hover:bg-primary/90 shadow-[0_20px_50px_-12px_rgba(0,169,157,0.5)] transition-all hover:scale-105 active:scale-95"
                 asChild
               >
-                <Link href="/demande-de-devis">
+                <Link href="/demande-devis">
                   Estimer mon projet <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
@@ -446,7 +447,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                   )}
                   asChild
                 >
-                  <Link href="/demande-de-devis">Choisir</Link>
+                  <Link href="/demande-devis">Choisir</Link>
                 </Button>
               </motion.div>
             ))}
