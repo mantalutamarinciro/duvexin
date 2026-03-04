@@ -148,8 +148,8 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
       console.error("Erreur d'analyse d'adresse par IA:", error);
       toast({
         variant: "destructive",
-        title: "Erreur de calcul",
-        description: "L'IA n'a pas pu calculer la distance. Veuillez vérifier les adresses ou réessayer.",
+        title: "Erreur de calcul IA",
+        description: "L'IA n'a pas pu calculer la distance. Vous pouvez la saisir manuellement.",
       });
     } finally {
       setIsAnalyzingAddress(false);
@@ -403,13 +403,13 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                       <FormItem>
                           <FormLabel className="flex items-center gap-2">
                             Distance estimée (km)
-                            {field.value === 0 && originAddress.length > 5 && destinationAddress.length > 5 && (
+                            {originAddress.length > 5 && destinationAddress.length > 5 && !isAnalyzingAddress && (
                               <button 
                                 type="button" 
                                 onClick={handleAddressAnalysis}
                                 className="text-primary hover:underline text-[10px] font-black uppercase flex items-center gap-1"
                               >
-                                <RefreshCw className="h-2.5 w-2.5" /> Recalculer
+                                <RefreshCw className="h-2.5 w-2.5" /> {field.value === 0 ? "Calculer" : "Recalculer"}
                               </button>
                             )}
                           </FormLabel>
@@ -417,13 +417,17 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                               <TooltipTrigger asChild>
                                   <div className="relative">
                                     <FormControl>
-                                        <Input type="number" readOnly {...field} className="h-12 rounded-xl bg-slate-50 cursor-default font-black text-primary border-slate-200 pr-10"/>
+                                        <Input 
+                                          type="number" 
+                                          className="h-12 rounded-xl bg-background font-black text-primary border-slate-200 pr-10"
+                                          {...field}
+                                        />
                                     </FormControl>
                                     <Wand2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary/40" />
                                   </div>
                               </TooltipTrigger>
                               <TooltipContent>
-                                  <p className="flex items-center gap-2 font-bold"><Wand2 className="h-4 w-4"/> Calculé automatiquement par l'IA</p>
+                                  <p className="flex items-center gap-2 font-bold"><Wand2 className="h-4 w-4"/> Calculé par l'IA ou saisie manuelle</p>
                               </TooltipContent>
                           </Tooltip>
                           <FormMessage />
@@ -494,20 +498,14 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
           </Card>
 
           <div className="flex flex-col items-end gap-2 pt-4">
-              {form.getValues("distance") === 0 && originAddress.length > 5 && destinationAddress.length > 5 && !isAnalyzingAddress && (
-                <div className="flex items-center gap-2 text-amber-600 bg-amber-50 px-4 py-2 rounded-lg text-xs font-bold mb-2 border border-amber-100">
-                  <AlertCircle className="h-4 w-4" />
-                  La distance n'est pas encore calculée.
-                </div>
-              )}
               <Button 
                 type="submit" 
                 size="lg" 
-                disabled={isSaving || isAnalyzingAddress} 
+                disabled={isSaving} 
                 className="h-16 px-12 rounded-full text-lg font-black bg-primary text-white hover:bg-primary/90 shadow-[0_20px_50px_-12px_rgba(0,169,157,0.5)] transition-all hover:scale-105 active:scale-95 disabled:opacity-70"
               >
-                  {isSaving ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : isAnalyzingAddress ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Send className="mr-2 h-5 w-5"/>}
-                  {isAnalyzingAddress ? "Calcul de l'itinéraire..." : submitButtonText}
+                  {isSaving ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Send className="mr-2 h-5 w-5"/>}
+                  {submitButtonText}
               </Button>
           </div>
         </form>
