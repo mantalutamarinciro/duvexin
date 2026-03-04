@@ -37,33 +37,33 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 const SERVICES_FEATURED = [
   {
-    title: "Particuliers",
+    title: "Déménagement Particuliers",
     href: "/demenagement-particuliers",
-    desc: "Formules sur-mesure pour votre foyer.",
+    desc: "Formules sur-mesure pour votre nouveau foyer.",
     icon: Package,
     color: "text-blue-600",
     bg: "bg-blue-50 dark:bg-blue-950/30",
   },
   {
-    title: "Entreprises",
+    title: "Transfert d'Entreprise",
     href: "/demenagement-entreprise-bureau",
-    desc: "Transfert de bureaux et parcs IT.",
+    desc: "Bureaux, archives et logistique IT experte.",
     icon: Building2,
     color: "text-emerald-600",
     bg: "bg-emerald-50 dark:bg-emerald-950/30",
   },
   {
-    title: "Garde-meubles",
+    title: "Garde-meubles Sécurisé",
     href: "/demenagement-garde-meubles",
-    desc: "Stockage plombé et sécurisé.",
+    desc: "Stockage plombé sous surveillance 24h/24.",
     icon: Warehouse,
     color: "text-amber-600",
     bg: "bg-amber-50 dark:bg-amber-950/30",
   },
   {
-    title: "Objets lourds",
-    href: "/demenagement-objets-lourds",
-    desc: "Pianos, coffres et œuvres d'art.",
+    title: "Objets Lourds & Art",
+    href: "/demenagement-oeuvres-art",
+    desc: "Pianos, coffres et pièces de collection.",
     icon: Paintbrush,
     color: "text-purple-600",
     bg: "bg-purple-50 dark:bg-purple-950/30",
@@ -72,43 +72,43 @@ const SERVICES_FEATURED = [
 
 const ZONES = [
   {
-    title: "Local",
-    desc: "Val-d’Oise & Normandie",
+    title: "Île-de-France",
+    desc: "Proximité Parisienne",
     icon: MapPin,
     links: [
       { label: "Val-d’Oise (95)", href: "/demenagement-val-d-oise-95" },
-      { label: "Eure (27)", href: "/demenagement-eure-27" },
-      { label: "Seine-Maritime (76)", href: "/demenagement-seine-maritime-76" },
-      { label: "Toute l'Île-de-France", href: "/zones-intervention" },
+      { label: "Yvelines (78)", href: "/demenagement-yvelines-78" },
+      { label: "Hauts-de-Seine (92)", href: "/demenagement-hauts-de-seine-92" },
+      { label: "Toutes nos zones", href: "/zones-intervention" },
     ],
   },
   {
-    title: "National",
-    desc: "Longue distance",
+    title: "Déménagement National",
+    desc: "Toute la France",
     icon: Train,
     links: [
       { label: "Paris → Lyon", href: "/demenagement-ile-de-france-lyon" },
       { label: "Paris → Marseille", href: "/demenagement-ile-de-france-marseille" },
       { label: "Paris → Bordeaux", href: "/demenagement-ile-de-france-bordeaux" },
-      { label: "Paris → Lille", href: "/demenagement-ile-de-france-lille" },
+      { label: "Liaisons Nationales", href: "/demenagement-national" },
     ],
   },
   {
     title: "International",
-    desc: "Europe",
+    desc: "Europe & Monde",
     icon: Plane,
     links: [
       { label: "Royaume-Uni", href: "/demenagement-france-royaume-uni" },
       { label: "Suisse", href: "/demenagement-france-suisse" },
       { label: "Espagne", href: "/demenagement-france-espagne" },
-      { label: "Belgique", href: "/demenagement-france-belgique" },
+      { label: "Destinations Internationales", href: "/demenagement-international" },
     ],
   },
 ] as const;
 
 const MAIN_LINKS = [
-  { label: "Calculateur", href: "/calculateur-volume", icon: Calculator },
-  { label: "Blog", href: "/blog", icon: Globe },
+  { label: "Tarifs m³", href: "/tarif-demenagement", icon: Calculator },
+  { label: "Formules", href: "/formules-de-demenagement", icon: Sparkles },
   { label: "L’entreprise", href: "/a-propos-de-demenagement-du-vexin", icon: Building2 },
 ] as const;
 
@@ -194,10 +194,10 @@ export function SiteHeader() {
               <div className="w-[740px] rounded-[2rem] border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-2xl p-4 ring-1 ring-slate-900/5">
                 <div className="flex items-center justify-between px-1 pb-2">
                   <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-600">
-                    Services phares
+                    Nos Expertises
                   </p>
                   <Link href="/services" className="text-[11px] font-extrabold text-primary hover:opacity-90">
-                    Tous les services
+                    Tous les services <ArrowRight className="inline h-3 w-3 ml-1" />
                   </Link>
                 </div>
 
@@ -233,14 +233,14 @@ export function SiteHeader() {
                   ))}
                 </div>
 
-                <div className="mt-3 rounded-2xl bg-primary/6 border border-primary/12 p-4 flex items-center justify-between">
+                <div className="mt-3 rounded-2xl bg-primary/5 border border-primary/10 p-4 flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
                     <span className="h-9 w-9 rounded-xl bg-primary/10 flex items-center justify-center">
                       <Sparkles className="h-4 w-4 text-primary" />
                     </span>
                     <div className="leading-tight">
-                      <div className="text-xs font-extrabold text-slate-900 dark:text-white">Devis gratuit</div>
-                      <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Réponse rapide</div>
+                      <div className="text-xs font-extrabold text-slate-900 dark:text-white">Devis Gratuit en 24h</div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Étude technique sans engagement</div>
                     </div>
                   </div>
 
@@ -275,13 +275,13 @@ export function SiteHeader() {
               <div className="w-[760px] max-h-[80vh] overflow-y-auto rounded-[2rem] border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-2xl p-4 ring-1 ring-slate-900/5">
                 <div className="flex items-center justify-between px-1 pb-2">
                   <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-600">
-                    Zones d’intervention
+                    Rayonnement Géographique
                   </p>
                   <Link
                     href="/zones-intervention"
                     className="text-[11px] font-extrabold text-primary hover:opacity-90"
                   >
-                    Voir toutes les zones
+                    Voir la carte complète
                   </Link>
                 </div>
 
@@ -296,7 +296,7 @@ export function SiteHeader() {
                           <zone.icon className="h-4 w-4" />
                         </span>
                         <div className="leading-tight">
-                          <div className="text-sm font-extrabold text-slate-900 dark:text-white">
+                          <div className="text-sm font-extrabold text-slate-900 dark:text-white truncate">
                             {zone.title}
                           </div>
                           <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
@@ -318,17 +318,6 @@ export function SiteHeader() {
                             <Navigation className="h-3.5 w-3.5 text-slate-300 dark:text-slate-700" />
                           </Link>
                         ))}
-                        {(zone.title === "International" || zone.title === "National") && (
-                          <Link
-                            href={zone.title === "International" ? "/demenagement-international" : "/demenagement-national"}
-                            className="flex items-center justify-between rounded-xl px-2.5 py-2 bg-primary/5 hover:bg-primary/10 transition-colors mt-2"
-                          >
-                            <span className="text-[12px] font-black text-primary">
-                              Voir toutes les destinations
-                            </span>
-                            <ArrowRight className="h-3.5 w-3.5 text-primary" />
-                          </Link>
-                        )}
                       </div>
                     </div>
                   ))}
@@ -345,13 +334,13 @@ export function SiteHeader() {
                       </span>
                       <div className="leading-tight">
                         <div className="text-[12px] font-extrabold text-slate-900 dark:text-white">Calculateur</div>
-                        <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Estimer m³</div>
+                        <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Estimez votre m³</div>
                       </div>
                     </div>
                   </Link>
 
                   <Link
-                    href="/demande-devis"
+                    href="/tarif-demenagement"
                     className="rounded-2xl border border-primary/15 bg-primary/5 dark:bg-primary/10 px-3 py-3 hover:bg-primary/8 dark:hover:bg-primary/15 transition-colors"
                   >
                     <div className="flex items-center gap-2">
@@ -359,8 +348,8 @@ export function SiteHeader() {
                         <Sparkles className="h-4 w-4 text-primary" />
                       </span>
                       <div className="leading-tight">
-                        <div className="text-[12px] font-extrabold text-slate-900 dark:text-white">Devis gratuit</div>
-                        <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Réponse rapide</div>
+                        <div className="text-[12px] font-extrabold text-slate-900 dark:text-white">Estimateur de prix</div>
+                        <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Calcul précis immédiat</div>
                       </div>
                     </div>
                   </Link>
@@ -437,16 +426,16 @@ export function SiteHeader() {
                   {/* Main links */}
                   <nav className="space-y-2">
                     <Link
-                      href="/demenagement-international"
+                      href="/tarif-demenagement"
                       onClick={() => setMobileOpen(false)}
                       className={cn(
                         "flex items-center justify-between p-4 rounded-2xl transition-colors",
                         "hover:bg-slate-50 dark:hover:bg-slate-900",
-                        isActive("/demenagement-international") ? "bg-slate-50 dark:bg-slate-900" : ""
+                        isActive("/tarif-demenagement") ? "bg-slate-50 dark:bg-slate-900" : "bg-primary/5"
                       )}
                     >
-                      <span className="text-base font-extrabold text-slate-900 dark:text-white">Voir toutes les destinations (INT)</span>
-                      <Globe className="h-5 w-5 text-primary" />
+                      <span className="text-base font-extrabold text-primary">Simulateur de prix</span>
+                      <Calculator className="h-5 w-5 text-primary" />
                     </Link>
 
                     <Link
@@ -458,7 +447,7 @@ export function SiteHeader() {
                         isActive("/zones-intervention") ? "bg-slate-50 dark:bg-slate-900" : ""
                       )}
                     >
-                      <span className="text-base font-extrabold text-slate-900 dark:text-white">Zones</span>
+                      <span className="text-base font-extrabold text-slate-900 dark:text-white">Nos Zones</span>
                       <MapPin className="h-5 w-5 text-slate-300 dark:text-slate-700" />
                     </Link>
 
@@ -483,7 +472,7 @@ export function SiteHeader() {
                   <div className="rounded-3xl border border-slate-100 dark:border-slate-900 bg-slate-50/60 dark:bg-slate-900/40 p-4">
                     <div className="flex items-center justify-between px-1 pb-3">
                       <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-600">
-                        Services phares
+                        Nos Expertises
                       </p>
                       <Link href="/services" onClick={() => setMobileOpen(false)} className="text-[11px] font-extrabold text-primary">
                         Tous
@@ -501,10 +490,7 @@ export function SiteHeader() {
                           <div className={cn("h-10 w-10 rounded-2xl flex items-center justify-center mb-2", s.bg)}>
                             <s.icon className={cn("h-5 w-5", s.color)} />
                           </div>
-                          <div className="text-sm font-extrabold text-slate-900 dark:text-white">{s.title}</div>
-                          <div className="mt-1 text-[11px] text-slate-500 dark:text-slate-400 font-medium line-clamp-2">
-                            {s.desc}
-                          </div>
+                          <div className="text-sm font-extrabold text-slate-900 dark:text-white leading-tight">{s.title}</div>
                         </Link>
                       ))}
                     </div>
@@ -512,7 +498,7 @@ export function SiteHeader() {
                 </div>
 
                 <div className="p-6 border-t border-slate-100 dark:border-slate-900 space-y-3">
-                  <Button asChild className="w-full h-12 rounded-2xl text-base font-extrabold">
+                  <Button asChild className="w-full h-12 rounded-2xl text-base font-extrabold shadow-xl shadow-primary/20">
                     <Link href="/demande-devis" onClick={() => setMobileOpen(false)}>
                       Devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>

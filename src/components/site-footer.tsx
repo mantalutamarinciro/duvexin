@@ -14,7 +14,8 @@ import {
   ChevronRight,
   ExternalLink,
   ShieldCheck,
-  Award
+  Award,
+  Globe
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -49,7 +50,7 @@ export function SiteFooter() {
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
               <Button variant="outline" size="lg" className="rounded-full border-slate-700 text-primary hover:bg-slate-800 h-14 px-8 font-bold" asChild>
                 <Link href="tel:+33130751235">
-                  <Phone className="mr-2 h-4 w-4" /> Nous appeler
+                  <Phone className="mr-2 h-4 w-4" /> 01 30 75 12 35
                 </Link>
               </Button>
               <Button size="lg" className="rounded-full bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20 h-14 px-8 font-black transition-all hover:scale-105" asChild>
@@ -114,6 +115,7 @@ export function SiteFooter() {
                   { label: "National", href: "/demenagement-national" },
                   { label: "Garde-Meubles", href: "/demenagement-garde-meubles" },
                   { label: "Objets Lourds", href: "/demenagement-objets-lourds" },
+                  { label: "Tarifs m³", href: "/tarif-demenagement" },
                 ].map(item => (
                   <li key={item.label}>
                     <Link href={item.href} className="text-slate-400 hover:text-primary transition-all duration-300 flex items-center group text-sm">
@@ -125,25 +127,25 @@ export function SiteFooter() {
               </ul>
             </div>
 
-            {/* Agences */}
+            {/* Hubs Régionaux SEO */}
             <div className="space-y-6">
-              <h4 className="text-white font-bold tracking-wider uppercase text-xs">Nos Agences</h4>
-              <div className="space-y-6">
-                <div className="group cursor-default">
-                  <span className="block text-[10px] font-black uppercase text-primary mb-2 tracking-[0.2em]">Val-d&apos;Oise</span>
-                  <p className="text-sm text-slate-400 group-hover:text-slate-200 transition-colors flex items-start gap-2 leading-relaxed">
-                    <MapPin className="h-4 w-4 shrink-0 text-slate-600 mt-1" />
-                    9 Rue de Pontoise,<br/>95540 Méry-sur-Oise
-                  </p>
-                </div>
-                <div className="group cursor-default">
-                  <span className="block text-[10px] font-black uppercase text-primary mb-2 tracking-[0.2em]">Normandie</span>
-                  <p className="text-sm text-slate-400 group-hover:text-slate-200 transition-colors flex items-start gap-2 leading-relaxed">
-                    <MapPin className="h-4 w-4 shrink-0 text-slate-600 mt-1" />
-                    22 Rue Isambard,<br/>27000 Évreux
-                  </p>
-                </div>
-              </div>
+              <h4 className="text-white font-bold tracking-wider uppercase text-xs">Zones Clés</h4>
+              <ul className="space-y-4">
+                {[
+                  { label: "Val-d'Oise (95)", href: "/demenagement-val-d-oise-95" },
+                  { label: "Yvelines (78)", href: "/demenagement-yvelines-78" },
+                  { label: "Hauts-de-Seine (92)", href: "/demenagement-hauts-de-seine-92" },
+                  { label: "Eure (27)", href: "/demenagement-eure-27" },
+                  { label: "International", href: "/demenagement-international" },
+                ].map(item => (
+                  <li key={item.label}>
+                    <Link href={item.href} className="text-slate-400 hover:text-primary transition-all duration-300 flex items-center group text-sm">
+                      <MapPin className="h-3 w-3 mr-2 text-slate-700 group-hover:text-primary" />
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             {/* Société */}
@@ -152,9 +154,9 @@ export function SiteFooter() {
               <ul className="space-y-4">
                 {[
                   { label: "À propos", href: "/a-propos-de-demenagement-du-vexin" },
-                  { label: "Zones d'intervention", href: "/zones-intervention" },
                   { label: "Actualités / Blog", href: "/blog" },
                   { label: "Nos réalisations", href: "/nos-realisations" },
+                  { label: "Galerie Photos", href: "/galerie" },
                   { label: "Mentions légales", href: "/mentions-legales" },
                 ].map(item => (
                   <li key={item.label}>
@@ -189,7 +191,7 @@ export function SiteFooter() {
                 ))}
              </div>
              <p className="text-[11px] text-slate-600 font-bold uppercase tracking-tighter">
-                Création par <a href="mailto:vsw.contact@gmail.com" className="text-slate-400 hover:text-primary transition-colors">A Hachour</a>
+                Artisans de votre mobilité
              </p>
           </div>
         </div>
