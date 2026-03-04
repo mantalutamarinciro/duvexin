@@ -4,7 +4,7 @@ import { blogPosts } from '@/lib/blog-posts'
 const BASE_URL = 'https://demenagementduvexin.fr'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // 1. Pages statiques principales
+  // 1. Pages statiques principales et nouveaux outils
   const staticPages = [
     '',
     '/a-propos-de-demenagement-du-vexin',
@@ -15,9 +15,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/zones-intervention',
     '/blog',
     '/nos-realisations',
+    '/galerie',
+    '/demande-devis',
     '/mentions-legales',
     '/politique-confidentialite',
-    '/demande-devis',
     '/demenagement-particuliers',
     '/demenagement-entreprise-bureau',
     '/demenagement-garde-meubles',
@@ -35,7 +36,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/demenagement-seine-saint-denis-93',
     '/demenagement-orne-61',
     '/demenagement-du-vexin-evreux',
-    '/galerie',
   ].map((route) => ({
     url: `${BASE_URL}${route}`,
     lastModified: new Date(),
