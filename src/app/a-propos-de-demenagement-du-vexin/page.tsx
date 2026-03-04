@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,7 +22,7 @@ export const metadata: Metadata = {
   title: "L'Entreprise & L'Équipe | Déménagement du Vexin",
   description: "Découvrez l'histoire de Déménagement du Vexin, artisan du déménagement depuis plus de 15 ans. Une équipe familiale dédiée à la protection de votre patrimoine.",
   alternates: {
-    canonical: "https://demenagementduvexin.fr/a-propos",
+    canonical: "https://demenagementduvexin.fr/a-propos-de-demenagement-du-vexin",
   }
 };
 

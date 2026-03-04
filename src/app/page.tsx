@@ -9,12 +9,12 @@ export const metadata: Metadata = {
   title: "Déménagement du Vexin | Déménageur premium, fiable et sans stress",
   description:
     "Déménagement du Vexin : particuliers & entreprises. Équipes salariées, protection pro, devis clair, organisation millimétrée. Intervention Vexin, Val-d’Oise, Yvelines, Île-de-France et national.",
-  alternates: { canonical: "/" },
+  alternates: { canonical: "https://demenagementduvexin.fr" },
   openGraph: {
     title: "Déménagement du Vexin | Déménageur premium",
     description:
       "Une organisation parfaite, une protection pro, des équipes fiables. Devis gratuit, accompagnement complet.",
-    url: "/",
+    url: "https://demenagementduvexin.fr",
     type: "website",
   },
 };

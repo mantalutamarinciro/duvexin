@@ -6,6 +6,7 @@ import { CookieBanner } from '@/components/cookie-banner';
 import Script from 'next/script';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://demenagementduvexin.fr'),
   title: 'DemDuVexin - Votre Partenaire Déménagement',
   description: 'Déménagement pour particuliers et entreprises dans le Val-d’Oise, l’Oise, l’Eure et toute la France. Obtenez votre devis gratuit.',
 };
