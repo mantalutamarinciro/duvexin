@@ -1,7 +1,8 @@
 'use server';
 
 import { db, admin } from '@/lib/firebase';
-import { QuoteRequestFormData, serviceTypeLabels } from '@/components/quote-form';
+import { QuoteRequestFormData } from '@/components/quote-form';
+import { serviceTypeLabels } from '@/lib/quote-constants';
 import { Resend } from 'resend';
 
 const { Timestamp } = admin.firestore;
@@ -45,7 +46,8 @@ export async function saveQuote(
 
     if (resend) {
       try {
-        const serviceLabel = serviceTypeLabels[quoteData.serviceType as keyof typeof serviceTypeLabels];
+        // Sécurité : fallback sur le type brut si le label est introuvable
+        const serviceLabel = serviceTypeLabels[quoteData.serviceType as keyof typeof serviceTypeLabels] || quoteData.serviceType || "Standard";
 
         // E-mail pour l'ADMINISTRATEUR
         await resend.emails.send({
@@ -152,7 +154,7 @@ export async function saveQuote(
                     </div>
                   </div>
 
-                  <p style="font-size: 14px; color: #64748b; font-style: italic; border-top: 1px solid #f1f5f9; pt-20; padding-top: 20px;">
+                  <p style="font-size: 14px; color: #64748b; font-style: italic; border-top: 1px solid #f1f5f9; padding-top: 20px;">
                     Besoin d'une réponse urgente ? Contactez-nous au <a href="tel:+33130751235" style="color: ${PRIMARY_COLOR}; font-weight: bold; text-decoration: none;">01 30 75 12 35</a>.
                   </p>
                 </div>

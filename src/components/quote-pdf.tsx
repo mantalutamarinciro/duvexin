@@ -1,7 +1,7 @@
-
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import { QuoteRequestFormData, serviceTypeLabels } from "@/components/quote-form"
+import { QuoteRequestFormData } from "@/components/quote-form"
+import { serviceTypeLabels } from "@/lib/quote-constants"
 
 interface QuotePDFProps {
     data: QuoteRequestFormData

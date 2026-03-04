@@ -1,8 +1,7 @@
-
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
 import type { Booking } from "@/services/bookingService"
-import { serviceTypeLabels } from "@/components/quote-form"
+import { serviceTypeLabels } from "@/lib/quote-constants"
 
 interface WaybillPDFProps {
     data: Booking
@@ -74,7 +73,7 @@ export function WaybillPDF({ data }: WaybillPDFProps) {
             <section className="mt-6">
                 <h3 className="text-xs font-bold text-gray-600 uppercase mb-2">Détails de la prestation</h3>
                 <div className="border border-gray-200 rounded-lg p-4">
-                    <p><strong>Type de service :</strong> {data.serviceType ? serviceTypeLabels[data.serviceType] : "Non spécifié"}</p>
+                    <p><strong>Type de service :</strong> {data.serviceType ? serviceTypeLabels[data.serviceType as keyof typeof serviceTypeLabels] : "Non spécifié"}</p>
                     <p className="mt-2"><strong>Instructions particulières :</strong></p>
                     <div className="h-16 border-b border-gray-300 mt-1"></div>
                 </div>

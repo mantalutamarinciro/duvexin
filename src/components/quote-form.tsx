@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import { Loader2, Wand2, Send, Calendar as CalendarIcon, RefreshCw, MapPin, AlertCircle } from "lucide-react"
+import { Loader2, Wand2, Send, Calendar as CalendarIcon, RefreshCw, MapPin } from "lucide-react"
 import Link from "next/link"
 
 import {
@@ -35,6 +35,7 @@ import { getInventoryList } from "@/services/inventoryService"
 import { getMoveDetails } from "@/ai/flows/move-details"
 import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { serviceTypeLabels } from "@/lib/quote-constants"
 
 export const quoteRequestSchema = z.object({
   clientName: z.string().min(2, "Le nom est requis."),
@@ -52,12 +53,6 @@ export const quoteRequestSchema = z.object({
   serviceType: z.enum(["basic", "full", "premium"], { required_error: "Veuillez choisir une formule."}),
   details: z.string().optional(),
 })
-
-export const serviceTypeLabels = {
-  basic: "Formule Économique",
-  full: "Formule Standard",
-  premium: "Formule Confort",
-}
 
 export type QuoteRequestFormData = z.infer<typeof quoteRequestSchema>
 

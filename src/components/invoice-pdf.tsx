@@ -1,8 +1,7 @@
-
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
 import type { Booking } from "@/services/bookingService"
-import { serviceTypeLabels } from "@/components/quote-form"
+import { serviceTypeLabels } from "@/lib/quote-constants"
 
 interface InvoicePDFProps {
     data: Booking
@@ -53,7 +52,7 @@ export function InvoicePDF({ data }: InvoicePDFProps) {
                     <tbody>
                         <tr className="border-b border-gray-200">
                             <td className="p-3">
-                                <p className="font-medium">Prestation de déménagement - {data.serviceType ? serviceTypeLabels[data.serviceType] : "standard"}</p>
+                                <p className="font-medium">Prestation de déménagement - {data.serviceType ? serviceTypeLabels[data.serviceType as keyof typeof serviceTypeLabels] : "standard"}</p>
                                 <p className="text-xs text-gray-500">De : {data.originAddress}</p>
                                 <p className="text-xs text-gray-500">À : {data.destinationAddress}</p>
                                 <p className="text-xs text-gray-500">Volume : {data.volume} m³</p>
