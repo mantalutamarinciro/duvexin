@@ -12,9 +12,9 @@ export function Logo({ className }: LogoProps) {
       <Image 
         src="/images/logo.png" 
         alt="Logo Déménagement Du Vexin"
-        width={160}
-        height={40}
-        className="h-16 w-auto object-contain"
+        width={200}
+        height={50}
+        className="h-12 md:h-16 w-auto object-contain"
         priority
       />
     </div>

@@ -220,6 +220,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             fill
             className="object-cover brightness-[0.8] contrast-[1.1]"
             priority
+            sizes="100vw"
             data-ai-hint={placeholders.hero.hint}
           />
           <div className="absolute inset-0 bg-slate-950/40" />
@@ -351,6 +352,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                     alt={service.title}
                     fill
                     className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     data-ai-hint={service.hint}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80 group-hover:opacity-70 transition-opacity" />
@@ -495,6 +497,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                       alt={`Déménagement ${zone.name}`}
                       fill
                       className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
                       data-ai-hint={zone.hint}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-90" />
@@ -564,6 +567,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                         alt={article.title}
                         fill
                         className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                        sizes="(max-width: 768px) 100vw, 33vw"
                         data-ai-hint={article.hint}
                       />
                       <div className="absolute top-4 left-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-primary border border-white/20 shadow-xl">

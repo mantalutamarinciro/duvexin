@@ -8,7 +8,7 @@ import { Resend } from 'resend';
 const { Timestamp } = admin.firestore;
 
 // Configuration de l'adresse de réception des devis
-const ADMIN_RECEiPIENT_EMAIL = 'mantalutamarinciro@gmail.com';
+const ADMIN_RECEiPIENT_EMAIL = 'contact@demenagementduvexin.fr';
 
 // Initialisation ultra-sécurisée pour le build
 const apiKey = process.env.RESEND_API_KEY || '';
