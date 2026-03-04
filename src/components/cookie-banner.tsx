@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -54,7 +55,7 @@ export function CookieBanner() {
                   <h3 className="text-lg font-bold text-slate-900 dark:text-white">
                     Votre vie privée nous importe
                   </h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-light">
+                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-light">
                     Nous utilisons des cookies pour optimiser votre expérience et analyser notre trafic.
                   </p>
                 </div>
@@ -62,14 +63,14 @@ export function CookieBanner() {
                 <div className="flex flex-col gap-2">
                   <Button 
                     onClick={handleAccept} 
-                    className="w-full rounded-full bg-primary hover:bg-primary/90 text-white font-bold h-11 transition-all active:scale-95"
+                    className="w-full rounded-full bg-primary hover:bg-primary/90 text-white font-bold h-11 transition-all active:scale-95 shadow-lg shadow-primary/20"
                   >
                     Tout accepter
                   </Button>
                   <Button 
                     variant="ghost" 
                     onClick={handleDecline}
-                    className="w-full rounded-full text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 h-11 font-semibold text-xs transition-colors"
+                    className="w-full rounded-full text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900 h-11 font-bold text-xs transition-colors"
                   >
                     Continuer sans accepter
                   </Button>
@@ -78,7 +79,7 @@ export function CookieBanner() {
                 <div className="pt-1 flex items-center gap-4">
                   <Link 
                     href="/politique-confidentialite" 
-                    className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors flex items-center gap-1.5"
+                    className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-primary transition-colors flex items-center gap-1.5"
                     onClick={() => setIsVisible(false)}
                   >
                     En savoir plus <ExternalLink className="h-3 w-3" />
@@ -88,7 +89,7 @@ export function CookieBanner() {
 
               <button 
                 onClick={() => setIsVisible(false)}
-                className="text-slate-300 hover:text-slate-600 transition-colors p-1"
+                className="text-slate-400 hover:text-slate-600 transition-colors p-1"
                 aria-label="Fermer"
               >
                 <X className="h-5 w-5" />

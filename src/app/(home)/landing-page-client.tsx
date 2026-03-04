@@ -315,13 +315,13 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
         <div className="container">
           <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
             <div className="max-w-2xl">
-              <div className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-black uppercase tracking-widest mb-4">
+              <div className="inline-block px-4 py-1.5 rounded-full bg-primary/20 text-primary text-xs font-black uppercase tracking-widest mb-4">
                 Nos Expertises
               </div>
               <h2 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white mb-6 tracking-tighter">
                 Solutions sur mesure.
               </h2>
-              <p className="text-xl text-slate-500 dark:text-slate-400 font-light leading-relaxed">
+              <p className="text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed">
                 Chaque projet est unique. Nos solutions s&apos;adaptent à vos exigences, du studio parisien au transfert industriel.
               </p>
             </div>
@@ -382,7 +382,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             <h2 className="text-4xl md:text-7xl font-black mb-6 tracking-tighter text-slate-900 dark:text-white leading-tight">
               4 niveaux de <br/> sérénité.
             </h2>
-            <p className="text-xl text-slate-500 dark:text-slate-400 font-light">
+            <p className="text-xl text-slate-600 dark:text-slate-400 font-light">
               Du strict essentiel à l&apos;accompagnement gants blancs : choisissez la formule qui correspond à votre rythme.
             </p>
           </div>
@@ -418,7 +418,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 </div>
 
                 <h3 className="text-2xl font-black mb-2 text-slate-900 dark:text-white tracking-tight">{formula.title}</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-8 min-h-[44px] font-medium leading-relaxed">
+                <p className="text-sm text-slate-600 dark:text-slate-400 mb-8 min-h-[44px] font-medium leading-relaxed">
                   {formula.desc}
                 </p>
 
@@ -470,7 +470,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                 Basés historiquement dans le Val-d&apos;Oise, nous rayonnons sur toute l&apos;Île-de-France et la Normandie.
               </p>
             </div>
-            <Button variant="outline" className="rounded-full border-slate-700 text-primary hover:bg-slate-800 h-14 px-8 font-bold" asChild>
+            <Button variant="outline" className="rounded-full border-slate-700 text-primary hover:bg-slate-800 hover:text-white h-14 px-8 font-bold" asChild>
                 <Link href="/zones-intervention">Voir toutes les villes</Link>
             </Button>
           </div>
@@ -531,13 +531,13 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
         <div className="container">
           <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
             <div className="max-w-2xl">
-              <div className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-black uppercase tracking-widest mb-4">
+              <div className="inline-block px-4 py-1.5 rounded-full bg-primary/20 text-primary text-xs font-black uppercase tracking-widest mb-4">
                 Magazine
               </div>
               <h2 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white mb-6 tracking-tighter">
                 Le Journal.
               </h2>
-              <p className="text-xl text-slate-500 dark:text-slate-400 font-light leading-relaxed">
+              <p className="text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed">
                 Conseils pratiques et actualités pour préparer votre départ en toute sérénité.
               </p>
             </div>
@@ -572,7 +572,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                     </div>
 
                     <div className="px-4 flex-1 flex flex-col">
-                      <div className="flex items-center gap-2 text-slate-400 text-[10px] font-black uppercase tracking-widest mb-4">
+                      <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest mb-4">
                         <CalendarClock className="w-3.5 h-3.5" />
                         {article.date}
                       </div>
@@ -581,7 +581,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                         {article.title}
                       </h3>
 
-                      <div className="mt-auto flex items-center text-slate-500 dark:text-slate-400 text-sm font-bold group-hover:text-primary transition-colors">
+                      <div className="mt-auto flex items-center text-slate-600 dark:text-slate-400 text-sm font-bold group-hover:text-primary transition-colors">
                         Lire l&apos;article <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-2" />
                       </div>
                     </div>

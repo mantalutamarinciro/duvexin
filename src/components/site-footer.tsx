@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -29,7 +30,7 @@ export function SiteFooter() {
   }, []);
 
   return (
-    <footer className="bg-[#020617] text-slate-400 border-t border-slate-900 pt-24 pb-12 relative overflow-hidden">
+    <footer className="bg-[#020617] text-slate-300 border-t border-slate-900 pt-24 pb-12 relative overflow-hidden">
       {/* Effet de lumière subtil en arrière-plan */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-20" />
       
@@ -43,12 +44,12 @@ export function SiteFooter() {
               <h3 className="text-3xl md:text-4xl font-black text-white mb-4 tracking-tight">
                 Prêt pour votre <span className="text-primary">nouveau départ ?</span>
               </h3>
-              <p className="text-lg text-slate-400 font-light">
+              <p className="text-lg text-slate-300 font-light">
                 Obtenez une étude personnalisée et gratuite de votre projet sous 24h ouvrées.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-              <Button variant="outline" size="lg" className="rounded-full border-slate-700 text-primary hover:bg-slate-800 h-14 px-8 font-bold" asChild>
+              <Button variant="outline" size="lg" className="rounded-full border-slate-700 text-primary hover:bg-slate-800 hover:text-white h-14 px-8 font-bold" asChild>
                 <Link href="tel:+33130751235">
                   <Phone className="mr-2 h-4 w-4" /> 01 30 75 12 35
                 </Link>
@@ -73,7 +74,7 @@ export function SiteFooter() {
                   <Logo />
                 </div>
               </Link>
-              <p className="text-base leading-relaxed text-slate-400 max-w-sm font-light">
+              <p className="text-base leading-relaxed text-slate-300 max-w-sm font-light">
                 L&apos;excellence du déménagement en Île-de-France et Normandie. 
                 Une maison familiale qui cultive l&apos;art du soin et de la rigueur logistique.
               </p>
@@ -89,14 +90,14 @@ export function SiteFooter() {
                   key={i} 
                   href="#" 
                   aria-label={social.label}
-                  className="h-11 w-11 rounded-xl bg-slate-900 border border-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-primary hover:border-primary transition-all duration-300"
+                  className="h-11 w-11 rounded-xl bg-slate-900 border border-white/5 flex items-center justify-center text-slate-300 hover:text-white hover:bg-primary hover:border-primary transition-all duration-300"
                 >
                   <social.icon className="h-5 w-5" />
                 </Link>
               ))}
             </div>
 
-            <div className="pt-4 flex items-center gap-6 text-xs font-bold uppercase tracking-widest text-slate-500">
+            <div className="pt-4 flex items-center gap-6 text-xs font-bold uppercase tracking-widest text-slate-400">
                <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-primary" /> Assurance incluse</div>
                <div className="flex items-center gap-2"><Award className="h-4 w-4 text-primary" /> Certifié Pro</div>
             </div>
@@ -118,7 +119,7 @@ export function SiteFooter() {
                   { label: "Tarifs m³", href: "/tarif-demenagement" },
                 ].map(item => (
                   <li key={item.label}>
-                    <Link href={item.href} className="text-slate-400 hover:text-primary transition-all duration-300 flex items-center group text-sm">
+                    <Link href={item.href} className="text-slate-300 hover:text-primary transition-all duration-300 flex items-center group text-sm">
                       <ChevronRight className="h-3 w-3 mr-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-primary" />
                       {item.label}
                     </Link>
@@ -139,8 +140,8 @@ export function SiteFooter() {
                   { label: "International", href: "/demenagement-international" },
                 ].map(item => (
                   <li key={item.label}>
-                    <Link href={item.href} className="text-slate-400 hover:text-primary transition-all duration-300 flex items-center group text-sm">
-                      <MapPin className="h-3 w-3 mr-2 text-slate-700 group-hover:text-primary" />
+                    <Link href={item.href} className="text-slate-300 hover:text-primary transition-all duration-300 flex items-center group text-sm">
+                      <MapPin className="h-3 w-3 mr-2 text-slate-600 group-hover:text-primary" />
                       {item.label}
                     </Link>
                   </li>
@@ -160,7 +161,7 @@ export function SiteFooter() {
                   { label: "Mentions légales", href: "/mentions-legales" },
                 ].map(item => (
                   <li key={item.label}>
-                    <Link href={item.href} className="text-slate-400 hover:text-white transition-all duration-300 text-sm flex items-center gap-1 group">
+                    <Link href={item.href} className="text-slate-300 hover:text-white transition-all duration-300 text-sm flex items-center gap-1 group">
                       {item.label}
                       <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </Link>
@@ -174,7 +175,7 @@ export function SiteFooter() {
 
         {/* --- BOTTOM BAR --- */}
         <div className="pt-10 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6 text-[11px] font-medium uppercase tracking-widest text-slate-500">
+          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6 text-[11px] font-medium uppercase tracking-widest text-slate-400">
             <p>© {year} Déménagement Du Vexin</p>
             <span className="hidden md:block h-1 w-1 rounded-full bg-slate-800" />
             <Link href="/politique-confidentialite" className="hover:text-primary transition-colors">Confidentialité</Link>
@@ -190,7 +191,7 @@ export function SiteFooter() {
                   </div>
                 ))}
              </div>
-             <p className="text-[11px] text-slate-600 font-bold uppercase tracking-tighter">
+             <p className="text-[11px] text-slate-400 font-bold uppercase tracking-tighter">
                 Artisans de votre mobilité
              </p>
           </div>
