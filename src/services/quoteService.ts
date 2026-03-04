@@ -7,6 +7,9 @@ import { Resend } from 'resend';
 
 const { Timestamp } = admin.firestore;
 
+// Configuration de l'adresse de réception des devis
+const ADMIN_RECEiPIENT_EMAIL = 'mantalutamarinciro@gmail.com';
+
 // Initialisation ultra-sécurisée pour le build
 const apiKey = process.env.RESEND_API_KEY || '';
 const resend = (apiKey && apiKey.startsWith('re_')) ? new Resend(apiKey) : null;
@@ -52,7 +55,7 @@ export async function saveQuote(
         // E-mail pour l'ADMINISTRATEUR
         await resend.emails.send({
           from: 'DemDuVexin <contact@demenagementduvexin.fr>',
-          to: 'mantalutamarinciro@gmail.com',
+          to: ADMIN_RECEiPIENT_EMAIL,
           subject: `⚡️ Nouveau Devis : ${quoteData.clientName}`,
           html: `
             <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #334155; max-width: 600px; margin: 0 auto; background-color: #f8fafc; padding: 20px;">
