@@ -12,7 +12,8 @@ import {
   Share2,
   Calculator,
   Sparkles,
-  ShieldCheck
+  ShieldCheck,
+  ChevronRight
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
