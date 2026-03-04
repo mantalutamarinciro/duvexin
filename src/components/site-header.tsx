@@ -8,7 +8,6 @@ import {
   Building2,
   Calculator,
   ChevronDown,
-  Globe,
   MapPin,
   Menu,
   Phone,
@@ -19,6 +18,7 @@ import {
   Train,
   Plane,
   Navigation,
+  BookOpen,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -106,9 +106,35 @@ const ZONES = [
   },
 ] as const;
 
+const TOOLS_LINKS = [
+  {
+    title: "Calculateur de volume",
+    href: "/calculateur-volume",
+    desc: "Estimez votre m³ pièce par pièce.",
+    icon: Calculator,
+    color: "text-primary",
+    bg: "bg-primary/5",
+  },
+  {
+    title: "Tarifs",
+    href: "/tarif-demenagement",
+    desc: "Simulateur de prix précis et transparent.",
+    icon: Sparkles,
+    color: "text-amber-600",
+    bg: "bg-amber-50 dark:bg-amber-950/30",
+  },
+  {
+    title: "Formules de déménagement",
+    href: "/formules-de-demenagement",
+    desc: "Économique, Standard ou Prestige.",
+    icon: Package,
+    color: "text-blue-600",
+    bg: "bg-blue-50 dark:bg-blue-950/30",
+  },
+] as const;
+
 const MAIN_LINKS = [
-  { label: "Tarifs m³", href: "/tarif-demenagement", icon: Calculator },
-  { label: "Formules", href: "/formules-de-demenagement", icon: Sparkles },
+  { label: "Conseils", href: "/blog", icon: BookOpen },
   { label: "L’entreprise", href: "/a-propos-de-demenagement-du-vexin", icon: Building2 },
 ] as const;
 
@@ -358,6 +384,49 @@ export function SiteHeader() {
             </div>
           </div>
 
+          {/* Mega menu - Outils */}
+          <div className="relative group">
+            <button
+              type="button"
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold transition-colors",
+                "text-slate-700 dark:text-slate-200 hover:text-primary",
+                TOOLS_LINKS.some((s) => isActive(s.href)) ? "text-primary" : ""
+              )}
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Outils
+              <ChevronDown className="h-4 w-4 opacity-60 transition-transform group-hover:rotate-180" />
+            </button>
+
+            <div className="absolute left-1/2 -translate-x-1/2 top-full pt-4 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200">
+              <div className="w-[320px] rounded-[2rem] border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-2xl p-4 ring-1 ring-slate-900/5">
+                <div className="grid gap-1">
+                  {TOOLS_LINKS.map((item) => (
+                    <Link
+                      key={item.title}
+                      href={item.href}
+                      className="group/item flex items-start gap-4 rounded-2xl p-3 transition-all hover:bg-slate-50 dark:hover:bg-slate-900 border border-transparent hover:border-slate-100 dark:hover:border-slate-800"
+                    >
+                      <span className={cn("h-9 w-9 rounded-xl flex items-center justify-center shrink-0", item.bg, item.color)}>
+                        <item.icon className="h-5 w-5" />
+                      </span>
+                      <div className="min-w-0">
+                        <div className="text-sm font-extrabold text-slate-900 dark:text-white">
+                          {item.title}
+                        </div>
+                        <div className="mt-0.5 text-[11px] leading-snug text-slate-500 dark:text-slate-400 font-medium">
+                          {item.desc}
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Main Links */}
           {MAIN_LINKS.map((link) => (
             <Link
@@ -425,18 +494,24 @@ export function SiteHeader() {
                 <div className="flex-1 overflow-y-auto p-6 space-y-7">
                   {/* Main links */}
                   <nav className="space-y-2">
-                    <Link
-                      href="/tarif-demenagement"
-                      onClick={() => setMobileOpen(false)}
-                      className={cn(
-                        "flex items-center justify-between p-4 rounded-2xl transition-colors",
-                        "hover:bg-slate-50 dark:hover:bg-slate-900",
-                        isActive("/tarif-demenagement") ? "bg-slate-50 dark:bg-slate-900" : "bg-primary/5"
-                      )}
-                    >
-                      <span className="text-base font-extrabold text-primary">Simulateur de prix</span>
-                      <Calculator className="h-5 w-5 text-primary" />
-                    </Link>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 px-4 pb-2">Outils & Tarifs</p>
+                      {TOOLS_LINKS.map((tool) => (
+                        <Link
+                          key={tool.href}
+                          href={tool.href}
+                          onClick={() => setMobileOpen(false)}
+                          className={cn(
+                            "flex items-center justify-between p-4 rounded-2xl transition-colors",
+                            "hover:bg-slate-50 dark:hover:bg-slate-900",
+                            isActive(tool.href) ? "bg-primary/5 text-primary" : "text-slate-700 dark:text-slate-200"
+                          )}
+                        >
+                          <span className="text-base font-extrabold">{tool.title}</span>
+                          <tool.icon className="h-5 w-5 opacity-60" />
+                        </Link>
+                      ))}
+                    </div>
 
                     <Link
                       href="/zones-intervention"
@@ -485,7 +560,7 @@ export function SiteHeader() {
                           key={s.title}
                           href={s.href}
                           onClick={() => setMobileOpen(false)}
-                          className="rounded-2xl border border-slate-100 dark:border-slate-900 p-3 bg-white/70 dark:bg-slate-950/40 hover:bg-white dark:hover:bg-slate-950 transition-colors"
+                          className="rounded-2xl border border-slate-100 dark:border-slate-800 p-3 bg-white/70 dark:bg-slate-950/40 hover:bg-white dark:hover:bg-slate-950 transition-colors"
                         >
                           <div className={cn("h-10 w-10 rounded-2xl flex items-center justify-center mb-2", s.bg)}>
                             <s.icon className={cn("h-5 w-5", s.color)} />
