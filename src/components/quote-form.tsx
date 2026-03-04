@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import { Loader2, Wand2, Send, Calendar as CalendarIcon, RefreshCw, MapPin } from "lucide-react"
+import { Loader2, Wand2, Send, Calendar as CalendarIcon, RefreshCw, MapPin, AlertCircle } from "lucide-react"
 import Link from "next/link"
 
 import {
@@ -106,20 +106,14 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
 
     try {
       const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}&limit=5`);
-      
-      // On échoue silencieusement si l'API ne répond pas
       if (!res.ok) {
         setSuggestions(prev => ({ ...prev, [field]: [] }));
         return;
       }
-
       const data = await res.json();
-      
-      // Vérification de sécurité sur data.features
       const labels = data?.features?.map((f: any) => f.properties.label) || [];
       setSuggestions(prev => ({ ...prev, [field]: labels }));
     } catch (error) {
-      // On vide les suggestions en cas d'erreur réseau sans bloquer le formulaire
       setSuggestions(prev => ({ ...prev, [field]: [] }));
     }
   }
@@ -147,11 +141,16 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
       analyzedAddresses.current = { origin: details.formattedOriginAddress, destination: details.formattedDestinationAddress };
 
       toast({
-        title: "Analyse terminée",
-        description: `Distance calculée : ${Math.round(details.distanceKm)} km.`,
+        title: "Itinéraire calculé",
+        description: `La distance est estimée à ${Math.round(details.distanceKm)} km.`,
       });
     } catch (error) {
       console.error("Erreur d'analyse d'adresse par IA:", error);
+      toast({
+        variant: "destructive",
+        title: "Erreur de calcul",
+        description: "L'IA n'a pas pu calculer la distance. Veuillez vérifier les adresses ou réessayer.",
+      });
     } finally {
       setIsAnalyzingAddress(false);
     }
@@ -264,7 +263,7 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                       </div>
                       {isAnalyzingAddress && (
                         <div className="flex items-center gap-2 text-xs text-primary font-bold animate-pulse">
-                          <Wand2 className="h-3.5 w-3.5" />
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
                           Calcul de l'itinéraire...
                         </div>
                       )}
@@ -402,12 +401,26 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                       name="distance"
                       render={({ field }) => (
                       <FormItem>
-                          <FormLabel>Distance estimée (km)</FormLabel>
+                          <FormLabel className="flex items-center gap-2">
+                            Distance estimée (km)
+                            {field.value === 0 && originAddress.length > 5 && destinationAddress.length > 5 && (
+                              <button 
+                                type="button" 
+                                onClick={handleAddressAnalysis}
+                                className="text-primary hover:underline text-[10px] font-black uppercase flex items-center gap-1"
+                              >
+                                <RefreshCw className="h-2.5 w-2.5" /> Recalculer
+                              </button>
+                            )}
+                          </FormLabel>
                           <Tooltip>
                               <TooltipTrigger asChild>
-                                  <FormControl>
-                                      <Input type="number" readOnly {...field} className="h-12 rounded-xl bg-slate-50 cursor-default font-black text-primary border-slate-200"/>
-                                  </FormControl>
+                                  <div className="relative">
+                                    <FormControl>
+                                        <Input type="number" readOnly {...field} className="h-12 rounded-xl bg-slate-50 cursor-default font-black text-primary border-slate-200 pr-10"/>
+                                    </FormControl>
+                                    <Wand2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary/40" />
+                                  </div>
                               </TooltipTrigger>
                               <TooltipContent>
                                   <p className="flex items-center gap-2 font-bold"><Wand2 className="h-4 w-4"/> Calculé automatiquement par l'IA</p>
@@ -480,10 +493,21 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
               </CardContent>
           </Card>
 
-          <div className="flex justify-end pt-4">
-              <Button type="submit" size="lg" disabled={isSaving} className="h-16 px-12 rounded-full text-lg font-black bg-primary text-white hover:bg-primary/90 shadow-[0_20px_50px_-12px_rgba(0,169,157,0.5)] transition-all hover:scale-105 active:scale-95">
-                  {isSaving ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Send className="mr-2 h-5 w-5"/>}
-                  {submitButtonText}
+          <div className="flex flex-col items-end gap-2 pt-4">
+              {form.getValues("distance") === 0 && originAddress.length > 5 && destinationAddress.length > 5 && !isAnalyzingAddress && (
+                <div className="flex items-center gap-2 text-amber-600 bg-amber-50 px-4 py-2 rounded-lg text-xs font-bold mb-2 border border-amber-100">
+                  <AlertCircle className="h-4 w-4" />
+                  La distance n'est pas encore calculée.
+                </div>
+              )}
+              <Button 
+                type="submit" 
+                size="lg" 
+                disabled={isSaving || isAnalyzingAddress} 
+                className="h-16 px-12 rounded-full text-lg font-black bg-primary text-white hover:bg-primary/90 shadow-[0_20px_50px_-12px_rgba(0,169,157,0.5)] transition-all hover:scale-105 active:scale-95 disabled:opacity-70"
+              >
+                  {isSaving ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : isAnalyzingAddress ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Send className="mr-2 h-5 w-5"/>}
+                  {isAnalyzingAddress ? "Calcul de l'itinéraire..." : submitButtonText}
               </Button>
           </div>
         </form>
