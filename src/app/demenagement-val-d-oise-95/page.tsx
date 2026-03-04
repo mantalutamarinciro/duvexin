@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import type { FormattedReview } from "@/app/api/reviews/route";
+import { realReviews } from "@/lib/reviews-data";
 
 // Icons
 import { 
@@ -35,12 +37,6 @@ export const metadata: Metadata = {
     canonical: "https://demenagementduvexin.fr/demenagement-val-d-oise-95",
   }
 };
-
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Clotilde Duran", text: "Une équipe très réactive et très professionnelle pour notre départ de Pontoise. Les affaires ont été emballées avec le plus grand soin. Nous conseillons les yeux fermés !", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Clotilde` },
-  { id: "fallback-2", name: "Jean-michel Marot", text: "Déménagement du 95 vers la Bretagne parfaitement réalisé. Équipe efficace, rapide, et sympathique. Un travail de qualité du début à la livraison.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Jean-michel` },
-  { id: "fallback-3", name: "Robert GALAND", text: "Une équipe ultra efficace, des affaires très bien protégées. On voit le côté 'familial' sans prestataire ou intérimaire. Sincèrement je suis bluffé. MERCI !", rating: 5, createTime: "il y a 19 jours", avatarUrl: `https://i.pravatar.cc/48?u=Robert` },
-];
 
 const VAL_D_OISE_CITIES = [
   { name: "Argenteuil", link: "/demenagement-argenteuil-95100" },
@@ -102,20 +98,18 @@ const FAQS = [
   }
 ];
 
-const faqStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": FAQS.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
-  }))
-};
-
 export default function ValDOisePage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
-      <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": FAQS.map(item => ({
+          "@type": "Question",
+          "name": item.question,
+          "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+        }))
+      })}} />
       
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
@@ -140,7 +134,7 @@ export default function ValDOisePage() {
             <span className="text-[#00ad9f]">Val-d'Oise (95)</span>
           </nav>
 
-          <div className="max-w-3xl">
+          <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-teal-300 mb-8 shadow-sm backdrop-blur-md">
               <Trees className="h-4 w-4" />
               L'expert Déménagement du 95
@@ -315,8 +309,8 @@ export default function ValDOisePage() {
         </div>
       </section>
 
-      {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      {/* --- AVIS CLIENTS RÉELS --- */}
+      <TestimonialsSection reviews={realReviews} />
 
       {/* --- FAQ --- */}
       <section id="faq-95" className="py-24 bg-white">
