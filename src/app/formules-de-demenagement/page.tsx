@@ -13,7 +13,8 @@ import {
   Clock, 
   Info,
   BadgeCheck,
-  Star
+  Star,
+  CheckCircle2
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -29,8 +30,7 @@ const FORMULAS = [
     icon: Gift,
     description: "La solution idéale pour les petits budgets et les volumes simples. Vous préparez, nous transportons.",
     color: "text-blue-600",
-    bg: "bg-blue-50",
-    border: "border-blue-100",
+    bg: "bg-blue-50 dark:bg-blue-950/30",
   },
   {
     id: "standard",
