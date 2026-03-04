@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '',
     '/a-propos-de-demenagement-du-vexin',
     '/services',
+    '/formules-de-demenagement',
     '/calculateur-volume',
     '/zones-intervention',
     '/blog',
