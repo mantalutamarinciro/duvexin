@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRef } from "react";
@@ -63,7 +62,7 @@ export function TestimonialsSection({ reviews }: { reviews: FormattedReview[] })
                 </Carousel>
                 <div className="text-center mt-12">
                     <Button variant="outline" asChild>
-                        <Link href="https://www.google.com/maps/search/?api=1&query=Google&query_place_id=ChIJy6-L4aF-5kcR3ep22iQJkOE" target="_blank">Voir tous nos avis sur Google</Link>
+                        <Link href="https://www.google.com/maps/place/Demenagement+du+Vexin/@49.0633959,2.1832366,17z/data=!3m1!4b1!4m6!3m5!1s0x47e66194b9a53be1:0x619ea9289f231032!8m2!3d49.0633924!4d2.1858115!16s%2Fg%2F11g0dgf3v_?entry=ttu&g_ep=EgoyMDI2MDMwMS4xIKXMDSoASAFQAw%3D%3D" target="_blank">Voir tous nos avis sur Google</Link>
                     </Button>
                 </div>
             </div>
