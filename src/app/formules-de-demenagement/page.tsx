@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,10 +11,7 @@ import {
   Sparkles, 
   Gift, 
   ShieldCheck, 
-  Clock, 
   Info,
-  BadgeCheck,
-  Star,
   CheckCircle2
 } from "lucide-react";
 
@@ -83,6 +81,7 @@ export default function FormulesPage() {
             fill
             priority
             className="object-cover opacity-20 mix-blend-luminosity"
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19] via-transparent to-transparent" />
         </div>

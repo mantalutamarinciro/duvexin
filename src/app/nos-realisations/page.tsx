@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,11 +12,8 @@ import {
   ArrowRight, 
   ChevronRight, 
   Briefcase, 
-  Home, 
   Weight,
   Trophy,
-  History,
-  ShieldCheck,
   Star
 } from "lucide-react";
 
@@ -79,6 +77,7 @@ export default function NosRealisationsPage() {
           fill
           priority
           className="object-cover opacity-20 mix-blend-luminosity"
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19] via-[#0b0f19]/80 to-transparent" />
         
@@ -143,6 +142,7 @@ export default function NosRealisationsPage() {
                         alt={study.title}
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        sizes="(max-width: 768px) 100vw, 50vw"
                       />
                    </div>
                 </div>
@@ -209,12 +209,12 @@ export default function NosRealisationsPage() {
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-4">
                     <Button size="lg" className="rounded-full h-16 px-12 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_50px_-10px_rgba(0,173,159,0.5)]" asChild>
-                       <Link href="/dashboard/quote">
+                       <Link href="/demande-devis">
                           Démarrer mon étude gratuite <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                     <Button size="lg" variant="outline" className="rounded-full h-16 px-12 text-lg font-bold border-slate-700 text-white hover:bg-white hover:text-slate-900 transition-all shadow-xl" asChild>
-                       <a href="tel:0123456789">Consulter un expert</a>
+                       <a href="tel:+33130751235">Consulter un expert</a>
                     </Button>
                  </div>
                </div>

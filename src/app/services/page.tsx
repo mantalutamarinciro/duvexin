@@ -1,10 +1,10 @@
+
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
 // UI Components
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 // Icons
 import { 
@@ -16,7 +16,6 @@ import {
   Paintbrush, 
   Truck,
   ShieldCheck,
-  Star,
   CheckCircle2,
   Container, 
   HardHat,
@@ -50,15 +49,15 @@ const services = [
     title: "Déménagement National",
     description: "Des liaisons régulières vers toute la France. Votre patrimoine voyage en sécurité dans nos camions capitonnés de dernière génération.",
     icon: Globe,
-    imageUrl: "/images/services/demenagement-paris-province.webp",
+    imageUrl: "/images/services/demenagement-national.webp",
     link: "/demenagement-national"
   },
   {
     title: "Déménagement International",
     description: "Un accompagnement expert pour vos projets en Europe : gestion douanière, planification rigoureuse et suivi en temps réel.",
-    icon: Globe, // Utilisation de Globe ici car MapPin est déjà pris
+    icon: Globe,
     imageUrl: "/images/services/demenagement-international.webp",
-    link: "#"
+    link: "/demenagement-international"
   },
   {
     title: "Garde-Meubles Sécurisé",
@@ -145,7 +144,7 @@ export default function ServicesPage() {
                 <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">sans compromis.</u>
               </h2>
               
-              <div className="space-y-5 text-lg text-slate-500 leading-relaxed font-light">
+              <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
                   Chez <strong>Déménagement du Vexin</strong>, nous transformons une étape de vie souvent stressante en une expérience fluide et maîtrisée. Notre approche repose sur trois piliers : la technicité de nos équipes, la qualité de nos équipements et un interlocuteur dédié pour chaque projet.
                 </p>
@@ -176,6 +175,7 @@ export default function ServicesPage() {
                   alt="Équipe professionnelle en action"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
             </div>
@@ -206,6 +206,7 @@ export default function ServicesPage() {
                     alt={service.title}
                     fill
                     className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
                   
@@ -241,8 +242,8 @@ export default function ServicesPage() {
         <div className="container mx-auto px-4 md:px-6 text-center">
           <div className="relative max-w-5xl mx-auto rounded-[4rem] bg-[#0f172a] p-12 md:p-24 text-white overflow-hidden shadow-2xl isolate">
             {/* Glow décoratif */}
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00ad9f]/20 rounded-full blur-[120px] -z-10 translate-x-1/2 -translate-y-1/2" />
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[100px] -z-10 -translate-x-1/2 translate-y-1/2" />
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00ad9f]/20 rounded-full blur-[120px] -z-10 translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[100px] -z-10 -translate-x-1/2 translate-y-1/2 pointer-events-none" />
             
             <div className="relative z-10 space-y-8">
               <h2 className="text-3xl md:text-6xl font-extrabold tracking-tight leading-tight">
@@ -256,8 +257,8 @@ export default function ServicesPage() {
               </p>
               
               <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
-                <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)] transition-all hover:scale-105" asChild>
-                  <Link href="/dashboard/quote">Démarrer mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" /></Link>
+                <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)] transition-all hover:scale-105" asChild>
+                  <Link href="/demande-devis">Démarrer mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" /></Link>
                 </Button>
                 <Button variant="outline" size="lg" className="rounded-full h-16 px-10 text-lg font-bold border-white/20 bg-white/5 text-white hover:bg-white/10 backdrop-blur-sm transition-all" asChild>
                   <a href="tel:+33130751235">Appeler un conseiller</a>

@@ -15,14 +15,11 @@ import {
   ChevronRight,
   ExternalLink,
   ShieldCheck,
-  Award,
-  Globe
+  Award
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 export function SiteFooter() {
-  // Stabilisation de l'année pour éviter les erreurs d'hydratation
   const [year, setYear] = React.useState<number>(2026);
 
   React.useEffect(() => {
@@ -31,12 +28,10 @@ export function SiteFooter() {
 
   return (
     <footer className="bg-[#020617] text-slate-300 border-t border-slate-900 pt-24 pb-12 relative overflow-hidden">
-      {/* Effet de lumière subtil en arrière-plan */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-20" />
       
       <div className="container relative z-10">
         
-        {/* --- TOP SECTION : PRE-FOOTER CTA --- */}
         <div className="relative group mb-24">
           <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-teal-500/20 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000" />
           <div className="relative flex flex-col lg:flex-row justify-between items-center bg-slate-900/40 backdrop-blur-sm p-10 md:p-14 rounded-[2rem] border border-white/5 shadow-2xl">
@@ -63,10 +58,8 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* --- MAIN GRID --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-20">
           
-          {/* Brand & Social */}
           <div className="lg:col-span-4 space-y-8">
             <div className="space-y-6">
               <Link href="/" className="inline-block transition-transform hover:scale-105">
@@ -103,10 +96,8 @@ export function SiteFooter() {
             </div>
           </div>
 
-          {/* Links Groups */}
           <div className="lg:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-12">
             
-            {/* Services */}
             <div className="space-y-6">
               <h4 className="text-white font-bold tracking-wider uppercase text-xs">Nos Services</h4>
               <ul className="space-y-4">
@@ -128,7 +119,6 @@ export function SiteFooter() {
               </ul>
             </div>
 
-            {/* Hubs Régionaux SEO */}
             <div className="space-y-6">
               <h4 className="text-white font-bold tracking-wider uppercase text-xs">Zones Clés</h4>
               <ul className="space-y-4">
@@ -149,13 +139,12 @@ export function SiteFooter() {
               </ul>
             </div>
 
-            {/* Société */}
             <div className="space-y-6 col-span-2 md:col-span-1">
               <h4 className="text-white font-bold tracking-wider uppercase text-xs">Informations</h4>
               <ul className="space-y-4">
                 {[
                   { label: "À propos", href: "/a-propos-de-demenagement-du-vexin" },
-                  { label: "Actualités / Blog", href: "/blog" },
+                  { label: "Conseils", href: "/blog" },
                   { label: "Nos réalisations", href: "/nos-realisations" },
                   { label: "Galerie Photos", href: "/galerie" },
                   { label: "Mentions légales", href: "/mentions-legales" },
@@ -173,7 +162,6 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* --- BOTTOM BAR --- */}
         <div className="pt-10 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6 text-[11px] font-medium uppercase tracking-widest text-slate-400">
             <p>© {year} Déménagement Du Vexin</p>

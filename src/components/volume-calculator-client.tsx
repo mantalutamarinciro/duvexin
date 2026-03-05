@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, {
@@ -238,27 +239,23 @@ const SummaryItemLine = memo(
             </p>
           </div>
 
-          <Button
+          <button
             type="button"
-            size="icon"
-            variant="ghost"
-            className="h-6 w-6 text-muted-foreground opacity-0 group-hover:opacity-100 hover:bg-destructive/10 hover:text-destructive transition-all"
+            className="h-6 w-6 text-muted-foreground opacity-0 group-hover:opacity-100 hover:bg-destructive/10 hover:text-destructive transition-all rounded-md flex items-center justify-center"
             onClick={() => onRemove(item.id)}
           >
             <Trash2 className="h-3.5 w-3.5" />
-          </Button>
+          </button>
         </div>
 
         <div className="flex items-center justify-between bg-muted/40 rounded-md p-1 border border-border/40">
-          <Button
+          <button
             type="button"
-            size="icon"
-            variant="ghost"
-            className="h-6 w-6 rounded hover:bg-background"
+            className="h-6 w-6 rounded-md hover:bg-background flex items-center justify-center text-muted-foreground transition-colors"
             onClick={() => onUpdate(item.id, -1)}
           >
             <Minus className="h-3 w-3" />
-          </Button>
+          </button>
 
           <div className="flex flex-col items-center">
             <span className="w-6 text-center font-bold text-sm tabular-nums">
@@ -269,15 +266,13 @@ const SummaryItemLine = memo(
             </span>
           </div>
 
-          <Button
+          <button
             type="button"
-            size="icon"
-            variant="ghost"
-            className="h-6 w-6 rounded hover:bg-background text-primary"
+            className="h-6 w-6 rounded-md hover:bg-background text-primary flex items-center justify-center transition-colors"
             onClick={() => onUpdate(item.id, 1)}
           >
             <Plus className="h-3 w-3" />
-          </Button>
+          </button>
         </div>
       </motion.div>
     );

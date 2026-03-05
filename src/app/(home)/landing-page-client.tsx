@@ -221,6 +221,7 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
             className="object-cover brightness-[0.8] contrast-[1.1]"
             priority
             sizes="100vw"
+            quality={80}
             data-ai-hint={placeholders.hero.hint}
           />
           <div className="absolute inset-0 bg-slate-950/40" />

@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -451,7 +452,7 @@ export function SiteHeader() {
             className={cn(
               "hidden xl:flex items-center gap-2.5 rounded-full px-4 py-2 text-sm font-black transition-colors",
               "text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-900",
-              "border border-transparent hover:border-slate-100 dark:hover:border-slate-800"
+              "border border-transparent hover:border-slate-100 dark:border-slate-800"
             )}
           >
             <span className="h-8 w-8 rounded-full bg-emerald-500/10 flex items-center justify-center">

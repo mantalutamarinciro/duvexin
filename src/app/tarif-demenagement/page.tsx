@@ -1,14 +1,13 @@
+
 import { PriceEstimator } from "@/components/price-estimator";
 import { 
   TrendingUp, 
   ShieldCheck, 
-  Clock, 
   Euro, 
   ChevronRight, 
   LayoutGrid,
   CheckCircle2,
-  Info,
-  ArrowRight
+  Info
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";

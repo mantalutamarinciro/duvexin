@@ -1,18 +1,14 @@
+
 "use client";
 
 import * as React from "react";
 import { 
   Calculator, 
-  Truck, 
   MapPin, 
   Layers, 
   ArrowRight, 
-  Info, 
   Calendar,
   Sparkles,
-  ChevronRight,
-  TrendingUp,
-  AlertCircle,
   ShieldCheck
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
@@ -21,7 +17,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
@@ -152,8 +148,8 @@ export function PriceEstimator() {
                     <Layers className="h-4 w-4" /> Étages ({floors})
                   </Label>
                   <div className="flex items-center gap-2">
-                    <Button size="icon" variant="outline" className="h-8 w-8 rounded-full" onClick={() => setFloors(Math.max(0, floors - 1))}>-</Button>
-                    <Button size="icon" variant="outline" className="h-8 w-8 rounded-full" onClick={() => setFloors(floors + 1)}>+</Button>
+                    <Button size="icon" type="button" variant="outline" className="h-8 w-8 rounded-full" onClick={() => setFloors(Math.max(0, floors - 1))}>-</Button>
+                    <Button size="icon" type="button" variant="outline" className="h-8 w-8 rounded-full" onClick={() => setFloors(floors + 1)}>+</Button>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
@@ -228,7 +224,7 @@ export function PriceEstimator() {
           </Card>
 
           <div className="mt-6 p-6 rounded-3xl bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/30 flex gap-4">
-            <AlertCircle className="h-5 w-5 text-amber-600 shrink-0" />
+            <Sparkles className="h-5 w-5 text-amber-600 shrink-0" />
             <p className="text-xs text-amber-800 dark:text-amber-200 leading-relaxed font-medium">
               Cette estimation est fournie à titre indicatif pour vous aider à budgétiser votre départ. 
               Un devis ferme nécessite une validation technique de nos conseillers.
