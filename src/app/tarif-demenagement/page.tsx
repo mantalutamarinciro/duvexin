@@ -2,7 +2,6 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { 
-  TrendingUp, 
   ShieldCheck, 
   Euro, 
   ChevronRight, 
@@ -13,13 +12,13 @@ import {
   Calculator,
   Truck,
   MapPin,
-  Clock,
   Sparkles,
-  HelpCircle
+  Route
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export default function TarifsPage() {
   return (
@@ -42,7 +41,7 @@ export default function TarifsPage() {
 
             <h1 className="text-4xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
               Tarif déménagement : <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-300 text-glow-primary">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-300">
                 Estimer son budget.
               </span>
             </h1>
@@ -126,7 +125,7 @@ export default function TarifsPage() {
           </div>
           
           <div className="mt-12 flex justify-center">
-            <Button size="lg" className="rounded-full bg-slate-900 h-12 px-8 font-bold" asChild>
+            <Button size="lg" className="rounded-full bg-slate-900 h-12 px-8 font-bold text-white" asChild>
               <Link href="/calculateur-volume">
                 <Calculator className="mr-2 h-4 w-4" /> Calculer mon volume exact
               </Link>
