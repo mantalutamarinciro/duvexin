@@ -7,10 +7,13 @@ import { Resend } from 'resend';
 
 const { Timestamp } = admin.firestore;
 
-// Configuration de l'adresse de réception des devis
+/**
+ * CONFIGURATION DE L'ADRESSE DE RÉCEPTION
+ * C'est ici que vous pouvez modifier l'adresse qui reçoit les alertes de nouveaux devis.
+ */
 const ADMIN_RECEiPIENT_EMAIL = 'contact@demenagementduvexin.fr';
 
-// Initialisation ultra-sécurisée pour le build
+// Initialisation de Resend (utilise la clé secrète configurée dans App Hosting)
 const apiKey = process.env.RESEND_API_KEY || '';
 const resend = (apiKey && apiKey.startsWith('re_')) ? new Resend(apiKey) : null;
 
@@ -49,10 +52,9 @@ export async function saveQuote(
 
     if (resend) {
       try {
-        // Sécurité : fallback sur le type brut si le label est introuvable
         const serviceLabel = serviceTypeLabels[quoteData.serviceType as keyof typeof serviceTypeLabels] || quoteData.serviceType || "Standard";
 
-        // E-mail pour l'ADMINISTRATEUR
+        // 1. E-mail pour l'ADMINISTRATEUR (reçoit les détails sur ADMIN_RECEiPIENT_EMAIL)
         await resend.emails.send({
           from: 'DemDuVexin <contact@demenagementduvexin.fr>',
           to: ADMIN_RECEiPIENT_EMAIL,
@@ -113,7 +115,7 @@ export async function saveQuote(
           `
         });
 
-        // E-mail pour le CLIENT
+        // 2. E-mail pour le CLIENT (confirmation de réception)
         await resend.emails.send({
           from: 'Déménagement du Vexin <contact@demenagementduvexin.fr>',
           to: quoteData.clientEmail,
