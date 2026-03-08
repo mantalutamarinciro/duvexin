@@ -9,11 +9,10 @@ const { Timestamp } = admin.firestore;
 
 /**
  * CONFIGURATION DE L'ADRESSE DE RÉCEPTION
- * C'est ici que vous pouvez modifier l'adresse qui reçoit les alertes de nouveaux devis.
  */
 const ADMIN_RECEiPIENT_EMAIL = 'contact@demenagementduvexin.fr';
 
-// Initialisation de Resend (utilise la clé secrète configurée dans App Hosting)
+// Initialisation de Resend
 const apiKey = process.env.RESEND_API_KEY || '';
 const resend = (apiKey && apiKey.startsWith('re_')) ? new Resend(apiKey) : null;
 
@@ -54,7 +53,7 @@ export async function saveQuote(
       try {
         const serviceLabel = serviceTypeLabels[quoteData.serviceType as keyof typeof serviceTypeLabels] || quoteData.serviceType || "Standard";
 
-        // 1. E-mail pour l'ADMINISTRATEUR (reçoit les détails sur ADMIN_RECEiPIENT_EMAIL)
+        // 1. E-mail pour l'ADMINISTRATEUR
         await resend.emails.send({
           from: 'DemDuVexin <contact@demenagementduvexin.fr>',
           to: ADMIN_RECEiPIENT_EMAIL,
@@ -177,7 +176,7 @@ export async function saveQuote(
       }
     }
 
-    return { id: quoteId };
+    return { id: docRef.id };
   } catch (error) {
     console.error('Error saving quote: ', error);
     throw new Error('Failed to save quote.');
