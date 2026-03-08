@@ -45,8 +45,7 @@ export async function getDbStatus() {
 export async function getDashboardStats() {
     try {
         const bookingsSnapshot = await db.collection('bookings').get();
-        const quotesSnapshot = await db.collection('quotes').where('status', '==', 'pending').get();
-        const teamsSnapshot = await db.collection('teams').get();
+        const quotesSnapshot = await db.collection('quotes').get();
         const expensesSnapshot = await db.collection('expenses').get();
 
         const totalRevenue = bookingsSnapshot.docs
@@ -57,8 +56,12 @@ export async function getDashboardStats() {
             .reduce((sum, doc) => sum + doc.data().amount, 0);
 
         const bookingsData = bookingsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Booking[];
-        const quotesData = (await db.collection('quotes').get()).docs.map(doc => ({ id: doc.id, ...doc.data() as any })) as Quote[];
+        const quotesData = quotesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() as any })) as Quote[];
 
+        // Taux de conversion : Devis convertis / Total devis terminés (acceptés + refusés)
+        const acceptedQuotes = quotesData.filter(q => q.status === 'accepted' || q.status === 'converted').length;
+        const totalProcessedQuotes = quotesData.filter(q => q.status !== 'pending').length;
+        const conversionRate = totalProcessedQuotes > 0 ? (acceptedQuotes / totalProcessedQuotes) * 100 : 0;
 
         // Monthly Revenue
         const monthlyRevenue: { [key: string]: number } = {};
@@ -96,8 +99,8 @@ export async function getDashboardStats() {
             totalRevenue: totalRevenue,
             netProfit: totalRevenue - totalExpenses,
             bookingsCount: bookingsSnapshot.size,
-            quotesCount: quotesSnapshot.size,
-            teamsCount: teamsSnapshot.size,
+            quotesCount: quotesSnapshot.filter(doc => doc.data().status === 'pending').length,
+            conversionRate: Math.round(conversionRate),
             charts: {
                 revenue: revenueChartData,
                 quotes: quoteChartData,
@@ -106,13 +109,12 @@ export async function getDashboardStats() {
 
     } catch (error) {
          console.error("Error fetching dashboard stats: ", error);
-        // Return zeroed stats on error to prevent UI crash
         return {
             totalRevenue: 0,
             netProfit: 0,
             bookingsCount: 0,
             quotesCount: 0,
-            teamsCount: 0,
+            conversionRate: 0,
             charts: {
                 revenue: [],
                 quotes: [],

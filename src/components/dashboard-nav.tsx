@@ -20,6 +20,7 @@ import {
   Calendar,
   Contact,
   Calculator,
+  UserRound,
 } from "lucide-react"
 import {
   SidebarMenu,
@@ -35,6 +36,7 @@ const mainLinks = [
   { href: "/dashboard/planning", label: "Plannings", icon: Calendar },
   { href: "/dashboard/bookings", label: "Réservations", icon: Package },
   { href: "/dashboard/quotes", label: "Devis", icon: ClipboardList },
+  { href: "/dashboard/customers", label: "Clients", icon: UserRound },
   { href: "/dashboard/teams", label: "Équipes", icon: HardHat },
   { href: "/dashboard/vehicles", label: "Flotte", icon: Truck },
   { href: "/dashboard/storage", label: "Stockage", icon: Warehouse },
@@ -151,4 +153,3 @@ export function DashboardNav() {
     </>
   )
 }
-    
