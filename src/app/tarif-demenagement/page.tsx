@@ -27,7 +27,7 @@ export default function TarifsPage() {
       {/* --- HERO SECTION --- */}
       <section className="relative pt-32 pb-16 lg:pt-48 lg:pb-24 bg-[#0b0f19] text-white overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19] via transparent to-transparent" />
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00ad9f]/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
         </div>
 
@@ -56,7 +56,7 @@ export default function TarifsPage() {
       {/* --- QUICK INDICATIONS --- */}
       <section className="container mx-auto px-4 md:px-6 -mt-12 lg:-mt-20 relative z-20 pb-24">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          <Card className="rounded-[2rem] border-none shadow-2xl bg-white p-8 group hover:-translate-y-1 transition-transform">
+          <Card className="rounded-[2.5rem] border-none shadow-2xl bg-white p-8 group hover:-translate-y-1 transition-transform">
             <div className="h-12 w-12 rounded-2xl bg-[#00ad9f]/10 flex items-center justify-center text-[#00ad9f] mb-6">
               <Euro className="h-6 w-6" />
             </div>
@@ -65,7 +65,7 @@ export default function TarifsPage() {
               En moyenne entre <strong>35€ et 75€ / m³</strong> selon la formule et la complexité des accès.
             </p>
           </Card>
-          <Card className="rounded-[2rem] border-none shadow-2xl bg-white p-8 group hover:-translate-y-1 transition-transform">
+          <Card className="rounded-[2.5rem] border-none shadow-2xl bg-white p-8 group hover:-translate-y-1 transition-transform">
             <div className="h-12 w-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 mb-6">
               <MapPin className="h-6 w-6" />
             </div>
@@ -74,7 +74,7 @@ export default function TarifsPage() {
               Calculés sur la base de <strong>1.50€ à 2.20€ / km</strong> pour les trajets de longue distance.
             </p>
           </Card>
-          <Card className="rounded-[2rem] border-none shadow-2xl bg-white p-8 group hover:-translate-y-1 transition-transform">
+          <Card className="rounded-[2.5rem] border-none shadow-2xl bg-white p-8 group hover:-translate-y-1 transition-transform">
             <div className="h-12 w-12 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600 mb-6">
               <ShieldCheck className="h-6 w-6" />
             </div>

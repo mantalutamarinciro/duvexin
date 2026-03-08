@@ -266,7 +266,7 @@ export default function ArticleStressFree() {
                   Maintenant que vous avez les clés d'un projet zen, obtenez votre chiffrage précis sous 24h.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 relative z-10">
-                  <Button className="rounded-full h-14 px-8 bg-primary hover:bg-primary/90 font-bold" asChild>
+                  <Button className="rounded-full h-14 px-8 bg-[#00ad9f] hover:bg-[#009286] font-bold" asChild>
                     <Link href="/demande-devis">Démarrer mon devis <ArrowRight className="ml-2 h-5 w-5" /></Link>
                   </Button>
                   <Button variant="outline" className="rounded-full h-14 px-8 border-slate-700 hover:bg-white hover:text-slate-900 font-bold" asChild>
