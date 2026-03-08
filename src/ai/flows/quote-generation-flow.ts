@@ -11,7 +11,7 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 
-export const QuoteInputSchema = z.object({
+const QuoteInputSchema = z.object({
   distance: z.number().describe("La distance du déménagement en kilomètres."),
   volume: z.number().describe("Le volume total des biens à déménager en mètres cubes (m³)."),
   serviceType: z.enum(["basic", "full", "premium"]).describe("Le type de formule choisi par le client (Économique, Standard, Confort)."),
