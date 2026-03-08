@@ -1,9 +1,11 @@
 
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 import {
   Table,
   TableBody,
@@ -22,15 +24,15 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { MoreHorizontal, PlusCircle, CheckCircle, XCircle, FileEdit, Trash2, BookUser } from "lucide-react"
+import { MoreHorizontal, PlusCircle, CheckCircle, XCircle, FileEdit, Trash2, BookUser, FileText, Loader2, Sparkles } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { getQuotes, Quote, updateQuoteStatus, QuoteStatus, deleteQuote } from "@/services/quoteService";
+import { getQuotes, Quote, updateQuoteStatus, QuoteStatus, deleteQuote, getQuoteById } from "@/services/quoteService";
 import { createBookingFromQuote } from "@/services/bookingService";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-
+import { QuotePDF } from "@/components/quote-pdf";
 
 const statusLabels: Record<Quote['status'], string> = {
     pending: 'En attente',
@@ -54,10 +56,11 @@ const getBadgeVariant = (status: Quote['status']) => {
 export default function QuotesPage() {
     const [quotes, setQuotes] = useState<Quote[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [pdfLoading, setPdfLoading] = useState<string | null>(null);
+    const [selectedQuoteForPdf, setSelectedQuoteForPdf] = useState<Quote | null>(null);
     const { toast } = useToast();
     const router = useRouter();
-
+    const pdfRef = useRef<HTMLDivElement>(null);
 
     const loadQuotes = async () => {
         try {
@@ -65,7 +68,6 @@ export default function QuotesPage() {
             const fetchedQuotes = await getQuotes();
             setQuotes(fetchedQuotes);
         } catch (err) {
-            setError("Impossible de charger les devis.");
             console.error(err);
              toast({
                 variant: "destructive",
@@ -88,7 +90,7 @@ export default function QuotesPage() {
                 title: "Statut mis à jour",
                 description: `Le devis a été marqué comme ${statusLabels[status].toLowerCase()}.`,
             });
-            loadQuotes(); // Refresh data
+            loadQuotes();
         } catch (error) {
             toast({
                 variant: "destructive",
@@ -109,7 +111,6 @@ export default function QuotesPage() {
         }
         try {
             await createBookingFromQuote(quote);
-            // The quote status is updated to 'converted' by the backend function
             toast({
                 title: "Réservation créée",
                 description: "Le devis a été converti en réservation avec succès.",
@@ -119,7 +120,7 @@ export default function QuotesPage() {
             toast({
                 variant: "destructive",
                 title: "Erreur de conversion",
-                description: "Impossible de créer la réservation à partir de ce devis.",
+                description: "Impossible de créer la réservation.",
             });
         }
     }
@@ -129,9 +130,9 @@ export default function QuotesPage() {
             await deleteQuote(id);
             toast({
                 title: "Devis supprimé",
-                description: "Le devis a été supprimé avec succès.",
+                description: "Le devis a été supprimé.",
             });
-            loadQuotes(); // Refresh data
+            loadQuotes();
         } catch (error) {
             toast({
                 variant: "destructive",
@@ -141,34 +142,102 @@ export default function QuotesPage() {
         }
     }
 
+    const prepareAndDownloadPdf = async (quoteId: string) => {
+        setPdfLoading(quoteId);
+        try {
+            const quoteDetails = await getQuoteById(quoteId);
+            if (quoteDetails && quoteDetails.quote > 0) {
+                setSelectedQuoteForPdf(quoteDetails);
+            } else {
+                throw new Error("Ce devis n'est pas encore chiffré.");
+            }
+        } catch (error: any) {
+            toast({
+                variant: "destructive",
+                title: "Action requise",
+                description: error.message || "Veuillez d'abord chiffrer ce devis.",
+            });
+            setPdfLoading(null);
+        }
+    }
+
+    const generatePdf = async () => {
+        if (!selectedQuoteForPdf || !pdfRef.current) return;
+        
+        const input = pdfRef.current;
+        try {
+            const canvas = await html2canvas(input, { scale: 2 });
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save(`devis-${selectedQuoteForPdf.clientName.replace(/\s+/g, '-').toLowerCase()}.pdf`);
+
+            toast({
+                title: "Devis généré",
+                description: "Le document PDF a été téléchargé.",
+            });
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Erreur PDF",
+                description: "Impossible de générer le document.",
+            });
+        } finally {
+            setPdfLoading(null);
+            setSelectedQuoteForPdf(null);
+        }
+    }
+
+    useEffect(() => {
+        if (selectedQuoteForPdf) {
+            generatePdf();
+        }
+    }, [selectedQuoteForPdf]);
+
 
   return (
     <div className="flex flex-col gap-6">
+      {/* Hidden PDF container */}
+      {selectedQuoteForPdf && (
+        <div className="absolute -z-10 -left-[9999px] -top-[9999px]">
+            <div ref={pdfRef} className="w-[210mm]">
+                <QuotePDF 
+                    data={{
+                        ...selectedQuoteForPdf,
+                        moveDate: new Date(selectedQuoteForPdf.moveDate)
+                    }} 
+                    quote={selectedQuoteForPdf.quote} 
+                />
+            </div>
+        </div>
+      )}
+
       <div className="flex items-center justify-between">
-        <h1 className="font-headline text-3xl font-bold tracking-tight">Liste des devis</h1>
-        <Button asChild>
+        <h1 className="font-headline text-3xl font-bold tracking-tight">Gestion des Devis</h1>
+        <Button asChild className="rounded-full bg-primary shadow-lg shadow-primary/20">
           <Link href="/dashboard/quote">
-            <PlusCircle className="mr-2" />
+            <PlusCircle className="mr-2 h-4 w-4" />
             Nouveau devis
           </Link>
         </Button>
       </div>
-      <Card>
+      <Card className="rounded-[2rem] border-none shadow-sm overflow-hidden bg-white dark:bg-slate-900">
         <CardHeader>
-            <CardTitle>Devis récents</CardTitle>
-            <CardDescription>Consultez et gérez tous les devis générés.</CardDescription>
+            <CardTitle>Demandes de devis</CardTitle>
+            <CardDescription>Consultez, chiffrez et convertissez vos prospects en clients.</CardDescription>
         </CardHeader>
         <CardContent>
-            {error && <p className="text-destructive">{error}</p>}
             <Table>
             <TableHeader>
                 <TableRow>
                 <TableHead>Client</TableHead>
-                <TableHead>Date du déménagement</TableHead>
+                <TableHead>Date du projet</TableHead>
                 <TableHead>Montant</TableHead>
                 <TableHead>Statut</TableHead>
-                <TableHead>Créé le</TableHead>
-                <TableHead><span className="sr-only">Actions</span></TableHead>
+                <TableHead>Provenance</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -185,49 +254,63 @@ export default function QuotesPage() {
                     ))
                 ) : quotes.length > 0 ? (
                     quotes.map((quote) => (
-                    <TableRow key={quote.id}>
-                        <TableCell className="font-medium">{quote.clientName}</TableCell>
-                        <TableCell>{format(new Date(quote.moveDate), "d MMMM yyyy", { locale: fr })}</TableCell>
-                        <TableCell>{quote.quote > 0 ? quote.quote.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' }) : <span className="text-muted-foreground text-xs italic">Non chiffré</span>}</TableCell>
+                    <TableRow key={quote.id} className="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                        <TableCell className="font-bold text-slate-900 dark:text-white">{quote.clientName}</TableCell>
+                        <TableCell className="text-xs">{format(new Date(quote.moveDate), "d MMMM yyyy", { locale: fr })}</TableCell>
                         <TableCell>
-                            <Badge variant={getBadgeVariant(quote.status)}>{statusLabels[quote.status]}</Badge>
+                            {quote.quote > 0 ? (
+                                <span className="font-black text-slate-900 dark:text-white">{quote.quote.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</span>
+                            ) : (
+                                <Badge variant="secondary" className="bg-amber-50 text-amber-700 border-amber-100 animate-pulse">À chiffrer</Badge>
+                            )}
                         </TableCell>
-                        <TableCell>{format(new Date(quote.createdAt), "d MMM yyyy", { locale: fr })}</TableCell>
+                        <TableCell>
+                            <Badge variant={getBadgeVariant(quote.status)} className="text-[10px] font-black uppercase tracking-widest">{statusLabels[quote.status]}</Badge>
+                        </TableCell>
+                        <TableCell className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{format(new Date(quote.createdAt), "d MMM yyyy", { locale: fr })}</TableCell>
                         <TableCell className="text-right">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
+                            <Button variant="ghost" className="h-8 w-8 p-0 rounded-full">
                                 <span className="sr-only">Ouvrir le menu</span>
                                 <MoreHorizontal className="h-4 w-4" />
                             </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                <DropdownMenuItem asChild>
+                            <DropdownMenuContent align="end" className="w-56 rounded-2xl p-2">
+                                <DropdownMenuLabel className="text-[10px] font-black uppercase text-slate-400 px-3 py-2">Pilotage Commercial</DropdownMenuLabel>
+                                <DropdownMenuItem asChild className="rounded-xl">
                                     <Link href={`/dashboard/quote/${quote.id}`}>
-                                        <FileEdit className="mr-2 h-4 w-4" />
-                                        Modifier / Chiffrer
+                                        <FileEdit className="mr-2 h-4 w-4 text-blue-500" />
+                                        <span>Modifier / Chiffrer</span>
                                     </Link>
                                 </DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                {quote.status === 'pending' && (
-                                    <>
-                                    <DropdownMenuItem onClick={() => handleUpdateStatus(quote.id, 'accepted')}>
-                                        <CheckCircle className="mr-2 h-4 w-4 text-green-500" /> Marquer comme accepté
+                                
+                                {quote.quote > 0 && (
+                                    <DropdownMenuItem onClick={() => prepareAndDownloadPdf(quote.id)} disabled={pdfLoading === quote.id} className="rounded-xl">
+                                        {pdfLoading === quote.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileText className="mr-2 h-4 w-4 text-emerald-600" />}
+                                        <span>Générer le PDF (Devis)</span>
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => handleUpdateStatus(quote.id, 'refused')}>
+                                )}
+
+                                <DropdownMenuSeparator className="mx-2" />
+                                {quote.status === 'pending' && quote.quote > 0 && (
+                                    <>
+                                    <DropdownMenuItem onClick={() => handleUpdateStatus(quote.id, 'accepted')} className="rounded-xl">
+                                        <CheckCircle className="mr-2 h-4 w-4 text-emerald-500" /> Marquer comme accepté
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => handleUpdateStatus(quote.id, 'refused')} className="rounded-xl">
                                         <XCircle className="mr-2 h-4 w-4 text-red-500" /> Marquer comme refusé
                                     </DropdownMenuItem>
                                     </>
                                 )}
                                 {quote.status === 'accepted' && (
-                                    <DropdownMenuItem onClick={() => handleConvertToBooking(quote)}>
-                                        <BookUser className="mr-2 h-4 w-4 text-blue-500" /> Convertir en réservation
+                                    <DropdownMenuItem onClick={() => handleConvertToBooking(quote)} className="rounded-xl bg-primary/10 text-primary font-bold hover:bg-primary/20">
+                                        <BookUser className="mr-2 h-4 w-4" /> Convertir en réservation
                                     </DropdownMenuItem>
                                 )}
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem onClick={() => handleDeleteQuote(quote.id)} className="text-destructive focus:bg-destructive/10 focus:text-destructive">
-                                    <Trash2 className="mr-2 h-4 w-4" /> Supprimer
+                                <DropdownMenuSeparator className="mx-2" />
+                                <DropdownMenuItem onClick={() => handleDeleteQuote(quote.id)} className="text-destructive font-bold focus:bg-destructive/10 focus:text-destructive rounded-xl">
+                                    <Trash2 className="mr-2 h-4 w-4" /> Supprimer définitivement
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
@@ -236,7 +319,7 @@ export default function QuotesPage() {
                     ))
                 ) : (
                     <TableRow>
-                        <TableCell colSpan={6} className="text-center h-24">Aucun devis trouvé.</TableCell>
+                        <TableCell colSpan={6} className="text-center h-24 text-slate-400 italic">Aucune demande de devis en attente.</TableCell>
                     </TableRow>
                 )}
             </TableBody>
