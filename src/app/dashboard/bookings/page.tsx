@@ -28,7 +28,7 @@ import {
   DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { MoreHorizontal, PlusCircle, Users, FileText, Loader2, Eye, Receipt, Truck } from "lucide-react"
+import { MoreHorizontal, PlusCircle, Users, FileText, Loader2, Eye, Receipt, Truck, ClipboardList } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton";
 import { getBookings, Booking, updateBookingStatus, assignTeamToBooking, getBookingById, BookingStatus, assignVehicleToBooking } from "@/services/bookingService";
@@ -38,6 +38,7 @@ import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { WaybillPDF } from "@/components/waybill-pdf";
 import { InvoicePDF } from "@/components/invoice-pdf";
+import { RoadmapPDF } from "@/components/roadmap-pdf";
 
 
 const getBadgeVariant = (status: Booking['status']) => {
@@ -58,7 +59,7 @@ export default function BookingsPage() {
   const [teams, setTeams] = useState<Team[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState(true);
-  const [pdfLoading, setPdfLoading] = useState<{type: 'waybill' | 'invoice', id: string} | null>(null);
+  const [pdfLoading, setPdfLoading] = useState<{type: 'waybill' | 'invoice' | 'roadmap', id: string} | null>(null);
   const [selectedBookingForPdf, setSelectedBookingForPdf] = useState<Booking | null>(null);
   const { toast } = useToast();
   const pdfRef = useRef<HTMLDivElement>(null);
@@ -151,14 +152,13 @@ export default function BookingsPage() {
     }
   }
 
-  const prepareAndDownloadPdf = async (bookingId: string, type: 'waybill' | 'invoice') => {
+  const prepareAndDownloadPdf = async (bookingId: string, type: 'waybill' | 'invoice' | 'roadmap') => {
     if (pdfLoading) return;
     setPdfLoading({ type, id: bookingId });
     try {
       const bookingDetails = await getBookingById(bookingId);
       if (bookingDetails) {
         setSelectedBookingForPdf(bookingDetails);
-        // The PDF generation will be triggered by the useEffect
       } else {
         throw new Error("Détails de la réservation introuvables.");
       }
@@ -184,11 +184,11 @@ export default function BookingsPage() {
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
         pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save(`${pdfLoading.type}-${selectedBookingForPdf.id}.pdf`);
+        pdf.save(`${pdfLoading.type}-${selectedBookingForPdf.id.substring(0,8)}.pdf`);
 
         toast({
-            title: "PDF téléchargé",
-            description: `Le document (${pdfLoading.type}) a été téléchargé avec succès.`,
+            title: "Document généré",
+            description: `Le document (${pdfLoading.type}) a été téléchargé.`,
         });
 
         if (pdfLoading.type === 'invoice' && selectedBookingForPdf.status !== 'Facturé') {
@@ -215,23 +215,24 @@ export default function BookingsPage() {
             <div ref={pdfRef} className="w-[210mm]">
                 {pdfLoading?.type === 'waybill' && <WaybillPDF data={selectedBookingForPdf} />}
                 {pdfLoading?.type === 'invoice' && <InvoicePDF data={selectedBookingForPdf} />}
+                {pdfLoading?.type === 'roadmap' && <RoadmapPDF data={selectedBookingForPdf} />}
             </div>
         </div>
       )}
 
       <div className="flex items-center justify-between">
-        <h1 className="font-headline text-3xl font-bold tracking-tight">Réservations</h1>
-        <Button asChild>
+        <h1 className="font-headline text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Gestion des Réservations</h1>
+        <Button asChild className="rounded-full bg-primary shadow-lg shadow-primary/20">
             <Link href="/dashboard/quote">
-                <PlusCircle className="mr-2" />
-                Nouvelle réservation (via devis)
+                <PlusCircle className="mr-2 h-4 w-4" />
+                Nouveau Dossier
             </Link>
         </Button>
       </div>
-      <Card>
+      <Card className="rounded-[2rem] border-none shadow-sm overflow-hidden bg-white dark:bg-slate-900">
         <CardHeader>
-            <CardTitle>Déménagements à venir et récents</CardTitle>
-            <CardDescription>Liste de toutes les réservations confirmées.</CardDescription>
+            <CardTitle>Déménagements confirmés</CardTitle>
+            <CardDescription>Planifiez et gérez les interventions des équipes.</CardDescription>
         </CardHeader>
         <CardContent>
             <Table>
@@ -242,8 +243,8 @@ export default function BookingsPage() {
                 <TableHead>Équipe</TableHead>
                 <TableHead>Véhicule</TableHead>
                 <TableHead>Statut</TableHead>
-                <TableHead className="text-right">Total</TableHead>
-                <TableHead><span className="sr-only">Actions</span></TableHead>
+                <TableHead className="text-right">CA TTC</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -261,49 +262,42 @@ export default function BookingsPage() {
                   ))
                 ) : bookings.length > 0 ? (
                   bookings.map((booking) => (
-                  <TableRow key={booking.id}>
-                      <TableCell className="font-medium">{booking.clientName}</TableCell>
-                      <TableCell>{format(new Date(booking.moveDate), "d MMMM yyyy", { locale: fr })}</TableCell>
-                       <TableCell>{booking.assignedTeam || <span className="text-muted-foreground italic">Non assignée</span>}</TableCell>
-                      <TableCell className="font-mono text-xs">{booking.assignedVehicleRegistration || <span className="text-muted-foreground italic">Non assigné</span>}</TableCell>
+                  <TableRow key={booking.id} className="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                      <TableCell className="font-bold text-slate-900 dark:text-white">{booking.clientName}</TableCell>
+                      <TableCell className="text-xs font-medium">{format(new Date(booking.moveDate), "d MMM yyyy", { locale: fr })}</TableCell>
+                       <TableCell className="text-xs">{booking.assignedTeam || <span className="text-slate-400 italic">Non assignée</span>}</TableCell>
+                      <TableCell className="font-mono text-[10px] bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded inline-block mt-2">{booking.assignedVehicleRegistration || '---'}</TableCell>
                       <TableCell>
-                        <Badge variant={getBadgeVariant(booking.status)}>{booking.status}</Badge>
+                        <Badge variant={getBadgeVariant(booking.status)} className="text-[10px] font-black uppercase tracking-widest">{booking.status}</Badge>
                       </TableCell>
-                      <TableCell className="text-right">{booking.total.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</TableCell>
+                      <TableCell className="text-right font-black text-slate-900 dark:text-white">{booking.total.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</TableCell>
                       <TableCell className="text-right">
                       <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0">
+                          <Button variant="ghost" className="h-8 w-8 p-0 rounded-full">
                               <span className="sr-only">Ouvrir le menu</span>
                               <MoreHorizontal className="h-4 w-4" />
                           </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem asChild>
+                          <DropdownMenuContent align="end" className="w-56 rounded-2xl p-2">
+                          <DropdownMenuLabel className="text-[10px] font-black uppercase text-slate-400 px-3 py-2">Pilotage Dossier</DropdownMenuLabel>
+                          <DropdownMenuItem asChild className="rounded-xl">
                             <Link href={`/track/${booking.id}`} target="_blank">
-                              <Eye className="mr-2 h-4 w-4" />
-                              <span>Voir la page de suivi</span>
+                              <Eye className="mr-2 h-4 w-4 text-primary" />
+                              <span>Page de suivi client</span>
                             </Link>
                           </DropdownMenuItem>
-                           <DropdownMenuItem asChild>
-                            <Link href={`/crew/${booking.assignedTeamId}`} target="_blank">
-                              <Users className="mr-2 h-4 w-4" />
-                              <span>Voir portail équipe</span>
-                            </Link>
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator />
+                          <DropdownMenuSeparator className="mx-2" />
                            <DropdownMenuSub>
-                              <DropdownMenuSubTrigger disabled={teams.length === 0}>
-                                <Users className="mr-2 h-4 w-4" />
+                              <DropdownMenuSubTrigger disabled={teams.length === 0} className="rounded-xl">
+                                <Users className="mr-2 h-4 w-4 text-blue-500" />
                                 <span>Assigner une équipe</span>
                               </DropdownMenuSubTrigger>
                               <DropdownMenuPortal>
-                                <DropdownMenuSubContent>
-                                  <DropdownMenuLabel>Choisir une équipe</DropdownMenuLabel>
-                                  <DropdownMenuSeparator />
+                                <DropdownMenuSubContent className="rounded-2xl p-2 min-w-[180px]">
+                                  <DropdownMenuLabel className="text-[10px] font-black uppercase text-slate-400 px-2 pb-2">Choisir l'équipe</DropdownMenuLabel>
                                   {teams.map((team) => (
-                                    <DropdownMenuItem key={team.id} onClick={() => handleAssignTeam(booking.id, team)}>
+                                    <DropdownMenuItem key={team.id} onClick={() => handleAssignTeam(booking.id, team)} className="rounded-xl">
                                       {team.name}
                                     </DropdownMenuItem>
                                   ))}
@@ -311,16 +305,15 @@ export default function BookingsPage() {
                               </DropdownMenuPortal>
                             </DropdownMenuSub>
                              <DropdownMenuSub>
-                              <DropdownMenuSubTrigger disabled={vehicles.length === 0}>
-                                <Truck className="mr-2 h-4 w-4" />
+                              <DropdownMenuSubTrigger disabled={vehicles.length === 0} className="rounded-xl">
+                                <Truck className="mr-2 h-4 w-4 text-blue-500" />
                                 <span>Assigner un véhicule</span>
                               </DropdownMenuSubTrigger>
                               <DropdownMenuPortal>
-                                <DropdownMenuSubContent>
-                                  <DropdownMenuLabel>Choisir un véhicule</DropdownMenuLabel>
-                                  <DropdownMenuSeparator />
+                                <DropdownMenuSubContent className="rounded-2xl p-2 min-w-[180px]">
+                                  <DropdownMenuLabel className="text-[10px] font-black uppercase text-slate-400 px-2 pb-2">Choisir le véhicule</DropdownMenuLabel>
                                   {vehicles.map((vehicle) => (
-                                    <DropdownMenuItem key={vehicle.id} onClick={() => handleAssignVehicle(booking.id, vehicle)}>
+                                    <DropdownMenuItem key={vehicle.id} onClick={() => handleAssignVehicle(booking.id, vehicle)} className="rounded-xl">
                                       {vehicle.brand} ({vehicle.registration})
                                     </DropdownMenuItem>
                                   ))}
@@ -328,20 +321,28 @@ export default function BookingsPage() {
                               </DropdownMenuPortal>
                             </DropdownMenuSub>
 
-                           <DropdownMenuItem onClick={() => prepareAndDownloadPdf(booking.id, 'waybill')} disabled={pdfLoading?.id === booking.id}>
-                                {pdfLoading?.type === 'waybill' && pdfLoading.id === booking.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileText className="mr-2 h-4 w-4" />}
-                                <span>Générer Lettre de voiture</span>
+                          <DropdownMenuSeparator className="mx-2" />
+                          <DropdownMenuLabel className="text-[10px] font-black uppercase text-slate-400 px-3 py-2">Documents (PDF)</DropdownMenuLabel>
+                           
+                           <DropdownMenuItem onClick={() => prepareAndDownloadPdf(booking.id, 'roadmap')} disabled={pdfLoading?.id === booking.id} className="rounded-xl">
+                                {pdfLoading?.type === 'roadmap' && pdfLoading.id === booking.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ClipboardList className="mr-2 h-4 w-4 text-emerald-600" />}
+                                <span>Feuille de Route</span>
+                            </DropdownMenuItem>
+
+                           <DropdownMenuItem onClick={() => prepareAndDownloadPdf(booking.id, 'waybill')} disabled={pdfLoading?.id === booking.id} className="rounded-xl">
+                                {pdfLoading?.type === 'waybill' && pdfLoading.id === booking.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileText className="mr-2 h-4 w-4 text-emerald-600" />}
+                                <span>Lettre de voiture</span>
                             </DropdownMenuItem>
                              
-                             <DropdownMenuItem onClick={() => prepareAndDownloadPdf(booking.id, 'invoice')} disabled={pdfLoading?.id === booking.id || booking.status !== 'Terminé'}>
-                                {pdfLoading?.type === 'invoice' && pdfLoading.id === booking.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Receipt className="mr-2 h-4 w-4" />}
-                                <span>Générer Facture</span>
+                             <DropdownMenuItem onClick={() => prepareAndDownloadPdf(booking.id, 'invoice')} disabled={pdfLoading?.id === booking.id || booking.status !== 'Terminé'} className="rounded-xl">
+                                {pdfLoading?.type === 'invoice' && pdfLoading.id === booking.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Receipt className="mr-2 h-4 w-4 text-emerald-600" />}
+                                <span>Générer la Facture</span>
                             </DropdownMenuItem>
                           
-                          <DropdownMenuSeparator />
+                          <DropdownMenuSeparator className="mx-2" />
                           {booking.status !== 'Annulé' && booking.status !== 'Terminé' && booking.status !== 'Facturé' && (
-                            <DropdownMenuItem className="text-destructive" onClick={() => handleUpdateStatus(booking.id, 'Annulé')}>
-                                Annuler le déménagement
+                            <DropdownMenuItem className="text-destructive font-bold focus:bg-destructive/10 focus:text-destructive rounded-xl" onClick={() => handleUpdateStatus(booking.id, 'Annulé')}>
+                                Annuler le dossier
                             </DropdownMenuItem>
                           )}
                           </DropdownMenuContent>
@@ -351,7 +352,7 @@ export default function BookingsPage() {
                   ))
                 ) : (
                    <TableRow>
-                        <TableCell colSpan={7} className="text-center h-24">Aucune réservation trouvée.</TableCell>
+                        <TableCell colSpan={7} className="text-center h-24 text-slate-400 italic">Aucune réservation trouvée dans la base.</TableCell>
                     </TableRow>
                 )}
             </TableBody>

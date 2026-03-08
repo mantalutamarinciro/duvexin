@@ -11,97 +11,105 @@ export function WaybillPDF({ data }: WaybillPDFProps) {
     const today = new Date();
 
     return (
-        <div className="bg-white text-gray-800 p-8 font-sans text-[10px]">
-            {/* Header */}
-            <header className="flex justify-between items-start pb-4 border-b-2 border-gray-300">
-                <div>
-                    <h1 className="text-2xl font-bold text-blue-600">DemDuVexin</h1>
-                    <p className="text-gray-500">12 Rue de la République, 75001 Paris</p>
+        <div className="bg-white text-slate-900 p-10 font-sans text-[10px]" style={{ width: '210mm', minHeight: '297mm' }}>
+            {/* Header Officiel */}
+            <header className="flex justify-between items-center pb-6 border-b-2 border-slate-900">
+                <div className="space-y-1">
+                    <div className="text-xl font-black tracking-tighter">DÉMÉNAGEMENT DU VEXIN</div>
+                    <p className="text-[8px] text-slate-500">9 Rue de Pontoise, 95540 Méry-sur-Oise | 01 30 75 12 35</p>
+                    <p className="text-[8px] text-slate-500">Licence n° 2024/11/0000123 | SIRET 123 456 789 00012</p>
                 </div>
                 <div className="text-right">
-                    <h2 className="text-xl font-semibold uppercase text-gray-700">Lettre de voiture</h2>
-                    <p className="text-gray-500">N° de déménagement: {data.id}</p>
-                    <p className="text-gray-500">Date d'émission: {format(today, "PPP", { locale: fr })}</p>
+                    <h1 className="text-2xl font-black uppercase tracking-tight">Lettre de voiture</h1>
+                    <p className="font-bold">N° DOSSIER : {data.id.substring(0,8).toUpperCase()}</p>
                 </div>
             </header>
 
-            {/* Parties */}
-            <section className="mt-6 grid grid-cols-3 gap-4">
-                <div>
-                    <h3 className="text-xs font-bold text-gray-600 uppercase mb-2">Entreprise</h3>
-                    <p className="font-bold">DemDuVexin</p>
-                    <p>12 Rue de la République</p>
-                    <p>75001 Paris, France</p>
-                    <p>SIRET: 123 456 789 00012</p>
+            {/* Avis de transport */}
+            <div className="mt-6 border-2 border-slate-900 p-4 bg-slate-50 rounded-xl">
+                <p className="font-bold text-center uppercase text-xs">Document obligatoire à bord du véhicule (Arrêté du 9 novembre 1999)</p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-8 mt-8">
+                {/* Expéditeur */}
+                <div className="space-y-4">
+                    <h3 className="bg-slate-900 text-white px-3 py-1 font-bold uppercase tracking-widest text-[9px] rounded-md">1. Client / Expéditeur</h3>
+                    <div className="pl-2 space-y-1">
+                        <p className="font-bold text-sm">{data.clientName}</p>
+                        <p>{data.clientEmail}</p>
+                        <p>{data.clientPhone || '-'}</p>
+                    </div>
                 </div>
-                 <div>
-                    <h3 className="text-xs font-bold text-gray-600 uppercase mb-2">Client</h3>
-                    <p className="font-bold">{data.clientName}</p>
-                    <p>{data.clientEmail}</p>
-                    {data.clientPhone && <p>{data.clientPhone}</p>}
+                {/* Transporteur */}
+                <div className="space-y-4">
+                    <h3 className="bg-slate-900 text-white px-3 py-1 font-bold uppercase tracking-widest text-[9px] rounded-md">2. Entreprise de transport</h3>
+                    <div className="pl-2 space-y-1">
+                        <p className="font-bold text-sm">DÉMÉNAGEMENT DU VEXIN</p>
+                        <p>Équipe : <span className="font-bold">{data.assignedTeam || 'En attente'}</span></p>
+                        <p>Véhicule : <span className="font-bold">{data.assignedVehicleRegistration || 'En attente'}</span></p>
+                    </div>
                 </div>
-                <div>
-                    <h3 className="text-xs font-bold text-gray-600 uppercase mb-2">Détails Opérationnels</h3>
-                    <p><strong>Équipe:</strong> {data.assignedTeam || 'Non spécifiée'}</p>
-                    <p><strong>Véhicule:</strong> {data.assignedVehicleRegistration || 'Non spécifié'}</p>
+            </div>
+
+            {/* Lieux et Dates */}
+            <div className="grid grid-cols-2 gap-8 mt-8 border-t border-slate-200 pt-6">
+                <div className="space-y-4">
+                    <h3 className="bg-slate-900 text-white px-3 py-1 font-bold uppercase tracking-widest text-[9px] rounded-md">3. Chargement (Origine)</h3>
+                    <div className="pl-2">
+                        <p className="font-bold">Adresse :</p>
+                        <p className="mb-2 leading-relaxed">{data.originAddress}</p>
+                        <p>Date prévue : <span className="font-bold">{format(new Date(data.moveDate), "d MMMM yyyy", { locale: fr })}</span></p>
+                    </div>
                 </div>
-            </section>
-            
-            {/* Adresses et Dates */}
-            <section className="mt-6">
-                 <div className="grid grid-cols-2 gap-4 rounded-lg border border-gray-200 p-4">
+                <div className="space-y-4">
+                    <h3 className="bg-slate-900 text-white px-3 py-1 font-bold uppercase tracking-widest text-[9px] rounded-md">4. Livraison (Destination)</h3>
+                    <div className="pl-2">
+                        <p className="font-bold">Adresse :</p>
+                        <p className="mb-2 leading-relaxed">{data.destinationAddress}</p>
+                        <p>Volume : <span className="font-bold text-base">{data.volume} m³</span></p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Prestation et Observations */}
+            <div className="mt-8 space-y-4">
+                <h3 className="bg-slate-900 text-white px-3 py-1 font-bold uppercase tracking-widest text-[9px] rounded-md">5. Nature de la prestation & Observations</h3>
+                <div className="border border-slate-200 rounded-xl p-4 min-h-[80px]">
+                    <p><strong>Formule :</strong> {serviceTypeLabels[data.serviceType as keyof typeof serviceTypeLabels]}</p>
+                    <p className="mt-2 text-slate-400 italic">Espace réservé aux réserves et observations éventuelles lors du chargement :</p>
+                    <div className="h-12 border-b border-slate-100"></div>
+                </div>
+            </div>
+
+            {/* État des biens et Signatures */}
+            <div className="mt-12 grid grid-cols-2 gap-8">
+                {/* Départ */}
+                <div className="border-2 border-slate-200 rounded-2xl p-6 space-y-10 h-64">
                     <div>
-                        <p className="font-semibold">Adresse de chargement :</p>
-                        <p>{data.originAddress}</p>
+                        <p className="font-black text-xs uppercase mb-1">A. Prise en charge (Départ)</p>
+                        <p className="text-[8px] text-slate-500 leading-tight">Le client reconnaît avoir remis les biens décrits ci-dessus dans l'état déclaré.</p>
                     </div>
+                    <div className="flex justify-between items-end pt-12">
+                        <div className="text-[8px] text-center border-t border-slate-300 w-24 pt-1">Signature Client</div>
+                        <div className="text-[8px] text-center border-t border-slate-300 w-24 pt-1">Signature Chef d'équipe</div>
+                    </div>
+                </div>
+                {/* Arrivée */}
+                <div className="border-2 border-slate-200 rounded-2xl p-6 space-y-10 h-64">
                     <div>
-                        <p className="font-semibold">Adresse de livraison :</p>
-                        <p>{data.destinationAddress}</p>
+                        <p className="font-black text-xs uppercase mb-1">B. Fin de travail (Arrivée)</p>
+                        <p className="text-[8px] text-slate-500 leading-tight">Le client reconnaît avoir reçu les biens en bon état, sauf réserves mentionnées au cadre 5.</p>
                     </div>
-                     <div>
-                        <p className="font-semibold">Date du déménagement :</p>
-                        <p>{format(new Date(data.moveDate), "PPP", { locale: fr })}</p>
-                    </div>
-                     <div>
-                        <p className="font-semibold">Volume déclaré :</p>
-                        <p>{data.volume || 'N/A'} m³</p>
+                    <div className="flex justify-between items-end pt-12">
+                        <div className="text-[8px] text-center border-t border-slate-300 w-24 pt-1">Signature Client</div>
+                        <div className="text-[8px] text-center border-t border-slate-300 w-24 pt-1">Signature Chef d'équipe</div>
                     </div>
                 </div>
-            </section>
+            </div>
 
-             {/* Prestation */}
-            <section className="mt-6">
-                <h3 className="text-xs font-bold text-gray-600 uppercase mb-2">Détails de la prestation</h3>
-                <div className="border border-gray-200 rounded-lg p-4">
-                    <p><strong>Type de service :</strong> {data.serviceType ? serviceTypeLabels[data.serviceType as keyof typeof serviceTypeLabels] : "Non spécifié"}</p>
-                    <p className="mt-2"><strong>Instructions particulières :</strong></p>
-                    <div className="h-16 border-b border-gray-300 mt-1"></div>
-                </div>
-            </section>
-            
-             {/* Inventaire (Simplifié) */}
-            <section className="mt-6">
-                <h3 className="text-xs font-bold text-gray-600 uppercase mb-2">Inventaire des biens</h3>
-                <div className="border-t border-b border-gray-300 h-48 p-2">
-                    {/* Espace pour liste d'inventaire */}
-                </div>
-            </section>
-
-            {/* Signatures */}
-            <section className="mt-8 grid grid-cols-2 gap-8">
-                <div className="border-t-2 border-gray-300 pt-2">
-                    <p className="font-semibold">Signature du Client</p>
-                    <p className="text-xs text-gray-500">(Précédée de la mention "Bon pour accord")</p>
-                </div>
-                 <div className="border-t-2 border-gray-300 pt-2">
-                    <p className="font-semibold">Signature du Chef d'équipe</p>
-                     <p className="text-xs text-gray-500">(Précédée de la mention "Pris en charge")</p>
-                </div>
-            </section>
-
-            <footer className="mt-8 pt-4 border-t-2 border-gray-200 text-center text-xs text-gray-500">
-                <p>La signature de ce document vaut acceptation des conditions générales de vente et reconnaissance de l'état des biens.</p>
-                <p className="font-bold mt-2">DemDuVexin</p>
+            <footer className="mt-12 pt-4 border-t border-slate-100 text-center text-[8px] text-slate-400">
+                <p>La lettre de voiture constitue le contrat de transport. Toute réclamation doit être inscrite sur ce document lors de la livraison.</p>
+                <p className="mt-1">DÉMÉNAGEMENT DU VEXIN - Expertise Logistique & Patrimoine</p>
             </footer>
         </div>
     )
