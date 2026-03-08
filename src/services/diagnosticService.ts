@@ -9,6 +9,9 @@ import { Expense } from './expenseService';
 
 const { Timestamp } = admin.firestore;
 
+/**
+ * Vérifie l'état de la connexion à la base de données
+ */
 export async function getDbStatus() {
     try {
         const quotesCol = db.collection('quotes');
@@ -42,46 +45,57 @@ export async function getDbStatus() {
     }
 }
 
+/**
+ * Calcule les indicateurs de performance (KPIs) réels pour le dashboard
+ */
 export async function getDashboardStats() {
     try {
-        const bookingsSnapshot = await db.collection('bookings').get();
-        const quotesSnapshot = await db.collection('quotes').get();
-        const expensesSnapshot = await db.collection('expenses').get();
+        const [bookingsSnapshot, quotesSnapshot, expensesSnapshot] = await Promise.all([
+            db.collection('bookings').get(),
+            db.collection('quotes').get(),
+            db.collection('expenses').get(),
+        ]);
 
+        // 1. Calcul du Chiffre d'Affaires (Réservations terminées ou facturées)
         const totalRevenue = bookingsSnapshot.docs
-            .filter(doc => doc.data().status === 'Terminé' || doc.data().status === 'Facturé')
-            .reduce((sum, doc) => sum + doc.data().total, 0);
+            .filter(doc => {
+                const status = doc.data().status;
+                return status === 'Terminé' || status === 'Facturé';
+            })
+            .reduce((sum, doc) => sum + (doc.data().total || 0), 0);
             
+        // 2. Calcul des Dépenses Totales
         const totalExpenses = expensesSnapshot.docs
-            .reduce((sum, doc) => sum + doc.data().amount, 0);
+            .reduce((sum, doc) => sum + (doc.data().amount || 0), 0);
 
-        const bookingsData = bookingsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Booking[];
-        const quotesData = quotesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() as any })) as Quote[];
-
-        // Taux de conversion : Devis convertis / Total devis terminés (acceptés + refusés)
-        const acceptedQuotes = quotesData.filter(q => q.status === 'accepted' || q.status === 'converted').length;
-        const totalProcessedQuotes = quotesData.filter(q => q.status !== 'pending').length;
+        // 3. Calcul du Taux de Conversion
+        const quotesData = quotesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const acceptedQuotes = quotesData.filter((q: any) => q.status === 'accepted' || q.status === 'converted').length;
+        const totalProcessedQuotes = quotesData.filter((q: any) => q.status !== 'pending').length;
         const conversionRate = totalProcessedQuotes > 0 ? (acceptedQuotes / totalProcessedQuotes) * 100 : 0;
 
-        // Monthly Revenue
+        // 4. Préparation des données du graphique de revenus (par mois)
         const monthlyRevenue: { [key: string]: number } = {};
-        bookingsData
-            .filter(b => b.status === 'Terminé' || b.status === 'Facturé')
-            .forEach(b => {
-                const month = new Date(b.moveDate).toLocaleString('fr-FR', { month: 'short', year: 'numeric' });
-                if (!monthlyRevenue[month]) {
-                    monthlyRevenue[month] = 0;
-                }
-                monthlyRevenue[month] += b.total;
+        bookingsSnapshot.docs
+            .filter(doc => doc.data().status === 'Terminé' || doc.data().status === 'Facturé')
+            .forEach(doc => {
+                const data = doc.data();
+                const date = (data.moveDate as admin.firestore.Timestamp).toDate();
+                const monthKey = date.toLocaleString('fr-FR', { month: 'short', year: 'numeric' });
+                monthlyRevenue[monthKey] = (monthlyRevenue[monthKey] || 0) + data.total;
             });
         
         const revenueChartData = Object.entries(monthlyRevenue)
             .map(([name, total]) => ({ name, total }))
-            .sort((a, b) => new Date(a.name).getTime() - new Date(b.name).getTime());
+            // Tri par date pour l'affichage chronologique
+            .sort((a, b) => {
+                const dateA = new Date(a.name.split(' ').reverse().join(' '));
+                const dateB = new Date(b.name.split(' ').reverse().join(' '));
+                return dateA.getTime() - dateB.getTime();
+            });
 
-
-        // Quote Statuses
-        const quoteStatusCounts = quotesData.reduce((acc, quote) => {
+        // 5. Répartition des statuts des devis pour le graphique camembert
+        const quoteStatusCounts = quotesData.reduce((acc: any, quote: any) => {
             const status = quote.status;
             if (status === 'accepted' || status === 'refused' || status === 'converted') {
                  acc[status] = (acc[status] || 0) + 1;
@@ -91,15 +105,14 @@ export async function getDashboardStats() {
 
         const quoteChartData = Object.entries(quoteStatusCounts).map(([name, value]) => ({
             name: name === 'converted' ? 'Accepté (Converti)' : name === 'accepted' ? 'Accepté (Non converti)' : 'Refusé',
-            value: value,
+            value: value as number,
         }));
-
 
         return {
             totalRevenue: totalRevenue,
             netProfit: totalRevenue - totalExpenses,
             bookingsCount: bookingsSnapshot.size,
-            quotesCount: quotesSnapshot.filter(doc => doc.data().status === 'pending').length,
+            quotesCount: quotesSnapshot.docs.filter(doc => doc.data().status === 'pending').length,
             conversionRate: Math.round(conversionRate),
             charts: {
                 revenue: revenueChartData,
@@ -123,11 +136,14 @@ export async function getDashboardStats() {
     }
 }
 
+/**
+ * Crée des données de démonstration
+ */
 export async function createTestData() {
     try {
         const batch = db.batch();
 
-        // Create a test team
+        // Créer une équipe de test
         const teamRef = db.collection('teams').doc();
         batch.set(teamRef, {
             name: `Équipe Test ${Math.floor(Math.random() * 100)}`,
@@ -135,7 +151,7 @@ export async function createTestData() {
             createdAt: Timestamp.now(),
         });
 
-        // Create a test quote
+        // Créer un devis de test
         const quoteRef = db.collection('quotes').doc();
         batch.set(quoteRef, {
             clientName: "Client de Test",
