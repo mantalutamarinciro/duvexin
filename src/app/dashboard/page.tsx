@@ -212,7 +212,7 @@ export default function DashboardPage() {
             <CardContent>
               {loading ? (
                 <div className="space-y-4">
-                  {[1, 2, 3].map(i => <Skeleton className="h-20 w-full rounded-2xl" />)}
+                  {[1, 2, 3].map(i => <Skeleton key={i} className="h-20 w-full rounded-2xl" />)}
                 </div>
               ) : bookings.length > 0 ? (
                 <div className="space-y-3">
