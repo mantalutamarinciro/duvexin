@@ -1,0 +1,619 @@
+{
+  "entities": {
+    "Customer": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Customer",
+      "type": "object",
+      "description": "Represents a customer who uses the moving services.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Customer entity."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the customer."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the customer."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the customer for communication.",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The phone number of the customer for SMS communication."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the customer record was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the customer record was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "phoneNumber",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Employee": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Employee",
+      "type": "object",
+      "description": "Represents an employee of the moving company.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Employee entity."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the employee."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the employee."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the employee.",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The phone number of the employee."
+        },
+        "role": {
+          "type": "string",
+          "description": "The role of the employee (e.g., 'Mover', 'Driver', 'Team Lead')."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the employee record was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the employee record was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "role",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "MovingTeam": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "MovingTeam",
+      "type": "object",
+      "description": "Represents a team of employees assigned to a moving job.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the MovingTeam entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "A descriptive name for the moving team (e.g., 'Team Alpha')."
+        },
+        "employeeIds": {
+          "type": "array",
+          "description": "References to Employees who are part of this team. (Relationship: Employee N:N MovingTeam)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the moving team record was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the moving team record was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "employeeIds",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ServiceType": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ServiceType",
+      "type": "object",
+      "description": "Defines different types of moving services offered by the company.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the ServiceType entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the service type (e.g., 'Full Service Move', 'Packing Only', 'Labor Only')."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of what the service type includes."
+        },
+        "baseRatePerHour": {
+          "type": "number",
+          "description": "The base hourly rate for this service type, if applicable."
+        },
+        "minimumHours": {
+          "type": "number",
+          "description": "The minimum number of hours charged for this service type, if applicable."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the service type record was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the service type record was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "MovingTruck": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "MovingTruck",
+      "type": "object",
+      "description": "Represents a moving truck available for bookings.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the MovingTruck entity."
+        },
+        "licensePlate": {
+          "type": "string",
+          "description": "The license plate number of the truck."
+        },
+        "make": {
+          "type": "string",
+          "description": "The manufacturer of the truck."
+        },
+        "model": {
+          "type": "string",
+          "description": "The model of the truck."
+        },
+        "year": {
+          "type": "number",
+          "description": "The manufacturing year of the truck."
+        },
+        "capacityCubicFeet": {
+          "type": "number",
+          "description": "The total cargo capacity of the truck in cubic feet."
+        },
+        "currentLocationLatitude": {
+          "type": "number",
+          "description": "The current latitude of the truck for real-time tracking (optional)."
+        },
+        "currentLocationLongitude": {
+          "type": "number",
+          "description": "The current longitude of the truck for real-time tracking (optional)."
+        },
+        "lastLocationUpdateTime": {
+          "type": "string",
+          "description": "Timestamp of the last known location update for the truck (optional).",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the truck record was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the truck record was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "licensePlate",
+        "make",
+        "model",
+        "year",
+        "capacityCubicFeet",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Booking": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Booking",
+      "type": "object",
+      "description": "Represents a scheduled moving appointment.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Booking entity."
+        },
+        "customerId": {
+          "type": "string",
+          "description": "Reference to the Customer who made the booking. (Relationship: Customer 1:N Booking)"
+        },
+        "serviceTypeId": {
+          "type": "string",
+          "description": "Reference to the ServiceType chosen for this booking. (Relationship: ServiceType 1:N Booking)"
+        },
+        "movingTeamId": {
+          "type": "string",
+          "description": "Reference to the MovingTeam assigned to this booking. (Relationship: MovingTeam 1:N Booking)"
+        },
+        "movingTruckId": {
+          "type": "string",
+          "description": "Reference to the MovingTruck assigned to this booking. (Relationship: MovingTruck 1:N Booking)"
+        },
+        "scheduledStartTime": {
+          "type": "string",
+          "description": "The scheduled date and time when the move is set to begin.",
+          "format": "date-time"
+        },
+        "scheduledEndTime": {
+          "type": "string",
+          "description": "The scheduled date and time when the move is expected to end.",
+          "format": "date-time"
+        },
+        "pickupAddressStreet": {
+          "type": "string",
+          "description": "The street address for the pickup location."
+        },
+        "pickupAddressCity": {
+          "type": "string",
+          "description": "The city for the pickup location."
+        },
+        "pickupAddressState": {
+          "type": "string",
+          "description": "The state/province for the pickup location."
+        },
+        "pickupAddressZip": {
+          "type": "string",
+          "description": "The zip/postal code for the pickup location."
+        },
+        "pickupAddressCountry": {
+          "type": "string",
+          "description": "The country for the pickup location."
+        },
+        "deliveryAddressStreet": {
+          "type": "string",
+          "description": "The street address for the delivery location."
+        },
+        "deliveryAddressCity": {
+          "type": "string",
+          "description": "The city for the delivery location."
+        },
+        "deliveryAddressState": {
+          "type": "string",
+          "description": "The state/province for the delivery location."
+        },
+        "deliveryAddressZip": {
+          "type": "string",
+          "description": "The zip/postal code for the delivery location."
+        },
+        "deliveryAddressCountry": {
+          "type": "string",
+          "description": "The country for the delivery location."
+        },
+        "estimatedDistanceMiles": {
+          "type": "number",
+          "description": "The estimated travel distance for the move in miles."
+        },
+        "estimatedVolumeCubicFeet": {
+          "type": "number",
+          "description": "The estimated total volume of items for the move in cubic feet, derived from inventory."
+        },
+        "estimatedWeightPounds": {
+          "type": "number",
+          "description": "The estimated total weight of items for the move in pounds, derived from inventory."
+        },
+        "estimatedPrice": {
+          "type": "number",
+          "description": "The calculated estimated price for the booking."
+        },
+        "actualPrice": {
+          "type": "number",
+          "description": "The finalized actual price charged for the completed booking (optional)."
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the booking (e.g., 'Pending', 'Confirmed', 'In Progress', 'Completed', 'Cancelled')."
+        },
+        "customerNotes": {
+          "type": "string",
+          "description": "Any special instructions or notes provided by the customer."
+        },
+        "internalNotes": {
+          "type": "string",
+          "description": "Internal notes for the moving team or staff."
+        },
+        "trackingLink": {
+          "type": "string",
+          "description": "A unique URL provided to the customer for real-time tracking of their move.",
+          "format": "uri"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the booking was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the booking was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "customerId",
+        "serviceTypeId",
+        "scheduledStartTime",
+        "scheduledEndTime",
+        "pickupAddressStreet",
+        "pickupAddressCity",
+        "pickupAddressState",
+        "pickupAddressZip",
+        "pickupAddressCountry",
+        "deliveryAddressStreet",
+        "deliveryAddressCity",
+        "deliveryAddressState",
+        "deliveryAddressZip",
+        "deliveryAddressCountry",
+        "estimatedDistanceMiles",
+        "estimatedVolumeCubicFeet",
+        "estimatedWeightPounds",
+        "estimatedPrice",
+        "status",
+        "trackingLink",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "InventoryItem": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "InventoryItem",
+      "type": "object",
+      "description": "Represents a single item or a group of similar items to be moved as part of a booking.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the InventoryItem entity."
+        },
+        "bookingId": {
+          "type": "string",
+          "description": "Reference to the Booking this item belongs to. (Relationship: Booking 1:N InventoryItem)"
+        },
+        "name": {
+          "type": "string",
+          "description": "The common name of the item (e.g., 'Sofa', 'Box of Books', 'Dining Table')."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the item, potentially augmented by the GenAI tool."
+        },
+        "quantity": {
+          "type": "number",
+          "description": "The number of identical items (default to 1 if unique)."
+        },
+        "dimensionsLengthInches": {
+          "type": "number",
+          "description": "The estimated length of the item in inches, often suggested by the GenAI tool."
+        },
+        "dimensionsWidthInches": {
+          "type": "number",
+          "description": "The estimated width of the item in inches, often suggested by the GenAI tool."
+        },
+        "dimensionsHeightInches": {
+          "type": "number",
+          "description": "The estimated height of the item in inches, often suggested by the GenAI tool."
+        },
+        "estimatedWeightPounds": {
+          "type": "number",
+          "description": "The estimated weight of the item in pounds, often suggested by the GenAI tool."
+        },
+        "fragilityLevel": {
+          "type": "string",
+          "description": "The estimated fragility level of the item (e.g., 'Very Fragile', 'Fragile', 'Normal', 'Durable'), often suggested by the GenAI tool."
+        },
+        "roomLocation": {
+          "type": "string",
+          "description": "The room in the pickup address where the item is located."
+        },
+        "requiresSpecialHandling": {
+          "type": "boolean",
+          "description": "Indicates if the item requires special handling (e.g., oversized, delicate)."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the inventory item record was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the inventory item record was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "bookingId",
+        "name",
+        "quantity",
+        "dimensionsLengthInches",
+        "dimensionsWidthInches",
+        "dimensionsHeightInches",
+        "estimatedWeightPounds",
+        "fragilityLevel",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "Customer",
+          "schema": {
+            "$ref": "#/backend/entities/Customer"
+          },
+          "description": "Stores individual customer profiles. The `userId` corresponds to the Firebase Authentication UID. Access is restricted to the owner (the customer themselves)."
+        }
+      },
+      {
+        "path": "/employees/{employeeId}",
+        "definition": {
+          "entityName": "Employee",
+          "schema": {
+            "$ref": "#/backend/entities/Employee"
+          },
+          "description": "Stores individual employee profiles. The `employeeId` corresponds to the Firebase Authentication UID. Access is restricted to the employee themselves or administrators. Includes the employee's `role` for database-backed access control.",
+          "params": [
+            {
+              "name": "employeeId",
+              "description": "The unique Firebase Authentication UID of the employee."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/roles_admin/{adminId}",
+        "definition": {
+          "entityName": "Employee",
+          "schema": {
+            "$ref": "#/backend/entities/Employee"
+          },
+          "description": "A sentinel collection to quickly determine if a user (by their UID) has administrative privileges. Documents in this collection represent employees with the 'Admin' role. Access is restricted to checking existence for authorization.",
+          "params": [
+            {
+              "name": "adminId",
+              "description": "The unique Firebase Authentication UID of an employee who holds the 'Admin' role."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/serviceTypes/{serviceTypeId}",
+        "definition": {
+          "entityName": "ServiceType",
+          "schema": {
+            "$ref": "#/backend/entities/ServiceType"
+          },
+          "description": "Defines the various types of moving services offered by the company. Readable by all authenticated users, but modifiable only by administrative employees.",
+          "params": [
+            {
+              "name": "serviceTypeId",
+              "description": "The unique identifier for the service type."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/movingTrucks/{truckId}",
+        "definition": {
+          "entityName": "MovingTruck",
+          "schema": {
+            "$ref": "#/backend/entities/MovingTruck"
+          },
+          "description": "Manages information about the company's moving trucks. Readable by all employees. CRUD operations are restricted to administrative/managerial employees. For customer tracking, documents include denormalized `currentlyAssignedToCustomerId` and `currentlyAssignedToBookingId` fields, which are populated when the truck is assigned to an active booking, allowing the booking's customer to read its location.",
+          "params": [
+            {
+              "name": "truckId",
+              "description": "The unique identifier for the moving truck."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/movingTeams/{teamId}",
+        "definition": {
+          "entityName": "MovingTeam",
+          "schema": {
+            "$ref": "#/backend/entities/MovingTeam"
+          },
+          "description": "Organizes employees into moving teams. Readable by all employees. CRUD operations are restricted to administrative/managerial employees.",
+          "params": [
+            {
+              "name": "teamId",
+              "description": "The unique identifier for the moving team."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/bookings/{bookingId}",
+        "definition": {
+          "entityName": "Booking",
+          "schema": {
+            "$ref": "#/backend/entities/Booking"
+          },
+          "description": "Contains all scheduled moving appointments. Each booking includes `customerId` to enable direct customer ownership checks for authorization. Readable/writable by the `customerId` and by authorized employees (e.g., administrators or assigned team members).",
+          "params": [
+            {
+              "name": "bookingId",
+              "description": "The unique identifier for the booking."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/bookings/{bookingId}/inventoryItems/{inventoryItemId}",
+        "definition": {
+          "entityName": "InventoryItem",
+          "schema": {
+            "$ref": "#/backend/entities/InventoryItem"
+          },
+          "description": "A subcollection within each booking, detailing the items to be moved. Each document includes denormalized `customerId` (copied from the parent booking) for Authorization Independence, enabling direct ownership checks. Also accessible by authorized employees (e.g., administrators or assigned team members).",
+          "params": [
+            {
+              "name": "bookingId",
+              "description": "The unique identifier for the parent booking."
+            },
+            {
+              "name": "inventoryItemId",
+              "description": "The unique identifier for the inventory item."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The proposed Firestore structure prioritizes Authorization Independence and Structural Segregation to ensure secure, scalable, and debuggable security rules. Each collection's security posture is homogeneous, and authorization logic is kept simple by minimizing cross-document dependencies.\n\n**Authorization Independence via Denormalization:**\n\n1.  **Customer Bookings and Inventory:** For a customer to access their `Booking` documents and associated `InventoryItem` subcollection documents without using `get()` calls in security rules, the `customerId` is included directly in the `Booking` document. Crucially, the `customerId` from the parent `Booking` document is denormalized and copied into each `InventoryItem` document. This allows security rules on `InventoryItem` to simply check `request.auth.uid == resource.data.customerId`, making authorization atomic and independent of the parent `Booking` document's existence or fields.\n\n2.  **Customer Truck Tracking:** To enable real-time tracking for customers without complex `get()` calls or exposing all `MovingTruck` data, the `MovingTruck` entity will include denormalized fields: `currentlyAssignedToBookingId` and `currentlyAssignedToCustomerId`. When a truck is actively assigned to a booking, these fields will be populated with the respective `bookingId` and `customerId`. This allows a customer to read the location data of *their* assigned truck by checking `request.auth.uid == resource.data.currentlyAssignedToCustomerId` on the `MovingTruck` document. For employees, general read access to all trucks is granted based on their employee role.\n\n3.  **Employee Roles:** Employee roles are stored directly in the `/employees/{employeeId}` document (`role` field) and via existence in dedicated collections like `/roles_admin/{adminId}`. This allows security rules to check `request.auth.uid` against these explicit role indicators without fetching parent documents or relying on complex queries.\n\n**QAPs (Rules are not Filters) Support:**\n\n*   **Customer-specific data:** Collections like `/users/{userId}` (customer profile) enforce ownership directly via the path (`request.auth.uid == userId`). For `/bookings/{bookingId}` and `/bookings/{bookingId}/inventoryItems/{inventoryItemId}`, customers can only read/list documents where `resource.data.customerId == request.auth.uid`. This requires client-side queries to filter by `customerId`, which perfectly aligns with QAPs, as the rule only *validates* the query, not filters results.\n*   **Employee/Admin data:** For collections like `/employees`, `/serviceTypes`, `/movingTrucks`, and `/movingTeams`, and for all bookings/inventory items, employees with appropriate roles (e.g., admin role checked by `exists(/roles_admin/$(request.auth.uid))`) are granted `list` access. This allows them to query the entire collection, which is suitable for dashboard and management features."
+  }
+}
