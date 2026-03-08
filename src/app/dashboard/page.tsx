@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useEffect, useState } from "react";
@@ -22,10 +23,14 @@ import {
   MapPin,
   CheckCircle2,
   Truck,
-  ChevronRight
+  ChevronRight,
+  BellRing,
+  AlertCircle,
+  AlertTriangle,
+  Info
 } from "lucide-react"
 import { Skeleton } from "@/components/ui/skeleton";
-import { getDashboardStats } from "@/services/diagnosticService";
+import { getDashboardStats, getOperationalAlerts, type OperationalAlert } from "@/services/diagnosticService";
 import { getBookings, type Booking } from "@/services/bookingService";
 import { RevenueChart } from "@/components/charts/revenue-chart";
 import { QuotesStatusChart } from "@/components/charts/quotes-status-chart";
@@ -51,17 +56,20 @@ interface DashboardData {
 export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [alerts, setAlerts] = useState<OperationalAlert[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
       try {
         setLoading(true);
-        const [fetchedStats, fetchedBookings] = await Promise.all([
+        const [fetchedStats, fetchedBookings, fetchedAlerts] = await Promise.all([
           getDashboardStats(),
-          getBookings()
+          getBookings(),
+          getOperationalAlerts()
         ]);
         setData(fetchedStats);
+        setAlerts(fetchedAlerts);
         
         const today = new Date();
         const agenda = fetchedBookings.filter(b => {
@@ -111,8 +119,8 @@ export default function DashboardPage() {
     <div className="flex flex-col gap-8 pb-10">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="font-headline text-3xl font-black tracking-tight text-slate-900 dark:text-white">Vue d'ensemble</h1>
-          <p className="text-muted-foreground">Bonjour ! Voici l'état de votre exploitation ce matin.</p>
+          <h1 className="font-headline text-3xl font-black tracking-tight text-slate-900 dark:text-white">Tour de contrôle</h1>
+          <p className="text-muted-foreground">Voici les dossiers et alertes nécessitant votre attention.</p>
         </div>
         <div className="flex items-center gap-3">
            <Button variant="outline" className="rounded-full" asChild>
@@ -123,6 +131,40 @@ export default function DashboardPage() {
            </Button>
         </div>
       </div>
+
+      {/* CENTRE D'ALERTES */}
+      {!loading && alerts.length > 0 && (
+        <Card className="border-l-4 border-l-amber-500 rounded-2xl bg-amber-50/30 dark:bg-amber-950/10">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-black uppercase tracking-widest flex items-center gap-2 text-amber-700 dark:text-amber-400">
+              <BellRing className="h-4 w-4" /> Centre d'alertes opérationnelles
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {alerts.map((alert) => (
+              <div key={alert.id} className="flex items-start gap-3 p-3 rounded-xl bg-white dark:bg-slate-900 border border-amber-100 dark:border-amber-900/30 shadow-sm">
+                <div className={cn(
+                  "mt-0.5 p-1.5 rounded-lg shrink-0",
+                  alert.severity === 'critical' ? "bg-red-100 text-red-600" : 
+                  alert.severity === 'warning' ? "bg-amber-100 text-amber-600" : "bg-blue-100 text-blue-600"
+                )}>
+                  {alert.severity === 'critical' ? <AlertCircle className="h-4 w-4" /> : 
+                   alert.severity === 'warning' ? <AlertTriangle className="h-4 w-4" /> : <Info className="h-4 w-4" />}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs font-bold text-slate-900 dark:text-white leading-tight">{alert.title}</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">{alert.description}</p>
+                  {alert.link && (
+                    <Link href={alert.link} className="text-[10px] font-black uppercase text-primary mt-2 inline-block hover:underline">
+                      Traiter maintenant
+                    </Link>
+                  )}
+                </div>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      )}
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatCard
@@ -170,7 +212,7 @@ export default function DashboardPage() {
             <CardContent>
               {loading ? (
                 <div className="space-y-4">
-                  {[1, 2, 3].map(i => <Skeleton key={i} className="h-20 w-full rounded-2xl" />)}
+                  {[1, 2, 3].map(i => <Skeleton className="h-20 w-full rounded-2xl" />)}
                 </div>
               ) : bookings.length > 0 ? (
                 <div className="space-y-3">

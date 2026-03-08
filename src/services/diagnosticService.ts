@@ -3,45 +3,77 @@
 
 import { db } from '@/lib/firebase';
 import { admin } from '@/lib/firebase';
-import { Booking } from './bookingService';
-import { Quote } from './quoteService';
-import { Expense } from './expenseService';
+import { isBefore, addDays, subDays } from 'date-fns';
 
 const { Timestamp } = admin.firestore;
 
+export interface OperationalAlert {
+    id: string;
+    type: 'maintenance' | 'insurance' | 'quote_followup' | 'high_volume';
+    severity: 'critical' | 'warning' | 'info';
+    title: string;
+    description: string;
+    link?: string;
+}
+
 /**
- * Vérifie l'état de la connexion à la base de données
+ * Récupère les alertes pour l'accueil du dashboard
  */
-export async function getDbStatus() {
+export async function getOperationalAlerts(): Promise<OperationalAlert[]> {
+    const alerts: OperationalAlert[] = [];
+    const today = new Date();
+    const criticalThreshold = today;
+    const warningThreshold = addDays(today, 15);
+
     try {
-        const quotesCol = db.collection('quotes');
-        const bookingsCol = db.collection('bookings');
-        const teamsCol = db.collection('teams');
+        // 1. Alertes Flotte (Maintenance & Assurance)
+        const vehiclesSnap = await db.collection('vehicles').get();
+        vehiclesSnap.forEach(doc => {
+            const v = doc.data();
+            const reg = v.registration;
 
-        const [quotesSnapshot, bookingsSnapshot, teamsSnapshot] = await Promise.all([
-            quotesCol.count().get(),
-            bookingsCol.count().get(),
-            teamsCol.count().get(),
-        ]);
+            if (v.nextMaintenanceDate) {
+                const date = (v.nextMaintenanceDate as admin.firestore.Timestamp).toDate();
+                if (isBefore(date, criticalThreshold)) {
+                    alerts.push({ id: `maint-crit-${doc.id}`, type: 'maintenance', severity: 'critical', title: 'Entretien en retard', description: `Le camion ${reg} a dépassé sa date d'entretien.`, link: '/dashboard/vehicles' });
+                } else if (isBefore(date, warningThreshold)) {
+                    alerts.push({ id: `maint-warn-${doc.id}`, type: 'maintenance', severity: 'warning', title: 'Entretien proche', description: `Entretien à prévoir pour ${reg} sous 15 jours.`, link: '/dashboard/vehicles' });
+                }
+            }
 
-        return {
-            status: 'connected',
-            quotesCount: quotesSnapshot.data().count,
-            bookingsCount: bookingsSnapshot.data().count,
-            teamsCount: teamsSnapshot.data().count,
-        };
+            if (v.insuranceExpiryDate) {
+                const date = (v.insuranceExpiryDate as admin.firestore.Timestamp).toDate();
+                if (isBefore(date, criticalThreshold)) {
+                    alerts.push({ id: `ins-crit-${doc.id}`, type: 'insurance', severity: 'critical', title: 'Assurance expirée', description: `L'assurance du véhicule ${reg} est arrivée à échéance !`, link: '/dashboard/vehicles' });
+                } else if (isBefore(date, warningThreshold)) {
+                    alerts.push({ id: `ins-warn-${doc.id}`, type: 'insurance', severity: 'warning', title: 'Échéance assurance', description: `Renouvellement assurance pour ${reg} sous 15 jours.`, link: '/dashboard/vehicles' });
+                }
+            }
+        });
+
+        // 2. Alertes Commerciales (Devis en attente > 48h)
+        const quoteFollowupLimit = subDays(today, 2);
+        const quotesSnap = await db.collection('quotes')
+            .where('status', '==', 'pending')
+            .where('createdAt', '<=', Timestamp.fromDate(quoteFollowupLimit))
+            .get();
+        
+        quotesSnap.forEach(doc => {
+            const q = doc.data();
+            alerts.push({
+                id: `quote-${doc.id}`,
+                type: 'quote_followup',
+                severity: 'info',
+                title: 'Relance Devis',
+                description: `Le devis de ${q.clientName} attend une réponse depuis 48h.`,
+                link: `/dashboard/quote/${doc.id}`
+            });
+        });
+
+        return alerts;
     } catch (error) {
-        console.error("Error connecting to Firestore: ", error);
-        if (error instanceof Error) {
-           return {
-                status: 'error',
-                message: error.message,
-            };
-        }
-        return {
-            status: 'error',
-            message: 'An unknown error occurred.',
-        };
+        console.error("Error fetching alerts: ", error);
+        return [];
     }
 }
 
@@ -87,14 +119,13 @@ export async function getDashboardStats() {
         
         const revenueChartData = Object.entries(monthlyRevenue)
             .map(([name, total]) => ({ name, total }))
-            // Tri par date pour l'affichage chronologique
             .sort((a, b) => {
                 const dateA = new Date(a.name.split(' ').reverse().join(' '));
                 const dateB = new Date(b.name.split(' ').reverse().join(' '));
                 return dateA.getTime() - dateB.getTime();
             });
 
-        // 5. Répartition des statuts des devis pour le graphique camembert
+        // 5. Répartition des statuts des devis
         const quoteStatusCounts = quotesData.reduce((acc: any, quote: any) => {
             const status = quote.status;
             if (status === 'accepted' || status === 'refused' || status === 'converted') {
@@ -143,7 +174,6 @@ export async function createTestData() {
     try {
         const batch = db.batch();
 
-        // Créer une équipe de test
         const teamRef = db.collection('teams').doc();
         batch.set(teamRef, {
             name: `Équipe Test ${Math.floor(Math.random() * 100)}`,
@@ -151,7 +181,6 @@ export async function createTestData() {
             createdAt: Timestamp.now(),
         });
 
-        // Créer un devis de test
         const quoteRef = db.collection('quotes').doc();
         batch.set(quoteRef, {
             clientName: "Client de Test",
@@ -169,7 +198,6 @@ export async function createTestData() {
         
         await batch.commit();
         
-        console.log(`Test data created. Team ID: ${teamRef.id}, Quote ID: ${quoteRef.id}`);
         return { success: true, teamId: teamRef.id, quoteId: quoteRef.id };
 
     } catch (error) {
