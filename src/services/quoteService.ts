@@ -139,7 +139,7 @@ export async function saveQuote(
                     <p style="margin: 0 0 10px 0; font-size: 14px; color: #1e293b;"><strong>📍 Départ :</strong> ${quoteData.originAddress}</p>
                     <p style="margin: 0 0 10px 0; font-size: 14px; color: #1e293b;"><strong>🏁 Arrivée :</strong> ${quoteData.destinationAddress}</p>
                     <p style="margin: 0 0 10px 0; font-size: 14px; color: #1e293b;"><strong>📦 Volume estimé :</strong> ${quoteData.volume} m³</p>
-                    <p style="margin: 0; font-size: 14px; color: #1e293b;"><strong>✨ Formule choisie :</strong> ${serviceLabel}</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px; color: #1e293b;"><strong>✨ Formule choisie :</strong> ${serviceLabel}</p>
                   </div>
 
                   <div style="margin-bottom: 35px;">
