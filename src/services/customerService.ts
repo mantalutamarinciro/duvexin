@@ -41,7 +41,7 @@ export async function getCustomers(): Promise<Customer[]> {
 /**
  * Synchronise ou crée un client à partir d'un devis/réservation
  */
-export async function syncCustomerFromBooking(data: { name: string, email: string, phone?: string }) {
+export async function syncCustomerFromBooking(data: { name: string, email: string, phone?: string, amount?: number, date?: string }) {
   try {
     const customersCol = db.collection('users');
     const query = await customersCol.where('email', '==', data.email).limit(1).get();
@@ -57,16 +57,30 @@ export async function syncCustomerFromBooking(data: { name: string, email: strin
         lastName,
         email: data.email,
         phoneNumber: data.phone || '',
-        totalSpent: 0,
-        bookingsCount: 0,
+        totalSpent: data.amount || 0,
+        bookingsCount: data.amount ? 1 : 0,
+        lastBookingDate: data.date ? admin.firestore.Timestamp.fromDate(new Date(data.date)) : null,
         createdAt: admin.firestore.Timestamp.now(),
       });
     } else {
-      // Mise à jour si nécessaire
+      // Mise à jour automatique des stats
       const customerDoc = query.docs[0];
-      await customerDoc.ref.update({
-        phoneNumber: data.phone || customerDoc.data().phoneNumber,
-      });
+      const currentData = customerDoc.data();
+      
+      const updateData: any = {
+        phoneNumber: data.phone || currentData.phoneNumber,
+      };
+
+      if (data.amount) {
+        updateData.totalSpent = (currentData.totalSpent || 0) + data.amount;
+        updateData.bookingsCount = (currentData.bookingsCount || 0) + 1;
+      }
+
+      if (data.date) {
+        updateData.lastBookingDate = admin.firestore.Timestamp.fromDate(new Date(data.date));
+      }
+
+      await customerDoc.ref.update(updateData);
     }
   } catch (error) {
     console.error('Error syncing customer:', error);

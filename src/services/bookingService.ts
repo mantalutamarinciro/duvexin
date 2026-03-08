@@ -3,6 +3,7 @@
 
 import { db, admin } from '@/lib/firebase';
 import type { Quote } from './quoteService';
+import { syncCustomerFromBooking } from './customerService';
 
 const { Timestamp } = admin.firestore;
 
@@ -60,6 +61,15 @@ export async function createBookingFromQuote(quote: Quote): Promise<{ id: string
     batch.update(quoteRef, { status: 'converted' });
 
     await batch.commit();
+
+    // 3. Sync Customer CRM (Async)
+    syncCustomerFromBooking({
+      name: quote.clientName,
+      email: quote.clientEmail,
+      phone: quote.clientPhone,
+      amount: quote.quote,
+      date: quote.moveDate
+    });
 
     console.log(`Booking created with ID: ${newBookingRef.id} from quote ${quote.id}`);
     return { id: newBookingRef.id };
