@@ -4,6 +4,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/theme-provider';
 import { CookieBanner } from '@/components/cookie-banner';
+import { FirebaseClientProvider } from '@/firebase/client-provider';
 import { Poppins } from 'next/font/google';
 import Script from 'next/script';
 
@@ -54,16 +55,18 @@ export default function RootLayout({
         />
       </head>
       <body className={`${poppins.variable} font-body antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-            {children}
-            <CookieBanner />
-            <Toaster />
-        </ThemeProvider>
+        <FirebaseClientProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem={false}
+            disableTransitionOnChange
+          >
+              {children}
+              <CookieBanner />
+              <Toaster />
+          </ThemeProvider>
+        </FirebaseClientProvider>
       </body>
     </html>
   );
