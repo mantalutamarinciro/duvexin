@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useEffect, useState } from "react";
@@ -21,7 +20,9 @@ import {
   Clock,
   ArrowRight,
   MapPin,
-  CheckCircle2
+  CheckCircle2,
+  Truck,
+  ChevronRight
 } from "lucide-react"
 import { Skeleton } from "@/components/ui/skeleton";
 import { getDashboardStats } from "@/services/diagnosticService";
@@ -29,10 +30,11 @@ import { getBookings, type Booking } from "@/services/bookingService";
 import { RevenueChart } from "@/components/charts/revenue-chart";
 import { QuotesStatusChart } from "@/components/charts/quotes-status-chart";
 import { Badge } from "@/components/ui/badge";
-import { format, isToday, isTomorrow, addDays } from "date-fns";
+import { format, isToday, isTomorrow } from "date-fns";
 import { fr } from "date-fns/locale";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface DashboardData {
   totalRevenue: number;
@@ -61,7 +63,6 @@ export default function DashboardPage() {
         ]);
         setData(fetchedStats);
         
-        // On ne garde que les déménagements prévus aujourd'hui et demain
         const today = new Date();
         const agenda = fetchedBookings.filter(b => {
           const moveDate = new Date(b.moveDate);
