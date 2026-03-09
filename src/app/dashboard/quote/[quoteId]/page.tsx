@@ -1,8 +1,9 @@
+
 "use client";
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, use } from "react"
 import { notFound, useRouter } from "next/navigation"
-import { Loader2, Wand2, FileText, ArrowLeft } from "lucide-react"
+import { Loader2, Wand2, FileText } from "lucide-react"
 
 import {
   Card,
@@ -24,7 +25,10 @@ import { QuotePDF } from "@/components/quote-pdf"
 import { QuoteForm, QuoteRequestFormData } from "@/components/quote-form"
 
 
-export default function QuoteDetailsPage({ params }: { params: { quoteId: string } }) {
+export default function QuoteDetailsPage({ params }: { params: Promise<{ quoteId: string }> }) {
+    const resolvedParams = use(params);
+    const quoteId = resolvedParams.quoteId;
+    
     const [quote, setQuote] = useState<Quote | null>(null);
     const [loading, setLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -39,8 +43,8 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
     const [formValues, setFormValues] = useState<QuoteRequestFormData | undefined>(undefined);
 
     useEffect(() => {
-        if (params.quoteId) {
-            getQuoteById(params.quoteId)
+        if (quoteId) {
+            getQuoteById(quoteId)
                 .then(data => {
                     if (!data) {
                         toast({ variant: 'destructive', title: "Devis introuvable" });
@@ -61,7 +65,7 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
                 })
                 .finally(() => setLoading(false));
         }
-    }, [params.quoteId, toast]);
+    }, [quoteId, toast]);
 
     const handleGenerateQuote = async (currentFormValues: QuoteRequestFormData) => {
         const quoteInput: QuoteInput = {
@@ -100,7 +104,7 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
                 const pdfWidth = pdf.internal.pageSize.getWidth();
                 const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
                 pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save(`devis-${params.quoteId}.pdf`);
+                pdf.save(`devis-${quoteId}.pdf`);
 
                 toast({ title: "PDF téléchargé", description: "Le devis a été téléchargé avec succès." });
             } catch (error) {
@@ -111,12 +115,12 @@ export default function QuoteDetailsPage({ params }: { params: { quoteId: string
         };
 
         generatePdf();
-    }, [pdfLoading, generatedQuote, params.quoteId, toast]);
+    }, [pdfLoading, generatedQuote, quoteId, toast]);
 
 
     async function onSubmit(values: QuoteRequestFormData) {
         if (!quote) return;
-        setFormValues(values); // Keep local form state for PDF generation
+        setFormValues(values);
         setIsSaving(true);
         try {
             const updatedData = {

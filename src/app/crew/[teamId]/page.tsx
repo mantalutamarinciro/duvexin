@@ -1,3 +1,4 @@
+
 import { getTeamById } from "@/services/teamService";
 import { getBookingsByTeam } from "@/services/bookingService";
 import { notFound } from "next/navigation";
@@ -8,13 +9,15 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { MapPin, Clock, Package } from "lucide-react";
 
-export default async function TeamSchedulePage({ params }: { params: { teamId: string } }) {
-    const team = await getTeamById(params.teamId);
+export default async function TeamSchedulePage({ params }: { params: Promise<{ teamId: string }> }) {
+    const { teamId } = await params;
+    const team = await getTeamById(teamId);
+    
     if (!team) {
         notFound();
     }
 
-    const bookings = await getBookingsByTeam(params.teamId);
+    const bookings = await getBookingsByTeam(teamId);
 
     return (
         <div className="w-full max-w-4xl mx-auto flex flex-col gap-6">

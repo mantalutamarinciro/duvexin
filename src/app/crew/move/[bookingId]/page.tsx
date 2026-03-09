@@ -1,6 +1,7 @@
+
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { notFound, useRouter } from "next/navigation";
 import { getBookingById, updateBookingStatus, Booking, BookingStatus } from "@/services/bookingService";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -20,7 +21,10 @@ const availableActions: Partial<Record<BookingStatus, { nextStatus: BookingStatu
     'En cours': [{ nextStatus: 'Terminé', label: "Terminer le déménagement" }],
 };
 
-export default function MoveDetailsPage({ params }: { params: { bookingId: string } }) {
+export default function MoveDetailsPage({ params }: { params: Promise<{ bookingId: string }> }) {
+    const resolvedParams = use(params);
+    const bookingId = resolvedParams.bookingId;
+
     const [booking, setBooking] = useState<Booking | null>(null);
     const [loading, setLoading] = useState(true);
     const [isUpdating, setIsUpdating] = useState(false);
@@ -28,9 +32,10 @@ export default function MoveDetailsPage({ params }: { params: { bookingId: strin
     const router = useRouter();
 
     const fetchBooking = async () => {
+        if (!bookingId) return;
         setLoading(true);
         try {
-            const data = await getBookingById(params.bookingId);
+            const data = await getBookingById(bookingId);
             if (!data) {
                 notFound();
             }
@@ -45,7 +50,7 @@ export default function MoveDetailsPage({ params }: { params: { bookingId: strin
 
     useEffect(() => {
         fetchBooking();
-    }, [params.bookingId]);
+    }, [bookingId]);
 
     const handleStatusUpdate = async (newStatus: BookingStatus) => {
         if (!booking) return;

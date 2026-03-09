@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Truck, Package, Home, MapPin, Clock, AlertTriangle, Users, CheckCircle } from "lucide-react"
@@ -15,8 +16,8 @@ const statusSteps = [
     { status: "Terminé", label: "Terminé", description: "Votre déménagement est terminé." },
 ];
 
-export default async function TrackingPage({ params }: { params: { id: string } }) {
-  const moveId = params.id;
+export default async function TrackingPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id: moveId } = await params;
   const moveDetails = await getBookingById(moveId);
 
   if (!moveDetails) {
