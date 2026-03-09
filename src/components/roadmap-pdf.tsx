@@ -10,10 +10,17 @@ interface RoadmapPDFProps {
 export function RoadmapPDF({ data }: RoadmapPDFProps) {
     return (
         <div className="bg-white text-slate-900 p-12 font-sans" style={{ width: '210mm', minHeight: '297mm' }}>
-            <header className="flex justify-between items-end pb-6 border-b-4 border-[#00ad9f]">
-                <div>
-                    <h1 className="text-3xl font-black text-[#0f172a] mb-1">FEUILLE DE ROUTE</h1>
-                    <p className="text-sm font-bold text-[#00ad9f] uppercase tracking-widest">Mission Équipe de Déménagement</p>
+            <header className="flex justify-between items-center pb-6 border-b-4 border-[#00ad9f]">
+                <div className="flex items-center gap-6">
+                    <img 
+                        src="/images/logo.png" 
+                        alt="Logo Déménagement du Vexin" 
+                        style={{ height: '50px', width: 'auto' }}
+                    />
+                    <div>
+                        <h1 className="text-2xl font-black text-[#0f172a] mb-0.5">FEUILLE DE ROUTE</h1>
+                        <p className="text-[10px] font-bold text-[#00ad9f] uppercase tracking-widest">Mission Équipe de Déménagement</p>
+                    </div>
                 </div>
                 <div className="text-right space-y-1">
                     <p className="text-sm font-bold">DATE : {format(new Date(data.moveDate), "EEEE d MMMM yyyy", { locale: fr })}</p>

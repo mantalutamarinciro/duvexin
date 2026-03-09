@@ -14,10 +14,17 @@ export function WaybillPDF({ data }: WaybillPDFProps) {
         <div className="bg-white text-slate-900 p-10 font-sans text-[10px]" style={{ width: '210mm', minHeight: '297mm' }}>
             {/* Header Officiel */}
             <header className="flex justify-between items-center pb-6 border-b-2 border-slate-900">
-                <div className="space-y-1">
-                    <div className="text-xl font-black tracking-tighter">DÉMÉNAGEMENT DU VEXIN</div>
-                    <p className="text-[8px] text-slate-500">9 Rue de Pontoise, 95540 Méry-sur-Oise | 01 30 75 12 35</p>
-                    <p className="text-[8px] text-slate-500">Licence n° 2024/11/0000123 | SIRET 123 456 789 00012</p>
+                <div className="flex items-center gap-6">
+                    <img 
+                        src="/images/logo.png" 
+                        alt="Logo Déménagement du Vexin" 
+                        style={{ height: '50px', width: 'auto' }}
+                    />
+                    <div className="space-y-1">
+                        <div className="text-xl font-black tracking-tighter">DÉMÉNAGEMENT DU VEXIN</div>
+                        <p className="text-[8px] text-slate-500">9 Rue de Pontoise, 95540 Méry-sur-Oise | 01 30 75 12 35</p>
+                        <p className="text-[8px] text-slate-500">Licence n° 2024/11/0000123 | SIRET 123 456 789 00012</p>
+                    </div>
                 </div>
                 <div className="text-right">
                     <h1 className="text-2xl font-black uppercase tracking-tight">Lettre de voiture</h1>

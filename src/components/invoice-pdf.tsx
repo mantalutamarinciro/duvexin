@@ -13,14 +13,16 @@ export function InvoicePDF({ data }: InvoicePDFProps) {
 
     return (
         <div className="bg-white text-slate-800 p-12 font-sans" style={{ width: '210mm', minHeight: '297mm' }}>
-            {/* Header avec ruban premium */}
+            {/* Header avec Logo et ruban premium */}
             <header className="flex justify-between items-start pb-8 border-b-4 border-[#0f172a]">
-                <div className="space-y-2">
-                    <div className="text-3xl font-black text-[#0f172a] tracking-tighter">
-                        DÉMÉNAGEMENT <span className="text-[#00ad9f]">DU VEXIN</span>
-                    </div>
-                    <div className="text-xs text-slate-500 uppercase tracking-widest font-bold">Artisans de votre mobilité</div>
-                    <div className="pt-4 text-xs leading-relaxed">
+                <div className="space-y-4">
+                    <img 
+                        src="/images/logo.png" 
+                        alt="Logo Déménagement du Vexin" 
+                        style={{ height: '60px', width: 'auto' }}
+                    />
+                    <div className="pt-2 text-xs leading-relaxed">
+                        <div className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Artisans de votre mobilité</div>
                         9 Rue de Pontoise<br />
                         95540 Méry-sur-Oise<br />
                         01 30 75 12 35<br />
