@@ -40,17 +40,15 @@ import { serviceTypeLabels } from "@/lib/quote-constants"
 export const quoteRequestSchema = z.object({
   clientName: z.string().min(2, "Le nom est requis."),
   clientEmail: z.string().email("L'adresse e-mail n'est pas valide."),
-  clientPhone: z.string().optional(),
+  clientPhone: z.string().min(6, "Le numéro de téléphone est obligatoire."), // Now mandatory
 
   originAddress: z.string().min(5, "L'adresse de départ est requise."),
   destinationAddress: z.string().min(5, "L'adresse de destination est requise."),
-  distance: z.coerce.number().min(0),
+  distance: z.coerce.number().min(0).optional().default(0),
 
-  moveDate: z.date({
-    required_error: "Une date pour le déménagement est requise.",
-  }),
-  volume: z.coerce.number().min(1, "Veuillez estimer un volume ou utiliser notre calculateur."),
-  serviceType: z.enum(["basic", "full", "premium"], { required_error: "Veuillez choisir une formule."}),
+  moveDate: z.date().optional(),
+  volume: z.coerce.number().min(0).optional().default(0),
+  serviceType: z.enum(["basic", "full", "premium"]).optional().default("basic"),
   details: z.string().optional(),
 })
 
@@ -61,9 +59,10 @@ interface QuoteFormProps {
   onSubmit: (values: QuoteRequestFormData) => Promise<void>;
   submitButtonText: string;
   isSaving: boolean;
+  isDashboard?: boolean; // Prop to show advanced fields only in dashboard
 }
 
-export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }: QuoteFormProps) {
+export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving, isDashboard = false }: QuoteFormProps) {
   const [isSyncingVolume, setIsSyncingVolume] = useState(false)
   const [isAnalyzingAddress, setIsAnalyzingAddress] = useState(false);
   const [suggestions, setSuggestions] = useState<{ origin: string[], destination: string[] }>({ origin: [], destination: [] });
@@ -141,17 +140,20 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
       });
     } catch (error) {
       console.error("Erreur d'analyse d'adresse par IA:", error);
-      toast({
-        variant: "destructive",
-        title: "Erreur de calcul IA",
-        description: "L'IA n'a pas pu calculer la distance. Vous pouvez la saisir manuellement.",
-      });
+      if (isDashboard) {
+        toast({
+          variant: "destructive",
+          title: "Erreur de calcul IA",
+          description: "L'IA n'a pas pu calculer la distance. Vous pouvez la saisir manuellement.",
+        });
+      }
     } finally {
       setIsAnalyzingAddress(false);
     }
   }
   
   useEffect(() => {
+    if (!isDashboard) return; // Only auto-analyze addresses in dashboard or when manually triggered
     const handler = setTimeout(() => {
         handleAddressAnalysis();
     }, 3000);
@@ -191,7 +193,7 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
   }
 
   useEffect(() => {
-    if (!initialData) {
+    if (!initialData && isDashboard) {
         syncVolumeFromInventory()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -201,7 +203,7 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
     form.setValue(field === 'origin' ? 'originAddress' : 'destinationAddress', val, { shouldValidate: true });
     setSuggestions(prev => ({ ...prev, [field]: [] }));
     setActiveSuggestionField(null);
-    handleAddressAnalysis();
+    if (isDashboard) handleAddressAnalysis();
   }
   
   return (
@@ -240,7 +242,7 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                   name="clientPhone"
                   render={({ field }) => (
                   <FormItem>
-                      <FormLabel>Téléphone (facultatif)</FormLabel>
+                      <FormLabel>Téléphone</FormLabel>
                       <FormControl><Input type="tel" placeholder="06 12 34 56 78" className="rounded-xl h-12" {...field} /></FormControl>
                       <FormMessage />
                   </FormItem>
@@ -256,7 +258,7 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                           <CardTitle className="text-xl font-black">Votre déménagement</CardTitle>
                           <CardDescription>Adresses de départ et d'arrivée</CardDescription>
                       </div>
-                      {isAnalyzingAddress && (
+                      {isDashboard && isAnalyzingAddress && (
                         <div className="flex items-center gap-2 text-xs text-primary font-bold animate-pulse">
                           <Loader2 className="h-3.5 w-3.5 animate-spin" />
                           Calcul de l'itinéraire...
@@ -351,139 +353,146 @@ export function QuoteForm({ initialData, onSubmit, submitButtonText, isSaving }:
                   )}
                   />
               </div>
-                <div className="grid gap-6 sm:grid-cols-2">
-                  <FormField
-                      control={form.control}
-                      name="moveDate"
-                      render={({ field }) => (
-                          <FormItem className="flex flex-col">
-                          <FormLabel>Date souhaitée</FormLabel>
-                          <Popover>
-                              <PopoverTrigger asChild>
-                              <FormControl>
-                                  <Button
-                                  variant={"outline"}
-                                  className={cn(
-                                      "w-full h-12 pl-3 text-left font-normal rounded-xl",
-                                      !field.value && "text-muted-foreground"
-                                  )}
-                                  >
-                                  {field.value ? (
-                                      format(field.value, "PPP", { locale: fr })
-                                  ) : (
-                                      <span>Choisissez une date</span>
-                                  )}
-                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                  </Button>
-                              </FormControl>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-auto p-0" align="start">
-                              <Calendar
-                                  mode="single"
-                                  selected={field.value}
-                                  onSelect={field.onChange}
-                                  disabled={(date) => date < new Date() || date < new Date("1900-01-01")}
-                                  initialFocus
-                              />
-                              </PopoverContent>
-                          </Popover>
-                          <FormMessage />
-                          </FormItem>
-                      )}
-                  />
-                  <FormField
-                      control={form.control}
-                      name="distance"
-                      render={({ field }) => (
-                      <FormItem>
-                          <FormLabel className="flex items-center gap-2">
-                            Distance estimée (km)
-                            {originAddress.length > 5 && destinationAddress.length > 5 && !isAnalyzingAddress && (
-                              <button 
-                                type="button" 
-                                onClick={handleAddressAnalysis}
-                                className="text-primary hover:underline text-[10px] font-black uppercase flex items-center gap-1"
-                              >
-                                <RefreshCw className="h-2.5 w-2.5" /> {field.value === 0 ? "Calculer" : "Recalculer"}
-                              </button>
-                            )}
-                          </FormLabel>
-                          <Tooltip>
-                              <TooltipTrigger asChild>
-                                  <div className="relative">
-                                    <FormControl>
-                                        <Input 
-                                          type="number" 
-                                          className="h-12 rounded-xl bg-background font-black text-primary border-slate-200 pr-10"
-                                          {...field}
-                                        />
-                                    </FormControl>
-                                    <Wand2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary/40" />
-                                  </div>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                  <p className="flex items-center gap-2 font-bold"><Wand2 className="h-4 w-4"/> Calculé par l'IA ou saisie manuelle</p>
-                              </TooltipContent>
-                          </Tooltip>
-                          <FormMessage />
-                      </FormItem>
-                      )}
-                  />
-              </div>
+                
+                {isDashboard && (
+                  <div className="grid gap-6 sm:grid-cols-2">
+                    <FormField
+                        control={form.control}
+                        name="moveDate"
+                        render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                            <FormLabel>Date souhaitée</FormLabel>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                <FormControl>
+                                    <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                        "w-full h-12 pl-3 text-left font-normal rounded-xl",
+                                        !field.value && "text-muted-foreground"
+                                    )}
+                                    >
+                                    {field.value ? (
+                                        format(field.value, "PPP", { locale: fr })
+                                    ) : (
+                                        <span>Choisissez une date</span>
+                                    )}
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                    </Button>
+                                </FormControl>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={field.onChange}
+                                    disabled={(date) => date < new Date() || date < new Date("1900-01-01")}
+                                    initialFocus
+                                />
+                                </PopoverContent>
+                            </Popover>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="distance"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="flex items-center gap-2">
+                              Distance estimée (km)
+                              {originAddress.length > 5 && destinationAddress.length > 5 && !isAnalyzingAddress && (
+                                <button 
+                                  type="button" 
+                                  onClick={handleAddressAnalysis}
+                                  className="text-primary hover:underline text-[10px] font-black uppercase flex items-center gap-1"
+                                >
+                                  <RefreshCw className="h-2.5 w-2.5" /> {field.value === 0 ? "Calculer" : "Recalculer"}
+                                </button>
+                              )}
+                            </FormLabel>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <div className="relative">
+                                      <FormControl>
+                                          <Input 
+                                            type="number" 
+                                            className="h-12 rounded-xl bg-background font-black text-primary border-slate-200 pr-10"
+                                            {...field}
+                                          />
+                                      </FormControl>
+                                      <Wand2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary/40" />
+                                    </div>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p className="flex items-center gap-2 font-bold"><Wand2 className="h-4 w-4"/> Calculé par l'IA ou saisie manuelle</p>
+                                </TooltipContent>
+                            </Tooltip>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                </div>
+                )}
               </CardContent>
           </Card>
 
           <Card className="rounded-[2.5rem] border-slate-100 shadow-sm">
               <CardHeader>
-                  <CardTitle className="text-xl font-black">Volume et Prestations</CardTitle>
+                  <CardTitle className="text-xl font-black">Détails et Volume</CardTitle>
               </CardHeader>
               <CardContent className="grid gap-6 sm:grid-cols-2">
-              <FormField
-                  control={form.control}
-                  name="volume"
-                  render={({ field }) => (
-                  <FormItem>
-                      <FormLabel>Volume (m³)</FormLabel>
-                      <div className="flex items-center gap-2">
-                      <FormControl><Input type="number" step="1" placeholder="ex: 20" className="rounded-xl h-12" {...field} /></FormControl>
-                      <Button type="button" variant="outline" size="icon" onClick={syncVolumeFromInventory} disabled={isSyncingVolume} className="h-12 w-12 rounded-xl" title="Récupérer depuis le calculateur">
-                          <RefreshCw className={cn("h-4 w-4", isSyncingVolume && "animate-spin")} />
-                      </Button>
-                      </div>
-                      <FormMessage />
-                      <p className="text-xs text-muted-foreground italic mt-1">Pas sûr ? <Link href="/calculateur-volume" target="_blank" className="text-primary font-bold hover:underline">Utilisez notre calculateur</Link>.</p>
-                  </FormItem>
-                  )}
-              />
-              <FormField
-                  control={form.control}
-                  name="serviceType"
-                  render={({ field }) => (
-                  <FormItem>
-                      <FormLabel>Formule souhaitée</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                          <SelectTrigger className="rounded-xl h-12">
-                          <SelectValue placeholder="Sélectionnez..." />
-                          </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                          <SelectItem value="basic">{serviceTypeLabels.basic}</SelectItem>
-                          <SelectItem value="full">{serviceTypeLabels.full}</SelectItem>
-                          <SelectItem value="premium">{serviceTypeLabels.premium}</SelectItem>
-                      </SelectContent>
-                      </Select>
-                  </FormItem>
-                  )}
-              />
+              {isDashboard && (
+                <>
+                  <FormField
+                      control={form.control}
+                      name="volume"
+                      render={({ field }) => (
+                      <FormItem>
+                          <FormLabel>Volume (m³)</FormLabel>
+                          <div className="flex items-center gap-2">
+                          <FormControl><Input type="number" step="1" placeholder="ex: 20" className="rounded-xl h-12" {...field} /></FormControl>
+                          <Button type="button" variant="outline" size="icon" onClick={syncVolumeFromInventory} disabled={isSyncingVolume} className="h-12 w-12 rounded-xl" title="Récupérer depuis le calculateur">
+                              <RefreshCw className={cn("h-4 w-4", isSyncingVolume && "animate-spin")} />
+                          </Button>
+                          </div>
+                          <FormMessage />
+                          <p className="text-xs text-muted-foreground italic mt-1">Pas sûr ? <Link href="/calculateur-volume" target="_blank" className="text-primary font-bold hover:underline">Utilisez notre calculateur</Link>.</p>
+                      </FormItem>
+                      )}
+                  />
+                  <FormField
+                      control={form.control}
+                      name="serviceType"
+                      render={({ field }) => (
+                      <FormItem>
+                          <FormLabel>Formule souhaitée</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                              <SelectTrigger className="rounded-xl h-12">
+                              <SelectValue placeholder="Sélectionnez..." />
+                              </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                              <SelectItem value="basic">{serviceTypeLabels.basic}</SelectItem>
+                              <SelectItem value="full">{serviceTypeLabels.full}</SelectItem>
+                              <SelectItem value="premium">{serviceTypeLabels.premium}</SelectItem>
+                          </SelectContent>
+                          </Select>
+                      </FormItem>
+                      )}
+                  />
+                </>
+              )}
               <FormField
                   control={form.control}
                   name="details"
                   render={({ field }) => (
                       <FormItem className="sm:col-span-2">
-                      <FormLabel>Informations complémentaires (facultatif)</FormLabel>
+                      <FormLabel>Votre message ou inventaire rapide (facultatif)</FormLabel>
                       <FormControl>
-                          <Textarea placeholder="Objets fragiles, piano, accès difficile (étages, ascenseur...), besoin de cartons ?" className="rounded-2xl min-h-[100px]" {...field} />
+                          <Textarea placeholder="Décrivez votre besoin : type de logement, étages, objets lourds (piano), accès particulier..." className="rounded-2xl min-h-[120px]" {...field} />
                       </FormControl>
                       <FormMessage />
                       </FormItem>

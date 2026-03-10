@@ -26,19 +26,22 @@ export default function PublicQuotePage() {
   const [saving, setSaving] = useState(false)
   const [quoteId, setQuoteId] = useState<string | null>(null)
   const { toast } = useToast()
-  const router = useRouter()
+  
   async function onSubmit(values: QuoteRequestFormData) {
     setSaving(true);
     setQuoteId(null);
     try {
-      // ⬇️ Correction ici : on retire status: 'pending'
+      // Provide defaults for removed fields since the public form is simplified
       const result = await saveQuote({
         ...values,
-        moveDate: values.moveDate.toISOString(),
+        moveDate: values.moveDate ? values.moveDate.toISOString() : new Date().toISOString(),
         quote: 0, 
+        volume: values.volume || 0,
+        distance: values.distance || 0,
+        serviceType: values.serviceType || 'basic',
       });
       
-      // Simulation d'un petit délai pour une meilleure UX
+      // Simulation of a small delay for better UX
       await new Promise(resolve => setTimeout(resolve, 600));
       
       setQuoteId(result.id);
@@ -55,6 +58,7 @@ export default function PublicQuotePage() {
       setSaving(false);
     }
   }
+
   return (
     <main className="min-h-screen bg-slate-50 selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
       
@@ -154,7 +158,7 @@ export default function PublicQuotePage() {
                     Merci pour votre confiance. Votre demande a bien été transmise à notre équipe sous la référence :
                     <br/>
                     <span className="inline-block mt-4 px-4 py-2 bg-slate-100 text-slate-800 font-mono font-bold rounded-xl border border-slate-200 shadow-inner">
-                      #{quoteId.split('-')[0].toUpperCase()} {/* Affiche juste le début de l'ID pour faire plus "pro" */}
+                      #{quoteId.split('-')[0].toUpperCase()}
                     </span>
                   </p>
 
@@ -196,8 +200,7 @@ export default function PublicQuotePage() {
                     onSubmit={onSubmit}
                     submitButtonText="Envoyer ma demande de devis"
                     isSaving={saving}
-                    // Vous pouvez ajouter des classes Tailwind ici si votre QuoteForm accepte une prop className
-                    // className="space-y-6" 
+                    isDashboard={false} // Force simplified public view
                   />
                 </motion.div>
               )}

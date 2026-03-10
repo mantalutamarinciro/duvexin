@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState, useRef, use } from "react"
@@ -53,7 +52,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ quoteId
                         setQuote(data);
                         setFormValues({
                             ...data,
-                            moveDate: new Date(data.moveDate),
+                            moveDate: data.moveDate ? new Date(data.moveDate) : undefined,
                         });
                         if (data.quote) {
                             setGeneratedQuote(data.quote);
@@ -68,6 +67,11 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ quoteId
     }, [quoteId, toast]);
 
     const handleGenerateQuote = async (currentFormValues: QuoteRequestFormData) => {
+        if (!currentFormValues.distance || !currentFormValues.volume || !currentFormValues.serviceType) {
+            toast({ variant: "destructive", title: "Données manquantes", description: "Veuillez renseigner la distance, le volume et la formule." });
+            return;
+        }
+
         const quoteInput: QuoteInput = {
             distance: currentFormValues.distance,
             volume: currentFormValues.volume,
@@ -94,7 +98,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ quoteId
 
     useEffect(() => {
         const generatePdf = async () => {
-            if (!pdfLoading || !pdfRef.current || !generatedQuote) return;
+            if (!pdfLoading || !pdfRef.current || !generatedQuote || !formValues) return;
 
             const input = pdfRef.current;
             try {
@@ -115,7 +119,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ quoteId
         };
 
         generatePdf();
-    }, [pdfLoading, generatedQuote, quoteId, toast]);
+    }, [pdfLoading, generatedQuote, quoteId, toast, formValues]);
 
 
     async function onSubmit(values: QuoteRequestFormData) {
@@ -125,8 +129,11 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ quoteId
         try {
             const updatedData = {
                 ...values,
-                moveDate: values.moveDate.toISOString(),
+                moveDate: values.moveDate ? values.moveDate.toISOString() : quote.moveDate,
                 quote: generatedQuote || quote.quote,
+                volume: values.volume || 0,
+                distance: values.distance || 0,
+                serviceType: values.serviceType || 'basic',
             };
             await updateQuote(quote.id, updatedData);
             toast({ title: "Devis sauvegardé", description: "Les modifications ont été enregistrées." });
@@ -152,7 +159,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ quoteId
             {pdfLoading && generatedQuote && formValues && (
                 <div className="absolute -z-10 -left-[9999px] -top-[9999px]">
                     <div ref={pdfRef} className="w-[210mm]">
-                       <QuotePDF data={formValues} quote={generatedQuote} />
+                       <QuotePDF data={{...formValues, moveDate: formValues.moveDate || new Date()}} quote={generatedQuote} />
                     </div>
                 </div>
             )}
@@ -168,6 +175,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ quoteId
                     onSubmit={onSubmit}
                     submitButtonText="Enregistrer les modifications"
                     isSaving={isSaving}
+                    isDashboard={true}
                  />
             )}
 

@@ -20,7 +20,7 @@ export type QuoteStatus = 'pending' | 'accepted' | 'refused' | 'invoiced' | 'con
 
 export interface Quote extends Omit<QuoteRequestFormData, 'moveDate'> {
   id: string;
-  moveDate: string; // ISO string
+  moveDate: string | null; // Changed to allow null from public form
   quote: number;
   status: QuoteStatus;
   createdAt: string; // ISO string
@@ -30,22 +30,22 @@ const PRIMARY_COLOR = '#00ad9f';
 const SECONDARY_COLOR = '#0f172a';
 
 export async function saveQuote(
-  quoteData: Omit<Quote, 'id' | 'createdAt' | 'status'> & { moveDate: string }
+  quoteData: Omit<Quote, 'id' | 'createdAt' | 'status'> & { moveDate?: string }
 ): Promise<{ id: string }> {
   try {
     const docRef = await db.collection('quotes').add({
       ...quoteData,
       status: 'pending',
-      moveDate: Timestamp.fromDate(new Date(quoteData.moveDate)),
+      moveDate: quoteData.moveDate ? Timestamp.fromDate(new Date(quoteData.moveDate)) : null,
       createdAt: Timestamp.now(),
     });
 
     const quoteId = docRef.id;
-    const formattedDate = new Date(quoteData.moveDate).toLocaleDateString('fr-FR', {
+    const formattedDate = quoteData.moveDate ? new Date(quoteData.moveDate).toLocaleDateString('fr-FR', {
       day: 'numeric',
       month: 'long',
       year: 'numeric'
-    });
+    }) : 'À définir';
 
     console.log('Quote saved with ID: ', quoteId);
 
@@ -82,8 +82,8 @@ export async function saveQuote(
                       <p style="margin: 0 0 15px 0; font-size: 14px; line-height: 1.5;"><strong>📍 Départ :</strong><br/>${quoteData.originAddress}</p>
                       <p style="margin: 0 0 15px 0; font-size: 14px; line-height: 1.5;"><strong>🏁 Arrivée :</strong><br/>${quoteData.destinationAddress}</p>
                       <div style="border-top: 1px solid #e2e8f0; padding-top: 15px; margin-top: 10px;">
-                        <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>📦 Volume :</strong> ${quoteData.volume} m³</p>
-                        <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>🛣️ Distance :</strong> ${quoteData.distance} km</p>
+                        <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>📦 Volume :</strong> ${quoteData.volume || '?'} m³</p>
+                        <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>🛣️ Distance :</strong> ${quoteData.distance || '?'} km</p>
                         <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>🗓️ Date :</strong> ${formattedDate}</p>
                         <p style="margin: 0; font-size: 14px;"><strong>✨ Formule :</strong> ${serviceLabel}</p>
                       </div>
@@ -130,7 +130,7 @@ export async function saveQuote(
                 <div style="padding: 35px 30px;">
                   <p style="font-size: 16px; line-height: 1.6; margin-bottom: 30px; color: #475569;">
                     Bonjour <strong>${quoteData.clientName}</strong>,<br/><br/>
-                    Nous vous confirmons la bonne réception de votre demande pour votre déménagement prévu le <strong>${formattedDate}</strong>. 
+                    Nous vous confirmons la bonne réception de votre demande pour votre déménagement. 
                     Un conseiller expert analyse actuellement vos informations pour vous proposer l'offre la plus adaptée.
                   </p>
 
@@ -138,19 +138,17 @@ export async function saveQuote(
                     <h2 style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #94a3b8; margin-bottom: 15px; margin-top: 0;">Récapitulatif de votre projet</h2>
                     <p style="margin: 0 0 10px 0; font-size: 14px; color: #1e293b;"><strong>📍 Départ :</strong> ${quoteData.originAddress}</p>
                     <p style="margin: 0 0 10px 0; font-size: 14px; color: #1e293b;"><strong>🏁 Arrivée :</strong> ${quoteData.destinationAddress}</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px; color: #1e293b;"><strong>📦 Volume estimé :</strong> ${quoteData.volume} m³</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px; color: #1e293b;"><strong>✨ Formule choisie :</strong> ${serviceLabel}</p>
                   </div>
 
                   <div style="margin-bottom: 35px;">
                     <h2 style="font-size: 18px; font-weight: 800; color: #1e293b; margin-bottom: 20px;">Quelle est la suite ?</h2>
                     <div style="margin-bottom: 15px; display: flex; align-items: flex-start;">
                       <div style="background-color: ${PRIMARY_COLOR}; color: #ffffff; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-weight: bold; font-size: 12px; margin-right: 12px; flex-shrink: 0;">1</div>
-                      <p style="margin: 0; font-size: 14px; color: #475569;"><strong>Étude technique</strong> : Nous vérifions les accès et le volume déclaré.</p>
+                      <p style="margin: 0; font-size: 14px; color: #475569;"><strong>Étude technique</strong> : Nous vérifions les accès et les possibilités de transport.</p>
                     </div>
                     <div style="margin-bottom: 15px; display: flex; align-items: flex-start;">
                       <div style="background-color: ${PRIMARY_COLOR}; color: #ffffff; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-weight: bold; font-size: 12px; margin-right: 12px; flex-shrink: 0;">2</div>
-                      <p style="margin: 0; font-size: 14px; color: #475569;"><strong>Contact expert</strong> : Un conseiller pourra vous appeler pour affiner les détails si nécessaire.</p>
+                      <p style="margin: 0; font-size: 14px; color: #475569;"><strong>Contact expert</strong> : Un conseiller vous appellera pour estimer le volume et affiner les détails techniques.</p>
                     </div>
                     <div style="display: flex; align-items: flex-start;">
                       <div style="background-color: ${PRIMARY_COLOR}; color: #ffffff; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-weight: bold; font-size: 12px; margin-right: 12px; flex-shrink: 0;">3</div>
@@ -193,7 +191,7 @@ export async function getQuotes(): Promise<Quote[]> {
             return {
                 id: doc.id,
                 ...data,
-                moveDate: (data.moveDate as admin.firestore.Timestamp).toDate().toISOString(),
+                moveDate: data.moveDate ? (data.moveDate as admin.firestore.Timestamp).toDate().toISOString() : null,
                 createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(), 
             } as Quote;
         });
@@ -212,7 +210,7 @@ export async function getQuoteById(id: string): Promise<Quote | null> {
         return {
             id: docSnap.id,
             ...data,
-            moveDate: (data.moveDate as admin.firestore.Timestamp).toDate().toISOString(),
+            moveDate: data.moveDate ? (data.moveDate as admin.firestore.Timestamp).toDate().toISOString() : null,
             createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(),
         } as Quote;
     } catch (error) {
@@ -230,12 +228,13 @@ export async function updateQuoteStatus(id: string, status: QuoteStatus): Promis
   }
 }
 
-export async function updateQuote(id: string, data: Partial<Omit<Quote, 'id' | 'createdAt'>> & { moveDate: string }): Promise<void> {
+export async function updateQuote(id: string, data: Partial<Omit<Quote, 'id' | 'createdAt'>> & { moveDate?: string }): Promise<void> {
     try {
-        await db.collection('quotes').doc(id).update({
-            ...data,
-            moveDate: Timestamp.fromDate(new Date(data.moveDate))
-        });
+        const updateData: any = { ...data };
+        if (data.moveDate) {
+            updateData.moveDate = Timestamp.fromDate(new Date(data.moveDate));
+        }
+        await db.collection('quotes').doc(id).update(updateData);
     } catch (error) {
         console.error('Error updating quote: ', error);
         throw new Error('Failed to update quote.');

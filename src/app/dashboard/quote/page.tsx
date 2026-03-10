@@ -22,9 +22,11 @@ export default function DashboardNewQuotePage() {
     try {
       const result = await saveQuote({
         ...values,
-        moveDate: values.moveDate.toISOString(),
+        moveDate: values.moveDate ? values.moveDate.toISOString() : new Date().toISOString(),
         quote: 0, 
-        status: 'pending',
+        volume: values.volume || 0,
+        distance: values.distance || 0,
+        serviceType: values.serviceType || 'basic',
       });
       setQuoteId(result.id);
       toast({
@@ -70,6 +72,7 @@ export default function DashboardNewQuotePage() {
                 onSubmit={onSubmit}
                 submitButtonText="Créer et continuer"
                 isSaving={saving}
+                isDashboard={true} // Full view for dashboard
             />
         )}
     </div>
