@@ -15,12 +15,12 @@ function getPrivateKey(): string | undefined {
 }
 
 if (!admin.apps.length) {
-  try {
-    const projectId = process.env.FIREBASE_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
-    const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-    const privateKey = getPrivateKey();
+  const projectId = process.env.FIREBASE_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+  const privateKey = getPrivateKey();
 
-    if (projectId && clientEmail && privateKey) {
+  if (projectId && clientEmail && privateKey) {
+    try {
       admin.initializeApp({
         credential: admin.credential.cert({
           projectId,
@@ -29,21 +29,16 @@ if (!admin.apps.length) {
         }),
       });
       console.log("Firebase Admin SDK initialized with Service Account.");
-    } else {
-      // Pendant le build Next.js ou sur Firebase App Hosting, on tente d'initialiser 
-      // sans certificat explicite pour éviter de faire planter la compilation.
-      // Cela permet à Next.js de collecter les métadonnées des pages sans crasher.
-      admin.initializeApp();
-      console.log("Firebase Admin SDK initialized with application default credentials.");
+    } catch (error) {
+      console.error("Firebase Admin SDK initialization error:", error);
     }
-  } catch (error) {
-    // On capture l'erreur pour ne pas bloquer le build. 
-    // En runtime, si les variables manquent réellement, les appels Firestore échoueront avec un message explicite.
-    console.warn("Firebase Admin SDK initialization warning (ignoring for build):", error);
+  } else {
+    // Pendant le build Next.js, on évite d'initialiser si les credentials manquent
+    console.warn("Firebase Admin SDK: No credentials found. Skipping initialization during build.");
   }
 }
 
-const db = admin.firestore();
-const auth = admin.auth();
-
-export { db, auth, admin };
+// Export safe accessors
+export const db = admin.apps.length ? admin.firestore() : null as any;
+export const auth = admin.apps.length ? admin.auth() : null as any;
+export { admin };

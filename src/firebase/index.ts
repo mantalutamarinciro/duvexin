@@ -6,27 +6,28 @@ import { getAuth, type Auth } from 'firebase/auth';
 import { getFirestore, type Firestore } from 'firebase/firestore';
 
 export interface FirebaseSdkBundle {
-  firebaseApp: FirebaseApp;
-  auth: Auth;
-  firestore: Firestore;
+  firebaseApp: FirebaseApp | null;
+  auth: Auth | null;
+  firestore: Firestore | null;
 }
 
 function hasValidFirebaseConfig() {
-  return Boolean(
-    firebaseConfig.apiKey &&
-      firebaseConfig.authDomain &&
-      firebaseConfig.projectId &&
-      firebaseConfig.storageBucket &&
-      firebaseConfig.messagingSenderId &&
-      firebaseConfig.appId
-  );
+  return Boolean(firebaseConfig.apiKey && firebaseConfig.apiKey !== "");
 }
 
+/**
+ * Initializes Firebase client SDKs. 
+ * During build time (prerendering), if config is missing, it returns nulls 
+ * instead of throwing an error to prevent deployment failure.
+ */
 export function initializeFirebase(): FirebaseSdkBundle {
   if (!hasValidFirebaseConfig()) {
-    throw new Error(
-      'Configuration Firebase client incomplète. Vérifie les variables NEXT_PUBLIC_FIREBASE_*.'
-    );
+    console.warn('Firebase client configuration is incomplete. This is expected during build if environment variables are not set.');
+    return {
+      firebaseApp: null,
+      auth: null,
+      firestore: null,
+    };
   }
 
   const firebaseApp = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
@@ -49,7 +50,7 @@ export function getSdks(firebaseApp: FirebaseApp): FirebaseSdkBundle {
 export * from './provider';
 export * from './firestore/use-collection';
 export * from './firestore/use-doc';
-export * from './non-blocking-updates';
 export * from './non-blocking-login';
+export * from './non-blocking-updates';
 export * from './errors';
 export * from './error-emitter';

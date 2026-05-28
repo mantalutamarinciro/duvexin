@@ -16,9 +16,9 @@ import { FirebaseErrorListener } from '@/components/FirebaseErrorListener';
 
 interface FirebaseProviderProps {
   children: ReactNode;
-  firebaseApp: FirebaseApp;
-  firestore: Firestore;
-  auth: Auth;
+  firebaseApp: FirebaseApp | null;
+  firestore: Firestore | null;
+  auth: Auth | null;
 }
 
 interface UserAuthState {
@@ -64,7 +64,7 @@ export function FirebaseProvider({
 }: FirebaseProviderProps) {
   const [userAuthState, setUserAuthState] = useState<UserAuthState>({
     user: null,
-    isUserLoading: true,
+    isUserLoading: auth ? true : false,
     userError: null,
   });
 
@@ -73,16 +73,10 @@ export function FirebaseProvider({
       setUserAuthState({
         user: null,
         isUserLoading: false,
-        userError: new Error('Auth service not provided.'),
+        userError: null,
       });
       return;
     }
-
-    setUserAuthState({
-      user: null,
-      isUserLoading: true,
-      userError: null,
-    });
 
     const unsubscribe = onAuthStateChanged(
       auth,
@@ -111,9 +105,9 @@ export function FirebaseProvider({
 
     return {
       areServicesAvailable: servicesAvailable,
-      firebaseApp: servicesAvailable ? firebaseApp : null,
-      firestore: servicesAvailable ? firestore : null,
-      auth: servicesAvailable ? auth : null,
+      firebaseApp,
+      firestore,
+      auth,
       user: userAuthState.user,
       isUserLoading: userAuthState.isUserLoading,
       userError: userAuthState.userError,
@@ -122,7 +116,7 @@ export function FirebaseProvider({
 
   return (
     <FirebaseContext.Provider value={contextValue}>
-      <FirebaseErrorListener />
+      {contextValue.areServicesAvailable && <FirebaseErrorListener />}
       {children}
     </FirebaseContext.Provider>
   );
@@ -142,7 +136,7 @@ export const useFirebase = (): FirebaseServicesAndUser => {
     !context.auth
   ) {
     throw new Error(
-      'Firebase core services not available. Check FirebaseProvider props.'
+      'Firebase core services not available. This usually happens during build or if config is missing.'
     );
   }
 
@@ -188,6 +182,13 @@ export function useMemoFirebase<T>(
 }
 
 export const useUser = (): UserHookResult => {
-  const { user, isUserLoading, userError } = useFirebase();
-  return { user, isUserLoading, userError };
+  const context = useContext(FirebaseContext);
+  if (context === undefined) {
+    return { user: null, isUserLoading: true, userError: null };
+  }
+  return { 
+    user: context.user, 
+    isUserLoading: context.isUserLoading, 
+    userError: context.userError 
+  };
 };
