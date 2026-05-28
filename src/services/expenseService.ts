@@ -50,7 +50,7 @@ export async function getExpenses(): Promise<Expense[]> {
     const q = expensesCol.orderBy('date', 'desc');
     const querySnapshot = await q.get();
 
-    const expenses = querySnapshot.docs.map(doc => {
+    const expenses = querySnapshot.docs.map((doc: admin.firestore.QueryDocumentSnapshot) => {
       const data = doc.data();
       return {
         id: doc.id,
