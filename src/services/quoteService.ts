@@ -1,3 +1,4 @@
+
 'use server';
 
 import { db, admin } from '@/lib/firebase';
@@ -216,7 +217,7 @@ export async function getQuotes(): Promise<Quote[]> {
       .orderBy('createdAt', 'desc')
       .get();
 
-    return querySnapshot.docs.map(mapDocToQuote);
+    return querySnapshot.docs.map((doc: admin.firestore.QueryDocumentSnapshot) => mapDocToQuote(doc));
   } catch (error) {
     console.error('Error fetching quotes:', error);
     throw new Error('Failed to fetch quotes.');

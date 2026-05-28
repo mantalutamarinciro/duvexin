@@ -1,3 +1,4 @@
+
 'use server';
 
 import { db, admin } from '@/lib/firebase';
@@ -73,7 +74,7 @@ export async function getOperationalAlerts(): Promise<OperationalAlert[]> {
   try {
     const vehiclesSnap = await db.collection('vehicles').get();
 
-    vehiclesSnap.forEach((doc) => {
+    vehiclesSnap.forEach((doc: admin.firestore.QueryDocumentSnapshot) => {
       const v = doc.data();
       const reg = v.registration ?? 'Véhicule';
 
@@ -134,7 +135,7 @@ export async function getOperationalAlerts(): Promise<OperationalAlert[]> {
       .where('createdAt', '<=', Timestamp.fromDate(quoteFollowupLimit))
       .get();
 
-    quotesSnap.forEach((doc) => {
+    quotesSnap.forEach((doc: admin.firestore.QueryDocumentSnapshot) => {
       const q = doc.data();
 
       alerts.push({
@@ -166,18 +167,18 @@ export async function getDashboardStats() {
     ]);
 
     const totalRevenue = bookingsSnapshot.docs
-      .filter((doc) => {
+      .filter((doc: admin.firestore.QueryDocumentSnapshot) => {
         const status = doc.data().status;
         return status === 'Terminé' || status === 'Facturé';
       })
-      .reduce((sum, doc) => sum + Number(doc.data().total || 0), 0);
+      .reduce((sum: number, doc: admin.firestore.QueryDocumentSnapshot) => sum + Number(doc.data().total || 0), 0);
 
     const totalExpenses = expensesSnapshot.docs.reduce(
-      (sum, doc) => sum + Number(doc.data().amount || 0),
+      (sum: number, doc: admin.firestore.QueryDocumentSnapshot) => sum + Number(doc.data().amount || 0),
       0
     );
 
-    const quotesData: QuoteDiagnosticRow[] = quotesSnapshot.docs.map((doc) => {
+    const quotesData: QuoteDiagnosticRow[] = quotesSnapshot.docs.map((doc: admin.firestore.QueryDocumentSnapshot) => {
       const data = doc.data() as { status?: string };
       return {
         id: doc.id,
@@ -199,8 +200,8 @@ export async function getDashboardStats() {
     const monthlyRevenue: Record<string, number> = {};
 
     bookingsSnapshot.docs
-      .filter((doc) => doc.data().status === 'Terminé' || doc.data().status === 'Facturé')
-      .forEach((doc) => {
+      .filter((doc: admin.firestore.QueryDocumentSnapshot) => doc.data().status === 'Terminé' || doc.data().status === 'Facturé')
+      .forEach((doc: admin.firestore.QueryDocumentSnapshot) => {
         const data = doc.data();
         const moveDate = data.moveDate as admin.firestore.Timestamp | undefined;
         if (!moveDate) return;
@@ -244,7 +245,7 @@ export async function getDashboardStats() {
       totalRevenue,
       netProfit: totalRevenue - totalExpenses,
       bookingsCount: bookingsSnapshot.size,
-      quotesCount: quotesSnapshot.docs.filter((doc) => doc.data().status === 'pending').length,
+      quotesCount: quotesSnapshot.docs.filter((doc: admin.firestore.QueryDocumentSnapshot) => doc.data().status === 'pending').length,
       conversionRate: Math.round(conversionRate),
       charts: {
         revenue: revenueChartData,

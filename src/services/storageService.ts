@@ -48,7 +48,7 @@ export async function createStorageContract(formData: StorageContractFormData): 
 export async function getStorageContracts(): Promise<StorageContract[]> {
     try {
         const snapshot = await db.collection('storage_contracts').orderBy('entryDate', 'desc').get();
-        return snapshot.docs.map(doc => {
+        return snapshot.docs.map((doc: admin.firestore.QueryDocumentSnapshot) => {
             const data = doc.data();
             return {
                 id: doc.id,

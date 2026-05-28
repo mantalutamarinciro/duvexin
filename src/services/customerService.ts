@@ -23,7 +23,7 @@ export interface Customer {
 export async function getCustomers(): Promise<Customer[]> {
   try {
     const customersSnapshot = await db.collection('users').orderBy('createdAt', 'desc').get();
-    return customersSnapshot.docs.map(doc => {
+    return customersSnapshot.docs.map((doc: admin.firestore.QueryDocumentSnapshot) => {
       const data = doc.data();
       return {
         id: doc.id,

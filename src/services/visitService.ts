@@ -45,7 +45,7 @@ export async function createVisit(formData: VisitFormData): Promise<{ id: string
 export async function getVisits(): Promise<Visit[]> {
   try {
     const snapshot = await db.collection('visits').orderBy('visitDateTime', 'desc').get();
-    return snapshot.docs.map(doc => {
+    return snapshot.docs.map((doc: admin.firestore.QueryDocumentSnapshot) => {
       const data = doc.data();
       return {
         id: doc.id,
