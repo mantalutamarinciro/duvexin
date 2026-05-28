@@ -1,7 +1,7 @@
 'use server';
 
 import { db, admin } from '@/lib/firebase';
-import type { Quote, ServiceType } from '@/types/quote';
+import type { Quote } from '@/types/quote';
 import { syncCustomerFromBooking } from './customerService';
 
 const { Timestamp } = admin.firestore;
@@ -15,27 +15,28 @@ export type BookingStatus =
   | 'Annulé'
   | 'Facturé';
 
-  export interface Booking {
-    id: string;
-    clientName: string;
-    clientEmail: string;
-    clientPhone?: string;
-    originAddress: string;
-    destinationAddress: string;
-    moveDate: string;
-    total: number;
-    volume?: number;
-    distance?: number;
-    details?: string;
-    serviceType?: "eco" | "standard" | "comfort" | "luxury" | "basic" | "full" | "premium";
-    status: BookingStatus;
-    createdAt: string;
-    quoteId: string;
-    assignedTeam?: string | null;
-    assignedTeamId?: string | null;
-    assignedVehicleId?: string | null;
-    assignedVehicleRegistration?: string | null;
-  }
+export interface Booking {
+  id: string;
+  clientName: string;
+  clientEmail: string;
+  clientPhone?: string;
+  originAddress: string;
+  destinationAddress: string;
+  moveDate: string;
+  total: number;
+  volume?: number;
+  distance?: number;
+  details?: string;
+  serviceType?: "eco" | "standard" | "comfort" | "luxury" | "basic" | "full" | "premium";
+  status: BookingStatus;
+  createdAt: string;
+  quoteId: string;
+  assignedTeam?: string | null;
+  assignedTeamId?: string | null;
+  assignedVehicleId?: string | null;
+  assignedVehicleRegistration?: string | null;
+}
+
 function mapDocToBooking(
   doc: admin.firestore.DocumentSnapshot<admin.firestore.DocumentData>
 ): Booking {
@@ -67,6 +68,8 @@ function mapDocToBooking(
 }
 
 export async function createBookingFromQuote(quote: Quote): Promise<{ id: string }> {
+  if (!db) throw new Error("Base de données non disponible.");
+  
   try {
     if (!quote.moveDate) {
       throw new Error('Le devis ne contient pas de date de déménagement.');
@@ -88,7 +91,6 @@ export async function createBookingFromQuote(quote: Quote): Promise<{ id: string
     }
 
     const batch = db.batch();
-
     const newBookingRef = db.collection('bookings').doc();
 
     const newBookingData = {
@@ -125,24 +127,22 @@ export async function createBookingFromQuote(quote: Quote): Promise<{ id: string
       date: quote.moveDate,
     });
 
-    console.log(`Booking created with ID: ${newBookingRef.id} from quote ${quote.id}`);
     return { id: newBookingRef.id };
   } catch (error) {
     console.error('Error creating booking from quote: ', error);
-    throw new Error(
-      error instanceof Error ? error.message : 'Failed to create booking from quote.'
-    );
+    throw new Error('Failed to create booking.');
   }
 }
 
 export async function getBookings(): Promise<Booking[]> {
+  if (!db) return [];
   try {
     const querySnapshot = await db
       .collection('bookings')
       .orderBy('moveDate', 'desc')
       .get();
 
-    return querySnapshot.docs.map(mapDocToBooking);
+    return querySnapshot.docs.map((doc: admin.firestore.QueryDocumentSnapshot) => mapDocToBooking(doc));
   } catch (error) {
     console.error('Error fetching bookings: ', error);
     throw new Error('Failed to fetch bookings.');
@@ -150,13 +150,10 @@ export async function getBookings(): Promise<Booking[]> {
 }
 
 export async function getBookingById(id: string): Promise<Booking | null> {
+  if (!db) return null;
   try {
     const docSnap = await db.collection('bookings').doc(id).get();
-
-    if (!docSnap.exists) {
-      return null;
-    }
-
+    if (!docSnap.exists) return null;
     return mapDocToBooking(docSnap);
   } catch (error) {
     console.error('Error fetching booking by ID: ', error);
@@ -165,6 +162,7 @@ export async function getBookingById(id: string): Promise<Booking | null> {
 }
 
 export async function getBookingsByTeam(teamId: string): Promise<Booking[]> {
+  if (!db) return [];
   try {
     const querySnapshot = await db
       .collection('bookings')
@@ -178,7 +176,7 @@ export async function getBookingsByTeam(teamId: string): Promise<Booking[]> {
       .orderBy('moveDate', 'asc')
       .get();
 
-    return querySnapshot.docs.map(mapDocToBooking);
+    return querySnapshot.docs.map((doc: admin.firestore.QueryDocumentSnapshot) => mapDocToBooking(doc));
   } catch (error) {
     console.error(`Error fetching bookings for team ${teamId}:`, error);
     throw new Error('Failed to fetch team bookings.');
@@ -189,9 +187,9 @@ export async function updateBookingStatus(
   id: string,
   status: BookingStatus
 ): Promise<void> {
+  if (!db) return;
   try {
     await db.collection('bookings').doc(id).update({ status });
-    console.log(`Booking ${id} status updated to ${status}`);
   } catch (error) {
     console.error('Error updating booking status: ', error);
     throw new Error('Failed to update booking status.');
@@ -203,13 +201,12 @@ export async function assignTeamToBooking(
   teamId: string,
   teamName: string
 ): Promise<void> {
+  if (!db) return;
   try {
     await db.collection('bookings').doc(bookingId).update({
       assignedTeamId: teamId,
       assignedTeam: teamName,
     });
-
-    console.log(`Team ${teamName} (${teamId}) assigned to booking ${bookingId}`);
   } catch (error) {
     console.error('Error assigning team to booking: ', error);
     throw new Error('Failed to assign team to booking.');
@@ -221,15 +218,12 @@ export async function assignVehicleToBooking(
   vehicleId: string,
   vehicleRegistration: string
 ): Promise<void> {
+  if (!db) return;
   try {
     await db.collection('bookings').doc(bookingId).update({
       assignedVehicleId: vehicleId,
       assignedVehicleRegistration: vehicleRegistration,
     });
-
-    console.log(
-      `Vehicle ${vehicleRegistration} (${vehicleId}) assigned to booking ${bookingId}`
-    );
   } catch (error) {
     console.error('Error assigning vehicle to booking: ', error);
     throw new Error('Failed to assign vehicle to booking.');

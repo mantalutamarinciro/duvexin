@@ -17,12 +17,10 @@ function hasValidFirebaseConfig() {
 
 /**
  * Initializes Firebase client SDKs. 
- * During build time (prerendering), if config is missing, it returns nulls 
- * instead of throwing an error to prevent deployment failure.
+ * Plus robuste pour éviter de planter durant le build de Next.js.
  */
 export function initializeFirebase(): FirebaseSdkBundle {
   if (!hasValidFirebaseConfig()) {
-    console.warn('Firebase client configuration is incomplete. This is expected during build if environment variables are not set.');
     return {
       firebaseApp: null,
       auth: null,
@@ -30,13 +28,21 @@ export function initializeFirebase(): FirebaseSdkBundle {
     };
   }
 
-  const firebaseApp = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-
-  return {
-    firebaseApp,
-    auth: getAuth(firebaseApp),
-    firestore: getFirestore(firebaseApp),
-  };
+  try {
+    const firebaseApp = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+    return {
+      firebaseApp,
+      auth: getAuth(firebaseApp),
+      firestore: getFirestore(firebaseApp),
+    };
+  } catch (error) {
+    console.error("Firebase client initialization failed:", error);
+    return {
+      firebaseApp: null,
+      auth: null,
+      firestore: null,
+    };
+  }
 }
 
 export function getSdks(firebaseApp: FirebaseApp): FirebaseSdkBundle {

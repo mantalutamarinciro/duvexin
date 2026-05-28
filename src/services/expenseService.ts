@@ -1,4 +1,3 @@
-
 'use server';
 
 import { db, admin } from '@/lib/firebase';
@@ -7,8 +6,6 @@ const { Timestamp } = admin.firestore;
 
 export type ExpenseCategory = 'Carburant' | 'Matériel' | 'Salaires' | 'Assurance' | 'Marketing' | 'Autre';
 
-// This is the type for the data coming from the form, before it hits the server.
-// Dates are still strings.
 export interface ExpenseFormData {
   date: string;
   amount: number;
@@ -17,11 +14,9 @@ export interface ExpenseFormData {
   bookingId?: string;
 }
 
-// This is the type for the data as it is stored in Firestore and retrieved in server-side functions.
-// Dates are properly typed.
 export interface Expense {
   id: string;
-  date: string; // Kept as string for simplicity on the client
+  date: string;
   amount: number;
   category: ExpenseCategory;
   description: string;
@@ -30,13 +25,13 @@ export interface Expense {
 }
 
 export async function createExpense(expenseData: ExpenseFormData): Promise<{ id: string }> {
+  if (!db) throw new Error("Base de données non disponible.");
   try {
     const docRef = await db.collection('expenses').add({
       ...expenseData,
       date: Timestamp.fromDate(new Date(expenseData.date)),
       createdAt: Timestamp.now(),
     });
-    console.log('Expense created with ID: ', docRef.id);
     return { id: docRef.id };
   } catch (error) {
     console.error('Error creating expense: ', error);
@@ -45,24 +40,23 @@ export async function createExpense(expenseData: ExpenseFormData): Promise<{ id:
 }
 
 export async function getExpenses(): Promise<Expense[]> {
+  if (!db) return [];
   try {
     const expensesCol = db.collection('expenses');
     const q = expensesCol.orderBy('date', 'desc');
     const querySnapshot = await q.get();
 
-    const expenses = querySnapshot.docs.map((doc: admin.firestore.QueryDocumentSnapshot) => {
+    return querySnapshot.docs.map((doc: admin.firestore.QueryDocumentSnapshot) => {
       const data = doc.data();
       return {
         id: doc.id,
         ...data,
-        date: (data.date as admin.firestore.Timestamp).toDate().toISOString(),
-        createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(),
+        date: data.date ? (data.date as admin.firestore.Timestamp).toDate().toISOString() : new Date().toISOString(),
+        createdAt: data.createdAt ? (data.createdAt as admin.firestore.Timestamp).toDate().toISOString() : new Date().toISOString(),
       } as Expense;
     });
-
-    return expenses;
   } catch (error) {
     console.error('Error fetching expenses: ', error);
-    throw new Error('Failed to fetch expenses.');
+    return [];
   }
 }

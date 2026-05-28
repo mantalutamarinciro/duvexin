@@ -2,10 +2,6 @@ import admin from "firebase-admin";
 
 /**
  * @fileOverview Configuration du SDK Firebase Admin.
- * 
- * NOTE: Les variables d'environnement FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL 
- * et FIREBASE_PRIVATE_KEY doivent être configurées dans les secrets de votre 
- * projet pour le fonctionnement en production.
  */
 
 function getPrivateKey(): string | undefined {
@@ -33,12 +29,14 @@ if (!admin.apps.length) {
       console.error("Firebase Admin SDK initialization error:", error);
     }
   } else {
-    // Pendant le build Next.js, on évite d'initialiser si les credentials manquent
-    console.warn("Firebase Admin SDK: No credentials found. Skipping initialization during build.");
+    console.warn("Firebase Admin SDK: Missing credentials. This is expected during build time.");
   }
 }
 
-// Export safe accessors
-export const db = admin.apps.length ? admin.firestore() : null as any;
-export const auth = admin.apps.length ? admin.auth() : null as any;
+// On exporte db avec un type explicite pour éviter les erreurs "any" implicites
+export const db: admin.firestore.Firestore = admin.apps.length 
+  ? admin.firestore() 
+  : null as unknown as admin.firestore.Firestore;
+
+export const auth = admin.apps.length ? admin.auth() : null;
 export { admin };

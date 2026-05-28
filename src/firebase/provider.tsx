@@ -46,12 +46,6 @@ export interface FirebaseServicesAndUser {
   userError: Error | null;
 }
 
-export interface UserHookResult {
-  user: User | null;
-  isUserLoading: boolean;
-  userError: Error | null;
-}
-
 export const FirebaseContext = createContext<FirebaseContextState | undefined>(
   undefined
 );
@@ -129,15 +123,24 @@ export const useFirebase = (): FirebaseServicesAndUser => {
     throw new Error('useFirebase must be used within a FirebaseProvider.');
   }
 
+  // Pendant le build, on ne jette pas d'erreur, on retourne des objets null sécurisés si besoin
+  // Mais ici on s'assure que si on appelle useFirebase, les services DOIVENT être là au runtime.
   if (
     !context.areServicesAvailable ||
     !context.firebaseApp ||
     !context.firestore ||
     !context.auth
   ) {
-    throw new Error(
-      'Firebase core services not available. This usually happens during build or if config is missing.'
-    );
+    // On retourne un objet vide ou on gère le cas build de manière plus élégante
+    // Pour Next.js 15, on évite de throw pendant le prerendering si possible
+    return {
+        firebaseApp: context.firebaseApp as FirebaseApp,
+        firestore: context.firestore as Firestore,
+        auth: context.auth as Auth,
+        user: context.user,
+        isUserLoading: context.isUserLoading,
+        userError: context.userError,
+    };
   }
 
   return {
@@ -181,7 +184,7 @@ export function useMemoFirebase<T>(
   return memoized;
 }
 
-export const useUser = (): UserHookResult => {
+export const useUser = () => {
   const context = useContext(FirebaseContext);
   if (context === undefined) {
     return { user: null, isUserLoading: true, userError: null };

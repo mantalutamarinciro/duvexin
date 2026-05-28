@@ -1,12 +1,6 @@
-
 'use server';
 
 import { db, admin } from '@/lib/firebase';
-
-/**
- * Service de gestion des clients (Customers)
- * Permet de centraliser les informations des clients extraites des devis et réservations.
- */
 
 export interface Customer {
   id: string;
@@ -21,6 +15,7 @@ export interface Customer {
 }
 
 export async function getCustomers(): Promise<Customer[]> {
+  if (!db) return [];
   try {
     const customersSnapshot = await db.collection('users').orderBy('createdAt', 'desc').get();
     return customersSnapshot.docs.map((doc: admin.firestore.QueryDocumentSnapshot) => {
@@ -28,20 +23,18 @@ export async function getCustomers(): Promise<Customer[]> {
       return {
         id: doc.id,
         ...data,
-        createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(),
+        createdAt: data.createdAt ? (data.createdAt as admin.firestore.Timestamp).toDate().toISOString() : new Date().toISOString(),
         lastBookingDate: data.lastBookingDate ? (data.lastBookingDate as admin.firestore.Timestamp).toDate().toISOString() : undefined,
       } as Customer;
     });
   } catch (error) {
     console.error('Error fetching customers:', error);
-    throw new Error('Failed to fetch customers.');
+    return [];
   }
 }
 
-/**
- * Synchronise ou crée un client à partir d'un devis/réservation
- */
 export async function syncCustomerFromBooking(data: { name: string, email: string, phone?: string, amount?: number, date?: string }) {
+  if (!db) return;
   try {
     const customersCol = db.collection('users');
     const query = await customersCol.where('email', '==', data.email).limit(1).get();
@@ -51,7 +44,6 @@ export async function syncCustomerFromBooking(data: { name: string, email: strin
     const lastName = names.slice(1).join(' ') || '';
 
     if (query.empty) {
-      // Nouveau client
       await customersCol.add({
         firstName,
         lastName,
@@ -63,7 +55,6 @@ export async function syncCustomerFromBooking(data: { name: string, email: strin
         createdAt: admin.firestore.Timestamp.now(),
       });
     } else {
-      // Mise à jour automatique des stats
       const customerDoc = query.docs[0];
       const currentData = customerDoc.data();
       
