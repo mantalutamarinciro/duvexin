@@ -9,7 +9,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { saveQuote } from "@/services/quoteService"
-import { QuoteForm, type QuoteRequestFormData } from "@/components/quote-form"
+import { QuoteForm } from "@/components/quote-form"
+import type { QuoteRequestFormData } from "@/types/quote"
 
 // Icons
 import { 
@@ -34,7 +35,7 @@ export default function PublicQuotePage() {
       // Provide defaults for removed fields since the public form is simplified
       const result = await saveQuote({
         ...values,
-        moveDate: values.moveDate ? values.moveDate.toISOString() : new Date().toISOString(),
+        moveDate: values.moveDate || undefined,
         quote: 0, 
         volume: values.volume || 0,
         distance: values.distance || 0,

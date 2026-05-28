@@ -5,6 +5,8 @@ import type { Booking } from './bookingService';
 
 const { Timestamp } = admin.firestore;
 
+const TEAMS_COLLECTION = 'teams';
+
 export interface TeamMember {
   name: string;
 }
@@ -17,63 +19,72 @@ export interface Team {
 }
 
 export interface TeamWithBookings extends Team {
-    bookings: Booking[];
+  bookings: Booking[];
 }
 
-export async function createTeam(teamData: Omit<Team, 'id' | 'createdAt'>): Promise<{ id: string }> {
+type CreateTeamInput = {
+  name: string;
+  members: TeamMember[];
+};
+
+function mapDocToTeam(
+  doc: admin.firestore.DocumentSnapshot<admin.firestore.DocumentData>
+): Team {
+  const data = doc.data()!;
+
+  return {
+    id: doc.id,
+    name: data.name ?? '',
+    members: Array.isArray(data.members) ? data.members : [],
+    createdAt: data.createdAt
+      ? (data.createdAt as admin.firestore.Timestamp).toDate().toISOString()
+      : new Date().toISOString(),
+  };
+}
+
+export async function createTeam(
+  teamData: CreateTeamInput
+): Promise<{ id: string }> {
   try {
-    const docRef = await db.collection('teams').add({
-      ...teamData,
+    const docRef = await db.collection(TEAMS_COLLECTION).add({
+      name: teamData.name,
+      members: Array.isArray(teamData.members) ? teamData.members : [],
       createdAt: Timestamp.now(),
     });
-    console.log('Team created with ID: ', docRef.id);
+
+    console.log('Team created with ID:', docRef.id);
     return { id: docRef.id };
   } catch (error) {
-    console.error('Error creating team: ', error);
+    console.error('Error creating team:', error);
     throw new Error('Failed to create team.');
   }
 }
 
 export async function getTeams(): Promise<Team[]> {
   try {
-    const teamsCol = db.collection('teams');
-    const q = teamsCol.orderBy('createdAt', 'desc');
-    const querySnapshot = await q.get();
+    const querySnapshot = await db
+      .collection(TEAMS_COLLECTION)
+      .orderBy('createdAt', 'desc')
+      .get();
 
-    const teams = querySnapshot.docs.map(doc => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        ...data,
-        createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(),
-      } as Team;
-    });
-
-    return teams;
-  } catch (error)
-  {
-    console.error('Error fetching teams: ', error);
+    return querySnapshot.docs.map(mapDocToTeam);
+  } catch (error) {
+    console.error('Error fetching teams:', error);
     throw new Error('Failed to fetch teams.');
   }
 }
 
 export async function getTeamById(teamId: string): Promise<Team | null> {
-    try {
-        const teamRef = db.collection('teams').doc(teamId);
-        const docSnap = await teamRef.get();
+  try {
+    const docSnap = await db.collection(TEAMS_COLLECTION).doc(teamId).get();
 
-        if (!docSnap.exists) {
-            return null;
-        }
-
-        const data = docSnap.data()!;
-        return {
-            id: docSnap.id,
-            ...data,
-            createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(),
-        } as Team;
-    } catch (error) {
-        console.error('Error fetching team by ID:', error);
-        throw new Error('Failed to fetch team details.');
+    if (!docSnap.exists) {
+      return null;
     }
+
+    return mapDocToTeam(docSnap);
+  } catch (error) {
+    console.error('Error fetching team by ID:', error);
+    throw new Error('Failed to fetch team details.');
+  }
 }

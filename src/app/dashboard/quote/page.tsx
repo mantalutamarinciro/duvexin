@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button"
 import { CheckCircle } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { saveQuote } from "@/services/quoteService"
-import { QuoteForm, type QuoteRequestFormData } from "@/components/quote-form"
+import { QuoteForm } from "@/components/quote-form"
+import type { QuoteRequestFormData } from "@/types/quote"
 
 
 export default function DashboardNewQuotePage() {
@@ -22,7 +23,7 @@ export default function DashboardNewQuotePage() {
     try {
       const result = await saveQuote({
         ...values,
-        moveDate: values.moveDate ? values.moveDate.toISOString() : new Date().toISOString(),
+        moveDate: values.moveDate || undefined,
         quote: 0, 
         volume: values.volume || 0,
         distance: values.distance || 0,

@@ -33,7 +33,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Skeleton } from "@/components/ui/skeleton";
 import { getBookings, Booking, updateBookingStatus, assignTeamToBooking, getBookingById, BookingStatus, assignVehicleToBooking } from "@/services/bookingService";
 import { getTeams, Team } from "@/services/teamService";
-import { getVehicles, Vehicle } from "@/services/vehicleService";
+import { getVehicles } from "@/services/vehicleService";
+import type { Vehicle } from "@/types/vehicle";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { WaybillPDF } from "@/components/waybill-pdf";

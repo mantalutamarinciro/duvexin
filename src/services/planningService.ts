@@ -2,7 +2,7 @@
 'use server';
 
 import { db } from '@/lib/firebase';
-import type { Quote } from './quoteService';
+import type { Quote } from '@/types/quote';
 import type { Booking } from './bookingService';
 import type { Visit } from './visitService';
 

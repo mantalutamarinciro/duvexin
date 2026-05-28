@@ -1,0 +1,14 @@
+{
+    "indexes": [
+      {
+        "collectionGroup": "bookings",
+        "queryScope": "COLLECTION",
+        "fields": [
+          { "fieldPath": "assignedTeamId", "order": "ASCENDING" },
+          { "fieldPath": "status", "order": "ASCENDING" },
+          { "fieldPath": "moveDate", "order": "ASCENDING" }
+        ]
+      }
+    ],
+    "fieldOverrides": []
+  }

@@ -70,7 +70,10 @@ export default function VisitsPage() {
   const onSubmit = async (values: z.infer<typeof visitSchema>) => {
     setIsSubmitting(true);
     try {
-      await createVisit(values);
+      await createVisit({
+        ...values,
+        details: values.details ?? "",
+      });
       toast({ title: "Visite planifiée", description: "La nouvelle visite a été enregistrée." });
       setIsDialogOpen(false);
       form.reset();

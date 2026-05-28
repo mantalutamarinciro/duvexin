@@ -11,7 +11,6 @@ const securityHeaders = [
     key: 'Strict-Transport-Security',
     value: 'max-age=63072000; includeSubDomains; preload',
   },
-  // Ne pas envoyer X-Frame-Options en dev, sinon le preview Firebase Studio peut être bloqué
   ...(!isDev
     ? [
         {
@@ -58,9 +57,6 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   eslint: {
     ignoreDuringBuilds: true,
   },

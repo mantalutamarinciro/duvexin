@@ -2,155 +2,116 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    /**
-     * MOVING COMPANY SECURITY RULES - PROTOTYPING MODE
-     *
-     * CORE PHILOSOPHY:
-     * This ruleset implements a dual-access model: User-Ownership for customers and 
-     * Role-Based Access Control (RBAC) for employees and administrators.
-     *
-     * DATA STRUCTURE:
-     * - /users/{userId}: Customer profiles (Owner-only).
-     * - /employees/{employeeId}: Employee profiles (Self or Admin access).
-     * - /bookings/{bookingId}: Moving appointments. Uses denormalized 'customerId' for ownership checks.
-     * - /movingTrucks, /movingTeams, /serviceTypes: Administrative and operational data.
-     *
-     * KEY SECURITY DECISIONS:
-     * 1. Authorization Independence: Critical IDs (like 'customerId') are denormalized onto child 
-     *    documents (InventoryItems) and related resources (MovingTrucks during active moves) 
-     *     to allow for performant, single-document authorization checks without using get() or cross-collection queries.
-     * 2. Sentinel Collections: The '/roles_admin' collection acts as a high-speed lookup for administrative privileges.
-     * 3. Structural Segregation: Administrative data is isolated from customer-facing data.
-     * 4. Prototyping Flexibility: While authorization is strictly enforced based on UIDs and roles, 
-     *    data schema validation (types, required fields) is omitted to allow rapid development.
-     */
-
-    // --- HELPER FUNCTIONS ---
-
     function isSignedIn() {
       return request.auth != null;
     }
 
-    function isOwner(userId) {
-      return isSignedIn() && request.auth.uid == userId;
-    }
-
     function isAdmin() {
-      return isSignedIn() && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
     }
 
     function isEmployee() {
-      return isSignedIn() && exists(/databases/$(database)/documents/employees/$(request.auth.uid));
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/employees/$(request.auth.uid));
     }
 
-    // Helper for destructive operations or updates
-    function isExistingOwner(userId) {
-      return resource != null && isOwner(userId);
+    function isStaff() {
+      return isAdmin() || isEmployee();
     }
 
-    // --- COLLECTION RULES ---
-
-    /**
-     * @description Stores individual customer profiles.
-     * @path /users/{userId}
-     * @allow get, list, create, update: if request.auth.uid == userId
-     * @deny delete: if request.auth.uid != userId
-     * @principle Enforces strict document ownership for customer data.
-     */
-    match /users/{userId} {
-      allow get, list: if isOwner(userId);
-      allow create: if isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
-      allow delete: if isExistingOwner(userId);
+    function isOwnerUidField() {
+      return isSignedIn()
+        && resource.data.ownerUid != null
+        && resource.data.ownerUid == request.auth.uid;
     }
 
-    /**
-     * @description Employee profiles accessible by the employee or admins.
-     * @path /employees/{employeeId}
-     * @allow get: if user is the employee or an admin
-     * @deny create, delete: if user is not an admin
-     * @principle Combines ownership with role-based administrative override.
-     */
-    match /employees/{employeeId} {
-      allow get, list: if isOwner(employeeId) || isAdmin();
-      allow update: if (isExistingOwner(employeeId) || isAdmin()) && request.resource.data.id == resource.data.id;
-      allow create, delete: if isAdmin();
+    function isOwnerUidOnCreate() {
+      return isSignedIn()
+        && request.resource.data.ownerUid != null
+        && request.resource.data.ownerUid == request.auth.uid;
     }
 
-    /**
-     * @description Sentinel collection to verify administrative privileges.
-     * @path /roles_admin/{adminId}
-     * @allow get: if signed in (for existence checks)
-     * @deny list, create, update, delete: if not system process
-     * @principle Restricts access to sensitive role assignments.
-     */
     match /roles_admin/{adminId} {
       allow get: if isSignedIn();
       allow list, create, update, delete: if false;
     }
 
-    /**
-     * @description Definitions of moving services offered.
-     * @path /serviceTypes/{serviceTypeId}
-     * @allow get, list: if signed in
-     * @deny create, update, delete: if not an admin
-     * @principle Public/Authenticated read access with administrative write control.
+    match /employees/{employeeId} {
+      allow get: if isSignedIn() && (request.auth.uid == employeeId || isAdmin());
+      allow list: if isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    /*
+     * USERS / CUSTOMERS
+     * Actuellement, tes documents clients semblent être créés avec des IDs auto
+     * via customerService. Donc pas d’ownership fiable sans ownerUid.
+     */
+    match /users/{userId} {
+      allow get: if isStaff() || isOwnerUidField();
+      allow list: if isStaff();
+      allow create: if isStaff() || isOwnerUidOnCreate();
+      allow update: if isStaff() || isOwnerUidField();
+      allow delete: if isAdmin();
+    }
+
+    /*
+     * QUOTES
+     * Ton saveQuote passe par Admin SDK côté serveur, donc pas besoin
+     * d’ouvrir create au client pour le moment.
+     */
+    match /quotes/{quoteId} {
+      allow get, list: if isStaff();
+      allow create, update: if isStaff();
+      allow delete: if isAdmin();
+    }
+
+    /*
+     * BOOKINGS
+     * Pour l’instant, tes bookings n’ont pas de customerId / ownerUid fiable.
+     * Donc staff only.
+     */
+    match /bookings/{bookingId} {
+      allow get, list: if isStaff();
+      allow create, update: if isStaff();
+      allow delete: if isAdmin();
+
+      match /inventoryItems/{inventoryItemId} {
+        allow get, list: if isStaff();
+        allow create, update: if isStaff();
+        allow delete: if isAdmin();
+      }
+    }
+
+    match /vehicles/{vehicleId} {
+      allow get, list: if isStaff();
+      allow create, update: if isStaff();
+      allow delete: if isAdmin();
+    }
+
+    match /teams/{teamId} {
+      allow get, list: if isStaff();
+      allow create, update: if isStaff();
+      allow delete: if isAdmin();
+    }
+
+    /*
+     * Collections legacy / futures
      */
     match /serviceTypes/{serviceTypeId} {
       allow get, list: if isSignedIn();
       allow create, update, delete: if isAdmin();
     }
 
-    /**
-     * @description Manages company trucks and their real-time location.
-     * @path /movingTrucks/{truckId}
-     * @allow get: if employee or the customer currently assigned to this truck
-     * @deny create, update, delete: if not an admin
-     * @principle Denormalization allows customers to track only their assigned truck.
-     */
     match /movingTrucks/{truckId} {
-      allow get, list: if isEmployee() || isAdmin() || (resource.data.currentlyAssignedToCustomerId == request.auth.uid);
+      allow get, list: if isStaff();
       allow create, update, delete: if isAdmin();
     }
 
-    /**
-     * @description Organizational teams for moving jobs.
-     * @path /movingTeams/{teamId}
-     * @allow get, list: if employee or admin
-     * @deny create, update, delete: if not an admin
-     * @principle Restricts internal team structures to company staff.
-     */
     match /movingTeams/{teamId} {
-      allow get, list: if isEmployee() || isAdmin();
+      allow get, list: if isStaff();
       allow create, update, delete: if isAdmin();
-    }
-
-    /**
-     * @description Core moving appointments.
-     * @path /bookings/{bookingId}
-     * @allow get, list, update: if customerId matches auth.uid or user is staff
-     * @deny create: if customerId does not match auth.uid
-     * @principle Enforces ownership via denormalized customerId field.
-     */
-    match /bookings/{bookingId} {
-      allow get, list: if resource.data.customerId == request.auth.uid || isEmployee() || isAdmin();
-      allow create: if isSignedIn() && request.resource.data.customerId == request.auth.uid;
-      allow update: if (resource.data.customerId == request.auth.uid || isAdmin() || isEmployee()) && resource != null;
-      allow delete: if (resource.data.customerId == request.auth.uid || isAdmin()) && resource != null;
-
-      /**
-       * @description Items belonging to a specific booking.
-       * @path /bookings/{bookingId}/inventoryItems/{inventoryItemId}
-       * @allow get, list: if customerId matches auth.uid or user is staff
-       * @deny create: if customerId in data does not match user
-       * @principle Authorization Independence: customerId is copied to child for flat security checks.
-       */
-      match /inventoryItems/{inventoryItemId} {
-        allow get, list: if resource.data.customerId == request.auth.uid || isEmployee() || isAdmin();
-        allow create: if isSignedIn() && request.resource.data.customerId == request.auth.uid;
-        allow update: if (resource.data.customerId == request.auth.uid || isAdmin() || isEmployee()) && resource != null;
-        allow delete: if (resource.data.customerId == request.auth.uid || isAdmin()) && resource != null;
-      }
     }
   }
 }

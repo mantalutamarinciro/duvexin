@@ -1,62 +1,91 @@
 'use server';
 
 import { db, admin } from '@/lib/firebase';
-import { QuoteRequestFormData } from '@/components/quote-form';
+import type { QuoteRequestFormData, Quote, QuoteStatus } from '@/types/quote';
 import { serviceTypeLabels } from '@/lib/quote-constants';
 import { Resend } from 'resend';
 
 const { Timestamp } = admin.firestore;
 
-/**
- * CONFIGURATION DE L'ADRESSE DE RÉCEPTION
- */
-const ADMIN_RECEiPIENT_EMAIL = 'contact@demenagementduvexin.fr';
+const QUOTES_COLLECTION = 'quotes';
+const ADMIN_RECIPIENT_EMAIL = 'contact@demenagementduvexin.fr';
 
-// Initialisation de Resend
 const apiKey = process.env.RESEND_API_KEY || '';
-const resend = (apiKey && apiKey.startsWith('re_')) ? new Resend(apiKey) : null;
-
-export type QuoteStatus = 'pending' | 'accepted' | 'refused' | 'invoiced' | 'converted';
-
-export interface Quote extends Omit<QuoteRequestFormData, 'moveDate'> {
-  id: string;
-  moveDate: string | null; // Changed to allow null from public form
-  quote: number;
-  status: QuoteStatus;
-  createdAt: string; // ISO string
-}
+const resend = apiKey && apiKey.startsWith('re_') ? new Resend(apiKey) : null;
 
 const PRIMARY_COLOR = '#00ad9f';
 const SECONDARY_COLOR = '#0f172a';
 
-export async function saveQuote(
-  quoteData: Omit<Quote, 'id' | 'createdAt' | 'status'> & { moveDate?: string }
-): Promise<{ id: string }> {
+type SaveQuoteInput = Omit<QuoteRequestFormData, 'moveDate'> & {
+  moveDate?: string;
+  quote: number;
+};
+
+function toFirestoreMoveDate(moveDate?: string | null) {
+  if (!moveDate) return null;
+
+  const parsed = new Date(moveDate);
+  if (Number.isNaN(parsed.getTime())) return null;
+
+  return Timestamp.fromDate(parsed);
+}
+
+function mapDocToQuote(
+  doc: admin.firestore.DocumentSnapshot<admin.firestore.DocumentData>
+): Quote {
+  const data = doc.data()!;
+
+  return {
+    id: doc.id,
+    clientName: data.clientName ?? '',
+    clientEmail: data.clientEmail ?? '',
+    clientPhone: data.clientPhone ?? undefined,
+    originAddress: data.originAddress ?? '',
+    destinationAddress: data.destinationAddress ?? '',
+    moveDate: data.moveDate
+      ? (data.moveDate as admin.firestore.Timestamp).toDate().toISOString()
+      : null,
+    volume: Number(data.volume ?? 0),
+    distance: Number(data.distance ?? 0),
+    serviceType: data.serviceType ?? 'basic',
+    details: data.details ?? undefined,
+    quote: Number(data.quote ?? 0),
+    status: (data.status ?? 'pending') as QuoteStatus,
+    createdAt: data.createdAt
+      ? (data.createdAt as admin.firestore.Timestamp).toDate().toISOString()
+      : new Date().toISOString(),
+  };
+}
+
+export async function saveQuote(quoteData: SaveQuoteInput): Promise<{ id: string }> {
   try {
-    const docRef = await db.collection('quotes').add({
+    const docRef = await db.collection(QUOTES_COLLECTION).add({
       ...quoteData,
-      status: 'pending',
-      moveDate: quoteData.moveDate ? Timestamp.fromDate(new Date(quoteData.moveDate)) : null,
+      status: 'pending' as QuoteStatus,
+      moveDate: toFirestoreMoveDate(quoteData.moveDate),
       createdAt: Timestamp.now(),
     });
 
-    const quoteId = docRef.id;
-    const formattedDate = quoteData.moveDate ? new Date(quoteData.moveDate).toLocaleDateString('fr-FR', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    }) : 'À définir';
-
-    console.log('Quote saved with ID: ', quoteId);
+    const formattedDate = quoteData.moveDate
+      ? new Date(quoteData.moveDate).toLocaleDateString('fr-FR', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+        })
+      : 'À définir';
 
     if (resend) {
       try {
-        const serviceLabel = serviceTypeLabels[quoteData.serviceType as keyof typeof serviceTypeLabels] || quoteData.serviceType || "Standard";
+        const serviceLabel =
+          serviceTypeLabels[
+            quoteData.serviceType as keyof typeof serviceTypeLabels
+          ] ||
+          quoteData.serviceType ||
+          'Standard';
 
-        // 1. E-mail pour l'ADMINISTRATEUR
         await resend.emails.send({
           from: 'DemDuVexin <contact@demenagementduvexin.fr>',
-          to: ADMIN_RECEiPIENT_EMAIL,
+          to: ADMIN_RECIPIENT_EMAIL,
           subject: `⚡️ Nouveau Devis : ${quoteData.clientName}`,
           html: `
             <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #334155; max-width: 600px; margin: 0 auto; background-color: #f8fafc; padding: 20px;">
@@ -111,10 +140,9 @@ export async function saveQuote(
                 </div>
               </div>
             </div>
-          `
+          `,
         });
 
-        // 2. E-mail pour le CLIENT (confirmation de réception)
         await resend.emails.send({
           from: 'Déménagement du Vexin <contact@demenagementduvexin.fr>',
           to: quoteData.clientEmail,
@@ -167,7 +195,7 @@ export async function saveQuote(
                 </div>
               </div>
             </div>
-          `
+          `,
         });
       } catch (emailError) {
         console.error('Failed to send notification emails:', emailError);
@@ -176,76 +204,68 @@ export async function saveQuote(
 
     return { id: docRef.id };
   } catch (error) {
-    console.error('Error saving quote: ', error);
+    console.error('Error saving quote:', error);
     throw new Error('Failed to save quote.');
   }
 }
 
 export async function getQuotes(): Promise<Quote[]> {
-    try {
-        const quotesCol = db.collection('quotes');
-        const q = quotesCol.orderBy('createdAt', 'desc');
-        const querySnapshot = await q.get();
-        return querySnapshot.docs.map(doc => {
-            const data = doc.data();
-            return {
-                id: doc.id,
-                ...data,
-                moveDate: data.moveDate ? (data.moveDate as admin.firestore.Timestamp).toDate().toISOString() : null,
-                createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(), 
-            } as Quote;
-        });
-    } catch (error) {
-        console.error('Error fetching quotes: ', error);
-        throw new Error('Failed to fetch quotes.');
-    }
+  try {
+    const querySnapshot = await db
+      .collection(QUOTES_COLLECTION)
+      .orderBy('createdAt', 'desc')
+      .get();
+
+    return querySnapshot.docs.map(mapDocToQuote);
+  } catch (error) {
+    console.error('Error fetching quotes:', error);
+    throw new Error('Failed to fetch quotes.');
+  }
 }
 
 export async function getQuoteById(id: string): Promise<Quote | null> {
-    try {
-        const docRef = db.collection('quotes').doc(id);
-        const docSnap = await docRef.get();
-        if (!docSnap.exists) return null;
-        const data = docSnap.data()!;
-        return {
-            id: docSnap.id,
-            ...data,
-            moveDate: data.moveDate ? (data.moveDate as admin.firestore.Timestamp).toDate().toISOString() : null,
-            createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(),
-        } as Quote;
-    } catch (error) {
-        console.error('Error fetching quote by ID: ', error);
-        throw new Error('Failed to fetch quote.');
-    }
+  try {
+    const docSnap = await db.collection(QUOTES_COLLECTION).doc(id).get();
+    if (!docSnap.exists) return null;
+    return mapDocToQuote(docSnap);
+  } catch (error) {
+    console.error('Error fetching quote by ID:', error);
+    throw new Error('Failed to fetch quote.');
+  }
 }
 
 export async function updateQuoteStatus(id: string, status: QuoteStatus): Promise<void> {
   try {
-    await db.collection('quotes').doc(id).update({ status });
+    await db.collection(QUOTES_COLLECTION).doc(id).update({ status });
   } catch (error) {
-    console.error('Error updating quote status: ', error);
+    console.error('Error updating quote status:', error);
     throw new Error('Failed to update quote status.');
   }
 }
 
-export async function updateQuote(id: string, data: Partial<Omit<Quote, 'id' | 'createdAt'>> & { moveDate?: string }): Promise<void> {
-    try {
-        const updateData: any = { ...data };
-        if (data.moveDate) {
-            updateData.moveDate = Timestamp.fromDate(new Date(data.moveDate));
-        }
-        await db.collection('quotes').doc(id).update(updateData);
-    } catch (error) {
-        console.error('Error updating quote: ', error);
-        throw new Error('Failed to update quote.');
+export async function updateQuote(
+  id: string,
+  data: Partial<Omit<Quote, 'id' | 'createdAt'>> & { moveDate?: string | null }
+): Promise<void> {
+  try {
+    const updateData: Record<string, unknown> = { ...data };
+
+    if ('moveDate' in data) {
+      updateData.moveDate = toFirestoreMoveDate(data.moveDate ?? null);
     }
+
+    await db.collection(QUOTES_COLLECTION).doc(id).update(updateData);
+  } catch (error) {
+    console.error('Error updating quote:', error);
+    throw new Error('Failed to update quote.');
+  }
 }
 
 export async function deleteQuote(id: string): Promise<void> {
   try {
-    await db.collection('quotes').doc(id).delete();
+    await db.collection(QUOTES_COLLECTION).doc(id).delete();
   } catch (error) {
-    console.error('Error deleting quote: ', error);
+    console.error('Error deleting quote:', error);
     throw new Error('Failed to delete quote.');
   }
 }

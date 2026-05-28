@@ -1,159 +1,239 @@
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import { QuoteRequestFormData } from "@/components/quote-form"
 import { serviceTypeLabels } from "@/lib/quote-constants"
+import type { QuoteRequestFormData } from "@/types/quote"
 
 interface QuotePDFProps {
-    data: QuoteRequestFormData
-    quote: number
+  data: QuoteRequestFormData
+  quote: number
+}
+
+function safeFormatDate(value?: string | Date | null, pattern = "dd/MM/yyyy") {
+  if (!value) return "-"
+  const date = value instanceof Date ? value : new Date(value)
+  if (Number.isNaN(date.getTime())) return "-"
+  return format(date, pattern, { locale: fr })
+}
+
+function money(value: number) {
+  return value.toLocaleString("fr-FR", {
+    style: "currency",
+    currency: "EUR",
+  })
+}
+
+function buildQuoteNumber(clientName: string) {
+  const now = new Date()
+  const prefix = clientName?.trim()?.slice(0, 3)?.toUpperCase() || "CLI"
+  return `Q-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}-${prefix}`
 }
 
 export function QuotePDF({ data, quote }: QuotePDFProps) {
-    const today = new Date();
-    const expiryDate = new Date();
-    expiryDate.setDate(today.getDate() + 30);
+  const today = new Date()
+  const expiryDate = new Date()
+  expiryDate.setDate(today.getDate() + 30)
 
-    return (
-        <div className="bg-white text-slate-800 p-12 font-sans" style={{ width: '210mm', minHeight: '297mm' }}>
-            {/* Header avec Logo et ruban premium */}
-            <header className="flex justify-between items-start pb-8 border-b-4 border-[#00ad9f]">
-                <div className="space-y-4">
-                    <img 
-                        src="/images/logo.png" 
-                        alt="Logo Déménagement du Vexin" 
-                        style={{ height: '60px', width: 'auto' }}
-                    />
-                    <div className="pt-2 text-xs leading-relaxed">
-                        <div className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Artisans de votre mobilité</div>
-                        9 Rue de Pontoise<br />
-                        95540 Méry-sur-Oise<br />
-                        01 30 75 12 35<br />
-                        contact@demenagementduvexin.fr
-                    </div>
-                </div>
-                <div className="text-right">
-                    <div className="inline-block bg-[#0f172a] text-white px-6 py-2 rounded-full text-sm font-black uppercase tracking-widest mb-4">
-                        PROPOSITION TARIFAIRE
-                    </div>
-                    <p className="text-sm font-bold text-slate-900">N° DEVIS : Q-{String(today.getFullYear())}{String(today.getMonth() + 1).padStart(2, '0')}-{data.clientName.substring(0, 3).toUpperCase()}</p>
-                    <p className="text-xs text-slate-500 mt-1">Date : {format(today, "d MMMM yyyy", { locale: fr })}</p>
-                    <p className="text-xs text-[#00ad9f] font-bold mt-1 uppercase">Valable jusqu'au : {format(expiryDate, "d MMMM yyyy", { locale: fr })}</p>
-                </div>
-            </header>
+  const quoteNumber = buildQuoteNumber(data.clientName)
+  const totalHT = quote / 1.2
+  const vat = quote - totalHT
 
-            <div className="grid grid-cols-2 gap-12 mt-12">
-                {/* Client */}
-                <div className="space-y-4">
-                    <h3 className="text-[10px] font-black text-[#00ad9f] uppercase tracking-[0.2em]">Destinataire</h3>
-                    <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                        <p className="text-lg font-black text-slate-900">{data.clientName}</p>
-                        <p className="text-sm mt-1">{data.clientEmail}</p>
-                        <p className="text-sm">{data.clientPhone || 'Téléphone non renseigné'}</p>
-                    </div>
-                </div>
-                {/* Résumé logistique */}
-                <div className="space-y-4">
-                    <h3 className="text-[10px] font-black text-[#00ad9f] uppercase tracking-[0.2em]">Votre projet</h3>
-                    <div className="space-y-3">
-                        <div className="flex justify-between text-sm border-b border-slate-100 pb-2">
-                            <span className="text-slate-500">Date prévue</span>
-                            <span className="font-bold">{format(data.moveDate, "d MMMM yyyy", { locale: fr })}</span>
-                        </div>
-                        <div className="flex justify-between text-sm border-b border-slate-100 pb-2">
-                            <span className="text-slate-500">Volume estimé</span>
-                            <span className="font-bold text-primary">{data.volume} m³</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                            <span className="text-slate-500">Distance</span>
-                            <span className="font-bold">{data.distance} km</span>
-                        </div>
-                    </div>
-                </div>
+  const serviceLabel =
+    serviceTypeLabels[data.serviceType as keyof typeof serviceTypeLabels] ||
+    data.serviceType ||
+    "Prestation de déménagement"
+
+  return (
+    <div
+      className="bg-white text-slate-800"
+      style={{
+        width: "210mm",
+        height: "297mm",
+        padding: "8mm 10mm",
+        boxSizing: "border-box",
+        fontFamily: "Arial, Helvetica, sans-serif",
+        overflow: "hidden",
+      }}
+    >
+      <div className="flex h-full flex-col">
+        {/* HEADER */}
+        <header className="flex items-start justify-between border-b-2 border-[#00ad9f] pb-3">
+          <div className="max-w-[48%]">
+            <img
+              src="/images/logo.png"
+              alt="Logo Déménagement du Vexin"
+              style={{ height: "46px", width: "auto", objectFit: "contain" }}
+            />
+            <div className="mt-1.5 text-[10px] leading-[1.35] text-slate-600">
+              <div className="font-bold uppercase text-[#00ad9f]">
+                Artisans de votre mobilité
+              </div>
+              <div className="mt-0.5">9 Rue de Pontoise</div>
+              <div>95540 Méry-sur-Oise</div>
+              <div>01 30 75 12 35</div>
+              <div>contact@demenagementduvexin.fr</div>
+            </div>
+          </div>
+
+          <div className="text-right text-[10px] leading-[1.35]">
+            <div className="inline-block rounded-full bg-[#0f172a] px-3 py-1 font-bold uppercase text-white">
+              Devis
+            </div>
+            <div className="mt-1.5 font-bold text-slate-900">N° {quoteNumber}</div>
+            <div className="mt-0.5 text-slate-500">
+              Date : {safeFormatDate(today, "d MMMM yyyy")}
+            </div>
+            <div className="font-bold text-[#00ad9f]">
+              Valable jusqu&apos;au : {safeFormatDate(expiryDate, "d MMMM yyyy")}
+            </div>
+          </div>
+        </header>
+
+        {/* CLIENT + PROJET */}
+        <section className="mt-3 grid grid-cols-2 gap-3">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+            <div className="mb-1.5 text-[9px] font-bold uppercase text-[#00ad9f]">
+              Destinataire
+            </div>
+            <div className="text-[13px] font-bold text-slate-900">{data.clientName}</div>
+            <div className="mt-0.5 text-[11px]">{data.clientEmail}</div>
+            <div className="text-[11px]">
+              {data.clientPhone || "Téléphone non renseigné"}
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-slate-200 bg-white p-3">
+            <div className="mb-1.5 text-[9px] font-bold uppercase text-[#00ad9f]">
+              Votre projet
+            </div>
+            <div className="space-y-0.5 text-[11px] leading-[1.35]">
+              <div className="flex justify-between gap-2">
+                <span className="text-slate-500">Date prévue</span>
+                <span className="text-right font-bold">
+                  {safeFormatDate(data.moveDate, "d MMMM yyyy")}
+                </span>
+              </div>
+              <div className="flex justify-between gap-2">
+                <span className="text-slate-500">Volume estimé</span>
+                <span className="font-bold">{data.volume} m³</span>
+              </div>
+              <div className="flex justify-between gap-2">
+                <span className="text-slate-500">Distance</span>
+                <span className="font-bold">{data.distance} km</span>
+              </div>
+              <div className="flex justify-between gap-2">
+                <span className="text-slate-500">Formule</span>
+                <span className="max-w-[60%] text-right font-bold">{serviceLabel}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ADRESSES */}
+        <section className="mt-3 rounded-[18px] bg-[#0f172a] p-4 text-white">
+          <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-3">
+            <div>
+              <div className="text-[9px] font-bold uppercase text-[#00ad9f]">
+                Départ
+              </div>
+              <div className="mt-1.5 text-[11px] leading-[1.35]">
+                {data.originAddress}
+              </div>
             </div>
 
-            {/* Adresses */}
-            <div className="mt-12 p-8 rounded-[2.5rem] bg-[#0f172a] text-white flex gap-12 items-center relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[#00ad9f]/20 rounded-full blur-3xl" />
-                <div className="flex-1 space-y-2">
-                    <p className="text-[10px] font-black uppercase text-[#00ad9f] tracking-widest">Départ</p>
-                    <p className="text-sm font-medium leading-relaxed">{data.originAddress}</p>
-                </div>
-                <div className="flex flex-col items-center">
-                    <div className="h-px w-12 bg-[#00ad9f]/50" />
-                    <span className="text-[10px] font-bold py-1">TRAJET</span>
-                    <div className="h-px w-12 bg-[#00ad9f]/50" />
-                </div>
-                <div className="flex-1 space-y-2 text-right">
-                    <p className="text-[10px] font-black uppercase text-[#00ad9f] tracking-widest">Arrivée</p>
-                    <p className="text-sm font-medium leading-relaxed">{data.destinationAddress}</p>
-                </div>
+            <div className="pt-4 text-center text-[10px] font-bold text-[#00ad9f]">
+              →
             </div>
 
-            {/* Détails Financiers */}
-            <section className="mt-16">
-                <h3 className="text-[10px] font-black text-[#00ad9f] uppercase tracking-[0.2em] mb-6">Détail de la prestation</h3>
-                <table className="w-full">
-                    <thead>
-                        <tr className="bg-slate-50 text-left">
-                            <th className="p-4 text-xs font-black uppercase tracking-widest rounded-l-2xl">Description des services</th>
-                            <th className="p-4 text-xs font-black uppercase tracking-widest text-right rounded-r-2xl">Montant</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td className="p-6">
-                                <p className="text-base font-bold text-slate-900">{serviceTypeLabels[data.serviceType as keyof typeof serviceTypeLabels]}</p>
-                                <p className="text-xs text-slate-500 mt-2 leading-relaxed">
-                                    Prestation incluant la mise à disposition d'une équipe de professionnels salariés, 
-                                    véhicule capitonné adapté de {data.volume}m³, matériel de protection (couvertures, sangles, housses) 
-                                    et assurance contractuelle pour un trajet de {data.distance} km.
-                                </p>
-                                {data.details && (
-                                    <div className="mt-4 p-4 bg-amber-50 rounded-xl text-xs text-amber-800 border border-amber-100">
-                                        <strong>Notes particulières :</strong> {data.details}
-                                    </div>
-                                )}
-                            </td>
-                            <td className="p-6 text-right align-top">
-                                <span className="text-lg font-black text-slate-900">{quote.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+            <div className="text-right">
+              <div className="text-[9px] font-bold uppercase text-[#00ad9f]">
+                Arrivée
+              </div>
+              <div className="mt-1.5 text-[11px] leading-[1.35]">
+                {data.destinationAddress}
+              </div>
+            </div>
+          </div>
+        </section>
 
-            {/* Totaux */}
-            <section className="mt-8 flex justify-end">
-                <div className="w-72 space-y-3 bg-slate-50 p-8 rounded-[2rem] border border-slate-100">
-                    <div className="flex justify-between text-sm">
-                        <span className="text-slate-500">Total HT</span>
-                        <span className="font-medium">{(quote / 1.2).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                        <span className="text-slate-500">TVA (20%)</span>
-                        <span className="font-medium">{(quote - (quote / 1.2)).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</span>
-                    </div>
-                    <div className="flex justify-between items-end pt-4 border-t border-slate-200">
-                        <span className="text-sm font-black uppercase">Total TTC</span>
-                        <span className="text-2xl font-black text-[#00ad9f]">{quote.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</span>
-                    </div>
-                </div>
-            </section>
+        {/* PRESTATION */}
+        <section className="mt-3">
+          <div className="mb-1.5 text-[9px] font-bold uppercase text-[#00ad9f]">
+            Détail de la prestation
+          </div>
 
-            {/* Footer Légal */}
-            <footer className="mt-20 pt-8 border-t border-slate-100 grid grid-cols-2 gap-12 text-[10px] text-slate-400 leading-relaxed">
-                <div className="space-y-2">
-                    <p className="font-bold text-slate-600">MENTIONS LÉGALES</p>
-                    <p>Ce devis est établi sous réserve de visite technique et de conformité du volume déclaré. 
-                    Il est valable 30 jours calendaires à compter de sa date d'émission. 
-                    Assurance contractuelle incluse à hauteur de 50 000€ par convoi.</p>
+          <div className="overflow-hidden rounded-2xl border border-slate-200">
+            <div className="grid grid-cols-[1fr_130px] bg-slate-50">
+              <div className="p-2.5 text-[10px] font-bold uppercase">
+                Description des services
+              </div>
+              <div className="p-2.5 text-right text-[10px] font-bold uppercase">
+                Montant
+              </div>
+            </div>
+
+            <div className="grid grid-cols-[1fr_130px] border-t border-slate-200">
+              <div className="p-3">
+                <div className="text-[13px] font-bold text-slate-900">{serviceLabel}</div>
+                <div className="mt-1.5 text-[10px] leading-[1.45] text-slate-600">
+                  Prestation incluant la mise à disposition d&apos;une équipe de
+                  professionnels, un véhicule adapté d&apos;environ {data.volume} m³,
+                  le matériel de protection nécessaire, la manutention, le transport
+                  et l&apos;assurance contractuelle pour un trajet estimé à {data.distance} km.
                 </div>
-                <div className="text-right flex flex-col justify-end">
-                    <p className="font-bold text-slate-900 text-xs mb-1">DÉMÉNAGEMENT DU VEXIN</p>
-                    <p>SARL au capital de 10 000€ - SIRET : 123 456 789 00012</p>
-                    <p>Licence transport n° 2024/11/0000123</p>
-                </div>
-            </footer>
-        </div>
-    )
+
+                {data.details && (
+                  <div className="mt-2 rounded-xl border border-amber-100 bg-amber-50 p-2.5 text-[10px] leading-[1.4] text-amber-800">
+                    <strong>Notes particulières :</strong> {data.details}
+                  </div>
+                )}
+              </div>
+
+              <div className="p-3 text-right">
+                <div className="text-[17px] font-bold text-slate-900">{money(quote)}</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CHIFFRAGE */}
+        <section className="mt-3 flex justify-end">
+          <div className="w-[250px] rounded-2xl border border-slate-200 bg-slate-50 p-4">
+            <div className="flex justify-between text-[11px]">
+              <span className="text-slate-500">Total HT</span>
+              <span className="font-medium">{money(totalHT)}</span>
+            </div>
+            <div className="mt-1.5 flex justify-between text-[11px]">
+              <span className="text-slate-500">TVA (20%)</span>
+              <span className="font-medium">{money(vat)}</span>
+            </div>
+            <div className="mt-2 flex items-end justify-between border-t border-slate-200 pt-2">
+              <span className="text-[11px] font-bold uppercase">Total TTC</span>
+              <span className="text-[19px] font-bold text-[#00ad9f]">{money(quote)}</span>
+            </div>
+          </div>
+        </section>
+
+        {/* FOOTER - compact et collé en bas */}
+        <footer className="mt-auto border-t border-slate-200 pt-3">
+          <div className="grid grid-cols-2 gap-4 text-[9px] leading-[1.35] text-slate-500">
+            <div>
+              <div className="mb-1 font-bold text-slate-700">Mentions légales</div>
+              <p>
+                Ce devis est établi sous réserve de visite technique et de validation
+                des accès. Il est valable 30 jours calendaires à compter de sa date
+                d&apos;émission. Assurance contractuelle incluse.
+              </p>
+            </div>
+
+            <div className="text-right">
+              <div className="mb-1 font-bold text-slate-900">DÉMÉNAGEMENT DU VEXIN</div>
+              <p>SARL au capital de 10 000€</p>
+              <p>SIRET : 123 456 789 00012</p>
+              <p>Licence transport n° 2024/11/0000123</p>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+  )
 }
