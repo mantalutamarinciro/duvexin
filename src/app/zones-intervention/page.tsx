@@ -64,6 +64,10 @@ const NORMANDIE = [
   { name: "Orne (61)", description: "Une présence logistique fiable et robuste pour vos transferts dans l'Orne.", link: "/demenagement-orne-61" },
 ];
 
+const HAUTS_DE_FRANCE = [
+  { name: "Oise (60)", description: "Une zone stratégique au nord du Val-d'Oise : Beauvais, Compiègne, Creil, Senlis et les principales communes du département.", link: "/demenagement-oise-60" },
+];
+
 const INTERNATIONAL = [
   { name: "Royaume-Uni", description: "Expertise post-Brexit et douanes. Liaisons régulières vers Londres, Manchester...", icon: Ship, link: "/demenagement-france-royaume-uni" },
   { name: "Suisse", description: "Spécialiste douanes hors UE pour Genève, Lausanne, Zurich et les cantons.", icon: Navigation, link: "/demenagement-france-suisse" },
@@ -230,8 +234,52 @@ export default function InterventionZonePage() {
         </div>
       </section>
 
+      {/* --- HAUTS-DE-FRANCE --- */}
+      <section id="hauts-de-france" className="py-24 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+            <div className="max-w-2xl space-y-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-slate-50 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-slate-600 border border-slate-200 shadow-sm">
+                <Navigation className="h-4 w-4" />
+                Extension Nord
+              </div>
+              <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+                Hauts-de-France
+              </h2>
+              <p className="text-lg text-slate-500 font-light">
+                Un secteur de proximité naturel depuis le Val-d'Oise, avec une couverture dédiée pour les déménagements dans l'Oise.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-6">
+            {HAUTS_DE_FRANCE.map((dept, index) => (
+              <Link
+                key={index}
+                href={dept.link}
+                className="group flex flex-col bg-slate-50 border border-slate-100 rounded-[2rem] p-8 hover:bg-white hover:shadow-xl hover:border-[#00ad9f]/30 hover:-translate-y-2 transition-all duration-500"
+              >
+                <div className="flex items-center gap-4 mb-6">
+                   <div className="h-14 w-14 rounded-2xl bg-white shadow-sm flex items-center justify-center group-hover:bg-[#00ad9f]/10 transition-colors duration-500">
+                      <MapPin className="h-6 w-6 text-slate-400 group-hover:text-[#00ad9f] transition-colors duration-500" />
+                   </div>
+                   <h3 className="font-bold text-xl text-slate-900 leading-tight group-hover:text-[#00ad9f] transition-colors">{dept.name}</h3>
+                </div>
+                <p className="text-sm text-slate-500 font-light leading-relaxed mb-8 flex-1">
+                  {dept.description}
+                </p>
+                <div className="mt-auto pt-5 border-t border-slate-100 flex items-center justify-between text-slate-600 group-hover:text-[#00ad9f] font-bold text-sm transition-colors">
+                  Découvrir ce secteur
+                  <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1.5 transition-transform duration-300" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* --- NORMANDIE --- */}
-      <section id="normandie" className="py-24 bg-white">
+      <section id="normandie" className="py-24 bg-slate-50">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
             <div className="max-w-2xl space-y-4">

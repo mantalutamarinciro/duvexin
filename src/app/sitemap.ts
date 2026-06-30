@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { blogPosts } from '@/lib/blog-posts'
+import { OISE_LOCATION_ROUTES } from '@/lib/oise-locations'
 
 const BASE_URL = 'https://demenagementduvexin.fr'
 
@@ -10,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/a-propos-de-demenagement-du-vexin',
     '/services',
     '/formules-de-demenagement',
+    '/devis-demenagement',
     '/tarif-demenagement',
     '/calculateur-volume',
     '/zones-intervention',
@@ -40,7 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${BASE_URL}${route}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
-    priority: route === '' ? 1 : 0.8,
+    priority: route === '' ? 1 : route === '/devis-demenagement' ? 0.9 : 0.8,
   }))
 
   // 2. Destinations Internationales
@@ -160,7 +162,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
-  // 5. Articles de Blog
+  // 5. Silo Oise (60)
+  const oisePages = OISE_LOCATION_ROUTES.map((route) => ({
+    url: `${BASE_URL}${route}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: route === '/demenagement-oise-60' ? 0.8 : 0.6,
+  }))
+
+  // 6. Articles de Blog
   const blogPages = blogPosts.map((post) => ({
     url: `${BASE_URL}${post.link}`,
     lastModified: new Date(post.date),
@@ -173,6 +183,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...internationalPages, 
     ...nationalPages, 
     ...cityPages, 
+    ...oisePages,
     ...blogPages
   ]
 }
