@@ -145,9 +145,8 @@ export default function QuoteDetailsPage({
     }
   };
 
-  const prepareAndDownloadPdf = () => {
-    if (generatedQuote === "" || !formValues) return;
   const prepareAndDownloadPdf = async () => {
+    if (generatedQuote === "" || !formValues) return;
     setPdfLoading(true);
     try {
         const res = await fetch(`/api/pdf?type=quote&id=${quoteId}`);
