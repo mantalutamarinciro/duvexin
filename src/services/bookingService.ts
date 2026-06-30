@@ -115,7 +115,7 @@ export async function createBookingFromQuote(quote: Quote): Promise<{ id: string
     batch.set(newBookingRef, newBookingData);
 
     const quoteRef = db.collection('quotes').doc(quote.id);
-    batch.update(quoteRef, { status: 'converted' });
+    batch.update(quoteRef, { status: 'Accepté' });
 
     await batch.commit();
 

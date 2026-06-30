@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   title: "Déménagement Le Chesnay-Rocquencourt (78) | Expert Local & Devis Gratuit",
   description: "Déménageur de confiance au Chesnay-Rocquencourt (78150). Spécialiste Parly 2, résidences de standing et transferts médicaux. Devis gratuit sous 24h.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-le-chesnay-rocquencourt-78150",
+    canonical: "https://demenagementduvexin.fr/demenagement-le-chesnay-rocquencourt-78150",
   }
 };
 

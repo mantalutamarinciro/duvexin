@@ -29,15 +29,14 @@
     --chart-2: 215 28% 17%;
     --chart-3: 220 13% 91%;
     --chart-4: 221 83% 53%;
-    --chart-5: 221 70% 70%;
-    --sidebar-background: 224 71.4% 4.1%;
-    --sidebar-foreground: 210 20% 98%;
-    --sidebar-primary: 210 20% 98%;
-    --sidebar-primary-foreground: 224 71.4% 4.1%;
-    --sidebar-accent: 217.2 91.2% 59.8%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 216 34% 17%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 0 0% 100%; /* Blanc pur */
+    --sidebar-foreground: 224 71.4% 4.1%; /* Texte sombre */
+    --sidebar-primary: 175 100% 27%; /* Marque primaire */
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 175 100% 95%; /* Fond actif (très léger primary) */
+    --sidebar-accent-foreground: 175 100% 27%; /* Texte actif */
+    --sidebar-border: 220 13% 91%; /* Ligne super fine et claire */
+    --sidebar-ring: 175 100% 27%;
   }
 
   .dark {

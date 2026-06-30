@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   title: "Déménagement Le Perreux-sur-Marne (94) | Expert Bords de Marne",
   description: "Déménageur de confiance au Perreux-sur-Marne (94170). Spécialiste belles demeures, bords de Marne et résidences de standing. Devis gratuit sous 24h.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-le-perreux-sur-marne-94170",
+    canonical: "https://demenagementduvexin.fr/demenagement-le-perreux-sur-marne-94170",
   }
 };
 

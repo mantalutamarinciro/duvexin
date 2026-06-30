@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   title: "Déménagement Paris → Nantes (44) | Devis Gratuit & Groupage | 24h",
   description: "Déménageur expert sur l'axe Paris-Nantes. Liaisons hebdomadaires, solutions de groupage et expertise centre-ville. Votre devis gratuit sous 24h.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-idf-nantes",
+    canonical: "https://demenagementduvexin.fr/demenagement-idf-nantes",
   }
 };
 

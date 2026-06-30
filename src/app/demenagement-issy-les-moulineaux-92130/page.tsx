@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   title: "Déménagement Issy-les-Moulineaux (92) | Expert Local & Devis Gratuit",
   description: "Déménageur de confiance à Issy-les-Moulineaux (92130). Spécialiste des transferts de bureaux (médias/tech) et des éco-quartiers. Devis gratuit en 24h.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-issy-les-moulineaux-92130",
+    canonical: "https://demenagementduvexin.fr/demenagement-issy-les-moulineaux-92130",
   }
 };
 

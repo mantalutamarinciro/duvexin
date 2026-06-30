@@ -39,13 +39,13 @@ const securityHeaders = [
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.google.com https://*.gstatic.com",
+      "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.google.com https://*.gstatic.com https://www.googletagmanager.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "img-src 'self' blob: data: https://picsum.photos https://images.unsplash.com https://lh3.googleusercontent.com https://i.pravatar.cc https://*.googleusercontent.com",
+      "img-src 'self' blob: data: https://picsum.photos https://images.unsplash.com https://lh3.googleusercontent.com https://i.pravatar.cc https://*.googleusercontent.com https://firebasestorage.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com data:",
       isDev
-        ? "connect-src 'self' ws: wss: http: https: https://*.firebaseio.com https://*.googleapis.com https://*.data.gouv.fr"
-        : "connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://*.data.gouv.fr",
+        ? "connect-src 'self' ws: wss: http: https: https://*.firebaseio.com https://*.googleapis.com https://*.data.gouv.fr https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com"
+        : "connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://*.data.gouv.fr https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com",
       "frame-src 'self'",
       "object-src 'none'",
       "base-uri 'self'",
@@ -88,6 +88,10 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: '*.googleusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
       },
     ],
   },

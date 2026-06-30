@@ -12,7 +12,7 @@ export function InvoicePDF({ data }: InvoicePDFProps) {
     const invoiceNumber = `FAC-${today.getFullYear()}-${data.id.substring(0, 5).toUpperCase()}`;
 
     return (
-        <div className="bg-white text-slate-800 p-12 font-sans" style={{ width: '210mm', minHeight: '297mm' }}>
+        <div className="bg-white text-slate-800 p-12 font-sans flex flex-col" style={{ width: '210mm', minHeight: '297mm' }}>
             {/* Header avec Logo et ruban premium */}
             <header className="flex justify-between items-start pb-8 border-b-4 border-[#0f172a]">
                 <div className="space-y-4">
@@ -113,7 +113,7 @@ export function InvoicePDF({ data }: InvoicePDFProps) {
             </section>
 
             {/* Footer Légal */}
-            <footer className="mt-32 pt-8 border-t border-slate-100 text-center space-y-4">
+            <footer className="mt-auto pt-8 border-t border-slate-100 text-center space-y-4">
                 <p className="text-[10px] text-slate-400">
                     Merci de votre confiance. Pour toute question relative à cette facture, veuillez contacter notre service comptabilité.<br/>
                     SARL Déménagement du Vexin - SIRET : 123 456 789 00012 - RCS Pontoise - TVA Intracom : FR 12 345 678 900

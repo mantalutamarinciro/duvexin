@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   title: "Déménagement Paris → Toulouse (31) | Devis Gratuit & Groupage | 24h",
   description: "Déménageur expert sur l'axe Paris-Toulouse. Liaisons hebdomadaires, solutions de groupage et expertise longue distance. Votre devis gratuit sous 24h.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-idf-toulouse",
+    canonical: "https://demenagementduvexin.fr/demenagement-idf-toulouse",
   }
 };
 

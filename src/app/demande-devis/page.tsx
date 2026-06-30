@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion"
 // UI Components
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { saveQuote } from "@/services/quoteService"
+import { createRequest } from "@/services/requestService"
 import { QuoteForm } from "@/components/quote-form"
 import type { QuoteRequestFormData } from "@/types/quote"
 
@@ -32,14 +32,16 @@ export default function PublicQuotePage() {
     setSaving(true);
     setQuoteId(null);
     try {
-      // Provide defaults for removed fields since the public form is simplified
-      const result = await saveQuote({
-        ...values,
+      // On sauvegarde dans la collection `requests` plutôt que `quotes`
+      const result = await createRequest({
+        clientName: values.clientName,
+        clientEmail: values.clientEmail,
+        clientPhone: values.clientPhone,
+        originAddress: values.originAddress,
+        destinationAddress: values.destinationAddress,
         moveDate: values.moveDate || undefined,
-        quote: 0, 
         volume: values.volume || 0,
-        distance: values.distance || 0,
-        serviceType: values.serviceType || 'basic',
+        details: values.details || undefined,
       });
       
       // Simulation of a small delay for better UX

@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   title: "Déménagement Louviers (27) | Expert Local & Devis Gratuit",
   description: "Déménageur de confiance à Louviers (27400). Spécialiste transferts de bureaux, ateliers et résidences. Devis gratuit sous 24h et visite technique.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-louviers-27400",
+    canonical: "https://demenagementduvexin.fr/demenagement-louviers-27400",
   }
 };
 

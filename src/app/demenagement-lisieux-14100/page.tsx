@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   title: "Déménagement Lisieux (14) | Expert local Pays d'Auge & Devis Gratuit",
   description: "Déménageur de confiance à Lisieux (14100). Spécialiste du centre historique, des longères normandes et transferts de bureaux. Devis gratuit sous 24h.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-lisieux-14100",
+    canonical: "https://demenagementduvexin.fr/demenagement-lisieux-14100",
   }
 };
 

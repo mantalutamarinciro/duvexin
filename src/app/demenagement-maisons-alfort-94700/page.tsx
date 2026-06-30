@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   title: "Déménagement Maisons-Alfort (94) | Expert local & Bords de Marne",
   description: "Déménageur de confiance à Maisons-Alfort (94700). Spécialiste Charentonneau, École Vétérinaire et Bords de Marne. Devis gratuit sous 24h et formules étudiants.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-maisons-alfort-94700",
+    canonical: "https://demenagementduvexin.fr/demenagement-maisons-alfort-94700",
   }
 };
 

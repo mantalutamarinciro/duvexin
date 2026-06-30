@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   title: "Déménagement Les Mureaux (78) | Expert Local & Devis Gratuit",
   description: "Déménageur de confiance aux Mureaux (78130). Spécialiste éco-quartiers, pavillons et transferts industriels (Arianegroup). Devis gratuit sous 24h.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-les-mureaux-78130",
+    canonical: "https://demenagementduvexin.fr/demenagement-les-mureaux-78130",
   }
 };
 

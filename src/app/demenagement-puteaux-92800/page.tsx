@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   title: "Déménagement Puteaux (92) | Expert La Défense & Devis Gratuit 24h",
   description: "Déménageur de confiance à Puteaux (92800). Spécialiste transferts de bureaux à La Défense, accès tours IGH et Vieux Puteaux. Devis gratuit sous 24h.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-puteaux-92800",
+    canonical: "https://demenagementduvexin.fr/demenagement-puteaux-92800",
   }
 };
 

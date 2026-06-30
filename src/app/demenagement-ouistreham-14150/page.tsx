@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   title: "Déménagement Ouistreham (14) | Expert Côte de Nacre & Devis Gratuit",
   description: "Déménageur de confiance à Ouistreham Riva-Bella (14150). Spécialiste bords de mer, logistique portuaire et résidences secondaires. Devis gratuit sous 24h.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-ouistreham-14150",
+    canonical: "https://demenagementduvexin.fr/demenagement-ouistreham-14150",
   }
 };
 

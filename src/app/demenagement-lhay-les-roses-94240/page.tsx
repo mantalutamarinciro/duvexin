@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   title: "Déménagement L'Haÿ-les-Roses (94) | Expert local & Devis Gratuit",
   description: "Déménageur de confiance à L'Haÿ-les-Roses (94240). Spécialiste pavillons, résidences calmes et proximité Roseraie. Devis gratuit sous 24h et visite technique.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-lhay-les-roses-94240",
+    canonical: "https://demenagementduvexin.fr/demenagement-lhay-les-roses-94240",
   }
 };
 

@@ -1,5 +1,5 @@
 
-import { saveQuote } from "@/services/quoteService";
+import { createRequest } from "@/services/requestService";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -34,24 +34,22 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid input data', details: parsedData.error.errors }, { status: 400 });
     }
 
-    // 3. Create a placeholder quote. 
-    // We set a default distance and a quote of 0, as this will need to be calculated later in the dashboard.
-    const quoteData = {
-        ...parsedData.data,
-        distance: 1, // Placeholder distance
-        serviceType: 'basic' as const, // Default service type
-        quote: 0, // Placeholder quote, to be calculated in the dashboard
-        status: 'pending' as const,
-    };
+    // 3. Save the request using the request service
+    const result = await createRequest({
+      clientName: parsedData.data.clientName,
+      clientEmail: parsedData.data.clientEmail,
+      clientPhone: parsedData.data.clientPhone,
+      originAddress: parsedData.data.originAddress,
+      destinationAddress: parsedData.data.destinationAddress,
+      moveDate: parsedData.data.moveDate,
+      volume: parsedData.data.volume,
+    });
 
-    // 4. Save the quote using the existing service
-    const result = await saveQuote(quoteData);
+    console.log(`Successfully received and saved request from external site. Request ID: ${result.id}`);
 
-    console.log(`Successfully received and saved quote from external site. Quote ID: ${result.id}`);
-
-    // 5. Return a success response
+    // 4. Return a success response
     return NextResponse.json(
-        { message: 'Quote request received successfully', quoteId: result.id },
+        { message: 'Quote request received successfully', requestId: result.id },
         { 
             status: 201,
             headers: {

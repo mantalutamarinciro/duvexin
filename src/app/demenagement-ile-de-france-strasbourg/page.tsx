@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   title: "Déménagement Paris → Strasbourg (67) | Devis Gratuit & Groupage | 24h",
   description: "Déménageur expert sur l'axe Paris-Strasbourg. Liaisons régulières, solutions de groupage et expertise centre historique. Votre devis gratuit sous 24h.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-idf-strasbourg",
+    canonical: "https://demenagementduvexin.fr/demenagement-idf-strasbourg",
   }
 };
 

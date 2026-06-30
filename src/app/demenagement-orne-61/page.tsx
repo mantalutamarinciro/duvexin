@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   title: "Déménagement Orne (61) | Expert Normand & Devis Gratuit",
   description: "Marne Transdem : votre expert pour déménager dans l'Orne (61). Alençon, Flers, Argentan et le Perche. Réactivité via notre agence d'Évreux. Devis gratuit.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-orne-61",
+    canonical: "https://demenagementduvexin.fr/demenagement-orne-61",
   }
 };
 

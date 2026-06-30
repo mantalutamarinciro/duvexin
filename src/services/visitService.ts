@@ -4,7 +4,8 @@
 import { db, admin } from '@/lib/firebase';
 const { Timestamp } = admin.firestore;
 
-export type VisitStatus = 'Prévue' | 'Effectuée' | 'Annulée';
+export type VisitStatus = 'Planifiée' | 'Effectuée' | 'Annulée';
+export type VisitType = 'domicile' | 'téléphone' | 'visio';
 
 export interface Visit {
   id: string;
@@ -12,9 +13,11 @@ export interface Visit {
   clientName: string;
   clientAddress: string;
   visitDateTime: string; // ISO String
+  type: VisitType;
   details: string;
   status: VisitStatus;
   quoteId?: string;
+  requestId?: string; // Link to the original request
   createdAt: string; // ISO String
 }
 
@@ -23,7 +26,9 @@ export interface VisitFormData {
   clientName: string;
   clientAddress: string;
   visitDateTime: Date;
+  type: VisitType;
   details: string;
+  requestId?: string;
 }
 
 export async function createVisit(formData: VisitFormData): Promise<{ id: string }> {
@@ -32,7 +37,7 @@ export async function createVisit(formData: VisitFormData): Promise<{ id: string
     await newVisitRef.set({
       ...formData,
       visitDateTime: Timestamp.fromDate(formData.visitDateTime),
-      status: 'Prévue' as VisitStatus,
+      status: 'Planifiée' as VisitStatus,
       createdAt: Timestamp.now(),
     });
     return { id: newVisitRef.id };
@@ -68,5 +73,16 @@ export async function updateVisitStatus(id: string, status: VisitStatus): Promis
   } catch (error) {
     console.error('Error updating visit status: ', error);
     throw new Error('Failed to update visit status.');
+  }
+}
+
+export async function deleteVisit(id: string): Promise<void> {
+  try {
+    const visitRef = db.collection('visits').doc(id);
+    await visitRef.delete();
+    console.log(`Visit ${id} deleted`);
+  } catch (error) {
+    console.error('Error deleting visit: ', error);
+    throw new Error('Failed to delete visit.');
   }
 }

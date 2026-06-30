@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   title: "Déménagement National & Longue Distance | Partout en France",
   description: "Déménagez de l'Île-de-France vers toute la France en toute sérénité. Lignes régulières, groupage, transport sécurisé. Devis gratuit.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-national",
+    canonical: "https://demenagementduvexin.fr/demenagement-national",
   }
 };
 

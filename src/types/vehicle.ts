@@ -8,6 +8,8 @@ export const vehicleTypes = [
 
 export type VehicleType = (typeof vehicleTypes)[number];
 
+export type VehicleStatus = "Disponible" | "En maintenance" | "En mission";
+
 export interface Vehicle {
   id: string;
   type: VehicleType;
@@ -17,6 +19,7 @@ export interface Vehicle {
   lastMaintenanceDate?: string;
   nextMaintenanceDate?: string;
   insuranceExpiryDate?: string;
+  status?: VehicleStatus;
   createdAt: string;
 }
 
@@ -28,4 +31,5 @@ export interface VehicleFormData {
   lastMaintenanceDate?: string;
   nextMaintenanceDate?: string;
   insuranceExpiryDate?: string;
+  status?: VehicleStatus;
 }

@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   title: "Déménagement Ivry-sur-Seine (94) | Expert Local & Devis Gratuit",
   description: "Déménageur de confiance à Ivry-sur-Seine (94200). Spécialiste des accès urbains denses, transferts de bureaux et ateliers. Devis gratuit en 24h.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-ivry-sur-seine-94200",
+    canonical: "https://demenagementduvexin.fr/demenagement-ivry-sur-seine-94200",
   }
 };
 

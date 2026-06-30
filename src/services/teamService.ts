@@ -7,14 +7,18 @@ const { Timestamp } = admin.firestore;
 
 const TEAMS_COLLECTION = 'teams';
 
+export type TeamMemberRole = 'Chef d\'équipe' | 'Chauffeur' | 'Déménageur';
+
 export interface TeamMember {
   name: string;
+  role: TeamMemberRole;
 }
 
 export interface Team {
   id: string;
   name: string;
   members: TeamMember[];
+  vehicleRegistration?: string;
   createdAt: string;
 }
 
@@ -25,6 +29,7 @@ export interface TeamWithBookings extends Team {
 type CreateTeamInput = {
   name: string;
   members: TeamMember[];
+  vehicleRegistration?: string;
 };
 
 function mapDocToTeam(
@@ -36,6 +41,7 @@ function mapDocToTeam(
     id: doc.id,
     name: data.name ?? '',
     members: Array.isArray(data.members) ? data.members : [],
+    vehicleRegistration: data.vehicleRegistration || undefined,
     createdAt: data.createdAt
       ? (data.createdAt as admin.firestore.Timestamp).toDate().toISOString()
       : new Date().toISOString(),
@@ -49,6 +55,7 @@ export async function createTeam(
     const docRef = await db.collection(TEAMS_COLLECTION).add({
       name: teamData.name,
       members: Array.isArray(teamData.members) ? teamData.members : [],
+      vehicleRegistration: teamData.vehicleRegistration || null,
       createdAt: Timestamp.now(),
     });
 
@@ -86,5 +93,15 @@ export async function getTeamById(teamId: string): Promise<Team | null> {
   } catch (error) {
     console.error('Error fetching team by ID:', error);
     throw new Error('Failed to fetch team details.');
+  }
+}
+
+export async function deleteTeam(teamId: string): Promise<void> {
+  try {
+    await db.collection(TEAMS_COLLECTION).doc(teamId).delete();
+    console.log(`Team ${teamId} deleted successfully.`);
+  } catch (error) {
+    console.error('Error deleting team:', error);
+    throw new Error('Failed to delete team.');
   }
 }

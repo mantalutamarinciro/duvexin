@@ -36,6 +36,7 @@ function mapDocToVehicle(
     insuranceExpiryDate: data.insuranceExpiryDate
       ? (data.insuranceExpiryDate as admin.firestore.Timestamp).toDate().toISOString()
       : undefined,
+    status: (data.status as Vehicle['status']) || 'Disponible',
     createdAt: data.createdAt
       ? (data.createdAt as admin.firestore.Timestamp).toDate().toISOString()
       : new Date().toISOString(),
@@ -51,6 +52,7 @@ export async function createVehicle(
       lastMaintenanceDate: toTimestampOrNull(vehicleData.lastMaintenanceDate),
       nextMaintenanceDate: toTimestampOrNull(vehicleData.nextMaintenanceDate),
       insuranceExpiryDate: toTimestampOrNull(vehicleData.insuranceExpiryDate),
+      status: vehicleData.status || 'Disponible',
       createdAt: Timestamp.now(),
     });
 
@@ -73,5 +75,23 @@ export async function getVehicles(): Promise<Vehicle[]> {
   } catch (error) {
     console.error('Error fetching vehicles:', error);
     throw new Error('Failed to fetch vehicles.');
+  }
+}
+
+export async function updateVehicleStatus(id: string, status: Vehicle['status']): Promise<void> {
+  try {
+    await db.collection(VEHICLES_COLLECTION).doc(id).update({ status });
+  } catch (error) {
+    console.error('Error updating vehicle status:', error);
+    throw new Error('Failed to update vehicle status.');
+  }
+}
+
+export async function deleteVehicle(id: string): Promise<void> {
+  try {
+    await db.collection(VEHICLES_COLLECTION).doc(id).delete();
+  } catch (error) {
+    console.error('Error deleting vehicle:', error);
+    throw new Error('Failed to delete vehicle.');
   }
 }

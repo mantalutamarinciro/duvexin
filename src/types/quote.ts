@@ -21,11 +21,14 @@ export interface QuoteRequestFormData {
 }
 
 export type QuoteStatus =
-  | "pending"
-  | "accepted"
-  | "refused"
-  | "invoiced"
-  | "converted";
+  | "Chiffré"
+  | "Envoyé"
+  | "En attente"
+  | "Accepté"
+  | "Refusé"
+  | "Facturé"
+  | "Converti"
+  | "Archivé";
 
 export interface Quote extends Omit<QuoteRequestFormData, "moveDate"> {
   id: string;

@@ -1,17 +1,11 @@
-
 "use client"
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
   LayoutDashboard,
-  Package,
-  FileText,
-  Truck,
   ClipboardList,
-  Users,
-  Activity,
-  Wand2,
+  Truck,
   HardHat,
   Wallet,
   Mail,
@@ -21,6 +15,10 @@ import {
   Contact,
   Calculator,
   UserRound,
+  Inbox,
+  Receipt,
+  Settings,
+  BriefcaseBusiness,
 } from "lucide-react"
 import {
   SidebarMenu,
@@ -28,35 +26,30 @@ import {
   SidebarMenuButton,
   SidebarGroup,
   SidebarGroupLabel,
-  SidebarSeparator,
 } from "@/components/ui/sidebar"
 
-const mainLinks = [
-  { href: "/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
-  { href: "/dashboard/planning", label: "Plannings", icon: Calendar },
-  { href: "/dashboard/bookings", label: "Réservations", icon: Package },
-  { href: "/dashboard/quotes", label: "Devis", icon: ClipboardList },
+const commercialLinks = [
+  { href: "/dashboard/requests", label: "Leads & Demandes", icon: Inbox },
   { href: "/dashboard/customers", label: "Clients", icon: UserRound },
+  { href: "/dashboard/visits", label: "Visites Techniques", icon: Contact },
+  { href: "/dashboard/quotes", label: "Devis", icon: ClipboardList },
+  { href: "/dashboard/invoices", label: "Facturation", icon: Receipt },
+]
+
+const operationnelLinks = [
+  { href: "/dashboard/planning", label: "Planification", icon: Calendar },
   { href: "/dashboard/teams", label: "Équipes", icon: HardHat },
   { href: "/dashboard/vehicles", label: "Flotte", icon: Truck },
-  { href: "/dashboard/storage", label: "Stockage", icon: Warehouse },
+  { href: "/dashboard/storage", label: "Garde-Meuble", icon: Warehouse },
 ]
 
-const toolsLinks = [
-    { href: "/demande-devis", label: "Éditeur de devis", icon: FileText },
-    { href: "/calculateur-volume", label: "Calculateur Volume", icon: Calculator },
-    { href: "/dashboard/visits", label: "Visites", icon: Contact },
-    { href: "/dashboard/communication", label: "Communication", icon: Mail },
-    { href: "/dashboard/routing", label: "Optimisation", icon: Route },
+const outilsLinks = [
+  { href: "/dashboard/calculator", label: "Calculateur Volume", icon: Calculator },
+  { href: "/dashboard/communication", label: "Communication", icon: Mail },
+  { href: "/dashboard/expenses", label: "Dépenses & Frais", icon: Wallet },
 ]
 
-const financeLinks = [
-  { href: "/dashboard/expenses", label: "Dépenses", icon: Wallet },
-]
-
-const adminLinks = [
- { href: "/dashboard/diagnostic", label: "Diagnostic", icon: Activity },
-]
+// Admin links removed for client demo
 
 export function DashboardNav() {
   const pathname = usePathname()
@@ -65,91 +58,52 @@ export function DashboardNav() {
     return pathname === href || (href !== "/dashboard" && pathname.startsWith(href));
   }
 
+  const renderNavGroup = (label: string, links: any[], icon?: any) => (
+      <SidebarGroup className="mb-2">
+        <SidebarGroupLabel className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1 flex items-center gap-2">
+            {icon && icon} {label}
+        </SidebarGroupLabel>
+        <SidebarMenu>
+          {links.map((link) => (
+            <SidebarMenuItem key={link.href}>
+              <SidebarMenuButton
+                asChild
+                isActive={isActive(link.href)}
+                tooltip={link.label}
+                className="rounded-xl transition-all font-medium"
+              >
+                <Link href={link.href}>
+                  <link.icon className="h-4 w-4" />
+                  <span>{link.label}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarGroup>
+  )
+
   return (
-    <>
-      <SidebarGroup>
-        <SidebarMenu>
-          {mainLinks.map((link) => (
-            <SidebarMenuItem key={link.href}>
-              <SidebarMenuButton
-                asChild
-                isActive={isActive(link.href)}
-                tooltip={link.label}
-              >
-                <Link href={link.href}>
-                  <link.icon />
-                  <span>{link.label}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarGroup>
+    <div className="py-2">
+      <SidebarMenu className="mb-4">
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            asChild
+            isActive={isActive("/dashboard")}
+            tooltip="Tableau de bord"
+            className="rounded-xl transition-all font-medium"
+          >
+            <Link href="/dashboard">
+              <LayoutDashboard className="h-4 w-4" />
+              <span>Tableau de bord</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
 
-      <SidebarSeparator />
-
-      <SidebarGroup>
-        <SidebarGroupLabel>Outils</SidebarGroupLabel>
-        <SidebarMenu>
-          {toolsLinks.map((link) => (
-            <SidebarMenuItem key={link.href}>
-              <SidebarMenuButton
-                asChild
-                isActive={isActive(link.href)}
-                tooltip={link.label}
-              >
-                <Link href={link.href}>
-                  <link.icon />
-                  <span>{link.label}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarGroup>
-      
-      <SidebarSeparator />
-
-      <SidebarGroup>
-        <SidebarGroupLabel>Finances</SidebarGroupLabel>
-        <SidebarMenu>
-          {financeLinks.map((link) => (
-            <SidebarMenuItem key={link.href}>
-              <SidebarMenuButton
-                asChild
-                isActive={isActive(link.href)}
-                tooltip={link.label}
-              >
-                <Link href={link.href}>
-                  <link.icon />
-                  <span>{link.label}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarGroup>
-
-      <SidebarSeparator />
-      
-      <SidebarGroup>
-         <SidebarMenu>
-          {adminLinks.map((link) => (
-            <SidebarMenuItem key={link.href}>
-              <SidebarMenuButton
-                asChild
-                isActive={isActive(link.href)}
-                tooltip={link.label}
-              >
-                <Link href={link.href}>
-                  <link.icon />
-                  <span>{link.label}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarGroup>
-    </>
+      {renderNavGroup("Commercial", commercialLinks, <BriefcaseBusiness className="h-3 w-3" />)}
+      {renderNavGroup("Opérationnel", operationnelLinks, <Truck className="h-3 w-3" />)}
+      {renderNavGroup("Outils & Finances", outilsLinks, <Wallet className="h-3 w-3" />)}
+    </div>
   )
 }

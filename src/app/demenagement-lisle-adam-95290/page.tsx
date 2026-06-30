@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   title: "Déménagement L'Isle-Adam (95) | Service Premium & Devis Gratuit",
   description: "Déménageur de confiance à L'Isle-Adam (95290). Spécialiste belles demeures, objets d'art et bords de l'Oise. Service haut de gamme. Devis gratuit sous 24h.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-lisle-adam-95290",
+    canonical: "https://demenagementduvexin.fr/demenagement-lisle-adam-95290",
   }
 };
 

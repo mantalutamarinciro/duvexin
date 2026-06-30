@@ -13,22 +13,21 @@ export function WaybillPDF({ data }: WaybillPDFProps) {
     return (
         <div className="bg-white text-slate-900 p-10 font-sans text-[10px]" style={{ width: '210mm', minHeight: '297mm' }}>
             {/* Header Officiel */}
-            <header className="flex justify-between items-center pb-6 border-b-2 border-slate-900">
-                <div className="flex items-center gap-6">
+            <header className="flex justify-between items-start pb-6 border-b-2 border-slate-900">
+                <div className="flex flex-col gap-2">
                     <img 
                         src="/images/logo.png" 
                         alt="Logo Déménagement du Vexin" 
-                        style={{ height: '50px', width: 'auto' }}
+                        style={{ height: '50px', width: 'auto', objectFit: 'contain', objectPosition: 'left' }}
                     />
-                    <div className="space-y-1">
-                        <div className="text-xl font-black tracking-tighter">DÉMÉNAGEMENT DU VEXIN</div>
+                    <div className="space-y-0.5 mt-1">
                         <p className="text-[8px] text-slate-500">9 Rue de Pontoise, 95540 Méry-sur-Oise | 01 30 75 12 35</p>
                         <p className="text-[8px] text-slate-500">Licence n° 2024/11/0000123 | SIRET 123 456 789 00012</p>
                     </div>
                 </div>
                 <div className="text-right">
                     <h1 className="text-2xl font-black uppercase tracking-tight">Lettre de voiture</h1>
-                    <p className="font-bold">N° DOSSIER : {data.id.substring(0,8).toUpperCase()}</p>
+                    <p className="font-bold text-sm text-slate-500 mt-1">N° DOSSIER : {data.id.substring(0,8).toUpperCase()}</p>
                 </div>
             </header>
 
@@ -40,7 +39,7 @@ export function WaybillPDF({ data }: WaybillPDFProps) {
             <div className="grid grid-cols-2 gap-8 mt-8">
                 {/* Expéditeur */}
                 <div className="space-y-4">
-                    <h3 className="bg-slate-900 text-white px-3 py-1 font-bold uppercase tracking-widest text-[9px] rounded-md">1. Client / Expéditeur</h3>
+                    <h3 className="bg-slate-100 text-slate-900 px-3 py-1.5 font-bold uppercase tracking-widest text-[9px] rounded-md flex items-center">1. Client / Expéditeur</h3>
                     <div className="pl-2 space-y-1">
                         <p className="font-bold text-sm">{data.clientName}</p>
                         <p>{data.clientEmail}</p>
@@ -49,7 +48,7 @@ export function WaybillPDF({ data }: WaybillPDFProps) {
                 </div>
                 {/* Transporteur */}
                 <div className="space-y-4">
-                    <h3 className="bg-slate-900 text-white px-3 py-1 font-bold uppercase tracking-widest text-[9px] rounded-md">2. Entreprise de transport</h3>
+                    <h3 className="bg-slate-100 text-slate-900 px-3 py-1.5 font-bold uppercase tracking-widest text-[9px] rounded-md flex items-center">2. Entreprise de transport</h3>
                     <div className="pl-2 space-y-1">
                         <p className="font-bold text-sm">DÉMÉNAGEMENT DU VEXIN</p>
                         <p>Équipe : <span className="font-bold">{data.assignedTeam || 'En attente'}</span></p>
@@ -61,7 +60,7 @@ export function WaybillPDF({ data }: WaybillPDFProps) {
             {/* Lieux et Dates */}
             <div className="grid grid-cols-2 gap-8 mt-8 border-t border-slate-200 pt-6">
                 <div className="space-y-4">
-                    <h3 className="bg-slate-900 text-white px-3 py-1 font-bold uppercase tracking-widest text-[9px] rounded-md">3. Chargement (Origine)</h3>
+                    <h3 className="bg-slate-100 text-slate-900 px-3 py-1.5 font-bold uppercase tracking-widest text-[9px] rounded-md flex items-center">3. Chargement (Origine)</h3>
                     <div className="pl-2">
                         <p className="font-bold">Adresse :</p>
                         <p className="mb-2 leading-relaxed">{data.originAddress}</p>
@@ -69,7 +68,7 @@ export function WaybillPDF({ data }: WaybillPDFProps) {
                     </div>
                 </div>
                 <div className="space-y-4">
-                    <h3 className="bg-slate-900 text-white px-3 py-1 font-bold uppercase tracking-widest text-[9px] rounded-md">4. Livraison (Destination)</h3>
+                    <h3 className="bg-slate-100 text-slate-900 px-3 py-1.5 font-bold uppercase tracking-widest text-[9px] rounded-md flex items-center">4. Livraison (Destination)</h3>
                     <div className="pl-2">
                         <p className="font-bold">Adresse :</p>
                         <p className="mb-2 leading-relaxed">{data.destinationAddress}</p>
@@ -80,7 +79,7 @@ export function WaybillPDF({ data }: WaybillPDFProps) {
 
             {/* Prestation et Observations */}
             <div className="mt-8 space-y-4">
-                <h3 className="bg-slate-900 text-white px-3 py-1 font-bold uppercase tracking-widest text-[9px] rounded-md">5. Nature de la prestation & Observations</h3>
+                <h3 className="bg-slate-100 text-slate-900 px-3 py-1.5 font-bold uppercase tracking-widest text-[9px] rounded-md flex items-center">5. Nature de la prestation & Observations</h3>
                 <div className="border border-slate-200 rounded-xl p-4 min-h-[80px]">
                     <p><strong>Formule :</strong> {serviceTypeLabels[data.serviceType as keyof typeof serviceTypeLabels]}</p>
                     <p className="mt-2 text-slate-400 italic">Espace réservé aux réserves et observations éventuelles lors du chargement :</p>

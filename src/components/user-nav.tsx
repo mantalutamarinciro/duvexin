@@ -88,13 +88,17 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
-            <span>Profil</span>
+          <DropdownMenuItem asChild>
+            <Link href="/dashboard/profile" className="cursor-pointer w-full">
+              <User className="mr-2 h-4 w-4" />
+              <span>Profil</span>
+            </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Paramètres</span>
+          <DropdownMenuItem asChild>
+            <Link href="/dashboard/settings" className="cursor-pointer w-full">
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Paramètres</span>
+            </Link>
           </DropdownMenuItem>
            <DropdownMenuItem onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
               <Sun className="mr-2 h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />

@@ -29,9 +29,12 @@ import {
   XCircle,
   FileEdit,
   Trash2,
-  BookUser,
+  CalendarDays,
   FileText,
   Loader2,
+  Send,
+  RefreshCcw,
+  Receipt
 } from "lucide-react";
 import {
   Card,
@@ -46,33 +49,30 @@ import {
   deleteQuote,
   getQuoteById,
 } from "@/services/quoteService";
-import type { Quote, QuoteStatus } from "@/types/quote";
 import { createBookingFromQuote } from "@/services/bookingService";
+import { createInvoice } from "@/services/invoiceService";
+import type { Quote, QuoteStatus } from "@/types/quote";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { QuotePDF } from "@/components/quote-pdf";
 
-const statusLabels: Record<Quote["status"], string> = {
-  pending: "En attente",
-  accepted: "Accepté",
-  refused: "Refusé",
-  invoiced: "Facturé",
-  converted: "Converti",
-};
-
 const getBadgeVariant = (status: Quote["status"]) => {
   switch (status) {
-    case "pending":
+    case "Chiffré":
       return "secondary";
-    case "accepted":
+    case "Envoyé":
       return "default";
-    case "refused":
-      return "destructive";
-    case "invoiced":
+    case "En attente":
       return "outline";
-    case "converted":
+    case "Accepté":
+      return "default"; // emerald color could be added via className
+    case "Refusé":
+      return "destructive";
+    case "Facturé":
+      return "outline";
+    case "Converti":
       return "default";
     default:
       return "secondary";
@@ -110,12 +110,28 @@ export default function QuotesPage() {
     void loadQuotes();
   }, []);
 
-  const handleUpdateStatus = async (id: string, status: QuoteStatus) => {
+  const handleUpdateStatus = async (quote: Quote, status: QuoteStatus) => {
     try {
-      await updateQuoteStatus(id, status);
+      await updateQuoteStatus(quote.id, status);
+
+      if (status === "Accepté") {
+          // Création automatique de la facture en brouillon
+          const dueDate = new Date();
+          dueDate.setDate(dueDate.getDate() + 30);
+          await createInvoice({
+              quoteId: quote.id,
+              clientName: quote.clientName,
+              amountTTC: quote.quote,
+              dueDate: dueDate.toISOString()
+          });
+
+          // Création automatique du déménagement (booking)
+          await createBookingFromQuote(quote);
+      }
+
       toast({
         title: "Statut mis à jour",
-        description: `Le devis a été marqué comme ${statusLabels[status].toLowerCase()}.`,
+        description: `Le devis a été marqué comme "${status}"${status === 'Accepté' ? ' et les éléments (facture, déménagement) ont été générés.' : '.'}`,
       });
       await loadQuotes();
     } catch {
@@ -127,29 +143,42 @@ export default function QuotesPage() {
     }
   };
 
-  const handleConvertToBooking = async (quote: Quote) => {
-    if (quote.status !== "accepted") {
+  const handleSendQuote = async (quote: Quote) => {
+      // Simulation of email sending
       toast({
-        variant: "destructive",
-        title: "Action impossible",
-        description: "Seuls les devis acceptés peuvent être convertis en réservation.",
+        title: "Envoi en cours...",
+        description: "Le devis est en cours d'envoi au client.",
       });
-      return;
-    }
+      setTimeout(() => {
+          handleUpdateStatus(quote, "Envoyé");
+      }, 1500);
+  }
 
+  const handleFollowUpQuote = async (quote: Quote) => {
+    toast({
+        title: "Relance envoyée",
+        description: "Un email de relance a été envoyé au client.",
+    });
+    handleUpdateStatus(quote, "En attente");
+  }
+
+  const handleConvertToInvoice = (quote: Quote) => {
+    // Navigate to invoices page to generate invoice
+    sessionStorage.setItem('prefillInvoice', JSON.stringify({
+        quoteId: quote.id,
+        clientName: quote.clientName,
+        amount: quote.quote
+    }));
+    router.push("/dashboard/invoices?action=new");
+  };
+
+  const handleConvertToBooking = async (quote: Quote) => {
     try {
-      await createBookingFromQuote(quote);
-      toast({
-        title: "Réservation créée",
-        description: "Le devis a été converti en réservation avec succès.",
-      });
-      router.push("/dashboard/bookings");
-    } catch {
-      toast({
-        variant: "destructive",
-        title: "Erreur de conversion",
-        description: "Impossible de créer la réservation.",
-      });
+        await createBookingFromQuote(quote);
+        toast({ title: "Déménagement planifié", description: "Le devis a été converti en déménagement." });
+        router.push("/dashboard/planning");
+    } catch (e) {
+        toast({ variant: 'destructive', title: "Erreur", description: "Impossible de créer le déménagement." });
     }
   };
 
@@ -318,9 +347,9 @@ export default function QuotesPage() {
 
       <Card className="overflow-hidden rounded-[2rem] border-none bg-white shadow-sm dark:bg-slate-900">
         <CardHeader>
-          <CardTitle>Demandes de devis</CardTitle>
+          <CardTitle>Liste des Devis</CardTitle>
           <CardDescription>
-            Consultez, chiffrez et convertissez vos prospects en clients.
+            Éditez, envoyez et relancez vos devis. Convertissez les devis acceptés en factures et déménagements.
           </CardDescription>
         </CardHeader>
 
@@ -328,11 +357,10 @@ export default function QuotesPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Client</TableHead>
+                <TableHead>Date / Client</TableHead>
                 <TableHead>Date du projet</TableHead>
-                <TableHead>Montant</TableHead>
+                <TableHead>Montant TTC</TableHead>
                 <TableHead>Statut</TableHead>
-                <TableHead>Provenance</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -345,7 +373,6 @@ export default function QuotesPage() {
                     <TableCell><Skeleton className="h-5 w-24" /></TableCell>
                     <TableCell><Skeleton className="h-5 w-20" /></TableCell>
                     <TableCell><Skeleton className="h-6 w-24 rounded-full" /></TableCell>
-                    <TableCell><Skeleton className="h-5 w-24" /></TableCell>
                     <TableCell><Skeleton className="ml-auto h-8 w-8" /></TableCell>
                   </TableRow>
                 ))
@@ -353,10 +380,16 @@ export default function QuotesPage() {
                 quotes.map((quote) => (
                   <TableRow
                     key={quote.id}
-                    className="group transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                    onClick={() => router.push(`/dashboard/quote/${quote.id}`)}
+                    className="group transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer"
                   >
-                    <TableCell className="font-bold text-slate-900 dark:text-white">
-                      {quote.clientName}
+                    <TableCell>
+                      <div className="font-bold text-slate-900 dark:text-white">
+                        {quote.clientName}
+                      </div>
+                      <div className="text-[10px] font-normal uppercase tracking-wider text-slate-400">
+                        {quote.createdAt ? format(new Date(quote.createdAt), "d MMM yyyy", { locale: fr }) : "-"}
+                      </div>
                     </TableCell>
 
                     <TableCell className="text-xs">
@@ -376,9 +409,9 @@ export default function QuotesPage() {
                       ) : (
                         <Badge
                           variant="secondary"
-                          className="animate-pulse border-amber-100 bg-amber-50 text-amber-700"
+                          className="border-amber-100 bg-amber-50 text-amber-700"
                         >
-                          À chiffrer
+                          Non chiffré
                         </Badge>
                       )}
                     </TableCell>
@@ -386,19 +419,13 @@ export default function QuotesPage() {
                     <TableCell>
                       <Badge
                         variant={getBadgeVariant(quote.status)}
-                        className="text-[10px] font-black uppercase tracking-widest"
+                        className={`text-[10px] font-black uppercase tracking-widest ${quote.status === 'Accepté' ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200 border-emerald-200' : ''}`}
                       >
-                        {statusLabels[quote.status]}
+                        {quote.status.toLowerCase() === 'pending' ? 'En attente' : quote.status}
                       </Badge>
                     </TableCell>
 
-                    <TableCell className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                      {quote.createdAt
-                        ? format(new Date(quote.createdAt), "d MMM yyyy", { locale: fr })
-                        : "-"}
-                    </TableCell>
-
-                    <TableCell className="text-right">
+                    <TableCell className="text-right" onClick={(e) => e.stopPropagation()}>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" className="h-8 w-8 rounded-full p-0">
@@ -420,60 +447,74 @@ export default function QuotesPage() {
                           </DropdownMenuItem>
 
                           {quote.quote > 0 && (
-                            <DropdownMenuItem
-                              onClick={() => prepareAndDownloadPdf(quote.id)}
-                              disabled={pdfLoading === quote.id}
-                              className="rounded-xl"
-                            >
-                              {pdfLoading === quote.id ? (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                              ) : (
-                                <FileText className="mr-2 h-4 w-4 text-emerald-600" />
-                              )}
-                              <span>Générer le PDF (Devis)</span>
-                            </DropdownMenuItem>
+                            <>
+                                <DropdownMenuItem
+                                onClick={() => prepareAndDownloadPdf(quote.id)}
+                                disabled={pdfLoading === quote.id}
+                                className="rounded-xl"
+                                >
+                                {pdfLoading === quote.id ? (
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                ) : (
+                                    <FileText className="mr-2 h-4 w-4 text-emerald-600" />
+                                )}
+                                <span>Générer le PDF</span>
+                                </DropdownMenuItem>
+
+                                <DropdownMenuSeparator className="mx-2" />
+
+                                <DropdownMenuItem onClick={() => handleSendQuote(quote)} className="rounded-xl font-medium text-slate-700 dark:text-slate-300">
+                                    <Send className="mr-2 h-4 w-4 text-blue-500" /> Envoyer
+                                </DropdownMenuItem>
+
+                                {(quote.status === "Envoyé" || quote.status === "En attente") && (
+                                    <DropdownMenuItem onClick={() => handleFollowUpQuote(quote)} className="rounded-xl font-medium text-slate-700 dark:text-slate-300">
+                                        <RefreshCcw className="mr-2 h-4 w-4 text-amber-500" /> Relancer
+                                    </DropdownMenuItem>
+                                )}
+                            </>
                           )}
 
                           <DropdownMenuSeparator className="mx-2" />
 
-                          {quote.status === "pending" && quote.quote > 0 && (
+                          {(quote.status === "Envoyé" || quote.status === "En attente" || quote.status === "Chiffré") && quote.quote > 0 && (
                             <>
                               <DropdownMenuItem
-                                onClick={() => handleUpdateStatus(quote.id, "accepted")}
+                                onClick={() => handleUpdateStatus(quote, "Accepté")}
                                 className="rounded-xl"
                               >
                                 <CheckCircle className="mr-2 h-4 w-4 text-emerald-500" />
-                                Marquer comme accepté
+                                Marquer comme Accepté
                               </DropdownMenuItem>
 
                               <DropdownMenuItem
-                                onClick={() => handleUpdateStatus(quote.id, "refused")}
-                                className="rounded-xl"
+                                onClick={() => handleUpdateStatus(quote, "Refusé")}
+                                className="rounded-xl text-destructive focus:bg-destructive/10 focus:text-destructive"
                               >
-                                <XCircle className="mr-2 h-4 w-4 text-red-500" />
-                                Marquer comme refusé
+                                <XCircle className="mr-2 h-4 w-4" />
+                                Marquer comme Refusé
                               </DropdownMenuItem>
                             </>
                           )}
 
-                          {quote.status === "accepted" && (
+                          <DropdownMenuSeparator className="mx-2" />
+
+                          {quote.status !== "Archivé" && (
                             <DropdownMenuItem
-                              onClick={() => handleConvertToBooking(quote)}
-                              className="rounded-xl bg-primary/10 font-bold text-primary hover:bg-primary/20"
+                              onClick={() => handleUpdateStatus(quote, "Archivé")}
+                              className="rounded-xl text-slate-500 hover:text-slate-700"
                             >
-                              <BookUser className="mr-2 h-4 w-4" />
-                              Convertir en réservation
+                              <FileText className="mr-2 h-4 w-4" />
+                              Archiver
                             </DropdownMenuItem>
                           )}
-
-                          <DropdownMenuSeparator className="mx-2" />
 
                           <DropdownMenuItem
                             onClick={() => handleDeleteQuote(quote.id)}
                             className="rounded-xl font-bold text-destructive focus:bg-destructive/10 focus:text-destructive"
                           >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Supprimer définitivement
+                            Supprimer
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -482,8 +523,9 @@ export default function QuotesPage() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={6} className="h-24 text-center italic text-slate-400">
-                    Aucune demande de devis en attente.
+                  <TableCell colSpan={5} className="h-32 text-center text-slate-400">
+                    <FileText className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                    Aucun devis trouvé.
                   </TableCell>
                 </TableRow>
               )}

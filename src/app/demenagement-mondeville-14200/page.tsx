@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   title: "Déménagement Mondeville (14) | Expert Caen la Mer & Devis Gratuit",
   description: "Déménageur de confiance à Mondeville (14200). Spécialiste zones résidentielles, centres commerciaux (Mondeville 2) et transferts d'entreprises. Devis gratuit 24h.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-mondeville-14200",
+    canonical: "https://demenagementduvexin.fr/demenagement-mondeville-14200",
   }
 };
 

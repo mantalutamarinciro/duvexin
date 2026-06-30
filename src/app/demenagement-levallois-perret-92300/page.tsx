@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   title: "Déménagement Levallois-Perret (92) | Expert local & Devis Gratuit",
   description: "Déménageur de confiance à Levallois-Perret (92300). Spécialiste des immeubles haussmanniens, accès denses et monte-meubles. Devis gratuit sous 24h.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-levallois-perret-92300",
+    canonical: "https://demenagementduvexin.fr/demenagement-levallois-perret-92300",
   }
 };
 

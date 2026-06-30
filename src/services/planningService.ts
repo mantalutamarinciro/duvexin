@@ -23,7 +23,7 @@ export async function getPlanningData(): Promise<PlanningEvent[]> {
             
         // Let's keep quotes on the planning for now, but visits are more important
         const quotesPromise = db.collection('quotes')
-            .where('status', '==', 'pending')
+            .where('status', '==', 'En attente')
             .get();
 
         const visitsPromise = db.collection('visits')

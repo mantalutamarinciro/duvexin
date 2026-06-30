@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   title: "Déménagement Les Andelys (27) | Expert local & Bord de Seine",
   description: "Déménageur de confiance aux Andelys (27700). Spécialiste du Petit et Grand Andely, accès Château-Gaillard et bords de Seine. Devis gratuit sous 24h.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-les-andelys-27700",
+    canonical: "https://demenagementduvexin.fr/demenagement-les-andelys-27700",
   }
 };
 

@@ -60,3 +60,27 @@ export async function getExpenses(): Promise<Expense[]> {
     return [];
   }
 }
+
+export async function updateExpense(id: string, data: Partial<ExpenseFormData>): Promise<void> {
+  if (!db) throw new Error("Base de données non disponible.");
+  try {
+    const updateData: any = { ...data };
+    if (data.date) {
+      updateData.date = Timestamp.fromDate(new Date(data.date));
+    }
+    await db.collection('expenses').doc(id).update(updateData);
+  } catch (error) {
+    console.error('Error updating expense: ', error);
+    throw new Error('Failed to update expense.');
+  }
+}
+
+export async function deleteExpense(id: string): Promise<void> {
+  if (!db) throw new Error("Base de données non disponible.");
+  try {
+    await db.collection('expenses').doc(id).delete();
+  } catch (error) {
+    console.error('Error deleting expense: ', error);
+    throw new Error('Failed to delete expense.');
+  }
+}

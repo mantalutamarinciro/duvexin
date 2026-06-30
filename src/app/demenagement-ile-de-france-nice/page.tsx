@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   title: "Déménagement Paris → Nice (06) | Devis Gratuit & Groupage | 24h",
   description: "Déménageur expert sur l'axe Paris-Nice. Liaisons régulières, solutions de groupage et expertise Vieux-Nice. Votre devis gratuit sous 24h.",
   alternates: {
-    canonical: "https://marnetransdem.fr/demenagement-idf-nice",
+    canonical: "https://demenagementduvexin.fr/demenagement-idf-nice",
   }
 };
 

@@ -14,24 +14,20 @@ import {
 
 const COLORS = ["hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))"];
 
-const chartConfig = {
-  value: {
-    label: "Devis",
-  },
-  "Accepté (Converti)": {
-    label: "Accepté (Converti)",
-    color: "hsl(var(--chart-1))",
-  },
-  "Accepté (Non converti)": {
-    label: "Accepté (Non converti)",
-    color: "hsl(var(--chart-2))",
-  },
-  "Refusé": {
-    label: "Refusé",
-    color: "hsl(var(--chart-3))",
-  },
-} satisfies import("@/components/ui/chart").ChartConfig
-
+const generateDynamicConfig = (data: { name: string, value: number }[]) => {
+  const config: Record<string, { label: string, color?: string }> = {
+    value: { label: "Devis" }
+  };
+  
+  data.forEach((item, i) => {
+    config[item.name] = {
+      label: item.name,
+      color: COLORS[i % COLORS.length]
+    };
+  });
+  
+  return config;
+};
 
 export function QuotesStatusChart({ data }: { data: { name: string, value: number }[] }) {
     if (!data || data.length === 0) {
@@ -47,9 +43,11 @@ export function QuotesStatusChart({ data }: { data: { name: string, value: numbe
     }, [data])
 
 
+    const dynamicConfig = React.useMemo(() => generateDynamicConfig(data), [data]);
+
   return (
     <ChartContainer
-      config={chartConfig}
+      config={dynamicConfig}
       className="mx-auto aspect-square h-full"
     >
       <PieChart>

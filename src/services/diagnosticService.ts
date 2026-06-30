@@ -131,7 +131,7 @@ export async function getOperationalAlerts(): Promise<OperationalAlert[]> {
 
     const quotesSnap = await db
       .collection('quotes')
-      .where('status', '==', 'pending')
+      .where('status', '==', 'En attente')
       .where('createdAt', '<=', Timestamp.fromDate(quoteFollowupLimit))
       .get();
 
@@ -160,18 +160,18 @@ export async function getOperationalAlerts(): Promise<OperationalAlert[]> {
  */
 export async function getDashboardStats() {
   try {
-    const [bookingsSnapshot, quotesSnapshot, expensesSnapshot] = await Promise.all([
+    const [bookingsSnapshot, quotesSnapshot, expensesSnapshot, invoicesSnapshot, requestsSnapshot] = await Promise.all([
       db.collection('bookings').get(),
       db.collection('quotes').get(),
       db.collection('expenses').get(),
+      db.collection('invoices').get(),
+      db.collection('requests').get(),
     ]);
 
-    const totalRevenue = bookingsSnapshot.docs
-      .filter((doc: admin.firestore.QueryDocumentSnapshot) => {
-        const status = doc.data().status;
-        return status === 'Terminé' || status === 'Facturé';
-      })
-      .reduce((sum: number, doc: admin.firestore.QueryDocumentSnapshot) => sum + Number(doc.data().total || 0), 0);
+    const totalRevenue = invoicesSnapshot.docs.reduce(
+      (sum: number, doc: admin.firestore.QueryDocumentSnapshot) => sum + Number(doc.data().amountPaid || 0),
+      0
+    );
 
     const totalExpenses = expensesSnapshot.docs.reduce(
       (sum: number, doc: admin.firestore.QueryDocumentSnapshot) => sum + Number(doc.data().amount || 0),
@@ -187,11 +187,11 @@ export async function getDashboardStats() {
     });
 
     const acceptedQuotes = quotesData.filter(
-      (q) => q.status === 'accepted' || q.status === 'converted'
+      (q) => q.status === 'Accepté' || q.status === 'Converti' || q.status === 'Facturé'
     ).length;
 
     const totalProcessedQuotes = quotesData.filter(
-      (q) => q.status && q.status !== 'pending'
+      (q) => q.status && q.status !== 'Chiffré'
     ).length;
 
     const conversionRate =
@@ -199,20 +199,20 @@ export async function getDashboardStats() {
 
     const monthlyRevenue: Record<string, number> = {};
 
-    bookingsSnapshot.docs
-      .filter((doc: admin.firestore.QueryDocumentSnapshot) => doc.data().status === 'Terminé' || doc.data().status === 'Facturé')
+    invoicesSnapshot.docs
+      .filter((doc: admin.firestore.QueryDocumentSnapshot) => doc.data().status !== 'Brouillon')
       .forEach((doc: admin.firestore.QueryDocumentSnapshot) => {
         const data = doc.data();
-        const moveDate = data.moveDate as admin.firestore.Timestamp | undefined;
-        if (!moveDate) return;
+        const dateField = data.createdAt as admin.firestore.Timestamp | undefined;
+        if (!dateField) return;
 
-        const date = moveDate.toDate();
+        const date = dateField.toDate();
         const monthKey = date.toLocaleString('fr-FR', {
           month: 'short',
           year: 'numeric',
         });
 
-        monthlyRevenue[monthKey] = (monthlyRevenue[monthKey] || 0) + Number(data.total || 0);
+        monthlyRevenue[monthKey] = (monthlyRevenue[monthKey] || 0) + Number(data.amountTTC || 0);
       });
 
     const revenueChartData: DashboardRevenuePoint[] = Object.entries(monthlyRevenue)
@@ -220,32 +220,20 @@ export async function getDashboardStats() {
       .sort((a, b) => a.name.localeCompare(b.name));
 
     const quoteStatusCounts = quotesData.reduce<Record<string, number>>((acc, quote) => {
-      const status = quote.status;
-
-      if (status === 'accepted' || status === 'refused' || status === 'converted') {
-        acc[status] = (acc[status] || 0) + 1;
-      }
-
+      const status = quote.status || 'Non défini';
+      acc[status] = (acc[status] || 0) + 1;
       return acc;
     }, {});
 
     const quoteChartData: DashboardQuotePoint[] = Object.entries(quoteStatusCounts).map(
-      ([name, value]) => ({
-        name:
-          name === 'converted'
-            ? 'Accepté (Converti)'
-            : name === 'accepted'
-            ? 'Accepté (Non converti)'
-            : 'Refusé',
-        value,
-      })
+      ([name, value]) => ({ name, value })
     );
 
     return {
       totalRevenue,
       netProfit: totalRevenue - totalExpenses,
       bookingsCount: bookingsSnapshot.size,
-      quotesCount: quotesSnapshot.docs.filter((doc: admin.firestore.QueryDocumentSnapshot) => doc.data().status === 'pending').length,
+      quotesCount: requestsSnapshot.docs.filter(doc => doc.data().status === 'À traiter').length,
       conversionRate: Math.round(conversionRate),
       charts: {
         revenue: revenueChartData,
@@ -294,7 +282,7 @@ export async function createTestData() {
       volume: 25,
       serviceType: 'full',
       quote: 1250.5,
-      status: 'pending',
+      status: 'En attente',
       createdAt: Timestamp.now(),
     });
 
