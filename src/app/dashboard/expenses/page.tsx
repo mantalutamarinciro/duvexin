@@ -22,7 +22,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { Expense, createExpense, getExpenses, updateExpense, deleteExpense, ExpenseFormData } from "@/services/expenseService";
-import { getQuotes, Quote } from "@/services/quoteService";
+import { getQuotes } from "@/services/quoteService";
+import type { Quote } from "@/types/quote";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 
 const expenseCategories = ['Carburant', 'Matériel', 'Salaires', 'Assurance', 'Marketing', 'Autre'] as const;
