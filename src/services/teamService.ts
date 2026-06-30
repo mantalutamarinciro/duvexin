@@ -52,6 +52,7 @@ export async function createTeam(
   teamData: CreateTeamInput
 ): Promise<{ id: string }> {
   try {
+    if (!db) throw new Error('Database not initialized');
     const docRef = await db.collection(TEAMS_COLLECTION).add({
       name: teamData.name,
       members: Array.isArray(teamData.members) ? teamData.members : [],
@@ -69,6 +70,7 @@ export async function createTeam(
 
 export async function getTeams(): Promise<Team[]> {
   try {
+    if (!db) return [];
     const querySnapshot = await db
       .collection(TEAMS_COLLECTION)
       .orderBy('createdAt', 'desc')
@@ -83,6 +85,7 @@ export async function getTeams(): Promise<Team[]> {
 
 export async function getTeamById(teamId: string): Promise<Team | null> {
   try {
+    if (!db) return null;
     const docSnap = await db.collection(TEAMS_COLLECTION).doc(teamId).get();
 
     if (!docSnap.exists) {
@@ -98,6 +101,7 @@ export async function getTeamById(teamId: string): Promise<Team | null> {
 
 export async function deleteTeam(teamId: string): Promise<void> {
   try {
+    if (!db) throw new Error('Database not initialized');
     await db.collection(TEAMS_COLLECTION).doc(teamId).delete();
     console.log(`Team ${teamId} deleted successfully.`);
   } catch (error) {

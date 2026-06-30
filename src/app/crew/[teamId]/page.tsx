@@ -9,6 +9,8 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { MapPin, Clock, Package } from "lucide-react";
 
+export const dynamic = 'force-dynamic';
+
 export default async function TeamSchedulePage({ params }: { params: Promise<{ teamId: string }> }) {
     const { teamId } = await params;
     const team = await getTeamById(teamId);
