@@ -17,6 +17,7 @@ export interface PlanningEvent {
 
 export async function getPlanningData(): Promise<PlanningEvent[]> {
     try {
+        if (!db) return [];
         const bookingsPromise = db.collection('bookings')
             .where('status', 'in', ['Programmé', 'En cours'])
             .get();

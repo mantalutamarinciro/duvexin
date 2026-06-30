@@ -33,6 +33,7 @@ export interface VisitFormData {
 
 export async function createVisit(formData: VisitFormData): Promise<{ id: string }> {
   try {
+    if (!db) throw new Error('Database not initialized');
     const newVisitRef = db.collection('visits').doc();
     await newVisitRef.set({
       ...formData,
@@ -49,6 +50,7 @@ export async function createVisit(formData: VisitFormData): Promise<{ id: string
 
 export async function getVisits(): Promise<Visit[]> {
   try {
+    if (!db) return [];
     const snapshot = await db.collection('visits').orderBy('visitDateTime', 'desc').get();
     return snapshot.docs.map((doc: admin.firestore.QueryDocumentSnapshot) => {
       const data = doc.data();
@@ -67,6 +69,7 @@ export async function getVisits(): Promise<Visit[]> {
 
 export async function updateVisitStatus(id: string, status: VisitStatus): Promise<void> {
   try {
+    if (!db) return;
     const visitRef = db.collection('visits').doc(id);
     await visitRef.update({ status });
     console.log(`Visit ${id} status updated to ${status}`);
@@ -78,6 +81,7 @@ export async function updateVisitStatus(id: string, status: VisitStatus): Promis
 
 export async function deleteVisit(id: string): Promise<void> {
   try {
+    if (!db) return;
     const visitRef = db.collection('visits').doc(id);
     await visitRef.delete();
     console.log(`Visit ${id} deleted`);

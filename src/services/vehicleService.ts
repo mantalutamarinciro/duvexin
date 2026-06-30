@@ -47,6 +47,7 @@ export async function createVehicle(
   vehicleData: VehicleFormData
 ): Promise<{ id: string }> {
   try {
+    if (!db) throw new Error('Database not initialized');
     const docRef = await db.collection(VEHICLES_COLLECTION).add({
       ...vehicleData,
       lastMaintenanceDate: toTimestampOrNull(vehicleData.lastMaintenanceDate),
@@ -66,6 +67,7 @@ export async function createVehicle(
 
 export async function getVehicles(): Promise<Vehicle[]> {
   try {
+    if (!db) return [];
     const querySnapshot = await db
       .collection(VEHICLES_COLLECTION)
       .orderBy('createdAt', 'desc')
@@ -80,6 +82,7 @@ export async function getVehicles(): Promise<Vehicle[]> {
 
 export async function updateVehicleStatus(id: string, status: Vehicle['status']): Promise<void> {
   try {
+    if (!db) return;
     await db.collection(VEHICLES_COLLECTION).doc(id).update({ status });
   } catch (error) {
     console.error('Error updating vehicle status:', error);
@@ -89,6 +92,7 @@ export async function updateVehicleStatus(id: string, status: Vehicle['status'])
 
 export async function deleteVehicle(id: string): Promise<void> {
   try {
+    if (!db) return;
     await db.collection(VEHICLES_COLLECTION).doc(id).delete();
   } catch (error) {
     console.error('Error deleting vehicle:', error);

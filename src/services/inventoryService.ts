@@ -66,7 +66,7 @@ export async function getInventoryList(): Promise<InventoryList | null> {
 
 export async function updateInventoryList(items: InventoryItem[]): Promise<void> {
   try {
-    if (!db) throw new Error('Database not initialized');
+    if (!db) return;
     const docRef = db.collection('inventories').doc(SINGLE_INVENTORY_ID);
     const totalVolume = items.reduce((acc, item) => acc + item.volume * item.quantity, 0);
 
@@ -104,6 +104,7 @@ export interface OldInventoryItemCreate {
 
 export async function addInventoryItem(itemData: OldInventoryItemCreate): Promise<{ id: string }> {
   try {
+    if (!db) throw new Error('Database not initialized');
     const docRef = db.collection('inventory_items_old').doc();
     await docRef.set({
       ...itemData,
@@ -119,6 +120,7 @@ export async function addInventoryItem(itemData: OldInventoryItemCreate): Promis
 
 export async function deleteInventoryItem(id: string): Promise<void> {
     try {
+        if (!db) throw new Error('Database not initialized');
         const itemRef = db.collection('inventory_items_old').doc(id);
         await itemRef.delete();
         console.log(`Inventory item ${id} has been deleted.`);

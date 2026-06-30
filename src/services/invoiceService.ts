@@ -25,6 +25,7 @@ export type CreateInvoiceData = Omit<Invoice, 'id' | 'createdAt' | 'status' | 'a
 
 export async function createInvoice(data: CreateInvoiceData): Promise<{ id: string }> {
   try {
+    if (!db) throw new Error('Database not initialized');
     const newInvoiceRef = db.collection('invoices').doc();
     await newInvoiceRef.set({
       ...data,
@@ -42,6 +43,7 @@ export async function createInvoice(data: CreateInvoiceData): Promise<{ id: stri
 
 export async function getInvoices(): Promise<Invoice[]> {
   try {
+    if (!db) return [];
     const snapshot = await db.collection('invoices').orderBy('createdAt', 'desc').get();
     return snapshot.docs.map(doc => {
       const data = doc.data();
@@ -60,6 +62,7 @@ export async function getInvoices(): Promise<Invoice[]> {
 
 export async function updateInvoicePayment(id: string, newAmountPaid: number, totalAmount: number): Promise<void> {
   try {
+    if (!db) return;
     let status: InvoiceStatus = 'Partiellement payée';
     if (newAmountPaid >= totalAmount) {
       status = 'Payée';
@@ -80,6 +83,7 @@ export async function updateInvoicePayment(id: string, newAmountPaid: number, to
 
 export async function updateInvoiceStatus(id: string, status: InvoiceStatus): Promise<void> {
   try {
+    if (!db) return;
     const invoiceRef = db.collection('invoices').doc(id);
     await invoiceRef.update({ status });
   } catch (error) {

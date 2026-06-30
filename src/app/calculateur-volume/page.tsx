@@ -18,7 +18,12 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 export default async function VolumeCalculatorPage() {
-  const initialInventory = await getInventoryList();
+  let initialInventory = null;
+  try {
+    initialInventory = await getInventoryList();
+  } catch {
+    // During build, db may not be available — safe to ignore
+  }
 
   return (
     <main className="min-h-screen bg-white">

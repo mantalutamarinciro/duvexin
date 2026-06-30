@@ -23,6 +23,7 @@ export type CreateRequestData = Omit<MoveRequest, 'id' | 'status' | 'createdAt'>
 
 export async function createRequest(data: CreateRequestData): Promise<{ id: string }> {
   try {
+    if (!db) throw new Error('Database not initialized');
     const newRequestRef = db.collection('requests').doc();
     await newRequestRef.set({
       ...data,
@@ -38,6 +39,7 @@ export async function createRequest(data: CreateRequestData): Promise<{ id: stri
 
 export async function getRequests(): Promise<MoveRequest[]> {
   try {
+    if (!db) return [];
     const snapshot = await db.collection('requests').orderBy('createdAt', 'desc').get();
     return snapshot.docs.map(doc => {
       const data = doc.data();
@@ -68,6 +70,7 @@ export async function getRequests(): Promise<MoveRequest[]> {
 
 export async function updateRequestStatus(id: string, status: RequestStatus): Promise<void> {
   try {
+    if (!db) return;
     const requestRef = db.collection('requests').doc(id);
     await requestRef.update({ status });
   } catch (error) {
@@ -78,6 +81,7 @@ export async function updateRequestStatus(id: string, status: RequestStatus): Pr
 
 export async function updateRequestVolume(id: string, volume: number, details?: string): Promise<void> {
   try {
+    if (!db) return;
     const requestRef = db.collection('requests').doc(id);
     const updateData: any = { volume };
     if (details) {
