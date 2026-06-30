@@ -29,6 +29,7 @@ const SINGLE_INVENTORY_ID = "main_inventory";
 
 export async function getInventoryList(): Promise<InventoryList | null> {
   try {
+    if (!db) return null;
     const docRef = db.collection('inventories').doc(SINGLE_INVENTORY_ID);
     const docSnap = await docRef.get();
 
@@ -65,6 +66,7 @@ export async function getInventoryList(): Promise<InventoryList | null> {
 
 export async function updateInventoryList(items: InventoryItem[]): Promise<void> {
   try {
+    if (!db) throw new Error('Database not initialized');
     const docRef = db.collection('inventories').doc(SINGLE_INVENTORY_ID);
     const totalVolume = items.reduce((acc, item) => acc + item.volume * item.quantity, 0);
 
