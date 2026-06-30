@@ -11,6 +11,7 @@ export interface PredefinedItem {
 export interface RoomCategory {
     id: string;
     name: string;
+    icon?: string;
     items: PredefinedItem[];
 }
 
