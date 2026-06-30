@@ -35,13 +35,16 @@ export async function POST(req: NextRequest) {
       const dueDate = new Date();
       dueDate.setDate(dueDate.getDate() + 30);
       
-      await createInvoice({
+      const newInvoice = await createInvoice({
           quoteId: quote.id,
           clientName: quote.clientName,
           amountTTC: quote.quote,
-          dueDate: dueDate.toISOString(),
-          amountPaid: quote.quote * 0.3 // Acompte payé
+          dueDate: dueDate.toISOString()
       });
+      
+      // Mettre à jour l'acompte payé (30%)
+      const { updateInvoicePayment } = await import("@/services/invoiceService");
+      await updateInvoicePayment(newInvoice.id, quote.quote * 0.3, quote.quote);
 
       await createBookingFromQuote(quote);
 
