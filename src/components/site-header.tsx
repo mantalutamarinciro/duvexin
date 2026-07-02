@@ -281,7 +281,7 @@ export function SiteHeader() {
                   </div>
 
                   <Link
-                    href="/devis-demenagement"
+                    href="/demande-devis"
                     className="text-[11px] font-black text-primary flex items-center gap-1.5 uppercase tracking-tight hover:gap-2 transition-all"
                   >
                     Démarrer <ArrowRight className="h-3.5 w-3.5" />
@@ -474,7 +474,7 @@ export function SiteHeader() {
             asChild
             className="hidden sm:flex rounded-full px-5 h-10 font-bold shadow-lg shadow-primary/15 hover:shadow-primary/25 transition-all active:scale-[0.98]"
           >
-            <Link href="/devis-demenagement">Devis gratuit</Link>
+            <Link href="/demande-devis">Devis gratuit</Link>
           </Button>
 
           <ThemeToggle />
@@ -584,7 +584,7 @@ export function SiteHeader() {
 
                 <div className="p-6 border-t border-slate-100 dark:border-slate-900 space-y-3">
                   <Button asChild className="w-full h-12 rounded-2xl text-base font-extrabold shadow-xl shadow-primary/20">
-                    <Link href="/devis-demenagement" onClick={() => setMobileOpen(false)}>
+                    <Link href="/demande-devis" onClick={() => setMobileOpen(false)}>
                       Devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>

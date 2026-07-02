@@ -46,7 +46,6 @@ import {
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
-import { getInventoryList } from "@/services/inventoryService"
 import { Textarea } from "@/components/ui/textarea"
 import {
   Tooltip,
@@ -209,7 +208,8 @@ export function QuoteForm({
   const syncVolumeFromInventory = async () => {
     setIsSyncingVolume(true)
     try {
-      const inventory = await getInventoryList()
+      const res = await fetch('/api/inventory')
+      const inventory = res.ok ? await res.json() : null
       if (inventory && inventory.totalVolume > 0) {
         form.setValue("volume", parseFloat(inventory.totalVolume.toFixed(2)), {
           shouldValidate: true,
