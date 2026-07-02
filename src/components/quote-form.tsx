@@ -47,7 +47,6 @@ import {
 import { cn } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
 import { getInventoryList } from "@/services/inventoryService"
-import { getMoveDetails } from "@/ai/flows/move-details"
 import { Textarea } from "@/components/ui/textarea"
 import {
   Tooltip,
@@ -161,10 +160,14 @@ export function QuoteForm({
 
     setIsAnalyzingAddress(true)
     try {
-      const details = await getMoveDetails({
-        originAddress: origin,
-        destinationAddress: destination,
+      const res = await fetch('/api/move-details', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ originAddress: origin, destinationAddress: destination }),
       })
+
+      if (!res.ok) throw new Error('API error')
+      const details = await res.json()
 
       form.setValue("originAddress", details.formattedOriginAddress, { shouldValidate: true })
       form.setValue("destinationAddress", details.formattedDestinationAddress, { shouldValidate: true })
