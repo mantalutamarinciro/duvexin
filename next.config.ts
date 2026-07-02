@@ -33,7 +33,7 @@ const securityHeaders = [
   },
   {
     key: 'Cross-Origin-Opener-Policy',
-    value: 'same-origin',
+    value: 'same-origin-allow-popups',
   },
   {
     key: 'Content-Security-Policy',
@@ -46,7 +46,7 @@ const securityHeaders = [
       isDev
         ? "connect-src 'self' ws: wss: http: https: https://*.firebaseio.com https://*.googleapis.com https://*.data.gouv.fr https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com"
         : "connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://*.data.gouv.fr https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com",
-      "frame-src 'self'",
+      "frame-src 'self' https://*.firebaseapp.com https://accounts.google.com https://*.google.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",

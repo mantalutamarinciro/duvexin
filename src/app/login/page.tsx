@@ -8,6 +8,7 @@ import Link from "next/link"
 import { 
   signInWithEmailAndPassword, 
   signInWithPopup, 
+  signInWithRedirect,
   GoogleAuthProvider 
 } from "firebase/auth"
 import { useAuth, useUser } from "@/firebase"
@@ -81,6 +82,17 @@ export default function LoginPage() {
       })
     } catch (error: any) {
       console.error(error)
+      const shouldFallbackToRedirect = [
+        "auth/popup-closed-by-user",
+        "auth/popup-blocked",
+        "auth/cancelled-popup-request",
+      ].includes(error?.code)
+
+      if (shouldFallbackToRedirect) {
+        await signInWithRedirect(auth, provider)
+        return
+      }
+
       toast({
         variant: "destructive",
         title: "Erreur Google",
