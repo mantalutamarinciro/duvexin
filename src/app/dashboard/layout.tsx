@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { HeaderNotifications } from '@/components/header-notifications';
+import { DashboardAuthGuard } from '@/components/dashboard-auth-guard';
 
 export default function DashboardLayout({ children }: PropsWithChildren) {
   return (
@@ -49,7 +50,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
             <UserNav />
           </div>
         </header>
-        <main className="flex-1 p-4 sm:p-6">{children}</main>
+        <main className="flex-1 p-4 sm:p-6"><DashboardAuthGuard>{children}</DashboardAuthGuard></main>
       </SidebarInset>
     </SidebarProvider>
   );

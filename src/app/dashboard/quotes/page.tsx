@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, useRef } from "react";
 import { format } from "date-fns";
@@ -34,7 +34,13 @@ import {
   Loader2,
   Send,
   RefreshCcw,
-  Receipt
+  Receipt,
+  UserRound,
+  Search,
+  SlidersHorizontal,
+  X,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 import {
   Card,
@@ -53,29 +59,50 @@ import { createBookingFromQuote } from "@/services/bookingService";
 import { createInvoice } from "@/services/invoiceService";
 import type { Quote, QuoteStatus } from "@/types/quote";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { QuotePDF } from "@/components/quote-pdf";
 
+const normalizeQuoteStatus = (status?: string) => {
+  const value = (status || '').toLowerCase();
+  if (value === 'pending' || value.includes('attente')) return 'pending';
+  if (value.includes('chiffr')) return 'priced';
+  if (value.includes('envoy')) return 'sent';
+  if (value.includes('accept')) return 'accepted';
+  if (value.includes('refus')) return 'refused';
+  if (value.includes('factur')) return 'invoiced';
+  if (value.includes('converti')) return 'converted';
+  if (value.includes('archiv')) return 'archived';
+  return 'other';
+};
+
+const getDisplayStatus = (status?: string) => {
+  switch (normalizeQuoteStatus(status)) {
+    case 'pending': return 'En attente';
+    case 'priced': return 'Chiffre';
+    case 'sent': return 'Envoye';
+    case 'accepted': return 'Accepte';
+    case 'refused': return 'Refuse';
+    case 'invoiced': return 'Facture';
+    case 'converted': return 'Converti';
+    case 'archived': return 'Archive';
+    default: return status || 'Non renseigne';
+  }
+};
+
 const getBadgeVariant = (status: Quote["status"]) => {
-  switch (status) {
-    case "Chiffré":
-      return "secondary";
-    case "Envoyé":
-      return "default";
-    case "En attente":
-      return "outline";
-    case "Accepté":
-      return "default"; // emerald color could be added via className
-    case "Refusé":
-      return "destructive";
-    case "Facturé":
-      return "outline";
-    case "Converti":
-      return "default";
-    default:
-      return "secondary";
+  switch (normalizeQuoteStatus(status)) {
+    case 'priced': return 'secondary';
+    case 'sent': return 'default';
+    case 'pending': return 'outline';
+    case 'accepted': return 'default';
+    case 'refused': return 'destructive';
+    case 'invoiced': return 'outline';
+    case 'converted': return 'default';
+    default: return 'secondary';
   }
 };
 
@@ -84,6 +111,13 @@ export default function QuotesPage() {
   const [loading, setLoading] = useState(true);
   const [pdfLoading, setPdfLoading] = useState<string | null>(null);
   const [selectedQuoteForPdf, setSelectedQuoteForPdf] = useState<Quote | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [periodFilter, setPeriodFilter] = useState("all");
+  const [amountFilter, setAmountFilter] = useState("all");
+  const [pricingFilter, setPricingFilter] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const { toast } = useToast();
   const router = useRouter();
@@ -317,6 +351,38 @@ export default function QuotesPage() {
     return () => window.clearTimeout(timer);
   }, [selectedQuoteForPdf]);
 
+  const hasActiveFilters = Boolean(searchQuery || statusFilter !== "all" || periodFilter !== "all" || amountFilter !== "all" || pricingFilter !== "all");
+
+  const filteredQuotes = quotes.filter((quote) => {
+    const query = searchQuery.trim().toLowerCase();
+    const matchesSearch = !query || quote.clientName.toLowerCase().includes(query) || quote.clientEmail.toLowerCase().includes(query) || (quote.clientPhone && quote.clientPhone.toLowerCase().includes(query)) || quote.originAddress.toLowerCase().includes(query) || quote.destinationAddress.toLowerCase().includes(query);
+    const matchesStatus = statusFilter === "all" || normalizeQuoteStatus(quote.status) === statusFilter;
+    const createdAt = new Date(quote.createdAt);
+    const ageInDays = Number.isNaN(createdAt.getTime()) ? Number.POSITIVE_INFINITY : (Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24);
+    const matchesPeriod = periodFilter === "all" || (periodFilter === "today" && ageInDays <= 1) || (periodFilter === "7d" && ageInDays <= 7) || (periodFilter === "30d" && ageInDays <= 30) || (periodFilter === "90d" && ageInDays <= 90);
+    const amount = Number(quote.quote || 0);
+    const matchesAmount = amountFilter === "all" || (amountFilter === "low" && amount > 0 && amount < 1000) || (amountFilter === "medium" && amount >= 1000 && amount < 3000) || (amountFilter === "high" && amount >= 3000);
+    const matchesPricing = pricingFilter === "all" || (pricingFilter === "priced" && amount > 0) || (pricingFilter === "unpriced" && amount === 0);
+    return matchesSearch && matchesStatus && matchesPeriod && matchesAmount && matchesPricing;
+  });
+
+  const totalPages = Math.max(1, Math.ceil(filteredQuotes.length / itemsPerPage));
+  const paginatedQuotes = filteredQuotes.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const totalFilteredAmount = filteredQuotes.reduce((sum, quote) => sum + Number(quote.quote || 0), 0);
+  const acceptedQuotes = filteredQuotes.filter((quote) => normalizeQuoteStatus(quote.status) === "accepted").length;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, statusFilter, periodFilter, amountFilter, pricingFilter]);
+
+  const resetFilters = () => {
+    setSearchQuery("");
+    setStatusFilter("all");
+    setPeriodFilter("all");
+    setAmountFilter("all");
+    setPricingFilter("all");
+  };
+
   return (
     <div className="flex flex-col gap-6">
       {selectedQuoteForPdf && (
@@ -333,23 +399,42 @@ export default function QuotesPage() {
         </div>
       )}
 
-      <div className="flex items-center justify-between">
-        <h1 className="font-headline text-3xl font-bold tracking-tight">
-          Gestion des Devis
-        </h1>
-        <Button asChild className="rounded-full bg-primary shadow-lg shadow-primary/20">
-          <Link href="/dashboard/quote">
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Nouveau devis
-          </Link>
-        </Button>
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <h1 className="font-headline text-3xl font-bold tracking-tight">Gestion des Devis</h1>
+          <p className="mt-1 text-sm text-muted-foreground">Filtrez les devis par statut, montant, date et niveau de chiffrage.</p>
+        </div>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="relative w-full sm:w-80">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input placeholder="Rechercher client, email, ville..." className="pl-9 rounded-full bg-white dark:bg-slate-900" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+          </div>
+          <Button asChild className="rounded-full bg-primary shadow-lg shadow-primary/20"><Link href="/dashboard/quote"><PlusCircle className="mr-2 h-4 w-4" />Nouveau devis</Link></Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+        <Card className="border-none shadow-sm"><CardContent className="flex items-center justify-between p-4"><div><p className="text-xs font-black uppercase tracking-wider text-muted-foreground">Devis affiches</p><p className="mt-1 text-2xl font-black">{filteredQuotes.length}</p></div><FileText className="h-8 w-8 text-primary" /></CardContent></Card>
+        <Card className="border-none shadow-sm"><CardContent className="flex items-center justify-between p-4"><div><p className="text-xs font-black uppercase tracking-wider text-muted-foreground">Acceptes</p><p className="mt-1 text-2xl font-black">{acceptedQuotes}</p></div><CheckCircle className="h-8 w-8 text-emerald-500" /></CardContent></Card>
+        <Card className="border-none shadow-sm"><CardContent className="flex items-center justify-between p-4"><div><p className="text-xs font-black uppercase tracking-wider text-muted-foreground">Montant filtre</p><p className="mt-1 text-2xl font-black">{totalFilteredAmount.toLocaleString("fr-FR")} EUR</p></div><Receipt className="h-8 w-8 text-amber-500" /></CardContent></Card>
+      </div>
+
+      <div className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900 xl:flex-row xl:items-center">
+        <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-slate-400 xl:w-24"><SlidersHorizontal className="h-4 w-4" /> Filtres</div>
+        <div className="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Select value={statusFilter} onValueChange={setStatusFilter}><SelectTrigger className="h-10 rounded-xl bg-slate-50 dark:bg-slate-950"><SelectValue placeholder="Statut" /></SelectTrigger><SelectContent><SelectItem value="all">Tous les statuts</SelectItem><SelectItem value="pending">En attente</SelectItem><SelectItem value="priced">Chiffre</SelectItem><SelectItem value="sent">Envoye</SelectItem><SelectItem value="accepted">Accepte</SelectItem><SelectItem value="refused">Refuse</SelectItem><SelectItem value="invoiced">Facture</SelectItem><SelectItem value="archived">Archive</SelectItem></SelectContent></Select>
+          <Select value={periodFilter} onValueChange={setPeriodFilter}><SelectTrigger className="h-10 rounded-xl bg-slate-50 dark:bg-slate-950"><SelectValue placeholder="Periode" /></SelectTrigger><SelectContent><SelectItem value="all">Toutes les periodes</SelectItem><SelectItem value="today">Aujourd'hui</SelectItem><SelectItem value="7d">7 derniers jours</SelectItem><SelectItem value="30d">30 derniers jours</SelectItem><SelectItem value="90d">90 derniers jours</SelectItem></SelectContent></Select>
+          <Select value={amountFilter} onValueChange={setAmountFilter}><SelectTrigger className="h-10 rounded-xl bg-slate-50 dark:bg-slate-950"><SelectValue placeholder="Montant" /></SelectTrigger><SelectContent><SelectItem value="all">Tous les montants</SelectItem><SelectItem value="low">Moins de 1 000 EUR</SelectItem><SelectItem value="medium">1 000 a 2 999 EUR</SelectItem><SelectItem value="high">3 000 EUR et plus</SelectItem></SelectContent></Select>
+          <Select value={pricingFilter} onValueChange={setPricingFilter}><SelectTrigger className="h-10 rounded-xl bg-slate-50 dark:bg-slate-950"><SelectValue placeholder="Chiffrage" /></SelectTrigger><SelectContent><SelectItem value="all">Tous les chiffrages</SelectItem><SelectItem value="priced">Chiffres</SelectItem><SelectItem value="unpriced">Non chiffres</SelectItem></SelectContent></Select>
+        </div>
+        <div className="flex items-center justify-between gap-3 xl:justify-end"><span className="text-xs font-semibold text-slate-500">{filteredQuotes.length} / {quotes.length}</span>{hasActiveFilters && (<Button variant="ghost" size="sm" onClick={resetFilters} className="rounded-full text-slate-500"><X className="mr-2 h-4 w-4" /> Reinitialiser</Button>)}</div>
       </div>
 
       <Card className="overflow-hidden rounded-[2rem] border-none bg-white shadow-sm dark:bg-slate-900">
         <CardHeader>
-          <CardTitle>Liste des Devis</CardTitle>
+          <CardTitle>Liste des devis</CardTitle>
           <CardDescription>
-            Éditez, envoyez et relancez vos devis. Convertissez les devis acceptés en factures et déménagements.
+            Editez, envoyez et relancez vos devis. Convertissez les devis acceptes en factures et demenagements.
           </CardDescription>
         </CardHeader>
 
@@ -376,8 +461,8 @@ export default function QuotesPage() {
                     <TableCell><Skeleton className="ml-auto h-8 w-8" /></TableCell>
                   </TableRow>
                 ))
-              ) : quotes.length > 0 ? (
-                quotes.map((quote) => (
+              ) : paginatedQuotes.length > 0 ? (
+                paginatedQuotes.map((quote) => (
                   <TableRow
                     key={quote.id}
                     onClick={() => router.push(`/dashboard/quote/${quote.id}`)}
@@ -411,7 +496,7 @@ export default function QuotesPage() {
                           variant="secondary"
                           className="border-amber-100 bg-amber-50 text-amber-700"
                         >
-                          Non chiffré
+                          Non chiffre
                         </Badge>
                       )}
                     </TableCell>
@@ -419,9 +504,9 @@ export default function QuotesPage() {
                     <TableCell>
                       <Badge
                         variant={getBadgeVariant(quote.status)}
-                        className={`text-[10px] font-black uppercase tracking-widest ${quote.status === 'Accepté' ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200 border-emerald-200' : ''}`}
+                        className={`text-[10px] font-black uppercase tracking-widest ${normalizeQuoteStatus(quote.status) === 'accepted' ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200 border-emerald-200' : ''}`}
                       >
-                        {quote.status.toLowerCase() === 'pending' ? 'En attente' : quote.status}
+                        {getDisplayStatus(quote.status)}
                       </Badge>
                     </TableCell>
 
@@ -443,6 +528,13 @@ export default function QuotesPage() {
                             <Link href={`/dashboard/quote/${quote.id}`}>
                               <FileEdit className="mr-2 h-4 w-4 text-blue-500" />
                               <span>Modifier / Chiffrer</span>
+                            </Link>
+                          </DropdownMenuItem>
+
+                          <DropdownMenuItem asChild className="rounded-xl">
+                            <Link href={`/dashboard/customer-360?email=${encodeURIComponent(quote.clientEmail)}`}>
+                              <UserRound className="mr-2 h-4 w-4 text-primary" />
+                              <span>Dossier 360</span>
                             </Link>
                           </DropdownMenuItem>
 
@@ -525,12 +617,18 @@ export default function QuotesPage() {
                 <TableRow>
                   <TableCell colSpan={5} className="h-32 text-center text-slate-400">
                     <FileText className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                    Aucun devis trouvé.
+                    Aucun devis trouve.
                   </TableCell>
                 </TableRow>
               )}
             </TableBody>
           </Table>
+          {!loading && filteredQuotes.length > 0 && (
+            <div className="mt-4 flex flex-col gap-3 border-t border-slate-100 pt-4 text-sm text-slate-500 dark:border-slate-800 sm:flex-row sm:items-center sm:justify-between">
+              <div>Affichage de <span className="font-semibold text-slate-900 dark:text-white">{(currentPage - 1) * itemsPerPage + 1}</span> a <span className="font-semibold text-slate-900 dark:text-white">{Math.min(currentPage * itemsPerPage, filteredQuotes.length)}</span> sur <span className="font-semibold text-slate-900 dark:text-white">{filteredQuotes.length}</span> devis</div>
+              <div className="flex items-center gap-2"><Button variant="outline" size="sm" onClick={() => setCurrentPage((page) => Math.max(page - 1, 1))} disabled={currentPage === 1} className="rounded-full"><ChevronLeft className="mr-1 h-4 w-4" /> Precedent</Button><span className="text-xs font-semibold text-slate-500">Page {currentPage} / {totalPages}</span><Button variant="outline" size="sm" onClick={() => setCurrentPage((page) => Math.min(page + 1, totalPages))} disabled={currentPage === totalPages} className="rounded-full">Suivant <ChevronRight className="ml-1 h-4 w-4" /></Button></div>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

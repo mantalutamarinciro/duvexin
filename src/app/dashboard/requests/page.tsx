@@ -16,18 +16,37 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MoveRequest, getRequests, updateRequestStatus } from "@/services/requestService";
-import { Inbox, CalendarPlus, LayoutGrid, List as ListIcon, MapPin, Search, Phone, Mail, Archive, CalendarDays, ArrowDown, ChevronLeft, ChevronRight, MoreHorizontal, PenSquare, FileText } from "lucide-react";
+import { Inbox, CalendarPlus, LayoutGrid, List as ListIcon, MapPin, Search, Phone, Mail, Archive, CalendarDays, ArrowDown, ChevronLeft, ChevronRight, MoreHorizontal, PenSquare, FileText, UserRound, SlidersHorizontal, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const normalizeStatus = (status?: string) => {
+  const value = (status || '').toLowerCase();
+  if (value === 'pending' || value.includes('traiter')) return 'todo';
+  if (value.includes('converti')) return 'converted';
+  if (value.includes('archiv')) return 'archived';
+  return 'other';
+};
+
+const getDisplayStatus = (status?: string) => {
+  switch (normalizeStatus(status)) {
+    case 'todo': return 'A traiter';
+    case 'converted': return 'Converti en visite';
+    case 'archived': return 'Archive';
+    default: return status || 'Non renseigne';
+  }
+};
 
 const getStatusBadge = (status: MoveRequest['status']) => {
-  switch (status) {
-    case 'À traiter': return 'destructive';
-    case 'Converti en visite': return 'default';
-    case 'Archivé': return 'secondary';
+  switch (normalizeStatus(status)) {
+    case 'todo': return 'destructive';
+    case 'converted': return 'default';
+    case 'archived': return 'secondary';
     default: return 'outline';
   }
 };
@@ -36,6 +55,9 @@ export default function RequestsPage() {
   const [requests, setRequests] = useState<MoveRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [periodFilter, setPeriodFilter] = useState("all");
+  const [volumeFilter, setVolumeFilter] = useState("all");
   const [visibleGridCount, setVisibleGridCount] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -98,12 +120,39 @@ export default function RequestsPage() {
       return lastPart.replace(/^\d{5}\s+/, '').trim();
   };
 
-  const filteredRequests = requests.filter(req => 
-    req.clientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    req.originAddress.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    req.destinationAddress.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (req.clientEmail && req.clientEmail.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  const hasActiveFilters = Boolean(searchQuery || statusFilter !== "all" || periodFilter !== "all" || volumeFilter !== "all");
+
+  const filteredRequests = requests.filter(req => {
+    const query = searchQuery.trim().toLowerCase();
+    const matchesSearch = !query ||
+      req.clientName.toLowerCase().includes(query) ||
+      req.originAddress.toLowerCase().includes(query) ||
+      req.destinationAddress.toLowerCase().includes(query) ||
+      (req.clientEmail && req.clientEmail.toLowerCase().includes(query)) ||
+      (req.clientPhone && req.clientPhone.toLowerCase().includes(query));
+
+    const matchesStatus = statusFilter === "all" || normalizeStatus(req.status) === statusFilter;
+
+    const createdAt = new Date(req.createdAt);
+    const ageInDays = Number.isNaN(createdAt.getTime())
+      ? Number.POSITIVE_INFINITY
+      : (Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24);
+    const matchesPeriod =
+      periodFilter === "all" ||
+      (periodFilter === "today" && ageInDays <= 1) ||
+      (periodFilter === "7d" && ageInDays <= 7) ||
+      (periodFilter === "30d" && ageInDays <= 30);
+
+    const volume = Number(req.volume || 0);
+    const matchesVolume =
+      volumeFilter === "all" ||
+      (volumeFilter === "small" && volume > 0 && volume <= 20) ||
+      (volumeFilter === "medium" && volume > 20 && volume <= 50) ||
+      (volumeFilter === "large" && volume > 50) ||
+      (volumeFilter === "unknown" && volume === 0);
+
+    return matchesSearch && matchesStatus && matchesPeriod && matchesVolume;
+  });
 
   const gridRequests = filteredRequests.slice(0, visibleGridCount);
 
@@ -111,10 +160,18 @@ export default function RequestsPage() {
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
   const paginatedRequests = filteredRequests.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  // Reset page when search changes
+  // Reset pagination when filters change
   useEffect(() => {
       setCurrentPage(1);
-  }, [searchQuery]);
+      setVisibleGridCount(10);
+  }, [searchQuery, statusFilter, periodFilter, volumeFilter]);
+
+  const resetFilters = () => {
+    setSearchQuery("");
+    setStatusFilter("all");
+    setPeriodFilter("all");
+    setVolumeFilter("all");
+  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -143,6 +200,50 @@ export default function RequestsPage() {
             </div>
         </div>
 
+        <div className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:flex-row md:items-center mb-6">
+            <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-slate-400 md:w-24">
+                <SlidersHorizontal className="h-4 w-4" /> Filtres
+            </div>
+            <div className="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-3">
+                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                    <SelectTrigger className="h-10 rounded-xl bg-slate-50 dark:bg-slate-950"><SelectValue placeholder="Statut" /></SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="all">Tous les statuts</SelectItem>
+                        <SelectItem value="todo">A traiter</SelectItem>
+                        <SelectItem value="converted">Converti en visite</SelectItem>
+                        <SelectItem value="archived">Archive</SelectItem>
+                    </SelectContent>
+                </Select>
+                <Select value={periodFilter} onValueChange={setPeriodFilter}>
+                    <SelectTrigger className="h-10 rounded-xl bg-slate-50 dark:bg-slate-950"><SelectValue placeholder="Periode" /></SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="all">Toutes les periodes</SelectItem>
+                        <SelectItem value="today">Aujourd'hui</SelectItem>
+                        <SelectItem value="7d">7 derniers jours</SelectItem>
+                        <SelectItem value="30d">30 derniers jours</SelectItem>
+                    </SelectContent>
+                </Select>
+                <Select value={volumeFilter} onValueChange={setVolumeFilter}>
+                    <SelectTrigger className="h-10 rounded-xl bg-slate-50 dark:bg-slate-950"><SelectValue placeholder="Volume" /></SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="all">Tous les volumes</SelectItem>
+                        <SelectItem value="small">0 a 20 m3</SelectItem>
+                        <SelectItem value="medium">21 a 50 m3</SelectItem>
+                        <SelectItem value="large">Plus de 50 m3</SelectItem>
+                        <SelectItem value="unknown">Non renseigne</SelectItem>
+                    </SelectContent>
+                </Select>
+            </div>
+            <div className="flex items-center justify-between gap-3 md:justify-end">
+                <span className="text-xs font-semibold text-slate-500">{filteredRequests.length} / {requests.length}</span>
+                {hasActiveFilters && (
+                    <Button variant="ghost" size="sm" onClick={resetFilters} className="rounded-full text-slate-500">
+                        <X className="mr-2 h-4 w-4" /> Reinitialiser
+                    </Button>
+                )}
+            </div>
+        </div>
+
         {/* GRILLE */}
         <TabsContent value="grille">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -151,16 +252,16 @@ export default function RequestsPage() {
                 ) : gridRequests.length > 0 ? (
                     gridRequests.map(req => (
                         <Card key={req.id} className="rounded-[2rem] border-none shadow-sm hover:shadow-md transition-all duration-300 bg-white dark:bg-slate-900 overflow-hidden relative group flex flex-col">
-                            <div className={`absolute top-0 left-0 w-1 h-full ${req.status === 'À traiter' ? 'bg-red-500' : req.status === 'Converti en visite' ? 'bg-emerald-500' : 'bg-slate-300'}`}></div>
+                            <div className={`absolute top-0 left-0 w-1 h-full ${normalizeStatus(req.status) === 'todo' ? 'bg-red-500' : normalizeStatus(req.status) === 'converted' ? 'bg-emerald-500' : 'bg-slate-300'}`}></div>
                             
                             <CardHeader className="pb-3">
                                 <div className="flex justify-between items-start mb-2">
-                                    <Badge variant={getStatusBadge(req.status)} className="text-[10px] uppercase font-black tracking-widest">{req.status.toLowerCase() === 'pending' ? 'À traiter' : req.status}</Badge>
+                                    <Badge variant={getStatusBadge(req.status)} className="text-[10px] uppercase font-black tracking-widest">{getDisplayStatus(req.status)}</Badge>
                                     <span className="text-[10px] text-slate-400 font-medium bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-full">
                                         {format(new Date(req.createdAt), "d MMM, HH:mm", { locale: fr })}
                                     </span>
                                 </div>
-                                <CardTitle className="text-lg line-clamp-1">{req.clientName}</CardTitle>
+                                <CardTitle className="text-lg line-clamp-1"><Link href={`/dashboard/customer-360?email=${encodeURIComponent(req.clientEmail)}`} className="hover:text-primary hover:underline">{req.clientName}</Link></CardTitle>
                                 <div className="flex items-center gap-2 mt-1">
                                     <div className="text-xs font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-lg w-fit">{req.volume} m³</div>
                                     <div className="text-[10px] text-slate-500 flex items-center gap-1">
@@ -195,7 +296,7 @@ export default function RequestsPage() {
                             </CardContent>
 
                             <CardFooter className="bg-slate-50 dark:bg-slate-800/50 pt-4 flex gap-2 justify-between">
-                                {req.status === 'À traiter' ? (
+                                {normalizeStatus(req.status) === 'todo' ? (
                                     <>
                                         <Button size="sm" onClick={() => handleConvertToVisit(req)} className="w-full rounded-xl bg-primary text-white hover:bg-primary/90 shadow-sm">
                                             <CalendarPlus className="h-4 w-4 mr-2" /> Visite
@@ -208,7 +309,7 @@ export default function RequestsPage() {
                                         </Button>
                                     </>
                                 ) : (
-                                    <div className="w-full text-center text-xs text-slate-500 italic py-1">Dossier {req.status.toLowerCase()}</div>
+                                    <div className="w-full text-center text-xs text-slate-500 italic py-1">Dossier {getDisplayStatus(req.status).toLowerCase()}</div>
                                 )}
                             </CardFooter>
                         </Card>
@@ -307,11 +408,11 @@ export default function RequestsPage() {
                             </TableCell>
                             <TableCell>
                       <Badge variant={getStatusBadge(req.status)} className="text-[10px] uppercase font-black tracking-widest">
-                        {req.status.toLowerCase() === 'pending' ? 'À traiter' : req.status}
+                        {getDisplayStatus(req.status)}
                       </Badge>
                     </TableCell>
                             <TableCell className="text-right pr-6 align-top pt-4">
-                                {req.status === 'À traiter' ? (
+                                {normalizeStatus(req.status) === 'todo' ? (
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
                                             <Button variant="ghost" className="h-8 w-8 p-0 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
@@ -320,6 +421,11 @@ export default function RequestsPage() {
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end" className="rounded-2xl p-2 w-56 shadow-xl border-slate-100 dark:border-slate-800">
                                             <DropdownMenuLabel className="px-3 py-2 text-[10px] font-black uppercase text-slate-400 tracking-wider">Actions Rapides</DropdownMenuLabel>
+                                            <DropdownMenuItem asChild className="rounded-xl cursor-pointer text-slate-700 dark:text-slate-200">
+                                                <Link href={`/dashboard/customer-360?email=${encodeURIComponent(req.clientEmail)}`}>
+                                                    <UserRound className="mr-2 h-4 w-4 text-primary" /> Dossier 360
+                                                </Link>
+                                            </DropdownMenuItem>
                                             <DropdownMenuItem onClick={() => handleConvertToVisit(req)} className="rounded-xl cursor-pointer text-slate-700 dark:text-slate-200">
                                                 <CalendarPlus className="mr-2 h-4 w-4 text-emerald-500" /> Planifier Visite
                                             </DropdownMenuItem>

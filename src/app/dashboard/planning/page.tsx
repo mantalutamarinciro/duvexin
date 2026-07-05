@@ -12,22 +12,48 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { CalendarDays, List, Truck, CheckCircle, Package, LayoutGrid, MapPin, Search, FileText, Smartphone } from "lucide-react";
+import { CalendarDays, List, Truck, CheckCircle, Package, LayoutGrid, MapPin, Search, FileText, Smartphone, SlidersHorizontal, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { WaybillPDF } from "@/components/waybill-pdf";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const normalizeBookingStatus = (status?: string) => {
+  const value = (status || '').toLowerCase();
+  if (value.includes('programm')) return 'scheduled';
+  if (value.includes('route')) return 'route';
+  if (value.includes('client')) return 'arrived';
+  if (value.includes('cours')) return 'active';
+  if (value.includes('termin')) return 'done';
+  if (value.includes('annul')) return 'cancelled';
+  if (value.includes('factur')) return 'invoiced';
+  return 'other';
+};
+
+const getDisplayStatus = (status?: string) => {
+  switch (normalizeBookingStatus(status)) {
+    case 'scheduled': return 'Programme';
+    case 'route': return 'En route';
+    case 'arrived': return 'Arrive chez le client';
+    case 'active': return 'En cours';
+    case 'done': return 'Termine';
+    case 'cancelled': return 'Annule';
+    case 'invoiced': return 'Facture';
+    default: return status || 'Non renseigne';
+  }
+};
 
 const getBookingStatusBadge = (status: Booking['status']) => {
-  switch (status) {
-    case 'Programmé': return 'default';
-    case 'En route': return 'secondary';
-    case 'Arrivé chez le client': return 'secondary';
-    case 'En cours': return 'secondary';
-    case 'Terminé': return 'outline'; 
-    case 'Annulé': return 'destructive';
-    case 'Facturé': return 'outline';
+  switch (normalizeBookingStatus(status)) {
+    case 'scheduled': return 'default';
+    case 'route': return 'secondary';
+    case 'arrived': return 'secondary';
+    case 'active': return 'secondary';
+    case 'done': return 'outline'; 
+    case 'cancelled': return 'destructive';
+    case 'invoiced': return 'outline';
     default: return 'outline';
   }
 };
@@ -37,6 +63,13 @@ export default function PlanningPage() {
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
+    const [statusFilter, setStatusFilter] = useState("all");
+    const [periodFilter, setPeriodFilter] = useState("all");
+    const [volumeFilter, setVolumeFilter] = useState("all");
+    const [assignmentFilter, setAssignmentFilter] = useState("all");
+    const [visibleGridCount, setVisibleGridCount] = useState(9);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
     const [waybillBooking, setWaybillBooking] = useState<Booking | null>(null);
     const [isGeneratingWaybill, setIsGeneratingWaybill] = useState(false);
     const { toast } = useToast();
@@ -120,12 +153,57 @@ export default function PlanningPage() {
         }
     };
 
-    const moveEvents = events.filter(e => e.type === 'move');
-    const filteredBookings = bookings.filter(b => 
-        b.clientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        b.originAddress.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        b.destinationAddress.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const hasActiveFilters = Boolean(searchQuery || statusFilter !== "all" || periodFilter !== "all" || volumeFilter !== "all" || assignmentFilter !== "all");
+
+    const filteredBookings = bookings.filter((booking) => {
+        const query = searchQuery.trim().toLowerCase();
+        const matchesSearch = !query ||
+            booking.clientName.toLowerCase().includes(query) ||
+            booking.clientEmail.toLowerCase().includes(query) ||
+            (booking.clientPhone && booking.clientPhone.toLowerCase().includes(query)) ||
+            booking.originAddress.toLowerCase().includes(query) ||
+            booking.destinationAddress.toLowerCase().includes(query) ||
+            booking.id.toLowerCase().includes(query);
+        const matchesStatus = statusFilter === "all" || normalizeBookingStatus(booking.status) === statusFilter;
+        const moveDate = new Date(booking.moveDate);
+        const daysUntilMove = Number.isNaN(moveDate.getTime()) ? Number.POSITIVE_INFINITY : (moveDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24);
+        const matchesPeriod = periodFilter === "all" ||
+            (periodFilter === "late" && daysUntilMove < 0 && normalizeBookingStatus(booking.status) !== "done") ||
+            (periodFilter === "today" && daysUntilMove >= -1 && daysUntilMove <= 1) ||
+            (periodFilter === "7d" && daysUntilMove >= 0 && daysUntilMove <= 7) ||
+            (periodFilter === "30d" && daysUntilMove >= 0 && daysUntilMove <= 30) ||
+            (periodFilter === "future" && daysUntilMove > 30);
+        const volume = Number(booking.volume || 0);
+        const matchesVolume = volumeFilter === "all" ||
+            (volumeFilter === "small" && volume > 0 && volume <= 20) ||
+            (volumeFilter === "medium" && volume > 20 && volume <= 50) ||
+            (volumeFilter === "large" && volume > 50) ||
+            (volumeFilter === "unknown" && volume === 0);
+        const isAssigned = Boolean(booking.assignedTeam || booking.assignedTeamId || booking.assignedVehicleId);
+        const matchesAssignment = assignmentFilter === "all" ||
+            (assignmentFilter === "assigned" && isAssigned) ||
+            (assignmentFilter === "unassigned" && !isAssigned);
+        return matchesSearch && matchesStatus && matchesPeriod && matchesVolume && matchesAssignment;
+    });
+
+    const filteredBookingIds = new Set(filteredBookings.map((booking) => booking.id));
+    const moveEvents = events.filter((event) => event.type === 'move' && filteredBookingIds.has(event.id));
+    const gridBookings = filteredBookings.slice(0, visibleGridCount);
+    const totalPages = Math.max(1, Math.ceil(filteredBookings.length / itemsPerPage));
+    const paginatedBookings = filteredBookings.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+    useEffect(() => {
+        setCurrentPage(1);
+        setVisibleGridCount(9);
+    }, [searchQuery, statusFilter, periodFilter, volumeFilter, assignmentFilter]);
+
+    const resetFilters = () => {
+        setSearchQuery("");
+        setStatusFilter("all");
+        setPeriodFilter("all");
+        setVolumeFilter("all");
+        setAssignmentFilter("all");
+    };
 
     return (
         <div className="flex flex-col gap-6">
@@ -137,12 +215,28 @@ export default function PlanningPage() {
             </div>
 
             <Tabs defaultValue="grille" className="w-full">
-                <div className="flex justify-between items-center mb-6">
-                    <TabsList className="bg-slate-100 dark:bg-slate-800/50 p-1 rounded-full">
-                        <TabsTrigger value="grille" className="rounded-full px-4"><LayoutGrid className="h-4 w-4 mr-2"/> Grille</TabsTrigger>
-                        <TabsTrigger value="liste" className="rounded-full px-4"><List className="h-4 w-4 mr-2"/> Liste</TabsTrigger>
-                        <TabsTrigger value="calendrier" className="rounded-full px-4"><CalendarDays className="h-4 w-4 mr-2"/> Calendrier</TabsTrigger>
-                    </TabsList>
+                <div className="flex flex-col gap-4 mb-6">
+                    <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                        <TabsList className="bg-slate-100 dark:bg-slate-800/50 p-1 rounded-full w-fit">
+                            <TabsTrigger value="grille" className="rounded-full px-4"><LayoutGrid className="h-4 w-4 mr-2"/> Grille</TabsTrigger>
+                            <TabsTrigger value="liste" className="rounded-full px-4"><List className="h-4 w-4 mr-2"/> Liste</TabsTrigger>
+                            <TabsTrigger value="calendrier" className="rounded-full px-4"><CalendarDays className="h-4 w-4 mr-2"/> Calendrier</TabsTrigger>
+                        </TabsList>
+                        <div className="relative w-full lg:w-80">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                            <Input placeholder="Rechercher client, ville, reference..." className="pl-9 rounded-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                        </div>
+                    </div>
+                    <div className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900 xl:flex-row xl:items-center">
+                        <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-slate-400 xl:w-24"><SlidersHorizontal className="h-4 w-4" /> Filtres</div>
+                        <div className="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                            <Select value={statusFilter} onValueChange={setStatusFilter}><SelectTrigger className="h-10 rounded-xl bg-slate-50 dark:bg-slate-950"><SelectValue placeholder="Statut" /></SelectTrigger><SelectContent><SelectItem value="all">Tous les statuts</SelectItem><SelectItem value="scheduled">Programme</SelectItem><SelectItem value="route">En route</SelectItem><SelectItem value="active">En cours</SelectItem><SelectItem value="done">Termine</SelectItem><SelectItem value="cancelled">Annule</SelectItem><SelectItem value="invoiced">Facture</SelectItem></SelectContent></Select>
+                            <Select value={periodFilter} onValueChange={setPeriodFilter}><SelectTrigger className="h-10 rounded-xl bg-slate-50 dark:bg-slate-950"><SelectValue placeholder="Periode" /></SelectTrigger><SelectContent><SelectItem value="all">Toutes periodes</SelectItem><SelectItem value="late">En retard</SelectItem><SelectItem value="today">Aujourd'hui</SelectItem><SelectItem value="7d">7 prochains jours</SelectItem><SelectItem value="30d">30 prochains jours</SelectItem><SelectItem value="future">Plus de 30 jours</SelectItem></SelectContent></Select>
+                            <Select value={volumeFilter} onValueChange={setVolumeFilter}><SelectTrigger className="h-10 rounded-xl bg-slate-50 dark:bg-slate-950"><SelectValue placeholder="Volume" /></SelectTrigger><SelectContent><SelectItem value="all">Tous volumes</SelectItem><SelectItem value="small">0 a 20 m3</SelectItem><SelectItem value="medium">21 a 50 m3</SelectItem><SelectItem value="large">Plus de 50 m3</SelectItem><SelectItem value="unknown">Non renseigne</SelectItem></SelectContent></Select>
+                            <Select value={assignmentFilter} onValueChange={setAssignmentFilter}><SelectTrigger className="h-10 rounded-xl bg-slate-50 dark:bg-slate-950"><SelectValue placeholder="Affectation" /></SelectTrigger><SelectContent><SelectItem value="all">Toutes affectations</SelectItem><SelectItem value="assigned">Affectes</SelectItem><SelectItem value="unassigned">Non affectes</SelectItem></SelectContent></Select>
+                        </div>
+                        <div className="flex items-center justify-between gap-3 xl:justify-end"><span className="text-xs font-semibold text-slate-500">{filteredBookings.length} / {bookings.length}</span>{hasActiveFilters && (<Button variant="ghost" size="sm" onClick={resetFilters} className="rounded-full text-slate-500"><X className="mr-2 h-4 w-4" /> Reinitialiser</Button>)}</div>
+                    </div>
                 </div>
 
                 {/* GRILLE (Sublime Grid) */}
@@ -150,13 +244,13 @@ export default function PlanningPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                         {loading ? (
                              Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-64 rounded-[2rem]" />)
-                        ) : bookings.length > 0 ? (
-                            bookings.map(booking => (
+                        ) : gridBookings.length > 0 ? (
+                            gridBookings.map(booking => (
                                 <Card key={booking.id} className="rounded-[2rem] border-none shadow-sm hover:shadow-md transition-all duration-300 bg-white dark:bg-slate-900 overflow-hidden relative group">
-                                    <div className={`absolute top-0 left-0 w-1 h-full ${booking.status === 'Programmé' ? 'bg-primary' : booking.status === 'Terminé' ? 'bg-emerald-500' : 'bg-slate-300'}`}></div>
+                                    <div className={`absolute top-0 left-0 w-1 h-full ${normalizeBookingStatus(booking.status) === 'scheduled' ? 'bg-primary' : normalizeBookingStatus(booking.status) === 'done' ? 'bg-emerald-500' : 'bg-slate-300'}`}></div>
                                     <CardHeader className="pb-4">
                                         <div className="flex justify-between items-start mb-2">
-                                            <Badge variant={getBookingStatusBadge(booking.status)} className="text-[10px] uppercase font-black tracking-widest">{booking.status}</Badge>
+                                            <Badge variant={getBookingStatusBadge(booking.status)} className="text-[10px] uppercase font-black tracking-widest">{getDisplayStatus(booking.status)}</Badge>
                                             <span className="text-xs font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-lg">{booking.volume || '?'} m³</span>
                                         </div>
                                         <CardTitle className="text-xl">{booking.clientName}</CardTitle>
@@ -183,17 +277,17 @@ export default function PlanningPage() {
                                     </CardContent>
                                     <CardFooter className="bg-slate-50 dark:bg-slate-800/50 pt-4 flex flex-col gap-2">
                                         <div className="flex w-full gap-2">
-                                            {booking.status === 'Programmé' && (
+                                            {normalizeBookingStatus(booking.status) === 'scheduled' && (
                                                 <Button size="sm" onClick={() => handleUpdateBookingStatus(booking.id, 'En cours')} className="w-full rounded-xl bg-primary text-white hover:bg-primary/90 shadow-lg shadow-primary/20">
                                                     <Truck className="h-4 w-4 mr-2" /> Démarrer l'opération
                                                 </Button>
                                             )}
-                                            {booking.status === 'En cours' && (
+                                            {normalizeBookingStatus(booking.status) === 'active' && (
                                                 <Button size="sm" onClick={() => handleUpdateBookingStatus(booking.id, 'Terminé')} className="w-full rounded-xl bg-emerald-500 text-white hover:bg-emerald-600 shadow-lg shadow-emerald-500/20">
                                                     <CheckCircle className="h-4 w-4 mr-2" /> Clôturer
                                                 </Button>
                                             )}
-                                            {(booking.status === 'Terminé' || booking.status === 'Facturé') && (
+                                            {(normalizeBookingStatus(booking.status) === 'done' || normalizeBookingStatus(booking.status) === 'invoiced') && (
                                                 <div className="w-full text-center text-xs text-slate-400 italic py-2">Déménagement clôturé</div>
                                             )}
                                         </div>
@@ -221,6 +315,11 @@ export default function PlanningPage() {
                             </div>
                         )}
                     </div>
+                    {!loading && gridBookings.length < filteredBookings.length && (
+                        <div className="flex justify-center mt-8">
+                            <Button variant="outline" onClick={() => setVisibleGridCount((count) => count + 9)} className="rounded-full px-6 border-slate-200 shadow-sm">Charger plus</Button>
+                        </div>
+                    )}
                 </TabsContent>
 
                 {/* LISTE AVEC FILTRES */}
@@ -230,15 +329,6 @@ export default function PlanningPage() {
                             <div>
                                 <CardTitle>Liste des Déménagements</CardTitle>
                                 <CardDescription>Vue condensée de toutes vos opérations.</CardDescription>
-                            </div>
-                            <div className="relative w-72">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                                <Input 
-                                    placeholder="Rechercher un client, une ville..." 
-                                    className="pl-9 rounded-full bg-slate-50 dark:bg-slate-800 border-none"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                />
                             </div>
                         </CardHeader>
                         <CardContent className="pt-4">
@@ -265,8 +355,8 @@ export default function PlanningPage() {
                                                 <TableCell className="text-right"><Skeleton className="h-8 w-24 ml-auto" /></TableCell>
                                             </TableRow>
                                         ))
-                                    ) : filteredBookings.length > 0 ? (
-                                        filteredBookings.map(booking => (
+                                    ) : paginatedBookings.length > 0 ? (
+                                        paginatedBookings.map(booking => (
                                             <TableRow key={booking.id} className="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                                                 <TableCell className="text-xs font-medium">
                                                     {format(new Date(booking.moveDate), "d MMM yyyy", { locale: fr })}
@@ -284,24 +374,24 @@ export default function PlanningPage() {
                                                 </TableCell>
                                                 <TableCell>
                                                     <Badge variant={getBookingStatusBadge(booking.status)} className="text-[10px] uppercase tracking-widest font-black">
-                                                        {booking.status}
+                                                        {getDisplayStatus(booking.status)}
                                                     </Badge>
                                                 </TableCell>
                                                 <TableCell className="text-right space-x-2">
                                                     <Button size="sm" variant="outline" onClick={() => handleDownloadWaybill(booking)} disabled={isGeneratingWaybill && waybillBooking?.id === booking.id} className="rounded-full h-8 px-3">
                                                         <FileText className="h-4 w-4" />
                                                     </Button>
-                                                    {booking.status === 'Programmé' && (
+                                                    {normalizeBookingStatus(booking.status) === 'scheduled' && (
                                                         <Button size="sm" onClick={() => handleUpdateBookingStatus(booking.id, 'En cours')} className="rounded-full bg-primary/10 text-primary hover:bg-primary/20">
                                                             <Truck className="h-4 w-4 mr-2" /> Démarrer
                                                         </Button>
                                                     )}
-                                                    {booking.status === 'En cours' && (
+                                                    {normalizeBookingStatus(booking.status) === 'active' && (
                                                         <Button size="sm" onClick={() => handleUpdateBookingStatus(booking.id, 'Terminé')} className="rounded-full bg-emerald-100 text-emerald-700 hover:bg-emerald-200">
                                                             <CheckCircle className="h-4 w-4 mr-2" /> Terminer
                                                         </Button>
                                                     )}
-                                                    {(booking.status === 'Terminé' || booking.status === 'Facturé') && (
+                                                    {(normalizeBookingStatus(booking.status) === 'done' || normalizeBookingStatus(booking.status) === 'invoiced') && (
                                                         <span className="text-xs text-slate-400 italic">Clôturé</span>
                                                     )}
                                                 </TableCell>
@@ -317,6 +407,12 @@ export default function PlanningPage() {
                                     )}
                                 </TableBody>
                             </Table>
+                            {!loading && filteredBookings.length > 0 && (
+                                <div className="mt-4 flex flex-col gap-3 border-t border-slate-100 pt-4 text-sm text-slate-500 dark:border-slate-800 sm:flex-row sm:items-center sm:justify-between">
+                                    <div>Affichage de <span className="font-semibold text-slate-900 dark:text-white">{(currentPage - 1) * itemsPerPage + 1}</span> a <span className="font-semibold text-slate-900 dark:text-white">{Math.min(currentPage * itemsPerPage, filteredBookings.length)}</span> sur <span className="font-semibold text-slate-900 dark:text-white">{filteredBookings.length}</span> demenagements</div>
+                                    <div className="flex items-center gap-2"><Button variant="outline" size="sm" onClick={() => setCurrentPage((page) => Math.max(page - 1, 1))} disabled={currentPage === 1} className="rounded-full"><ChevronLeft className="mr-1 h-4 w-4" /> Precedent</Button><span className="text-xs font-semibold text-slate-500">Page {currentPage} / {totalPages}</span><Button variant="outline" size="sm" onClick={() => setCurrentPage((page) => Math.min(page + 1, totalPages))} disabled={currentPage === totalPages} className="rounded-full">Suivant <ChevronRight className="ml-1 h-4 w-4" /></Button></div>
+                                </div>
+                            )}
                         </CardContent>
                     </Card>
                 </TabsContent>

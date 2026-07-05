@@ -32,6 +32,18 @@ interface DashboardQuotePoint {
   value: number;
 }
 
+function isAuthCredentialError(error: unknown) {
+  return typeof error === 'object' && error !== null && 'code' in error && (error as { code?: unknown }).code === 16;
+}
+
+function logServiceError(context: string, error: unknown) {
+  if (isAuthCredentialError(error)) {
+    console.warn(`${context}: Firebase Admin credentials invalides en local. Donnees de repli utilisees.`);
+    return;
+  }
+
+  console.error(context, error);
+}
 type QuoteDiagnosticRow = {
   id: string;
   status?: string;
@@ -51,7 +63,7 @@ export async function getDbStatus(): Promise<DbStatus> {
       checkedAt: new Date().toISOString(),
     };
   } catch (error) {
-    console.error('Error checking Firestore status:', error);
+    logServiceError('Error checking Firestore status', error);
 
     return {
       ok: false,
@@ -150,7 +162,7 @@ export async function getOperationalAlerts(): Promise<OperationalAlert[]> {
 
     return alerts;
   } catch (error) {
-    console.error('Error fetching alerts:', error);
+    logServiceError('Error fetching alerts', error);
     return [];
   }
 }
@@ -241,7 +253,7 @@ export async function getDashboardStats() {
       },
     };
   } catch (error) {
-    console.error('Error fetching dashboard stats:', error);
+    logServiceError('Error fetching dashboard stats', error);
 
     return {
       totalRevenue: 0,

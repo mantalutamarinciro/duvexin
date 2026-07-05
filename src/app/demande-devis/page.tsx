@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from "framer-motion"
 // UI Components
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { createRequest } from "@/services/requestService"
 import { QuoteForm } from "@/components/quote-form"
 import type { QuoteRequestFormData } from "@/types/quote"
 
@@ -33,21 +32,35 @@ export default function PublicQuotePage() {
     setQuoteId(null);
     try {
       // On sauvegarde dans la collection `requests` plutôt que `quotes`
-      const result = await createRequest({
-        clientName: values.clientName,
-        clientEmail: values.clientEmail,
-        clientPhone: values.clientPhone,
-        originAddress: values.originAddress,
-        destinationAddress: values.destinationAddress,
-        moveDate: values.moveDate || undefined,
-        volume: values.volume || 0,
-        details: values.details || undefined,
+      const response = await fetch("/api/requests", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clientName: values.clientName,
+          clientEmail: values.clientEmail,
+          clientPhone: values.clientPhone,
+          originAddress: values.originAddress,
+          destinationAddress: values.destinationAddress,
+          moveDate: values.moveDate || undefined,
+          volume: values.volume || 0,
+          details: values.details || undefined,
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error("La demande n'a pas pu être enregistrée.");
+      }
+
+      const result = await response.json() as { id?: string; requestId?: string };
+      const savedRequestId = result.id || result.requestId;
+      if (!savedRequestId) {
+        throw new Error("La demande a été enregistrée sans référence de retour.");
+      }
       
       // Simulation of a small delay for better UX
       await new Promise(resolve => setTimeout(resolve, 600));
       
-      setQuoteId(result.id);
+      setQuoteId(savedRequestId);
       window.scrollTo({ top: 0, behavior: 'smooth' });
       
     } catch (error) {

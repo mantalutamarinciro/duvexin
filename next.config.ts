@@ -95,6 +95,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/dashboard/cabinets/new',
+        destination: '/dashboard',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

@@ -2,8 +2,8 @@
 "use client"
 
 import * as React from "react"
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { Suspense, useState, useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { 
   signInWithEmailAndPassword, 
@@ -27,10 +27,19 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2 } from "lucide-react"
 
-export default function LoginPage() {
+function getSafeNextPath(value: string | null) {
+  if (!value || !value.startsWith("/") || value.startsWith("//")) {
+    return "/dashboard";
+  }
+
+  return value;
+}
+function LoginPageContent() {
   const auth = useAuth()
   const { user, isUserLoading } = useUser()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const nextPath = getSafeNextPath(searchParams.get("next"))
   const { toast } = useToast()
 
   const [email, setEmail] = useState("")
@@ -40,9 +49,9 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (user && !isUserLoading) {
-      router.push("/dashboard")
+      router.push(nextPath)
     }
-  }, [user, isUserLoading, router])
+  }, [user, isUserLoading, nextPath, router])
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -190,4 +199,11 @@ export default function LoginPage() {
       </Card>
     </div>
   )
+}
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-muted/50"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>}>
+      <LoginPageContent />
+    </Suspense>
+  );
 }

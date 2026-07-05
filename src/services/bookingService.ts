@@ -37,6 +37,9 @@ export interface Booking {
   assignedVehicleRegistration?: string | null;
 }
 
+function isAuthCredentialError(error: unknown) {
+  return typeof error === 'object' && error !== null && 'code' in error && (error as { code?: unknown }).code === 16;
+}
 function mapDocToBooking(
   doc: admin.firestore.DocumentSnapshot<admin.firestore.DocumentData>
 ): Booking {
@@ -144,6 +147,11 @@ export async function getBookings(): Promise<Booking[]> {
 
     return querySnapshot.docs.map((doc: admin.firestore.QueryDocumentSnapshot) => mapDocToBooking(doc));
   } catch (error) {
+    if (isAuthCredentialError(error)) {
+      console.warn('Error fetching bookings: Firebase Admin credentials invalides en local. Agenda vide utilise.');
+      return [];
+    }
+
     console.error('Error fetching bookings: ', error);
     throw new Error('Failed to fetch bookings.');
   }

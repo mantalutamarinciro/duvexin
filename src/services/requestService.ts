@@ -29,6 +29,9 @@ export interface MoveRequest {
 
 export type CreateRequestData = Omit<MoveRequest, 'id' | 'status' | 'createdAt'>;
 
+function isAuthCredentialError(error: unknown) {
+  return typeof error === 'object' && error !== null && 'code' in error && (error as { code?: unknown }).code === 16;
+}
 function formatDate(value?: string) {
   if (!value) return 'Non precisee';
   const parsed = new Date(value);
@@ -48,6 +51,13 @@ function escapeHtml(value?: string | number) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+
+function removeUndefinedValues<T extends Record<string, unknown>>(value: T) {
+  return Object.fromEntries(
+    Object.entries(value).filter(([, entryValue]) => entryValue !== undefined)
+  ) as Partial<T>;
+}
+
 
 function buildSummaryRows(data: CreateRequestData, requestId: string) {
   const rows = [
@@ -165,12 +175,16 @@ export async function createRequest(data: CreateRequestData): Promise<{ id: stri
     if (!db) throw new Error('Database not initialized');
     const newRequestRef = db.collection('requests').doc();
     await newRequestRef.set({
-      ...data,
-      status: 'À traiter',
+      ...removeUndefinedValues(data),
+      status: 'A traiter',
       createdAt: Timestamp.now(),
     });
 
-    await notifyNewRequest(data, newRequestRef.id);
+    try {
+      await notifyNewRequest(data, newRequestRef.id);
+    } catch (notificationError) {
+      console.error('Quote request saved but notification emails failed:', notificationError);
+    }
 
     return { id: newRequestRef.id };
   } catch (error) {
@@ -205,6 +219,11 @@ export async function getRequests(): Promise<MoveRequest[]> {
       } as MoveRequest;
     });
   } catch (error) {
+    if (isAuthCredentialError(error)) {
+      console.warn("Error fetching requests: Firebase Admin credentials invalides en local. Liste vide utilisee.");
+      return [];
+    }
+
     console.error("Error fetching requests:", error);
     throw new Error("Failed to fetch requests.");
   }

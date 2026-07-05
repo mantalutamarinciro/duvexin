@@ -16,20 +16,42 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Invoice, getInvoices, updateInvoicePayment, updateInvoiceStatus, createInvoice, sendInvoiceByEmail } from "@/services/invoiceService";
-import { Receipt, CheckCircle, ExternalLink, CalendarPlus, Loader2, FileText, HandCoins, AlertCircle, MoreHorizontal, Download, Send } from "lucide-react";
+import { Receipt, CheckCircle, Loader2, HandCoins, AlertCircle, MoreHorizontal, Download, Send, Search, SlidersHorizontal, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const normalizeInvoiceStatus = (status?: string) => {
+  const value = (status || '').toLowerCase();
+  if (value.includes('brouillon')) return 'draft';
+  if (value.includes('mise') || value.includes('?mise')) return 'issued';
+  if (value.includes('partiellement')) return 'partial';
+  if (value.includes('pay')) return 'paid';
+  if (value.includes('retard')) return 'late';
+  return 'other';
+};
+
+const getDisplayStatus = (status?: string) => {
+  switch (normalizeInvoiceStatus(status)) {
+    case 'draft': return 'Brouillon';
+    case 'issued': return 'Emise';
+    case 'partial': return 'Partiellement payee';
+    case 'paid': return 'Payee';
+    case 'late': return 'En retard';
+    default: return status || 'Non renseigne';
+  }
+};
 
 const getStatusBadge = (status: Invoice['status']) => {
-  switch (status) {
-    case 'Brouillon': return 'secondary';
-    case 'Émise': return 'default';
-    case 'Partiellement payée': return 'outline';
-    case 'Payée': return 'default'; // we will override colors for Payée
-    case 'En retard': return 'destructive';
+  switch (normalizeInvoiceStatus(status)) {
+    case 'draft': return 'secondary';
+    case 'issued': return 'default';
+    case 'partial': return 'outline';
+    case 'paid': return 'default';
+    case 'late': return 'destructive';
     default: return 'outline';
   }
 };
@@ -43,6 +65,13 @@ export default function InvoicesPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [emailingId, setEmailingId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [dueFilter, setDueFilter] = useState("all");
+  const [amountFilter, setAmountFilter] = useState("all");
+  const [paymentFilter, setPaymentFilter] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const { toast } = useToast();
 
   const loadData = async () => {
@@ -86,6 +115,74 @@ export default function InvoicesPage() {
       }
   }
 
+
+
+
+  const hasActiveFilters = Boolean(
+    searchQuery ||
+    statusFilter !== "all" ||
+    dueFilter !== "all" ||
+    amountFilter !== "all" ||
+    paymentFilter !== "all"
+  );
+
+  const filteredInvoices = invoices.filter((invoice) => {
+    const query = searchQuery.trim().toLowerCase();
+    const remaining = Number(invoice.amountTTC || 0) - Number(invoice.amountPaid || 0);
+    const dueDate = new Date(invoice.dueDate);
+    const dueInDays = Number.isNaN(dueDate.getTime())
+      ? Number.POSITIVE_INFINITY
+      : (dueDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24);
+
+    const matchesSearch = !query ||
+      invoice.clientName.toLowerCase().includes(query) ||
+      invoice.id.toLowerCase().includes(query) ||
+      invoice.quoteId.toLowerCase().includes(query);
+
+    const matchesStatus = statusFilter === "all" || normalizeInvoiceStatus(invoice.status) === statusFilter;
+
+    const matchesDue =
+      dueFilter === "all" ||
+      (dueFilter === "overdue" && dueInDays < 0 && remaining > 0) ||
+      (dueFilter === "7d" && dueInDays >= 0 && dueInDays <= 7) ||
+      (dueFilter === "30d" && dueInDays >= 0 && dueInDays <= 30) ||
+      (dueFilter === "future" && dueInDays > 30);
+
+    const amount = Number(invoice.amountTTC || 0);
+    const matchesAmount =
+      amountFilter === "all" ||
+      (amountFilter === "low" && amount > 0 && amount < 1000) ||
+      (amountFilter === "medium" && amount >= 1000 && amount < 3000) ||
+      (amountFilter === "high" && amount >= 3000);
+
+    const matchesPayment =
+      paymentFilter === "all" ||
+      (paymentFilter === "unpaid" && Number(invoice.amountPaid || 0) === 0) ||
+      (paymentFilter === "partial" && Number(invoice.amountPaid || 0) > 0 && remaining > 0) ||
+      (paymentFilter === "paid" && remaining <= 0);
+
+    return matchesSearch && matchesStatus && matchesDue && matchesAmount && matchesPayment;
+  });
+
+  const totalPages = Math.max(1, Math.ceil(filteredInvoices.length / itemsPerPage));
+  const paginatedInvoices = filteredInvoices.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const totalPaid = filteredInvoices.reduce((acc, inv) => acc + Number(inv.amountPaid || 0), 0);
+  const totalOutstanding = filteredInvoices
+    .filter((invoice) => normalizeInvoiceStatus(invoice.status) !== 'draft')
+    .reduce((acc, inv) => acc + Math.max(Number(inv.amountTTC || 0) - Number(inv.amountPaid || 0), 0), 0);
+  const lateInvoices = filteredInvoices.filter((invoice) => normalizeInvoiceStatus(invoice.status) === 'late').length;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, statusFilter, dueFilter, amountFilter, paymentFilter]);
+
+  const resetFilters = () => {
+    setSearchQuery("");
+    setStatusFilter("all");
+    setDueFilter("all");
+    setAmountFilter("all");
+    setPaymentFilter("all");
+  };
 
   const handleOpenPaymentDialog = (invoice: Invoice) => {
     setSelectedInvoice(invoice);
@@ -176,8 +273,15 @@ export default function InvoicesPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <h1 className="font-headline text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Facturation & Paiements</h1>
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <h1 className="font-headline text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Facturation & Paiements</h1>
+          <p className="mt-1 text-sm text-muted-foreground">Filtrez les factures par statut, echeance, montant et niveau de paiement.</p>
+        </div>
+        <div className="relative w-full lg:w-80">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input placeholder="Rechercher client, facture, devis..." className="pl-9 rounded-full bg-white dark:bg-slate-900" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -190,7 +294,7 @@ export default function InvoicesPage() {
                       <div>
                           <p className="text-sm font-bold text-emerald-800 dark:text-emerald-300">Encaissé (Mois)</p>
                           <h3 className="text-2xl font-black text-emerald-900 dark:text-emerald-100">
-                              {invoices.reduce((acc, inv) => acc + inv.amountPaid, 0).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
+                              {totalPaid.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
                           </h3>
                       </div>
                   </div>
@@ -205,7 +309,7 @@ export default function InvoicesPage() {
                       <div>
                           <p className="text-sm font-bold text-blue-800 dark:text-blue-300">À recouvrer</p>
                           <h3 className="text-2xl font-black text-blue-900 dark:text-blue-100">
-                              {invoices.filter(i => i.status !== 'Payée' && i.status !== 'Brouillon').reduce((acc, inv) => acc + (inv.amountTTC - inv.amountPaid), 0).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
+                              {totalOutstanding.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
                           </h3>
                       </div>
                   </div>
@@ -220,12 +324,68 @@ export default function InvoicesPage() {
                       <div>
                           <p className="text-sm font-bold text-red-800 dark:text-red-300">En retard</p>
                           <h3 className="text-2xl font-black text-red-900 dark:text-red-100">
-                              {invoices.filter(i => i.status === 'En retard').length} factures
+                              {lateInvoices} factures
                           </h3>
                       </div>
                   </div>
               </CardContent>
           </Card>
+      </div>
+
+
+      <div className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900 xl:flex-row xl:items-center">
+        <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-slate-400 xl:w-24">
+          <SlidersHorizontal className="h-4 w-4" /> Filtres
+        </div>
+        <div className="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="h-10 rounded-xl bg-slate-50 dark:bg-slate-950"><SelectValue placeholder="Statut" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Tous les statuts</SelectItem>
+              <SelectItem value="draft">Brouillon</SelectItem>
+              <SelectItem value="issued">Emise</SelectItem>
+              <SelectItem value="partial">Partiellement payee</SelectItem>
+              <SelectItem value="paid">Payee</SelectItem>
+              <SelectItem value="late">En retard</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={dueFilter} onValueChange={setDueFilter}>
+            <SelectTrigger className="h-10 rounded-xl bg-slate-50 dark:bg-slate-950"><SelectValue placeholder="Echeance" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Toutes echeances</SelectItem>
+              <SelectItem value="overdue">Depassee</SelectItem>
+              <SelectItem value="7d">Sous 7 jours</SelectItem>
+              <SelectItem value="30d">Sous 30 jours</SelectItem>
+              <SelectItem value="future">Plus de 30 jours</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={amountFilter} onValueChange={setAmountFilter}>
+            <SelectTrigger className="h-10 rounded-xl bg-slate-50 dark:bg-slate-950"><SelectValue placeholder="Montant" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Tous montants</SelectItem>
+              <SelectItem value="low">Moins de 1 000 EUR</SelectItem>
+              <SelectItem value="medium">1 000 a 2 999 EUR</SelectItem>
+              <SelectItem value="high">3 000 EUR et plus</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={paymentFilter} onValueChange={setPaymentFilter}>
+            <SelectTrigger className="h-10 rounded-xl bg-slate-50 dark:bg-slate-950"><SelectValue placeholder="Paiement" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Tous paiements</SelectItem>
+              <SelectItem value="unpaid">Non payees</SelectItem>
+              <SelectItem value="partial">Paiement partiel</SelectItem>
+              <SelectItem value="paid">Soldees</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex items-center justify-between gap-3 xl:justify-end">
+          <span className="text-xs font-semibold text-slate-500">{filteredInvoices.length} / {invoices.length}</span>
+          {hasActiveFilters && (
+            <Button variant="ghost" size="sm" onClick={resetFilters} className="rounded-full text-slate-500">
+              <X className="mr-2 h-4 w-4" /> Reinitialiser
+            </Button>
+          )}
+        </div>
       </div>
 
       <Card className="rounded-[2rem] border-none shadow-sm overflow-hidden bg-white dark:bg-slate-900">
@@ -257,8 +417,8 @@ export default function InvoicesPage() {
                     <TableCell className="text-right"><Skeleton className="h-8 w-24 ml-auto" /></TableCell>
                   </TableRow>
                 ))
-              ) : invoices.length > 0 ? (
-                invoices.map((inv) => (
+              ) : paginatedInvoices.length > 0 ? (
+                paginatedInvoices.map((inv) => (
                   <TableRow key={inv.id} className="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                     <TableCell>
                       <div className="font-bold text-slate-900 dark:text-white">
@@ -283,17 +443,17 @@ export default function InvoicesPage() {
                        </span>
                     </TableCell>
                     <TableCell>
-                      <Badge variant={getStatusBadge(inv.status)} className={`text-[10px] font-black uppercase tracking-widest ${inv.status === 'Payée' ? 'bg-emerald-100 text-emerald-800 border-emerald-200' : ''}`}>
-                        {inv.status}
+                      <Badge variant={getStatusBadge(inv.status)} className={`text-[10px] font-black uppercase tracking-widest ${normalizeInvoiceStatus(inv.status) === 'paid' ? 'bg-emerald-100 text-emerald-800 border-emerald-200' : ''}`}>
+                        {getDisplayStatus(inv.status)}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right flex items-center justify-end gap-2">
-                       {inv.status === 'Brouillon' && (
+                       {normalizeInvoiceStatus(inv.status) === 'draft' && (
                            <Button size="sm" variant="outline" onClick={() => handleMarkAsEmitted(inv.id)} className="rounded-full">
                                Émettre
                            </Button>
                        )}
-                       {inv.status !== 'Brouillon' && inv.status !== 'Payée' && (
+                       {normalizeInvoiceStatus(inv.status) !== 'draft' && normalizeInvoiceStatus(inv.status) !== 'paid' && (
                         <Button size="sm" onClick={() => handleOpenPaymentDialog(inv)} className="rounded-full bg-primary/10 text-primary hover:bg-primary/20">
                           <HandCoins className="h-4 w-4 mr-2" /> Encaissement
                         </Button>
@@ -323,12 +483,22 @@ export default function InvoicesPage() {
                 <TableRow>
                   <TableCell colSpan={6} className="text-center h-32 text-slate-400">
                     <Receipt className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                    Aucune facture trouvée.
+                                        Aucune facture trouvee.
                   </TableCell>
                 </TableRow>
               )}
             </TableBody>
           </Table>
+          {!loading && filteredInvoices.length > 0 && (
+            <div className="mt-4 flex flex-col gap-3 border-t border-slate-100 pt-4 text-sm text-slate-500 dark:border-slate-800 sm:flex-row sm:items-center sm:justify-between">
+              <div>Affichage de <span className="font-semibold text-slate-900 dark:text-white">{(currentPage - 1) * itemsPerPage + 1}</span> a <span className="font-semibold text-slate-900 dark:text-white">{Math.min(currentPage * itemsPerPage, filteredInvoices.length)}</span> sur <span className="font-semibold text-slate-900 dark:text-white">{filteredInvoices.length}</span> factures</div>
+              <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm" onClick={() => setCurrentPage((page) => Math.max(page - 1, 1))} disabled={currentPage === 1} className="rounded-full"><ChevronLeft className="mr-1 h-4 w-4" /> Precedent</Button>
+                <span className="text-xs font-semibold text-slate-500">Page {currentPage} / {totalPages}</span>
+                <Button variant="outline" size="sm" onClick={() => setCurrentPage((page) => Math.min(page + 1, totalPages))} disabled={currentPage === totalPages} className="rounded-full">Suivant <ChevronRight className="ml-1 h-4 w-4" /></Button>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
 
