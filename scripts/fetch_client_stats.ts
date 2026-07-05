@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, doc, getDoc, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAcNok1eIVn8osweM3JBAW7xZMjqs6fGME",
@@ -19,35 +19,89 @@ async function run() {
   try {
     console.log("Attempting login...");
     const userCredential = await signInWithEmailAndPassword(auth, "mantalutamarinciro@gmail.com", "Marin@2026");
-    const uid = userCredential.user.uid;
-    console.log("Logged in as UID:", uid);
+    console.log("Logged in successfully as UID:", userCredential.user.uid);
 
-    // Check roles_admin doc
-    const adminDocRef = doc(db, 'roles_admin', uid);
-    const adminDoc = await getDoc(adminDocRef);
-    console.log("Is Admin Doc Exists:", adminDoc.exists());
-    if (adminDoc.exists()) {
-      console.log("Admin Doc Data:", adminDoc.data());
-    }
+    const stats: any = {};
 
-    // Check employees doc
-    const empDocRef = doc(db, 'employees', uid);
-    const empDoc = await getDoc(empDocRef);
-    console.log("Is Employee Doc Exists:", empDoc.exists());
-    if (empDoc.exists()) {
-      console.log("Employee Doc Data:", empDoc.data());
-    }
-
-    // Try reading serviceTypes
+    // 1. Requests
     try {
-      const serviceTypesSnap = await getDocs(collection(db, 'serviceTypes'));
-      console.log("Service Types count:", serviceTypesSnap.size);
+      const requestsSnap = await getDocs(collection(db, 'requests'));
+      stats.requests = { count: requestsSnap.size };
     } catch (e: any) {
-      console.log("Failed to read serviceTypes:", e.message);
+      stats.requests = { error: e.message };
     }
 
+    // 2. Quotes
+    try {
+      const quotesSnap = await getDocs(collection(db, 'quotes'));
+      stats.quotes = { count: quotesSnap.size };
+    } catch (e: any) {
+      stats.quotes = { error: e.message };
+    }
+
+    // 3. Bookings
+    try {
+      const bookingsSnap = await getDocs(collection(db, 'bookings'));
+      stats.bookings = { count: bookingsSnap.size };
+    } catch (e: any) {
+      stats.bookings = { error: e.message };
+    }
+
+    // 4. Invoices
+    try {
+      const invoicesSnap = await getDocs(collection(db, 'invoices'));
+      stats.invoices = { count: invoicesSnap.size };
+    } catch (e: any) {
+      stats.invoices = { error: e.message };
+    }
+
+    // 5. Expenses
+    try {
+      const expensesSnap = await getDocs(collection(db, 'expenses'));
+      stats.expenses = { count: expensesSnap.size };
+    } catch (e: any) {
+      stats.expenses = { error: e.message };
+    }
+
+    // 6. Visits
+    try {
+      const visitsSnap = await getDocs(collection(db, 'visits'));
+      stats.visits = { count: visitsSnap.size };
+    } catch (e: any) {
+      stats.visits = { error: e.message };
+    }
+
+    // 7. Customers (users)
+    try {
+      const usersSnap = await getDocs(collection(db, 'users'));
+      stats.customers = { count: usersSnap.size };
+    } catch (e: any) {
+      stats.customers = { error: e.message };
+    }
+
+    // 8. Teams
+    try {
+      const teamsSnap = await getDocs(collection(db, 'teams'));
+      stats.teams = { count: teamsSnap.size };
+    } catch (e: any) {
+      stats.teams = { error: e.message };
+    }
+
+    // 9. Vehicles
+    try {
+      const vehiclesSnap = await getDocs(collection(db, 'vehicles'));
+      stats.vehicles = { count: vehiclesSnap.size };
+    } catch (e: any) {
+      stats.vehicles = { error: e.message };
+    }
+
+    console.log("===STATS_START===");
+    console.log(JSON.stringify(stats, null, 2));
+    console.log("===STATS_END===");
+    process.exit(0);
   } catch (err) {
-    console.error("Error:", err);
+    console.error("Login failed:", err);
+    process.exit(1);
   }
 }
 

@@ -99,6 +99,35 @@ service cloud.firestore {
     /*
      * Collections legacy / futures
      */
+    /*
+     * REQUESTS, INVOICES, EXPENSES, VISITS
+     * Missing collections rules that were causing Permission Denied errors
+     */
+    match /requests/{requestId} {
+      allow get, list: if isStaff();
+      allow create: if true; // Open to public from public quote form
+      allow update: if isStaff();
+      allow delete: if isAdmin();
+    }
+
+    match /invoices/{invoiceId} {
+      allow get, list: if isStaff();
+      allow create, update: if isStaff();
+      allow delete: if isAdmin();
+    }
+
+    match /expenses/{expenseId} {
+      allow get, list: if isStaff();
+      allow create, update: if isStaff();
+      allow delete: if isAdmin();
+    }
+
+    match /visits/{visitId} {
+      allow get, list: if isStaff();
+      allow create, update: if isStaff();
+      allow delete: if isAdmin();
+    }
+
     match /serviceTypes/{serviceTypeId} {
       allow get, list: if isSignedIn();
       allow create, update, delete: if isAdmin();
