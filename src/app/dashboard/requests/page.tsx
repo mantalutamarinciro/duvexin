@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import {
   Table,
   TableBody,
@@ -16,7 +19,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MoveRequest, getRequests, updateRequestStatus } from "@/services/requestService";
-import { Inbox, CalendarPlus, LayoutGrid, List as ListIcon, MapPin, Search, Phone, Mail, Archive, CalendarDays, ArrowDown, ChevronLeft, ChevronRight, MoreHorizontal, PenSquare, FileText, UserRound, SlidersHorizontal, X } from "lucide-react";
+import { createVisit } from "@/services/visitService";
+import { Inbox, CalendarPlus, LayoutGrid, List as ListIcon, MapPin, Search, Phone, Mail, Archive, CalendarDays, ArrowDown, ChevronLeft, ChevronRight, MoreHorizontal, PenSquare, FileText, UserRound, SlidersHorizontal, X, Loader2, Calendar as CalendarIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -24,6 +28,21 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
+
+const visitSchema = z.object({
+  commercialName: z.string().min(2, "Le nom du commercial est requis."),
+  clientName: z.string().min(2, "Le nom du client est requis."),
+  clientAddress: z.string().min(5, "L'adresse est requise."),
+  visitDateTime: z.date({ required_error: "La date et l'heure sont requises." }),
+  type: z.enum(['domicile', 'téléphone', 'visio']),
+  details: z.string().optional(),
+});
 
 const normalizeStatus = (status?: string) => {
   const value = (status || '').toLowerCase();
@@ -64,6 +83,54 @@ export default function RequestsPage() {
   const { toast } = useToast();
   const router = useRouter();
 
+  const [selectedRequestForVisit, setSelectedRequestForVisit] = useState<MoveRequest | null>(null);
+  const [isVisitDialogOpen, setIsVisitDialogOpen] = useState(false);
+  const [isSubmittingVisit, setIsSubmittingVisit] = useState(false);
+
+  const form = useForm<z.infer<typeof visitSchema>>({
+    resolver: zodResolver(visitSchema),
+    defaultValues: {
+      commercialName: "Jean Dupont",
+      clientName: "",
+      clientAddress: "",
+      visitDateTime: new Date(Date.now() + 24 * 60 * 60 * 1000), // Demain par défaut
+      type: "domicile",
+      details: "",
+    },
+  });
+
+  useEffect(() => {
+    if (selectedRequestForVisit) {
+      form.setValue("clientName", selectedRequestForVisit.clientName);
+      form.setValue("clientAddress", selectedRequestForVisit.originAddress);
+      form.setValue("details", `Demande de devis volume estimé : ${selectedRequestForVisit.volume} m³. ${selectedRequestForVisit.details || ""}`);
+    }
+  }, [selectedRequestForVisit, form]);
+
+  const onSubmitVisit = async (values: z.infer<typeof visitSchema>) => {
+    if (!selectedRequestForVisit) return;
+    setIsSubmittingVisit(true);
+    try {
+      await createVisit({
+        ...values,
+        requestId: selectedRequestForVisit.id,
+        details: values.details ?? "",
+      });
+
+      await updateRequestStatus(selectedRequestForVisit.id, 'Converti en visite');
+
+      toast({ title: "Visite planifiée", description: "La visite a été enregistrée avec succès." });
+      setIsVisitDialogOpen(false);
+      setSelectedRequestForVisit(null);
+      form.reset();
+      loadData();
+    } catch (error) {
+      toast({ variant: 'destructive', title: "Erreur", description: "Impossible de planifier la visite." });
+    } finally {
+      setIsSubmittingVisit(false);
+    }
+  };
+
   const loadData = async () => {
     setLoading(true);
     try {
@@ -91,12 +158,8 @@ export default function RequestsPage() {
   };
 
   const handleConvertToVisit = (request: MoveRequest) => {
-    sessionStorage.setItem('prefillVisit', JSON.stringify({
-      clientName: request.clientName,
-      clientAddress: request.originAddress,
-      requestId: request.id
-    }));
-    router.push('/dashboard/visits?action=new');
+    setSelectedRequestForVisit(request);
+    setIsVisitDialogOpen(true);
   };
 
   const handleConvertToQuote = (request: MoveRequest) => {
@@ -487,6 +550,122 @@ export default function RequestsPage() {
             </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Modal de planification rapide de visite */}
+      <Dialog open={isVisitDialogOpen} onOpenChange={setIsVisitDialogOpen}>
+        <DialogContent className="sm:max-w-[480px] rounded-3xl p-6 border-slate-100 dark:border-slate-800 shadow-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black">Planifier une Visite Technique</DialogTitle>
+            <DialogDescription className="text-sm text-slate-500">
+              Renseignez les détails pour l'estimation de volume physique de cette demande.
+            </DialogDescription>
+          </DialogHeader>
+
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmitVisit)} className="space-y-4">
+              <FormField control={form.control} name="clientName" render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold text-slate-700 dark:text-slate-300">Nom du prospect</FormLabel>
+                  <FormControl><Input placeholder="Nom du client" className="rounded-xl" {...field} /></FormControl>
+                  <FormMessage />
+                </FormItem>
+              )} />
+
+              <FormField control={form.control} name="clientAddress" render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold text-slate-700 dark:text-slate-300">Adresse de la visite</FormLabel>
+                  <FormControl><Input placeholder="Adresse" className="rounded-xl" {...field} /></FormControl>
+                  <FormMessage />
+                </FormItem>
+              )} />
+
+              <div className="grid grid-cols-2 gap-4">
+                <FormField control={form.control} name="type" render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-bold text-slate-700 dark:text-slate-300">Type de visite</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="rounded-xl">
+                          <SelectValue placeholder="Sélectionnez" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="rounded-xl">
+                        <SelectItem value="domicile">À domicile</SelectItem>
+                        <SelectItem value="visio">En Visio</SelectItem>
+                        <SelectItem value="téléphone">Téléphone</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+
+                <FormField control={form.control} name="commercialName" render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-bold text-slate-700 dark:text-slate-300">Commercial</FormLabel>
+                    <FormControl><Input placeholder="Nom du commercial" className="rounded-xl" {...field} /></FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+              </div>
+
+              <FormField control={form.control} name="visitDateTime" render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel className="font-bold text-slate-700 dark:text-slate-300">Date et heure</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button variant="outline" className={cn("pl-3 text-left font-normal rounded-xl h-11 border-slate-200", !field.value && "text-muted-foreground")}>
+                          {field.value ? format(field.value, "PPPP 'à' HH:mm", { locale: fr }) : <span>Choisir date/heure</span>}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 rounded-2xl border-slate-100 shadow-xl" align="start">
+                      <Calendar mode="single" selected={field.value} onSelect={(date) => {
+                        if (date) {
+                          const newDate = field.value || new Date();
+                          newDate.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
+                          field.onChange(new Date(newDate));
+                        }
+                      }} initialFocus locale={fr} />
+                      <div className="p-3 border-t flex items-center justify-between">
+                        <span className="text-xs text-slate-500 font-bold">Heure :</span>
+                        <Input type="time" className="w-24 h-8 text-xs rounded-lg" value={field.value ? format(field.value, "HH:mm") : "09:00"} onChange={(e) => {
+                          const newDate = field.value ? new Date(field.value) : new Date();
+                          const [hours, minutes] = e.target.value.split(':');
+                          newDate.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+                          field.onChange(new Date(newDate));
+                        }} />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )} />
+
+              <FormField control={form.control} name="details" render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold text-slate-700 dark:text-slate-300">Instructions / Notes</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="ex: Accès camion, monte-meubles..." className="rounded-xl min-h-[80px]" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )} />
+
+              <DialogFooter className="pt-4 flex gap-2">
+                <Button type="button" variant="ghost" onClick={() => setIsVisitDialogOpen(false)} className="rounded-full">
+                  Annuler
+                </Button>
+                <Button type="submit" disabled={isSubmittingVisit} className="rounded-full bg-primary hover:bg-primary/90 text-white font-bold px-6 shadow-lg shadow-primary/20">
+                  {isSubmittingVisit ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                  Confirmer la visite
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

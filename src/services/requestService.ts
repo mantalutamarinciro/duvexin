@@ -2,6 +2,7 @@
 
 import { db, admin } from '@/lib/firebase';
 import { Resend } from 'resend';
+import { syncCustomerFromRequest } from '@/services/customerService';
 
 const { Timestamp } = admin.firestore;
 
@@ -176,9 +177,19 @@ export async function createRequest(data: CreateRequestData): Promise<{ id: stri
     const newRequestRef = db.collection('requests').doc();
     await newRequestRef.set({
       ...removeUndefinedValues(data),
-      status: 'A traiter',
+      status: 'À traiter',
       createdAt: Timestamp.now(),
     });
+
+    try {
+      await syncCustomerFromRequest({
+        name: data.clientName,
+        email: data.clientEmail,
+        phone: data.clientPhone,
+      });
+    } catch (syncError) {
+      console.error('Failed to sync customer profile from request:', syncError);
+    }
 
     try {
       await notifyNewRequest(data, newRequestRef.id);
@@ -199,9 +210,20 @@ export async function getRequests(): Promise<MoveRequest[]> {
     const snapshot = await db.collection('requests').orderBy('createdAt', 'desc').get();
     return snapshot.docs.map(doc => {
       const data = doc.data();
+      let status = data.status || 'À traiter';
+
+      // Self-healing pour corriger les statuts sans accent restants en base
+      if (status === 'A traiter') {
+        status = 'À traiter';
+        db.collection('requests').doc(doc.id).update({ status: 'À traiter' }).catch(err => {
+          console.error(`Failed to self-heal status for request ${doc.id}:`, err);
+        });
+      }
+
       return {
         id: doc.id,
         ...data,
+        status,
         moveDate: data.moveDate?.toDate
           ? (data.moveDate as admin.firestore.Timestamp).toDate().toISOString()
           : data.moveDate?._seconds

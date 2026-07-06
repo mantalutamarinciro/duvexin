@@ -77,3 +77,39 @@ export async function syncCustomerFromBooking(data: { name: string, email: strin
     console.error('Error syncing customer:', error);
   }
 }
+
+export async function syncCustomerFromRequest(data: { name: string, email: string, phone?: string }) {
+  if (!db) return;
+  try {
+    const customersCol = db.collection('users');
+    const query = await customersCol.where('email', '==', data.email.toLowerCase().trim()).limit(1).get();
+    
+    const names = data.name.trim().split(/\s+/);
+    const firstName = names[0] || '';
+    const lastName = names.slice(1).join(' ') || '';
+
+    if (query.empty) {
+      await customersCol.add({
+        firstName,
+        lastName,
+        email: data.email.toLowerCase().trim(),
+        phoneNumber: data.phone || '',
+        totalSpent: 0,
+        bookingsCount: 0,
+        createdAt: admin.firestore.Timestamp.now(),
+      });
+      console.log(`Created new customer profile for request email: ${data.email}`);
+    } else {
+      const customerDoc = query.docs[0];
+      const currentData = customerDoc.data();
+      
+      const updateData: any = {
+        phoneNumber: data.phone || currentData.phoneNumber || '',
+      };
+      await customerDoc.ref.update(updateData);
+      console.log(`Updated phone for existing customer: ${data.email}`);
+    }
+  } catch (error) {
+    console.error('Error syncing customer from request:', error);
+  }
+}

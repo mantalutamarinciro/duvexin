@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState, useRef } from "react";
 import { format } from "date-fns";
@@ -54,6 +54,7 @@ import {
   updateQuoteStatus,
   deleteQuote,
   getQuoteById,
+  sendQuoteByEmail,
 } from "@/services/quoteService";
 import { createBookingFromQuote } from "@/services/bookingService";
 import { createInvoice } from "@/services/invoiceService";
@@ -111,6 +112,7 @@ export default function QuotesPage() {
   const [loading, setLoading] = useState(true);
   const [pdfLoading, setPdfLoading] = useState<string | null>(null);
   const [selectedQuoteForPdf, setSelectedQuoteForPdf] = useState<Quote | null>(null);
+  const [sendingQuoteId, setSendingQuoteId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [periodFilter, setPeriodFilter] = useState("all");
@@ -177,17 +179,61 @@ export default function QuotesPage() {
     }
   };
 
-  const handleSendQuote = async (quote: Quote) => {
-      // Simulation of email sending
-      toast({
-        title: "Envoi en cours...",
-        description: "Le devis est en cours d'envoi au client.",
-      });
-      setTimeout(() => {
-          handleUpdateStatus(quote, "Envoyé");
-      }, 1500);
-  }
+  const blobToDataUrl = (blob: Blob) =>
+    new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
 
+  const handleSendQuote = async (quote: Quote) => {
+    if (!quote.clientEmail?.trim()) {
+      toast({
+        variant: "destructive",
+        title: "Email client manquant",
+        description: "Ajoutez une adresse email client avant d'envoyer le devis.",
+      });
+      return;
+    }
+
+    if (!quote.quote || quote.quote <= 0) {
+      toast({
+        variant: "destructive",
+        title: "Devis non chiffré",
+        description: "Ajoutez un montant au devis avant de l'envoyer.",
+      });
+      return;
+    }
+
+    setSendingQuoteId(quote.id);
+    toast({
+      title: "Envoi en cours...",
+      description: `Génération du PDF puis envoi à ${quote.clientEmail}.`,
+    });
+
+    try {
+      const res = await fetch(`/api/pdf?type=quote&id=${quote.id}`);
+      if (!res.ok) throw new Error("Impossible de générer le PDF du devis.");
+
+      const base64Pdf = await blobToDataUrl(await res.blob());
+      await sendQuoteByEmail(quote.id, base64Pdf);
+
+      toast({
+        title: "Devis envoyé",
+        description: `Le devis a été envoyé à ${quote.clientEmail}.`,
+      });
+      await loadQuotes();
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Erreur d'envoi",
+        description: error?.message || "Impossible d'envoyer le devis par email.",
+      });
+    } finally {
+      setSendingQuoteId(null);
+    }
+  };
   const handleFollowUpQuote = async (quote: Quote) => {
     toast({
         title: "Relance envoyée",

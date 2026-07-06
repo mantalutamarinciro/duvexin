@@ -9,6 +9,7 @@ const { Timestamp } = admin.firestore;
 
 const QUOTES_COLLECTION = 'quotes';
 const ADMIN_RECIPIENT_EMAIL = 'contact@demenagementduvexin.fr';
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || ADMIN_RECIPIENT_EMAIL;
 
 const apiKey = process.env.RESEND_API_KEY || '';
 const resend = apiKey && apiKey.startsWith('re_') ? new Resend(apiKey) : null;
@@ -142,7 +143,9 @@ export async function sendQuoteByEmail(quoteId: string, base64Pdf: string): Prom
   const quote = await getQuoteById(quoteId);
   if (!quote) throw new Error("Devis introuvable");
   if (!resend) throw new Error("Clé API Resend non configurée");
-  if (!quote.clientEmail) throw new Error("Email du client manquant");
+  const clientEmail = quote.clientEmail?.trim();
+  if (!clientEmail) throw new Error("Email du client manquant");
+  if (!base64Pdf.includes(',')) throw new Error("PDF du devis invalide");
 
   try {
     const pdfBuffer = Buffer.from(base64Pdf.split(',')[1], 'base64');
@@ -171,9 +174,10 @@ export async function sendQuoteByEmail(quoteId: string, base64Pdf: string): Prom
     const originCity = getCity(quote.originAddress);
     const destCity = getCity(quote.destinationAddress);
 
-    await resend.emails.send({
-      from: 'Déménagement Du Vexin <contact@demenagementduvexin.fr>', 
-      to: [quote.clientEmail],
+    const { data, error } = await resend.emails.send({
+      from: `Déménagement Du Vexin <${FROM_EMAIL}>`, 
+      to: [clientEmail],
+      replyTo: ADMIN_RECIPIENT_EMAIL,
       subject: `Proposition commerciale pour votre déménagement - Réf: ${shortRef}`,
       html: `
         <!DOCTYPE html>
@@ -270,9 +274,16 @@ export async function sendQuoteByEmail(quoteId: string, base64Pdf: string): Prom
       ],
     });
 
-    await updateQuoteStatus(quoteId, 'Envoyé');
+    if (error) {
+      console.error('Resend quote email error:', error);
+      throw new Error(error.message || "Resend a refusé l'envoi de l'email.");
+    }
+
+    console.log('Quote email sent:', { quoteId, emailId: data?.id, to: clientEmail });
+
+    await updateQuoteStatus(quoteId, "Envoy\u00e9" as QuoteStatus);
   } catch (error) {
     console.error('Error sending quote email:', error);
-    throw new Error('Failed to send quote email.');
+    throw error instanceof Error ? error : new Error('Failed to send quote email.');
   }
 }
