@@ -60,8 +60,10 @@ import {
   Truck,
   ShoppingCart,
   AlertTriangle,
+  X,
 } from "lucide-react";
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { updateInventoryList, type InventoryItem } from "@/services/inventoryService";
 import { type RoomCategory, type PredefinedItem } from "@/lib/predefined-items";
@@ -305,6 +307,89 @@ export function VolumeCalculatorClient({
 
   const [isGeneratingAi, setIsGeneratingAi] = useState(false);
   const [isCustomItemDialogOpen, setIsCustomItemDialogOpen] = useState(false);
+
+  // AI Vision states
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [imageBase64, setImageBase64] = useState<string | null>(null);
+  const [imageMimeType, setImageMimeType] = useState<string | null>(null);
+  const [isAnalyzingPhoto, setIsAnalyzingPhoto] = useState(false);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast({ variant: "destructive", title: "Format invalide", description: "Veuillez sélectionner une image." });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const dataUrl = reader.result as string;
+      setSelectedImage(dataUrl);
+      
+      const base64 = dataUrl.split(",")[1];
+      setImageBase64(base64);
+      setImageMimeType(file.type);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const onPhotoAnalyze = async () => {
+    if (!imageBase64 || !imageMimeType) return;
+    setIsAnalyzingPhoto(true);
+    try {
+      const res = await fetch("/api/vision/inventory", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageBase64, mimeType: imageMimeType }),
+      });
+
+      if (!res.ok) throw new Error("Erreur serveur lors de l'analyse.");
+      const result = await res.json();
+
+      if (result.items && result.items.length > 0) {
+        setInventoryItems((prev) => {
+          const normalize = (s: string) => s.trim().toLowerCase();
+          const map = new Map<string, InventoryItem>();
+          for (const p of prev) map.set(normalize(p.name), p);
+
+          for (const ai of result.items) {
+            const key = normalize(ai.name);
+            const existing = map.get(key);
+
+            if (existing) {
+              map.set(key, { ...existing, quantity: existing.quantity + (ai.quantity ?? 1) });
+            } else {
+              map.set(key, {
+                id: `vision-${Date.now()}-${key}`,
+                name: ai.name,
+                volume: ai.volume,
+                quantity: ai.quantity ?? 1,
+                icon: "Camera",
+              });
+            }
+          }
+          return Array.from(map.values());
+        });
+
+        toast({
+          title: "Analyse photo réussie",
+          description: `${result.items.length} objets détectés et ajoutés à l'inventaire ! (Total : ${result.totalVolume} m³)`,
+        });
+        setSelectedImage(null);
+        setImageBase64(null);
+        setImageMimeType(null);
+      } else {
+        toast({ variant: "destructive", title: "Aucun objet", description: "Aucun meuble n'a été clairement identifié sur l'image." });
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Échec de l'analyse", description: "Impossible d'analyser la photo avec l'IA Vision." });
+    } finally {
+      setIsAnalyzingPhoto(false);
+    }
+  };
+
 
   const [isSaving, startSavingTransition] = useTransition();
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -607,50 +692,122 @@ export function VolumeCalculatorClient({
           </main>
         </div>
 
-        {/* --- ASSISTANT IA --- */}
-        <Card className="rounded-2xl border-border shadow-sm bg-card/50">
-          <CardHeader className="pb-3 px-6 pt-6">
-            <div className="flex items-center gap-3">
-              <Wand2 className="h-5 w-5 text-primary" />
-              <div>
-                <CardTitle className="text-lg">Saisie rapide par texte</CardTitle>
-                <CardDescription className="text-xs mt-0.5">Décrivez votre pièce, l'IA extrait les volumes.</CardDescription>
+        {/* --- ASSISTANT IA MULTIMODAL --- */}
+        <Card className="rounded-2xl border-border shadow-sm bg-card/50 overflow-hidden">
+          <Tabs defaultValue="texte" className="w-full">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-100 dark:border-slate-800 px-6 pt-4 pb-2 sm:py-3 gap-2">
+              <div className="flex items-center gap-3">
+                <Wand2 className="h-5 w-5 text-primary" />
+                <CardTitle className="text-lg">Assistant IA intelligent</CardTitle>
               </div>
+              <TabsList className="bg-slate-100 dark:bg-slate-800 rounded-xl p-1 gap-1">
+                <TabsTrigger value="texte" className="rounded-lg text-xs font-semibold px-3 py-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-950">
+                  Saisie par Texte
+                </TabsTrigger>
+                <TabsTrigger value="photo" className="rounded-lg text-xs font-semibold px-3 py-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-950">
+                  Estimation par Photo (Vision)
+                </TabsTrigger>
+              </TabsList>
             </div>
-          </CardHeader>
 
-          <CardContent className="px-6 pb-6">
-            <Form {...aiInventoryForm}>
-              <form onSubmit={aiInventoryForm.handleSubmit(onAiInventorySubmit)} className="space-y-3">
-                <FormField
-                  control={aiInventoryForm.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Ex: Un lit double, une armoire 2 portes et 5 cartons..."
-                          className="resize-none rounded-xl bg-background border-border min-h-[80px] text-sm p-3"
-                          {...field}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <div className="flex justify-end">
-                  <Button 
-                    type="submit" 
-                    size="sm"
-                    disabled={isGeneratingAi || !aiInventoryForm.formState.isValid}
-                    className="rounded-lg h-9 px-4"
-                  >
-                    {isGeneratingAi && <Loader2 className="mr-2 h-3 w-3 animate-spin" />}
-                    Générer
-                  </Button>
-                </div>
-              </form>
-            </Form>
-          </CardContent>
+            <TabsContent value="texte" className="px-6 pb-6 pt-4 mt-0">
+              <CardDescription className="text-xs mb-3">
+                Décrivez votre logement ou pièce en quelques lignes. Notre IA estime les objets et leurs volumes.
+              </CardDescription>
+              <Form {...aiInventoryForm}>
+                <form onSubmit={aiInventoryForm.handleSubmit(onAiInventorySubmit)} className="space-y-3">
+                  <FormField
+                    control={aiInventoryForm.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Ex: Un canapé, une table de salon, 4 chaises et quelques cartons..."
+                            className="resize-none rounded-xl bg-background border-border min-h-[80px] text-sm p-3"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <div className="flex justify-end">
+                    <Button 
+                      type="submit" 
+                      size="sm"
+                      disabled={isGeneratingAi || !aiInventoryForm.formState.isValid}
+                      className="rounded-lg h-9 px-4 font-bold"
+                    >
+                      {isGeneratingAi && <Loader2 className="mr-2 h-3 w-3 animate-spin" />}
+                      Générer
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </TabsContent>
+
+            <TabsContent value="photo" className="px-6 pb-6 pt-4 mt-0">
+              <CardDescription className="text-xs mb-4">
+                Prenez une photo de votre pièce ou de vos meubles. Notre IA Vision détectera les objets et évaluera le cubage global.
+              </CardDescription>
+              
+              <div className="space-y-4">
+                {!selectedImage ? (
+                  <div className="border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl p-6 text-center hover:bg-slate-50 dark:hover:bg-slate-900/30 transition-colors relative group">
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                      onChange={handleImageChange}
+                    />
+                    <div className="flex flex-col items-center justify-center gap-2">
+                      <div className="h-10 w-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 group-hover:text-primary transition-colors">
+                        <LucideIcons.Camera className="h-5 w-5" />
+                      </div>
+                      <p className="text-xs font-bold text-slate-700 dark:text-slate-300">Sélectionner ou glisser une photo</p>
+                      <p className="text-[10px] text-slate-400">PNG, JPG ou WEBP (Max 5MB)</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="relative rounded-2xl overflow-hidden border border-border aspect-video max-h-48 bg-black flex items-center justify-center">
+                      <img src={selectedImage} alt="Room Preview" className="object-contain max-h-full" />
+                      <button 
+                        type="button" 
+                        onClick={() => setSelectedImage(null)}
+                        className="absolute top-2 right-2 p-1.5 rounded-full bg-black/60 hover:bg-black text-white transition-colors"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+                    
+                    <div className="flex justify-end gap-2">
+                      <Button 
+                        type="button" 
+                        variant="ghost" 
+                        onClick={() => setSelectedImage(null)}
+                        className="rounded-lg h-9 text-xs"
+                      >
+                        Changer
+                      </Button>
+                      <Button 
+                        type="button" 
+                        onClick={onPhotoAnalyze}
+                        disabled={isAnalyzingPhoto}
+                        className="rounded-lg h-9 px-4 font-bold bg-primary text-white animate-pulse"
+                      >
+                        {isAnalyzingPhoto ? (
+                          <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Analyse en cours...</>
+                        ) : (
+                          <><LucideIcons.Sparkles className="mr-2 h-4 w-4" /> Analyser la pièce</>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </TabsContent>
+          </Tabs>
         </Card>
       </div>
 
