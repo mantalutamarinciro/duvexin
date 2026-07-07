@@ -187,7 +187,7 @@ export default function PlanningPage() {
     });
 
     const filteredBookingIds = new Set(filteredBookings.map((booking) => booking.id));
-    const moveEvents = events.filter((event) => event.type === 'move' && filteredBookingIds.has(event.id));
+    const moveEvents = events.filter((event) => event.type === 'move' && filteredBookingIds.has(event.id.replace('move-', '')));
     const gridBookings = filteredBookings.slice(0, visibleGridCount);
     const totalPages = Math.max(1, Math.ceil(filteredBookings.length / itemsPerPage));
     const paginatedBookings = filteredBookings.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
