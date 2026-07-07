@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { Calendar as CalendarIcon, Wallet, PlusCircle, Loader2, MoreHorizontal, Pencil, Trash2, PieChart as PieChartIcon, TrendingUp } from "lucide-react";
+import { Calendar as CalendarIcon, Wallet, PlusCircle, Loader2, MoreHorizontal, Pencil, Trash2, PieChart as PieChartIcon, TrendingUp, Camera } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
@@ -25,6 +25,7 @@ import { Expense, createExpense, getExpenses, updateExpense, deleteExpense, Expe
 import { getQuotes } from "@/services/quoteService";
 import type { Quote } from "@/types/quote";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
+import { analyzeExpenseReceipt } from "@/ai/flows/expense-ocr";
 
 const expenseCategories = ['Carburant', 'Matériel', 'Salaires', 'Assurance', 'Marketing', 'Autre'] as const;
 const COLORS = ['#00ad9f', '#0f172a', '#f59e0b', '#3b82f6', '#8b5cf6', '#ef4444'];
@@ -63,6 +64,63 @@ export default function ExpensesPage() {
       bookingId: "none",
     },
   });
+
+  const [isScanning, setIsScanning] = useState(false);
+
+  const handleFileScan = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsScanning(true);
+    toast({
+      title: "Analyse en cours",
+      description: "Extraction des données comptables avec Gemini...",
+    });
+
+    try {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = async () => {
+        try {
+          const resultBase64 = reader.result as string;
+          const commaIndex = resultBase64.indexOf(",");
+          const rawBase64 = commaIndex !== -1 ? resultBase64.substring(commaIndex + 1) : resultBase64;
+          
+          const extracted = await analyzeExpenseReceipt({
+            imageBase64: rawBase64,
+            mimeType: file.type,
+          });
+
+          form.setValue("description", extracted.description);
+          form.setValue("amount", extracted.amount);
+          form.setValue("category", extracted.category);
+          form.setValue("date", extracted.date);
+
+          toast({
+            title: "Reçu analysé !",
+            description: "Les informations de la dépense ont été extraites avec succès.",
+          });
+        } catch (err: any) {
+          console.error("OCR analysis error:", err);
+          toast({
+            variant: "destructive",
+            title: "Échec de l'analyse",
+            description: err?.message || "Gemini n'a pas pu traiter cette image.",
+          });
+        } finally {
+          setIsScanning(false);
+        }
+      };
+    } catch (err) {
+      console.error("File reading error:", err);
+      toast({
+        variant: "destructive",
+        title: "Erreur de fichier",
+        description: "Impossible de lire le reçu sélectionné.",
+      });
+      setIsScanning(false);
+    }
+  };
 
   const loadData = async () => {
     setLoading(true);
@@ -327,6 +385,33 @@ export default function ExpensesPage() {
                     </DialogHeader>
 
                     <div className="grid gap-4 py-4">
+                            {!expenseToEdit && (
+                              <div className="border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl p-4 text-center hover:bg-slate-50 dark:hover:bg-slate-900/50 transition cursor-pointer relative group">
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="absolute inset-0 opacity-0 cursor-pointer"
+                                  onChange={handleFileScan}
+                                  disabled={isScanning}
+                                />
+                                {isScanning ? (
+                                  <div className="flex flex-col items-center justify-center space-y-2 py-2">
+                                    <Loader2 className="h-6 w-6 text-primary animate-spin" />
+                                    <p className="text-xs font-semibold text-slate-500 font-medium">Analyse OCR du reçu par l'IA...</p>
+                                  </div>
+                                ) : (
+                                  <div className="flex flex-col items-center justify-center space-y-1 py-1">
+                                    <div className="bg-primary/10 p-2.5 rounded-full mb-1">
+                                      <Camera className="h-5 w-5 text-primary" />
+                                    </div>
+                                    <p className="text-xs font-bold text-primary">Numérisation par IA</p>
+                                    <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">Déposer un reçu ou une facture</p>
+                                    <p className="text-[10px] text-slate-400">Gemini remplira automatiquement la dépense</p>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
                             <FormField
                             control={form.control}
                             name="description"
