@@ -37,7 +37,7 @@ const inventoryFromPhotoFlow = ai.defineFlow(
       const response = await ai.generate({
         prompt: [
           { text: `Vous êtes un expert déménageur et estimateur de volumes (m³). 
-          Analysez cette photo de pièce et listez TOUS les meubles et cartons visibles.
+          Analysez cette photo ou vidéo de pièce et listez TOUS les meubles et cartons visibles.
           Pour chaque meuble, donnez son nom usuel en français, estimez sa quantité et son volume en m³ (soyez réaliste, ex: un canapé 3 places fait environ 1.5 à 2 m³, une table basse 0.3 m³, une chaise 0.2 m³, un carton 0.1 m³).
           Catégorisez chaque objet (ex: Salon, Chambre, Cuisine, Bureau, Autre).
           Calculez également le volume total de tous ces objets.` },
