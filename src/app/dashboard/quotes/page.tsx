@@ -113,6 +113,7 @@ export default function QuotesPage() {
   const [pdfLoading, setPdfLoading] = useState<string | null>(null);
   const [selectedQuoteForPdf, setSelectedQuoteForPdf] = useState<Quote | null>(null);
   const [sendingQuoteId, setSendingQuoteId] = useState<string | null>(null);
+  const [pdfActionType, setPdfActionType] = useState<'download' | 'email' | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [periodFilter, setPeriodFilter] = useState("all");
@@ -207,32 +208,12 @@ export default function QuotesPage() {
     }
 
     setSendingQuoteId(quote.id);
+    setPdfActionType('email');
+    setSelectedQuoteForPdf(quote);
     toast({
-      title: "Envoi en cours...",
-      description: `Génération du PDF puis envoi à ${quote.clientEmail}.`,
+      title: "Génération en cours...",
+      description: `Génération du PDF du devis pour ${quote.clientEmail}.`,
     });
-
-    try {
-      const res = await fetch(`/api/pdf?type=quote&id=${quote.id}`);
-      if (!res.ok) throw new Error("Impossible de générer le PDF du devis.");
-
-      const base64Pdf = await blobToDataUrl(await res.blob());
-      await sendQuoteByEmail(quote.id, base64Pdf);
-
-      toast({
-        title: "Devis envoyé",
-        description: `Le devis a été envoyé à ${quote.clientEmail}.`,
-      });
-      await loadQuotes();
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Erreur d'envoi",
-        description: error?.message || "Impossible d'envoyer le devis par email.",
-      });
-    } finally {
-      setSendingQuoteId(null);
-    }
   };
   const handleFollowUpQuote = async (quote: Quote) => {
     toast({
@@ -286,6 +267,7 @@ export default function QuotesPage() {
       const quoteDetails = await getQuoteById(quoteId);
 
       if (quoteDetails && quoteDetails.quote > 0) {
+        setPdfActionType('download');
         setSelectedQuoteForPdf(quoteDetails);
       } else {
         throw new Error("Ce devis n'est pas encore chiffré.");
@@ -365,25 +347,35 @@ export default function QuotesPage() {
         heightLeft -= usableHeight;
       }
 
-      const safeClientName =
-        selectedQuoteForPdf.clientName?.replace(/\s+/g, "-").toLowerCase() || "client";
-
-      pdf.save(`devis-${safeClientName}.pdf`);
-
-      toast({
-        title: "Devis généré",
-        description: "Le document PDF a été téléchargé.",
-      });
-    } catch (error) {
+      if (pdfActionType === 'email') {
+        const base64Pdf = pdf.output("datauristring");
+        await sendQuoteByEmail(selectedQuoteForPdf.id, base64Pdf);
+        toast({
+          title: "Devis envoyé",
+          description: `Le devis a été envoyé avec succès à ${selectedQuoteForPdf.clientEmail}.`,
+        });
+        await loadQuotes();
+      } else {
+        const safeClientName =
+          selectedQuoteForPdf.clientName?.replace(/\s+/g, "-").toLowerCase() || "client";
+        pdf.save(`devis-${safeClientName}.pdf`);
+        toast({
+          title: "Devis généré",
+          description: "Le document PDF a été téléchargé.",
+        });
+      }
+    } catch (error: any) {
       console.error(error);
       toast({
         variant: "destructive",
         title: "Erreur PDF",
-        description: "Impossible de générer le document.",
+        description: error?.message || "Impossible de générer le document.",
       });
     } finally {
       setPdfLoading(null);
+      setSendingQuoteId(null);
       setSelectedQuoteForPdf(null);
+      setPdfActionType(null);
     }
   };
 

@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { format, addDays } from "date-fns";
 import { fr } from "date-fns/locale";
+import html2canvas from "html2canvas";
 import {
   Table,
   TableBody,
@@ -16,6 +17,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Invoice, getInvoices, updateInvoicePayment, updateInvoiceStatus, createInvoice, sendInvoiceByEmail } from "@/services/invoiceService";
+import { getQuoteById } from "@/services/quoteService";
+import { InvoicePDF } from "@/components/invoice-pdf";
 import { Receipt, CheckCircle, Loader2, HandCoins, AlertCircle, MoreHorizontal, Download, Send, Search, SlidersHorizontal, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
@@ -65,6 +68,10 @@ export default function InvoicesPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [emailingId, setEmailingId] = useState<string | null>(null);
+  const [selectedInvoiceForPdf, setSelectedInvoiceForPdf] = useState<Invoice | null>(null);
+  const [associatedQuoteForPdf, setAssociatedQuoteForPdf] = useState<any | null>(null);
+  const [isEmailAction, setIsEmailAction] = useState(false);
+  const pdfRef = useRef<HTMLDivElement>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [dueFilter, setDueFilter] = useState("all");
@@ -73,6 +80,107 @@ export default function InvoicesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (!selectedInvoiceForPdf || !associatedQuoteForPdf || !pdfRef.current) return;
+
+    const generatePdfAndExecute = async () => {
+      try {
+        await new Promise((resolve) => window.setTimeout(resolve, 300));
+
+        const input = pdfRef.current;
+        if (!input) return;
+        const canvas = await html2canvas(input, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: "#ffffff",
+          logging: false,
+        });
+
+        const imgData = canvas.toDataURL("image/png");
+
+        const jspdfModule = await import("jspdf");
+        const JsPdfCtor = jspdfModule.jsPDF || jspdfModule.default;
+
+        const pdf = new JsPdfCtor({
+          orientation: "p",
+          unit: "mm",
+          format: "a4",
+        });
+
+        const pageWidth = 210;
+        const pageHeight = 297;
+        const margin = 0;
+
+        const usableWidth = pageWidth - margin * 2;
+        const usableHeight = pageHeight - margin * 2;
+
+        const imgWidth = usableWidth;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        let heightLeft = imgHeight;
+        let position = margin;
+
+        pdf.addImage(
+          imgData,
+          "PNG",
+          margin,
+          position,
+          imgWidth,
+          imgHeight,
+          undefined,
+          "FAST"
+        );
+        heightLeft -= usableHeight;
+
+        while (heightLeft > 0) {
+          position = heightLeft - imgHeight + margin;
+          pdf.addPage();
+          pdf.addImage(
+            imgData,
+            "PNG",
+            margin,
+            position,
+            imgWidth,
+            imgHeight,
+            undefined,
+            "FAST"
+          );
+          heightLeft -= usableHeight;
+        }
+
+        if (isEmailAction) {
+          const pdfBase64 = pdf.output("datauristring");
+          await sendInvoiceByEmail(selectedInvoiceForPdf.id, pdfBase64);
+          toast({
+            title: "Facture envoyée",
+            description: `La facture a été envoyée par email à ${associatedQuoteForPdf.clientEmail || ''}.`,
+          });
+        } else {
+          const shortRef = selectedInvoiceForPdf.id.substring(0, 5).toUpperCase();
+          pdf.save(`FAC-${new Date().getFullYear()}-${shortRef}.pdf`);
+          toast({
+            title: "Facture téléchargée",
+            description: "La facture PDF a été générée et téléchargée.",
+          });
+        }
+      } catch (error: any) {
+        console.error("PDF generation failed:", error);
+        toast({
+          variant: "destructive",
+          title: "Erreur PDF",
+          description: error?.message || "Impossible de générer le document PDF.",
+        });
+      } finally {
+        setSelectedInvoiceForPdf(null);
+        setAssociatedQuoteForPdf(null);
+        setDownloadingId(null);
+        setEmailingId(null);
+      }
+    };
+
+    generatePdfAndExecute();
+  }, [selectedInvoiceForPdf, associatedQuoteForPdf, isEmailAction]);
 
   const loadData = async () => {
     setLoading(true);
@@ -218,56 +326,34 @@ export default function InvoicesPage() {
 
   const handleDownloadInvoice = async (invoice: Invoice) => {
     setDownloadingId(invoice.id);
+    setIsEmailAction(false);
     try {
-        const res = await fetch(`/api/pdf?type=invoice&id=${invoice.id}`);
-        if (!res.ok) throw new Error("Erreur serveur lors de la génération du PDF.");
-        
-        const blob = await res.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        const shortRef = invoice.id.substring(0, 5).toUpperCase();
-        a.download = `FAC-${new Date().getFullYear()}-${shortRef}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
+      const quote = await getQuoteById(invoice.quoteId);
+      if (!quote) throw new Error("Impossible de trouver le devis associé.");
+      setAssociatedQuoteForPdf(quote);
+      setSelectedInvoiceForPdf(invoice);
     } catch (error: any) {
-        toast({ variant: "destructive", title: "Erreur", description: error.message || "Impossible de générer le PDF." });
-    } finally {
-        setDownloadingId(null);
+      toast({ variant: "destructive", title: "Erreur", description: error.message || "Impossible de générer la facture." });
+      setDownloadingId(null);
     }
   };
 
   const handleSendEmail = async (invoice: Invoice) => {
     setEmailingId(invoice.id);
+    setIsEmailAction(true);
+    toast({
+      title: "Génération en cours...",
+      description: "Génération de la facture PDF avant envoi.",
+    });
     try {
-        const res = await fetch(`/api/pdf?type=invoice&id=${invoice.id}`);
-        if (!res.ok) throw new Error("Erreur serveur lors de la génération du PDF.");
-        
-        const blob = await res.blob();
-        const reader = new FileReader();
-        reader.readAsDataURL(blob);
-        
-        await new Promise<void>((resolve, reject) => {
-            reader.onloadend = async () => {
-                const base64data = reader.result as string;
-                try {
-                    await sendInvoiceByEmail(invoice.id, base64data);
-                    resolve();
-                } catch (err) {
-                    reject(err);
-                }
-            };
-            reader.onerror = reject;
-        });
-
-        toast({ title: "Facture envoyée 🚀", description: "La facture a bien été envoyée au client par email." });
-        loadData();
+      const quote = await getQuoteById(invoice.quoteId);
+      if (!quote) throw new Error("Impossible de trouver le devis associé.");
+      if (!quote.clientEmail) throw new Error("L'email du client est manquant sur le devis.");
+      setAssociatedQuoteForPdf(quote);
+      setSelectedInvoiceForPdf(invoice);
     } catch (error: any) {
-        toast({ variant: "destructive", title: "Erreur d'envoi", description: error.message || "Impossible d'envoyer l'email." });
-    } finally {
-        setEmailingId(null);
+      toast({ variant: "destructive", title: "Erreur d'envoi", description: error.message || "Impossible d'envoyer l'email." });
+      setEmailingId(null);
     }
   };
 
@@ -534,6 +620,28 @@ export default function InvoicesPage() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+
+      {selectedInvoiceForPdf && associatedQuoteForPdf && (
+        <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
+          <div ref={pdfRef}>
+            <InvoicePDF
+              data={{
+                id: selectedInvoiceForPdf.id,
+                clientName: selectedInvoiceForPdf.clientName,
+                clientEmail: associatedQuoteForPdf.clientEmail,
+                clientPhone: associatedQuoteForPdf.clientPhone || "",
+                moveDate: associatedQuoteForPdf.moveDate || new Date().toISOString(),
+                volume: associatedQuoteForPdf.volume || 0,
+                quoteId: selectedInvoiceForPdf.quoteId,
+                originAddress: associatedQuoteForPdf.originAddress || "",
+                destinationAddress: associatedQuoteForPdf.destinationAddress || "",
+                serviceType: associatedQuoteForPdf.serviceType || "basic",
+                total: selectedInvoiceForPdf.amountTTC,
+              } as any}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
