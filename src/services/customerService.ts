@@ -113,3 +113,31 @@ export async function syncCustomerFromRequest(data: { name: string, email: strin
     console.error('Error syncing customer from request:', error);
   }
 }
+export async function updateCustomer(id: string, data: Partial<Pick<Customer, 'firstName' | 'lastName' | 'email' | 'phoneNumber'>>): Promise<void> {
+  if (!db) throw new Error('Base de donnees non disponible.');
+  try {
+    const updateData: Record<string, unknown> = {
+      updatedAt: admin.firestore.Timestamp.now(),
+    };
+
+    if (data.firstName !== undefined) updateData.firstName = data.firstName.trim();
+    if (data.lastName !== undefined) updateData.lastName = data.lastName.trim();
+    if (data.email !== undefined) updateData.email = data.email.toLowerCase().trim();
+    if (data.phoneNumber !== undefined) updateData.phoneNumber = data.phoneNumber.trim();
+
+    await db.collection('users').doc(id).update(updateData);
+  } catch (error) {
+    console.error('Error updating customer:', error);
+    throw new Error('Impossible de mettre a jour le client.');
+  }
+}
+
+export async function deleteCustomer(id: string): Promise<void> {
+  if (!db) throw new Error('Base de donnees non disponible.');
+  try {
+    await db.collection('users').doc(id).delete();
+  } catch (error) {
+    console.error('Error deleting customer:', error);
+    throw new Error('Impossible de supprimer le client.');
+  }
+}
