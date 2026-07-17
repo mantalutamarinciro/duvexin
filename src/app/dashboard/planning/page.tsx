@@ -473,11 +473,50 @@ export default function PlanningPage() {
                             </CardContent>
                         </Card>
                         <Card className="overflow-hidden rounded-[2rem] border-none bg-white shadow-sm dark:bg-slate-900">
-                            <CardHeader className="border-b border-slate-100 dark:border-slate-800"><div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between"><div><CardTitle className="flex items-center gap-2"><MapIcon className="h-5 w-5 text-primary" /> Carte operationnelle</CardTitle><CardDescription>{selectedMapBooking ? `Trajet pour ${selectedMapBooking.clientName}` : 'Selectionnez un demenagement pour afficher son itineraire.'}</CardDescription></div>{selectedMapBooking && (<Button asChild className="rounded-full bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"><a href={buildDirectionsUrl(selectedMapBooking)} target="_blank" rel="noreferrer"><ExternalLink className="mr-2 h-4 w-4" /> Ouvrir dans Google Maps</a></Button>)}</div></CardHeader>
+                            <CardHeader className="border-b border-slate-100 dark:border-slate-800">
+                                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                                    <div>
+                                        <CardTitle className="flex items-center gap-2"><MapIcon className="h-5 w-5 text-primary" /> Carte operationnelle</CardTitle>
+                                        <CardDescription>{selectedMapBooking ? `Trajet pour ${selectedMapBooking.clientName}` : 'Selectionnez un demenagement pour afficher son itineraire.'}</CardDescription>
+                                    </div>
+                                    {selectedMapBooking && (
+                                        <div className="flex flex-col gap-2 sm:flex-row">
+                                            <Button variant="outline" className="rounded-full" onClick={() => { toast({ title: "Lien GPS pret", description: "Ouvrez Google Maps pour lancer la navigation ou partager le trajet avec l'equipe." }); }}>
+                                                <Smartphone className="mr-2 h-4 w-4" /> Preparer partage equipe
+                                            </Button>
+                                            <Button asChild className="rounded-full bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">
+                                                <a href={buildDirectionsUrl(selectedMapBooking)} target="_blank" rel="noreferrer"><ExternalLink className="mr-2 h-4 w-4" /> Ouvrir dans Google Maps</a>
+                                            </Button>
+                                        </div>
+                                    )}
+                                </div>
+                            </CardHeader>
                             <CardContent className="p-0">
-                                {loading ? (<Skeleton className="h-[620px] w-full rounded-none" />) : selectedMapBooking ? (
-                                    <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px]"><div className="relative min-h-[520px] bg-slate-100 dark:bg-slate-950"><iframe title={`Itineraire ${selectedMapBooking.clientName}`} src={buildDirectionsEmbedUrl(selectedMapBooking)} className="h-[520px] w-full border-0 xl:h-[640px]" loading="lazy" referrerPolicy="no-referrer-when-downgrade" /></div><aside className="border-t border-slate-100 p-5 dark:border-slate-800 xl:border-l xl:border-t-0"><div className="mb-5 rounded-2xl bg-slate-50 p-4 dark:bg-slate-950"><p className="text-xs font-black uppercase tracking-wider text-slate-400">Operation</p><h3 className="mt-1 text-lg font-black text-slate-900 dark:text-white">{selectedMapBooking.clientName}</h3><p className="text-sm text-slate-500">{format(new Date(selectedMapBooking.moveDate), "EEEE d MMMM yyyy", { locale: fr })}</p></div><div className="space-y-4"><div className="rounded-2xl border border-blue-100 bg-blue-50/60 p-4 dark:border-blue-900/40 dark:bg-blue-950/20"><div className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-wider text-blue-600"><MapPin className="h-4 w-4" /> Point de depart</div><p className="text-sm font-semibold leading-relaxed text-slate-900 dark:text-white">{selectedMapBooking.originAddress}</p></div><div className="flex justify-center"><div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary"><Navigation className="h-5 w-5" /></div></div><div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4 dark:border-emerald-900/40 dark:bg-emerald-950/20"><div className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-wider text-emerald-600"><MapPin className="h-4 w-4" /> Point d'arrivee</div><p className="text-sm font-semibold leading-relaxed text-slate-900 dark:text-white">{selectedMapBooking.destinationAddress}</p></div></div><div className="mt-5 grid grid-cols-2 gap-3"><div className="rounded-2xl bg-slate-50 p-4 text-center dark:bg-slate-950"><p className="text-xs font-bold uppercase text-slate-400">Volume</p><p className="mt-1 text-xl font-black">{selectedMapBooking.volume || '?'} m3</p></div><div className="rounded-2xl bg-slate-50 p-4 text-center dark:bg-slate-950"><p className="text-xs font-bold uppercase text-slate-400">Equipe</p><p className="mt-1 truncate text-sm font-black">{selectedMapBooking.assignedTeam || 'Non affectee'}</p></div></div><Button variant="outline" className="mt-5 w-full rounded-full" onClick={() => { toast({ title: "Lien GPS pret", description: "Ouvrez Google Maps pour lancer la navigation ou partager le trajet avec l'equipe." }); }}><Smartphone className="mr-2 h-4 w-4" /> Preparer partage equipe</Button></aside></div>
-                                ) : (<div className="flex h-[520px] flex-col items-center justify-center text-center text-slate-500"><MapIcon className="mb-4 h-12 w-12 text-slate-300" /><p className="font-semibold">Aucun itineraire disponible</p><p className="text-sm">Ajustez les filtres ou planifiez un demenagement.</p></div>)}
+                                {loading ? (<Skeleton className="h-[720px] w-full rounded-none" />) : selectedMapBooking ? (
+                                    <div>
+                                        <div className="relative min-h-[640px] bg-slate-100 dark:bg-slate-950">
+                                            <iframe title={`Itineraire ${selectedMapBooking.clientName}`} src={buildDirectionsEmbedUrl(selectedMapBooking)} className="h-[640px] w-full border-0 2xl:h-[760px]" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+                                        </div>
+                                        <div className="grid gap-3 border-t border-slate-100 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 md:grid-cols-2 xl:grid-cols-[1.2fr_1.2fr_.6fr_.8fr]">
+                                            <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-4 dark:border-blue-900/40 dark:bg-blue-950/20">
+                                                <div className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-wider text-blue-600"><MapPin className="h-4 w-4" /> Point de depart</div>
+                                                <p className="text-sm font-semibold leading-relaxed text-slate-900 dark:text-white">{selectedMapBooking.originAddress}</p>
+                                            </div>
+                                            <div className="rounded-2xl border border-emerald-100 bg-emerald-50/70 p-4 dark:border-emerald-900/40 dark:bg-emerald-950/20">
+                                                <div className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-wider text-emerald-600"><Navigation className="h-4 w-4" /> Point d'arrivee</div>
+                                                <p className="text-sm font-semibold leading-relaxed text-slate-900 dark:text-white">{selectedMapBooking.destinationAddress}</p>
+                                            </div>
+                                            <div className="rounded-2xl bg-slate-50 p-4 text-center dark:bg-slate-950">
+                                                <p className="text-xs font-bold uppercase text-slate-400">Volume</p>
+                                                <p className="mt-1 text-2xl font-black">{selectedMapBooking.volume || '?'} m3</p>
+                                            </div>
+                                            <div className="rounded-2xl bg-slate-50 p-4 text-center dark:bg-slate-950">
+                                                <p className="text-xs font-bold uppercase text-slate-400">Equipe</p>
+                                                <p className="mt-1 truncate text-sm font-black">{selectedMapBooking.assignedTeam || 'Non affectee'}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (<div className="flex h-[640px] flex-col items-center justify-center text-center text-slate-500"><MapIcon className="mb-4 h-12 w-12 text-slate-300" /><p className="font-semibold">Aucun itineraire disponible</p><p className="text-sm">Ajustez les filtres ou planifiez un demenagement.</p></div>)}
                             </CardContent>
                         </Card>
                     </div>
