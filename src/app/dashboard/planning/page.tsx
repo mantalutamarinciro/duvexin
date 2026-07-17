@@ -12,7 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { CalendarDays, List, Truck, CheckCircle, Package, LayoutGrid, MapPin, Search, FileText, Smartphone, SlidersHorizontal, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { CalendarDays, List, Truck, CheckCircle, Package, LayoutGrid, MapPin, Search, FileText, Smartphone, SlidersHorizontal, X, ChevronLeft, ChevronRight, Map as MapIcon, Navigation, ExternalLink, Route } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
@@ -45,6 +45,20 @@ const getDisplayStatus = (status?: string) => {
   }
 };
 
+const buildDirectionsUrl = (booking: Booking) => {
+    const origin = encodeURIComponent(booking.originAddress || '');
+    const destination = encodeURIComponent(booking.destinationAddress || '');
+    return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=driving`;
+};
+
+const buildDirectionsEmbedUrl = (booking: Booking) => {
+    const origin = encodeURIComponent(booking.originAddress || '');
+    const destination = encodeURIComponent(booking.destinationAddress || '');
+    return `https://www.google.com/maps?output=embed&saddr=${origin}&daddr=${destination}`;
+};
+
+const getAddressPreview = (address: string) => address.split(',').slice(0, 2).join(', ').trim() || address;
+
 const getBookingStatusBadge = (status: Booking['status']) => {
   switch (normalizeBookingStatus(status)) {
     case 'scheduled': return 'default';
@@ -69,6 +83,7 @@ export default function PlanningPage() {
     const [assignmentFilter, setAssignmentFilter] = useState("all");
     const [visibleGridCount, setVisibleGridCount] = useState(9);
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedMapBookingId, setSelectedMapBookingId] = useState<string | null>(null);
     const itemsPerPage = 10;
     const [waybillBooking, setWaybillBooking] = useState<Booking | null>(null);
     const [isGeneratingWaybill, setIsGeneratingWaybill] = useState(false);
@@ -191,11 +206,18 @@ export default function PlanningPage() {
     const gridBookings = filteredBookings.slice(0, visibleGridCount);
     const totalPages = Math.max(1, Math.ceil(filteredBookings.length / itemsPerPage));
     const paginatedBookings = filteredBookings.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    const selectedMapBooking = filteredBookings.find((booking) => booking.id === selectedMapBookingId) || filteredBookings[0] || null;
 
     useEffect(() => {
         setCurrentPage(1);
         setVisibleGridCount(9);
     }, [searchQuery, statusFilter, periodFilter, volumeFilter, assignmentFilter]);
+
+    useEffect(() => {
+        if (!selectedMapBookingId || !filteredBookings.some((booking) => booking.id === selectedMapBookingId)) {
+            setSelectedMapBookingId(filteredBookings[0]?.id || null);
+        }
+    }, [filteredBookings, selectedMapBookingId]);
 
     const resetFilters = () => {
         setSearchQuery("");
@@ -220,6 +242,7 @@ export default function PlanningPage() {
                         <TabsList className="bg-slate-100 dark:bg-slate-800/50 p-1 rounded-full w-fit">
                             <TabsTrigger value="grille" className="rounded-full px-4"><LayoutGrid className="h-4 w-4 mr-2"/> Grille</TabsTrigger>
                             <TabsTrigger value="liste" className="rounded-full px-4"><List className="h-4 w-4 mr-2"/> Liste</TabsTrigger>
+                            <TabsTrigger value="carte" className="rounded-full px-4"><MapIcon className="h-4 w-4 mr-2"/> Carte</TabsTrigger>
                             <TabsTrigger value="calendrier" className="rounded-full px-4"><CalendarDays className="h-4 w-4 mr-2"/> Calendrier</TabsTrigger>
                         </TabsList>
                         <div className="relative w-full lg:w-80">
@@ -415,6 +438,49 @@ export default function PlanningPage() {
                             )}
                         </CardContent>
                     </Card>
+                </TabsContent>
+
+                {/* CARTE ITINERAIRES */}
+                <TabsContent value="carte">
+                    <div className="grid grid-cols-1 gap-6 xl:grid-cols-[360px_1fr]">
+                        <Card className="rounded-[2rem] border-none bg-white shadow-sm dark:bg-slate-900">
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2"><Route className="h-5 w-5 text-primary" /> Itineraires</CardTitle>
+                                <CardDescription>Selectionnez une operation pour visualiser le trajet depart vers arrivee.</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-3 max-h-[640px] overflow-y-auto pr-2">
+                                {loading ? (
+                                    Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-24 rounded-2xl" />)
+                                ) : filteredBookings.length > 0 ? (
+                                    filteredBookings.map((booking) => {
+                                        const isSelected = selectedMapBooking?.id === booking.id;
+                                        return (
+                                            <button
+                                                key={booking.id}
+                                                type="button"
+                                                onClick={() => setSelectedMapBookingId(booking.id)}
+                                                className={`w-full rounded-2xl border p-4 text-left transition-all ${isSelected ? 'border-primary bg-primary/5 shadow-sm ring-2 ring-primary/10' : 'border-slate-100 bg-slate-50 hover:border-primary/30 hover:bg-white dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-900'}`}
+                                            >
+                                                <div className="mb-3 flex items-start justify-between gap-3">
+                                                    <div><p className="font-bold text-slate-900 dark:text-white">{booking.clientName}</p><p className="text-[11px] font-semibold text-slate-400">{format(new Date(booking.moveDate), "d MMM yyyy", { locale: fr })} - {booking.volume || '?'} m3</p></div>
+                                                    <Badge variant={getBookingStatusBadge(booking.status)} className="text-[9px] uppercase tracking-widest">{getDisplayStatus(booking.status)}</Badge>
+                                                </div>
+                                                <div className="space-y-2 text-xs text-slate-600 dark:text-slate-300"><div className="flex gap-2"><MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-blue-500" /><span className="line-clamp-1">{getAddressPreview(booking.originAddress)}</span></div><div className="ml-[7px] h-3 border-l border-dashed border-slate-300 dark:border-slate-700" /><div className="flex gap-2"><Navigation className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" /><span className="line-clamp-1">{getAddressPreview(booking.destinationAddress)}</span></div></div>
+                                            </button>
+                                        );
+                                    })
+                                ) : (<div className="rounded-2xl bg-slate-50 p-6 text-center text-sm text-slate-500 dark:bg-slate-950">Aucun trajet a afficher.</div>)}
+                            </CardContent>
+                        </Card>
+                        <Card className="overflow-hidden rounded-[2rem] border-none bg-white shadow-sm dark:bg-slate-900">
+                            <CardHeader className="border-b border-slate-100 dark:border-slate-800"><div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between"><div><CardTitle className="flex items-center gap-2"><MapIcon className="h-5 w-5 text-primary" /> Carte operationnelle</CardTitle><CardDescription>{selectedMapBooking ? `Trajet pour ${selectedMapBooking.clientName}` : 'Selectionnez un demenagement pour afficher son itineraire.'}</CardDescription></div>{selectedMapBooking && (<Button asChild className="rounded-full bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"><a href={buildDirectionsUrl(selectedMapBooking)} target="_blank" rel="noreferrer"><ExternalLink className="mr-2 h-4 w-4" /> Ouvrir dans Google Maps</a></Button>)}</div></CardHeader>
+                            <CardContent className="p-0">
+                                {loading ? (<Skeleton className="h-[620px] w-full rounded-none" />) : selectedMapBooking ? (
+                                    <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px]"><div className="relative min-h-[520px] bg-slate-100 dark:bg-slate-950"><iframe title={`Itineraire ${selectedMapBooking.clientName}`} src={buildDirectionsEmbedUrl(selectedMapBooking)} className="h-[520px] w-full border-0 xl:h-[640px]" loading="lazy" referrerPolicy="no-referrer-when-downgrade" /></div><aside className="border-t border-slate-100 p-5 dark:border-slate-800 xl:border-l xl:border-t-0"><div className="mb-5 rounded-2xl bg-slate-50 p-4 dark:bg-slate-950"><p className="text-xs font-black uppercase tracking-wider text-slate-400">Operation</p><h3 className="mt-1 text-lg font-black text-slate-900 dark:text-white">{selectedMapBooking.clientName}</h3><p className="text-sm text-slate-500">{format(new Date(selectedMapBooking.moveDate), "EEEE d MMMM yyyy", { locale: fr })}</p></div><div className="space-y-4"><div className="rounded-2xl border border-blue-100 bg-blue-50/60 p-4 dark:border-blue-900/40 dark:bg-blue-950/20"><div className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-wider text-blue-600"><MapPin className="h-4 w-4" /> Point de depart</div><p className="text-sm font-semibold leading-relaxed text-slate-900 dark:text-white">{selectedMapBooking.originAddress}</p></div><div className="flex justify-center"><div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary"><Navigation className="h-5 w-5" /></div></div><div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4 dark:border-emerald-900/40 dark:bg-emerald-950/20"><div className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-wider text-emerald-600"><MapPin className="h-4 w-4" /> Point d'arrivee</div><p className="text-sm font-semibold leading-relaxed text-slate-900 dark:text-white">{selectedMapBooking.destinationAddress}</p></div></div><div className="mt-5 grid grid-cols-2 gap-3"><div className="rounded-2xl bg-slate-50 p-4 text-center dark:bg-slate-950"><p className="text-xs font-bold uppercase text-slate-400">Volume</p><p className="mt-1 text-xl font-black">{selectedMapBooking.volume || '?'} m3</p></div><div className="rounded-2xl bg-slate-50 p-4 text-center dark:bg-slate-950"><p className="text-xs font-bold uppercase text-slate-400">Equipe</p><p className="mt-1 truncate text-sm font-black">{selectedMapBooking.assignedTeam || 'Non affectee'}</p></div></div><Button variant="outline" className="mt-5 w-full rounded-full" onClick={() => { toast({ title: "Lien GPS pret", description: "Ouvrez Google Maps pour lancer la navigation ou partager le trajet avec l'equipe." }); }}><Smartphone className="mr-2 h-4 w-4" /> Preparer partage equipe</Button></aside></div>
+                                ) : (<div className="flex h-[520px] flex-col items-center justify-center text-center text-slate-500"><MapIcon className="mb-4 h-12 w-12 text-slate-300" /><p className="font-semibold">Aucun itineraire disponible</p><p className="text-sm">Ajustez les filtres ou planifiez un demenagement.</p></div>)}
+                            </CardContent>
+                        </Card>
+                    </div>
                 </TabsContent>
 
                 {/* CALENDRIER (Uniquement Opérationnel) */}
