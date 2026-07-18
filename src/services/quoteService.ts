@@ -20,6 +20,8 @@ const SECONDARY_COLOR = '#0f172a';
 type SaveQuoteInput = Omit<QuoteRequestFormData, 'moveDate'> & {
   moveDate?: string;
   quote: number;
+  requestId?: string;
+  visitId?: string;
 };
 
 function toFirestoreMoveDate(moveDate?: string | null) {
@@ -50,6 +52,8 @@ function mapDocToQuote(
     details: data.details ?? undefined,
     quote: Number(data.quote ?? 0),
     status: (data.status ?? 'Chiffré') as QuoteStatus,
+    requestId: data.requestId ?? undefined,
+    visitId: data.visitId ?? undefined,
     createdAt: data.createdAt
       ? (data.createdAt as admin.firestore.Timestamp).toDate().toISOString()
       : new Date().toISOString(),

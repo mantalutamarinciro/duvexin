@@ -137,13 +137,20 @@ export default function VisitsPage() {
   };
 
   const handleConvertToQuote = (visit: Visit) => {
-      // Pass data to Quote Editor
+      const originAddress = visit.originAddress || visit.clientAddress;
       sessionStorage.setItem('prefillQuote', JSON.stringify({
           clientName: visit.clientName,
-          originAddress: visit.clientAddress,
-          visitId: visit.id
+          clientEmail: visit.clientEmail || "",
+          clientPhone: visit.clientPhone || "",
+          originAddress,
+          destinationAddress: visit.destinationAddress || "",
+          moveDate: visit.moveDate || undefined,
+          volume: visit.volume || 0,
+          details: visit.details || "",
+          visitId: visit.id,
+          requestId: visit.requestId
       }));
-      router.push('/dashboard/quote'); // redirect to quote editor
+      router.push(`/dashboard/quote?visitId=${encodeURIComponent(visit.id)}`);
   }
 
   const getStatusVariant = (status: VisitStatus) => {

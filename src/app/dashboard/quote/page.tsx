@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { Suspense, useEffect, useState } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { CheckCircle, FileText, ArrowLeft, Wand2, Loader2 } from "lucide-react"
@@ -10,31 +10,76 @@ import { saveQuote } from "@/services/quoteService"
 import { QuoteForm } from "@/components/quote-form"
 import type { QuoteRequestFormData } from "@/types/quote"
 import { updateRequestStatus } from "@/services/requestService"
+import { getQuotePrefillFromVisit, linkVisitToQuote } from "@/services/visitService"
 import Link from "next/link"
 
 export default function DashboardNewQuotePage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-[420px] items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    }>
+      <DashboardNewQuoteContent />
+    </Suspense>
+  )
+}
+
+function DashboardNewQuoteContent() {
   const [saving, setSaving] = useState(false)
   const [quoteId, setQuoteId] = useState<string | null>(null)
   const [prefillData, setPrefillData] = useState<any>(null)
   const [linkedRequestId, setLinkedRequestId] = useState<string | null>(null)
+  const [linkedVisitId, setLinkedVisitId] = useState<string | null>(null)
   const [isReady, setIsReady] = useState(false)
   const { toast } = useToast()
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   useEffect(() => {
-    const data = sessionStorage.getItem('prefillQuote')
-    if (data) {
+    const loadPrefill = async () => {
+      const data = sessionStorage.getItem('prefillQuote')
+      if (data) {
         try {
-            const parsed = JSON.parse(data)
-            setPrefillData(parsed)
-            if (parsed.requestId) {
-                setLinkedRequestId(parsed.requestId)
-            }
-            sessionStorage.removeItem('prefillQuote')
-        } catch(e) {}
+          const parsed = JSON.parse(data)
+          setPrefillData(parsed)
+          if (parsed.requestId) setLinkedRequestId(parsed.requestId)
+          if (parsed.visitId) setLinkedVisitId(parsed.visitId)
+          sessionStorage.removeItem('prefillQuote')
+          setIsReady(true)
+          return
+        } catch (e) {}
+      }
+
+      const visitId = searchParams.get('visitId')
+      if (visitId) {
+        try {
+          const visitPrefill = await getQuotePrefillFromVisit(visitId)
+          if (visitPrefill) {
+            setPrefillData(visitPrefill)
+            setLinkedVisitId(visitPrefill.visitId)
+            if (visitPrefill.requestId) setLinkedRequestId(visitPrefill.requestId)
+          } else {
+            toast({
+              variant: "destructive",
+              title: "Visite introuvable",
+              description: "Impossible de recuperer les informations de la visite.",
+            })
+          }
+        } catch (error) {
+          toast({
+            variant: "destructive",
+            title: "Erreur d'autocompletion",
+            description: "Les donnees de la visite n'ont pas pu etre chargees.",
+          })
+        }
+      }
+
+      setIsReady(true)
     }
-    setIsReady(true)
-  }, [])
+
+    void loadPrefill()
+  }, [searchParams, toast])
 
   async function onSubmit(values: QuoteRequestFormData) {
     setSaving(true);
@@ -47,12 +92,18 @@ export default function DashboardNewQuotePage() {
         volume: values.volume || 0,
         distance: values.distance || 0,
         serviceType: values.serviceType || 'basic',
+        requestId: linkedRequestId || undefined,
+        visitId: linkedVisitId || undefined,
       });
       setQuoteId(result.id);
 
       // Si le devis provient d'une conversion directe de demande
       if (linkedRequestId) {
           await updateRequestStatus(linkedRequestId, 'Archivé'); // On l'archive vu qu'il est transformé
+      }
+
+      if (linkedVisitId) {
+          await linkVisitToQuote(linkedVisitId, result.id);
       }
 
       toast({

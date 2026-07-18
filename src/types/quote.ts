@@ -35,5 +35,7 @@ export interface Quote extends Omit<QuoteRequestFormData, "moveDate"> {
   moveDate: string | null;
   quote: number;
   status: QuoteStatus;
+  requestId?: string;
+  visitId?: string;
   createdAt: string;
 }

@@ -114,6 +114,12 @@ export default function RequestsPage() {
       await createVisit({
         ...values,
         requestId: selectedRequestForVisit.id,
+        clientEmail: selectedRequestForVisit.clientEmail || "",
+        clientPhone: selectedRequestForVisit.clientPhone || "",
+        originAddress: selectedRequestForVisit.originAddress,
+        destinationAddress: selectedRequestForVisit.destinationAddress,
+        moveDate: selectedRequestForVisit.moveDate || undefined,
+        volume: selectedRequestForVisit.volume || 0,
         details: values.details ?? "",
       });
 
