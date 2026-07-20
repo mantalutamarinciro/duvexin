@@ -4,6 +4,7 @@ import { db, admin } from '@/lib/firebase';
 import type { QuoteRequestFormData, Quote, QuoteStatus } from '@/types/quote';
 import { serviceTypeLabels } from '@/lib/quote-constants';
 import { Resend } from 'resend';
+import { generateFollowUpEmail } from '@/ai/flows/generate-follow-up-email';
 
 const { Timestamp } = admin.firestore;
 
@@ -291,3 +292,79 @@ export async function sendQuoteByEmail(quoteId: string, base64Pdf: string): Prom
     throw error instanceof Error ? error : new Error('Failed to send quote email.');
   }
 }
+
+export async function sendQuoteFollowUpEmail(quoteId: string): Promise<void> {
+  const quote = await getQuoteById(quoteId);
+  if (!quote) throw new Error("Devis introuvable.");
+  if (!resend) throw new Error("Service d'envoi d'e-mail (Resend) non configuré.");
+
+  const clientEmail = quote.clientEmail?.trim();
+  if (!clientEmail) throw new Error("L'e-mail du client est manquant.");
+
+  try {
+    // 1. Generate follow-up email content using Gemini AI
+    const aiEmail = await generateFollowUpEmail({
+      clientName: quote.clientName,
+      volume: quote.volume,
+      originAddress: quote.originAddress,
+      destinationAddress: quote.destinationAddress,
+      price: quote.quote,
+      serviceType: serviceTypeLabels[quote.serviceType] || quote.serviceType,
+    });
+
+    // 2. Send email via Resend
+    const { data, error } = await resend.emails.send({
+      from: `Déménagement Du Vexin <${FROM_EMAIL}>`,
+      to: [clientEmail],
+      replyTo: ADMIN_RECIPIENT_EMAIL,
+      subject: aiEmail.subject,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body { font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f8fafc; color: #0f172a; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; }
+            .header { background-color: #0f172a; padding: 30px; text-align: center; border-bottom: 4px solid #00ad9f; }
+            .header h1 { color: #ffffff; margin: 0; font-size: 20px; font-weight: 800; }
+            .content { padding: 40px 30px; font-size: 15px; line-height: 1.6; color: #475569; }
+            .footer { background-color: #f8fafc; padding: 25px; text-align: center; border-top: 1px solid #f1f5f9; font-size: 12px; color: #64748b; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Déménagement Du Vexin</h1>
+            </div>
+            <div class="content">
+              ${aiEmail.body}
+            </div>
+            <div class="footer">
+              <strong>Déménagement Du Vexin</strong><br/>
+              Artisans de votre mobilité<br/><br/>
+              Si vous avez des questions, répondez directement à cet e-mail.
+            </div>
+          </div>
+        </body>
+        </html>
+      `
+    });
+
+    if (error) {
+      console.error("Resend follow-up email error:", error);
+      throw new Error(error.message || "L'envoi de la relance a échoué.");
+    }
+
+    console.log("AI Follow-up email sent successfully for quote:", quoteId, data?.id);
+
+    // 3. Update status of the quote to 'Relancé' (or we keep 'Envoyé' but log it. Let's update status to a new status 'Relancé')
+    // We update to 'Relancé' so that it doesn't show up in the pending follow-ups list anymore.
+    await updateQuoteStatus(quoteId, 'Relance' as QuoteStatus);
+
+  } catch (error) {
+    console.error("Error in sendQuoteFollowUpEmail:", error);
+    throw error instanceof Error ? error : new Error("Échec du processus de relance automatique.");
+  }
+}
+

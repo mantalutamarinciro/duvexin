@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Bot, Mail, Send, CheckCircle2, Clock, Loader2, AlertCircle } from "lucide-react";
-import { getQuotes } from "@/services/quoteService";
+import { getQuotes, sendQuoteFollowUpEmail } from "@/services/quoteService";
 import type { Quote } from "@/types/quote";
 import { format, differenceInDays } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -41,19 +41,47 @@ export default function AutomationsPage() {
     if (pendingFollowUps.length === 0) return;
     
     setIsProcessing(true);
-    
-    // Simulation du temps d'envoi par lot
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    
-    // Simulation: on retire ces devis de la liste car ils ont été "relancés"
-    setQuotes((prev) => prev.filter(q => !pendingFollowUps.find(p => p.id === q.id)));
-    
-    toast({
-      title: "Automatisations terminées",
-      description: `${pendingFollowUps.length} relance(s) automatique(s) ont été envoyées par email.`,
-    });
-    
-    setIsProcessing(false);
+    let successCount = 0;
+    let failCount = 0;
+
+    try {
+      // Loop over pending quotes to send real follow-up emails
+      for (const quote of pendingFollowUps) {
+        try {
+          await sendQuoteFollowUpEmail(quote.id);
+          successCount++;
+        } catch (err) {
+          console.error(`Failed to send follow-up for quote ${quote.id}:`, err);
+          failCount++;
+        }
+      }
+      
+      // Refresh local quote list
+      const data = await getQuotes();
+      setQuotes(data.filter((q) => q.status === "Envoyé"));
+      
+      if (successCount > 0) {
+        toast({
+          title: "Relances IA envoyées",
+          description: `${successCount} relance(s) automatique(s) personnalisée(s) envoyée(s) par email avec succès. ${failCount > 0 ? `(${failCount} échec(s))` : ""}`,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Échec des relances",
+          description: `Impossible d'envoyer les relances. Veuillez vérifier que Resend et Gemini sont bien configurés.`,
+        });
+      }
+    } catch (error) {
+      console.error("Automations execution error:", error);
+      toast({
+        variant: "destructive",
+        title: "Erreur générale",
+        description: "Une erreur est survenue lors de l'exécution des automatisations.",
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
