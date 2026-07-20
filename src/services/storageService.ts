@@ -17,6 +17,7 @@ export interface StorageContract {
   exitDate: string | null; // ISO String or null
   status: StorageStatus;
   createdAt: string; // ISO String
+  boxNumber?: string | null;
 }
 
 // Données venant du formulaire pour créer un nouveau contrat
@@ -25,6 +26,7 @@ export interface StorageContractFormData {
   itemsDescription: string;
   volumeM3: number;
   entryDate: string; // ISO String
+  boxNumber?: string | null;
 }
 
 export async function createStorageContract(formData: StorageContractFormData): Promise<{ id: string }> {
@@ -36,6 +38,7 @@ export async function createStorageContract(formData: StorageContractFormData): 
             exitDate: null,
             status: 'Stocké' as StorageStatus,
             createdAt: Timestamp.now(),
+            boxNumber: formData.boxNumber || null,
         };
         await newContractRef.set(newContractData);
         return { id: newContractRef.id };
@@ -56,6 +59,7 @@ export async function getStorageContracts(): Promise<StorageContract[]> {
                 entryDate: (data.entryDate as admin.firestore.Timestamp).toDate().toISOString(),
                 exitDate: data.exitDate ? (data.exitDate as admin.firestore.Timestamp).toDate().toISOString() : null,
                 createdAt: (data.createdAt as admin.firestore.Timestamp).toDate().toISOString(),
+                boxNumber: data.boxNumber || null,
             } as StorageContract;
         });
     } catch (error) {
