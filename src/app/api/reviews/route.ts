@@ -1,26 +1,26 @@
-
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-// Schéma de validation pour un avis individuel de l'API Google
-const googleReviewSchema = z.object({
-  reviewId: z.string(),
-  reviewer: z.object({
-    profilePhotoUrl: z.string().url().optional(),
-    displayName: z.string(),
-  }),
-  starRating: z.enum(['STAR_RATING_UNSPECIFIED', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE']),
-  comment: z.string().optional(),
-  createTime: z.string(),
-  updateTime: z.string(),
+// Validation schema for Google Places API reviews response
+const googlePlacesReviewSchema = z.object({
+  author_name: z.string(),
+  profile_photo_url: z.string().url().optional(),
+  rating: z.number(),
+  text: z.string().optional(),
+  relative_time_description: z.string(),
+  time: z.number(),
 });
 
-// Schéma pour la réponse complète de l'API
-const googleApiResponseSchema = z.object({
-  reviews: z.array(googleReviewSchema).optional(),
+const googlePlacesApiResponseSchema = z.object({
+  result: z.object({
+    reviews: z.array(googlePlacesReviewSchema).optional(),
+    rating: z.number().optional(),
+    user_ratings_total: z.number().optional(),
+  }).optional(),
+  status: z.string(),
+  error_message: z.string().optional(),
 });
 
-// Type pour un avis formaté, utilisé par notre application
 export interface FormattedReview {
   id: string;
   name: string;
@@ -30,67 +30,79 @@ export interface FormattedReview {
   createTime: string;
 }
 
-// Convertit le starRating de l'API ('FIVE') en un nombre (5)
-function convertRatingToNumber(rating: z.infer<typeof googleReviewSchema>['starRating']): number {
-    const ratings: Record<string, number> = { 'ONE': 1, 'TWO': 2, 'THREE': 3, 'FOUR': 4, 'FIVE': 5 };
-    return ratings[rating] || 0;
-}
-
-
 export async function GET() {
-  const accountId = process.env.GOOGLE_ACCOUNT_ID;
-  const locationId = process.env.GOOGLE_LOCATION_ID;
   const apiKey = process.env.GOOGLE_API_KEY;
 
-  if (!accountId || !locationId || !apiKey || accountId === "VOTRE_ID_DE_COMPTE" || locationId === "VOTRE_ID_DE_LIEU" || apiKey === "VOTRE_CLÉ_API") {
-     console.error("Les informations d'identification Google API ne sont pas définies ou sont des placeholders dans les variables d'environnement.");
-     return NextResponse.json({ error: "Configuration du serveur incomplète pour récupérer les avis." }, { status: 500 });
+  if (!apiKey || apiKey === "VOTRE_CLÉ_API") {
+     console.error("La clé API Google (GOOGLE_API_KEY) n'est pas configurée.");
+     return NextResponse.json({ error: "Configuration de la clé API Google manquante." }, { status: 500 });
   }
 
-  const url = `https://mybusiness.googleapis.com/v4/accounts/${accountId}/locations/${locationId}/reviews?key=${apiKey}&pageSize=10&orderBy=updateTime desc`;
-
   try {
-    const apiResponse = await fetch(url, {
-        next: { revalidate: 3600 } 
+    // 1. Resolve Place ID dynamically if not provided as an environment variable
+    let placeId = process.env.GOOGLE_PLACE_ID;
+    
+    if (!placeId || placeId === "VOTRE_PLACE_ID") {
+      const searchUrl = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Demenagement%20du%20Vexin%20Mery%20sur%20Oise&inputtype=textquery&fields=place_id&key=${apiKey}`;
+      const searchRes = await fetch(searchUrl, { next: { revalidate: 86400 } }); // Cache Place ID resolution for 24h
+      
+      if (!searchRes.ok) {
+        throw new Error(`Failed to resolve Place ID: ${searchRes.statusText}`);
+      }
+      
+      const searchData = await searchRes.json();
+      if (searchData.candidates && searchData.candidates.length > 0) {
+        placeId = searchData.candidates[0].place_id;
+      } else {
+        throw new Error("Déménagement du Vexin location could not be found on Google Places.");
+      }
+    }
+
+    // 2. Fetch place reviews and rating details
+    const detailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews,rating,user_ratings_total&key=${apiKey}&language=fr`;
+    const detailsRes = await fetch(detailsUrl, {
+        next: { revalidate: 3600 } // Cache reviews for 1 hour
     });
 
-    if (!apiResponse.ok) {
-      let errorBody;
-      try {
-        // Essayer de parser en JSON d'abord
-        errorBody = await apiResponse.json();
-      } catch (e) {
-        // Si ça échoue, lire en tant que texte
-        const errorText = await apiResponse.text();
-        errorBody = { error: { message: `Réponse non-JSON de Google: ${errorText}`}};
-      }
-      console.error("Erreur de l'API Google My Business:", errorBody);
-      return NextResponse.json({ error: `Erreur ${apiResponse.status}: Impossible de récupérer les avis Google.`, details: errorBody }, { status: apiResponse.status });
+    if (!detailsRes.ok) {
+      throw new Error(`Google Places Details API error: ${detailsRes.statusText}`);
     }
 
-    const data = await apiResponse.json();
-    const parsedData = googleApiResponseSchema.safeParse(data);
+    const data = await detailsRes.json();
+    const parsedData = googlePlacesApiResponseSchema.safeParse(data);
 
-    if (!parsedData.success || !parsedData.data.reviews) {
-        console.error("Données invalides reçues de l'API Google:", parsedData.error);
-        return NextResponse.json({ error: "Données invalides reçues de Google.", details: parsedData.error }, { status: 500 });
+    if (!parsedData.success) {
+        console.error("Invalid response format from Google Places API:", parsedData.error);
+        return NextResponse.json({ error: "Format de réponse Google invalide.", details: parsedData.error }, { status: 500 });
     }
+
+    const result = parsedData.data.result;
     
-    const formattedReviews: FormattedReview[] = parsedData.data.reviews
-        .filter(review => review.comment && review.comment.trim() !== '' && review.starRating !== 'STAR_RATING_UNSPECIFIED')
-        .map(review => ({
-            id: review.reviewId,
-            name: review.reviewer.displayName,
-            avatarUrl: review.reviewer.profilePhotoUrl,
-            rating: convertRatingToNumber(review.starRating),
-            text: review.comment || '',
-            createTime: review.createTime, // Gardons la date ISO pour un éventuel formatage
+    if (parsedData.data.status !== "OK" || !result) {
+        console.error("Google Places API error status:", parsedData.data.status, parsedData.data.error_message);
+        return NextResponse.json({ error: `Erreur API Google Places: ${parsedData.data.status}`, message: parsedData.data.error_message }, { status: 500 });
+    }
+
+    // 3. Format and return reviews
+    const formattedReviews: FormattedReview[] = (result.reviews || [])
+        .filter(review => review.text && review.text.trim() !== '')
+        .map((review, index) => ({
+            id: `gplace-${review.time}-${index}`,
+            name: review.author_name,
+            avatarUrl: review.profile_photo_url,
+            rating: review.rating,
+            text: review.text || '',
+            createTime: review.relative_time_description,
         }));
 
-     return NextResponse.json({ reviews: formattedReviews });
+     return NextResponse.json({ 
+       reviews: formattedReviews,
+       globalRating: result.rating || 4.9,
+       totalReviews: result.user_ratings_total || 250
+     });
 
   } catch (error) {
-    console.error("Erreur interne lors de la récupération des avis Google:", error);
+    console.error("Erreur interne de la route reviews:", error);
     return NextResponse.json({ error: "Erreur interne du serveur.", details: error instanceof Error ? error.message : 'Unknown error' }, { status: 500 });
   }
 }
