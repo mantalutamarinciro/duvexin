@@ -3,6 +3,12 @@
 import { db, admin } from '@/lib/firebase';
 import type { Quote } from '@/types/quote';
 import { syncCustomerFromBooking } from './customerService';
+import { Resend } from 'resend';
+
+const ADMIN_RECIPIENT_EMAIL = 'contact@demenagementduvexin.fr';
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || ADMIN_RECIPIENT_EMAIL;
+const apiKey = process.env.RESEND_API_KEY || '';
+const resend = apiKey && apiKey.startsWith('re_') ? new Resend(apiKey) : null;
 
 const { Timestamp } = admin.firestore;
 
@@ -237,3 +243,70 @@ export async function assignVehicleToBooking(
     throw new Error('Failed to assign vehicle to booking.');
   }
 }
+
+export async function sendReminderEmailDirectly(
+  bookingId: string,
+  subject: string,
+  htmlBody: string
+): Promise<void> {
+  if (!db) throw new Error("Base de données non disponible.");
+  
+  const bookingSnap = await db.collection('bookings').doc(bookingId).get();
+  if (!bookingSnap.exists) throw new Error("Réservation introuvable.");
+  const booking = bookingSnap.data()!;
+  
+  if (!resend) throw new Error("Service d'envoi d'e-mail (Resend) non configuré.");
+  const clientEmail = booking.clientEmail?.trim();
+  if (!clientEmail) throw new Error("L'e-mail du client est manquant.");
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: `Déménagement Du Vexin <${FROM_EMAIL}>`,
+      to: [clientEmail],
+      replyTo: ADMIN_RECIPIENT_EMAIL,
+      subject: subject,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body { font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f8fafc; color: #0f172a; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; }
+            .header { background-color: #0f172a; padding: 30px; text-align: center; border-bottom: 4px solid #00ad9f; }
+            .header h1 { color: #ffffff; margin: 0; font-size: 20px; font-weight: 800; }
+            .content { padding: 40px 30px; font-size: 15px; line-height: 1.6; color: #475569; }
+            .footer { background-color: #f8fafc; padding: 25px; text-align: center; border-top: 1px solid #f1f5f9; font-size: 12px; color: #64748b; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Déménagement Du Vexin</h1>
+            </div>
+            <div class="content">
+              ${htmlBody.replace(/\n/g, '<br/>')}
+            </div>
+            <div class="footer">
+              <strong>Déménagement Du Vexin</strong><br/>
+              Votre partenaire mobilité au quotidien<br/><br/>
+              Si vous avez des questions, répondez directement à cet e-mail.
+            </div>
+          </div>
+        </body>
+        </html>
+      `
+    });
+
+    if (error) {
+      console.error("Resend reminder email error:", error);
+      throw new Error(error.message || "L'envoi du mail a échoué.");
+    }
+
+    console.log("Reminder email sent successfully:", bookingId, data?.id);
+  } catch (error) {
+    console.error("Error in sendReminderEmailDirectly:", error);
+    throw error instanceof Error ? error : new Error("Échec de l'envoi de l'e-mail de rappel.");
+  }
+}
+
