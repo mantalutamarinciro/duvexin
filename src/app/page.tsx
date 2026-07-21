@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { LandingPageClient } from "./(home)/landing-page-client";
 import type { FormattedReview } from "@/app/api/reviews/route";
 import LandingLayout from "@/app/landing/layout";
-import { realReviews } from "@/lib/reviews-data";
 import Script from "next/script";
 
 export const metadata: Metadata = {
@@ -55,16 +54,32 @@ const localBusinessSchema = {
   "aggregateRating": {
     "@type": "AggregateRating",
     "ratingValue": "4.9",
-    "reviewCount": "254"
+    "reviewCount": "270"
   }
 };
 
-async function getReviews(): Promise<FormattedReview[]> {
-  return realReviews;
+interface ReviewsApiResponse {
+  reviews: FormattedReview[];
+  globalRating: number;
+  totalReviews: number;
+}
+
+async function getReviews(): Promise<ReviewsApiResponse> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://demenagementduvexin.fr";
+    const res = await fetch(`${baseUrl}/api/reviews`, {
+      next: { revalidate: 3600 }, // Revalidate every hour
+    });
+    if (!res.ok) throw new Error("API reviews failed");
+    return await res.json();
+  } catch {
+    // Fallback gracieux si l'API est indisponible
+    return { reviews: [], globalRating: 4.9, totalReviews: 270 };
+  }
 }
 
 export default async function HomePage() {
-  const reviews = await getReviews();
+  const { reviews, globalRating, totalReviews } = await getReviews();
   return (
     <LandingLayout>
       <Script
@@ -72,7 +87,7 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
       />
-      <LandingPageClient reviews={reviews} />
+      <LandingPageClient reviews={reviews} globalRating={globalRating} totalReviews={totalReviews} />
     </LandingLayout>
   );
 }

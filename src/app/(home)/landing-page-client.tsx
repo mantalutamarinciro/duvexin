@@ -205,7 +205,15 @@ function formatZoneTitle(name: string) {
 
 /* ================== Component ================== */
 
-export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
+export function LandingPageClient({
+  reviews,
+  globalRating = 4.9,
+  totalReviews = 270,
+}: {
+  reviews: FormattedReview[];
+  globalRating?: number;
+  totalReviews?: number;
+}) {
   const safeReviews = reviews || [];
   const reduceMotion = useReducedMotion();
 
@@ -244,8 +252,8 @@ export function LandingPageClient({ reviews }: { reviews: FormattedReview[] }) {
                     <Star key={i} className="h-3.5 w-3.5 fill-current" />
                   ))}
                 </div>
-                <span className="text-sm font-bold">4.9/5</span>
-                <span className="text-sm text-white/70 font-medium">• 254 avis Google</span>
+                <span className="text-sm font-bold">{globalRating.toFixed(1)}/5</span>
+                <span className="text-sm text-white/70 font-medium">• {totalReviews.toLocaleString("fr-FR")} avis Google</span>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 px-4 py-2 text-white/90 shadow-lg">
                 <Clock className="h-4 w-4 text-primary" />
