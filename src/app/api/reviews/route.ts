@@ -44,7 +44,12 @@ export async function GET() {
     
     if (!placeId || placeId === "VOTRE_PLACE_ID") {
       const searchUrl = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Demenagement%20du%20Vexin%20Mery%20sur%20Oise&inputtype=textquery&fields=place_id&key=${apiKey}`;
-      const searchRes = await fetch(searchUrl, { next: { revalidate: 86400 } }); // Cache Place ID resolution for 24h
+      const searchRes = await fetch(searchUrl, { 
+        headers: {
+          "Referer": "https://demenagementduvexin.fr/"
+        },
+        next: { revalidate: 86400 } 
+      }); // Cache Place ID resolution for 24h
       
       if (!searchRes.ok) {
         throw new Error(`Failed to resolve Place ID: ${searchRes.statusText}`);
@@ -61,6 +66,9 @@ export async function GET() {
     // 2. Fetch place reviews and rating details
     const detailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews,rating,user_ratings_total&key=${apiKey}&language=fr`;
     const detailsRes = await fetch(detailsUrl, {
+        headers: {
+          "Referer": "https://demenagementduvexin.fr/"
+        },
         next: { revalidate: 3600 } // Cache reviews for 1 hour
     });
 
