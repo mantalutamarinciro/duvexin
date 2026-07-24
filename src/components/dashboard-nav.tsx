@@ -19,6 +19,7 @@ import {
   Receipt,
   Settings,
   BriefcaseBusiness,
+  TrendingUp,
 } from "lucide-react"
 import {
   SidebarMenu,
@@ -34,6 +35,7 @@ const commercialLinks = [
   { href: "/dashboard/visits", label: "Visites Techniques", icon: Contact },
   { href: "/dashboard/quotes", label: "Devis", icon: ClipboardList },
   { href: "/dashboard/invoices", label: "Facturation", icon: Receipt },
+  { href: "/dashboard/finances", label: "Tableau Financier", icon: TrendingUp },
 ]
 
 const operationnelLinks = [

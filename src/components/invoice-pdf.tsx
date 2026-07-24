@@ -4,12 +4,26 @@ import type { Booking } from "@/services/bookingService"
 import { serviceTypeLabels } from "@/lib/quote-constants"
 
 interface InvoicePDFProps {
-    data: Booking
+    data: Booking;
+    amountPaid?: number;
 }
 
-export function InvoicePDF({ data }: InvoicePDFProps) {
+export function InvoicePDF({ data, amountPaid = 0 }: InvoicePDFProps) {
     const today = new Date();
     const invoiceNumber = `FAC-${today.getFullYear()}-${data.id.substring(0, 5).toUpperCase()}`;
+    const total = data.total || 0;
+    const isPaid = amountPaid >= total && total > 0;
+    const isPartial = amountPaid > 0 && amountPaid < total;
+    const paymentBadge = isPaid
+        ? { label: 'PAIEMENT ACQUITTÉ', color: 'emerald' }
+        : isPartial
+        ? { label: `ACOMPTE VERSÉ : ${amountPaid.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}`, color: 'amber' }
+        : { label: 'EN ATTENTE DE RÈGLEMENT', color: 'red' };
+    const badgeClasses = isPaid
+        ? 'text-emerald-600 border-emerald-200 bg-emerald-50'
+        : isPartial
+        ? 'text-amber-600 border-amber-200 bg-amber-50'
+        : 'text-red-600 border-red-200 bg-red-50';
 
     return (
         <div className="bg-white text-slate-800 p-12 font-sans flex flex-col" style={{ width: '210mm', minHeight: '297mm' }}>
@@ -35,7 +49,7 @@ export function InvoicePDF({ data }: InvoicePDFProps) {
                     </div>
                     <p className="text-sm font-bold text-slate-900">N° : {invoiceNumber}</p>
                     <p className="text-xs text-slate-500 mt-1">Date d'émission : {format(today, "d MMMM yyyy", { locale: fr })}</p>
-                    <p className="text-[10px] text-emerald-600 font-black mt-2 uppercase border border-emerald-200 bg-emerald-50 inline-block px-3 py-1 rounded-md">PAIEMENT ACQUITTÉ</p>
+                    <p className={`text-[10px] font-black mt-2 uppercase border inline-block px-3 py-1 rounded-md ${badgeClasses}`}>{paymentBadge.label}</p>
                 </div>
             </header>
 

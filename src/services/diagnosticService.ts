@@ -269,6 +269,143 @@ export async function getDashboardStats() {
   }
 }
 
+// ─── Financial Dashboard ──────────────────────────────────────────────────────
+
+export interface MonthlyFinancialPoint {
+  month: string;      // "Jan 2026"
+  ca: number;         // Chiffre d'affaires facturé
+  encaisse: number;   // Montant réellement encaissé
+  depenses: number;   // Dépenses du mois
+  marge: number;      // CA - dépenses
+}
+
+export interface FinancialKPIs {
+  caTotalAnnuel: number;
+  encaisseTotal: number;
+  margeBrute: number;
+  margeRate: number;
+  panierMoyen: number;
+  tauxConversion: number;
+  nbFactures: number;
+  nbFacturesPayees: number;
+  nbDevisTotal: number;
+  nbDevisConverti: number;
+  monthly: MonthlyFinancialPoint[];
+}
+
+export async function getFinancialDashboardStats(): Promise<FinancialKPIs> {
+  try {
+    const now = new Date();
+    // Build last 12 months labels
+    const months: string[] = [];
+    for (let i = 11; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      months.push(d.toLocaleString('fr-FR', { month: 'short', year: 'numeric' }));
+    }
+
+    const [invoicesSnap, quotesSnap, expensesSnap] = await Promise.all([
+      db.collection('invoices').get(),
+      db.collection('quotes').get(),
+      db.collection('expenses').get(),
+    ]);
+
+    // ── Monthly CA & encaissé ──
+    const caByMonth: Record<string, number> = {};
+    const encaisseByMonth: Record<string, number> = {};
+    months.forEach(m => { caByMonth[m] = 0; encaisseByMonth[m] = 0; });
+
+    let caTotalAnnuel = 0;
+    let encaisseTotal = 0;
+    let nbFactures = 0;
+    let nbFacturesPayees = 0;
+
+    invoicesSnap.docs.forEach((doc: admin.firestore.QueryDocumentSnapshot) => {
+      const d = doc.data();
+      if (d.status === 'Brouillon') return;
+      const dateField = d.createdAt as admin.firestore.Timestamp | undefined;
+      if (!dateField) return;
+      const date = dateField.toDate();
+      const key = date.toLocaleString('fr-FR', { month: 'short', year: 'numeric' });
+
+      const amtTTC = Number(d.amountTTC || 0);
+      const amtPaid = Number(d.amountPaid || 0);
+
+      if (caByMonth[key] !== undefined) {
+        caByMonth[key] += amtTTC;
+        encaisseByMonth[key] += amtPaid;
+      }
+      caTotalAnnuel += amtTTC;
+      encaisseTotal += amtPaid;
+      nbFactures++;
+      if (d.status === 'Payée') nbFacturesPayees++;
+    });
+
+    // ── Monthly Dépenses ──
+    const depensesByMonth: Record<string, number> = {};
+    months.forEach(m => { depensesByMonth[m] = 0; });
+    let totalDepenses = 0;
+
+    expensesSnap.docs.forEach((doc: admin.firestore.QueryDocumentSnapshot) => {
+      const d = doc.data();
+      const dateField = d.date as admin.firestore.Timestamp | undefined;
+      if (!dateField) return;
+      const date = dateField.toDate();
+      const key = date.toLocaleString('fr-FR', { month: 'short', year: 'numeric' });
+      const amt = Number(d.amount || 0);
+      if (depensesByMonth[key] !== undefined) depensesByMonth[key] += amt;
+      totalDepenses += amt;
+    });
+
+    // ── Quotes conversion ──
+    const allQuotes = quotesSnap.docs.map((doc: admin.firestore.QueryDocumentSnapshot) => ({
+      status: doc.data().status as string | undefined,
+    }));
+    const nbDevisTotal = allQuotes.length;
+    const nbDevisConverti = allQuotes.filter(q =>
+      q.status === 'Accepté' || q.status === 'Converti' || q.status === 'Facturé'
+    ).length;
+    const tauxConversion = nbDevisTotal > 0 ? Math.round((nbDevisConverti / nbDevisTotal) * 100) : 0;
+
+    // ── Panier moyen ──
+    const panierMoyen = nbFactures > 0 ? caTotalAnnuel / nbFactures : 0;
+
+    // ── Marge brute ──
+    const margeBrute = caTotalAnnuel - totalDepenses;
+    const margeRate = caTotalAnnuel > 0 ? Math.round((margeBrute / caTotalAnnuel) * 100) : 0;
+
+    // ── Assemble monthly array ──
+    const monthly: MonthlyFinancialPoint[] = months.map(m => ({
+      month: m,
+      ca: Math.round(caByMonth[m] || 0),
+      encaisse: Math.round(encaisseByMonth[m] || 0),
+      depenses: Math.round(depensesByMonth[m] || 0),
+      marge: Math.round((caByMonth[m] || 0) - (depensesByMonth[m] || 0)),
+    }));
+
+    return {
+      caTotalAnnuel: Math.round(caTotalAnnuel),
+      encaisseTotal: Math.round(encaisseTotal),
+      margeBrute: Math.round(margeBrute),
+      margeRate,
+      panierMoyen: Math.round(panierMoyen),
+      tauxConversion,
+      nbFactures,
+      nbFacturesPayees,
+      nbDevisTotal,
+      nbDevisConverti,
+      monthly,
+    };
+  } catch (error) {
+    logServiceError('Error fetching financial dashboard stats', error);
+    return {
+      caTotalAnnuel: 0, encaisseTotal: 0, margeBrute: 0, margeRate: 0,
+      panierMoyen: 0, tauxConversion: 0, nbFactures: 0, nbFacturesPayees: 0,
+      nbDevisTotal: 0, nbDevisConverti: 0, monthly: [],
+    };
+  }
+}
+
+
 /**
  * Crée des données de démonstration
  */

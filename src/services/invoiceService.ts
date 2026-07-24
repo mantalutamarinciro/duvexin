@@ -6,6 +6,7 @@ import { getQuoteById } from './quoteService';
 
 const { Timestamp } = admin.firestore;
 const apiKey = process.env.RESEND_API_KEY || '';
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'contact@demenagementduvexin.fr';
 const resend = apiKey && apiKey.startsWith('re_') ? new Resend(apiKey) : null;
 
 export type InvoiceStatus = 'Brouillon' | 'Émise' | 'Partiellement payée' | 'Payée' | 'En retard';
@@ -129,7 +130,7 @@ export async function sendInvoiceByEmail(invoiceId: string, base64Pdf: string): 
     const invoiceNumber = `FAC-${new Date().getFullYear()}-${shortRef}`;
     
     await resend.emails.send({
-      from: 'Déménagement Du Vexin <contact@demenagementduvexin.fr>', 
+      from: `Déménagement Du Vexin <${FROM_EMAIL}>`,
       to: [quote.clientEmail],
       subject: `Votre facture ${invoiceNumber} - Déménagement du Vexin`,
       html: `

@@ -26,6 +26,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import type { Quote } from "@/types/quote";
 
 const normalizeInvoiceStatus = (status?: string) => {
   const value = (status || '').toLowerCase();
@@ -69,8 +70,13 @@ export default function InvoicesPage() {
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [emailingId, setEmailingId] = useState<string | null>(null);
   const [selectedInvoiceForPdf, setSelectedInvoiceForPdf] = useState<Invoice | null>(null);
-  const [associatedQuoteForPdf, setAssociatedQuoteForPdf] = useState<any | null>(null);
+  const [associatedQuoteForPdf, setAssociatedQuoteForPdf] = useState<Quote | null>(null);
   const [isEmailAction, setIsEmailAction] = useState(false);
+  // Send confirmation dialog
+  const [sendConfirmOpen, setSendConfirmOpen] = useState(false);
+  const [invoiceToSend, setInvoiceToSend] = useState<Invoice | null>(null);
+  const [quoteForSend, setQuoteForSend] = useState<Quote | null>(null);
+  const [loadingQuoteForSend, setLoadingQuoteForSend] = useState(false);
   const pdfRef = useRef<HTMLDivElement>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -338,23 +344,37 @@ export default function InvoicesPage() {
     }
   };
 
-  const handleSendEmail = async (invoice: Invoice) => {
-    setEmailingId(invoice.id);
-    setIsEmailAction(true);
-    toast({
-      title: "Génération en cours...",
-      description: "Génération de la facture PDF avant envoi.",
-    });
+  // Opens confirmation dialog before sending
+  const handleOpenSendConfirm = async (invoice: Invoice) => {
+    setInvoiceToSend(invoice);
+    setQuoteForSend(null);
+    setSendConfirmOpen(true);
+    setLoadingQuoteForSend(true);
     try {
       const quote = await getQuoteById(invoice.quoteId);
-      if (!quote) throw new Error("Impossible de trouver le devis associé.");
-      if (!quote.clientEmail) throw new Error("L'email du client est manquant sur le devis.");
-      setAssociatedQuoteForPdf(quote);
-      setSelectedInvoiceForPdf(invoice);
+      if (!quote) throw new Error("Devis associé introuvable.");
+      setQuoteForSend(quote);
     } catch (error: any) {
-      toast({ variant: "destructive", title: "Erreur d'envoi", description: error.message || "Impossible d'envoyer l'email." });
-      setEmailingId(null);
+      toast({ variant: "destructive", title: "Erreur", description: error.message });
+      setSendConfirmOpen(false);
+    } finally {
+      setLoadingQuoteForSend(false);
     }
+  };
+
+  // Actually triggers PDF generation + email after confirmation
+  const handleConfirmSend = () => {
+    if (!invoiceToSend || !quoteForSend) return;
+    setSendConfirmOpen(false);
+    setEmailingId(invoiceToSend.id);
+    setIsEmailAction(true);
+    toast({ title: "Génération en cours...", description: "Création du PDF avant envoi." });
+    setAssociatedQuoteForPdf(quoteForSend);
+    setSelectedInvoiceForPdf(invoiceToSend);
+  };
+
+  const handleSendEmail = async (invoice: Invoice) => {
+    handleOpenSendConfirm(invoice);
   };
 
   return (
@@ -533,35 +553,50 @@ export default function InvoicesPage() {
                         {getDisplayStatus(inv.status)}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-right flex items-center justify-end gap-2">
-                       {normalizeInvoiceStatus(inv.status) === 'draft' && (
-                           <Button size="sm" variant="outline" onClick={() => handleMarkAsEmitted(inv.id)} className="rounded-full">
-                               Émettre
-                           </Button>
-                       )}
-                       {normalizeInvoiceStatus(inv.status) !== 'draft' && normalizeInvoiceStatus(inv.status) !== 'paid' && (
-                        <Button size="sm" onClick={() => handleOpenPaymentDialog(inv)} className="rounded-full bg-primary/10 text-primary hover:bg-primary/20">
-                          <HandCoins className="h-4 w-4 mr-2" /> Encaissement
+                    <TableCell className="text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        {normalizeInvoiceStatus(inv.status) === 'draft' && (
+                          <Button size="sm" variant="outline" onClick={() => handleMarkAsEmitted(inv.id)} className="rounded-full">
+                            Émettre
+                          </Button>
+                        )}
+                        {normalizeInvoiceStatus(inv.status) !== 'draft' && normalizeInvoiceStatus(inv.status) !== 'paid' && (
+                          <Button size="sm" onClick={() => handleOpenPaymentDialog(inv)} className="rounded-full bg-primary/10 text-primary hover:bg-primary/20">
+                            <HandCoins className="h-4 w-4 mr-2" /> Encaissement
+                          </Button>
+                        )}
+                        {/* Prominent Send button */}
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleOpenSendConfirm(inv)}
+                          disabled={emailingId === inv.id}
+                          className="rounded-full border-primary/30 text-primary hover:bg-primary/10"
+                        >
+                          {emailingId === inv.id
+                            ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
+                            : <Send className="h-4 w-4 mr-1.5" />}
+                          Envoyer
                         </Button>
-                       )}
-                       <DropdownMenu>
-                         <DropdownMenuTrigger asChild>
-                           <Button variant="ghost" className="h-8 w-8 p-0 rounded-full">
-                             <span className="sr-only">Ouvrir le menu</span>
-                             <MoreHorizontal className="h-4 w-4" />
-                           </Button>
-                         </DropdownMenuTrigger>
-                         <DropdownMenuContent align="end" className="rounded-2xl">
-                           <DropdownMenuItem onClick={() => handleDownloadInvoice(inv)} disabled={downloadingId === inv.id} className="cursor-pointer">
-                             {downloadingId === inv.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
-                             Télécharger PDF
-                           </DropdownMenuItem>
-                           <DropdownMenuItem onClick={() => handleSendEmail(inv)} disabled={emailingId === inv.id} className="cursor-pointer">
-                             {emailingId === inv.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
-                             Envoyer au client
-                           </DropdownMenuItem>
-                         </DropdownMenuContent>
-                       </DropdownMenu>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0 rounded-full">
+                              <span className="sr-only">Ouvrir le menu</span>
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="rounded-2xl">
+                            <DropdownMenuItem onClick={() => handleDownloadInvoice(inv)} disabled={downloadingId === inv.id} className="cursor-pointer">
+                              {downloadingId === inv.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+                              Télécharger PDF
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleOpenSendConfirm(inv)} disabled={emailingId === inv.id} className="cursor-pointer">
+                              {emailingId === inv.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
+                              Envoyer au client
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))
@@ -621,6 +656,68 @@ export default function InvoicesPage() {
           </DialogContent>
         </Dialog>
 
+      {/* ===== Send Confirmation Dialog ===== */}
+      <Dialog open={sendConfirmOpen} onOpenChange={setSendConfirmOpen}>
+        <DialogContent className="sm:max-w-[480px] rounded-[2rem] p-0 overflow-hidden">
+          <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-8 text-white">
+            <div className="flex items-center gap-3 mb-1">
+              <div className="p-2 bg-primary/20 rounded-xl">
+                <Send className="h-5 w-5 text-primary" />
+              </div>
+              <DialogTitle className="text-white text-lg font-black">Envoyer la facture</DialogTitle>
+            </div>
+            <DialogDescription className="text-slate-400 text-sm ml-12">
+              Vérifiez les informations avant envoi.
+            </DialogDescription>
+          </div>
+          <div className="p-8 space-y-5">
+            {loadingQuoteForSend ? (
+              <div className="flex items-center justify-center h-24 gap-3 text-slate-400">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                <span className="text-sm">Chargement des informations client...</span>
+              </div>
+            ) : quoteForSend ? (
+              <>
+                <div className="rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-5 space-y-3">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-500">Destinataire</span>
+                    <span className="font-bold text-slate-900 dark:text-white">{invoiceToSend?.clientName}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-500">Email du client</span>
+                    <span className="font-mono text-xs font-semibold text-primary">{quoteForSend.clientEmail}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-500">Numéro de facture</span>
+                    <span className="font-mono text-xs font-semibold">FAC-{new Date().getFullYear()}-{invoiceToSend?.id.substring(0,5).toUpperCase()}</span>
+                  </div>
+                  <div className="flex justify-between text-sm border-t border-slate-100 dark:border-slate-800 pt-3 mt-3">
+                    <span className="text-slate-500">Montant TTC</span>
+                    <span className="font-black text-slate-900 dark:text-white">{invoiceToSend?.amountTTC.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-500">Reste à payer</span>
+                    <span className="font-bold text-amber-600">{((invoiceToSend?.amountTTC ?? 0) - (invoiceToSend?.amountPaid ?? 0)).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</span>
+                  </div>
+                </div>
+                <p className="text-xs text-slate-400 text-center">La facture sera générée en PDF et envoyée par e-mail via Resend. Le statut passera automatiquement à <strong>Émise</strong>.</p>
+              </>
+            ) : null}
+          </div>
+          <DialogFooter className="px-8 pb-8 gap-3">
+            <Button variant="outline" onClick={() => setSendConfirmOpen(false)} className="rounded-full flex-1">Annuler</Button>
+            <Button
+              onClick={handleConfirmSend}
+              disabled={!quoteForSend || loadingQuoteForSend}
+              className="rounded-full flex-1 bg-primary text-white"
+            >
+              <Send className="h-4 w-4 mr-2" />
+              Confirmer l&apos;envoi
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {selectedInvoiceForPdf && associatedQuoteForPdf && (
         <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
           <div ref={pdfRef}>
@@ -638,6 +735,7 @@ export default function InvoicesPage() {
                 serviceType: associatedQuoteForPdf.serviceType || "basic",
                 total: selectedInvoiceForPdf.amountTTC,
               } as any}
+              amountPaid={selectedInvoiceForPdf.amountPaid}
             />
           </div>
         </div>
