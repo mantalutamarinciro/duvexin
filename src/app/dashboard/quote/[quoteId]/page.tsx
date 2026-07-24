@@ -145,73 +145,96 @@ export default function QuoteDetailsPage({
     }
   };
 
+  const generatePdfBlob = async () => {
+    if (!pdfRef.current) throw new Error("Élément PDF introuvable.");
+
+    const canvas = await html2canvas(pdfRef.current, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: "#ffffff",
+      logging: false,
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+    const jspdfModule = await import("jspdf");
+    const JsPdfCtor = jspdfModule.jsPDF || jspdfModule.default;
+
+    const pdf = new JsPdfCtor({
+      orientation: "p",
+      unit: "mm",
+      format: "a4",
+    });
+
+    const pageWidth = 210;
+    const pageHeight = 297;
+    const margin = 0;
+
+    const usableWidth = pageWidth - margin * 2;
+    const usableHeight = pageHeight - margin * 2;
+    const imgWidth = usableWidth;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    let heightLeft = imgHeight;
+    let position = margin;
+
+    pdf.addImage(imgData, "PNG", margin, position, imgWidth, imgHeight, undefined, "FAST");
+    heightLeft -= usableHeight;
+
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight + margin;
+      pdf.addPage();
+      pdf.addImage(imgData, "PNG", margin, position, imgWidth, imgHeight, undefined, "FAST");
+      heightLeft -= usableHeight;
+    }
+
+    return pdf;
+  };
+
   const prepareAndDownloadPdf = async () => {
     if (generatedQuote === "" || !formValues) return;
     setPdfLoading(true);
     try {
-        const res = await fetch(`/api/pdf?type=quote&id=${quoteId}`);
-        if (!res.ok) throw new Error("Erreur lors de la génération du PDF côté serveur.");
-        
-        const blob = await res.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `devis-${quoteId}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
+      const pdf = await generatePdfBlob();
+      const safeClientName = formValues.clientName?.replace(/\s+/g, "-").toLowerCase() || "client";
+      pdf.save(`devis-${safeClientName}.pdf`);
+      toast({
+        title: "Devis généré 📄",
+        description: "Le document PDF a été téléchargé avec succès.",
+      });
     } catch (error: any) {
-        toast({
-          variant: "destructive",
-          title: "Erreur",
-          description: error.message || "Impossible de générer le PDF.",
-        });
+      toast({
+        variant: "destructive",
+        title: "Erreur",
+        description: error.message || "Impossible de générer le PDF.",
+      });
     } finally {
-        setPdfLoading(false);
+      setPdfLoading(false);
     }
   };
 
   const handleSendEmail = async () => {
     if (!formValues) return;
-    
     setSendingEmail(true);
     try {
-        const res = await fetch(`/api/pdf?type=quote&id=${quoteId}`);
-        if (!res.ok) throw new Error("Erreur lors de la génération du PDF côté serveur.");
-        
-        const blob = await res.blob();
-        
-        const reader = new FileReader();
-        reader.readAsDataURL(blob);
-        
-        await new Promise<void>((resolve, reject) => {
-            reader.onloadend = async () => {
-                const base64data = reader.result as string;
-                try {
-                    await sendQuoteByEmail(quoteId, base64data);
-                    resolve();
-                } catch (err) {
-                    reject(err);
-                }
-            };
-            reader.onerror = reject;
-        });
+      const pdf = await generatePdfBlob();
+      const base64Pdf = pdf.output("datauristring");
+      await sendQuoteByEmail(quoteId, base64Pdf);
 
-        toast({
-          title: "Devis envoyé 🚀",
-          description: "Le devis a bien été envoyé au client par email.",
-        });
+      toast({
+        title: "Devis envoyé 🚀",
+        description: `Le devis a bien été envoyé par email à ${formValues.clientEmail}.`,
+      });
     } catch (error: any) {
-        toast({
-          variant: "destructive",
-          title: "Erreur d'envoi",
-          description: error.message || "Impossible d'envoyer l'email.",
-        });
+      toast({
+        variant: "destructive",
+        title: "Erreur d'envoi",
+        description: error.message || "Impossible d'envoyer l'email.",
+      });
     } finally {
-        setSendingEmail(false);
+      setSendingEmail(false);
     }
   };
+
 
   const prepareAndDownloadDeclarationPdf = () => {
     if (!formValues) return;
@@ -534,8 +557,16 @@ export default function QuoteDetailsPage({
                     </Button>
                 </CardFooter>
             </Card>
-         </div>
-      </div>
+          </div>
+       </div>
+
+      {formValues && (
+        <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
+          <div ref={pdfRef}>
+            <QuotePDF data={formValues} quote={Number(generatedQuote) || 0} />
+          </div>
+        </div>
+      )}
 
     </div>
   );
