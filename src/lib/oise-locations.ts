@@ -78,7 +78,7 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     description:
       "Déménagement du Vexin accompagne particuliers et entreprises dans l'Oise (60) : Beauvais, Compiègne, Creil, Senlis, Chantilly, Méru, Noyon et tout le département. Devis gratuit en 24h.",
     eyebrow: "Département 60",
-    h1: "Déménagement dans l'Oise (60)",
+    h1: "Votre déménageur dans l'Oise (60)",
     heroLead:
       "Une organisation locale et fiable pour déménager dans l'Oise, entre Beauvaisis, Compiégnois, Creillois, Valois, Clermontois et sud de l'Oise.",
     introTitle: "Un département stratégique entre Hauts-de-France et Île-de-France",

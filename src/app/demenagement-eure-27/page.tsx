@@ -142,7 +142,7 @@ export default function EurePage() {
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
-              Votre déménagement <br className="hidden sm:block" />
+              Votre déménageur <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
                 dans l'Eure.
               </span>

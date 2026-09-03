@@ -3,17 +3,15 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 
 // UI Components
-import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { QuoteForm } from "@/components/quote-form"
 import type { QuoteRequestFormData } from "@/types/quote"
 
 // Icons
 import { 
-  CheckCircle2, 
   Clock, 
   ShieldCheck, 
   ArrowLeft, 
@@ -24,12 +22,11 @@ import {
 
 export default function PublicQuotePage() {
   const [saving, setSaving] = useState(false)
-  const [quoteId, setQuoteId] = useState<string | null>(null)
+  const router = useRouter()
   const { toast } = useToast()
   
   async function onSubmit(values: QuoteRequestFormData) {
     setSaving(true);
-    setQuoteId(null);
     try {
       // On sauvegarde dans la collection `requests` plutôt que `quotes`
       const response = await fetch("/api/requests", {
@@ -52,16 +49,11 @@ export default function PublicQuotePage() {
       }
 
       const result = await response.json() as { id?: string; requestId?: string };
-      const savedRequestId = result.id || result.requestId;
-      if (!savedRequestId) {
+      if (!result.id && !result.requestId) {
         throw new Error("La demande a été enregistrée sans référence de retour.");
       }
-      
-      // Simulation of a small delay for better UX
-      await new Promise(resolve => setTimeout(resolve, 600));
-      
-      setQuoteId(savedRequestId);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      router.push("/remerciements");
       
     } catch (error) {
       console.error("Erreur lors de la sauvegarde du devis:", error);
@@ -150,77 +142,18 @@ export default function PublicQuotePage() {
 
           {/* --- COLONNE DROITE : LE FORMULAIRE --- */}
           <div className="lg:col-span-7">
-            <AnimatePresence mode="wait">
-              {quoteId ? (
-                // --- ÉTAT DE SUCCÈS (Whaou Effect) ---
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  className="bg-white rounded-[2.5rem] p-8 md:p-14 shadow-2xl border border-slate-100 text-center relative overflow-hidden isolate"
-                >
-                  {/* Décors fond succès */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-64 bg-gradient-to-b from-[#00ad9f]/10 to-transparent -z-10" />
-                  
-                  <div className="mx-auto w-24 h-24 bg-[#00ad9f]/10 rounded-full flex items-center justify-center mb-8 relative">
-                    <div className="absolute inset-0 bg-[#00ad9f]/20 rounded-full animate-ping opacity-75" />
-                    <CheckCircle2 className="w-12 h-12 text-[#00ad9f] relative z-10" />
-                  </div>
-                  
-                  <h2 className="text-3xl font-extrabold text-slate-900 mb-4">
-                    C'est dans la boîte !
-                  </h2>
-                  <p className="text-lg text-slate-600 mb-8 leading-relaxed max-w-lg mx-auto">
-                    Merci pour votre confiance. Votre demande a bien été transmise à notre équipe sous la référence :
-                    <br/>
-                    <span className="inline-block mt-4 px-4 py-2 bg-slate-100 text-slate-800 font-mono font-bold rounded-xl border border-slate-200 shadow-inner">
-                      #{quoteId.split('-')[0].toUpperCase()}
-                    </span>
-                  </p>
-
-                  <div className="bg-slate-50 rounded-2xl p-6 mb-8 text-left text-sm text-slate-600 border border-slate-100">
-                    <p className="font-bold text-slate-900 mb-2">Et maintenant ?</p>
-                    <ul className="space-y-2">
-                      <li className="flex gap-2"><span>1.</span> Un expert étudie votre volume et vos accès.</li>
-                      <li className="flex gap-2"><span>2.</span> Si besoin, nous vous appelons pour affiner les détails.</li>
-                      <li className="flex gap-2"><span>3.</span> Vous recevez votre devis ferme par email sous 24h.</li>
-                    </ul>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button 
-                      onClick={() => setQuoteId(null)} 
-                      variant="outline" 
-                      className="rounded-full h-12 px-8 border-slate-300 text-slate-700 hover:bg-slate-50"
-                    >
-                      Nouvelle demande
-                    </Button>
-                    <Button 
-                      asChild 
-                      className="rounded-full h-12 px-8 bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20"
-                    >
-                      <Link href="/">Retour à l'accueil</Link>
-                    </Button>
-                  </div>
-                </motion.div>
-              ) : (
-                // --- LE FORMULAIRE ---
-                <motion.div
-                  key="form"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  className="bg-white rounded-[2.5rem] p-6 sm:p-8 md:p-10 shadow-2xl border border-slate-100"
-                >
-                  <QuoteForm 
-                    onSubmit={onSubmit}
-                    submitButtonText="Envoyer ma demande de devis"
-                    isSaving={saving}
-                    isDashboard={false} // Force simplified public view
-                  />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white rounded-[2.5rem] p-6 sm:p-8 md:p-10 shadow-2xl border border-slate-100"
+            >
+              <QuoteForm
+                onSubmit={onSubmit}
+                submitButtonText="Envoyer ma demande de devis"
+                isSaving={saving}
+                isDashboard={false}
+              />
+            </motion.div>
           </div>
           
         </div>
