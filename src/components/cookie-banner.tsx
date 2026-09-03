@@ -7,6 +7,7 @@ import { Cookie, X, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { COOKIE_CONSENT_EVENT } from "@/components/google-analytics";
 
 export function CookieBanner() {
   const [isVisible, setIsVisible] = React.useState(false);
@@ -23,11 +24,13 @@ export function CookieBanner() {
 
   const handleAccept = () => {
     localStorage.setItem("cookie-consent", "accepted");
+    window.dispatchEvent(new Event(COOKIE_CONSENT_EVENT));
     setIsVisible(false);
   };
 
   const handleDecline = () => {
     localStorage.setItem("cookie-consent", "declined");
+    window.dispatchEvent(new Event(COOKIE_CONSENT_EVENT));
     setIsVisible(false);
   };
 

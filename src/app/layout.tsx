@@ -4,6 +4,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/theme-provider';
 import { CookieBanner } from '@/components/cookie-banner';
+import { GoogleAnalytics } from '@/components/google-analytics';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
 import { Poppins } from 'next/font/google';
 import Script from 'next/script';
@@ -48,25 +49,6 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <head>
-        {/* Google Analytics */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-8XBX4X0R4Y"
-          strategy="afterInteractive"
-        />
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-799364946"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-8XBX4X0R4Y');
-            gtag('config', 'AW-799364946');
-          `}
-        </Script>
         <Script
           id="organization-schema"
           type="application/ld+json"
@@ -82,6 +64,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
               {children}
+              <GoogleAnalytics />
               <CookieBanner />
               <Toaster />
           </ThemeProvider>
