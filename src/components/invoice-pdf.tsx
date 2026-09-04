@@ -13,7 +13,7 @@ export function InvoicePDF({ data, amountPaid = 0 }: InvoicePDFProps) {
   const isPaid = totalTTC > 0 && amountPaid >= totalTTC
   const number = data.invoiceNumber || `${format(new Date(), "yyyy")}${String(data.id).replace(/\D/g, "").slice(-3).padStart(3, "0")}`
   const clientAddress = data.clientAddress || data.originAddress
-  return <section className="relative bg-white text-[11px]" style={{ width: "210mm", height: "297mm", padding: "10mm 13mm", boxSizing: "border-box", fontFamily: "Arial, Helvetica, sans-serif", color: teal, overflow: "hidden" }}>
+  return <section data-pdf-page className="relative bg-white text-[11px]" style={{ width: "210mm", height: "297mm", padding: "10mm 13mm", boxSizing: "border-box", fontFamily: "Arial, Helvetica, sans-serif", color: teal, overflow: "hidden" }}>
     <div className="grid grid-cols-[1fr_78mm] gap-8">
       <div><img src="/images/logo.png" alt="Déménagement du Vexin" style={{ width: "82mm", height: "auto" }} /><div className="mt-2 font-bold leading-[1.45]">9 RUE DE PONTOISE<br />95540 MÉRY-SUR-OISE<br />Tel: &nbsp;&nbsp;&nbsp;01 30 75 12 35<br />Mob: &nbsp;07 68 31 33 10<br />e-mail: demenagementduvexin@gmail.com</div></div>
       <div className="space-y-3 text-center italic" style={{ fontFamily: "Georgia, serif" }}><div className="rounded-[18px] border border-black p-3 leading-[1.45]"><strong>Facture N° {number}</strong><br />Date: {format(new Date(), "dd/MM/yyyy")}<br />Code client:{data.clientCode || "À CRÉER"}<br /><small>Date limite de paiement :30 jours</small></div><div className="min-h-[35mm] rounded-[18px] border border-black p-3 leading-[1.5]"><span className="underline">Adresse du Client</span><br />{data.clientName}<br />{clientAddress}</div></div>

@@ -155,51 +155,34 @@ export default function QuoteDetailsPage({
 
   const generatePdfBlob = async () => {
     if (!pdfRef.current) throw new Error("Élément PDF introuvable.");
-
-    const canvas = await html2canvas(pdfRef.current, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: "#ffffff",
-      logging: false,
-    });
-
-    const imgData = canvas.toDataURL("image/png");
+    const pages = Array.from(pdfRef.current.querySelectorAll<HTMLElement>("[data-pdf-page]"));
+    if (!pages.length) throw new Error("Aucune page PDF à générer.");
     const jspdfModule = await import("jspdf");
     const JsPdfCtor = jspdfModule.jsPDF || jspdfModule.default;
-
     const pdf = new JsPdfCtor({
       orientation: "p",
       unit: "mm",
       format: "a4",
     });
 
-    const pageWidth = 210;
-    const pageHeight = 297;
-    const margin = 0;
-
-    const usableWidth = pageWidth - margin * 2;
-    const usableHeight = pageHeight - margin * 2;
-    const imgWidth = usableWidth;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    let heightLeft = imgHeight;
-    let position = margin;
-
-    pdf.addImage(imgData, "PNG", margin, position, imgWidth, imgHeight, undefined, "FAST");
-    heightLeft -= usableHeight;
-
-    while (heightLeft > 0) {
-      position = heightLeft - imgHeight + margin;
-      pdf.addPage();
-      pdf.addImage(imgData, "PNG", margin, position, imgWidth, imgHeight, undefined, "FAST");
-      heightLeft -= usableHeight;
+    for (let index = 0; index < pages.length; index += 1) {
+      const canvas = await html2canvas(pages[index], {
+        scale: 2.5,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        logging: false,
+      });
+      if (index > 0) pdf.addPage("a4", "p");
+      pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, 210, 297, undefined, "FAST");
     }
-
     return pdf;
   };
 
   const prepareAndDownloadPdf = async () => {
-    if (generatedQuote === "" || !formValues) return;
+    if (generatedQuote === "" || Number(generatedQuote) <= 0 || !formValues) {
+      toast({ variant: "destructive", title: "Montant manquant", description: "Enregistrez un montant TTC supérieur à 0 avant de générer le devis." });
+      return;
+    }
     setPdfLoading(true);
     try {
       const pdf = await generatePdfBlob();
@@ -221,7 +204,10 @@ export default function QuoteDetailsPage({
   };
 
   const handleSendEmail = async () => {
-    if (!formValues) return;
+    if (!formValues || generatedQuote === "" || Number(generatedQuote) <= 0) {
+      toast({ variant: "destructive", title: "Montant manquant", description: "Enregistrez un montant TTC supérieur à 0 avant d’envoyer le devis." });
+      return;
+    }
     setSendingEmail(true);
     try {
       const pdf = await generatePdfBlob();
@@ -521,7 +507,7 @@ export default function QuoteDetailsPage({
                         onClick={prepareAndDownloadPdf}
                         variant="outline"
                         size="lg"
-                        disabled={pdfLoading || generatedQuote === "" || sendingEmail}
+                        disabled={pdfLoading || generatedQuote === "" || Number(generatedQuote) <= 0 || sendingEmail}
                         className="w-full h-14 rounded-2xl font-bold border-2 border-slate-200 hover:bg-white dark:border-slate-700 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-all hover:shadow-md"
                     >
                         {pdfLoading ? (
@@ -537,7 +523,7 @@ export default function QuoteDetailsPage({
                         onClick={handleSendEmail}
                         variant="default"
                         size="lg"
-                        disabled={pdfLoading || generatedQuote === "" || sendingEmail}
+                        disabled={pdfLoading || generatedQuote === "" || Number(generatedQuote) <= 0 || sendingEmail}
                         className="w-full h-14 rounded-2xl font-bold bg-blue-600 hover:bg-blue-700 text-white shadow-xl shadow-blue-600/20 transition-all hover:-translate-y-0.5"
                     >
                         {sendingEmail ? (

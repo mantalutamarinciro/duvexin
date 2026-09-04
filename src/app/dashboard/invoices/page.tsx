@@ -96,14 +96,8 @@ export default function InvoicesPage() {
 
         const input = pdfRef.current;
         if (!input) return;
-        const canvas = await html2canvas(input, {
-          scale: 2,
-          useCORS: true,
-          backgroundColor: "#ffffff",
-          logging: false,
-        });
-
-        const imgData = canvas.toDataURL("image/png");
+        const pages = Array.from(input.querySelectorAll<HTMLElement>("[data-pdf-page]"));
+        if (!pages.length) throw new Error("Aucune page PDF à générer.");
 
         const jspdfModule = await import("jspdf");
         const JsPdfCtor = jspdfModule.jsPDF || jspdfModule.default;
@@ -114,45 +108,15 @@ export default function InvoicesPage() {
           format: "a4",
         });
 
-        const pageWidth = 210;
-        const pageHeight = 297;
-        const margin = 0;
-
-        const usableWidth = pageWidth - margin * 2;
-        const usableHeight = pageHeight - margin * 2;
-
-        const imgWidth = usableWidth;
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-        let heightLeft = imgHeight;
-        let position = margin;
-
-        pdf.addImage(
-          imgData,
-          "PNG",
-          margin,
-          position,
-          imgWidth,
-          imgHeight,
-          undefined,
-          "FAST"
-        );
-        heightLeft -= usableHeight;
-
-        while (heightLeft > 0) {
-          position = heightLeft - imgHeight + margin;
-          pdf.addPage();
-          pdf.addImage(
-            imgData,
-            "PNG",
-            margin,
-            position,
-            imgWidth,
-            imgHeight,
-            undefined,
-            "FAST"
-          );
-          heightLeft -= usableHeight;
+        for (let index = 0; index < pages.length; index += 1) {
+          const canvas = await html2canvas(pages[index], {
+            scale: 2.5,
+            useCORS: true,
+            backgroundColor: "#ffffff",
+            logging: false,
+          });
+          if (index > 0) pdf.addPage("a4", "p");
+          pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, 210, 297, undefined, "FAST");
         }
 
         if (isEmailAction) {
