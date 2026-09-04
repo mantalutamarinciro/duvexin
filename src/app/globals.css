@@ -92,3 +92,8 @@
     box-shadow: 0 20px 50px -12px rgba(0, 169, 157, 0.25);
   }
 }
+
+/* Empêche l'indicateur de développement Next.js d'apparaître sur les devis capturés. */
+nextjs-portal {
+  display: none !important;
+}
