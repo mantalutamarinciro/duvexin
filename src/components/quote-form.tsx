@@ -66,6 +66,14 @@ export const quoteRequestSchema = z.object({
   volume: z.coerce.number().min(0).optional().default(0),
   serviceType: z.enum(["basic", "full", "premium"]).optional().default("basic"),
   details: z.string().optional(),
+  clientAddress: z.string().optional(),
+  clientCode: z.string().optional(),
+  quoteNumber: z.string().optional(),
+  originPeriod: z.string().optional(),
+  destinationPeriod: z.string().optional(),
+  originAccess: z.string().optional(),
+  destinationAccess: z.string().optional(),
+  specialConditions: z.string().optional(),
 })
 
 export type QuoteFormValues = z.infer<typeof quoteRequestSchema>
@@ -107,6 +115,14 @@ export function QuoteForm({
       distance: initialData?.distance ?? 0,
       volume: initialData?.volume ?? 10,
       details: initialData?.details ?? "",
+      clientAddress: initialData?.clientAddress ?? "",
+      clientCode: initialData?.clientCode ?? "",
+      quoteNumber: initialData?.quoteNumber ?? "",
+      originPeriod: initialData?.originPeriod ?? "",
+      destinationPeriod: initialData?.destinationPeriod ?? "",
+      originAccess: initialData?.originAccess ?? "",
+      destinationAccess: initialData?.destinationAccess ?? "",
+      specialConditions: initialData?.specialConditions ?? "",
       moveDate: initialData?.moveDate ? new Date(initialData.moveDate) : undefined,
       serviceType:
         initialData?.serviceType === "full" || initialData?.serviceType === "premium"
@@ -272,6 +288,14 @@ export function QuoteForm({
       details: values.details,
       moveDate: values.moveDate ? values.moveDate.toISOString() : undefined,
       serviceType: values.serviceType,
+      clientAddress: values.clientAddress,
+      clientCode: values.clientCode,
+      quoteNumber: values.quoteNumber,
+      originPeriod: values.originPeriod,
+      destinationPeriod: values.destinationPeriod,
+      originAccess: values.originAccess,
+      destinationAccess: values.destinationAccess,
+      specialConditions: values.specialConditions,
     }
 
     await onSubmit(payload)
@@ -339,6 +363,63 @@ export function QuoteForm({
               />
             </CardContent>
           </Card>
+
+          {isDashboard && (
+            <Card className="rounded-[2.5rem] border-slate-100 shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-xl font-black">Informations du document</CardTitle>
+                <CardDescription>Champs utilisés dans le modèle historique du devis</CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-6 sm:grid-cols-2">
+                {[
+                  ["quoteNumber", "Numéro de devis", "006954"],
+                  ["clientCode", "Code client", "6288"],
+                  ["clientAddress", "Adresse postale du client", "7 chemin du Mont d’Héry, 95450 Le Perchay"],
+                  ["originPeriod", "Période de chargement", "Mois octobre 2025 à confirmer"],
+                  ["destinationPeriod", "Période de déchargement", "Mois octobre 2025 à confirmer"],
+                  ["originAccess", "Accès au chargement", "Maison - sans ascenseur"],
+                  ["destinationAccess", "Accès au déchargement", "Maison - sans ascenseur"],
+                ].map(([name, label, placeholder]) => (
+                  <FormField
+                    key={name}
+                    control={form.control}
+                    name={name as keyof QuoteFormValues}
+                    render={({ field }) => (
+                      <FormItem className={name === "clientAddress" ? "sm:col-span-2" : ""}>
+                        <FormLabel>{label}</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder={placeholder}
+                            className="h-12 rounded-xl"
+                            {...field}
+                            value={(field.value as string) ?? ""}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                ))}
+                <FormField
+                  control={form.control}
+                  name="specialConditions"
+                  render={({ field }) => (
+                    <FormItem className="sm:col-span-2">
+                      <FormLabel>Conditions particulières</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Sous réserve des accès et stationnement"
+                          className="min-h-[90px] rounded-2xl"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
+          )}
 
           <Card className="rounded-[2.5rem] border-slate-100 shadow-sm">
             <CardHeader>

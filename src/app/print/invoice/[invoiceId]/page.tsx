@@ -24,16 +24,20 @@ export default async function PrintInvoicePage({ params }: { params: Promise<{ i
     clientPhone: quoteData.clientPhone || '',
     moveDate: quoteData.moveDate || new Date().toISOString(),
     volume: quoteData.volume || 0,
+    distance: quoteData.distance || 0,
     quoteId: invoiceData.quoteId,
     originAddress: quoteData.originAddress || '',
     destinationAddress: quoteData.destinationAddress || '',
     serviceType: quoteData.serviceType || 'basic',
     total: invoiceData.amountTTC, // Use invoice total
+    clientCode: quoteData.clientCode,
+    clientAddress: quoteData.clientAddress,
+    dueDate: invoiceData.dueDate,
   };
 
   return (
     <div className="bg-white min-h-screen">
-      <InvoicePDF data={mappedData as any} />
+      <InvoicePDF data={mappedData as any} amountPaid={invoiceData.amountPaid} />
     </div>
   );
 }

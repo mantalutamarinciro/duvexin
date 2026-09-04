@@ -51,6 +51,14 @@ function mapDocToQuote(
     distance: Number(data.distance ?? 0),
     serviceType: data.serviceType ?? 'basic',
     details: data.details ?? undefined,
+    clientAddress: data.clientAddress ?? undefined,
+    clientCode: data.clientCode ?? undefined,
+    quoteNumber: data.quoteNumber ?? undefined,
+    originPeriod: data.originPeriod ?? undefined,
+    destinationPeriod: data.destinationPeriod ?? undefined,
+    originAccess: data.originAccess ?? undefined,
+    destinationAccess: data.destinationAccess ?? undefined,
+    specialConditions: data.specialConditions ?? undefined,
     quote: Number(data.quote ?? 0),
     status: (data.status ?? 'Chiffré') as QuoteStatus,
     requestId: data.requestId ?? undefined,
@@ -367,4 +375,3 @@ export async function sendQuoteFollowUpEmail(quoteId: string): Promise<void> {
     throw error instanceof Error ? error : new Error("Échec du processus de relance automatique.");
   }
 }
-

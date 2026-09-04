@@ -18,6 +18,14 @@ export interface QuoteRequestFormData {
   distance: number;
   serviceType: ServiceType;
   details?: string;
+  clientAddress?: string;
+  clientCode?: string;
+  quoteNumber?: string;
+  originPeriod?: string;
+  destinationPeriod?: string;
+  originAccess?: string;
+  destinationAccess?: string;
+  specialConditions?: string;
 }
 
 export type QuoteStatus =

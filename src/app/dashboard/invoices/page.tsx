@@ -729,11 +729,15 @@ export default function InvoicesPage() {
                 clientPhone: associatedQuoteForPdf.clientPhone || "",
                 moveDate: associatedQuoteForPdf.moveDate || new Date().toISOString(),
                 volume: associatedQuoteForPdf.volume || 0,
+                distance: associatedQuoteForPdf.distance || 0,
                 quoteId: selectedInvoiceForPdf.quoteId,
                 originAddress: associatedQuoteForPdf.originAddress || "",
                 destinationAddress: associatedQuoteForPdf.destinationAddress || "",
                 serviceType: associatedQuoteForPdf.serviceType || "basic",
                 total: selectedInvoiceForPdf.amountTTC,
+                clientCode: associatedQuoteForPdf.clientCode,
+                clientAddress: associatedQuoteForPdf.clientAddress,
+                dueDate: selectedInvoiceForPdf.dueDate,
               } as any}
               amountPaid={selectedInvoiceForPdf.amountPaid}
             />

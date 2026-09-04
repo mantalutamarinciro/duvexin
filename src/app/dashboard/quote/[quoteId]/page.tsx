@@ -77,6 +77,14 @@ export default function QuoteDetailsPage({
           distance: data.distance,
           serviceType: data.serviceType,
           details: data.details,
+          clientAddress: data.clientAddress,
+          clientCode: data.clientCode,
+          quoteNumber: data.quoteNumber,
+          originPeriod: data.originPeriod,
+          destinationPeriod: data.destinationPeriod,
+          originAccess: data.originAccess,
+          destinationAccess: data.destinationAccess,
+          specialConditions: data.specialConditions,
         });
 
         if (data.quote !== undefined && data.quote !== null) {
