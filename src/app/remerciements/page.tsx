@@ -3,6 +3,7 @@ import Link from "next/link"
 import { ArrowLeft, CheckCircle2, Clock3, Mail, Phone } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { LeadConversionTracker } from "@/components/lead-conversion-tracker"
 
 export const metadata: Metadata = {
   title: "Merci pour votre demande | Déménagement du Vexin",
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
 export default function RemerciementsPage() {
   return (
     <main className="relative flex min-h-screen flex-col overflow-hidden bg-slate-50 selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
+      <LeadConversionTracker />
       <div className="border-b border-slate-200 bg-white">
         <div className="container mx-auto flex h-20 items-center px-4 md:px-6">
           <Link

@@ -9,7 +9,7 @@ import { motion } from "framer-motion"
 import { useToast } from "@/hooks/use-toast"
 import { QuoteForm } from "@/components/quote-form"
 import type { QuoteRequestFormData } from "@/types/quote"
-import { trackGenerateLead } from "@/lib/analytics"
+import { markGenerateLeadPending } from "@/lib/analytics"
 
 // Icons
 import { 
@@ -54,7 +54,7 @@ export default function PublicQuotePage() {
         throw new Error("La demande a été enregistrée sans référence de retour.");
       }
 
-      trackGenerateLead({
+      markGenerateLeadPending({
         formName: "public_quote_request",
       });
 

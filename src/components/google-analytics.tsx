@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Script from "next/script";
+import { GOOGLE_ANALYTICS_READY_EVENT } from "@/lib/analytics";
 
 const COOKIE_CONSENT_KEY = "cookie-consent";
 export const COOKIE_CONSENT_EVENT = "cookie-consent-change";
@@ -41,6 +42,7 @@ export function GoogleAnalytics() {
           gtag('js', new Date());
           gtag('config', 'G-8XBX4X0R4Y');
           gtag('config', 'AW-799364946');
+          window.dispatchEvent(new Event('${GOOGLE_ANALYTICS_READY_EVENT}'));
         `}
       </Script>
     </>
