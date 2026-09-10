@@ -58,7 +58,7 @@ export default function PublicQuotePage() {
         formName: "public_quote_request",
       });
 
-      router.push("/remerciements");
+      router.push("/remerciements?lead=submitted");
       
     } catch (error) {
       console.error("Erreur lors de la sauvegarde du devis:", error);
