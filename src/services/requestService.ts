@@ -223,7 +223,13 @@ export async function getRequests(): Promise<MoveRequest[]> {
 
       return {
         id: doc.id,
-        ...data,
+        clientName: data.clientName,
+        clientEmail: data.clientEmail,
+        clientPhone: data.clientPhone,
+        originAddress: data.originAddress,
+        destinationAddress: data.destinationAddress,
+        volume: data.volume,
+        details: data.details,
         status,
         moveDate: data.moveDate?.toDate
           ? (data.moveDate as admin.firestore.Timestamp).toDate().toISOString()
