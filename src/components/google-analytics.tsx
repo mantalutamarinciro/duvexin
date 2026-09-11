@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Script from "next/script";
-import { GOOGLE_ANALYTICS_READY_EVENT } from "@/lib/analytics";
+import { captureLeadAttribution, GOOGLE_ANALYTICS_READY_EVENT } from "@/lib/analytics";
 
 const COOKIE_CONSENT_KEY = "cookie-consent";
 export const COOKIE_CONSENT_EVENT = "cookie-consent-change";
@@ -24,6 +24,10 @@ export function GoogleAnalytics() {
       window.removeEventListener("storage", syncConsent);
     };
   }, []);
+
+  React.useEffect(() => {
+    if (isAccepted) captureLeadAttribution();
+  }, [isAccepted]);
 
   if (!isAccepted) {
     return null;

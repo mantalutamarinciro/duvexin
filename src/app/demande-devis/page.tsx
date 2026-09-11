@@ -9,7 +9,7 @@ import { motion } from "framer-motion"
 import { useToast } from "@/hooks/use-toast"
 import { QuoteForm } from "@/components/quote-form"
 import type { QuoteRequestFormData } from "@/types/quote"
-import { markGenerateLeadPending } from "@/lib/analytics"
+import { getLeadAttribution, markGenerateLeadPending } from "@/lib/analytics"
 
 // Icons
 import { 
@@ -29,6 +29,7 @@ export default function PublicQuotePage() {
   async function onSubmit(values: QuoteRequestFormData) {
     setSaving(true);
     try {
+      const analyticsAttribution = await getLeadAttribution()
       // On sauvegarde dans la collection `requests` plutôt que `quotes`
       const response = await fetch("/api/requests", {
         method: "POST",
@@ -42,6 +43,7 @@ export default function PublicQuotePage() {
           moveDate: values.moveDate || undefined,
           volume: values.volume || 0,
           details: values.details || undefined,
+          analyticsAttribution,
         }),
       });
 

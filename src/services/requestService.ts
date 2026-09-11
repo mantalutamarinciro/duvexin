@@ -3,6 +3,7 @@
 import { db, admin } from '@/lib/firebase';
 import { Resend } from 'resend';
 import { syncCustomerFromRequest } from '@/services/customerService';
+import { trackLeadLifecycleEvent } from '@/lib/ga4-measurement-protocol';
 
 const { Timestamp } = admin.firestore;
 
@@ -256,6 +257,9 @@ export async function updateRequestStatus(id: string, status: RequestStatus): Pr
     if (!db) return;
     const requestRef = db.collection('requests').doc(id);
     await requestRef.update({ status });
+    if (status === 'Converti en visite') {
+      await trackLeadLifecycleEvent({ requestId: id, eventName: 'qualify_lead' });
+    }
   } catch (error) {
     console.error('Error updating request status:', error);
     throw new Error('Failed to update request status.');

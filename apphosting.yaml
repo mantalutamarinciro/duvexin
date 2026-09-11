@@ -25,3 +25,7 @@ env:
     secret: GOOGLE_GENAI_API_KEY
     availability:
       - RUNTIME
+  - variable: GA4_MEASUREMENT_PROTOCOL_API_SECRET
+    secret: GA4_MEASUREMENT_PROTOCOL_API_SECRET
+    availability:
+      - RUNTIME

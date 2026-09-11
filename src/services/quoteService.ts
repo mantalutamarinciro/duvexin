@@ -5,6 +5,7 @@ import type { QuoteRequestFormData, Quote, QuoteStatus } from '@/types/quote';
 import { serviceTypeLabels } from '@/lib/quote-constants';
 import { Resend } from 'resend';
 import { generateFollowUpEmail } from '@/ai/flows/generate-follow-up-email';
+import { trackLeadLifecycleEvent } from '@/lib/ga4-measurement-protocol';
 
 const { Timestamp } = admin.firestore;
 
@@ -80,6 +81,12 @@ export async function saveQuote(quoteData: SaveQuoteInput): Promise<{ id: string
       createdAt: Timestamp.now(),
     });
 
+    await trackLeadLifecycleEvent({
+      requestId: quoteData.requestId,
+      eventName: 'qualify_lead',
+      quoteId: docRef.id,
+    });
+
     if (resend) {
         // Envoi des emails de notification... (logique existante conservée)
     }
@@ -121,7 +128,18 @@ export async function getQuoteById(id: string): Promise<Quote | null> {
 export async function updateQuoteStatus(id: string, status: QuoteStatus): Promise<void> {
   if (!db) return;
   try {
-    await db.collection(QUOTES_COLLECTION).doc(id).update({ status });
+    const quoteRef = db.collection(QUOTES_COLLECTION).doc(id);
+    await quoteRef.update({ status });
+    if (status === 'Accepté') {
+      const quoteSnapshot = await quoteRef.get();
+      const quote = quoteSnapshot.data();
+      await trackLeadLifecycleEvent({
+        requestId: quote?.requestId,
+        eventName: 'close_convert_lead',
+        quoteId: id,
+        value: Number(quote?.quote ?? 0),
+      });
+    }
   } catch (error) {
     console.error('Error updating quote status:', error);
   }

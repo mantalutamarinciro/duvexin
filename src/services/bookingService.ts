@@ -4,6 +4,7 @@ import { db, admin } from '@/lib/firebase';
 import type { Quote } from '@/types/quote';
 import { syncCustomerFromBooking } from './customerService';
 import { Resend } from 'resend';
+import { trackLeadLifecycleEvent } from '@/lib/ga4-measurement-protocol';
 
 const ADMIN_RECIPIENT_EMAIL = 'contact@demenagementduvexin.fr';
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || ADMIN_RECIPIENT_EMAIL;
@@ -127,6 +128,13 @@ export async function createBookingFromQuote(quote: Quote): Promise<{ id: string
     batch.update(quoteRef, { status: 'Accepté' });
 
     await batch.commit();
+
+    await trackLeadLifecycleEvent({
+      requestId: quote.requestId,
+      eventName: 'close_convert_lead',
+      quoteId: quote.id,
+      value: Number(quote.quote ?? 0),
+    });
 
     void syncCustomerFromBooking({
       name: quote.clientName,

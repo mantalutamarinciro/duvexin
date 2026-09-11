@@ -15,6 +15,15 @@ const publicRequestSchema = z.object({
   moveDate: z.string().optional(),
   volume: z.coerce.number().min(0).optional().default(0),
   details: z.string().optional(),
+  analyticsAttribution: z.object({
+    clientId: z.string().max(100).optional(),
+    sessionId: z.string().max(100).optional(),
+    gclid: z.string().max(500).optional(),
+    source: z.string().max(200).optional(),
+    medium: z.string().max(200).optional(),
+    campaign: z.string().max(300).optional(),
+    landingPage: z.string().url().max(2000).optional(),
+  }).optional(),
 });
 
 const resendApiKey = process.env.RESEND_API_KEY || "";
@@ -141,6 +150,7 @@ export async function POST(request: Request) {
       moveDate: parsed.data.moveDate,
       volume: parsed.data.volume,
       details: parsed.data.details,
+      analyticsAttribution: parsed.data.analyticsAttribution,
     };
 
     await requestRef.set({
