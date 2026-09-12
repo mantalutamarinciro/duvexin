@@ -6,14 +6,14 @@ import Script from "next/script";
 import { reviewSummary } from "@/lib/review-summary";
 
 export const metadata: Metadata = {
-  title: "Déménagement du Vexin | Déménageur premium, fiable et sans stress",
+  title: "Déménageur Val-d’Oise (95) | Déménagement du Vexin",
   description:
-    "Déménagement du Vexin : particuliers & entreprises. Équipes salariées, protection pro, devis clair, organisation millimétrée. Intervention Vexin, Val-d’Oise, Yvelines, Île-de-France et national.",
+    "Préparez votre déménagement dans le Val-d’Oise avec Déménagement du Vexin : Méry-sur-Oise, Cergy, Pontoise et départs en France. Découvrez nos formules et demandez un devis.",
   alternates: { canonical: "https://demenagementduvexin.fr" },
   openGraph: {
-    title: "Déménagement du Vexin | Déménageur premium",
+    title: "Déménageur Val-d’Oise (95) | Déménagement du Vexin",
     description:
-      "Une organisation parfaite, une protection pro, des équipes fiables. Devis gratuit, accompagnement complet.",
+      "Déménagements de particuliers et d’entreprises dans le Val-d’Oise et au départ du Vexin. Comparez les formules et préparez votre devis.",
     url: "https://demenagementduvexin.fr",
     type: "website",
   },

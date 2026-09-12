@@ -251,17 +251,15 @@ export function LandingPageClient({
               </div>
             </div>
 
-            <h1 className="mt-8 text-5xl md:text-8xl font-black tracking-tighter text-white leading-[0.95]">
-              L'art du <br/>
+            <h1 className="mt-8 text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter text-white leading-[1.05]">
+              Votre déménageur <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-teal-200">
-                déménagement
+                dans le Val-d’Oise
               </span>.
             </h1>
 
             <p className="mt-8 text-xl md:text-2xl text-slate-100/90 leading-relaxed font-light max-w-2xl">
-              Organisation millimétrée, soin constant, équipes{" "}
-              <span className="text-white font-semibold underline decoration-primary/50 underline-offset-4">100% salariées</span>.
-              Zéro sous-traitance. Zéro stress.
+              Depuis Méry-sur-Oise, Déménagement du Vexin accompagne les particuliers et les entreprises à Cergy, Pontoise et dans le Val-d’Oise, pour un déménagement local ou un départ en France.
             </p>
 
             <div className="mt-12 flex flex-col sm:flex-row gap-4 items-start">
@@ -308,6 +306,21 @@ export function LandingPageClient({
         </div>
 
         <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white dark:from-slate-950 to-transparent" />
+      </section>
+
+      <section className="py-12 bg-white dark:bg-slate-950" aria-labelledby="local-moving-title">
+        <div className="container max-w-5xl">
+          <h2 id="local-moving-title" className="text-2xl md:text-3xl font-bold">Préparer votre déménagement près de chez vous</h2>
+          <p className="mt-4 text-slate-600 dark:text-slate-400 leading-relaxed">
+            Un devis dépend du volume à transporter, des accès aux deux logements et de la préparation que vous souhaitez nous confier. Retrouvez les points à vérifier pour votre commune.
+          </p>
+          <nav aria-label="Déménagements dans le Val-d’Oise" className="mt-6 flex flex-wrap gap-x-8 gap-y-4">
+            <Link className="underline underline-offset-4" href="/demenagement-mery-sur-oise-95540">Déménagement à Méry-sur-Oise</Link>
+            <Link className="underline underline-offset-4" href="/demenagement-cergy-95000">Déménagement à Cergy</Link>
+            <Link className="underline underline-offset-4" href="/demenagement-pontoise-95300">Déménagement à Pontoise</Link>
+            <Link className="underline underline-offset-4" href="/formules-de-demenagement">Comparer nos formules</Link>
+          </nav>
+        </div>
       </section>
 
       {/* ================= SERVICES ================= */}

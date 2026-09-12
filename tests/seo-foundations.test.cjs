@@ -101,3 +101,43 @@ test('homepage Journal cards match existing articles and image files', () => {
     assert.ok(existsSync(path.join(root, 'public', card.image)));
   }
 });
+
+test('local guides render distinct content and links to existing pages', () => {
+  const React = require('react');
+  const { renderToStaticMarkup } = require('react-dom/server');
+  const source = readFileSync(path.join(root, 'src/components/local-moving-guide.tsx'), 'utf8');
+  const compiled = ts.transpileModule(source, {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX },
+  }).outputText;
+  const context = { exports: {}, require(name) {
+    if (name === 'react/jsx-runtime') return require(name);
+    if (name === 'next/link') return { default: props => React.createElement('a', props) };
+    throw new Error(`Unexpected import: ${name}`);
+  } };
+  vm.runInNewContext(compiled, context);
+  const rendered = [];
+  for (const [city, route] of [['mery', 'demenagement-mery-sur-oise-95540'],
+    ['cergy', 'demenagement-cergy-95000'], ['pontoise', 'demenagement-pontoise-95300']]) {
+    const html = renderToStaticMarkup(React.createElement(context.exports.LocalMovingGuide, { city }));
+    rendered.push(html);
+    assert.ok(html.includes(`id="moving-guide-${city}"`));
+    assert.equal((html.match(/<h3/g) || []).length, 3);
+    assert.ok(!html.includes(`href="/${route}"`), 'No redundant self-link');
+    for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
+      assert.ok(existsSync(path.join(root, 'src/app', href, 'page.tsx')), href);
+    }
+    const page = readFileSync(path.join(root, 'src/app', route, 'page.tsx'), 'utf8');
+    assert.ok(page.includes(`<LocalMovingGuide city="${city}" />`));
+    assert.ok(!page.includes('/demande-de-devis'));
+  }
+  assert.equal(new Set(rendered).size, 3);
+});
+
+test('homepage has a local heading and links to all three priority towns', () => {
+  const source = readFileSync(path.join(root, 'src/app/(home)/landing-page-client.tsx'), 'utf8');
+  assert.equal((source.match(/<h1\b/g) || []).length, 1);
+  assert.match(source, /<h1[\s\S]*?Votre déménageur[\s\S]*?dans le Val-d’Oise[\s\S]*?<\/h1>/);
+  for (const route of ['demenagement-mery-sur-oise-95540', 'demenagement-cergy-95000', 'demenagement-pontoise-95300']) {
+    assert.ok(source.includes(`href="/${route}"`));
+  }
+});

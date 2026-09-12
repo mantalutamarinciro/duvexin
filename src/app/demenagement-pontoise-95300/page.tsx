@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
+import { LocalMovingGuide } from "@/components/local-moving-guide";
 
 // UI Components
 import { Button } from "@/components/ui/button";
@@ -276,6 +277,8 @@ export default function PontoisePage() {
 
       {/* --- AVIS CLIENTS --- */}
       <TestimonialsSection reviews={fallbackTestimonials} />
+
+      <LocalMovingGuide city="pontoise" />
 
       {/* --- FAQ --- */}
       <section id="faq-pontoise" className="py-24 bg-slate-50">

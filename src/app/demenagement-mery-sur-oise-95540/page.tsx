@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
+import { LocalMovingGuide } from "@/components/local-moving-guide";
 
 // UI Components
 import { Button } from "@/components/ui/button";
@@ -137,7 +138,7 @@ export default function MerySurOisePage() {
             
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="rounded-full h-14 px-8 text-base bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
-                <Link href="/demande-de-devis">
+                <Link href="/demande-devis">
                   Obtenir mon devis local <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
@@ -270,6 +271,8 @@ export default function MerySurOisePage() {
       {/* --- AVIS CLIENTS --- */}
       <TestimonialsSection reviews={fallbackTestimonials} />
 
+      <LocalMovingGuide city="mery" />
+
       {/* --- FAQ --- */}
       <section id="faq-mery" className="py-20 lg:py-32 bg-slate-50">
         <div className="container mx-auto px-4 md:px-6 max-w-4xl">
@@ -319,7 +322,7 @@ export default function MerySurOisePage() {
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
-                       <Link href="/demande-de-devis">
+                       <Link href="/demande-devis">
                           Devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>

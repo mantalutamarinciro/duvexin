@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
+import { LocalMovingGuide } from "@/components/local-moving-guide";
 
 // UI Components
 import { Button } from "@/components/ui/button";
@@ -274,6 +275,8 @@ export default function CergyPage() {
 
       {/* --- AVIS CLIENTS --- */}
       <TestimonialsSection reviews={fallbackTestimonials} />
+
+      <LocalMovingGuide city="cergy" />
 
       {/* --- FAQ --- */}
       <section id="faq-cergy" className="py-24 bg-slate-50">
