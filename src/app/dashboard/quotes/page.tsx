@@ -57,7 +57,7 @@ import {
   sendQuoteByEmail,
 } from "@/services/quoteService";
 import { createBookingFromQuote } from "@/services/bookingService";
-import { createInvoice } from "@/services/invoiceService";
+import { acceptQuote } from "@/services/quoteAcceptanceService";
 import type { Quote, QuoteStatus } from "@/types/quote";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
@@ -125,6 +125,7 @@ export default function QuotesPage() {
   const { toast } = useToast();
   const router = useRouter();
   const pdfRef = useRef<HTMLDivElement>(null);
+  const statusUpdateInFlight = useRef(false);
 
   const loadQuotes = async () => {
     try {
@@ -148,35 +149,29 @@ export default function QuotesPage() {
   }, []);
 
   const handleUpdateStatus = async (quote: Quote, status: QuoteStatus) => {
+    if (statusUpdateInFlight.current) return;
+    statusUpdateInFlight.current = true;
     try {
-      await updateQuoteStatus(quote.id, status);
-
-      if (status === "Accepté") {
-          // Création automatique de la facture en brouillon
-          const dueDate = new Date();
-          dueDate.setDate(dueDate.getDate() + 30);
-          await createInvoice({
-              quoteId: quote.id,
-              clientName: quote.clientName,
-              amountTTC: quote.quote,
-              dueDate: dueDate.toISOString()
-          });
-
-          // Création automatique du déménagement (booking)
-          await createBookingFromQuote(quote);
-      }
+      const acceptance = status === 'Accepté' ? await acceptQuote(quote.id) : null;
+      if (!acceptance) await updateQuoteStatus(quote.id, status);
 
       toast({
         title: "Statut mis à jour",
-        description: `Le devis a été marqué comme "${status}"${status === 'Accepté' ? ' et les éléments (facture, déménagement) ont été générés.' : '.'}`,
+        description: acceptance
+          ? acceptance.awaitingDate
+            ? 'Devis accepté, facture disponible. Ajoutez une date puis planifiez le déménagement.'
+            : 'Devis accepté, facture et déménagement disponibles.'
+          : `Le devis a été marqué comme "${status}".`,
       });
-      await loadQuotes();
     } catch {
       toast({
         variant: "destructive",
         title: "Erreur",
         description: "Impossible de mettre à jour le statut du devis.",
       });
+    } finally {
+      await loadQuotes();
+      statusUpdateInFlight.current = false;
     }
   };
 

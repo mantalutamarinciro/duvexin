@@ -27,15 +27,27 @@ export type CreateInvoiceData = Omit<Invoice, 'id' | 'createdAt' | 'status' | 'a
 export async function createInvoice(data: CreateInvoiceData): Promise<{ id: string }> {
   try {
     if (!db) throw new Error('Database not initialized');
-    const newInvoiceRef = db.collection('invoices').doc();
-    await newInvoiceRef.set({
-      ...data,
-      amountPaid: 0,
-      status: 'Brouillon' as InvoiceStatus,
-      createdAt: Timestamp.now(),
-      dueDate: Timestamp.fromDate(new Date(data.dueDate)),
+    const quoteRef = db.collection('quotes').doc(data.quoteId);
+    return await db.runTransaction(async (transaction) => {
+      const quoteSnapshot = await transaction.get(quoteRef);
+      if (!quoteSnapshot.exists) throw new Error('Devis introuvable.');
+      // Reuse legacy invoices too; never overwrite an issued or paid invoice.
+      const existing = await transaction.get(
+        db!.collection('invoices').where('quoteId', '==', data.quoteId).limit(1)
+      );
+      if (!existing.empty) return { id: existing.docs[0].id };
+      const newInvoiceRef = db!.collection('invoices').doc();
+      transaction.set(newInvoiceRef, {
+        ...data,
+        amountPaid: 0,
+        status: 'Brouillon' as InvoiceStatus,
+        createdAt: Timestamp.now(),
+        dueDate: Timestamp.fromDate(new Date(data.dueDate)),
+      });
+      // A shared document serializes concurrent invoice creation for this quote.
+      transaction.update(quoteRef, { invoiceId: newInvoiceRef.id });
+      return { id: newInvoiceRef.id };
     });
-    return { id: newInvoiceRef.id };
   } catch (error) {
     console.error("Error creating invoice:", error);
     throw new Error("Failed to create invoice.");

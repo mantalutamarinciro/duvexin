@@ -126,7 +126,7 @@ export async function getQuoteById(id: string): Promise<Quote | null> {
 }
 
 export async function updateQuoteStatus(id: string, status: QuoteStatus): Promise<void> {
-  if (!db) return;
+  if (!db) throw new Error('Base de données non disponible.');
   try {
     const quoteRef = db.collection(QUOTES_COLLECTION).doc(id);
     await quoteRef.update({ status });
@@ -138,10 +138,11 @@ export async function updateQuoteStatus(id: string, status: QuoteStatus): Promis
         eventName: 'close_convert_lead',
         quoteId: id,
         value: Number(quote?.quote ?? 0),
-      });
+      }).catch(() => console.error('GA4 tracking failed after quote status update.'));
     }
   } catch (error) {
     console.error('Error updating quote status:', error);
+    throw new Error('Impossible de mettre à jour le statut du devis.');
   }
 }
 
