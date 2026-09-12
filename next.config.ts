@@ -41,11 +41,12 @@ const securityHeaders = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.google.com https://*.gstatic.com https://www.googletagmanager.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "img-src 'self' blob: data: https://picsum.photos https://images.unsplash.com https://lh3.googleusercontent.com https://i.pravatar.cc https://*.googleusercontent.com https://firebasestorage.googleapis.com https://www.googletagmanager.com https://www.google.com",
+      // Google Ads image fallbacks and the French audience endpoint observed in production.
+      "img-src 'self' blob: data: https://picsum.photos https://images.unsplash.com https://lh3.googleusercontent.com https://i.pravatar.cc https://*.googleusercontent.com https://firebasestorage.googleapis.com https://www.googletagmanager.com https://www.google.com https://www.google.fr https://www.googleadservices.com",
       "font-src 'self' https://fonts.gstatic.com data:",
       isDev
         ? "connect-src 'self' ws: wss: http: https: https://*.firebaseio.com https://*.googleapis.com https://*.data.gouv.fr https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.google.com"
-        : "connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://*.data.gouv.fr https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.google.com",
+        : "connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://*.data.gouv.fr https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.google.com https://stats.g.doubleclick.net https://ad.doubleclick.net https://www.googleadservices.com",
       "frame-src 'self' https://*.firebaseapp.com https://accounts.google.com https://*.google.com",
       "object-src 'none'",
       "base-uri 'self'",
