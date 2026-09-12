@@ -99,6 +99,16 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: '/demenagement-enghien-95880',
+        destination: '/demenagement-enghien-les-bains-95880',
+        permanent: true,
+      },
+      {
+        source: "/demenagement-l'isle-adam-95290",
+        destination: '/demenagement-lisle-adam-95290',
+        permanent: true,
+      },
+      {
         source: '/dashboard/cabinets/new',
         destination: '/dashboard',
         permanent: true,

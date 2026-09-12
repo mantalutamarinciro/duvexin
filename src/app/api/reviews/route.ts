@@ -105,8 +105,8 @@ export async function GET() {
 
      return NextResponse.json({ 
        reviews: formattedReviews,
-       globalRating: result.rating || 4.9,
-       totalReviews: result.user_ratings_total || 250
+       globalRating: result.rating ?? 0,
+       totalReviews: result.user_ratings_total ?? 0
      });
 
   } catch (error) {

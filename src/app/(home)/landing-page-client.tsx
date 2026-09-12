@@ -31,6 +31,8 @@ import { TestimonialsSection } from "@/components/testimonials-section";
 import type { FormattedReview } from "@/app/api/reviews/route";
 import placeholders from "@/app/lib/placeholder-images.json";
 import { cn } from "@/lib/utils";
+import { blogPosts } from "@/lib/blog-posts";
+import { reviewSummary } from "@/lib/review-summary";
 
 /* ================== Data ================== */
 
@@ -162,32 +164,19 @@ const FORMULAS = [
   },
 ];
 
-const ARTICLES = [
-  {
-    title: "Combien de temps pour déménager ? Planning optimal",
-    date: "01 Mars 2026",
-    category: "Conseils",
-    href: "/blog",
-    image: placeholders["article-planning"].url,
-    hint: placeholders["article-planning"].hint,
-  },
-  {
-    title: "Coût d'un déménagement : réduire les frais",
-    date: "01 Mars 2026",
-    category: "Budget",
-    href: "/blog",
-    image: placeholders["article-cost"].url,
-    hint: placeholders["article-cost"].hint,
-  },
-  {
-    title: "5 étapes pour un déménagement réussi",
-    date: "01 Mars 2026",
-    category: "Guide",
-    href: "/blog/5-astuces-pour-un-demenagement-sans-stress",
-    image: placeholders["article-steps"].url,
-    hint: placeholders["article-steps"].hint,
-  },
-];
+const ARTICLES = ['6', '2', '1'].flatMap(id => {
+  const post = blogPosts.find(article => article.id === id);
+  return post ? [{
+    title: post.title,
+    date: new Intl.DateTimeFormat('fr-FR', {
+      day: '2-digit', month: 'long', year: 'numeric', timeZone: 'UTC',
+    }).format(new Date(post.date)),
+    category: post.category,
+    href: post.link,
+    image: post.imageUrl,
+    hint: post.aiHint,
+  }] : [];
+});
 
 /* ================== Motion presets ================== */
 
@@ -207,14 +196,15 @@ function formatZoneTitle(name: string) {
 
 export function LandingPageClient({
   reviews,
-  globalRating = 4.9,
-  totalReviews = 270,
+  globalRating = 0,
+  totalReviews = 0,
 }: {
   reviews: FormattedReview[];
   globalRating?: number;
   totalReviews?: number;
 }) {
   const safeReviews = reviews || [];
+  const summary = reviewSummary(globalRating, totalReviews);
   const reduceMotion = useReducedMotion();
 
   return (
@@ -246,15 +236,15 @@ export function LandingPageClient({
             className="max-w-3xl"
           >
             <div className="flex flex-wrap items-center gap-3">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 px-4 py-2 text-white shadow-xl">
+              {summary && <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 px-4 py-2 text-white shadow-xl">
                 <div className="flex text-amber-400">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-3.5 w-3.5 fill-current" />
                   ))}
                 </div>
-                <span className="text-sm font-bold">{globalRating.toFixed(1)}/5</span>
-                <span className="text-sm text-white/70 font-medium">• {totalReviews.toLocaleString("fr-FR")} avis Google</span>
-              </div>
+                <span className="text-sm font-bold">{summary.ratingValue.toFixed(1)}/5</span>
+                <span className="text-sm text-white/70 font-medium">• {summary.reviewCount.toLocaleString("fr-FR")} avis Google</span>
+              </div>}
               <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 px-4 py-2 text-white/90 shadow-lg">
                 <Clock className="h-4 w-4 text-primary" />
                 <span className="text-sm font-semibold">Devis sous 24h</span>

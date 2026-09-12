@@ -4,6 +4,7 @@ import type { PropsWithChildren } from "react";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://demenagementduvexin.fr/politique-confidentialite" },
   title: "Politique de Confidentialité | Déménagement du Vexin",
   description: "Découvrez comment nous protégeons vos données personnelles et respectons votre vie privée conformément au RGPD.",
 };

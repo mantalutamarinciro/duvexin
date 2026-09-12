@@ -3,6 +3,7 @@ import { LandingPageClient } from "./(home)/landing-page-client";
 import type { FormattedReview } from "@/app/api/reviews/route";
 import LandingLayout from "@/app/landing/layout";
 import Script from "next/script";
+import { reviewSummary } from "@/lib/review-summary";
 
 export const metadata: Metadata = {
   title: "Déménagement du Vexin | Déménageur premium, fiable et sans stress",
@@ -50,11 +51,6 @@ const localBusinessSchema = {
     ],
     "opens": "08:00",
     "closes": "19:00"
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.9",
-    "reviewCount": "270"
   }
 };
 
@@ -74,18 +70,23 @@ async function getReviews(): Promise<ReviewsApiResponse> {
     return await res.json();
   } catch {
     // Fallback gracieux si l'API est indisponible
-    return { reviews: [], globalRating: 4.9, totalReviews: 270 };
+    return { reviews: [], globalRating: 0, totalReviews: 0 };
   }
 }
 
 export default async function HomePage() {
   const { reviews, globalRating, totalReviews } = await getReviews();
+  const summary = reviewSummary(globalRating, totalReviews);
+  const schema = {
+    ...localBusinessSchema,
+    ...(summary ? { aggregateRating: { '@type': 'AggregateRating', ...summary } } : {}),
+  };
   return (
     <LandingLayout>
       <Script
         id="local-business-schema"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
       <LandingPageClient reviews={reviews} globalRating={globalRating} totalReviews={totalReviews} />
     </LandingLayout>

@@ -5,6 +5,8 @@ import { OISE_LOCATION_ROUTES } from '@/lib/oise-locations'
 const BASE_URL = 'https://demenagementduvexin.fr'
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  // Omit lastModified without a reliable editorial update date.
+  // A build date does not mean that every page's content changed.
   // 1. Pages statiques principales et nouveaux outils
   const staticPages = [
     '',
@@ -29,6 +31,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/demenagement-national',
     '/demenagement-international',
     '/demenagement-val-d-oise-95',
+    '/demenagement-hauts-de-seine-92',
+    '/demenagement-paris-75',
     '/demenagement-yvelines-78',
     '/demenagement-val-de-marne-94',
     '/demenagement-eure-27',
@@ -40,7 +44,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/demenagement-du-vexin-evreux',
   ].map((route) => ({
     url: `${BASE_URL}${route}`,
-    lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: route === '' ? 1 : route === '/devis-demenagement' ? 0.9 : 0.8,
   }))
@@ -61,7 +64,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/demenagement-france-andorre',
   ].map((route) => ({
     url: `${BASE_URL}${route}`,
-    lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
   }))
@@ -78,7 +80,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/demenagement-ile-de-france-rennes',
   ].map((route) => ({
     url: `${BASE_URL}${route}`,
-    lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
   }))
@@ -95,6 +96,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/demenagement-bezons-95870',
     '/demenagement-boulogne-billancourt-92100',
     '/demenagement-cachan-94230',
+    '/demenagement-cergy-95000',
     '/demenagement-caen-14000',
     '/demenagement-champigny-sur-marne-94500',
     '/demenagement-charenton-le-pont-94220',
@@ -157,7 +159,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/demenagement-vire-14500',
   ].map((route) => ({
     url: `${BASE_URL}${route}`,
-    lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.6,
   }))
@@ -165,7 +166,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // 5. Silo Oise (60)
   const oisePages = OISE_LOCATION_ROUTES.map((route) => ({
     url: `${BASE_URL}${route}`,
-    lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: route === '/demenagement-oise-60' ? 0.8 : 0.6,
   }))

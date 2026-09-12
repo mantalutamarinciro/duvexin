@@ -3,6 +3,7 @@ import type { PropsWithChildren } from "react";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://demenagementduvexin.fr/demenagement-france-andorre" },
   title: "Déménagement France → Andorre | Expert Douanes & Montagne | DemDuVexin",
   description: "Déménagement professionnel de la France vers l'Andorre. Expertise douanière complète, transport sécurisé en zone de montagne et service premium. Devis gratuit.",
 };
