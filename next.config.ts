@@ -99,6 +99,16 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: '/demande-de-devis',
+        destination: '/demande-devis',
+        permanent: true,
+      },
+      {
+        source: '/zones',
+        destination: '/zones-intervention',
+        permanent: true,
+      },
+      {
         source: '/demenagement-enghien-95880',
         destination: '/demenagement-enghien-les-bains-95880',
         permanent: true,

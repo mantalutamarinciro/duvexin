@@ -115,7 +115,7 @@ export default function TavernyPage() {
           <nav className="flex items-center text-xs font-medium text-slate-400 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-2" />
-            <Link href="/zones" className="hover:text-white transition-colors">Val-d'Oise (95)</Link>
+            <Link href="/zones-intervention" className="hover:text-white transition-colors">Val-d'Oise (95)</Link>
             <ChevronRight className="h-3 w-3 mx-2" />
             <span className="text-white">Taverny</span>
           </nav>

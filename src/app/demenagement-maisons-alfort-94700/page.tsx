@@ -115,7 +115,7 @@ export default function MaisonsAlfortPage() {
           <nav className="flex items-center text-xs font-medium text-slate-400 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-2" />
-            <Link href="/zones" className="hover:text-white transition-colors">Val-de-Marne (94)</Link>
+            <Link href="/zones-intervention" className="hover:text-white transition-colors">Val-de-Marne (94)</Link>
             <ChevronRight className="h-3 w-3 mx-2" />
             <span className="text-white">Maisons-Alfort</span>
           </nav>
@@ -139,7 +139,7 @@ export default function MaisonsAlfortPage() {
             
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="rounded-full h-14 px-8 text-base bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
-                <Link href="/demande-de-devis">
+                <Link href="/demande-devis">
                   Obtenir mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
@@ -320,7 +320,7 @@ export default function MaisonsAlfortPage() {
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
-                       <Link href="/demande-de-devis">
+                       <Link href="/demande-devis">
                           Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>

@@ -129,7 +129,7 @@ export default function PrivacyPolicyPage() {
                 </div>
               </div>
               <Button asChild variant="outline" className="rounded-full border-slate-200">
-                <Link href="/contact">Poser une question</Link>
+                <a href="mailto:demenagementduvexin@gmail.com">Poser une question par e-mail</a>
               </Button>
             </div>
 

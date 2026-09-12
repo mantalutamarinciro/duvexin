@@ -226,7 +226,7 @@ export default function DemenagementEntreprisePage() {
               </p>
             </div>
             <Button variant="outline" className="rounded-full h-12 px-8 font-bold border-slate-200 text-slate-700 hover:text-[#00ad9f] hover:bg-[#00ad9f]/5" asChild>
-              <Link href="/contact">Parler à un conseiller B2B</Link>
+              <a href="mailto:demenagementduvexin@gmail.com">Contacter un conseiller B2B par e-mail</a>
             </Button>
           </div>
           

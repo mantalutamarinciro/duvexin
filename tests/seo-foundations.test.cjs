@@ -43,6 +43,8 @@ test('sitemap includes priority pages, unique URLs and existing public routes', 
 test('legacy local URLs redirect permanently to existing pages without chains', async () => {
   const redirects = await load('next.config.ts').default.redirects();
   for (const [source, destination] of [
+    ['/demande-de-devis', '/demande-devis'],
+    ['/zones', '/zones-intervention'],
     ['/demenagement-enghien-95880', '/demenagement-enghien-les-bains-95880'],
     ["/demenagement-l'isle-adam-95290", '/demenagement-lisle-adam-95290'],
   ]) {
@@ -139,5 +141,44 @@ test('homepage has a local heading and links to all three priority towns', () =>
   assert.match(source, /<h1[\s\S]*?Votre déménageur[\s\S]*?dans le Val-d’Oise[\s\S]*?<\/h1>/);
   for (const route of ['demenagement-mery-sur-oise-95540', 'demenagement-cergy-95000', 'demenagement-pontoise-95300']) {
     assert.ok(source.includes(`href="/${route}"`));
+  }
+});
+
+test('public pages never link to the broken quote and zone aliases', () => {
+  const { readdirSync } = require('node:fs');
+  function walk(directory) {
+    return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+      const file = path.join(directory, entry.name);
+      return entry.isDirectory() ? walk(file) : [file];
+    });
+  }
+  for (const file of walk(path.join(root, 'src/app')).filter(file => file.endsWith('.tsx'))) {
+    assert.doesNotMatch(readFileSync(file, 'utf8'), /href\s*=\s*["']\/(demande-de-devis|zones)["']/, file);
+  }
+});
+
+test('Essonne preserves twelve towns without links to nonexistent city pages', () => {
+  const source = readFileSync(path.join(root, 'src/app/demenagement-essonne-91/page.tsx'), 'utf8');
+  const tree = ts.createSourceFile('essonne.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+  const statement = tree.statements.find(item => ts.isVariableStatement(item) &&
+    item.declarationList.declarations.some(d => d.name.getText(tree) === 'ESSONNE_CITIES'));
+  const cities = statement.declarationList.declarations[0].initializer;
+  assert.ok(ts.isArrayLiteralExpression(cities));
+  assert.equal(cities.elements.length, 12);
+  assert.ok(cities.elements.every(item => ts.isStringLiteral(item)));
+  assert.equal(new Set(cities.elements.map(item => item.text)).size, 12);
+  assert.ok(!source.includes('href={city.link}'));
+  assert.ok(source.includes('Demander un devis pour l’Essonne'));
+});
+
+test('question links use the published contact email instead of a missing contact page', () => {
+  const email = 'mailto:demenagementduvexin@gmail.com';
+  assert.ok(readFileSync(path.join(root, 'src/app/mentions-legales/page.tsx'), 'utf8').includes(email));
+  for (const route of ['politique-confidentialite', 'demenagement-entreprise-bureau',
+    'blog/comment-choisir-la-bonne-formule-de-demenagement',
+    'blog/demenager-avec-des-enfants-nos-conseils-pour-une-transition-en-douceur']) {
+    const source = readFileSync(path.join(root, 'src/app', route, 'page.tsx'), 'utf8');
+    assert.ok(source.includes(`href="${email}"`), route);
+    assert.ok(!source.includes('href="/contact"'), route);
   }
 });

@@ -125,7 +125,7 @@ export default function AntonyPage() {
             
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
-                <Link href="/demande-de-devis">
+                <Link href="/demande-devis">
                   Obtenir mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>

@@ -139,7 +139,7 @@ export default function CachanPage() {
             
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
-                <Link href="/demande-de-devis">
+                <Link href="/demande-devis">
                   Obtenir mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
@@ -325,7 +325,7 @@ export default function CachanPage() {
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
-                       <Link href="/demande-de-devis">
+                       <Link href="/demande-devis">
                           Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>

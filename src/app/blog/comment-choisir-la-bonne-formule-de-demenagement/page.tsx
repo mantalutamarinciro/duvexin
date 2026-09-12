@@ -507,9 +507,9 @@ export default function ArticleFormulas() {
                     nos conseils déménagement
                   </Link>
                   {" • "}
-                  <Link className="underline hover:text-slate-900" href="/contact">
-                    poser une question
-                  </Link>
+                  <a className="underline hover:text-slate-900" href="mailto:demenagementduvexin@gmail.com">
+                    poser une question par e-mail
+                  </a>
                 </div>
               </div>
             </CardContent>

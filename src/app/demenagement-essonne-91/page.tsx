@@ -35,18 +35,9 @@ export const metadata: Metadata = {
 };
 
 const ESSONNE_CITIES = [
-  { name: "Évry-Courcouronnes", link: "/demenagement-evry-91000"},
-  { name: "Corbeil-Essonnes", link: "/demenagement-corbeil-essonnes-91100"},
-  { name: "Massy", link: "/demenagement-massy-91300"},
-  { name: "Savigny-sur-Orge", link: "/demenagement-savigny-sur-orge-91600"},
-  { name: "Sainte-Geneviève-des-Bois", link: "/demenagement-sainte-genevieve-des-bois-91700"},
-  { name: "Palaiseau", link: "/demenagement-palaiseau-91120"},
-  { name: "Athis-Mons", link: "/demenagement-athis-mons-91200"},
-  { name: "Vigneux-sur-Seine", link: "/demenagement-vigneux-sur-seine-91270"},
-  { name: "Draveil", link: "/demenagement-draveil-91210"},
-  { name: "Grigny", link: "/demenagement-grigny-91350"},
-  { name: "Brétigny-sur-Orge", link: "/demenagement-bretigny-sur-orge-91220"},
-  { name: "Étampes", link: "/demenagement-etampes-91150"}
+  "Évry-Courcouronnes", "Corbeil-Essonnes", "Massy", "Savigny-sur-Orge",
+  "Sainte-Geneviève-des-Bois", "Palaiseau", "Athis-Mons", "Vigneux-sur-Seine",
+  "Draveil", "Grigny", "Brétigny-sur-Orge", "Étampes",
 ];
 
 const WHY_US_ITEMS = [
@@ -247,17 +238,17 @@ export default function EssonnePage() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {ESSONNE_CITIES.sort((a,b) => a.name.localeCompare(b.name)).map((city) => (
-              <Link 
-                key={city.name} 
-                href={city.link}
-                className="group flex items-center justify-between bg-white/5 border border-white/10 p-5 rounded-2xl hover:bg-[#00ad9f]/20 hover:border-[#00ad9f]/50 transition-all duration-300 backdrop-blur-sm"
-              >
-                <span className="font-semibold text-slate-200 group-hover:text-white transition-colors">{city.name}</span>
-                <ArrowRight className="h-5 w-5 text-slate-500 group-hover:text-white group-hover:translate-x-1 transition-all" />
-              </Link>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {[...ESSONNE_CITIES].sort((a,b) => a.localeCompare(b, 'fr')).map((city) => (
+              <li key={city} className="bg-white/5 border border-white/10 p-5 rounded-2xl font-semibold text-slate-200">
+                {city}
+              </li>
             ))}
+          </ul>
+          <div className="mt-8">
+            <Button asChild className="bg-[#00ad9f] text-white hover:bg-[#009286] rounded-full">
+              <Link href="/demande-devis">Demander un devis pour l’Essonne <ArrowRight className="ml-2 h-4 w-4" /></Link>
+            </Button>
           </div>
         </div>
       </section>
