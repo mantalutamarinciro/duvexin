@@ -169,7 +169,7 @@ export default function OrnePage() {
               
               <div className="pt-6">
                 <Button asChild variant="outline" className="rounded-full border-[#00ad9f] text-[#00ad9f] hover:bg-[#00ad9f] hover:text-white transition-all">
-                  <Link href="/notre-agence-evreux">Découvrir notre agence régionale</Link>
+                  <Link href="/demenagement-du-vexin-evreux">Découvrir notre agence régionale</Link>
                 </Button>
               </div>
             </div>

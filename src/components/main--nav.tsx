@@ -70,7 +70,7 @@ export function MainNav() {
             <NavigationMenuList>
                 <NavigationMenuItem>
                     <NavigationMenuLink asChild>
-                        <Link href="/landing" className={navigationMenuTriggerStyle()}>
+                        <Link href="/" className={navigationMenuTriggerStyle()}>
                             Accueil
                         </Link>
                     </NavigationMenuLink>
@@ -132,9 +132,9 @@ export function MainNav() {
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                    <NavigationMenuLink asChild>
-                        <Link href="/landing#contact" className={navigationMenuTriggerStyle()}>
-                            Contact
-                        </Link>
+                        <a href="mailto:demenagementduvexin@gmail.com" className={navigationMenuTriggerStyle()}>
+                            Contact par e-mail
+                        </a>
                     </NavigationMenuLink>
                 </NavigationMenuItem>
             </NavigationMenuList>

@@ -306,7 +306,7 @@ export default function ParisPage() {
               </ul>
               <div className="pt-4">
                 <Button asChild variant="outline" className="rounded-full h-14 px-8 font-bold border-slate-200 text-slate-700 hover:text-[#00ad9f] hover:border-[#00ad9f] hover:bg-[#00ad9f]/5 transition-all">
-                   <Link href="/services/monte-meubles">Découvrir notre service Monte-Meubles</Link>
+                   <Link href="/demenagement-objets-lourds">Découvrir nos solutions de manutention et de levage</Link>
                 </Button>
               </div>
             </div>

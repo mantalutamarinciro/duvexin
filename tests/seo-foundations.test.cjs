@@ -182,3 +182,19 @@ test('question links use the published contact email instead of a missing contac
     assert.ok(!source.includes('href="/contact"'), route);
   }
 });
+
+test('remaining audited service and agency links resolve to existing pages', () => {
+  for (const [route, destination, oldPath] of [
+    ['demenagement-paris-75', 'demenagement-objets-lourds', '/services/monte-meubles'],
+    ['demenagement-orne-61', 'demenagement-du-vexin-evreux', '/notre-agence-evreux'],
+  ]) {
+    const source = readFileSync(path.join(root, 'src/app', route, 'page.tsx'), 'utf8');
+    assert.ok(source.includes(`href="/${destination}"`));
+    assert.ok(!source.includes(`href="${oldPath}"`));
+    assert.ok(existsSync(path.join(root, 'src/app', destination, 'page.tsx')));
+  }
+  const nav = readFileSync(path.join(root, 'src/components/main--nav.tsx'), 'utf8');
+  assert.ok(!nav.includes('href="/landing'));
+  assert.ok(nav.includes('href="/"'));
+  assert.ok(nav.includes('href="mailto:demenagementduvexin@gmail.com"'));
+});
