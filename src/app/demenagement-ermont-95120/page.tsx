@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
+import { LocalMovingGuide } from "@/components/local-moving-guide";
 
 // UI Components
 import { Button } from "@/components/ui/button";
@@ -116,7 +117,7 @@ export default function ErmontPage() {
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
-            <Link href="/zones-intervention" className="hover:text-white transition-colors">Val-d'Oise (95)</Link>
+            <Link href="/demenagement-val-d-oise-95" className="hover:text-white transition-colors">Val-d'Oise (95)</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
             <span className="text-[#00ad9f]">Ermont</span>
           </nav>
@@ -275,6 +276,8 @@ export default function ErmontPage() {
 
       {/* --- AVIS CLIENTS --- */}
       <TestimonialsSection reviews={fallbackTestimonials} />
+
+      <LocalMovingGuide city="ermont" />
 
       {/* --- FAQ --- */}
       <section id="faq-ermont" className="py-24 bg-slate-50">

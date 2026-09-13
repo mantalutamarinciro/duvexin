@@ -66,9 +66,12 @@ test('audited layouts declare a self-referencing canonical', () => {
   }
 });
 
-test('Cergy breadcrumb links to its department', () => {
-  const source = readFileSync(path.join(root, 'src/app/demenagement-cergy-95000/page.tsx'), 'utf8');
-  assert.match(source, /href="\/demenagement-val-d-oise-95"[^>]*>Val-d'Oise \(95\)<\/Link>/);
+test('priority town breadcrumbs link to their department', () => {
+  for (const route of ['demenagement-cergy-95000', 'demenagement-herblay-sur-seine-95220',
+    'demenagement-cormeilles-en-parisis-95240', 'demenagement-ermont-95120']) {
+    const source = readFileSync(path.join(root, 'src/app', route, 'page.tsx'), 'utf8');
+    assert.match(source, /href="\/demenagement-val-d-oise-95"[^>]*>Val-d'Oise \(95\)<\/Link>/);
+  }
 });
 
 test('review statistics are validated and unknown values are never invented', () => {
@@ -119,7 +122,9 @@ test('local guides render distinct content and links to existing pages', () => {
   vm.runInNewContext(compiled, context);
   const rendered = [];
   for (const [city, route] of [['mery', 'demenagement-mery-sur-oise-95540'],
-    ['cergy', 'demenagement-cergy-95000'], ['pontoise', 'demenagement-pontoise-95300']]) {
+    ['cergy', 'demenagement-cergy-95000'], ['pontoise', 'demenagement-pontoise-95300'],
+    ['herblay', 'demenagement-herblay-sur-seine-95220'],
+    ['cormeilles', 'demenagement-cormeilles-en-parisis-95240'], ['ermont', 'demenagement-ermont-95120']]) {
     const html = renderToStaticMarkup(React.createElement(context.exports.LocalMovingGuide, { city }));
     rendered.push(html);
     assert.ok(html.includes(`id="moving-guide-${city}"`));
@@ -132,7 +137,7 @@ test('local guides render distinct content and links to existing pages', () => {
     assert.ok(page.includes(`<LocalMovingGuide city="${city}" />`));
     assert.ok(!page.includes('/demande-de-devis'));
   }
-  assert.equal(new Set(rendered).size, 3);
+  assert.equal(new Set(rendered).size, 6);
 });
 
 test('homepage has a local heading and links to all three priority towns', () => {
