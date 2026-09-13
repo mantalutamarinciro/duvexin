@@ -98,6 +98,31 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Exact legacy URLs reported by Search Console on 2026-09-13.
+      // Do not redirect missing towns or obsolete WordPress assets wholesale.
+      ...[
+        ['/demenagement-idf-lyon', '/demenagement-ile-de-france-lyon'],
+        ['/demenagement-idf-bordeaux', '/demenagement-ile-de-france-bordeaux'],
+        ['/demenagement-idf-lille', '/demenagement-ile-de-france-lille'],
+        ['/demenagement-idf-strasbourg', '/demenagement-ile-de-france-strasbourg'],
+        ['/demenagement-idf-toulouse', '/demenagement-ile-de-france-toulouse'],
+        ['/demenagement-paris-marseille', '/demenagement-ile-de-france-marseille'],
+        ['/demenagement-paris-nice', '/demenagement-ile-de-france-nice'],
+        ['/blog/emballer-objets-fragiles-demenagement', '/blog/le-guide-ultime-pour-emballer-vos-objets-fragiles'],
+        ['/blog/demenager-avec-enfants-transition-douce', '/blog/demenager-avec-des-enfants-nos-conseils-pour-une-transition-en-douceur'],
+        ['/blog/checklist-demenagement-30j-7j-48h-jour-j', '/blog/checklist-demenagement'],
+        ['/demenagement-verneuil-d-avre-et-d-iton-27130', '/demenagement-verneuil-davre-et-diton-27130'],
+        ['/demenagement-transport-objets-lourds', '/demenagement-objets-lourds'],
+        ['/formules-demenagement', '/formules-de-demenagement'],
+        ['/calcul-volume-demenagement', '/calculateur-volume'],
+        ['/demenagement-val-d-oise', '/demenagement-val-d-oise-95'],
+        ['/demenagement-local-val-d-oise', '/demenagement-val-d-oise-95'],
+        ['/demenagement-oeuvres-d-art', '/demenagement-oeuvres-art'],
+        ['/devis', '/demande-devis'],
+        ['/politique-de-confidentialite', '/politique-confidentialite'],
+        ['/stockage-garde-meubles-val-d-oise', '/demenagement-garde-meubles'],
+        ['/duvexin2025/services', '/services'],
+      ].map(([source, destination]) => ({ source, destination, permanent: true })),
       {
         source: '/demande-de-devis',
         destination: '/demande-devis',

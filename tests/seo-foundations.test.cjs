@@ -198,3 +198,19 @@ test('remaining audited service and agency links resolve to existing pages', () 
   assert.ok(nav.includes('href="/"'));
   assert.ok(nav.includes('href="mailto:demenagementduvexin@gmail.com"'));
 });
+
+test('legacy redirects have unique sources, existing destinations and no chains', async () => {
+  const redirects = await load('next.config.ts').default.redirects();
+  assert.equal(new Set(redirects.map(item => item.source)).size, redirects.length);
+  for (const item of redirects) {
+    assert.equal(item.permanent, true);
+    assert.notEqual(item.source, item.destination);
+    assert.ok(existsSync(path.join(root, 'src/app', item.destination, 'page.tsx')), item.destination);
+    assert.ok(!redirects.some(other => other.source === item.destination), item.source);
+  }
+  for (const missing of ['/demenagement-evry-91000', '/demenagement-massy-91300', '/wp-content/:path*']) {
+    assert.ok(!redirects.some(item => item.source === missing));
+  }
+  assert.ok(redirects.some(item => item.source === '/calcul-volume-demenagement' && item.destination === '/calculateur-volume'));
+  assert.ok(redirects.some(item => item.source === '/devis' && item.destination === '/demande-devis'));
+});
