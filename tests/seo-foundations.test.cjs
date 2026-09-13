@@ -74,6 +74,31 @@ test('priority town breadcrumbs link to their department', () => {
   }
 });
 
+test('Val-de-Marne pages use coherent offers and qualified FAQ answers', () => {
+  for (const route of ['demenagement-nogent-sur-marne-94130', 'demenagement-vitry-sur-seine-94400']) {
+    const source = readFileSync(path.join(root, 'src/app', route, 'page.tsx'), 'utf8');
+    assert.match(source, /href="\/demenagement-val-de-marne-94"[^>]*>Val-de-Marne \(94\)<\/Link>/);
+    assert.ok(source.includes(`canonical: "https://demenagementduvexin.fr/${route}"`));
+    assert.doesNotMatch(source, /24h|48h|30%|Confort|sécurité absolue|15 jours|emplacement exclusif/);
+    // Both the visible accordion and JSON-LD must continue to use the same answers.
+    assert.equal((source.match(/FAQS\.map\(/g) || []).length, 2);
+    const ast = ts.createSourceFile('page.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+    const declaration = ast.statements.filter(ts.isVariableStatement)
+      .flatMap(statement => Array.from(statement.declarationList.declarations))
+      .find(declaration => declaration.name.getText(ast) === 'FAQS');
+    assert.ok(declaration && ts.isArrayLiteralExpression(declaration.initializer));
+    assert.equal(declaration.initializer.elements.length, 4);
+    for (const entry of declaration.initializer.elements) {
+      assert.ok(ts.isObjectLiteralExpression(entry));
+      for (const key of ['question', 'answer']) {
+        const property = entry.properties.find(property => property.name?.getText(ast) === key);
+        assert.ok(property && ts.isStringLiteral(property.initializer));
+        assert.ok(property.initializer.text.length > 20);
+      }
+    }
+  }
+});
+
 test('review statistics are validated and unknown values are never invented', () => {
   const { reviewSummary } = load('src/lib/review-summary.ts');
   assert.equal(reviewSummary(4.9, 282).ratingValue, 4.9);

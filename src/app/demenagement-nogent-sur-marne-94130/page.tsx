@@ -27,7 +27,7 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Nogent-sur-Marne (94) | Expert local & Devis Gratuit",
-  description: "Déménageur de confiance à Nogent-sur-Marne (94130). Spécialiste bords de Marne, appartements de standing et pavillons. Devis gratuit sous 24h et visite technique.",
+  description: "Préparez votre déménagement à Nogent-sur-Marne (94130) : accès au logement, protection des objets fragiles et choix de formule. Demandez un devis gratuit.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-nogent-sur-marne-94130",
   }
@@ -65,19 +65,19 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Comment gérez-vous un déménagement dans le centre de Nogent ?", 
-    answer: "Le centre de Nogent possède des rues très étroites et un stationnement fortement réglementé. Nous réalisons systématiquement une étude d'accès pour choisir le gabarit de camion idéal. Nous gérons l'arrêté municipal environ 15 jours en amont pour bloquer l'espace nécessaire au pied de votre porte." 
+    answer: "Précisez l'étage, la largeur des passages et la distance entre la rue et votre porte. Des photos des accès permettent de préparer le choix du véhicule et la manutention. Si une autorisation de stationnement est nécessaire, faites confirmer les démarches, les délais et leur prise en charge lors de la préparation du devis."
   },
   { 
     question: "Proposez-vous l'emballage complet pour les objets de valeur ?", 
-    answer: "Oui, notre formule 'Prestige' inclut l'emballage intégral de vos effets les plus fragiles (vaisselle, miroirs, tableaux de maître) avec des matériaux haute protection (bullkraft renforcé, caisses sur-mesure). Vos biens voyagent en sécurité absolue." 
+    answer: "La formule Prestige prévoit l'emballage de vos effets. Signalez séparément les tableaux, miroirs, sculptures et meubles anciens, avec leurs dimensions et leurs particularités. Faites préciser au devis les protections et les éventuels emballages spécifiques nécessaires à ces objets."
   },
   { 
     question: "Est-il nécessaire d'utiliser un monte-meubles à Nogent ?", 
-    answer: "Pour les appartements en étage sans ascenseur large (fréquent dans les immeubles anciens du centre), le monte-meubles extérieur est très souvent indispensable. Il sécurise votre mobilier, préserve les parties communes de la copropriété et accélère l'opération d'environ 30%." 
+    answer: "Pas systématiquement. Comparez les dimensions des meubles avec celles des portes, de l'escalier et de l'ascenseur. Si le passage intérieur est insuffisant, une solution extérieure peut être étudiée selon les ouvertures du logement, l'espace disponible pour l'installation et les autorisations nécessaires."
   },
   { 
     question: "Quel est le délai pour obtenir une visite technique ?", 
-    answer: "Grâce à notre présence constante dans le Val-de-Marne, nous pouvons intervenir sous 48h pour une visite à votre domicile, ou organiser une visio-évaluation immédiate depuis votre smartphone pour vous fournir un devis gratuit et ferme." 
+    answer: "Le rendez-vous dépend des disponibilités et de votre projet. Indiquez vos dates souhaitées, les adresses de départ et d'arrivée, ainsi qu'un premier inventaire. L'équipe pourra alors vous confirmer les modalités et le créneau d'évaluation, sans présumer d'un délai fixe."
   }
 ];
 
@@ -114,7 +114,7 @@ export default function NogentSurMarnePage() {
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
-            <Link href="/zones-intervention" className="hover:text-white transition-colors">Val-de-Marne (94)</Link>
+            <Link href="/demenagement-val-de-marne-94" className="hover:text-white transition-colors">Val-de-Marne (94)</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
             <span className="text-[#00ad9f]">Nogent-sur-Marne</span>
           </nav>
@@ -319,13 +319,13 @@ export default function NogentSurMarnePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique ternir votre projet dans ce cadre privilégié. Contactez nos équipes expertes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Décrivez votre logement, les accès et les objets à transporter pour préparer votre déménagement et recevoir un devis gratuit adapté à votre projet.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

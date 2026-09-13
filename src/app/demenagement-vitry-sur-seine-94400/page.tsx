@@ -26,7 +26,7 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Vitry-sur-Seine (94) | Devis Gratuit & Rapide",
-  description: "Déménageur expert à Vitry-sur-Seine. Nous gérons les accès difficiles, les grands ensembles et le transport de vos biens avec soin. Devis en 24h.",
+  description: "Organisez votre déménagement à Vitry-sur-Seine (94400) : accès en résidence, inventaire et protection du mobilier. Comparez les formules et demandez un devis gratuit.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-vitry-sur-seine-94400",
   }
@@ -62,10 +62,10 @@ const WHY_US_ITEMS = [
 ];
 
 const FAQS = [
-  { question: "Comment se déroule un déménagement dans un grand immeuble à Vitry ?", answer: "La préparation est la clé. Nous effectuons une visite technique préalable pour évaluer la situation, nous nous renseignons sur le règlement de copropriété pour les horaires et nous réservons les ascenseurs ou un emplacement pour notre monte-meubles." },
-  { question: "Le stationnement est-il difficile à obtenir pour un camion à Vitry ?", answer: "Le stationnement en ville dense est un défi, mais c'est notre métier. Pour nos formules Standard et Confort, nous nous occupons de la demande d'autorisation auprès de la mairie bien à l'avance pour vous garantir un emplacement exclusif le jour J." },
-  { question: "J'ai des œuvres d'art à déménager, avez-vous une expertise ?", answer: "Oui, Vitry-sur-Seine est reconnue pour son dynamisme artistique. Nous avons l'habitude de manipuler des toiles, des sculptures et du matériel d'atelier. Nous utilisons des emballages spécifiques (papier de soie, bullkraft, caisses en bois) pour une protection maximale." },
-  { question: "Quelles sont vos formules pour un petit appartement ?", answer: "Nous proposons des formules totalement flexibles. Notre formule 'Économique' (où vous emballez vos cartons et nous gérons le portage et le transport) est très appréciée des étudiants et jeunes actifs pour maîtriser les coûts tout en confiant la manutention lourde à des pros." }
+  { question: "Comment préparer un déménagement dans un grand immeuble à Vitry ?", answer: "Indiquez le bâtiment, l'étage, les dimensions de l'ascenseur et la distance entre l'entrée et l'emplacement possible du camion. Vérifiez auprès du gestionnaire les consignes d'accès, les horaires et les badges nécessaires. Signalez aussi les meubles qui ne passent pas dans l'ascenseur pour étudier leur manutention." },
+  { question: "Comment préparer le stationnement du camion à Vitry ?", answer: "Décrivez l'emplacement envisagé et les contraintes connues à votre adresse. Si une autorisation est nécessaire, faites préciser les démarches, les délais et leur responsable avant le déménagement. La disponibilité d'un emplacement ne doit pas être considérée comme acquise avant confirmation." },
+  { question: "Quelles informations fournir pour des œuvres ou du matériel d'atelier ?", answer: "Joignez un inventaire avec les dimensions, le poids estimé et la fragilité de chaque pièce. Précisez ce qui peut être démonté et ce qui nécessite une protection particulière. Les modalités d'emballage et de manutention doivent être définies avec l'équipe et précisées au devis." },
+  { question: "Quelles sont vos formules pour un petit appartement ?", answer: "Comparez les formules Économique, Standard et Prestige selon les tâches que vous souhaitez réaliser. En Économique, vous préparez vos cartons ; le chargement, le transport et le déchargement sont pris en charge. Standard ajoute notamment le démontage du mobilier et l'emballage du fragile ; Prestige prévoit l'emballage complet. Consultez le détail des prestations pour choisir à partir du même inventaire." }
 ];
 
 const faqStructuredData = {
@@ -101,7 +101,7 @@ export default function VitrySurSeinePage() {
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
-            <Link href="/zones-intervention" className="hover:text-white transition-colors">Val-de-Marne (94)</Link>
+            <Link href="/demenagement-val-de-marne-94" className="hover:text-white transition-colors">Val-de-Marne (94)</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
             <span className="text-[#00ad9f]">Vitry-sur-Seine</span>
           </nav>
@@ -243,7 +243,7 @@ export default function VitrySurSeinePage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Formules Modulables</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">De la location de camion avec chauffeur-déménageur à la prestation "Confort" clé en main pour un gain de temps absolu.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Comparez nos formules Économique, Standard et Prestige selon vos besoins en emballage, démontage du mobilier et transport.</p>
                   </div>
                 </li>
               </ul>
