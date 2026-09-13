@@ -49,13 +49,17 @@ const VAL_D_OISE_CITIES = [
   { name: "Enghien-les-Bains", link: "/demenagement-enghien-les-bains-95880" },
   { name: "Ermont", link: "/demenagement-ermont-95120" },
   { name: "Franconville", link: "/demenagement-franconville-95130" },
+  { name: "Garges-lès-Gonesse", link: "/demenagement-garges-les-gonesse-95140" },
+  { name: "Goussainville", link: "/demenagement-goussainville-95190" },
   { name: "Herblay-sur-Seine", link: "/demenagement-herblay-sur-seine-95220" },
   { name: "L'Isle-Adam", link: "/demenagement-lisle-adam-95290" },
+  { name: "Méry-sur-Oise", link: "/demenagement-mery-sur-oise-95540" },
   { name: "Montmorency", link: "/demenagement-montmorency-95160" },
   { name: "Pontoise", link: "/demenagement-pontoise-95300" },
   { name: "Saint-Ouen-l'Aumône", link: "/demenagement-saint-ouen-l-aumone-95310" },
   { name: "Sarcelles", link: "/demenagement-sarcelles-95200" },
   { name: "Taverny", link: "/demenagement-taverny-95150" },
+  { name: "Villiers-le-Bel", link: "/demenagement-villiers-le-bel-95400" },
 ];
 
 const WHY_US_ITEMS = [
