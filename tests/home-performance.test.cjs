@@ -21,5 +21,13 @@ test('hero is visible on first render and its mobile source loads eagerly', () =
   assert.ok(source.includes('srcSet="/images/optimized/hero-mobile.webp"'));
   assert.ok(source.includes('fetchPriority="high"'));
   assert.ok(source.includes('loading="eager"'));
-  assert.match(source, /<motion\.div\s+initial=\{false\}\s+className="max-w-3xl"/);
+  assert.match(source, /<div\s+className="max-w-3xl"/);
+});
+test('static homepage stays server-rendered without animation hydration', () => {
+  const source = fs.readFileSync(path.join(root, 'src/app/(home)/landing-page-client.tsx'), 'utf8');
+  assert.doesNotMatch(source, /["']use client["']/);
+  assert.doesNotMatch(source, /framer-motion|useReducedMotion|whileInView|<motion\./);
+  assert.ok(source.includes('<TestimonialsSection reviews={safeReviews} />'));
+  assert.ok(source.includes('href="/demande-devis"'));
+  assert.ok(source.includes('group-hover:'), 'CSS hover styling stays intact');
 });

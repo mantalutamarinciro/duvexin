@@ -1,10 +1,7 @@
 
-"use client";
 
-import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   Star,
@@ -178,15 +175,6 @@ const ARTICLES = ['6', '2', '1'].flatMap(id => {
   }] : [];
 });
 
-/* ================== Motion presets ================== */
-
-const fadeInUp = {
-  initial: { opacity: 0, y: 26 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-};
-
 function formatZoneTitle(name: string) {
   const parts = name.split(" ");
   return { first: parts[0] ?? name, rest: parts.slice(1).join(" ") };
@@ -205,7 +193,6 @@ export function LandingPageClient({
 }) {
   const safeReviews = reviews || [];
   const summary = reviewSummary(globalRating, totalReviews);
-  const reduceMotion = useReducedMotion();
 
   return (
     <div className="bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 selection:bg-primary/20 selection:text-primary">
@@ -230,8 +217,7 @@ export function LandingPageClient({
         </div>
 
         <div className="container relative z-10 pt-32 pb-20 md:pt-44 md:pb-24 lg:pt-52">
-          <motion.div
-            initial={false}
+          <div
             className="max-w-3xl"
           >
             <div className="flex flex-wrap items-center gap-3">
@@ -286,22 +272,19 @@ export function LandingPageClient({
             </div>
 
             <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {TRUST_POINTS.map((item, i) => (
-                <motion.div
+              {TRUST_POINTS.map((item) => (
+                <div
                   key={item.label}
-                  initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-                  animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-                  transition={{ delay: 0.15 + i * 0.08, duration: 0.45 }}
                   className="flex items-center gap-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-4 hover:bg-white/10 transition-colors"
                 >
                   <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center shrink-0">
                     <item.icon className="h-5 w-5 text-primary" />
                   </div>
                   <span className="text-sm font-bold text-white leading-tight">{item.label}</span>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
 
         <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white dark:from-slate-950 to-transparent" />
@@ -346,11 +329,9 @@ export function LandingPageClient({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-            {SERVICES.map((service, idx) => (
-              <motion.div
+            {SERVICES.map((service) => (
+              <div
                 key={service.title}
-                {...fadeInUp}
-                transition={{ delay: idx * 0.08, ...fadeInUp.transition }}
                 className={cn(
                   "group relative overflow-hidden rounded-[3rem] bg-white dark:bg-slate-800 shadow-xl hover:shadow-2xl transition-all duration-500 min-h-[420px]",
                   service.colSpan
@@ -379,7 +360,7 @@ export function LandingPageClient({
                     En savoir plus <ArrowRight className="w-4 h-4" />
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -401,11 +382,9 @@ export function LandingPageClient({
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {FORMULAS.map((formula, i) => (
-              <motion.div
+            {FORMULAS.map((formula) => (
+              <div
                 key={formula.title}
-                {...fadeInUp}
-                transition={{ delay: i * 0.08, ...fadeInUp.transition }}
                 className={cn(
                   "relative rounded-[2.5rem] p-8 border-2 bg-white dark:bg-slate-900 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 flex flex-col group",
                   formula.popular 
@@ -462,7 +441,7 @@ export function LandingPageClient({
                 >
                   <Link href="/demande-devis">Choisir</Link>
                 </Button>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -489,15 +468,11 @@ export function LandingPageClient({
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {IDF_ZONES.map((zone, idx) => {
+            {IDF_ZONES.map((zone) => {
               const t = formatZoneTitle(zone.name);
               return (
-                <motion.div
+                <div
                   key={zone.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.05, duration: 0.5 }}
                 >
                   <Link
                     href={zone.href}
@@ -528,7 +503,7 @@ export function LandingPageClient({
                       <ArrowUpRight className="w-5 h-5 text-white" />
                     </div>
                   </Link>
-                </motion.div>
+                </div>
               );
             })}
           </div>
@@ -564,11 +539,9 @@ export function LandingPageClient({
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {ARTICLES.map((article, i) => (
-              <motion.div
+            {ARTICLES.map((article) => (
+              <div
                 key={article.title}
-                {...fadeInUp}
-                transition={{ delay: i * 0.1, ...fadeInUp.transition }}
               >
                 <Link href={article.href} className="group block h-full">
                   <div className="bg-white dark:bg-slate-800 p-4 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-all duration-500 h-full flex flex-col">
@@ -602,7 +575,7 @@ export function LandingPageClient({
                     </div>
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
