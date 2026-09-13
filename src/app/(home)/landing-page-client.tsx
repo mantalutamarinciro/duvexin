@@ -96,7 +96,7 @@ const SERVICES = [
     desc: "Partout en France, logistique sécurisée.",
     href: "/demenagement-national",
     icon: Truck,
-    image: placeholders["service-national"].url,
+    image: "/images/optimized/national.webp",
     hint: placeholders["service-national"].hint,
     colSpan: "md:col-span-6",
   },
@@ -105,7 +105,7 @@ const SERVICES = [
     desc: "Vers l'Europe et le monde. Expertise douanière.",
     href: "/demenagement-international",
     icon: Globe,
-    image: placeholders["service-national"].url,
+    image: "/images/optimized/national.webp",
     hint: placeholders["service-national"].hint,
     colSpan: "md:col-span-4",
   },
@@ -212,16 +212,17 @@ export function LandingPageClient({
       {/* ================= HERO ================= */}
       <section className="relative overflow-hidden min-h-[85vh] flex items-center">
         <div className="absolute inset-0">
-          <Image
-            src={placeholders.hero.url}
-            alt="Déménagement premium : organisation et équipes salariées"
-            fill
-            className="object-cover brightness-[0.8] contrast-[1.1]"
-            priority
-            sizes="100vw"
-            quality={80}
-            data-ai-hint={placeholders.hero.hint}
-          />
+          <picture>
+            <source media="(max-width: 767px)" srcSet="/images/optimized/hero-mobile.webp" />
+            <img
+              src="/images/optimized/hero-desktop.webp"
+              alt="Déménagement premium : organisation et équipes salariées"
+              className="absolute inset-0 h-full w-full object-cover brightness-[0.8] contrast-[1.1]"
+              fetchPriority="high"
+              loading="eager"
+              decoding="async"
+            />
+          </picture>
           <div className="absolute inset-0 bg-slate-950/40" />
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-transparent to-white/10 dark:to-slate-950/10" />
           <div className="absolute -top-32 -right-32 h-[520px] w-[520px] rounded-full bg-primary/20 blur-[110px]" />
@@ -230,9 +231,7 @@ export function LandingPageClient({
 
         <div className="container relative z-10 pt-32 pb-20 md:pt-44 md:pb-24 lg:pt-52">
           <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-            animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, ease: "easeOut" }}
+            initial={false}
             className="max-w-3xl"
           >
             <div className="flex flex-wrap items-center gap-3">

@@ -10,7 +10,7 @@ export function Logo({ className }: LogoProps) {
   return (
     <div className={cn("flex items-center gap-3", className)}>
       <Image 
-        src="/images/logo.png" 
+        src="/images/optimized/logo.webp"
         alt="Logo Déménagement Du Vexin"
         width={200}
         height={50}
