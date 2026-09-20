@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect, useCallback } from "react";
-import { MoveRequest, getRequests, updateRequestVolume } from "@/services/requestService";
+import { MoveRequest, getRequests, updateRequestVolume } from "@/services/requestClient";
 import { roomCategories, PredefinedItem } from "@/lib/predefined-items";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Minus, Package, Calculator, Loader2, CheckCircle2, ChevronDown, Save, Sparkles, UploadCloud, FileText, Camera, PackageSearch } from "lucide-react";

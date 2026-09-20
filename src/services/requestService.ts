@@ -4,6 +4,9 @@ import { db, admin } from '@/lib/firebase';
 import { Resend } from 'resend';
 import { syncCustomerFromRequest } from '@/services/customerService';
 import { trackLeadLifecycleEvent } from '@/lib/ga4-measurement-protocol';
+import { requireCrmAdmin } from '@/lib/require-crm-admin';
+import { requestProvenance } from '@/lib/request-provenance';
+import { z } from 'zod';
 
 const { Timestamp } = admin.firestore;
 
@@ -27,9 +30,19 @@ export interface MoveRequest {
   details?: string;
   status: RequestStatus;
   createdAt: string;
+  isTest: boolean;
+  provenance: string;
 }
 
-export type CreateRequestData = Omit<MoveRequest, 'id' | 'status' | 'createdAt'>;
+export type CreateRequestData = Omit<MoveRequest, 'id' | 'status' | 'createdAt' | 'isTest' | 'provenance'>;
+
+const requestIdSchema = z.string().min(1).max(100).regex(/^[a-zA-Z0-9_-]+$/);
+const creationSchema = z.object({
+  clientName: z.string().min(2).max(300), clientEmail: z.string().email(),
+  clientPhone: z.string().max(100).optional(), originAddress: z.string().min(5).max(2000),
+  destinationAddress: z.string().min(5).max(2000), moveDate: z.string().optional(),
+  volume: z.number().finite().nonnegative(), details: z.string().max(10000).optional(),
+});
 
 function isAuthCredentialError(error: unknown) {
   return typeof error === 'object' && error !== null && 'code' in error && (error as { code?: unknown }).code === 16;
@@ -172,7 +185,10 @@ async function notifyNewRequest(data: CreateRequestData, requestId: string) {
   });
 }
 
-export async function createRequest(data: CreateRequestData): Promise<{ id: string }> {
+export async function createRequest(input: CreateRequestData, integrationKey: string): Promise<{ id: string }> {
+  // Legacy WordPress ingress already checks this key; check again at the action boundary.
+  if (!process.env.WORDPRESS_API_KEY || integrationKey !== process.env.WORDPRESS_API_KEY) throw new Error('Unauthorized');
+  const data = creationSchema.parse(input);
   try {
     if (!db) throw new Error('Database not initialized');
     const newRequestRef = db.collection('requests').doc();
@@ -205,7 +221,8 @@ export async function createRequest(data: CreateRequestData): Promise<{ id: stri
   }
 }
 
-export async function getRequests(): Promise<MoveRequest[]> {
+export async function getRequests(idToken: string): Promise<MoveRequest[]> {
+  await requireCrmAdmin(idToken);
   try {
     if (!db) return [];
     const snapshot = await db.collection('requests').orderBy('createdAt', 'desc').get();
@@ -213,16 +230,15 @@ export async function getRequests(): Promise<MoveRequest[]> {
       const data = doc.data();
       let status = data.status || 'À traiter';
 
-      // Self-healing pour corriger les statuts sans accent restants en base
+      // Normalize only the display value: reading the list must not write records.
       if (status === 'A traiter') {
         status = 'À traiter';
-        db.collection('requests').doc(doc.id).update({ status: 'À traiter' }).catch(err => {
-          console.error(`Failed to self-heal status for request ${doc.id}:`, err);
-        });
       }
 
       return {
         id: doc.id,
+        isTest: data.isTest === true,
+        provenance: requestProvenance(data.analyticsAttribution),
         clientName: data.clientName,
         clientEmail: data.clientEmail,
         clientPhone: data.clientPhone,
@@ -258,7 +274,10 @@ export async function getRequests(): Promise<MoveRequest[]> {
   }
 }
 
-export async function updateRequestStatus(id: string, status: RequestStatus): Promise<void> {
+export async function updateRequestStatus(id: string, status: RequestStatus, idToken: string): Promise<void> {
+  await requireCrmAdmin(idToken);
+  requestIdSchema.parse(id);
+  z.enum(['À traiter', 'A traiter', 'Converti en visite', 'Archivé']).parse(status);
   try {
     if (!db) return;
     const requestRef = db.collection('requests').doc(id);
@@ -272,7 +291,11 @@ export async function updateRequestStatus(id: string, status: RequestStatus): Pr
   }
 }
 
-export async function updateRequestVolume(id: string, volume: number, details?: string): Promise<void> {
+export async function updateRequestVolume(id: string, volume: number, details: string | undefined, idToken: string): Promise<void> {
+  await requireCrmAdmin(idToken);
+  requestIdSchema.parse(id);
+  z.number().finite().nonnegative().parse(volume);
+  z.string().max(10000).optional().parse(details);
   try {
     if (!db) return;
     const requestRef = db.collection('requests').doc(id);
@@ -285,4 +308,21 @@ export async function updateRequestVolume(id: string, volume: number, details?: 
     console.error('Error updating request volume:', error);
     throw new Error('Failed to update request volume.');
   }
+}
+
+export async function setRequestTest(id: string, isTest: boolean, idToken: string): Promise<void> {
+  const actor = await requireCrmAdmin(idToken);
+  requestIdSchema.parse(id);
+  z.boolean().parse(isTest);
+  if (!db) throw new Error('Base de données indisponible.');
+  await db.runTransaction(async transaction => {
+    const ref = db.collection('requests').doc(id);
+    const snapshot = await transaction.get(ref);
+    if (!snapshot.exists) throw new Error('Demande introuvable.');
+    const events = snapshot.data()?.analyticsEvents || {};
+    if (Object.values(events).some(event => (event as { status?: string })?.status === 'sending')) {
+      throw new Error('Envoi Analytics en cours. Réessayez après sa fin.');
+    }
+    transaction.update(ref, { isTest, testClassification: { updatedBy: actor.uid, updatedAt: Timestamp.now() } });
+  });
 }

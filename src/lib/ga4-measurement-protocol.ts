@@ -28,6 +28,7 @@ export async function trackLeadLifecycleEvent(options: TrackLifecycleOptions) {
     const snapshot = await transaction.get(requestRef)
     if (!snapshot.exists) return null
     const data = snapshot.data() || {}
+    if (data.isTest === true) return null
     if (data.analyticsEvents?.[options.eventName]?.status === 'sent' || data.analyticsEvents?.[options.eventName]?.status === 'sending') {
       return null
     }

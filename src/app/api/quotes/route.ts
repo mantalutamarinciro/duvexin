@@ -43,7 +43,7 @@ export async function POST(request: Request) {
       destinationAddress: parsedData.data.destinationAddress,
       moveDate: parsedData.data.moveDate,
       volume: parsedData.data.volume,
-    });
+    }, requestApiKey);
 
     console.log(`Successfully received and saved request from external site. Request ID: ${result.id}`);
 

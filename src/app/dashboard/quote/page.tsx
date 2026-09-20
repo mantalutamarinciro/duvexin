@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast"
 import { saveQuote } from "@/services/quoteService"
 import { QuoteForm } from "@/components/quote-form"
 import type { QuoteRequestFormData } from "@/types/quote"
-import { updateRequestStatus } from "@/services/requestService"
+import { updateRequestStatus } from "@/services/requestClient"
 import { getQuotePrefillFromVisit, linkVisitToQuote } from "@/services/visitService"
 import Link from "next/link"
 

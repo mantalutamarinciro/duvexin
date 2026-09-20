@@ -27,7 +27,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CalendarView } from "@/components/calendar";
 import { PlanningEvent } from "@/services/planningService";
-import { updateRequestStatus } from "@/services/requestService";
+import { updateRequestStatus } from "@/services/requestClient";
 import { useRouter } from "next/navigation";
 
 const visitSchema = z.object({

@@ -8,6 +8,7 @@ declare global {
 
 type LeadTrackingParams = {
   formName: string
+  requestId: string
 }
 
 export type LeadAttribution = {
@@ -24,21 +25,56 @@ const PENDING_LEAD_KEY = "analytics:pending-generate-lead"
 export const GOOGLE_ANALYTICS_READY_EVENT = "google-analytics-ready"
 const ATTRIBUTION_KEY = "analytics:lead-attribution"
 
-export function captureLeadAttribution() {
-  if (typeof window === "undefined") return
-
-  const params = new URLSearchParams(window.location.search)
-  const previous = JSON.parse(sessionStorage.getItem(ATTRIBUTION_KEY) || "{}") as LeadAttribution
-  const attribution: LeadAttribution = {
-    ...previous,
-    gclid: params.get("gclid") || previous.gclid,
-    source: params.get("utm_source") || previous.source,
-    medium: params.get("utm_medium") || previous.medium,
-    campaign: params.get("utm_campaign") || previous.campaign,
-    landingPage: previous.landingPage || window.location.href,
+// Analytics must remain optional, including when browser storage is blocked.
+export function hasAnalyticsConsent() {
+  try {
+    return typeof window !== "undefined" && window.localStorage.getItem("cookie-consent") === "accepted"
+  } catch {
+    return false
   }
+}
 
-  sessionStorage.setItem(ATTRIBUTION_KEY, JSON.stringify(attribution))
+function readAttribution(): LeadAttribution {
+  try {
+    const value = JSON.parse(window.sessionStorage.getItem(ATTRIBUTION_KEY) || "{}")
+    if (!value || typeof value !== "object" || Array.isArray(value)) return {}
+    const result: LeadAttribution = {}
+    const limits = { clientId: 100, sessionId: 100, gclid: 500, source: 200, medium: 200, campaign: 300, landingPage: 2000 }
+    for (const key of Object.keys(limits) as (keyof LeadAttribution)[]) {
+      if (typeof value[key] === "string" && value[key].length <= limits[key]) result[key] = value[key]
+    }
+    // Keep only the page path, not arbitrary query parameters or fragments.
+    if (result.landingPage) {
+      const url = new URL(result.landingPage)
+      result.landingPage = url.origin === window.location.origin ? url.origin + url.pathname : undefined
+    }
+    return result
+  } catch {
+    return {}
+  }
+}
+
+function storeAttribution(value: LeadAttribution) {
+  try { window.sessionStorage.setItem(ATTRIBUTION_KEY, JSON.stringify(value)) } catch { /* optional */ }
+}
+
+export function captureLeadAttribution() {
+  if (!hasAnalyticsConsent()) return
+
+  try {
+    const params = new URLSearchParams(window.location.search)
+    const previous = readAttribution()
+    const attribution: LeadAttribution = {
+      ...previous,
+      gclid: params.get("gclid")?.slice(0, 500) || previous.gclid,
+      source: params.get("utm_source")?.slice(0, 200) || previous.source,
+      medium: params.get("utm_medium")?.slice(0, 200) || previous.medium,
+      campaign: params.get("utm_campaign")?.slice(0, 300) || previous.campaign,
+      landingPage: previous.landingPage || window.location.origin + window.location.pathname,
+    }
+
+    storeAttribution(attribution)
+  } catch { /* Attribution must never block a quote request. */ }
 }
 
 function getGoogleAnalyticsField(field: "client_id" | "session_id") {
@@ -52,53 +88,85 @@ function getGoogleAnalyticsField(field: "client_id" | "session_id") {
       resolve(typeof value === "string" || typeof value === "number" ? String(value) : undefined)
     }
 
-    window.gtag("get", "G-8XBX4X0R4Y", field, finish)
     window.setTimeout(() => finish(), 800)
+    try { window.gtag("get", "G-8XBX4X0R4Y", field, finish) } catch { finish() }
   })
 }
 
 export async function getLeadAttribution(): Promise<LeadAttribution> {
-  if (typeof window === "undefined") return {}
+  if (!hasAnalyticsConsent()) return {}
 
-  captureLeadAttribution()
-  const stored = JSON.parse(sessionStorage.getItem(ATTRIBUTION_KEY) || "{}") as LeadAttribution
-  const [clientId, sessionId] = await Promise.all([
-    getGoogleAnalyticsField("client_id"),
-    getGoogleAnalyticsField("session_id"),
-  ])
+  try {
+    captureLeadAttribution()
+    const stored = readAttribution()
+    const [clientId, sessionId] = await Promise.all([
+      getGoogleAnalyticsField("client_id"),
+      getGoogleAnalyticsField("session_id"),
+    ])
 
-  const attribution = { ...stored, clientId, sessionId }
-  sessionStorage.setItem(ATTRIBUTION_KEY, JSON.stringify(attribution))
-  return attribution
+    if (!hasAnalyticsConsent()) return {}
+    const attribution = { ...stored, clientId: clientId?.slice(0, 100), sessionId: sessionId?.slice(0, 100) }
+    storeAttribution(attribution)
+    return attribution
+  } catch { return {} }
 }
 
-export function trackGenerateLead({ formName }: LeadTrackingParams) {
-  if (typeof window === "undefined" || typeof window.gtag !== "function") return false
+function trackGenerateLead({ formName, requestId }: LeadTrackingParams) {
+  if (!hasAnalyticsConsent() || typeof window.gtag !== "function") return false
 
-  window.gtag("event", "generate_lead", {
-    form_name: formName,
-    transport_type: "beacon",
-  })
+  try {
+    window.gtag("event", "generate_lead", {
+      form_name: formName,
+      request_id: requestId,
+      transport_type: "beacon",
+    })
 
-  return true
+    return true
+  } catch { return false }
 }
 
-export function markGenerateLeadPending({ formName }: LeadTrackingParams) {
-  if (typeof window === "undefined") return
+type PendingLead = LeadTrackingParams & { createdAt: number }
+let pendingLead: PendingLead | null = null
+const emittedRequests = new Set<string>()
+const PENDING_MAX_AGE = 30 * 60 * 1000
 
-  sessionStorage.setItem(PENDING_LEAD_KEY, formName)
+export function markGenerateLeadPending({ formName, requestId }: LeadTrackingParams) {
+  if (!hasAnalyticsConsent() || !requestId || emittedRequests.has(requestId)) return
+  pendingLead = { formName, requestId, createdAt: Date.now() }
+  try { window.sessionStorage.setItem(PENDING_LEAD_KEY, JSON.stringify(pendingLead)) } catch { /* SPA memory fallback */ }
 }
 
 export function flushPendingGenerateLead() {
   if (typeof window === "undefined") return false
 
-  const formName = sessionStorage.getItem(PENDING_LEAD_KEY)
-  if (!formName) return false
-
-  const sent = trackGenerateLead({ formName })
-  if (sent) {
-    sessionStorage.removeItem(PENDING_LEAD_KEY)
+  let candidate: unknown = pendingLead
+  if (!candidate) {
+    try { candidate = JSON.parse(window.sessionStorage.getItem(PENDING_LEAD_KEY) || "null") } catch { /* invalid or blocked */ }
   }
+  const clear = () => {
+    pendingLead = null
+    try { window.sessionStorage.removeItem(PENDING_LEAD_KEY) } catch { /* optional */ }
+  }
+  if (!hasAnalyticsConsent()) { clear(); return false }
+  const lead = candidate as Partial<PendingLead> | null
+  if (!lead || typeof lead.formName !== "string" || typeof lead.requestId !== "string" ||
+      !lead.requestId || lead.requestId.length > 100 || typeof lead.createdAt !== "number" ||
+      !Number.isFinite(lead.createdAt) || Date.now() - lead.createdAt < 0 || Date.now() - lead.createdAt > PENDING_MAX_AGE) {
+    clear()
+    return false
+  }
+  if (emittedRequests.has(lead.requestId)) { clear(); return false }
+  if (typeof window.gtag !== "function") return false
 
-  return sent
+  // Consume before dispatch so repeated effects cannot emit the same pending lead.
+  try {
+    window.sessionStorage.removeItem(PENDING_LEAD_KEY)
+  } catch {
+    // A persisted marker that cannot be removed could replay after a reload.
+    // Only use the memory fallback if storage cannot be read either.
+    try { if (window.sessionStorage.getItem(PENDING_LEAD_KEY)) return false } catch { /* memory only */ }
+  }
+  pendingLead = null
+  emittedRequests.add(lead.requestId)
+  return trackGenerateLead(lead as PendingLead)
 }

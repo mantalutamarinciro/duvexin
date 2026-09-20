@@ -18,7 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { MoveRequest, getRequests, updateRequestStatus } from "@/services/requestService";
+import { MoveRequest, getRequests, updateRequestStatus, setRequestTest } from "@/services/requestClient";
 import { createVisit } from "@/services/visitService";
 import { Inbox, CalendarPlus, LayoutGrid, List as ListIcon, MapPin, Search, Phone, Mail, Archive, CalendarDays, ArrowDown, ChevronLeft, ChevronRight, MoreHorizontal, PenSquare, FileText, UserRound, SlidersHorizontal, X, Loader2, Calendar as CalendarIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -73,6 +73,9 @@ const getStatusBadge = (status: MoveRequest['status']) => {
 export default function RequestsPage() {
   const [requests, setRequests] = useState<MoveRequest[]>([]);
   const [loading, setLoading] = useState(true);
+  const [testFilter, setTestFilter] = useState('all');
+  const [testTarget, setTestTarget] = useState<MoveRequest | null>(null);
+  const [savingTest, setSavingTest] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [periodFilter, setPeriodFilter] = useState("all");
@@ -163,6 +166,31 @@ export default function RequestsPage() {
     }
   };
 
+  const confirmTestClassification = async () => {
+    if (!testTarget) return;
+    setSavingTest(true);
+    try {
+      await setRequestTest(testTarget.id, !testTarget.isTest);
+      setTestTarget(null);
+      toast({ title: 'Classification enregistrée', description: 'Les événements Analytics passés ne sont pas modifiés.' });
+      await loadData();
+    } catch {
+      toast({ variant: 'destructive', title: 'Modification impossible', description: 'Vérifiez votre connexion administrateur. Si un envoi Analytics est en cours, réessayez après sa fin.' });
+    } finally { setSavingTest(false); }
+  };
+
+  const trackingDetails = (request: MoveRequest) => (
+    <div className="mt-2 space-y-1 text-xs text-slate-500">
+      <p className="break-words">{request.provenance}</p>
+      <div className="flex flex-wrap items-center gap-2">
+        {request.isTest && <Badge variant="secondary">Test</Badge>}
+        <Button size="sm" variant="ghost" onClick={() => setTestTarget(request)}>
+          {request.isTest ? 'Retirer le marquage test' : 'Marquer comme test'}
+        </Button>
+      </div>
+    </div>
+  );
+
   const handleConvertToVisit = (request: MoveRequest) => {
     setSelectedRequestForVisit(request);
     setIsVisitDialogOpen(true);
@@ -220,7 +248,8 @@ export default function RequestsPage() {
       (volumeFilter === "large" && volume > 50) ||
       (volumeFilter === "unknown" && volume === 0);
 
-    return matchesSearch && matchesStatus && matchesPeriod && matchesVolume;
+    const matchesTest = testFilter === 'all' || (testFilter === 'test' ? req.isTest : !req.isTest);
+    return matchesSearch && matchesStatus && matchesPeriod && matchesVolume && matchesTest;
   });
 
   const gridRequests = filteredRequests.slice(0, visibleGridCount);
@@ -233,7 +262,7 @@ export default function RequestsPage() {
   useEffect(() => {
       setCurrentPage(1);
       setVisibleGridCount(10);
-  }, [searchQuery, statusFilter, periodFilter, volumeFilter]);
+  }, [searchQuery, statusFilter, periodFilter, volumeFilter, testFilter]);
 
   const resetFilters = () => {
     setSearchQuery("");
@@ -244,6 +273,20 @@ export default function RequestsPage() {
 
   return (
     <div className="flex flex-col gap-6">
+      <Dialog open={Boolean(testTarget)} onOpenChange={open => { if (!open && !savingTest) setTestTarget(null); }}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{testTarget?.isTest ? 'Retirer le marquage test ?' : 'Confirmer une demande de test ?'}</DialogTitle>
+            <DialogDescription>
+              {testTarget?.clientName} — ce choix ne supprime pas le dossier. Les demandes marquées test sont exclues des futurs événements de qualification et de conversion. Les événements déjà envoyés, dont la soumission initiale, restent dans Analytics. Retirer le marquage ne renvoie aucun événement passé.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" disabled={savingTest} onClick={() => setTestTarget(null)}>Annuler</Button>
+            <Button disabled={savingTest} onClick={confirmTestClassification}>{savingTest ? 'Enregistrement…' : 'Confirmer'}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-headline text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Leads & Demandes</h1>
@@ -252,6 +295,18 @@ export default function RequestsPage() {
       </div>
 
       <Tabs defaultValue="grille" className="w-full">
+        <div className="mb-4 max-w-sm">
+          <label htmlFor="request-test-filter" className="text-sm font-medium">Classification des demandes</label>
+          <Select value={testFilter} onValueChange={setTestFilter}>
+            <SelectTrigger id="request-test-filter"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Toutes les demandes</SelectItem>
+              <SelectItem value="non-test">Hors tests identifiés</SelectItem>
+              <SelectItem value="test">Tests identifiés uniquement</SelectItem>
+            </SelectContent>
+          </Select>
+          <p className="mt-1 text-xs text-slate-500">La provenance affichée vient des marqueurs enregistrés, pas du rapport d’attribution GA4.</p>
+        </div>
         <div className="flex justify-between items-center mb-6">
             <TabsList className="bg-slate-100 dark:bg-slate-800/50 p-1 rounded-full">
                 <TabsTrigger value="grille" className="rounded-full px-4"><LayoutGrid className="h-4 w-4 mr-2"/> Grille</TabsTrigger>
@@ -331,6 +386,7 @@ export default function RequestsPage() {
                                     </span>
                                 </div>
                                 <CardTitle className="text-lg line-clamp-1"><Link href={`/dashboard/customer-360?email=${encodeURIComponent(req.clientEmail)}`} className="hover:text-primary hover:underline">{req.clientName}</Link></CardTitle>
+                                {trackingDetails(req)}
                                 <div className="flex items-center gap-2 mt-1">
                                     <div className="text-xs font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-lg w-fit">{req.volume} m³</div>
                                     <div className="text-[10px] text-slate-500 flex items-center gap-1">
@@ -479,6 +535,7 @@ export default function RequestsPage() {
                       <Badge variant={getStatusBadge(req.status)} className="text-[10px] uppercase font-black tracking-widest">
                         {getDisplayStatus(req.status)}
                       </Badge>
+                      {trackingDetails(req)}
                     </TableCell>
                             <TableCell className="text-right pr-6 align-top pt-4">
                                 {normalizeStatus(req.status) === 'todo' ? (

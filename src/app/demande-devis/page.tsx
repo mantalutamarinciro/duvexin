@@ -29,7 +29,7 @@ export default function PublicQuotePage() {
   async function onSubmit(values: QuoteRequestFormData) {
     setSaving(true);
     try {
-      const analyticsAttribution = await getLeadAttribution()
+      const analyticsAttribution = await getLeadAttribution().catch(() => ({}))
       // On sauvegarde dans la collection `requests` plutôt que `quotes`
       const response = await fetch("/api/requests", {
         method: "POST",
@@ -58,9 +58,10 @@ export default function PublicQuotePage() {
 
       markGenerateLeadPending({
         formName: "public_quote_request",
+        requestId: (result.requestId || result.id)!,
       });
 
-      router.push("/remerciements?lead=submitted");
+      router.push("/remerciements");
       
     } catch (error) {
       console.error("Erreur lors de la sauvegarde du devis:", error);
