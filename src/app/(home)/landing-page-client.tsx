@@ -20,7 +20,6 @@ import {
   CalendarClock,
   ArrowUpRight,
   Phone,
-  Clock,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -129,7 +128,7 @@ const SERVICES = [
 const FORMULAS = [
   {
     title: "Économique",
-    desc: "L'essentiel, maîtrisé.",
+    desc: "Vous préparez vos cartons, nous transportons vos biens.",
     features: [
       "Protection mobilier",
       "Chargement / Déchargement",
@@ -140,23 +139,16 @@ const FORMULAS = [
   },
   {
     title: "Standard",
-    desc: "Le choix de la sérénité.",
-    features: ["Formule Économique +", "Emballage du fragile", "Démontage meubles"],
+    desc: "Confiez-nous aussi vos objets fragiles et votre mobilier.",
+    features: ["Formule Économique +", "Emballage du fragile", "Démontage et remontage du mobilier"],
     icon: LayoutTemplate,
     popular: true,
   },
   {
-    title: "Clé en Main",
-    desc: "Zéro effort, 100% confort.",
-    features: ["Formule Standard +", "Emballage complet", "Déballage du fragile"],
+    title: "Prestige",
+    desc: "Déléguez également l’emballage de vos objets non fragiles.",
+    features: ["Formule Standard +", "Emballage des objets non fragiles", "Déballage du fragile à l’arrivée"],
     icon: Armchair,
-    popular: false,
-  },
-  {
-    title: "Total Confort",
-    desc: "L'excellence absolue.",
-    features: ["Formule Clé en main +", "Débranchement appareils", "Remise en place"],
-    icon: Star,
     popular: false,
   },
 ];
@@ -231,8 +223,8 @@ export function LandingPageClient({
                 <span className="text-sm text-white/70 font-medium">• {summary.reviewCount.toLocaleString("fr-FR")} avis Google</span>
               </div>}
               <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 px-4 py-2 text-white/90 shadow-lg">
-                <Clock className="h-4 w-4 text-primary" />
-                <span className="text-sm font-semibold">Devis sous 24h</span>
+                <MapPin className="h-4 w-4 text-primary" />
+                <span className="text-sm font-semibold">Basés à Méry-sur-Oise (95)</span>
               </div>
             </div>
 
@@ -254,7 +246,7 @@ export function LandingPageClient({
                 asChild
               >
                 <Link href="/demande-devis">
-                  Estimer mon projet <ArrowRight className="ml-2 h-5 w-5" />
+                  Demander un devis <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
 
@@ -374,14 +366,14 @@ export function LandingPageClient({
               Nos Formules
             </span>
             <h2 className="text-4xl md:text-7xl font-black mb-6 tracking-tighter text-slate-900 dark:text-white leading-tight">
-              4 niveaux de <br/> sérénité.
+              3 formules de <br/> déménagement.
             </h2>
             <p className="text-xl text-slate-600 dark:text-slate-400 font-light">
-              Du strict essentiel à l&apos;accompagnement gants blancs : choisissez la formule qui correspond à votre rythme.
+              Économique, Standard ou Prestige : choisissez ce que vous préparez vous-même et ce que vous souhaitez nous confier.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {FORMULAS.map((formula) => (
               <div
                 key={formula.title}
@@ -394,7 +386,7 @@ export function LandingPageClient({
               >
                 {formula.popular && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-white text-[10px] font-black uppercase tracking-widest px-5 py-2 rounded-full shadow-xl">
-                    Le plus choisi
+                    Standard
                   </div>
                 )}
 
@@ -439,7 +431,7 @@ export function LandingPageClient({
                   )}
                   asChild
                 >
-                  <Link href="/demande-devis">Choisir</Link>
+                  <Link href="/demande-devis" aria-label={`Demander un devis pour la formule ${formula.title}`}>Demander un devis</Link>
                 </Button>
               </div>
             ))}

@@ -251,6 +251,25 @@ test('remaining audited service and agency links resolve to existing pages', () 
   assert.ok(nav.includes('href="mailto:demenagementduvexin@gmail.com"'));
 });
 
+test('home offers match the reference formulas and use an explicit quote CTA', () => {
+  const home = readFileSync(path.join(root, 'src/app/(home)/landing-page-client.tsx'), 'utf8');
+  const reference = readFileSync(path.join(root, 'src/app/formules-de-demenagement/page.tsx'), 'utf8');
+  function formulaTitles(source) {
+    const tree = ts.createSourceFile('page.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+    const declaration = tree.statements.filter(ts.isVariableStatement)
+      .flatMap(statement => [...statement.declarationList.declarations])
+      .find(item => item.name.getText(tree) === 'FORMULAS');
+    assert.ok(declaration && ts.isArrayLiteralExpression(declaration.initializer));
+    return declaration.initializer.elements.map(item =>
+      item.properties.find(property => property.name.getText(tree) === 'title').initializer.text);
+  }
+  assert.deepEqual(formulaTitles(home), formulaTitles(reference));
+  assert.deepEqual(formulaTitles(home), ['Économique', 'Standard', 'Prestige']);
+  assert.ok(home.includes('Demander un devis'));
+  assert.ok(home.includes('Basés à Méry-sur-Oise (95)'));
+  assert.doesNotMatch(home, /Devis sous 24h|4 niveaux de|Total Confort|Le plus choisi/);
+});
+
 test('legacy redirects have unique sources, existing destinations and no chains', async () => {
   const redirects = await load('next.config.ts').default.redirects();
   assert.equal(new Set(redirects.map(item => item.source)).size, redirects.length);

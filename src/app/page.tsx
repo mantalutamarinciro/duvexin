@@ -8,7 +8,7 @@ import { reviewSummary } from "@/lib/review-summary";
 export const metadata: Metadata = {
   title: "Déménageur Val-d’Oise (95) | Déménagement du Vexin",
   description:
-    "Préparez votre déménagement dans le Val-d’Oise avec Déménagement du Vexin : Méry-sur-Oise, Cergy, Pontoise et départs en France. Découvrez nos formules et demandez un devis.",
+    "Déménageur à Méry-sur-Oise, près de Cergy et Pontoise. Comparez nos 3 formules pour votre déménagement dans le Val-d’Oise (95) et demandez votre devis.",
   alternates: { canonical: "https://demenagementduvexin.fr" },
   openGraph: {
     title: "Déménageur Val-d’Oise (95) | Déménagement du Vexin",
