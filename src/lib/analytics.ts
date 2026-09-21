@@ -15,10 +15,13 @@ export type LeadAttribution = {
   clientId?: string
   sessionId?: string
   gclid?: string
+  gbraid?: string
+  wbraid?: string
   source?: string
   medium?: string
   campaign?: string
   landingPage?: string
+  referrerHost?: string
 }
 
 const PENDING_LEAD_KEY = "analytics:pending-generate-lead"
@@ -39,9 +42,10 @@ function readAttribution(): LeadAttribution {
     const value = JSON.parse(window.sessionStorage.getItem(ATTRIBUTION_KEY) || "{}")
     if (!value || typeof value !== "object" || Array.isArray(value)) return {}
     const result: LeadAttribution = {}
-    const limits = { clientId: 100, sessionId: 100, gclid: 500, source: 200, medium: 200, campaign: 300, landingPage: 2000 }
+    const limits = { clientId: 100, sessionId: 100, gclid: 500, gbraid: 500, wbraid: 500, source: 200, medium: 200, campaign: 300, landingPage: 2000, referrerHost: 253 }
     for (const key of Object.keys(limits) as (keyof LeadAttribution)[]) {
-      if (typeof value[key] === "string" && value[key].length <= limits[key]) result[key] = value[key]
+      if (typeof value[key] === "string" && value[key].length <= limits[key] &&
+          (key !== "referrerHost" || /^[a-z0-9.-]+$/.test(value[key]))) result[key] = value[key]
     }
     // Keep only the page path, not arbitrary query parameters or fragments.
     if (result.landingPage) {
@@ -67,10 +71,24 @@ export function captureLeadAttribution() {
     const attribution: LeadAttribution = {
       ...previous,
       gclid: params.get("gclid")?.slice(0, 500) || previous.gclid,
+      gbraid: params.get("gbraid")?.slice(0, 500) || previous.gbraid,
+      wbraid: params.get("wbraid")?.slice(0, 500) || previous.wbraid,
       source: params.get("utm_source")?.slice(0, 200) || previous.source,
       medium: params.get("utm_medium")?.slice(0, 200) || previous.medium,
       campaign: params.get("utm_campaign")?.slice(0, 300) || previous.campaign,
       landingPage: previous.landingPage || window.location.origin + window.location.pathname,
+      referrerHost: previous.referrerHost,
+    }
+
+    if (!attribution.referrerHost && document.referrer) {
+      try {
+        const referrer = new URL(document.referrer)
+        const host = referrer.hostname.toLowerCase()
+        const siteHost = window.location.hostname.toLowerCase().replace(/^www\./, "")
+        if ((referrer.protocol === "https:" || referrer.protocol === "http:") &&
+            host.replace(/^www\./, "") !== siteHost && host.length <= 253 &&
+            /^[a-z0-9.-]+$/.test(host)) attribution.referrerHost = host
+      } catch { /* A malformed referrer must not discard valid campaign markers. */ }
     }
 
     storeAttribution(attribution)

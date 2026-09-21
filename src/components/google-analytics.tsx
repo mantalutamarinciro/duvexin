@@ -2,12 +2,14 @@
 
 import * as React from "react";
 import Script from "next/script";
+import { usePathname } from "next/navigation";
 import { captureLeadAttribution, GOOGLE_ANALYTICS_READY_EVENT } from "@/lib/analytics";
 
 const COOKIE_CONSENT_KEY = "cookie-consent";
 export const COOKIE_CONSENT_EVENT = "cookie-consent-change";
 
 export function GoogleAnalytics() {
+  const pathname = usePathname();
   const [isAccepted, setIsAccepted] = React.useState(false);
 
   React.useEffect(() => {
@@ -27,7 +29,7 @@ export function GoogleAnalytics() {
 
   React.useEffect(() => {
     if (isAccepted) captureLeadAttribution();
-  }, [isAccepted]);
+  }, [isAccepted, pathname]);
 
   if (!isAccepted) {
     return null;

@@ -9,7 +9,7 @@ const code = ts.transpileModule(readFileSync(path.join(root, 'src/lib/analytics.
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
 }).outputText;
 const key = 'analytics:pending-generate-lead';
-function setup({ consent = 'accepted', blocked = false, brokenTag = false, ready = true, storage = new Map() } = {}) {
+function setup({ consent = 'accepted', blocked = false, brokenTag = false, ready = true, storage = new Map(), referrer = '' } = {}) {
   const events = [];
   const sessionStorage = {
     getItem(k) { if (blocked) throw Error('blocked'); return storage.get(k) ?? null; },
@@ -23,7 +23,7 @@ function setup({ consent = 'accepted', blocked = false, brokenTag = false, ready
   };
   const tag = (...args) => { if (brokenTag) throw Error('tag failure'); events.push(args); };
   if (ready) win.gtag = tag;
-  const context = { exports: {}, window: win, URL, URLSearchParams, Date, Set };
+  const context = { exports: {}, window: win, document: { referrer }, URL, URLSearchParams, Date, Set };
   vm.runInNewContext(code, context);
   return { api: context.exports, win, events, storage, tag };
 }
@@ -108,6 +108,33 @@ test('corrupt attribution recovers and landing URL excludes query and fragment',
   assert.equal(value.source, 'google');
   assert.equal(value.medium, 'cpc');
   assert.equal(value.landingPage, 'https://demenagementduvexin.fr/devis');
+});
+test('consented acquisition captures ad click variants and only the external referrer host', async () => {
+  const { api, win, storage } = setup({ referrer: 'https://www.google.fr/search?q=private&email=secret' });
+  win.location = new URL('https://demenagementduvexin.fr/devis?gbraid=braid-1&wbraid=braid-2');
+  const value = await api.getLeadAttribution();
+  assert.equal(value.gbraid, 'braid-1');
+  assert.equal(value.wbraid, 'braid-2');
+  assert.equal(value.referrerHost, 'www.google.fr');
+  assert.ok(!storage.get('analytics:lead-attribution').includes('private'));
+  win.location = new URL('https://demenagementduvexin.fr/demande-devis');
+  assert.equal((await api.getLeadAttribution()).gbraid, 'braid-1');
+});
+test('same-site referrers are ignored and denied consent stores no acquisition data', async () => {
+  const sameSite = setup({ referrer: 'https://demenagementduvexin.fr/private?email=secret' });
+  assert.equal((await sameSite.api.getLeadAttribution()).referrerHost, undefined);
+  const wwwSite = setup({ referrer: 'https://www.demenagementduvexin.fr/private?email=secret' });
+  assert.equal((await wwwSite.api.getLeadAttribution()).referrerHost, undefined);
+  const declined = setup({ consent: 'declined', referrer: 'https://www.google.fr/search?q=private' });
+  assert.equal(Object.keys(await declined.api.getLeadAttribution()).length, 0);
+  assert.equal(declined.storage.size, 0);
+});
+test('malformed referrers do not discard valid UTM markers', async () => {
+  const { api } = setup({ referrer: 'not a URL' });
+  const value = await api.getLeadAttribution();
+  assert.equal(value.source, 'google');
+  assert.equal(value.medium, 'cpc');
+  assert.equal(value.referrerHost, undefined);
 });
 test('throwing analytics tag never rejects attribution or throws during dispatch', async () => {
   const { api } = setup({ brokenTag: true });

@@ -90,7 +90,11 @@ test('provenance never invents organic or direct traffic when evidence is missin
   assert.equal(provenance.requestProvenance({}), 'Provenance inconnue');
   assert.equal(provenance.requestProvenance(null), 'Provenance inconnue');
   assert.match(provenance.requestProvenance({ gclid: 'click' }), /Google Ads/);
+  assert.match(provenance.requestProvenance({ gbraid: 'click' }), /Google Ads/);
+  assert.match(provenance.requestProvenance({ wbraid: 'click' }), /Google Ads/);
   assert.equal(provenance.requestProvenance({ source: 'google', medium: 'organic' }), 'google / organic (UTM)');
+  assert.equal(provenance.requestProvenance({ referrerHost: 'www.google.fr' }), 'Site référent : www.google.fr (canal à confirmer)');
+  assert.equal(provenance.requestProvenance({ referrerHost: 'www.google.fr/path?email=secret' }), 'Provenance inconnue');
 });
 test('read projection exposes classification and summary, not raw GA identifiers', async () => {
   const { api } = service(true, { isTest: true, analyticsAttribution: { gclid: 'secret-click', clientId: 'id' } });

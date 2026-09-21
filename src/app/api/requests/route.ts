@@ -19,10 +19,13 @@ const publicRequestSchema = z.object({
     clientId: z.string().max(100).optional(),
     sessionId: z.string().max(100).optional(),
     gclid: z.string().max(500).optional(),
+    gbraid: z.string().max(500).optional(),
+    wbraid: z.string().max(500).optional(),
     source: z.string().max(200).optional(),
     medium: z.string().max(200).optional(),
     campaign: z.string().max(300).optional(),
     landingPage: z.string().url().max(2000).optional(),
+    referrerHost: z.string().max(253).regex(/^[a-z0-9.-]+$/i).optional(),
   }).optional(),
 });
 
