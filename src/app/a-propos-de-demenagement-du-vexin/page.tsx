@@ -149,6 +149,29 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* --- RESSOURCE ÉDITORIALE --- */}
+      <section className="bg-white pb-12" aria-labelledby="demenizo-title">
+        <div className="container mx-auto px-4 md:px-6">
+          <aside className="mx-auto max-w-5xl rounded-[2rem] border border-slate-200 bg-slate-50 px-6 py-8 md:px-10 md:py-10">
+            <div className="max-w-3xl">
+              <h2 id="demenizo-title" className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900">
+                Préparer votre déménagement avec Déménizo
+              </h2>
+              <p className="mt-4 text-base md:text-lg leading-relaxed font-light text-slate-600">
+                Vous préparez un changement de logement ? Déménizo propose des conseils pour organiser votre déménagement : estimer le volume à transporter, anticiper les accès et le stationnement, et comparer le contenu des devis professionnels.
+              </p>
+              <a
+                href="https://demenizo.fr/comment-ca-marche"
+                className="mt-6 inline-flex items-center gap-2 text-sm md:text-base font-bold text-[#008f84] underline decoration-[#00ad9f]/40 underline-offset-4 transition-colors hover:text-[#006f67] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00ad9f] focus-visible:ring-offset-4"
+              >
+                Consulter les conseils déménagement de Déménizo
+                <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+              </a>
+            </div>
+          </aside>
+        </div>
+      </section>
+
       {/* --- STATS SECTION --- */}
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4 md:px-6">
