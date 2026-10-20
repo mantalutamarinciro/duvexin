@@ -28,8 +28,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Évreux (27) | Agence Normandie Déménagement du Vexin",
-  description: "Déménagement du Vexin Évreux : expert du déménagement en Normandie (Eure, Calvados, Seine-Maritime). Local, National et International. Devis gratuit personnalisé.",
+  title: "Déménageur à Évreux (27) | Devis personnalisé",
+  description: "Besoin d’un déménageur à Évreux ? Déménagement du Vexin organise votre projet dans l’Eure, en Normandie ou longue distance. Demandez votre devis personnalisé.",
 };
 
 
@@ -76,9 +76,9 @@ export default function EvreuxPage() {
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] mb-8">
-              Votre déménageur de <br className="hidden md:block"/> 
+              Votre déménageur à Évreux <br className="hidden md:block"/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-300">
-                confiance en Normandie.
+                et dans l’Eure.
               </span>
             </h1>
             

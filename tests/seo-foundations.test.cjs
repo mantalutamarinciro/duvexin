@@ -64,6 +64,13 @@ test('Val-d’Oise featured links point directly to canonical town routes', () =
   for (const route of routes) assert.ok(existsSync(path.join(root, 'src/app', route, 'page.tsx')), route);
 });
 
+test('Évreux metadata and H1 target the searched déménageur intent', () => {
+  const source = readFileSync(path.join(root, 'src/app/demenagement-du-vexin-evreux/page.tsx'), 'utf8');
+  assert.match(source, /title:\s*["']Déménageur à Évreux \(27\)/);
+  assert.match(source, /description:\s*["']Besoin d’un déménageur à Évreux/);
+  assert.match(source, /Votre déménageur à Évreux/);
+});
+
 test('sitemap includes priority pages, unique URLs and existing public routes', () => {
   const entries = load('src/app/sitemap.ts').default();
   const urls = entries.map(entry => entry.url);
