@@ -108,7 +108,7 @@ export default function IvrySurSeinePage() {
           <nav className="flex items-center text-xs font-medium text-slate-400 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-2" />
-            <Link href="/zones-intervention" className="hover:text-white transition-colors">Val-de-Marne (94)</Link>
+            <Link href="/demenagement-val-de-marne-94" className="hover:text-white transition-colors">Val-de-Marne (94)</Link>
             <ChevronRight className="h-3 w-3 mx-2" />
             <span className="text-white">Ivry-sur-Seine</span>
           </nav>
@@ -258,6 +258,37 @@ export default function IvrySurSeinePage() {
               </div>
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      {/* --- MAILLAGE LOCAL --- */}
+      <section aria-labelledby="ivry-nearby-title" className="border-y border-slate-200 bg-slate-50 py-14">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="mx-auto max-w-5xl">
+            <h2 id="ivry-nearby-title" className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl">
+              Déménager autour d’Ivry-sur-Seine
+            </h2>
+            <p className="mt-3 max-w-3xl leading-relaxed text-slate-600">
+              Nous organisons également les déménagements dans les communes voisines du Val-de-Marne,
+              avec une préparation adaptée aux accès urbains et au stationnement de chaque adresse.
+            </p>
+            <nav aria-label="Communes voisines d’Ivry-sur-Seine" className="mt-7 flex flex-wrap gap-3">
+              {[
+                ["Déménagement à Vitry-sur-Seine", "/demenagement-vitry-sur-seine-94400"],
+                ["Déménagement à Villejuif", "/demenagement-villejuif-94800"],
+                ["Déménagement à Créteil", "/demenagement-creteil-94000"],
+                ["Déménagement à Vincennes", "/demenagement-vincennes-94300"],
+              ].map(([label, href]) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:border-[#00ad9f] hover:text-[#008f84]"
+                >
+                  {label}
+                </Link>
+              ))}
+            </nav>
           </div>
         </div>
       </section>
