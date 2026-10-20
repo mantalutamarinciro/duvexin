@@ -61,6 +61,15 @@ const VAL_D_OISE_CITIES = [
   { name: "Villiers-le-Bel", link: "/demenagement-villiers-le-bel-95400" },
 ];
 
+const FEATURED_VAL_D_OISE_CITIES = [
+  { name: "Cergy", link: "/demenagement-cergy-95000" },
+  { name: "Pontoise", link: "/demenagement-pontoise-95300" },
+  { name: "Argenteuil", link: "/demenagement-argenteuil-95100" },
+  { name: "Sarcelles", link: "/demenagement-sarcelles-95200" },
+  { name: "Enghien-les-Bains", link: "/demenagement-enghien-les-bains-95880" },
+  { name: "L'Isle-Adam", link: "/demenagement-lisle-adam-95290" },
+];
+
 const WHY_US_ITEMS = [
   {
     icon: MapPin,
@@ -168,13 +177,13 @@ export default function ValDOisePage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center gap-3">
             <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mr-4">Villes phares :</span>
-            {["Cergy", "Pontoise", "Argenteuil", "Sarcelles", "Enghien", "L'Isle-Adam"].map((city) => (
+            {FEATURED_VAL_D_OISE_CITIES.map((city) => (
               <Link
-                key={city}
-                href={`/demenagement-${city.toLowerCase().replace(/ /g, "-")}-95${city === "Argenteuil" ? '100' : city === "Sarcelles" ? '200' : city === "Cergy" ? '000' : city === "Pontoise" ? '300' : city === "Enghien" ? '880' : '290'}`}
+                key={city.link}
+                href={city.link}
                 className="inline-flex items-center px-4 py-2 rounded-full bg-slate-50 border border-slate-100 text-xs font-bold text-slate-600 hover:text-primary hover:border-primary/30 transition-all"
               >
-                {city}
+                {city.name}
               </Link>
             ))}
           </div>

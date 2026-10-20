@@ -45,6 +45,25 @@ test('Val-d’Oise directory links to the four previously omitted towns', () => 
   assert.match(source, /href=\{city\.link\}/);
 });
 
+test('Val-d’Oise featured links point directly to canonical town routes', () => {
+  const source = readFileSync(path.join(root, 'src/app/demenagement-val-d-oise-95/page.tsx'), 'utf8');
+  const ast = ts.createSourceFile('page.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+  const declaration = ast.statements.filter(ts.isVariableStatement)
+    .flatMap(statement => Array.from(statement.declarationList.declarations))
+    .find(declaration => declaration.name.getText(ast) === 'FEATURED_VAL_D_OISE_CITIES');
+  assert.ok(declaration && ts.isArrayLiteralExpression(declaration.initializer));
+  const routes = declaration.initializer.elements.map(entry => {
+    const link = entry.properties.find(property => property.name?.getText(ast) === 'link');
+    assert.ok(link && ts.isStringLiteral(link.initializer));
+    return link.initializer.text;
+  });
+  assert.ok(routes.includes('/demenagement-enghien-les-bains-95880'));
+  assert.ok(routes.includes('/demenagement-lisle-adam-95290'));
+  assert.ok(!routes.includes('/demenagement-enghien-95880'));
+  assert.ok(!routes.includes("/demenagement-l'isle-adam-95290"));
+  for (const route of routes) assert.ok(existsSync(path.join(root, 'src/app', route, 'page.tsx')), route);
+});
+
 test('sitemap includes priority pages, unique URLs and existing public routes', () => {
   const entries = load('src/app/sitemap.ts').default();
   const urls = entries.map(entry => entry.url);
