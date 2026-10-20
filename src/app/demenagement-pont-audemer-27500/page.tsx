@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Pont-Audemer (27) | Expert Venise Normande | Devis Gratuit",
-  description: "Déménageur de confiance à Pont-Audemer (27500). Spécialiste centre historique, bords de canaux et longères normandes. Devis gratuit sous 24h et visite technique.",
+  description: "Déménageur de confiance à Pont-Audemer (27500). Spécialiste centre historique, bords de canaux et longères normandes. Devis gratuit personnalisé et visite technique.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-pont-audemer-27500",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Durand", text: "Notre déménagement à Pont-Audemer a été une réussite totale. L'équipe a su gérer les accès du centre-ville avec ses canaux et ses rues étroites avec un calme olympien. Un grand professionnalisme.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Durand27` },
-  { id: "fallback-2", name: "Sophie L.", text: "Très bonne expérience pour mon appartement. Devis clair, équipe ponctuelle et aucun accroc malgré les 3 étages sans ascenseur. Un déménagement sans stress, merci !", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieL27` },
-  { id: "fallback-3", name: "M. Roger", text: "Efficacité et soin du détail. Ils ont déménagé ma maison normande en protégeant parfaitement mes meubles anciens. Je recommande vivement leur sérieux.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Roger27` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -61,7 +55,7 @@ const WHY_US_ITEMS = [
   {
     icon: ShieldCheck,
     title: "Proximité Évreux",
-    description: "Notre ancrage dans l'Eure garantit une réactivité maximale et une connaissance parfaite du terrain dans le Pays d'Auge."
+    description: "Notre ancrage dans l'Eure facilite l'organisation des projets dans le Pays d'Auge."
   }
 ];
 
@@ -163,7 +157,7 @@ export default function PontAudemerPage() {
                   Pont-Audemer est une ville d'exception, dont l'urbanisme médiéval et les nombreux canaux de la Risle imposent des défis logistiques bien réels. Déménager dans ce secteur historique demande une approche respectueuse du bâti et une maîtrise parfaite des accès souvent étroits.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, forts de notre ancrage dans l'Eure, nous maîtrisons chaque spécificité de la cité. Que vous emménagiez dans une maison à pans de bois du centre-ville ou un pavillon moderne sur les hauteurs, nous garantissons une transition fluide, sécurisée et d'une grande ponctualité.
+                  Chez <strong>Déménagement du Vexin</strong>, nous adaptons la préparation aux maisons à pans de bois du centre-ville comme aux pavillons situés sur les hauteurs.
                 </p>
               </div>
               
@@ -275,7 +269,7 @@ export default function PontAudemerPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-pont-audemer" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function PontAudemerPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas les accès complexes ou le stationnement freiner votre projet. Contactez nos experts pour une visite gratuite et obtenez un devis complet sous 24h.
+                    Ne laissez pas les accès complexes ou le stationnement freiner votre projet. Contactez nos experts pour une visite gratuite et obtenez un devis complet dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -25,17 +24,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Yvelines (78) | Expert Local & Devis Gratuit",
-  description: "Votre déménageur de confiance dans les Yvelines. De Versailles à Rambouillet, nous gérons votre déménagement avec des équipes locales 100% salariées.",
+  description: "Votre déménageur de confiance dans les Yvelines. De Versailles à Rambouillet, nous gérons votre déménagement avec des équipes locales salariées.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-yvelines-78",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Dubois", text: "Notre déménagement de Paris à Versailles a été une réussite totale grâce à l'équipe. Ponctuels, soigneux et très sympathiques. On sent l'expertise du secteur.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dubois` },
-  { id: "fallback-2", name: "M. Martin", text: "Très professionnels pour mon déménagement à Saint-Germain-en-Laye. Ils ont parfaitement géré les accès un peu compliqués au 3ème sans ascenseur. Je recommande.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=Martin` },
-  { id: "fallback-3", name: "Sophie L.", text: "Une équipe au top ! Efficaces et à l'écoute pour notre installation à Rambouillet. Tout est arrivé en parfait état. Merci !", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=SophieL` },
-];
 
 const YVELINES_CITIES = [
   { name: "Versailles", link: "/demenagement-versailles-78000" },
@@ -60,23 +54,23 @@ const WHY_US_ITEMS = [
   },
   {
     icon: Users,
-    title: "Équipes 100% Salariées",
+    title: "Équipes Salariées",
     description: "Pas d'intérimaires. Nos déménageurs sont formés en interne, habitués à travailler ensemble pour une efficacité redoutable."
   },
   {
     icon: ShieldCheck,
-    title: "Sécurité Maximale",
+    title: "Protection du mobilier",
     description: "Matériel de protection premium (housses capitonnées, bullkraft) et camions équipés pour préserver vos biens les plus précieux."
   },
   {
     icon: Star,
     title: "Service VIP",
-    description: "Nous gérons les autorisations de stationnement et vous attribuons un coordinateur unique pour un suivi sans faille."
+    description: "Selon la formule retenue, nous vous accompagnons pour le stationnement et vous attribuons un interlocuteur unique."
   }
 ];
 
 const FAQS = [
-  { question: "Gérez-vous les autorisations de stationnement à Versailles ou Saint-Germain ?", answer: "Oui, absolument. L'obtention d'arrêtés de voirie peut être complexe dans ces villes historiques. Pour nos formules Standard et Confort, nous gérons 100% de ces démarches administratives pour vous." },
+  { question: "Gérez-vous les autorisations de stationnement à Versailles ou Saint-Germain ?", answer: "Ces démarches peuvent être complexes dans les villes historiques. Selon la formule retenue, nous pouvons vous accompagner en tenant compte des règles et délais indiqués par la commune." },
   { question: "Comment évaluez-vous le coût d'un déménagement dans les Yvelines ?", answer: "Le coût dépend du volume (m³), de la distance, de la formule choisie et des accès (étages, portage). Nous privilégions une visite technique gratuite à votre domicile dans le 78 pour un devis ferme et définitif." },
   { question: "Intervenez-vous dans les zones rurales de la vallée de Chevreuse ?", answer: "Bien sûr. Nous sommes parfaitement équipés pour intervenir dans toutes les communes, y compris les zones reculées ou les propriétés avec des accès difficiles (chemins de terre, portails étroits)." },
   { question: "Quels sont vos délais d'intervention ?", answer: "Nous vous conseillons de nous contacter 3 à 4 semaines à l'avance. Cependant, grâce à notre forte implantation locale, nous pouvons régulièrement débloquer des créneaux d'urgence. Appelez-nous !" }
@@ -139,7 +133,7 @@ export default function YvelinesPage() {
             
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
-                <Link href="/dashboard/quote">
+                <Link href="/demande-devis">
                   Obtenir mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
@@ -254,7 +248,7 @@ export default function YvelinesPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-78" className="py-24 bg-white">
@@ -301,7 +295,7 @@ export default function YvelinesPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Contactez-nous dès aujourd'hui pour organiser votre visite technique gratuite dans les Yvelines et recevoir votre devis sous 24h.
+                    Contactez-nous dès aujourd'hui pour organiser votre visite technique gratuite dans les Yvelines et recevoir votre devis dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">

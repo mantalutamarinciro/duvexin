@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,17 +27,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Charenton-le-Pont (94) | Standing & Proximité Paris",
-  description: "Déménageur expert à Charenton-le-Pont (94220). Spécialiste des immeubles de standing, bords de Marne et Bois de Vincennes. Devis gratuit sous 24h.",
+  description: "Déménageur expert à Charenton-le-Pont (94220). Spécialiste des immeubles de standing, bords de Marne et Bois de Vincennes. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-charenton-le-pont-94220",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Dubois", text: "Un déménagement parfaitement géré à Charenton. L'équipe a été très professionnelle et a su s'adapter à l'étroitesse de notre rue près du bois. Service de grande qualité.", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dubois94220` },
-  { id: "fallback-2", name: "Sophie M.", text: "Très satisfaite de la prestation. Efficaces, rapides et sympathiques. Ils ont rendu mon déménagement vers le centre de Charenton beaucoup moins stressant.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieM94` },
-  { id: "fallback-3", name: "Cabinet Conseil", text: "Le transfert de nos bureaux à Charenton a été mené avec rigueur et discrétion. Une équipe professionnelle sur qui l'on peut compter pour le mobilier de standing.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Conseil94` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -146,7 +140,7 @@ export default function CharentonLePontPage() {
                 Charenton-le-Pont est une ville prisée, idéalement située au confluent de la Seine et de la Marne et bordée par le Bois de Vincennes. Cet emplacement stratégique s'accompagne d'une forte densité urbaine.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons ces spécificités. Que vous emménagiez dans un appartement de caractère près du bois ou dans un bureau moderne sur les quais, nous planifions chaque détail logistique pour garantir une journée fluide, rapide et sans le moindre stress.
+                Chez Déménagement du Vexin, nous maîtrisons ces spécificités. Que vous emménagiez dans un appartement de caractère près du bois ou dans un bureau moderne sur les quais, nous planifions chaque détail logistique pour garantir une journée fluide, rapide et sans le moindre stress.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -256,7 +250,7 @@ export default function CharentonLePontPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-charenton" className="py-20 lg:py-32 bg-slate-50">
@@ -302,13 +296,13 @@ export default function CharentonLePontPage() {
                     <span className="text-[#00ad9f]">départ de Charenton ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la logistique au hasard dans cette zone dense. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique au hasard dans cette zone dense. Contactez nos équipes pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

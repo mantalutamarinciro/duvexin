@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,17 +27,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Clichy (92) | Particuliers & Bureaux | Devis Gratuit",
-  description: "Déménageur de confiance à Clichy (92110). Spécialiste des accès urbains denses, bords de Seine et transferts de sièges sociaux. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Clichy (92110). Spécialiste des accès urbains denses, bords de Seine et transferts de sièges sociaux. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-clichy-92110",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Sarah K.", text: "Déménagement de mon appartement à Clichy parfaitement géré. L'équipe a été rapide, professionnelle et a su s'adapter à une rue pas très large près de la mairie. Je recommande vivement.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=SarahK92` },
-  { id: "fallback-2", name: "Julien M.", text: "Très bonne expérience. Devis clair, équipe sympa et efficace. Mon déménagement de Paris à Clichy s'est fait sans aucun stress grâce au monte-meubles installé très rapidement.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=JulienM92` },
-  { id: "fallback-3", name: "Entreprise InnovUp", text: "Le transfert de nos bureaux a été une réussite totale. Une planification sans faille et une exécution rapide. Des vrais pros du transfert tertiaire, notre activité n'a pas été impactée.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=InnovUp92` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -161,7 +155,7 @@ export default function ClichyPage() {
                   Clichy est une ville exceptionnellement dynamique, véritable carrefour stratégique entre Paris et les grands pôles d'activités du Nord francilien. Son urbanisme, mêlant anciens immeubles de rapport, rues étroites et nouveaux quartiers résidentiels en bord de Seine, exige une logistique très agile.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons ces défis propres à Clichy. Que vous emménagiez dans un appartement moderne près du parc Salengro ou que vous transfériez votre entreprise vers le quartier tertiaire, nous vous garantissons une organisation sans accroc, ponctuelle et hautement sécurisée.
+                  Chez <strong>Déménagement du Vexin</strong>, nous adaptons la préparation aux contraintes de Clichy. Appartement près du parc Salengro ou transfert vers le quartier tertiaire : accès, stationnement et protection sont étudiés avec votre projet.
                 </p>
               </div>
               
@@ -273,7 +267,7 @@ export default function ClichyPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-clichy" className="py-24 bg-slate-50">
@@ -320,13 +314,13 @@ export default function ClichyPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine complexe vous stresser. Contactez nos équipes pour une visite technique et recevez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine complexe vous stresser. Contactez nos équipes pour une visite technique et recevez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

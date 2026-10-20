@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,17 +27,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Bernay (27) | Expert Normandie | Devis Gratuit",
-  description: "Déménageur de confiance à Bernay (27300). Spécialiste du centre historique et des longères normandes. Protection du patrimoine et devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Bernay (27300). Spécialiste du centre historique et des longères normandes. Protection du patrimoine et devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-bernay-27300",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Lebrun", text: "Notre déménagement dans une maison à colombages à Bernay a été une réussite. L'équipe a été très soigneuse et professionnelle. On sent le respect du bâti ancien.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=Lebrun27` },
-  { id: "fallback-2", name: "Jean-Pierre D.", text: "Très bonne expérience pour mon appartement. Devis clair, équipe ponctuelle et du matériel de qualité. Un déménagement sans aucun stress.", rating: 5, createTime: "il y a 10 mois", avatarUrl: `https://i.pravatar.cc/48?u=JPD27` },
-  { id: "fallback-3", name: "Sophie M.", text: "Efficacité et professionnalisme. Je recommande vivement Déménagement du Vexin pour leur sérieux et leur ponctualité à Bernay.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=SophieM27V` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -171,7 +165,7 @@ export default function BernayPage() {
                  </div>
                  <div>
                    <h3 className="text-xl font-bold text-slate-900 mb-1">Spécialiste Bâti Ancien</h3>
-                   <p className="text-slate-500 font-light">Protection absolue de vos intérieurs et manipulation de mobilier ancien.</p>
+                   <p className="text-slate-500 font-light">Protection adaptée de vos intérieurs et manipulation de mobilier ancien.</p>
                  </div>
               </div>
             </div>
@@ -273,7 +267,7 @@ export default function BernayPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-bernay" className="py-24 bg-slate-50">
@@ -320,13 +314,13 @@ export default function BernayPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Confiez votre mobilier à des professionnels du territoire normand. Contactez-nous pour une visite technique gratuite et recevez un devis détaillé sous 24h.
+                    Confiez votre mobilier à des professionnels du territoire normand. Contactez-nous pour une visite technique gratuite et recevez un devis détaillé dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

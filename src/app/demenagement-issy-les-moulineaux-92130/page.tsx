@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,17 +28,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Issy-les-Moulineaux (92) | Expert Local & Devis Gratuit",
-  description: "Déménageur de confiance à Issy-les-Moulineaux (92130). Spécialiste des transferts de bureaux (médias/tech) et des éco-quartiers. Devis gratuit en 24h.",
+  description: "Déménageur de confiance à Issy-les-Moulineaux (92130). Spécialiste des transferts de bureaux (médias/tech) et des éco-quartiers. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-issy-les-moulineaux-92130",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Chevalier", text: "Déménagement de notre appartement à Issy géré à la perfection. L'équipe a été très pro, rapide et a su s'adapter aux accès compliqués du Fort d'Issy. Un sans-faute !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Chevalier92` },
-  { id: "fallback-2", name: "Agence MédiaCom", text: "Le transfert de nos bureaux vers le quartier Val de Seine a été une réussite. Discrétion, efficacité et respect du planning. Indispensable pour une entreprise tech.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=MediaCom92` },
-  { id: "fallback-3", name: "Sophie D.", text: "Très bonne expérience pour mon premier emménagement à Issy. De la prise de contact au jour J, tout a été fluide. Le monte-meubles a sauvé ma journée !", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=SophieD92` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -159,7 +153,7 @@ export default function IssyLesMoulineauxPage() {
                 Issy-les-Moulineaux est un territoire de contrastes, mêlant sièges sociaux ultra-modernes et résidences familiales prisées. Déménager dans cet environnement urbain dense exige une agilité technique et une maîtrise parfaite des accès verticaux.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous accompagnons cette mutation. Que vous emménagiez dans un appartement neuf au Fort d'Issy ou que vous transfériez vos bureaux vers le quartier Val de Seine, nous garantissons une transition fluide et sécurisée.
+                Chez Déménagement du Vexin, nous accompagnons cette mutation. Appartement neuf au Fort d'Issy ou bureaux dans le quartier Val de Seine : nous adaptons la prestation aux accès et aux contraintes du site.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -269,7 +263,7 @@ export default function IssyLesMoulineauxPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-issy" className="py-20 lg:py-32 bg-slate-50">
@@ -314,13 +308,13 @@ export default function IssyLesMoulineauxPage() {
                     <span className="text-[#00ad9f]">départ d'Issy ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la densité urbaine vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la densité urbaine vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

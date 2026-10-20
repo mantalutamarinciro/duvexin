@@ -7,8 +7,7 @@ import { LocalMovingGuide } from "@/components/local-moving-guide";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Cormeilles-en-Parisis (95) | Expert Local & Devis Gratuit",
-  description: "Déménageur de confiance à Cormeilles-en-Parisis (95240). Spécialiste des buttes du Parisis, accès difficiles et zones pavillonnaires. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Cormeilles-en-Parisis (95240). Spécialiste des buttes du Parisis, accès difficiles et zones pavillonnaires. Devis gratuit.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-cormeilles-en-parisis-95240",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Roger", text: "Notre déménagement à Cormeilles s'est très bien passé. L'équipe a su gérer les accès en pente de notre rue avec un grand professionnalisme. Service impeccable et très rassurant.", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Roger95` },
-  { id: "fallback-2", name: "Julien M.", text: "Très bonne expérience pour mon appartement. Devis clair et équipe ponctuelle. Un déménagement sans stress, même avec un accès restreint. Je recommande cette entreprise.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=JulienM95C` },
-  { id: "fallback-3", name: "Mme. Vincent", text: "Efficacité, soin et bonne humeur. Un déménagement sans stress pour ma maison, je ferai de nouveau appel à eux sans hésiter.", rating: 5, createTime: "il y a 11 mois", avatarUrl: `https://i.pravatar.cc/48?u=Vincent95C` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -80,7 +74,7 @@ const FAQS = [
   },
   { 
     question: "Comment sont protégés mes meubles fragiles ?", 
-    answer: "La sécurité est notre priorité absolue. Nous utilisons des couvertures professionnelles de fort grammage, des housses matelassées sur-mesure pour la literie et les canapés, et du bullkraft (papier bulle renforcé) pour vos objets précieux, garantissant une arrivée sans accroc." 
+    answer: "Nous utilisons des couvertures professionnelles, des housses adaptées à la literie et aux canapés, ainsi que des emballages renforcés pour les objets fragiles."
   }
 ];
 
@@ -275,7 +269,7 @@ export default function CormeillesEnParisisPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       <LocalMovingGuide city="cormeilles" />
 
@@ -324,13 +318,13 @@ export default function CormeillesEnParisisPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas les reliefs urbains vous freiner. Contactez nos équipes pour une visite technique et obtenez un devis gratuit, transparent et sans engagement sous 24h.
+                    Ne laissez pas les reliefs urbains vous freiner. Contactez nos équipes pour une visite technique et obtenez un devis gratuit, transparent et sans engagement.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

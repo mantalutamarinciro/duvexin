@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement L'Haÿ-les-Roses (94) | Expert local & Devis Gratuit",
-  description: "Déménageur de confiance à L'Haÿ-les-Roses (94240). Spécialiste pavillons, résidences calmes et proximité Roseraie. Devis gratuit sous 24h et visite technique.",
+  description: "Déménageur de confiance à L'Haÿ-les-Roses (94240). Spécialiste pavillons, résidences calmes et proximité Roseraie. Devis gratuit personnalisé et visite technique.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-lhay-les-roses-94240",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Giraud", text: "Déménagement de notre pavillon à L'Haÿ-les-Roses géré avec un grand professionnalisme. L'équipe a été très soigneuse avec nos plantes et notre jardin, nous avons beaucoup apprécié cette attention rare.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Giraud94` },
-  { id: "fallback-2", name: "Marc D.", text: "Très bonne expérience pour mon appartement. Devis clair, pas de frais cachés et équipe ponctuelle. Un déménagement réalisé sans le moindre stress malgré un canapé difficile à passer.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=MarcD94` },
-  { id: "fallback-3", name: "Mme. Petit", text: "Un grand merci à l'équipe pour son efficacité et sa bonne humeur. Ils ont géré les accès et le stationnement de manière très pro près de la mairie. Je recommande Marne Transdem.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=PetitLHR` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -80,7 +74,7 @@ const FAQS = [
   },
   { 
     question: "Quel est le délai pour une visite technique à L'Haÿ-les-Roses ?", 
-    answer: "Grâce à notre présence constante dans le Val-de-Marne, nous pouvons intervenir sous 48h pour une visite à domicile ou organiser une visio-évaluation immédiate pour votre devis." 
+    answer: "Nous pouvons organiser une visite à domicile ou une visio-évaluation selon les besoins et les disponibilités liés à votre projet."
   }
 ];
 
@@ -160,7 +154,7 @@ export default function LhayLesRosesPage() {
                 L'Haÿ-les-Roses est une ville d'exception, réputée pour son cadre de vie paisible et sa célèbre Roseraie. Déménager dans ce secteur demande une approche qui concilie efficacité urbaine et respect d'un environnement résidentiel calme.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons chaque spécificité de la commune. Que vous emménagiez dans une maison meulière avec un accès étroit ou dans une résidence moderne en centre-ville, nous planifions chaque détail pour garantir une transition en toute sérénité.
+                Chez Déménagement du Vexin, nous maîtrisons chaque spécificité de la commune. Que vous emménagiez dans une maison meulière avec un accès étroit ou dans une résidence moderne en centre-ville, nous planifions chaque détail pour garantir une transition en toute sérénité.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -270,7 +264,7 @@ export default function LhayLesRosesPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-lhay" className="py-20 lg:py-32 bg-slate-50">
@@ -315,13 +309,13 @@ export default function LhayLesRosesPage() {
                     <span className="text-[#00ad9f]">départ de L'Haÿ-les-Roses ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la logistique ternir votre projet dans ce cadre privilégié. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique ternir votre projet dans ce cadre privilégié. Contactez nos équipes pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

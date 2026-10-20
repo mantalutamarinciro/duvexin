@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -32,17 +31,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement France → Espagne | Devis Gratuit & Sécurisé",
-  description: "Déménageur expert sur l'axe France-Espagne. Liaisons régulières vers Madrid, Barcelone, Valence. Groupage et transfert d'entreprise. Devis sous 24h.",
+  description: "Déménageur expert sur l'axe France-Espagne. Liaisons régulières vers Madrid, Barcelone, Valence. Groupage et transfert d'entreprise. Devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-france-espagne",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Garcia", text: "Déménagement de Paris à Madrid réalisé avec une efficacité incroyable. L'équipe a géré le transport sur 1200 km avec un soin total. Nos meubles sont arrivés impeccables. Un grand merci !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=GarciaES` },
-  { id: "fallback-2", name: "Julie M.", text: "Service parfait pour mon installation à Barcelone. La formule groupage m'a permis de faire de vraies économies. Équipe ponctuelle et matériel de protection de haute qualité. Je recommande vivement.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=JulieES` },
-  { id: "fallback-3", name: "Export-Solutions SL", text: "Le transfert de nos bureaux vers Valence a été orchestré de main de maître. Discrétion, respect des délais et maîtrise des enjeux internationaux. Des vrais pros du transfert transfrontalier.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=ExportES` },
-];
 
 const SPAIN_CITIES = [
   { name: "Madrid", desc: "La capitale et ses quartiers dynamiques (Salamanca, Chamberí...)" },
@@ -73,7 +67,7 @@ const WHY_US_ITEMS = [
   },
   {
     icon: ShieldCheck,
-    title: "Garantie Totale",
+    title: "Protection contractuelle",
     description: "Votre patrimoine est couvert par une assurance Ad Valorem (valeur déclarée) incluse sur l'intégralité du trajet européen."
   }
 ];
@@ -81,7 +75,7 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Quelle est la durée d'un déménagement vers l'Espagne ?", 
-    answer: "Pour un trajet comme Paris-Barcelone (environ 1000 km), il faut compter entre 48h et 72h. Le premier jour est dédié au chargement très minutieux en France. Le transport s'effectue ensuite (dans le strict respect des temps de conduite réglementaires), suivi du déchargement et de l'installation complète à l'arrivée." 
+    answer: "Pour un trajet comme Paris-Barcelone, le calendrier dépend du volume, des accès et des temps de conduite réglementaires. Le devis précise les dates prévues ainsi que les prestations à l'arrivée."
   },
   { 
     question: "Comment fonctionne le groupage vers l'Espagne ?", 
@@ -315,7 +309,7 @@ export default function SpainPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-es" className="py-24 bg-slate-50">
@@ -362,13 +356,13 @@ export default function SpainPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas les frontières ou les kilomètres compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Ne laissez pas les frontières ou les kilomètres compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

@@ -1,18 +1,12 @@
 
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import type { FormattedReview } from "@/app/api/reviews/route";
 import { CheckCircle, MapPin, ShieldCheck, Home, Users, Building, Truck, Trees } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { TestimonialsSection } from "@/components/testimonials-section";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 
-const fallbackTestimonials: FormattedReview[] = [
-    { id: "fallback-1", name: "Famille Leconte", text: "Notre déménagement dans une maison du bocage près de Vire a été une réussite. L'équipe a été très professionnelle et a su gérer les accès parfois compliqués.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Leconte14V` },
-    { id: "fallback-2", name: "Jean-Pierre D.", text: "Très bonne expérience pour mon appartement à Vire. Devis clair et équipe ponctuelle. Un déménagement sans stress.", rating: 5, createTime: "il y a 10 mois", avatarUrl: `https://i.pravatar.cc/48?u=JPD14V` },
-    { id: "fallback-3", name: "Sophie M.", text: "Efficacité et professionnalisme. Je recommande vivement Déménagement du Vexin pour leur sérieux et leur connaissance de la région.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=SophieM14V` },
-];
 
 const whyChooseUsItems = [
     {
@@ -95,7 +89,7 @@ export default function VirePage() {
                            Déménager à Vire, capitale du Bocage Normand, c'est choisir une ville de caractère reconstruite avec soin, entourée d'une nature préservée. Cette situation unique demande une approche du déménagement qui allie logistique urbaine et expertise rurale.
                         </p>
                         <p className="mt-4 text-muted-foreground">
-                           Grâce à notre agence d'Évreux, nous sommes votre expert de proximité pour Vire et ses environs. Que vous emménagiez dans le centre-ville, un appartement moderne ou une maison de campagne, nous vous garantissons un déménagement serein et parfaitement orchestré.
+                           Grâce à notre agence d'Évreux, nous organisons des déménagements à Vire et dans ses environs. Centre-ville, appartement moderne ou maison de campagne : la prestation est adaptée aux accès et aux contraintes du projet.
                         </p>
                     </div>
                     <div>
@@ -175,7 +169,7 @@ export default function VirePage() {
                 </div>
             </section>
             
-            <TestimonialsSection reviews={fallbackTestimonials} />
+            <VerifiedTestimonialsSection />
             
             {/* FAQ Section */}
             <section id="faq-vire" className="py-16">

@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement L'Isle-Adam (95) | Service Premium & Devis Gratuit",
-  description: "Déménageur de confiance à L'Isle-Adam (95290). Spécialiste belles demeures, objets d'art et bords de l'Oise. Service haut de gamme. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à L'Isle-Adam (95290). Spécialiste belles demeures, objets d'art et bords de l'Oise. Service haut de gamme. Devis gratuit.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-lisle-adam-95290",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Meunier", text: "Un déménagement parfaitement orchestré à L'Isle-Adam. L'équipe a été d'un grand professionnalisme et d'une précaution extrême avec nos meubles de famille. Un service haut de gamme à la hauteur de la ville.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Meunier95` },
-  { id: "fallback-2", name: "Juliette L.", text: "Le service était impeccable. Ils ont su gérer les accès difficiles de ma rue en bord d'Oise et protéger les parquets avec beaucoup de soin. Une entreprise sérieuse que je recommande.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=JulietteL95` },
-  { id: "fallback-3", name: "Dr. Aubert", text: "Ponctualité, efficacité et discrétion pour le transfert de mon cabinet. Le devis était précis et l'organisation sans faille. Je ferai de nouveau appel à Marne Transdem.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Aubert95` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -80,7 +74,7 @@ const FAQS = [
   },
   { 
     question: "Quel est le délai pour obtenir un devis ?", 
-    answer: "Nous sommes très réactifs dans le Val-d'Oise. Après une évaluation à domicile ou par visio, vous recevez votre devis détaillé et gratuit sous 24h ouvrées." 
+    answer: "Après une évaluation à domicile ou par visio, nous préparons un devis détaillé selon le volume, les accès et les prestations demandées."
   }
 ];
 
@@ -160,7 +154,7 @@ export default function LisleAdamPage() {
                 L'Isle-Adam se distingue par son élégance architecturale et la quiétude de ses bords d'Oise. Déménager dans ce secteur demande bien plus qu'un simple transport : c'est une mission de protection de votre patrimoine dans un environnement urbain délicat.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons chaque spécificité de la ville. Que vous emménagiez dans une maison de maître ou un appartement de standing, nous coordonnons chaque étape (stationnement, protection, levage) pour garantir une installation parfaite.
+                Chez Déménagement du Vexin, nous maîtrisons chaque spécificité de la ville. Que vous emménagiez dans une maison de maître ou un appartement de standing, nous coordonnons chaque étape (stationnement, protection, levage) selon le niveau de prestation retenu.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -254,7 +248,7 @@ export default function LisleAdamPage() {
                   <div className="p-2 bg-slate-50 border border-slate-100 rounded-xl text-[#00ad9f] shrink-0 mt-1"><CheckCircle2 className="h-5 w-5"/></div>
                   <div>
                     <h4 className="text-lg font-bold text-slate-900">Formule "Clefs en main"</h4>
-                    <p className="text-slate-500 mt-1 leading-relaxed">Emballage complet de vos effets fragiles, déballage et remise en place pour une sérénité absolue.</p>
+                    <p className="text-slate-500 mt-1 leading-relaxed">Emballage des effets fragiles, déballage et remise en place selon la formule retenue.</p>
                   </div>
                 </li>
               </ul>
@@ -270,7 +264,7 @@ export default function LisleAdamPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-lisle-adam" className="py-20 lg:py-32 bg-slate-50">
@@ -315,13 +309,13 @@ export default function LisleAdamPage() {
                     <span className="text-[#00ad9f]">départ de L'Isle-Adam ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la logistique urbaine ou les accès complexes ternir votre projet. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine ou les accès complexes ternir votre projet. Contactez nos équipes pour une visite technique et obtenez un devis gratuit.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

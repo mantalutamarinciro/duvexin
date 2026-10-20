@@ -4,8 +4,7 @@ import Link from "next/link";
 
 // UI Components
 import { Button } from "@/components/ui/button";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -40,11 +39,6 @@ export const metadata: Metadata = {
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Clotilde Duran", text: "Une équipe très réactive et très professionnelle, vraiment rien à dire, du très bon travail! Les affaires ont été emballées avec le plus grand soin. Nous conseillons les yeux fermés!", rating: 5, createTime: "il y a 2 ans", avatarUrl: `https://i.pravatar.cc/48?u=Clotilde` },
-  { id: "fallback-2", name: "Jean-michel Marot", text: "Un déménagement de l'IDF vers la Bretagne parfaitement réalisé. Professionnel du début jusqu'à la livraison finale. Très bon contact. Équipe efficace, rapide, et sympathique.", rating: 5, createTime: "il y a 2 ans", avatarUrl: `https://i.pravatar.cc/48?u=Jean-michel` },
-  { id: "fallback-3", name: "Robert GALAND", text: "Une interlocutrice réactive, une équipe ultra efficace, des affaires très bien protégées. Sincèrement je suis bluffé. Je recommande totalement Déménagement du Vexin.", rating: 5, createTime: "il y a 19 jours", avatarUrl: `https://i.pravatar.cc/48?u=Robert` },
-];
 
 const ILE_DE_FRANCE = [
   { name: "Val-d'Oise (95)", description: "Notre siège historique, nous couvrons l'ensemble des communes du département.", link: "/demenagement-val-d-oise-95" },
@@ -471,7 +465,7 @@ export default function InterventionZonePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- CTA FINAL --- */}
       <section className="py-24 bg-white">
@@ -489,7 +483,7 @@ export default function InterventionZonePage() {
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-16 px-12 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Devis gratuit sous 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander un devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

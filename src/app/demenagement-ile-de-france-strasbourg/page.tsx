@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -27,18 +26,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Paris → Strasbourg (67) | Devis Gratuit & Groupage | 24h",
-  description: "Déménageur expert sur l'axe Paris-Strasbourg. Liaisons régulières, solutions de groupage et expertise centre historique. Votre devis gratuit sous 24h.",
+  title: "Déménagement Paris → Strasbourg (67) | Devis Gratuit & Groupage",
+  description: "Déménageur expert sur l'axe Paris-Strasbourg. Liaisons régulières, solutions de groupage et expertise centre historique. Votre devis gratuit personnalisé.",
   alternates: {
-    canonical: "https://demenagementduvexin.fr/demenagement-idf-strasbourg",
+    canonical: "https://demenagementduvexin.fr/demenagement-ile-de-france-strasbourg",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Muller", text: "Le déménagement de nos vies de la région parisienne à Strasbourg a été une totale réussite. L'équipe a été d'un grand professionnalisme, à la fois pour le chargement et pour la livraison malgré la neige ! Un grand merci !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Muller67` },
-  { id: "fallback-2", name: "Thomas K.", text: "Service impeccable pour mon déménagement longue distance. La formule groupage était parfaite pour mon budget et tout est arrivé sans la moindre égratignure. Je recommande vivement pour le sérieux.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=ThomasK67` },
-  { id: "fallback-3", name: "Société Euro-Log", text: "Le transfert de notre agence vers le quartier européen a été mené avec rigueur et efficacité. Une équipe qui comprend les enjeux de planning et de confidentialité. Des vrais pros.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=EuroLog67` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -138,7 +132,7 @@ export default function StrasbourgPage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="rounded-full h-14 px-8 text-base bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
                 <Link href="/demande-devis">
-                  Obtenir mon devis en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                  Obtenir mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -155,10 +149,10 @@ export default function StrasbourgPage() {
                 De l'Île-de-France au <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">cœur de l'Europe Alsacienne</u>.
               </h2>
               <p className="text-lg text-slate-500 leading-relaxed">
-                S'installer à Strasbourg est un projet d'envergure qui marque souvent une nouvelle étape professionnelle ou familiale. Pour que ce transfert se fasse sans stress, la maîtrise de l'axe A4 est impérative. Les 500 km séparant l'IDF de l'Alsace exigent une planification sans faille.
+                S'installer à Strasbourg est un projet d'envergure qui marque souvent une nouvelle étape professionnelle ou familiale. Pour que ce transfert se fasse sans stress, la maîtrise de l'axe A4 est impérative. Les 500 km séparant l'IDF de l'Alsace exigent une planification rigoureuse.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons les deux extrémités de votre projet : la gestion du stationnement parisien et les accès parfois escarpés du centre-ville strasbourgeois, des quais de l'Ill aux résidences modernes de Neudorf ou du Wacken.
+                Chez Déménagement du Vexin, nous maîtrisons les deux extrémités de votre projet : la gestion du stationnement parisien et les accès parfois escarpés du centre-ville strasbourgeois, des quais de l'Ill aux résidences modernes de Neudorf ou du Wacken.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -268,7 +262,7 @@ export default function StrasbourgPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-strasbourg" className="py-20 lg:py-32 bg-slate-50">
@@ -314,13 +308,13 @@ export default function StrasbourgPage() {
                     <span className="text-[#00ad9f]">vie à Strasbourg ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la distance compliquer votre projet. Contactez nos experts pour une étude personnalisée et recevez un devis gratuit sous 24h.
+                    Ne laissez pas la distance compliquer votre projet. Contactez nos experts pour une étude personnalisée et recevez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

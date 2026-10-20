@@ -254,7 +254,7 @@ export default function TarifsPage() {
                  <h2 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-tight">
                     Votre devis ferme <br className="hidden md:block"/>
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-300">
-                      sous 24 heures.
+                      après étude de votre demande.
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">

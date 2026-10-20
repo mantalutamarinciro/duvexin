@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Maisons-Alfort (94) | Expert local & Bords de Marne",
-  description: "Déménageur de confiance à Maisons-Alfort (94700). Spécialiste Charentonneau, École Vétérinaire et Bords de Marne. Devis gratuit sous 24h et formules étudiants.",
+  description: "Déménageur de confiance à Maisons-Alfort (94700). Spécialiste Charentonneau, École Vétérinaire et Bords de Marne. Devis gratuit personnalisé et formules étudiants.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-maisons-alfort-94700",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Berger", text: "Déménagement de notre maison à Charentonneau parfaitement géré. L'équipe a été professionnelle, rapide et particulièrement soigneuse avec nos meubles anciens. Un service 5 étoiles.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Berger94` },
-  { id: "fallback-2", name: "Lucas, étudiant vétérinaire", text: "Super service pour mon petit studio. Formule économique parfaite pour mon budget étudiant, et l'équipe a été super efficace le jour J. Je recommande vivement !", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=LucasVeto` },
-  { id: "fallback-3", name: "Mme. Fournier", text: "Très satisfaite de la prestation. Ils ont géré les accès complexes sur les bords de Marne avec brio grâce à leur monte-meubles. Une entreprise sérieuse et ponctuelle.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=FournierMA` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -51,7 +45,7 @@ const WHY_US_ITEMS = [
   {
     icon: Anchor,
     title: "Spécialiste Bords de Marne",
-    description: "Gestion experte des accès riverains et des résidences longeant la Marne pour une logistique sans faille."
+    description: "Étude des accès riverains et des résidences longeant la Marne pour adapter la logistique."
   },
   {
     icon: GraduationCap,
@@ -68,11 +62,11 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Comment gérez-vous le stationnement dans le centre de Maisons-Alfort ?", 
-    answer: "Maisons-Alfort est une ville dense. Nous incluons systématiquement la gestion des arrêtés municipaux de stationnement 15 jours à l'avance pour bloquer les places nécessaires au pied de votre porte, évitant ainsi tout blocage de rue." 
+    answer: "Maisons-Alfort est une ville dense. Selon l'adresse et la formule retenue, nous pouvons vous accompagner dans la préparation de la demande de stationnement en tenant compte des règles et délais municipaux."
   },
   { 
     question: "Je suis étudiant à l'École Vétérinaire, proposez-vous des tarifs adaptés ?", 
-    answer: "Oui, nous avons conçu une formule 'Éco-Étudiant' pour les studios et T1. Elle permet de bénéficier d'un transporteur professionnel et d'un camion équipé à un tarif ultra-compétitif, idéal pour s'installer près de l'ENVA." 
+    answer: "Pour un studio ou un T1, nous étudions une prestation adaptée au volume, aux accès et au budget, notamment pour une installation près de l'ENVA."
   },
   { 
     question: "Comment protégez-vous mon mobilier dans une maison avec jardin ?", 
@@ -160,7 +154,7 @@ export default function MaisonsAlfortPage() {
                 Maisons-Alfort est une ville d'exception, offrant un cadre de vie équilibré entre dynamisme urbain et quiétude des bords de rivière. Déménager dans ce secteur demande une approche qui concilie efficacité logistique et respect de l'environnement résidentiel.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons chaque spécificité de la commune. Que vous emménagiez dans une maison meulière à Charentonneau ou dans un appartement moderne près du métro Stade, nous planifions chaque étape pour garantir une transition fluide.
+                Chez Déménagement du Vexin, nous maîtrisons chaque spécificité de la commune. Que vous emménagiez dans une maison meulière à Charentonneau ou dans un appartement moderne près du métro Stade, nous planifions chaque étape pour garantir une transition fluide.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -270,7 +264,7 @@ export default function MaisonsAlfortPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-maisons-alfort" className="py-20 lg:py-32 bg-slate-50">
@@ -315,13 +309,13 @@ export default function MaisonsAlfortPage() {
                     <span className="text-[#00ad9f]">départ de Maisons-Alfort ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la logistique urbaine ou les accès complexes ternir votre projet. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine ou les accès complexes ternir votre projet. Contactez nos équipes pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Goussainville (95) | Expert Zone Roissy | Devis Gratuit",
-  description: "Déménageur de confiance à Goussainville (95190). Spécialiste de la zone aéroportuaire de Roissy, pavillons et entreprises. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Goussainville (95190). Spécialiste de la zone aéroportuaire de Roissy, pavillons et entreprises. Devis gratuit.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-goussainville-95190",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Martins", text: "Déménagement de notre maison à Goussainville parfaitement géré. L'équipe a été très professionnelle et efficace. Ils ont su naviguer sans problème malgré les travaux dans notre rue. Service au top !", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Martins95` },
-  { id: "fallback-2", name: "Société LogiPlus", text: "Le transfert de nos bureaux près de Roissy a été une réussite totale. Une planification rigoureuse et une exécution rapide. Des vrais professionnels de la logistique tertiaire.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=LogiPlus95` },
-  { id: "fallback-3", name: "Claire D.", text: "Très bonne expérience pour mon appartement. Devis clair, équipe ponctuelle et sympathique. Tout a été protégé avec soin, je recommande vivement.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=ClaireD95` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -68,7 +62,7 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Comment gérez-vous un déménagement près de la zone de Roissy ?", 
-    answer: "C'est un secteur stratégique que nous pratiquons quotidiennement. Nous planifions nos itinéraires en temps réel pour éviter les zones de fret saturées et les pics de trafic aéroportuaire. Notre ponctualité est garantie par une logistique rodée et une parfaite connaissance de l'Est du Val-d'Oise." 
+    answer: "La proximité de Roissy demande d'anticiper les zones de fret et les pics de trafic. Nous préparons l'itinéraire et les horaires selon les conditions connues avant l'intervention."
   },
   { 
     question: "Déménagez-vous les entreprises des parcs d'activités ?", 
@@ -275,7 +269,7 @@ export default function GoussainvillePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-goussainville" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function GoussainvillePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine ou la proximité des grands axes vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine ou la proximité des grands axes vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

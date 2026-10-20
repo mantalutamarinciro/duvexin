@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,18 +28,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Paris (75) | Expert Local & Devis Gratuit sous 24h",
+  title: "Déménagement Paris (75) | Expert Local & Devis Gratuit Personnalisé",
   description: "Déménageur professionnel à Paris (75). Spécialiste rues étroites, haussmannien et monte-meubles. Gestion des autorisations de stationnement. Devis gratuit.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-paris-75",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Claire B.", text: "Déménager dans le Marais relevait du défi. L'équipe a été incroyable, obtenant les autorisations et utilisant un monte-meubles avec une efficacité redoutable dans une rue minuscule. Je recommande à 1000%.", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=ClaireB` },
-  { id: "fallback-2", name: "Julien & Marc", text: "Service impeccable pour notre déménagement dans le 15ème. Ponctuels, professionnels et surtout, ils connaissent Paris sur le bout des doigts. Rien n'a été un problème pour eux.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=JulienMarc` },
-  { id: "fallback-3", name: "Entreprise Innovatech", text: "Transfert de nos bureaux du 8ème vers le 17ème sans aucune interruption d'activité. Une planification parfaite et une discrétion totale. Bravo à toute l'équipe.", rating: 5, createTime: "il y a 10 mois", avatarUrl: `https://i.pravatar.cc/48?u=Innovatech` },
-];
 
 const PARIS_QUARTIERS = [
   { name: "Le Marais (3e, 4e)", id: "marais", description: "Expertise rues étroites et cours pavées historiques." },
@@ -77,11 +71,11 @@ const WHY_CHOOSE_US = [
 const FAQS = [
   { 
     question: "Comment réservez-vous le stationnement à Paris ?", 
-    answer: "Nous déposons une demande d'autorisation d'occupation du domaine public (AOT) au minimum 15 jours avant votre déménagement via les services de la Mairie de Paris. Cela garantit un emplacement bloqué et légal pour nos camions au départ comme à l'arrivée." 
+    answer: "Selon les adresses de départ et d'arrivée, une autorisation d'occupation du domaine public peut être nécessaire. Nous vous aidons à anticiper cette démarche selon les délais et les règles indiqués par la Ville de Paris."
   },
   { 
     question: "Le monte-meubles est-il obligatoire pour un 4ème étage ?", 
-    answer: "Il n'est pas légalement obligatoire, mais très fortement recommandé à Paris si l'ascenseur est absent ou trop étroit (typique du style haussmannien). Il divise par deux le temps de manutention, réduit la fatigue et élimine totalement les risques de dégradation des parties communes." 
+    answer: "Un monte-meubles peut être recommandé lorsque l'ascenseur est absent, trop étroit ou inadapté au mobilier. Sa pertinence dépend de la façade, de l'étage, du stationnement et des autorisations nécessaires."
   },
   { 
     question: "Déménagez-vous les pianos et objets d'art ?", 
@@ -89,7 +83,7 @@ const FAQS = [
   },
   { 
     question: "Quels sont vos délais pour un devis à Paris ?", 
-    answer: "Nous sommes extrêmement réactifs. Nous organisons une visite technique (à domicile ou en visioconférence) sous 24h à 48h. Votre devis détaillé, ferme et définitif vous est envoyé dans la foulée, sans aucun frais caché." 
+    answer: "Nous organisons une visite technique à domicile ou en visioconférence selon les besoins du projet. Le devis détaille ensuite les prestations, les accès et les éventuels moyens techniques."
   }
 ];
 
@@ -286,7 +280,7 @@ export default function ParisPage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Building2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Haussmannien & Standing</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Protection absolue des parties communes (tapis, miroirs) et emballages de qualité muséale pour vos biens précieux et œuvres d'art.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Protection adaptée des parties communes (tapis, miroirs) et emballages de qualité muséale pour vos biens précieux et œuvres d'art.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
@@ -316,7 +310,7 @@ export default function ParisPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-paris" className="py-24 bg-slate-50">
@@ -363,13 +357,13 @@ export default function ParisPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine complexe de la capitale vous stresser. Contactez nos experts parisiens pour une étude personnalisée et recevez un devis ferme et gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine complexe de la capitale vous stresser. Contactez nos experts parisiens pour une étude personnalisée et recevez un devis ferme et gratuit après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

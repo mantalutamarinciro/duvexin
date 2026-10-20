@@ -29,7 +29,7 @@ import { Button } from "@/components/ui/button";
 const BASE_URL = "https://demenagementduvexin.fr";
 
 export const metadata: Metadata = {
-  title: "Devis déménagement gratuit | Estimation personnalisée sous 24h",
+  title: "Devis déménagement gratuit | Estimation personnalisée dans les meilleurs délais",
   description:
     "Obtenez un devis de déménagement gratuit, clair et personnalisé : volume, distance, accès, formule, assurance et prix ferme après validation technique.",
   alternates: {
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
 
 const trustSignals = [
   { label: "Devis gratuit", detail: "sans engagement", icon: Euro },
-  { label: "Réponse sous 24h", detail: "jours ouvrés", icon: Clock },
+  { label: "Réponse dans les meilleurs délais", detail: "jours ouvrés", icon: Clock },
   { label: "Prix détaillé", detail: "volume, accès, distance", icon: FileText },
   { label: "Équipes salariées", detail: "zéro sous-traitance", icon: Users },
 ];
@@ -202,7 +202,7 @@ const faqItems = [
   {
     question: "Combien de temps faut-il pour recevoir un devis ?",
     answer:
-      "Nous traitons généralement les demandes sous 24h ouvrées. Si le projet nécessite une visite technique ou des informations complémentaires, un conseiller vous contacte pour affiner le chiffrage avant envoi.",
+      "Nous traitons généralement les demandes après étude de votre demande. Si le projet nécessite une visite technique ou des informations complémentaires, un conseiller vous contacte pour affiner le chiffrage avant envoi.",
   },
   {
     question: "Pourquoi deux devis peuvent-ils être très différents ?",

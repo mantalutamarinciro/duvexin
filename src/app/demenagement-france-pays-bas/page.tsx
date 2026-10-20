@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -31,17 +30,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement France → Pays-Bas | Devis Gratuit & Sécurisé",
-  description: "Déménageur expert sur l'axe France-Pays-Bas. Liaisons vers Amsterdam, Rotterdam, La Haye. Logistique des canaux et groupage. Devis gratuit sous 24h.",
+  description: "Déménageur expert sur l'axe France-Pays-Bas. Liaisons vers Amsterdam, Rotterdam, La Haye. Logistique des canaux et groupage. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-france-pays-bas",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille De Groot", text: "Déménagement de Paris vers Amsterdam réalisé avec une efficacité remarquable. L'équipe a parfaitement géré l'accès très étroit de notre maison au bord du canal avec un monte-meubles. Un grand professionnalisme et beaucoup de courtoisie.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=DeGrootNL` },
-  { id: "fallback-2", name: "Marc-Antoine S.", text: "Très bonne expérience pour mon installation à Rotterdam. Le devis était clair et l'option groupage m'a permis de faire de vraies économies sur le trajet. Équipe ponctuelle et matériel de qualité. Je recommande !", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=MASNL` },
-  { id: "fallback-3", name: "Logistique-Euro SA", text: "Le transfert de nos bureaux vers Utrecht a été mené avec une rigueur et une discrétion totales. Des experts de la logistique internationale capables de gérer des contraintes urbaines fortes.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=LogEuroNL` },
-];
 
 const NETHERLANDS_CITIES = [
   { name: "Amsterdam", desc: "La capitale et ses quartiers iconiques aux accès complexes (Jordaan, Grachtengordel...)" },
@@ -72,7 +66,7 @@ const WHY_US_ITEMS = [
   },
   {
     icon: ShieldCheck,
-    title: "Garantie Totale",
+    title: "Protection contractuelle",
     description: "Votre patrimoine est couvert par une assurance Ad Valorem (valeur déclarée) incluse sur l'intégralité du trajet transfrontalier."
   }
 ];
@@ -80,7 +74,7 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Quelle est la durée d'un déménagement vers les Pays-Bas ?", 
-    answer: "Pour un trajet classique Paris-Amsterdam (environ 500 km), l'opération s'effectue généralement en 24h à 48h. Nous chargeons le matin en France pour une livraison le lendemain matin aux Pays-Bas, garantissant ainsi le respect strict des temps de repos de nos conducteurs et la sécurité de vos biens." 
+    answer: "Pour un trajet comme Paris-Amsterdam, le calendrier dépend du volume, des accès et des temps de conduite réglementaires. Les créneaux de chargement et de livraison sont confirmés dans le devis."
   },
   { 
     question: "Comment gérez-vous le stationnement à Amsterdam ou Rotterdam ?", 
@@ -314,7 +308,7 @@ export default function NetherlandsPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-nl" className="py-24 bg-slate-50">
@@ -361,13 +355,13 @@ export default function NetherlandsPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas les frontières ou la logistique des canaux compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Ne laissez pas les frontières ou la logistique des canaux compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

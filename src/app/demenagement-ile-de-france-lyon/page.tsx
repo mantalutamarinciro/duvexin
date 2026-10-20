@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,18 +27,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Paris → Lyon (69) | Devis Gratuit & Groupage | 24h",
-  description: "Déménageur expert sur l'axe Paris-Lyon. Liaisons hebdomadaires, solutions de groupage et expertise Croix-Rousse/Monts d'Or. Votre devis gratuit sous 24h.",
+  title: "Déménagement Paris → Lyon (69) | Devis Gratuit & Groupage",
+  description: "Déménageur expert sur l'axe Paris-Lyon. Liaisons hebdomadaires, solutions de groupage et expertise Croix-Rousse/Monts d'Or. Votre devis gratuit personnalisé.",
   alternates: {
-    canonical: "https://demenagementduvexin.fr/demenagement-idf-lyon",
+    canonical: "https://demenagementduvexin.fr/demenagement-ile-de-france-lyon",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Girard", text: "Notre déménagement Paris-Lyon a été une vraie réussite. L'équipe a été très professionnelle, ponctuelle et a pris grand soin de nos meubles fragiles malgré les accès difficiles à Fourvière. Un grand bravo !", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Girard69` },
-  { id: "fallback-2", name: "Sophie G.", text: "Un service client à l'écoute et une équipe au top pour mon emménagement à Lyon 6. La formule groupage m'a permis de faire de vraies économies. Je recommande Déménagement du Vexin !", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieG69` },
-  { id: "fallback-3", name: "Marc T.", text: "Devis clair, équipe efficace et matériel de qualité. Mon déménagement vers les Monts d'Or s'est déroulé sans aucun stress grâce à leur planification millimétrée.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MarcT69` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -141,7 +135,7 @@ export default function LyonPage() {
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
                 <Link href="/demande-devis">
-                  Obtenir mon devis en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                  Obtenir mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </div>
@@ -274,7 +268,7 @@ export default function LyonPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-lyon" className="py-24 bg-slate-50">
@@ -321,13 +315,13 @@ export default function LyonPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la distance compliquer votre projet d'expatriation en région. Contactez nos experts nationaux pour une étude personnalisée et recevez un devis ferme et gratuit sous 24h.
+                    Ne laissez pas la distance compliquer votre projet d'expatriation en région. Contactez nos experts nationaux pour une étude personnalisée et recevez un devis ferme et gratuit après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

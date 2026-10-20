@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,18 +28,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Seine-Saint-Denis (93) | Expert Local & Devis sous 24h",
+  title: "Déménagement Seine-Saint-Denis (93) | Expert Local & Devis personnalisé",
   description: "Déménageur de confiance en Seine-Saint-Denis (93). De Saint-Denis à Montreuil, nous gérons vos déménagements résidentiels et transferts de bureaux. Devis gratuit.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-seine-saint-denis-93",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Karim B.", text: "Super efficace pour mon déménagement à Saint-Denis. L'équipe a géré l'accès à l'immeuble et le stationnement comme des chefs dans une rue pourtant très chargée. Rien à dire, c'était parfait.", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Karim93` },
-  { id: "fallback-2", name: "Stéphanie et Paul", text: "Nous étions stressés à l'idée de déménager à Montreuil, mais l'équipe a rendu l'expérience très simple. Équipe ponctuelle, polie et très protectrice avec nos meubles.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=Stephanie93` },
-  { id: "fallback-3", name: "Leila A.", text: "Service au top pour un petit volume à Aubervilliers. Le devis était compétitif et sans frais cachés. Le monte-meubles a été un vrai plus pour mon 5ème étage. Je recommande !", rating: 5, createTime: "il y a 10 mois", avatarUrl: `https://i.pravatar.cc/48?u=Leila93` },
-];
 
 const SSD_CITIES = [
   "Saint-Denis", "Montreuil", "Aubervilliers", "Aulnay-sous-Bois", "Drancy", 
@@ -169,7 +163,7 @@ export default function SeineSaintDenisPage() {
                   La Seine-Saint-Denis (93) est un territoire extrêmement dynamique, mêlant quartiers historiques, parcs pavillonnaires et zones urbaines denses. Déménager dans ce département exige une agilité technique capable de s'adapter à chaque configuration, des rues piétonnes de Saint-Denis aux nouveaux éco-quartiers de Pantin.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque spécificité du 93. Que vous emménagiez dans un appartement moderne ou que vous transfériez votre entreprise vers un pôle économique majeur, nous vous garantissons une prestation soignée, sécurisée et ponctuelle.
+                  Chez <strong>Déménagement du Vexin</strong>, nous adaptons la préparation aux contraintes du 93. Appartement ou transfert d'entreprise, les accès, le stationnement et le planning sont étudiés selon le projet.
                 </p>
               </div>
               
@@ -305,7 +299,7 @@ export default function SeineSaintDenisPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-93" className="py-24 bg-white">
@@ -352,13 +346,13 @@ export default function SeineSaintDenisPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine ternir votre projet. Contactez nos experts pour une visite gratuite et obtenez un devis complet sous 24h.
+                    Ne laissez pas la logistique urbaine ternir votre projet. Contactez nos experts pour une visite gratuite et obtenez un devis complet après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

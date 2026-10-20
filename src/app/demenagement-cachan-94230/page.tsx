@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,17 +27,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Cachan (94) | Étudiants & Familles | Devis Gratuit",
-  description: "Déménageur expert à Cachan (94230). Spécialiste Cité-jardin et offres étudiants ENS. Logistique efficace et devis gratuit personnalisé sous 24h.",
+  description: "Déménageur expert à Cachan (94230). Spécialiste Cité-jardin et offres étudiants ENS. Logistique efficace et devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-cachan-94230",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Robert", text: "Déménagement de notre maison à Cachan parfaitement géré. L'équipe a été efficace, ponctuelle et très soigneuse avec nos affaires. Nous recommandons vivement.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Robert94` },
-  { id: "fallback-2", name: "Émilie, étudiante ENS", text: "Service impeccable pour mon petit studio. La formule économique était parfaite pour mon budget d'étudiante et tout est arrivé à Cachan sans une égratignure. Je recommande vivement !", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=EmilieENS` },
-  { id: "fallback-3", name: "M. Lefevre", text: "Très bonne expérience. Devis clair et service professionnel du début à la fin. Une entreprise sérieuse pour déménager à Cachan.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Lefevre94` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -273,7 +267,7 @@ export default function CachanPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-cachan" className="py-24 bg-slate-50">
@@ -320,13 +314,13 @@ export default function CachanPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique au hasard. Contactez nos équipes pour une visite technique gratuite et obtenez un devis transparent et sans engagement sous 24h.
+                    Ne laissez pas la logistique au hasard. Contactez nos équipes pour une visite technique gratuite et obtenez un devis transparent et sans engagement dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

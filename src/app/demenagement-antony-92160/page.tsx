@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -26,17 +25,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Antony (92) | Particuliers & Pros | Devis Gratuit",
-  description: "Déménageur expert à Antony (92160). Spécialiste des zones pavillonnaires et des appartements. Logistique fluide et devis gratuit en 24h.",
+  description: "Déménageur expert à Antony (92160). Spécialiste des zones pavillonnaires et des appartements. Logistique fluide et devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-antony-92160",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Moreau", text: "Le déménagement de notre maison à Antony a été une vraie réussite. L'équipe a été très professionnelle et a su s'adapter aux accès de notre rue étroite. Un grand bravo.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Moreau92` },
-  { id: "fallback-2", name: "Sophie G.", text: "Un service client à l'écoute et une équipe de déménageurs très efficace pour mon appartement près du RER. Le monte-meubles a sauvé notre journée. Je recommande.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieG92` },
-  { id: "fallback-3", name: "Marc T.", text: "Devis clair, équipe ponctuelle et matériel de qualité. Déménager à Antony a été bien plus simple que je ne l'imaginais grâce à eux. Zéro casse.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MarcT92` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -147,7 +141,7 @@ export default function AntonyPage() {
                   Antony est une ville particulièrement appréciée pour son cadre de vie verdoyant et ses vastes quartiers pavillonnaires, tout en étant aux portes immédiates de Paris et des grands axes d'Île-de-France.
                 </p>
                 <p>
-                  Déménager ici exige une vraie agilité. Qu'il s'agisse de manœuvrer dans une petite rue résidentielle avec un portail étroit ou d'intervenir dans un appartement du centre-ville, nos équipes maîtrisent ces configurations. Nous adaptons la taille de nos camions et déployons des monte-meubles pour garantir une prestation sans accroc.
+                  Déménager ici exige une vraie agilité. Petite rue résidentielle, portail étroit ou appartement du centre-ville : nous adaptons le gabarit du véhicule et étudions l'usage d'un monte-meubles lorsque la configuration le nécessite.
                 </p>
               </div>
               
@@ -259,7 +253,7 @@ export default function AntonyPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-antony" className="py-24 bg-slate-50">
@@ -306,13 +300,13 @@ export default function AntonyPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique au hasard. Contactez nos équipes pour une visite technique et obtenez un devis gratuit, transparent et détaillé sous 24h.
+                    Ne laissez pas la logistique au hasard. Contactez nos équipes pour une visite technique et obtenez un devis gratuit, transparent et détaillé dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                     <Button size="lg" variant="outline" className="rounded-full h-16 px-10 text-lg font-bold border-slate-700 text-white hover:bg-white hover:text-slate-900 transition-all backdrop-blur-sm" asChild>

@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,18 +27,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Paris → Nice (06) | Devis Gratuit & Groupage | 24h",
-  description: "Déménageur expert sur l'axe Paris-Nice. Liaisons régulières, solutions de groupage et expertise Vieux-Nice. Votre devis gratuit sous 24h.",
+  title: "Déménagement Paris → Nice (06) | Devis Gratuit & Groupage",
+  description: "Déménageur expert sur l'axe Paris-Nice. Liaisons régulières, solutions de groupage et expertise Vieux-Nice. Votre devis gratuit personnalisé.",
   alternates: {
-    canonical: "https://demenagementduvexin.fr/demenagement-idf-nice",
+    canonical: "https://demenagementduvexin.fr/demenagement-ile-de-france-nice",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Costa", text: "Le grand départ pour Nice s'est déroulé à merveille. L'équipe a été d'un professionnalisme sans faille, du chargement à Paris jusqu'à la livraison sur la Promenade des Anglais. Un trajet de 900km géré de main de maître !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Costa06` },
-  { id: "fallback-2", name: "Julien P.", text: "Service impeccable pour mon déménagement longue distance. La formule de groupage était une solution économique parfaite pour mon petit volume. Tout est arrivé à Nice en parfait état et dans les délais.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=JulienP06` },
-  { id: "fallback-3", name: "Agence Riviera", text: "Le transfert de notre agence parisienne vers Nice a été géré avec une grande efficacité. Une équipe qui comprend les enjeux de planning et de sécurité pour une entreprise. Je recommande.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Riviera06` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -67,7 +61,7 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Combien de temps dure un déménagement Paris-Nice ?", 
-    answer: "Pour une distance de 930 km, il faut compter entre 48h et 72h. Le premier jour est dédié au chargement en Île-de-France. Le transport s'effectue le second jour (temps de conduite réglementé oblige), et la livraison se fait le matin du troisième jour à Nice." 
+    answer: "Pour cette longue distance, le calendrier dépend du volume, des accès et des temps de conduite réglementaires. Les dates de chargement et de livraison sont précisées dans le devis."
   },
   { 
     question: "Comment fonctionne le groupage vers Nice ?", 
@@ -156,10 +150,10 @@ export default function NicePage() {
                 De la capitale à la <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">Baie des Anges</u>.
               </h2>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Rejoindre Nice est un projet de vie magnifique qui marque souvent un nouveau départ sous le soleil. Pour que ce changement se fasse sans stress, la maîtrise de la logistique longue distance est impérative. Les 900 km séparant l'IDF de la Méditerranée exigent une planification sans faille.
+                Rejoindre Nice est un projet de vie magnifique qui marque souvent un nouveau départ sous le soleil. Pour que ce changement se fasse sans stress, la maîtrise de la logistique longue distance est impérative. Les 900 km séparant l'IDF de la Méditerranée exigent une planification rigoureuse.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons les deux extrémités de votre projet : la gestion du stationnement parisien et les accès parfois escarpés des collines niçoises, de Cimiez au Mont-Boron en passant par les ruelles du Vieux-Nice.
+                Chez Déménagement du Vexin, nous maîtrisons les deux extrémités de votre projet : la gestion du stationnement parisien et les accès parfois escarpés des collines niçoises, de Cimiez au Mont-Boron en passant par les ruelles du Vieux-Nice.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -269,7 +263,7 @@ export default function NicePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-nice" className="py-20 lg:py-32 bg-slate-50">
@@ -314,13 +308,13 @@ export default function NicePage() {
                     <span className="text-[#00ad9f]">vie à Nice ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la distance compliquer votre projet. Contactez nos experts pour une étude personnalisée et recevez un devis gratuit sous 24h.
+                    Ne laissez pas la distance compliquer votre projet. Contactez nos experts pour une étude personnalisée et recevez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

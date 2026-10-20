@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,17 +28,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Orne (61) | Expert Normand & Devis Gratuit",
-  description: "Marne Transdem : votre expert pour déménager dans l'Orne (61). Alençon, Flers, Argentan et le Perche. Réactivité via notre agence d'Évreux. Devis gratuit.",
+  description: "Déménagement du Vexin : votre expert pour déménager dans l'Orne (61). Alençon, Flers, Argentan et le Perche. Réactivité via notre agence d'Évreux. Devis gratuit.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-orne-61",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Gauthier", text: "Un déménagement de l'Île-de-France vers notre nouvelle maison dans le Perche qui s'est déroulé à merveille. L'équipe a parfaitement géré les accès difficiles du chemin rural. Professionnels et attentionnés.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Gauthier61` },
-  { id: "fallback-2", name: "Sophie D.", text: "Installation à Alençon réussie. La proximité de leur agence d'Évreux est un vrai plus pour la réactivité. Devis respecté à l'euro près et personnel très poli.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieD61` },
-  { id: "fallback-3", name: "Marc L.", text: "Transfert de mes bureaux vers Argentan. Organisation sans faille, ponctualité et protection impeccable du matériel informatique. Une entreprise de confiance.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MarcL61` },
-];
 
 const ORNE_CITIES = [
   "Alençon", "Flers", "Argentan", "L'Aigle", "La Ferté-Macé", 
@@ -84,7 +78,7 @@ const FAQS = [
   },
   { 
     question: "Quel est le délai pour obtenir un devis dans le 61 ?", 
-    answer: "Grâce à notre agence régionale, nous sommes très réactifs. Vous obtenez généralement votre devis détaillé sous 24h à 48h après notre premier contact ou visite technique." 
+    answer: "Après un premier contact ou une visite technique, nous étudions le volume, les accès et les prestations afin de préparer un devis détaillé."
   }
 ];
 
@@ -164,7 +158,7 @@ export default function OrnePage() {
                 Déménager dans l'Orne, c'est choisir un département entre nature préservée et dynamisme local. Que vous emménagiez dans un appartement en centre-ville à Alençon ou dans une longère isolée dans le Perche, la réussite de votre projet dépend d'une logistique adaptée au terrain.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Grâce à notre agence d'Évreux, Marne Transdem est votre partenaire privilégié. Nous combinons la puissance d'un déménageur national et la réactivité d'une équipe locale qui connaît parfaitement chaque recoin du 61.
+                Grâce à notre agence d'Évreux, Déménagement du Vexin est votre partenaire privilégié. Nous combinons la puissance d'un déménageur national et la réactivité d'une équipe locale qui connaît parfaitement chaque recoin du 61.
               </p>
               
               <div className="pt-6">
@@ -284,7 +278,7 @@ export default function OrnePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-orne" className="py-20 lg:py-32 bg-white">
@@ -329,13 +323,13 @@ export default function OrnePage() {
                     <span className="text-[#00ad9f]">départ vers l'Orne ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la logistique ternir votre projet. Contactez nos experts régionaux pour une visite gratuite et obtenez un devis détaillé sous 24h.
+                    Ne laissez pas la logistique ternir votre projet. Contactez nos experts régionaux pour une visite gratuite et obtenez un devis détaillé dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

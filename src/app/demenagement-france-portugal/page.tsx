@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -33,17 +32,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement France → Portugal | Devis Gratuit & Sécurisé",
-  description: "Déménageur expert sur l'axe France-Portugal. Liaisons régulières vers Lisbonne, Porto, Algarve. Groupage et transfert d'entreprise. Devis sous 24h.",
+  description: "Déménageur expert sur l'axe France-Portugal. Liaisons régulières vers Lisbonne, Porto, Algarve. Groupage et transfert d'entreprise. Devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-france-portugal",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Silva", text: "Déménagement de la région parisienne vers Lisbonne réalisé avec un soin incroyable. L'équipe a géré le transport sur 1700 km avec un professionnalisme total. Nos meubles sont arrivés impeccables. Un grand merci pour votre efficacité !", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=SilvaPT` },
-  { id: "fallback-2", name: "Marc-Antoine V.", text: "Service parfait pour mon installation à Porto. La formule groupage m'a permis de réduire considérablement les frais. Équipe ponctuelle, polie et matériel de protection de haute qualité. Je recommande vivement.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=MAVPT` },
-  { id: "fallback-3", name: "Immobilier Algarve Ltd", text: "Le transfert de notre mobilier d'exposition vers Faro a été orchestré de main de maître. Une maîtrise parfaite des liaisons internationales et des délais respectés. Des vrais pros du transport européen.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=AlgarvePT` },
-];
 
 const PORTUGAL_CITIES = [
   { name: "Lisbonne (Lisboa)", desc: "Expertise des quartiers historiques (Alfama, Bairro Alto) et zones modernes." },
@@ -316,7 +310,7 @@ export default function PortugalPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-pt" className="py-24 bg-slate-50">
@@ -363,13 +357,13 @@ export default function PortugalPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas les frontières ou la logistique longue distance compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Ne laissez pas les frontières ou la logistique longue distance compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

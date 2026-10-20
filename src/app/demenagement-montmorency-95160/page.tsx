@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,17 +28,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Montmorency (95) | Expert local & Devis Gratuit",
-  description: "Déménageur de confiance à Montmorency (95160). Spécialiste des rues en pente, demeures bourgeoises et centre historique. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Montmorency (95160). Spécialiste des rues en pente, demeures bourgeoises et centre historique. Devis gratuit.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-montmorency-95160",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Laurent", text: "Déménagement de notre maison sur les hauteurs de Montmorency parfaitement exécuté. Malgré la pente et l'accès difficile, l'équipe a été très efficace et le monte-meubles a sauvé la mise !", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Laurent95` },
-  { id: "fallback-2", name: "Valérie M.", text: "Service irréprochable pour mon appartement près de la Collégiale. L'équipe a su protéger mes meubles anciens avec un soin extrême. Une entreprise locale de grande confiance.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=Valerie95M` },
-  { id: "fallback-3", name: "Antoine D.", text: "Une organisation sans faille de la visite technique à la livraison. Le devis était clair et l'autorisation de stationnement a été gérée par leurs soins. Je recommande à 100%.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=AntoineD95` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -75,11 +69,11 @@ const FAQS = [
   },
   { 
     question: "Le stationnement est complexe près de chez moi, comment faire ?", 
-    answer: "Nous nous occupons de tout. Nous gérons la demande d'arrêté municipal auprès de la Ville de Montmorency environ 15 jours avant le déménagement afin de bloquer officiellement les places de stationnement nécessaires au pied de votre domicile." 
+    answer: "Selon la formule retenue, nous pouvons accompagner la demande d'autorisation auprès de la Ville de Montmorency. Le délai et l'emplacement accordé dépendent des services municipaux."
   },
   { 
     question: "Quel est le délai pour obtenir un devis ?", 
-    answer: "Nous sommes très réactifs dans le Val-d'Oise. Suite à notre échange ou à notre visite technique, vous recevrez votre devis gratuit, détaillé et ferme sous 24 heures ouvrées." 
+    answer: "Après notre échange ou la visite technique, le devis est préparé selon le volume, les accès et les prestations demandées."
   }
 ];
 
@@ -274,7 +268,7 @@ export default function MontmorencyPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-montmorency" className="py-24 bg-slate-50">
@@ -321,13 +315,13 @@ export default function MontmorencyPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas le relief ou les contraintes d'accès ternir votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas le relief ou les contraintes d'accès ternir votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

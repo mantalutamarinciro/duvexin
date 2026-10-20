@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,17 +28,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Le Chesnay-Rocquencourt (78) | Expert Local & Devis Gratuit",
-  description: "Déménageur de confiance au Chesnay-Rocquencourt (78150). Spécialiste Parly 2, résidences de standing et transferts médicaux. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance au Chesnay-Rocquencourt (78150). Spécialiste Parly 2, résidences de standing et transferts médicaux. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-le-chesnay-rocquencourt-78150",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Richard", text: "Déménagement très bien géré au Chesnay. L'équipe a été très professionnelle et soigneuse, notamment pour l'accès à notre résidence à Parly 2. Nous sommes ravis de la prestation.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=Richard78` },
-  { id: "fallback-2", name: "Dr. Aline L.", text: "Service impeccable pour mon installation près de l'hôpital Mignot. Ponctualité, efficacité et un grand soin apporté au matériel fragile. Je recommande vivement.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=AlineL78` },
-  { id: "fallback-3", name: "M. Petit", text: "Une équipe au top pour mon déménagement à Rocquencourt. Devis clair, pas de mauvaise surprise et un portage impeccable dans un escalier étroit. Merci !", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=PetitLCR` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -75,7 +69,7 @@ const FAQS = [
   },
   { 
     question: "Quel est le délai pour obtenir un devis ?", 
-    answer: "Nous sommes très réactifs dans les Yvelines. Après une visite technique (sur place ou en visio), vous recevez votre devis détaillé sous 24h. Nous conseillons de réserver 4 à 6 semaines à l'avance pour les périodes de forte affluence." 
+    answer: "Nous sommes très réactifs dans les Yvelines. Après une visite technique (sur place ou en visio), vous recevez votre devis détaillé dans les meilleurs délais. Nous conseillons de réserver 4 à 6 semaines à l'avance pour les périodes de forte affluence."
   },
   { 
     question: "Comment protégez-vous mon mobilier de valeur ?", 
@@ -159,7 +153,7 @@ export default function LeChesnayRocquencourtPage() {
                 Le Chesnay-Rocquencourt est une ville d'exception aux portes de Versailles, mêlant urbanisme moderne et zones pavillonnaires verdoyantes. Déménager dans cet environnement exige une agilité technique et un respect absolu des règles de copropriété.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons chaque spécificité locale. Que vous emménagiez dans une résidence à Parly 2 ou que vous transfériez votre activité professionnelle près de l'Hôpital Mignot, nous planifions chaque détail pour garantir une transition sereine.
+                Chez Déménagement du Vexin, nous maîtrisons chaque spécificité locale. Que vous emménagiez dans une résidence à Parly 2 ou que vous transfériez votre activité professionnelle près de l'Hôpital Mignot, nous planifions chaque détail pour garantir une transition sereine.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -269,7 +263,7 @@ export default function LeChesnayRocquencourtPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-le-chesnay" className="py-20 lg:py-32 bg-slate-50">
@@ -314,13 +308,13 @@ export default function LeChesnayRocquencourtPage() {
                     <span className="text-[#00ad9f]">départ du Chesnay ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la logistique urbaine ou les contraintes de copropriété vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine ou les contraintes de copropriété vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

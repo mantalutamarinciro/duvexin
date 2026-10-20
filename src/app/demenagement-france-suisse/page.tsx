@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,11 +28,6 @@ import {
   Gem
 } from "lucide-react";
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille de Rougemont", text: "Déménagement de Versailles vers Genève parfaitement orchestré. L'équipe a géré l'intégralité des formalités douanières, ce qui nous a enlevé un poids énorme. Un service d'une grande distinction.", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Rougemont` },
-  { id: "fallback-2", name: "Marc-Antoine P.", text: "Service impeccable pour mon installation à Lausanne. Ponctualité exemplaire à la frontière et déchargement très soigné malgré l'accès en pente de ma nouvelle résidence. Je recommande Marne Transdem.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=MarcAntoine` },
-  { id: "fallback-3", name: "Cabinet Finance-GVA", text: "Le transfert de nos archives et de notre mobilier vers Zurich a été mené avec une rigueur et une discrétion totales. Des experts de la logistique internationale sur qui l'on peut compter.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=FinanceGVA` },
-];
 
 const SWISS_CITIES = [
   { name: "Genève", desc: "Expertise des quartiers diplomatiques et du centre-ville." },
@@ -76,7 +70,7 @@ const FAQS = [
   },
   { 
     question: "Comment se déroule le passage à la douane ?", 
-    answer: "Grâce à notre statut de transporteur international, nous effectuons les formalités aux bureaux de douane principaux (Bardonnex, Ferney-Voltaire, etc.). Le camion est plombé et le passage est généralement rapide car nous préparons les dossiers 48h à l'avance." 
+    answer: "Les formalités sont préparées avant le départ pour un passage par le bureau de douane adapté à l'itinéraire. Les délais restent soumis à la validation du dossier et aux éventuels contrôles."
   },
   { 
     question: "Proposez-vous le groupage vers la Suisse ?", 
@@ -84,7 +78,7 @@ const FAQS = [
   },
   { 
     question: "Combien de temps faut-il prévoir pour un Paris-Genève ?", 
-    answer: "Un déménagement vers Genève ou Lausanne s'effectue généralement sur 48h. Le premier jour est consacré au chargement et au transit vers la frontière. Le second jour est dédié au dédouanement matinal et à la livraison finale chez vous." 
+    answer: "Le calendrier vers Genève ou Lausanne dépend du volume, des accès, du trajet et du passage en douane. Les créneaux prévisionnels sont détaillés dans le devis."
   }
 ];
 
@@ -303,7 +297,7 @@ export default function SwitzerlandPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-switzerland" className="py-24 bg-slate-50">
@@ -350,13 +344,13 @@ export default function SwitzerlandPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Confiez votre projet à des experts de l'international. Contactez-nous pour une étude personnalisée incluant l'ingénierie douanière et recevez un devis ferme sous 24h.
+                    Confiez votre projet à des experts de l'international. Contactez-nous pour une étude personnalisée incluant l'ingénierie douanière et recevez un devis ferme après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

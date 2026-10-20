@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Paris → Lille (59) | Devis Gratuit & Groupage",
-  description: "Déménageur expert sur l'axe Paris-Lille. Liaisons quotidiennes, solutions de groupage économique et expertise Vieux-Lille. Votre devis gratuit en 24h.",
+  description: "Déménageur expert sur l'axe Paris-Lille. Liaisons quotidiennes, solutions de groupage économique et expertise Vieux-Lille. Votre devis gratuit personnalisé.",
   alternates: {
-    canonical: "https://demenagementduvexin.fr/demenagement-idf-lille",
+    canonical: "https://demenagementduvexin.fr/demenagement-ile-de-france-lille",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Lefevre", text: "Notre déménagement de la région parisienne à Lille a été une vraie réussite. L'équipe a été super, très pro et a su s'adapter aux petites rues du Vieux-Lille malgré un camion de 20m3. Un sans-faute !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Lefevre59` },
-  { id: "fallback-2", name: "Claire D.", text: "Service impeccable pour mon déménagement longue distance. La formule économique était parfaite pour mon budget d'étudiante et tout est arrivé à Lille sans une égratignure. Je recommande !", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=ClaireD59` },
-  { id: "fallback-3", name: "Start-up Euratech", text: "Le transfert de notre société vers Lille s'est déroulé avec une rigueur exemplaire. Une équipe qui comprend les enjeux du mobilier de bureau et de l'informatique. Top.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Euratech59` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -80,7 +74,7 @@ const FAQS = [
   },
   { 
     question: "Le groupage est-il disponible pour les étudiants ?", 
-    answer: "Oui, l'axe Paris-Lille est extrêmement dynamique et idéal pour le groupage. Si vous avez entre 5 et 15m³ à déménager, nous mutualisons le transport avec d'autres clients pour vous offrir un tarif ultra-compétitif, parfait pour un emménagement à proximité des facultés ou d'Euratechnologies." 
+    answer: "L'axe Paris-Lille peut se prêter au groupage pour certains petits volumes. Lorsque le calendrier le permet, le partage du transport peut réduire une partie des frais de route."
   }
 ];
 
@@ -142,7 +136,7 @@ export default function LillePage() {
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
                 <Link href="/demande-devis">
-                  Obtenir mon devis en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                  Obtenir mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </div>
@@ -275,7 +269,7 @@ export default function LillePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-lille" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function LillePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la distance compliquer votre projet d'expatriation en région. Contactez nos experts nationaux pour une étude personnalisée et recevez un devis ferme et gratuit sous 24h.
+                    Ne laissez pas la distance compliquer votre projet d'expatriation en région. Contactez nos experts nationaux pour une étude personnalisée et recevez un devis ferme et gratuit après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

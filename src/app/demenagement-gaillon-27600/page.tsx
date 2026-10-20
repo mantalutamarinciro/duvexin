@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Gaillon (27) | Expert local Eure | Devis Gratuit",
-  description: "Déménageur de confiance à Gaillon (27600). Spécialiste de la vallée de la Seine, accès centre historique et transferts de bureaux. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Gaillon (27600). Spécialiste de la vallée de la Seine, accès centre historique et transferts de bureaux. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-gaillon-27600",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Leconte", text: "Notre déménagement à Gaillon a été une réussite totale. L'équipe a été très professionnelle et a su gérer les accès du centre-ville sans aucun problème. Un grand merci !", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Leconte27600` },
-  { id: "fallback-2", name: "Julien P.", text: "Très bonne expérience pour mon appartement. Devis clair, équipe ponctuelle et du matériel de qualité. Je recommande Déménagement du Vexin pour leur sérieux dans l'Eure.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=JulienP27` },
-  { id: "fallback-3", name: "Entreprise G-Tech", text: "Efficacité et professionnalisme. Le transfert de nos bureaux à Gaillon s'est déroulé sans stress grâce à leur organisation millimétrée.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=GTech27` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -275,7 +269,7 @@ export default function GaillonPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-gaillon" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function GaillonPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique au hasard dans la vallée de la Seine. Contactez nos équipes pour une visite technique gratuite et recevez un devis détaillé, ferme et sans engagement sous 24h.
+                    Ne laissez pas la logistique au hasard dans la vallée de la Seine. Contactez nos équipes pour une visite technique gratuite et recevez un devis détaillé, ferme et sans engagement dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

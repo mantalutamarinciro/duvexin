@@ -53,7 +53,7 @@ const commonFaqs = {
   quote: {
     question: "Comment obtenir un devis de déménagement dans l'Oise ?",
     answer:
-      "Vous pouvez demander un devis en ligne en quelques minutes. Nous analysons le volume, les accès, la distance, les contraintes de stationnement et la formule souhaitée afin de vous transmettre une estimation claire, personnalisée et exploitable sous 24h ouvrées.",
+      "Vous pouvez demander un devis en ligne en quelques minutes. Nous analysons le volume, les accès, la distance, les contraintes de stationnement et la formule souhaitée afin de vous transmettre une estimation claire, personnalisée et exploitable après étude de votre demande.",
   },
   parking: {
     question: "Pouvez-vous gérer les accès et le stationnement ?",
@@ -74,9 +74,9 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     name: "Oise",
     route: "/demenagement-oise-60",
     postalCode: "60",
-    title: "Déménagement Oise (60) | Déménageur local, devis gratuit en 24h",
+    title: "Déménagement Oise (60) | Déménageur local, devis gratuit personnalisé",
     description:
-      "Déménagement du Vexin accompagne particuliers et entreprises dans l'Oise (60) : Beauvais, Compiègne, Creil, Senlis, Chantilly, Méru, Noyon et tout le département. Devis gratuit en 24h.",
+      "Déménagement du Vexin accompagne particuliers et entreprises dans l'Oise (60) : Beauvais, Compiègne, Creil, Senlis, Chantilly, Méru, Noyon et tout le département. Devis gratuit personnalisé.",
     eyebrow: "Département 60",
     h1: "Votre déménageur dans l'Oise (60)",
     heroLead:
@@ -127,7 +127,7 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     postalCode: "60000",
     title: "Déménagement Beauvais (60000) | Déménageur Oise, devis gratuit",
     description:
-      "Déménageur à Beauvais (60000) pour appartements, maisons et entreprises. Organisation locale, stationnement, protection du mobilier et devis gratuit en 24h.",
+      "Déménageur à Beauvais (60000) pour appartements, maisons et entreprises. Organisation locale, stationnement, protection du mobilier et devis gratuit personnalisé.",
     eyebrow: "Préfecture de l'Oise",
     h1: "Déménagement à Beauvais",
     heroLead:
@@ -167,9 +167,9 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     name: "Compiègne",
     route: "/demenagement-compiegne-60200",
     postalCode: "60200",
-    title: "Déménagement Compiègne (60200) | Particuliers, bureaux, devis 24h",
+    title: "Déménagement Compiègne (60200) | Particuliers, bureaux, devis personnalisé",
     description:
-      "Déménageur à Compiègne (60200) : centre historique, résidences, maisons, entreprises, mutations et déménagements longue distance. Devis gratuit en 24h.",
+      "Déménageur à Compiègne (60200) : centre historique, résidences, maisons, entreprises, mutations et déménagements longue distance. Devis gratuit personnalisé.",
     eyebrow: "Compiégnois",
     h1: "Déménagement à Compiègne",
     heroLead:
@@ -211,7 +211,7 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     postalCode: "60100",
     title: "Déménagement Creil (60100) | Déménageur Creil Sud Oise",
     description:
-      "Déménageur à Creil (60100) : appartements, maisons, bureaux, monte-meubles, accès urbains et devis gratuit sous 24h dans Creil Sud Oise.",
+      "Déménageur à Creil (60100) : appartements, maisons, bureaux, monte-meubles, accès urbains et devis gratuit personnalisé dans Creil Sud Oise.",
     eyebrow: "Bassin creillois",
     h1: "Déménagement à Creil",
     heroLead:
@@ -251,7 +251,7 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     name: "Nogent-sur-Oise",
     route: "/demenagement-nogent-sur-oise-60180",
     postalCode: "60180",
-    title: "Déménagement Nogent-sur-Oise (60180) | Devis gratuit 24h",
+    title: "Déménagement Nogent-sur-Oise (60180) | Devis personnalisé",
     description:
       "Déménageur à Nogent-sur-Oise (60180), dans Creil Sud Oise : appartements, maisons, bureaux, protection mobilier et devis gratuit.",
     eyebrow: "Creil Sud Oise",
@@ -284,9 +284,9 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     name: "Senlis",
     route: "/demenagement-senlis-60300",
     postalCode: "60300",
-    title: "Déménagement Senlis (60300) | Centre ancien, maisons, devis 24h",
+    title: "Déménagement Senlis (60300) | Centre ancien, maisons, devis personnalisé",
     description:
-      "Déménageur à Senlis (60300) : centre médiéval, maisons, appartements, mobilier fragile, accès difficiles et devis gratuit sous 24h.",
+      "Déménageur à Senlis (60300) : centre médiéval, maisons, appartements, mobilier fragile, accès difficiles et devis gratuit personnalisé.",
     eyebrow: "Sud de l'Oise",
     h1: "Déménagement à Senlis",
     heroLead:
@@ -328,7 +328,7 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     postalCode: "60800",
     title: "Déménagement Crépy-en-Valois (60800) | Pays de Valois",
     description:
-      "Déménageur à Crépy-en-Valois (60800) : maisons, appartements, départs vers l'Île-de-France ou l'Oise, devis gratuit sous 24h.",
+      "Déménageur à Crépy-en-Valois (60800) : maisons, appartements, départs vers l'Île-de-France ou l'Oise, devis gratuit personnalisé.",
     eyebrow: "Pays de Valois",
     h1: "Déménagement à Crépy-en-Valois",
     heroLead:
@@ -361,7 +361,7 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     postalCode: "60160",
     title: "Déménagement Montataire (60160) | Bassin creillois, devis gratuit",
     description:
-      "Déménageur à Montataire (60160) : appartements, maisons, zones d'activités, transfert professionnel et devis gratuit sous 24h.",
+      "Déménageur à Montataire (60160) : appartements, maisons, zones d'activités, transfert professionnel et devis gratuit personnalisé.",
     eyebrow: "Creil Sud Oise",
     h1: "Déménagement à Montataire",
     heroLead:
@@ -392,9 +392,9 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     name: "Méru",
     route: "/demenagement-meru-60110",
     postalCode: "60110",
-    title: "Déménagement Méru (60110) | Déménageur Oise, devis 24h",
+    title: "Déménagement Méru (60110) | Déménageur Oise, devis personnalisé",
     description:
-      "Déménageur à Méru (60110) : maisons, appartements, mutations vers Paris, accès A16, emballage, protection et devis gratuit en 24h.",
+      "Déménageur à Méru (60110) : maisons, appartements, mutations vers Paris, accès A16, emballage, protection et devis gratuit personnalisé.",
     eyebrow: "Pays des Sablons",
     h1: "Déménagement à Méru",
     heroLead:
@@ -427,7 +427,7 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     postalCode: "60400",
     title: "Déménagement Noyon (60400) | Déménageur Oise, devis gratuit",
     description:
-      "Déménageur à Noyon (60400) : centre historique, maisons, appartements, départs longue distance et devis gratuit sous 24h.",
+      "Déménageur à Noyon (60400) : centre historique, maisons, appartements, départs longue distance et devis gratuit personnalisé.",
     eyebrow: "Pays Noyonnais",
     h1: "Déménagement à Noyon",
     heroLead:
@@ -460,7 +460,7 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     postalCode: "60700",
     title: "Déménagement Pont-Sainte-Maxence (60700) | Devis gratuit",
     description:
-      "Déménageur à Pont-Sainte-Maxence (60700), vallée de l'Oise : maisons, appartements, accès, monte-meubles et devis gratuit sous 24h.",
+      "Déménageur à Pont-Sainte-Maxence (60700), vallée de l'Oise : maisons, appartements, accès, monte-meubles et devis gratuit personnalisé.",
     eyebrow: "Vallée de l'Oise",
     h1: "Déménagement à Pont-Sainte-Maxence",
     heroLead:
@@ -493,7 +493,7 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     postalCode: "60500",
     title: "Déménagement Chantilly (60500) | Mobilier fragile, devis premium",
     description:
-      "Déménageur à Chantilly (60500) : maisons, appartements, objets fragiles, mobilier de valeur, accès soignés et devis gratuit en 24h.",
+      "Déménageur à Chantilly (60500) : maisons, appartements, objets fragiles, mobilier de valeur, accès soignés et devis gratuit personnalisé.",
     eyebrow: "Aire cantilienne",
     h1: "Déménagement à Chantilly",
     heroLead:
@@ -533,7 +533,7 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     name: "Clermont",
     route: "/demenagement-clermont-60600",
     postalCode: "60600",
-    title: "Déménagement Clermont (60600) | Clermontois, devis 24h",
+    title: "Déménagement Clermont (60600) | Clermontois, devis personnalisé",
     description:
       "Déménageur à Clermont (60600), dans l'Oise : maisons, appartements, accès vallonnés, protection mobilier et devis gratuit.",
     eyebrow: "Clermontois",
@@ -566,7 +566,7 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     name: "Chambly",
     route: "/demenagement-chambly-60230",
     postalCode: "60230",
-    title: "Déménagement Chambly (60230) | Sud Oise, Val-d'Oise, devis 24h",
+    title: "Déménagement Chambly (60230) | Sud Oise, Val-d'Oise, devis personnalisé",
     description:
       "Déménageur à Chambly (60230) : sud de l'Oise, accès A16, maisons, appartements, départs vers Val-d'Oise ou Paris. Devis gratuit.",
     eyebrow: "Sud de l'Oise",
@@ -599,7 +599,7 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     name: "Lamorlaye",
     route: "/demenagement-lamorlaye-60260",
     postalCode: "60260",
-    title: "Déménagement Lamorlaye (60260) | Service soigné, devis 24h",
+    title: "Déménagement Lamorlaye (60260) | Service soigné, devis personnalisé",
     description:
       "Déménageur à Lamorlaye (60260) : maisons, propriétés, mobilier fragile, objets de valeur, transfert vers Paris ou Oise. Devis gratuit.",
     eyebrow: "Aire cantilienne",
@@ -634,7 +634,7 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     postalCode: "60270",
     title: "Déménagement Gouvieux (60270) | Aire cantilienne, devis gratuit",
     description:
-      "Déménageur à Gouvieux (60270) : maisons, appartements, mobilier fragile, accès résidentiels et devis gratuit sous 24h.",
+      "Déménageur à Gouvieux (60270) : maisons, appartements, mobilier fragile, accès résidentiels et devis gratuit personnalisé.",
     eyebrow: "Aire cantilienne",
     h1: "Déménagement à Gouvieux",
     heroLead:

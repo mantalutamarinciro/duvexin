@@ -26,8 +26,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Garde-Meubles Sécurisé & Stockage Flexible | Marne Transdem",
-  description: "Solution de garde-meubles professionnelle et sécurisée. Conteneurs individuels scellés, surveillance 24/7 et flexibilité totale. Devis stockage gratuit.",
+  title: "Garde-meubles et stockage | Déménagement du Vexin",
+  description: "Solution de garde-meubles pour conserver vos biens pendant un déménagement, des travaux ou une transition de logement. Demandez une étude adaptée.",
 };
 
 const features = [
@@ -83,15 +83,15 @@ const processSteps = [
 const faqItems = [
   {
     question: "Quelle est la différence entre garde-meubles et self-stockage ?",
-    answer: "Le garde-meubles est une solution beaucoup plus sûre : vos biens sont stockés dans des conteneurs plombés accessibles uniquement sur rendez-vous. C'est la solution idéale pour la conservation longue durée car la manutention est réduite au strict minimum, contrairement au self-stockage classique où les passages et les mouvements sont très fréquents dans les couloirs."
+    answer: "Le garde-meubles repose sur un stockage en conteneurs accessibles sur rendez-vous. La fréquence de manutention et les modalités d'accès sont précisées dans le contrat selon la solution retenue."
   },
   {
     question: "Mes meubles et affaires sont-ils à l'abri de l'humidité ?",
-    answer: "Absolument. Nos entrepôts répondent aux normes les plus strictes de conservation. L'utilisation de conteneurs en bois spécifiques permet aux matériaux de 'respirer', évitant tout risque de condensation, de moisissure ou de détérioration, même sur plusieurs années de stockage."
+    answer: "Les conditions de stockage, la ventilation et les protections nécessaires dépendent des biens concernés. Signalez les objets sensibles à l'humidité afin que leur emballage et les conditions de conservation soient étudiés avant stockage."
   },
   {
     question: "Puis-je récupérer une partie de mes affaires en cours de stockage ?",
-    answer: "Oui, c'est tout à fait possible. Il vous suffit de nous contacter au minimum 48h à l'avance. Nous préparons votre conteneur en l'amenant dans une zone de visite sécurisée de l'entrepôt pour que vous puissiez y accéder confortablement."
+    answer: "Un accès en cours de stockage peut être organisé sur rendez-vous, selon les conditions prévues au contrat et les disponibilités du site."
   },
   {
     question: "Comment est calculé le prix mensuel du stockage ?",
@@ -186,16 +186,10 @@ export default function GardeMeublesPage() {
                 </p>
               </div>
               
-              <div className="flex items-center gap-6 pt-6">
-                <div className="flex -space-x-3">
-                  {[1,2,3,4].map((i) => (
-                    <div key={i} className="h-14 w-14 rounded-full border-4 border-white bg-slate-200 overflow-hidden relative shadow-sm">
-                      <Image src={`https://i.pravatar.cc/100?img=${i+10}`} alt="Avis client garde-meuble" fill />
-                    </div>
-                  ))}
-                </div>
-                <p className="text-sm font-light text-slate-500 leading-relaxed">
-                  <span className="text-slate-900 font-bold text-base">+500 particuliers</span> nous confient <br />leur patrimoine chaque année.
+              <div className="flex items-start gap-4 pt-6 text-slate-600">
+                <ShieldCheck className="h-7 w-7 shrink-0 text-[#00ad9f]" aria-hidden="true" />
+                <p className="text-sm font-light leading-relaxed">
+                  La durée et le volume de stockage sont définis après étude de vos besoins.
                 </p>
               </div>
             </div>
@@ -224,7 +218,7 @@ export default function GardeMeublesPage() {
               La tranquillité <span className="text-[#00ad9f]">absolue.</span>
             </h2>
             <p className="text-slate-400 text-lg font-light leading-relaxed">
-              Un environnement professionnel conçu pour une conservation sans faille de vos biens.
+              Un environnement professionnel conçu pour une conservation adaptée de vos biens.
             </p>
           </div>
           

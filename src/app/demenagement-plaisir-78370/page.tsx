@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,18 +28,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Plaisir (78) | Expert Local & Devis Gratuit 24h",
+  title: "Déménagement Plaisir (78) | Expert Local & Devis Gratuit Personnalisé",
   description: "Déménageur de confiance à Plaisir (78370). Spécialiste zones pavillonnaires, appartements et transferts d'entreprises. Devis gratuit et monte-meubles.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-plaisir-78370",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Caron", text: "Déménagement de notre maison à Plaisir parfaitement géré. L'équipe a été efficace, très soigneuse et sympathique. Un grand merci !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Caron78` },
-  { id: "fallback-2", name: "Marc T.", text: "Très bonne expérience pour mon appartement. Devis clair, pas de surprise et équipe très ponctuelle. Le déménagement s'est fait sans aucun stress.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=MarcTPL` },
-  { id: "fallback-3", name: "Entreprise Innov", text: "Le transfert de nos bureaux dans la zone d'activité s'est déroulé à la perfection. Une équipe professionnelle sur qui on peut compter les yeux fermés.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=InnovPL` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -163,7 +157,7 @@ export default function PlaisirPage() {
                   Déménager à Plaisir, c'est choisir une ville attractive au cœur des Yvelines, qui combine un cadre de vie très agréable, de vastes zones commerciales et un important pôle d'activités. Cette diversité d'habitats demande une approche logistique très flexible.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous sommes fiers de notre expertise locale. Que vous emménagiez dans un pavillon au calme, un appartement en centre-ville, ou que vous transfériez votre entreprise dans la zone des Gâtines, nous vous garantissons un service serein et parfaitement calibré.
+                  Chez <strong>Déménagement du Vexin</strong>, nous adaptons la prestation aux pavillons, appartements du centre-ville et transferts d'entreprise dans la zone des Gâtines.
                 </p>
               </div>
               
@@ -275,7 +269,7 @@ export default function PlaisirPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-plaisir" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function PlaisirPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Contactez nos experts pour une visite technique à domicile et obtenez un devis transparent et gratuit sous 24h.
+                    Contactez nos experts pour une visite technique à domicile et obtenez un devis transparent et gratuit dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

@@ -3,8 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -22,11 +21,6 @@ export const metadata: Metadata = {
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Clotilde Duran", text: "Une équipe très réactive et très professionnelle, vraiment rien à dire, du très bon travail! Les affaires ont été emballées avec le plus grand soin. Nous conseillons les yeux fermés!", rating: 5, createTime: "il y a 2 ans", avatarUrl: `https://i.pravatar.cc/48?u=Clotilde` },
-  { id: "fallback-2", name: "Jean-michel Marot", text: "Un déménagement en Bretagne parfaitement réalisé. Professionnel du début jusqu'à la livraison finale. Très bon contact. Équipe efficace, rapide, et sympathique. Travail de qualité.", rating: 5, createTime: "il y a 2 ans", avatarUrl: `https://i.pravatar.cc/48?u=Jean-michel` },
-  { id: "fallback-3", name: "Robert GALAND", text: "Une interlocutrice réactive, une équipe ultra efficace, des affaires très bien protégées sur un long trajet. Sincèrement je suis bluffé. Je recommande totalement. MERCI", rating: 5, createTime: "il y a 19 jours", avatarUrl: `https://i.pravatar.cc/48?u=Robert` },
-];
 
 const topDestinations = [
   { name: "Lyon", link: "/demenagement-ile-de-france-lyon" },
@@ -109,7 +103,7 @@ export default function DemenagementNationalPage() {
                   Quitter sa région pour une nouvelle aventure professionnelle ou personnelle est une étape majeure. Un déménagement à 500 ou 800 kilomètres ne pardonne aucune erreur : il est matériellement impossible de faire un aller-retour pour un carton oublié.
                 </p>
                 <p>
-                  Cela exige une planification sans faille, une logistique optimisée (gestion des péages, respect des temps de conduite réglementaires) et un partenaire d'une fiabilité absolue. Grâce à nos tournées nationales régulières, nous vous offrons une solution économique et 100% sécurisée.
+                  Cela exige une planification rigoureuse, une logistique optimisée (gestion des péages, respect des temps de conduite réglementaires) et un partenaire d'une organisation expérimentée. Grâce à nos tournées nationales régulières, nous vous offrons une solution économique et adaptée aux contraintes du trajet.
                 </p>
               </div>
               
@@ -233,7 +227,7 @@ export default function DemenagementNationalPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- GRAND CTA FINAL --- */}
       <section className="py-24 bg-white">

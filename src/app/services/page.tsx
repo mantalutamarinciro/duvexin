@@ -61,7 +61,7 @@ const services = [
   },
   {
     title: "Garde-Meubles Sécurisé",
-    description: "Solutions de stockage flexibles en containers plombés, sous surveillance 24h/24 et hygrométrie contrôlée.",
+    description: "Solutions de stockage en conteneurs, avec conditions d'accès et protections définies selon vos besoins.",
     icon: Container,
     imageUrl: "/images/services/garde-meubles.webp",
     link: "/demenagement-garde-meubles"
@@ -162,7 +162,7 @@ export default function ServicesPage() {
                  <div className="flex flex-col gap-2 border-l-4 border-[#00ad9f] pl-6">
                     <ShieldCheck className="h-6 w-6 text-[#00ad9f] mb-1" />
                     <span className="text-xl font-bold text-slate-900">Assurance</span>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Garantie totale</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Protection contractuelle</span>
                  </div>
               </div>
             </div>
@@ -253,7 +253,7 @@ export default function ServicesPage() {
                 </span>
               </h2>
               <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                Obtenez une étude personnalisée et gratuite en moins de 24h. Votre conseiller dédié vous accompagne dès aujourd'hui.
+                Obtenez une étude personnalisée et gratuite après étude de votre demande. Votre conseiller dédié vous accompagne dès aujourd'hui.
               </p>
               
               <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">

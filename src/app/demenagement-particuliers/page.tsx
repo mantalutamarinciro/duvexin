@@ -17,13 +17,12 @@ import {
   HelpCircle
 } from "lucide-react";
 
-import type { FormattedReview } from "@/app/api/reviews/route";
 import { realReviews } from "@/lib/reviews-data";
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Particulier | Formules sur-mesure & Devis Gratuit",
-  description: "Déménagement de particuliers en Île-de-France et Normandie. Découvrez nos formules Économique, Standard et Confort. Devis gratuit et visite technique sous 48h.",
+  description: "Déménagement de particuliers en Île-de-France et Normandie. Découvrez nos formules Économique, Standard et Confort. Devis gratuit et visite technique selon vos disponibilités.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-particuliers",
   }
@@ -60,7 +59,7 @@ const FORMULAS = [
 const PROCESS_STEPS = [
   { step: 1, icon: MessageSquare, title: "1. Contact", description: "Évaluation rapide de vos besoins et prise de rendez-vous." },
   { step: 2, icon: Search, title: "2. Visite", description: "Audit technique (physique ou visio) pour estimer le volume précis." },
-  { step: 3, icon: Handshake, title: "3. Devis", description: "Envoi de votre devis détaillé, fixe et définitif sous 24h." },
+  { step: 3, icon: Handshake, title: "3. Devis", description: "Envoi de votre devis détaillé, fixe et définitif dans les meilleurs délais." },
   { step: 4, icon: Package, title: "4. Préparation", description: "Livraison de vos cartons à domicile bien avant le jour J." },
   { step: 5, icon: Truck, title: "5. Le Jour J", description: "Intervention experte de notre équipe salariée." },
 ];

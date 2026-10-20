@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -26,17 +25,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Alfortville (94) | Expert Local & Devis Gratuit",
-  description: "Déménageur de confiance à Alfortville (94140). Du centre-ville aux bords de Seine, nous gérons votre déménagement de A à Z. Devis gratuit en 24h.",
+  description: "Déménageur de confiance à Alfortville (94140). Du centre-ville aux bords de Seine, nous gérons votre déménagement de A à Z. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-alfortville-94140",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Moreau", text: "Déménagement de notre appartement à Alfortville très bien géré. L'équipe a été rapide, professionnelle et très soigneuse. Un service de qualité que je recommande.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Moreau94` },
-  { id: "fallback-2", name: "David L.", text: "Très bonne expérience. Ils ont su s'adapter aux contraintes de stationnement de ma rue étroite. Équipe efficace et sympathique.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=DavidL94` },
-  { id: "fallback-3", name: "Mme. Petit", text: "Je suis ravie de la prestation. Tout s'est déroulé comme prévu, sans stress et sans surprise. Je ferai de nouveau appel à eux.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=PetitA` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -64,7 +58,7 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { question: "Comment se déroule un déménagement dans les rues étroites d'Alfortville ?", answer: "C'est une situation que nous anticipons parfaitement. Lors de notre visite technique, nous évaluons l'accès. Le jour J, nous choisissons un véhicule adapté (petit porteur si besoin) ou nous mettons en place un monte-meubles, couplé à une réservation de stationnement stricte." },
   { question: "Proposez-vous des formules pour les petits appartements ou studios ?", answer: "Oui, absolument. Nous proposons la formule 'Économique', très prisée pour les petits volumes (studios, T2). Vous vous chargez d'emballer vos cartons, et nos professionnels s'occupent de la manutention lourde et du transport en toute sécurité." },
-  { question: "Est-ce difficile d'obtenir une autorisation de stationnement à Alfortville ?", answer: "Comme dans beaucoup de communes denses du Val-de-Marne, cela demande de l'anticipation. Nous nous en chargeons pour vous dans le cadre de nos formules Standard et Confort. Nous connaissons les procédures de la mairie et nous garantissons un accès sécurisé." },
+  { question: "Est-ce difficile d'obtenir une autorisation de stationnement à Alfortville ?", answer: "Comme dans beaucoup de communes denses du Val-de-Marne, cette démarche demande de l'anticipation. Selon la formule retenue, nous pouvons vous accompagner en tenant compte des règles et délais indiqués par la mairie." },
   { question: "Quelles protections utilisez-vous pour les biens et les parties communes ?", answer: "La protection est notre priorité absolue. Nous utilisons des couvertures épaisses, des housses spécifiques (matelas, canapés) et du bullkraft. De plus, nous protégeons systématiquement les parties communes de votre immeuble (ascenseur, couloirs) pour éviter tout conflit avec la copropriété." }
 ];
 
@@ -259,7 +253,7 @@ export default function AlfortvillePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-alfortville" className="py-24 bg-slate-50">
@@ -306,13 +300,13 @@ export default function AlfortvillePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine au hasard. Contactez nos équipes pour une visite technique et obtenez un devis complet sous 24h.
+                    Ne laissez pas la logistique urbaine au hasard. Contactez nos équipes pour une visite technique et obtenez un devis complet après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

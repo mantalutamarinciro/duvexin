@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: "Tarifs Déménagement 2026 : Quel est le prix au m³ ? | DemDuVexin",
-  description: "Découvrez les tarifs de déménagement en 2026. Guide complet sur le prix au m³, l'estimation de budget selon la distance et les formules. Obtenez votre devis gratuit sous 24h.",
+  description: "Découvrez les tarifs de déménagement en 2026. Guide complet sur le prix au m³, l'estimation de budget selon la distance et les formules. Obtenez votre devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/tarif-demenagement",
   },

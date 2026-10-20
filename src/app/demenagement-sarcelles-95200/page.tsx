@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,18 +28,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Sarcelles (95) | Expert local & Devis Gratuit 24h",
-  description: "Déménageur de confiance à Sarcelles (95200). Spécialiste grands ensembles, Sarcelles Village et accès complexes. Devis gratuit sous 24h et monte-meubles.",
+  title: "Déménagement Sarcelles (95) | Expert local & Devis Gratuit",
+  description: "Déménageur de confiance à Sarcelles (95200). Spécialiste grands ensembles, Sarcelles Village et accès complexes. Devis gratuit et monte-meubles.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-sarcelles-95200",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Diallo", text: "Déménagement de notre appartement à Sarcelles Lochères parfaitement géré. L'équipe a été très professionnelle et a su s'adapter aux accès restreints de l'immeuble. Un grand bravo pour leur patience.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Diallo95` },
-  { id: "fallback-2", name: "Sophie G.", text: "Très bonne expérience pour mon transfert vers le Village. Devis clair, équipe ponctuelle et aucun stress le jour J, même avec un grand volume. Merci à Déménagement du Vexin !", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieG95S` },
-  { id: "fallback-3", name: "Marc T.", text: "Efficacité, rapidité et professionnalisme. Ils ont géré l'autorisation de stationnement en centre-ville, ce qui m'a sauvé la mise. Je recommande pour tout projet à Sarcelles.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MarcT95S` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -56,7 +50,7 @@ const WHY_US_ITEMS = [
   {
     icon: Truck,
     title: "Logistique Grands Axes",
-    description: "Maîtrise des flux autour de la N16 et des gares RER pour garantir une ponctualité exemplaire lors de nos interventions."
+    description: "Préparation des itinéraires autour de la N16 et des gares en tenant compte des conditions de circulation."
   },
   {
     icon: ShieldCheck,
@@ -68,7 +62,7 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Comment organisez-vous un déménagement dans un grand ensemble ?", 
-    answer: "La préparation est notre priorité absolue. Nous réalisons une visite technique pour évaluer les accès et coordonner l'utilisation des ascenseurs ou l'installation d'un monte-meubles extérieur. Cela garantit une opération rapide, sécurisée et respectueuse du voisinage." 
+    answer: "Nous réalisons une visite technique pour évaluer les accès et coordonner l'utilisation des ascenseurs ou l'installation éventuelle d'un monte-meubles extérieur."
   },
   { 
     question: "Déménagez-vous également dans le quartier du Village ?", 
@@ -76,7 +70,7 @@ const FAQS = [
   },
   { 
     question: "Le stationnement est-il un problème à Sarcelles ?", 
-    answer: "Sarcelles est une ville très dense. Nous anticipons systématiquement en déposant les demandes d'arrêté municipal environ 15 jours à l'avance pour sécuriser un emplacement exclusif au pied de votre adresse." 
+    answer: "Sarcelles est une ville dense. La demande d'autorisation de stationnement doit être anticipée ; son délai et l'emplacement accordé dépendent de la commune."
   },
   { 
     question: "Quelles protections utilisez-vous pour les meubles ?", 
@@ -163,7 +157,7 @@ export default function SarcellesPage() {
                   Sarcelles est une ville aux multiples visages, demandant une adaptabilité constante. Entre les immeubles de grande hauteur et les zones résidentielles paisibles, chaque déménagement exige une planification précise des accès et une maîtrise des flux de circulation.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous connaissons chaque quartier, des Sablons aux Chardonnerettes. Que vous emménagiez dans un appartement spacieux ou une maison de ville, nous garantissons une transition fluide et hautement sécurisée pour tous vos biens.
+                  Chez <strong>Déménagement du Vexin</strong>, nous préparons les interventions des Sablons aux Chardonnerettes. Appartement ou maison de ville, les protections et les moyens sont adaptés au projet.
                 </p>
               </div>
               
@@ -275,7 +269,7 @@ export default function SarcellesPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-sarcelles" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function SarcellesPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la densité urbaine ou les contraintes d'accès freiner votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la densité urbaine ou les contraintes d'accès freiner votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

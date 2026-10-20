@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,7 +27,7 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Eure (27) | Agence Locale Évreux & Devis Gratuit",
-  description: "Déménageur expert dans l'Eure (27). Agence à Évreux pour un service de proximité à Vernon, Louviers, Gisors. Particuliers & Entreprises. Devis en 24h.",
+  description: "Déménageur expert dans l'Eure (27). Agence à Évreux pour un service de proximité à Vernon, Louviers, Gisors. Particuliers & Entreprises. Devis dans les meilleurs délais.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-eure-27",
   }
@@ -51,7 +50,7 @@ const WHY_US_ITEMS = [
   {
     icon: MapPin,
     title: "Agence Locale à Évreux",
-    description: "Notre présence physique au cœur du 27 garantit une réactivité maximale pour vos visites techniques et vos devis."
+    description: "Notre présence à Évreux facilite l'organisation des visites techniques et la préparation des devis."
   },
   {
     icon: Users,
@@ -73,7 +72,7 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Quels sont les avantages de votre agence à Évreux ?", 
-    answer: "Notre agence d'Évreux est notre véritable hub logistique pour toute la Normandie. Cela nous permet de réaliser des visites techniques gratuites sous 24h, de parfaitement coordonner la logistique locale et de vous proposer des tarifs ultra-compétitifs en réduisant considérablement les frais de déplacement de nos camions." 
+    answer: "Notre agence d'Évreux sert de base logistique pour la Normandie. Elle facilite les visites techniques, la coordination locale et l'étude d'un tarif tenant compte du volume, des accès et des déplacements."
   },
   { 
     question: "Gérez-vous les accès difficiles en pleine campagne normande ?", 
@@ -89,11 +88,6 @@ const FAQS = [
   }
 ];
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Clotilde Duran", text: "Une équipe très réactive et professionnelle à Évreux. Les affaires ont été emballées avec le plus grand soin. Nous conseillons les yeux fermés !", rating: 5, createTime: "il y a 2 ans", avatarUrl: `https://i.pravatar.cc/48?u=Clotilde` },
-  { id: "fallback-2", name: "Jean-michel Marot", text: "Déménagement vers Bernay parfaitement réalisé. Professionnel du début jusqu'à la livraison. Équipe efficace et sympathique. Travail de qualité.", rating: 5, createTime: "il y a 2 ans", avatarUrl: `https://i.pravatar.cc/48?u=Jean-michel` },
-  { id: "fallback-3", name: "Robert GALAND", text: "On voit le côté 'familial' sans prestataire ou intérimaire. Sincèrement je suis bluffé par la rapidité et le soin. MERCI.", rating: 5, createTime: "il y a 19 jours", avatarUrl: `https://i.pravatar.cc/48?u=Robert` },
-];
 
 export default function EurePage() {
   return (
@@ -176,7 +170,7 @@ export default function EurePage() {
                   Déménager dans l'Eure (27) exige une parfaite connaissance du territoire, de la vallée de la Seine fortement urbanisée aux vastes plaines plus isolées du Vexin normand. Pour réussir ce projet, s'appuyer sur un partenaire véritablement local est un atout majeur et rassurant.
                 </p>
                 <p>
-                  Notre propre agence, solidement implantée à Évreux, est votre interlocuteur de proximité exclusif. Nos équipes, 100% salariées, vous apportent leur expertise pointue du terrain et une réactivité totale pour que votre installation à Vernon, Louviers, Bernay ou Gisors soit une parfaite réussite logistique.
+                  Notre agence implantée à Évreux vous apporte un interlocuteur de proximité. Nos équipes salariées préparent la logistique selon le terrain et les accès de Vernon, Louviers, Bernay ou Gisors.
                 </p>
               </div>
               
@@ -300,7 +294,7 @@ export default function EurePage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Boxes className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Garde-Meubles à Évreux</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Solution de stockage en containers plombés, 100% sécurisée et sous vidéosurveillance dans nos propres entrepôts d'Évreux.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Solution de stockage en containers plombés, sécurisée et sous vidéosurveillance dans nos propres entrepôts d'Évreux.</p>
                   </div>
                 </li>
               </ul>
@@ -316,7 +310,7 @@ export default function EurePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-eure" className="py-24 bg-slate-50">
@@ -363,13 +357,13 @@ export default function EurePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique au hasard. Contactez l'équipe de notre agence d'Évreux pour une étude personnalisée et recevez un devis ferme et gratuit sous 24h.
+                    Ne laissez pas la logistique au hasard. Contactez l'équipe de notre agence d'Évreux pour une étude personnalisée et recevez un devis ferme et gratuit dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

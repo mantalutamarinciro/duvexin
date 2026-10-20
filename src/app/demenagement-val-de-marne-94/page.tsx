@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Val-de-Marne (94) | Expert Local & Devis Gratuit",
-  description: "Déménageur de confiance dans le Val-de-Marne (94). De Vincennes à Créteil, nous gérons vos déménagements résidentiels et transferts de bureaux. Devis sous 24h.",
+  description: "Déménageur de confiance dans le Val-de-Marne (94). De Vincennes à Créteil, nous gérons vos déménagements résidentiels et transferts de bureaux. Devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-val-de-marne-94",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Martin", text: "Déménagement de notre maison à Saint-Maur-des-Fossés géré avec un grand professionnalisme. L'équipe était efficace et très soigneuse avec nos meubles anciens.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Martin94` },
-  { id: "fallback-2", name: "M. Dubois", text: "Service impeccable pour mon appartement à Vincennes. Ils ont géré les contraintes de stationnement et le monte-meubles sans aucun problème. Je recommande sans hésiter.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dubois94` },
-  { id: "fallback-3", name: "Société Innov+", text: "Transfert de nos bureaux à Créteil Échat réalisé dans les temps. L'équipe a été rapide, discrète et a minimisé l'impact sur notre activité. Parfait.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Innov94` },
-];
 
 const VAL_DE_MARNE_CITIES = [
   { name: "Alfortville", link: "/demenagement-alfortville-94140" },
@@ -184,7 +178,7 @@ export default function ValDeMarnePage() {
                   Le Val-de-Marne (94) est un territoire aux multiples facettes. Il conjugue l'hyper-densité de la petite couronne parisienne (Ivry, Vincennes), le dynamisme tertiaire de Créteil, et le calme recherché des pavillons en bords de Marne (Saint-Maur, Le Perreux).
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous adaptons notre flotte et notre méthodologie à chaque situation. Qu'il s'agisse de déployer un monte-meubles dans une avenue passante ou de protéger scrupuleusement une villa bourgeoise, nous vous garantissons un professionnalisme sans faille.
+                  Chez <strong>Déménagement du Vexin</strong>, nous adaptons notre flotte et notre méthode à chaque situation. Monte-meubles sur une avenue passante ou protection d'une villa : les moyens sont définis selon les accès et le mobilier.
                 </p>
               </div>
               
@@ -318,7 +312,7 @@ export default function ValDeMarnePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-94" className="py-24 bg-white">
@@ -365,13 +359,13 @@ export default function ValDeMarnePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine ternir votre projet. Contactez nos experts pour une visite gratuite et obtenez un devis complet sous 24h.
+                    Ne laissez pas la logistique urbaine ternir votre projet. Contactez nos experts pour une visite gratuite et obtenez un devis complet après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                     <Button size="lg" variant="outline" className="rounded-full h-16 px-10 text-lg font-bold border-slate-700 text-primary hover:bg-white hover:text-slate-900 transition-all backdrop-blur-sm" asChild>

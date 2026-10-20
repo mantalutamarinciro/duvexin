@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,17 +28,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Louviers (27) | Expert Local & Devis Gratuit",
-  description: "Déménageur de confiance à Louviers (27400). Spécialiste transferts de bureaux, ateliers et résidences. Devis gratuit sous 24h et visite technique.",
+  description: "Déménageur de confiance à Louviers (27400). Spécialiste transferts de bureaux, ateliers et résidences. Devis gratuit personnalisé et visite technique.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-louviers-27400",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Girard", text: "Notre déménagement à Louviers a été une totale réussite. L'équipe connaît bien le secteur et a géré les accès du centre-ville sans aucun problème malgré notre piano. Très pro !", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Girard27` },
-  { id: "fallback-2", name: "Marc D.", text: "Très bonne expérience pour mon appartement. Devis clair, pas de frais cachés et équipe ponctuelle. Un déménagement réalisé sans stress en pleine semaine.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=MarcD27` },
-  { id: "fallback-3", name: "Entreprise Inov'Plast", text: "Le transfert de notre atelier a été mené avec une rigueur exemplaire. Une équipe sérieuse qui comprend les enjeux de production. Je recommande pour le B2B dans l'Eure.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=InovPlast27` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -60,7 +54,7 @@ const WHY_US_ITEMS = [
   {
     icon: ShieldCheck,
     title: "Proximité Agence Évreux",
-    description: "Notre base locale garantit une réactivité maximale et des tarifs compétitifs pour tout le Vexin normand."
+    description: "Notre base locale facilite l'organisation et l'étude tarifaire des projets dans le Vexin normand."
   }
 ];
 
@@ -159,7 +153,7 @@ export default function LouviersPage() {
                 Louviers est une ville charnière, mêlant centre-ville historique aux rues pittoresques et zones d'activités industrielles de pointe. Déménager dans cet environnement demande une expertise capable de s'adapter aussi bien au bâti ancien qu'aux plateaux de bureaux modernes.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons chaque spécificité de la cité lovérienne. Que vous emménagiez dans une maison de ville près de Notre-Dame ou que vous transfériez votre atelier, nous garantissons une transition fluide.
+                Chez Déménagement du Vexin, nous adaptons l'organisation aux maisons de ville près de Notre-Dame comme aux transferts d'atelier.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -269,7 +263,7 @@ export default function LouviersPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-louviers" className="py-20 lg:py-32 bg-slate-50">
@@ -314,13 +308,13 @@ export default function LouviersPage() {
                     <span className="text-[#00ad9f]">départ de Louviers ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la logistique ternir votre projet. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique ternir votre projet. Contactez nos équipes pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

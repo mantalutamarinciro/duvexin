@@ -6,19 +6,18 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
-import { 
-  CheckCircle2, 
-  MapPin, 
-  ShieldCheck, 
-  Users, 
-  Building2, 
-  Truck, 
-  ArrowRight, 
-  ChevronRight, 
+import {
+  CheckCircle2,
+  MapPin,
+  ShieldCheck,
+  Users,
+  Building2,
+  Truck,
+  ArrowRight,
+  ChevronRight,
   Map,
   TreePine,
   Home,
@@ -29,18 +28,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Taverny (95) | Expert Local & Devis Gratuit 24h",
-  description: "Déménageur de confiance à Taverny (95150). Spécialiste zones pavillonnaires, bordure de forêt et transferts de bureaux. Devis gratuit sous 24h et monte-meubles.",
+  title: "Déménagement Taverny (95) | Expert Local & Devis Gratuit",
+  description: "Déménageur de confiance à Taverny (95150). Spécialiste zones pavillonnaires, bordure de forêt et transferts de bureaux. Devis gratuit et monte-meubles.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-taverny-95150",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Renaud", text: "Un grand merci pour notre déménagement à Taverny. L'équipe a été d'une efficacité rare pour monter notre mobilier imposant dans notre nouvelle maison près de la forêt. Professionnels et courtois.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Renaud95` },
-  { id: "fallback-2", name: "Sophie B.", text: "Service impeccable pour mon appartement en centre-ville. Le devis était clair, sans frais cachés, et l'équipe a fait preuve d'un grand soin avec mes cartons fragiles. Je recommande vivement.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieB95` },
-  { id: "fallback-3", name: "Marc T.", text: "Efficacité et discrétion. Mon transfert de bureaux vers la zone d'activités de Taverny s'est déroulé parfaitement. Une entreprise de confiance qui connaît bien le Val-d'Oise.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MarcT95T` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -66,21 +60,21 @@ const WHY_US_ITEMS = [
 ];
 
 const FAQS = [
-  { 
-    question: "Comment organisez-vous un déménagement pavillonnaire à Taverny ?", 
-    answer: "Nous réalisons une visite technique préalable pour évaluer les accès (allées, portails). Le jour J, nous utilisons des protections spécifiques pour vos sols et vos extérieurs, et adaptons le gabarit du camion pour ne pas gêner le voisinage." 
+  {
+    question: "Comment organisez-vous un déménagement pavillonnaire à Taverny ?",
+    answer: "Nous réalisons une visite technique préalable pour évaluer les accès (allées, portails). Le jour J, nous utilisons des protections spécifiques pour vos sols et vos extérieurs, et adaptons le gabarit du camion pour ne pas gêner le voisinage."
   },
-  { 
-    question: "Gérez-vous le stationnement en centre-ville de Taverny ?", 
-    answer: "Oui, c'est inclus dans notre service. Nous déposons les demandes d'arrêté municipal 15 jours à l'avance pour privatiser l'espace nécessaire devant votre immeuble ou maison et garantir une intervention fluide." 
+  {
+    question: "Gérez-vous le stationnement en centre-ville de Taverny ?",
+    answer: "Oui, c'est inclus dans notre service. Nous déposons les demandes d'arrêté municipal 15 jours à l'avance pour privatiser l'espace nécessaire devant votre immeuble ou maison et garantir une intervention fluide."
   },
-  { 
-    question: "Intervenez-vous pour des transferts de bureaux à Taverny ?", 
-    answer: "Absolument. Nous accompagnons les entreprises et commerces de Taverny pour des transferts de locaux, avec une planification optimisée pour limiter l'impact sur votre activité professionnelle." 
+  {
+    question: "Intervenez-vous pour des transferts de bureaux à Taverny ?",
+    answer: "Absolument. Nous accompagnons les entreprises et commerces de Taverny pour des transferts de locaux, avec une planification optimisée pour limiter l'impact sur votre activité professionnelle."
   },
-  { 
-    question: "Quelles protections utilisez-vous pour le mobilier ?", 
-    answer: "Nous utilisons des fournitures de haute qualité : couvertures de fort grammage, housses matelassées pour literie et bullkraft pour vos objets les plus précieux. Chaque pièce est sanglée dans nos camions capitonnés." 
+  {
+    question: "Quelles protections utilisez-vous pour le mobilier ?",
+    answer: "Nous utilisons des fournitures de haute qualité : couvertures de fort grammage, housses matelassées pour literie et bullkraft pour vos objets les plus précieux. Chaque pièce est sanglée dans nos camions capitonnés."
   }
 ];
 
@@ -98,10 +92,10 @@ export default function TavernyPage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
       <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
-      
+
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[60vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-24 pb-16 overflow-hidden">
-        <Image 
+        <Image
           src="https://picsum.photos/seed/taverny-forest/1920/1080"
           alt="Vue verdoyante de Taverny près de la forêt"
           fill
@@ -110,7 +104,7 @@ export default function TavernyPage() {
           className="object-cover opacity-30 mix-blend-luminosity grayscale-[40%]"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0b0f19] via-[#0b0f19]/80 to-transparent" />
-        
+
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <nav className="flex items-center text-xs font-medium text-slate-400 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
@@ -125,18 +119,18 @@ export default function TavernyPage() {
               <Leaf className="h-4 w-4" />
               Expert Déménagement Vallée de Montmorency
             </div>
-            
+
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
               Votre déménagement <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200 text-shadow-sm">
                 à Taverny.
               </span>
             </h1>
-            
+
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
               L'excellence logistique entre ville et forêt. Profitez de l'expertise de nos équipes locales pour votre projet à Taverny (95150).
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="rounded-full h-14 px-8 text-base bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
                 <Link href="/dashboard/quote">
@@ -160,9 +154,9 @@ export default function TavernyPage() {
                 Taverny est une ville d'exception, offrant un équilibre rare entre dynamisme urbain et proximité immédiate de la Forêt de Montmorency. Déménager dans cet environnement demande une approche qui respecte à la fois la densité du centre et la tranquillité des quartiers pavillonnaires.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque spécificité du territoire tabernacien. Que vous emménagiez dans une maison avec jardin ou dans une résidence moderne, nous garantissons une transition fluide, sécurisée et ponctuelle.
+                Chez <strong>Déménagement du Vexin</strong>, nous adaptons la prestation aux maisons avec jardin et aux résidences modernes de Taverny.
               </p>
-              
+
               <div className="pt-6 flex items-center gap-4">
                  <div className="h-14 w-14 rounded-full bg-[#00ad9f]/10 flex items-center justify-center shrink-0">
                     <ShieldAlert className="h-7 w-7 text-[#00ad9f]" />
@@ -172,7 +166,7 @@ export default function TavernyPage() {
                  </div>
               </div>
             </div>
-            
+
             <div className="relative">
               <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 hover:rotate-6" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border border-slate-100">
@@ -218,7 +212,7 @@ export default function TavernyPage() {
       <section className="py-20 lg:py-32 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            
+
             <div className="order-2 lg:order-1 relative">
               <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2rem] opacity-10 -z-10" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
@@ -270,7 +264,7 @@ export default function TavernyPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-taverny" className="py-20 lg:py-32 bg-slate-50">
@@ -281,12 +275,12 @@ export default function TavernyPage() {
             </h2>
             <p className="mt-4 text-lg text-slate-500 font-light">Tout savoir pour préparer votre installation réussie à Taverny.</p>
           </div>
-          
+
           <Accordion type="single" collapsible className="w-full space-y-4">
             {FAQS.map((item, i) => (
-              <AccordionItem 
-                value={`item-${i}`} 
-                key={i} 
+              <AccordionItem
+                value={`item-${i}`}
+                key={i}
                 className="bg-white border border-slate-200 rounded-2xl px-2 data-[state=open]:border-[#00ad9f]/40 data-[state=open]:shadow-md transition-all duration-200"
               >
                 <AccordionTrigger className="text-lg font-bold text-slate-900 py-6 px-4 hover:no-underline hover:text-[#00ad9f] transition-colors text-left">
@@ -305,23 +299,23 @@ export default function TavernyPage() {
       <section className="py-20 bg-white">
          <div className="container mx-auto px-4 md:px-6">
             <div className="relative rounded-[3rem] bg-[#0f172a] p-10 md:p-16 lg:p-24 text-center overflow-hidden shadow-2xl isolate">
-               
+
                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00ad9f]/15 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[100px] -z-10 -translate-x-1/3 translate-y-1/3 pointer-events-none" />
-               
+
                <div className="relative z-10">
                  <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-8 leading-tight">
                     On organise votre <br className="hidden md:block"/>
                     <span className="text-[#00ad9f]">départ de Taverny ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la logistique urbaine ou les accès complexes ternir votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine ou les accès complexes ternir votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit.
                  </p>
-                 
+
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/dashboard/quote">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

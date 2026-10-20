@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -27,17 +26,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Eaubonne (95) | Expert local & Devis Gratuit",
-  description: "Déménageur de confiance à Eaubonne (95600). Spécialiste de la Vallée de Montmorency : pavillons, appartements gare Ermont-Eaubonne et pros. Devis en 24h.",
+  description: "Déménageur à Eaubonne (95600) pour pavillons, appartements proches de la gare Ermont-Eaubonne et locaux professionnels. Demandez un devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-eaubonne-95600",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Chevalier", text: "Déménagement de notre maison à Eaubonne parfaitement géré. L'équipe a été efficace, ponctuelle et très soigneuse avec nos meubles anciens. Un service de grande qualité.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Chevalier95` },
-  { id: "fallback-2", name: "Pauline V.", text: "Service impeccable pour mon appartement près de la gare. Le devis était clair, l'équipe sympathique et professionnelle. Zéro stress pour mon premier déménagement seule !", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=PaulineV95` },
-  { id: "fallback-3", name: "M. Lefort", text: "Efficacité et professionnalisme. Ils ont géré le stationnement en plein centre-ville sans aucun souci. Je recommande pour tout déménagement dans le 95.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Lefort95E` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -48,7 +42,7 @@ const WHY_US_ITEMS = [
   {
     icon: Train,
     title: "Maîtrise Pôle Gare",
-    description: "Spécialistes du secteur Ermont-Eaubonne : nous gérons les flux de trafic très denses pour une ponctualité garantie."
+    description: "Dans le secteur Ermont-Eaubonne, nous étudions les accès, le stationnement et les conditions de circulation."
   },
   {
     icon: Home,
@@ -65,11 +59,11 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Comment organisez-vous un déménagement près de la gare d'Ermont-Eaubonne ?", 
-    answer: "C'est un secteur névralgique du Val-d'Oise. L'anticipation est notre priorité : nous déposons la demande d'arrêté municipal 15 jours avant pour réserver l'emplacement. Nous planifions l'arrivée de nos camions en dehors des pics de fréquentation de la gare pour garantir une logistique fluide." 
+    answer: "Près de la gare, l'anticipation est importante. Le délai de la demande d'autorisation dépend de la commune ; les accès et horaires sont étudiés avant l'intervention."
   },
   { 
     question: "Est-ce difficile de stationner à Eaubonne ?", 
-    answer: "En centre-ville ou près des commerces, le stationnement est très réglementé. Notre prestation inclut la démarche administrative : nous installons la signalétique 48h à l'avance pour libérer l'espace nécessaire au camion et au monte-meubles, vous évitant tout stress le jour J." 
+    answer: "En centre-ville ou près des commerces, le stationnement peut être réglementé. Selon la formule retenue, nous pouvons accompagner la démarche administrative et la préparation de l'emplacement."
   },
   { 
     question: "Déménagez-vous les maisons avec des jardins ou accès difficiles ?", 
@@ -272,7 +266,7 @@ export default function EaubonnePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-eaubonne" className="py-24 bg-slate-50">
@@ -319,13 +313,13 @@ export default function EaubonnePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine ou les accès pavillonnaires vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit et ferme sous 24h.
+                    Ne laissez pas la logistique urbaine ou les accès pavillonnaires vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit et ferme.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

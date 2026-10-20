@@ -7,19 +7,18 @@ import Script from "next/script";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
 import { realReviews } from "@/lib/reviews-data";
 
 // Icons
-import { 
-  CheckCircle2, 
-  MapPin, 
-  ShieldCheck, 
-  Users, 
-  Building2, 
-  Truck, 
-  ArrowRight, 
-  ChevronRight, 
+import {
+  CheckCircle2,
+  MapPin,
+  ShieldCheck,
+  Users,
+  Building2,
+  Truck,
+  ArrowRight,
+  ChevronRight,
   Map,
   Trees,
   Briefcase,
@@ -34,7 +33,7 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Val-d'Oise (95) | Expert Local & Devis Gratuit",
-  description: "Déménagement du Vexin : votre expert historique dans le Val-d'Oise (95). De Cergy à Argenteuil, profitez d'un savoir-faire local pour particuliers et entreprises. Devis en 24h.",
+  description: "Déménagement du Vexin accompagne particuliers et entreprises dans le Val-d'Oise, de Cergy à Argenteuil. Demandez un devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-val-d-oise-95",
   }
@@ -86,21 +85,21 @@ const WHY_US_ITEMS = [
 ];
 
 const FAQS = [
-  { 
-    question: "Gérez-vous les accès difficiles dans les villages du Vexin ?", 
-    answer: "C'est notre spécialité. Pour les rues étroites de La Roche-Guyon ou d'Auvers-sur-Oise, nous utilisons des véhicules petits porteurs et prévoyons des distances de portage adaptées." 
+  {
+    question: "Gérez-vous les accès difficiles dans les villages du Vexin ?",
+    answer: "C'est notre spécialité. Pour les rues étroites de La Roche-Guyon ou d'Auvers-sur-Oise, nous utilisons des véhicules petits porteurs et prévoyons des distances de portage adaptées."
   },
-  { 
-    question: "Intervenez-vous dans les résidences neuves de Cergy-Pontoise ?", 
-    answer: "Oui, nous connaissons parfaitement les nouvelles zones résidentielles. Nous gérons les accès logistiques et le stationnement en accord avec les règlements de copropriété." 
+  {
+    question: "Intervenez-vous dans les résidences neuves de Cergy-Pontoise ?",
+    answer: "Oui, nous connaissons parfaitement les nouvelles zones résidentielles. Nous gérons les accès logistiques et le stationnement en accord avec les règlements de copropriété."
   },
-  { 
-    question: "Proposez-vous le monte-meubles à Argenteuil ou Sarcelles ?", 
-    answer: "Absolument. Pour les immeubles sans ascenseur ou les étages élevés, le monte-meubles est souvent la solution la plus sûre et la plus rapide que nous déployons régulièrement." 
+  {
+    question: "Proposez-vous le monte-meubles à Argenteuil ou Sarcelles ?",
+    answer: "Absolument. Pour les immeubles sans ascenseur ou les étages élevés, le monte-meubles est souvent la solution la plus sûre et la plus rapide que nous déployons régulièrement."
   },
-  { 
-    question: "Quel est le délai pour un déménagement dans le 95 ?", 
-    answer: "En tant qu'acteur local, nous sommes très réactifs. Un devis est envoyé sous 24h après visite. Prévoyez idéalement 2 à 3 semaines de préavis pour garantir votre date." 
+  {
+    question: "Quel est le délai pour un déménagement dans le 95 ?",
+    answer: "Le devis est préparé après l'évaluation du volume, des accès et des prestations demandées. Pour disposer de davantage de choix dans les dates, anticipez votre demande autant que possible."
   }
 ];
 
@@ -116,10 +115,10 @@ export default function ValDOisePage() {
           "acceptedAnswer": { "@type": "Answer", "text": item.answer }
         }))
       })}} />
-      
+
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
-        <Image 
+        <Image
           src="/images/entete-pages.webp"
           alt="Paysage du Val-d'Oise"
           fill
@@ -128,7 +127,7 @@ export default function ValDOisePage() {
           className="object-cover opacity-30 mix-blend-luminosity grayscale-[20%] scale-105 animate-in fade-in duration-1000"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19] via-[#0b0f19]/80 to-transparent" />
-        
+
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
@@ -141,18 +140,18 @@ export default function ValDOisePage() {
               <Trees className="h-4 w-4" />
               L'expert Déménagement du 95
             </div>
-            
+
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
               Votre déménageur <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
                 dans le Val-d'Oise (95).
               </span>
             </h1>
-            
+
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
               De Cergy au Vexin Français, bénéficiez du savoir-faire d'un acteur local historique. Une logistique maîtrisée pour une transition en toute sérénité.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
                 <Link href="/demande-devis">
@@ -170,7 +169,7 @@ export default function ValDOisePage() {
           <div className="flex items-center gap-3">
             <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mr-4">Villes phares :</span>
             {["Cergy", "Pontoise", "Argenteuil", "Sarcelles", "Enghien", "L'Isle-Adam"].map((city) => (
-              <Link 
+              <Link
                 key={city}
                 href={`/demenagement-${city.toLowerCase().replace(/ /g, "-")}-95${city === "Argenteuil" ? '100' : city === "Sarcelles" ? '200' : city === "Cergy" ? '000' : city === "Pontoise" ? '300' : city === "Enghien" ? '880' : '290'}`}
                 className="inline-flex items-center px-4 py-2 rounded-full bg-slate-50 border border-slate-100 text-xs font-bold text-slate-600 hover:text-primary hover:border-primary/30 transition-all"
@@ -198,19 +197,19 @@ export default function ValDOisePage() {
                   Pour préparer votre départ, nous vous conseillons de consulter notre <Link href="/blog/checklist-demenagement" className="text-primary font-bold hover:underline">checklist complète</Link> ou d'utiliser notre <Link href="/calculateur-volume" className="text-primary font-bold hover:underline">calculateur de volume</Link> pour une première estimation précise.
                 </p>
               </div>
-              
+
               <div className="pt-6 grid grid-cols-2 gap-8 border-t border-slate-100">
                  <div className="flex flex-col gap-2">
-                    <span className="text-4xl font-black text-slate-900">100%</span>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Maillage 95</span>
+                    <span className="text-4xl font-black text-slate-900">95</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Val-d'Oise</span>
                  </div>
                  <div className="flex flex-col gap-2">
-                    <span className="text-4xl font-black text-slate-900">24h</span>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Réactivité Devis</span>
+                    <span className="text-4xl font-black text-slate-900">3</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Formules</span>
                  </div>
               </div>
             </div>
-            
+
             <div className="relative group">
               <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 group-hover:-rotate-1" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white">
@@ -239,11 +238,11 @@ export default function ValDOisePage() {
               Cliquez sur votre ville pour découvrir nos services locaux personnalisés.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 max-w-7xl mx-auto">
             {VAL_D_OISE_CITIES.sort((a,b) => a.name.localeCompare(b.name)).map((city) => (
-              <Link 
-                href={city.link} 
+              <Link
+                href={city.link}
                 key={city.name}
                 className="group flex items-center justify-between bg-white h-16 px-6 border border-slate-200 hover:border-[#00ad9f] hover:shadow-lg rounded-2xl transition-all duration-300 hover:-translate-y-1"
               >

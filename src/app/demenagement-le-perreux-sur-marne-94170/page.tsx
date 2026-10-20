@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Le Perreux-sur-Marne (94) | Expert Bords de Marne",
-  description: "Déménageur de confiance au Perreux-sur-Marne (94170). Spécialiste belles demeures, bords de Marne et résidences de standing. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance au Perreux-sur-Marne (94170). Spécialiste belles demeures, bords de Marne et résidences de standing. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-le-perreux-sur-marne-94170",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Garnier", text: "Déménagement de notre maison au Perreux géré avec un soin et un professionnalisme remarquables. L'équipe a été attentive à chaque détail, notamment pour nos tableaux. Un vrai service premium.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Garnier94` },
-  { id: "fallback-2", name: "Isabelle L.", text: "Très satisfaite de la prestation. Ils ont géré les accès complexes sur les bords de Marne avec une grande efficacité malgré le camion de 50m3. Je recommande cette entreprise fiable.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=IsabelleL94` },
-  { id: "fallback-3", name: "M. et Mme Bernard", text: "Ponctualité, efficacité et une équipe très respectueuse de notre intérieur. Notre installation près de l'avenue Ledru-Rollin a été une réussite totale. Merci !", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Bernard94` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -56,7 +50,7 @@ const WHY_US_ITEMS = [
   {
     icon: Waves,
     title: "Accès Bords de Marne",
-    description: "Spécialiste des accès riverains étroits. Nous adaptons nos véhicules pour une logistique sans accroc le long de l'eau."
+    description: "Spécialiste des accès riverains étroits. Nous adaptons nos véhicules pour une logistique adaptée aux accès le long de l'eau."
   },
   {
     icon: ShieldCheck,
@@ -160,7 +154,7 @@ export default function LePerreuxSurMarnePage() {
                 Le Perreux-sur-Marne se distingue par son élégance architecturale et la quiétude de ses bords de rivière. Déménager dans ce secteur demande bien plus qu'un simple transport : c'est une mission de protection de votre patrimoine dans un environnement urbain délicat.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons chaque spécificité perreuxienne. Que vous emménagiez dans une maison meulière traditionnelle ou un appartement de standing en centre-ville, nous coordonnons chaque étape (visite technique, stationnement, levage) pour garantir une installation fluide et sans fausse note.
+                Chez Déménagement du Vexin, nous maîtrisons chaque spécificité perreuxienne. Que vous emménagiez dans une maison meulière traditionnelle ou un appartement de standing en centre-ville, nous coordonnons chaque étape (visite technique, stationnement, levage) pour garantir une installation fluide et sans fausse note.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -270,7 +264,7 @@ export default function LePerreuxSurMarnePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-le-perreux" className="py-20 lg:py-32 bg-slate-50">
@@ -315,13 +309,13 @@ export default function LePerreuxSurMarnePage() {
                     <span className="text-[#00ad9f]">départ du Perreux ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la logistique urbaine ou les accès complexes ternir votre projet. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine ou les accès complexes ternir votre projet. Contactez nos équipes pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

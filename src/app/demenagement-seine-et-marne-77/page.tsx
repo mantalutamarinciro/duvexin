@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,17 +28,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Seine-et-Marne (77) | Expert Local & Devis Gratuit",
-  description: "Déménageur de confiance en Seine-et-Marne (77). De Meaux à Fontainebleau, nous gérons vos déménagements résidentiels et transferts de bureaux. Devis sous 24h.",
+  description: "Déménageur de confiance en Seine-et-Marne (77). De Meaux à Fontainebleau, nous gérons vos déménagements résidentiels et transferts de bureaux. Devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-seine-et-marne-77",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Laetitia F.", text: "Super service pour notre déménagement à Fontainebleau. L'équipe a été très professionnelle et a pris grand soin de nos meubles anciens dans notre nouvelle maison de ville. Je recommande vivement.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=Laetitia77` },
-  { id: "fallback-2", name: "Marc T.", text: "Efficacité et rapidité pour mon installation à Meaux. Le devis était clair et sans surprise. Le jour J, tout s'est déroulé comme prévu, même la gestion du stationnement difficile en centre-ville.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=MarcT77` },
-  { id: "fallback-3", name: "Famille Durand", text: "Déménagement de Paris vers Chelles exemplaire. Une entreprise familiale sérieuse qui connaît parfaitement les axes routiers du 77 pour éviter les bouchons. Zéro casse à l'arrivée.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Durand77` },
-];
 
 const SEINE_ET_MARNE_CITIES = [
   "Meaux", "Chelles", "Melun", "Pontault-Combault", "Savigny-le-Temple", 
@@ -73,7 +67,7 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Comment gérez-vous les longues distances à l'intérieur du 77 ?", 
-    answer: "La Seine-et-Marne est le plus grand département francilien. Nous planifions nos trajets via l'A4, l'A5 et la Francilienne pour garantir une ponctualité totale, que vous déménagiez de Chelles à Fontainebleau ou de Melun à Meaux." 
+    answer: "La Seine-et-Marne est le plus grand département francilien. Nous préparons les trajets via l'A4, l'A5 ou la Francilienne selon les adresses, de Chelles à Fontainebleau comme de Melun à Meaux."
   },
   { 
     question: "Déménagez-vous les grandes propriétés et maisons bourgeoises ?", 
@@ -85,7 +79,7 @@ const FAQS = [
   },
   { 
     question: "Quel est le délai pour obtenir un devis gratuit ?", 
-    answer: "Nous sommes très réactifs. Après votre demande en ligne ou une visite technique, vous recevez votre devis détaillé et définitif sous 24 heures ouvrées." 
+    answer: "Après votre demande en ligne ou une visite technique, nous préparons un devis détaillé à partir du volume, des accès et des prestations demandées."
   }
 ];
 
@@ -168,7 +162,7 @@ export default function SeineEtMarnePage() {
                   La Seine-et-Marne (77) offre un territoire aux visages multiples. Entre le dynamisme des villes nouvelles de Marne-la-Vallée, le prestige de Fontainebleau et la tranquillité des zones rurales du Gâtinais, chaque déménagement est un défi unique.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque spécificité du 77. Que vous emménagiez dans une maison avec jardin ou que vous transfériez vos bureaux vers un pôle économique majeur, nous garantissons une transition fluide, sécurisée et ponctuelle.
+                  Chez <strong>Déménagement du Vexin</strong>, nous adaptons l'organisation aux distances et aux accès du 77. Maison avec jardin ou transfert de bureaux, les moyens et le planning sont définis après étude du projet.
                 </p>
               </div>
               
@@ -305,7 +299,7 @@ export default function SeineEtMarnePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-77" className="py-24 bg-white">
@@ -352,13 +346,13 @@ export default function SeineEtMarnePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique ternir votre projet. Contactez nos experts pour une visite gratuite et obtenez un devis complet sous 24h.
+                    Ne laissez pas la logistique ternir votre projet. Contactez nos experts pour une visite gratuite et obtenez un devis complet après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

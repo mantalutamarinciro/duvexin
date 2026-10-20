@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,18 +28,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Poissy (78) | Expert Local & Devis Gratuit sous 24h",
+  title: "Déménagement Poissy (78) | Expert Local & Devis Gratuit Personnalisé",
   description: "Déménageur de confiance à Poissy (78300). Spécialiste centre historique, Beauregard et transferts d'entreprises. Devis gratuit, monte-meubles et garanties.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-poissy-78300",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Martin", text: "Déménagement de notre maison à Poissy parfaitement géré. L'équipe a été efficace et très soigneuse avec nos meubles anciens. Une prestation de grande qualité dans le quartier de Noailles.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Martin78` },
-  { id: "fallback-2", name: "Thomas R.", text: "Très bonne expérience pour mon appartement près de la gare. Devis clair, équipe ponctuelle et aucun accroc. Le déménagement s'est fait sans aucun stress malgré les 4 étages sans ascenseur.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=ThomasR78` },
-  { id: "fallback-3", name: "Claire V.", text: "Professionnalisme exemplaire. Ils ont géré les autorisations de stationnement en centre-ville, ce qui m'a enlevé un poids énorme. Tout a été simple du début à la fin.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=ClaireV78` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -51,7 +45,7 @@ const WHY_US_ITEMS = [
   {
     icon: Car,
     title: "Logistique A13 / A14",
-    description: "Une organisation rodée sur les grands axes pour garantir une ponctualité totale, que vous arriviez de Paris ou de Normandie."
+    description: "Une organisation adaptée aux grands axes, que vous arriviez de Paris ou de Normandie."
   },
   {
     icon: Building2,
@@ -80,7 +74,7 @@ const FAQS = [
   },
   { 
     question: "Quel est le délai pour obtenir un devis ?", 
-    answer: "Après notre premier contact ou une visite technique (physique ou visio), nous vous transmettons un devis détaillé et gratuit sous 24 heures ouvrées." 
+    answer: "Après notre premier contact ou une visite technique (physique ou visio), nous vous transmettons un devis détaillé et gratuit après étude de votre demande."
   }
 ];
 
@@ -163,7 +157,7 @@ export default function PoissyPage() {
                   Poissy est une ville aux multiples facettes, mêlant son prestigieux héritage royal et son dynamisme industriel moderne. Déménager dans cet environnement exige une agilité technique capable de s'adapter aussi bien aux rues médiévales qu'aux zones pavillonnaires contemporaines.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque quartier, de Noailles à Beauregard. Que vous emménagiez dans un appartement près de la Collégiale ou que vous transfériez votre activité professionnelle, nous garantissons une transition fluide, sécurisée et d'une grande ponctualité.
+                  Chez <strong>Déménagement du Vexin</strong>, nous préparons les interventions de Noailles à Beauregard. Appartement près de la Collégiale ou transfert professionnel, le planning et les accès sont étudiés en amont.
                 </p>
               </div>
               
@@ -275,7 +269,7 @@ export default function PoissyPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-poissy" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function PoissyPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine ou les contraintes d'accès ternir votre projet. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine ou les contraintes d'accès ternir votre projet. Contactez nos équipes pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

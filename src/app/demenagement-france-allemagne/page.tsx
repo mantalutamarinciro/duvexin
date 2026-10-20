@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -33,17 +32,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement France → Allemagne | Devis Gratuit & Sécurisé",
-  description: "Déménageur expert sur l'axe France-Allemagne. Liaisons hebdomadaires vers Berlin, Munich, Francfort. Groupage et transfert d'entreprise. Devis sous 24h.",
+  description: "Déménageur expert sur l'axe France-Allemagne. Liaisons hebdomadaires vers Berlin, Munich, Francfort. Groupage et transfert d'entreprise. Devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-france-allemagne",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Schmidt", text: "Déménagement de Paris vers Berlin parfaitement orchestré. L'équipe a été d'une ponctualité exemplaire et a géré tout le transport de nos meubles fragiles avec un soin incroyable sur 1000 km. Un service d'élite.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=SchmidtDE` },
-  { id: "fallback-2", name: "Marc-Antoine H.", text: "Très bonne expérience pour mon installation à Munich. Le devis était clair et l'option groupage m'a permis de faire de vraies économies sur le trajet. Équipe efficace et parlant anglais, ce qui a facilité le déchargement sur place.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=MAHDE` },
-  { id: "fallback-3", name: "Logistique-Tech GmbH", text: "Le transfert de nos bureaux vers Francfort a été mené avec une rigueur et une discrétion totales. Des experts de la logistique internationale capables de gérer des volumes industriels.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=LogitechDE` },
-];
 
 const GERMANY_CITIES = [
   { name: "Berlin", desc: "La capitale fédérale et ses quartiers dynamiques (Mitte, Charlottenburg...)" },
@@ -82,11 +76,11 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Combien de temps faut-il prévoir pour un déménagement vers l'Allemagne ?", 
-    answer: "Pour un trajet comme Paris-Berlin (environ 1050 km), il faut compter entre 48h et 72h. Le premier jour est dédié au chargement soigneux en France et au début du transit. Le second jour est consacré au transport final et à la livraison, garantissant ainsi le respect strict des temps de repos de nos conducteurs et la sécurité de vos biens." 
+    answer: "Pour un trajet comme Paris-Berlin, le calendrier dépend du volume, des accès et des temps de conduite réglementaires. Les dates de chargement et de livraison sont précisées dans le devis."
   },
   { 
     question: "Gérez-vous le stationnement à Berlin ou Munich ?", 
-    answer: "Absolument. Les grandes villes allemandes sont très strictes sur le 'Halteverbot' (l'interdiction de stationner). Nous nous chargeons de commander et de faire poser les panneaux de signalisation officiels par les autorités locales au moins 72h avant l'intervention pour garantir un emplacement réservé au camion." 
+    answer: "Les grandes villes allemandes encadrent strictement les zones d'interdiction de stationner, ou 'Halteverbot'. Les démarches, les délais et leur prise en charge sont vérifiés selon la ville et l'adresse concernées."
   },
   { 
     question: "Proposez-vous des services pour les transferts de bureaux B2B ?", 
@@ -316,7 +310,7 @@ export default function GermanyPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-de" className="py-24 bg-slate-50">
@@ -363,13 +357,13 @@ export default function GermanyPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Contactez nos experts internationaux pour une étude personnalisée de vos volumes et recevez un devis ferme et gratuit sous 24h.
+                    Contactez nos experts internationaux pour une étude personnalisée de vos volumes et recevez un devis ferme et gratuit après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

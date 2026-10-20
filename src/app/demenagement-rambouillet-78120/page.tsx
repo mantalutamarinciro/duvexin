@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Rambouillet (78) | Expert local & Devis Gratuit",
-  description: "Déménageur de confiance à Rambouillet (78120). Spécialiste centre historique et lisière de forêt. Protection, monte-meubles et devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Rambouillet (78120). Spécialiste centre historique et lisière de forêt. Protection, monte-meubles et devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-rambouillet-78120",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Petit", text: "Nous avons déménagé dans une maison près de la forêt de Rambouillet. L'équipe a été formidable, très prudente avec nos affaires et l'environnement. Un grand merci !", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=Petit78` },
-  { id: "fallback-2", name: "Vincent L.", text: "Service très professionnel pour mon appartement en centre-ville de Rambouillet. Ils ont géré les accès étroits et le stationnement sans aucun souci. Je recommande.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=VincentL78` },
-  { id: "fallback-3", name: "Catherine D.", text: "Efficacité, ponctualité et bonne humeur. Mon déménagement a été bien plus simple que je ne l'imaginais. Une entreprise locale sérieuse et fiable.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=CatherineD78` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -275,7 +269,7 @@ export default function RambouilletPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-rambouillet" className="py-24 bg-slate-50">
@@ -322,7 +316,7 @@ export default function RambouilletPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Contactez nos experts pour une étude technique personnalisée de votre projet et obtenez un devis gratuit, ferme et détaillé sous 24h.
+                    Contactez nos experts pour une étude technique personnalisée de votre projet et obtenez un devis gratuit, ferme et détaillé dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">

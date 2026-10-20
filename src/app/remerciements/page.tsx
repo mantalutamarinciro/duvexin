@@ -53,7 +53,7 @@ export default function RemerciementsPage() {
             <div className="mb-9 grid gap-4 text-left sm:grid-cols-2">
               <div className="rounded-2xl border border-slate-100 bg-slate-50 p-5">
                 <Clock3 className="mb-3 h-6 w-6 text-[#00ad9f]" aria-hidden="true" />
-                <h2 className="font-bold text-slate-900">Réponse sous 24h</h2>
+                <h2 className="font-bold text-slate-900">Étude de votre demande</h2>
                 <p className="mt-1 text-sm leading-relaxed text-slate-500">
                   Nous revenons vers vous dans les meilleurs délais, pendant nos jours ouvrés.
                 </p>

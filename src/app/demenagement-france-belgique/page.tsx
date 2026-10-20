@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,17 +28,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement France → Belgique | Devis Gratuit & Groupage",
-  description: "Déménageur expert sur l'axe France-Belgique. Liaisons hebdomadaires vers Bruxelles, Anvers, Liège. Groupage et formalités incluses. Devis gratuit en 24h.",
+  description: "Déménageur expert sur l'axe France-Belgique. Liaisons hebdomadaires vers Bruxelles, Anvers, Liège. Groupage et formalités incluses. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-france-belgique",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Vanderberg", text: "Déménagement de Paris à Bruxelles réalisé avec une efficacité incroyable. L'équipe a géré les formalités et le déchargement dans une rue étroite d'Ixelles sans aucun souci. Un grand merci !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Vanderberg` },
-  { id: "fallback-2", name: "Julien M.", text: "Service parfait pour mon installation à Liège. La formule groupage m'a permis de faire de vraies économies sur le transport. Équipe ponctuelle et matériel de protection de qualité.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=JulienLiege` },
-  { id: "fallback-3", name: "Société Euro-Tech", text: "Le transfert de nos bureaux de Lille vers Anvers a été orchestré de main de maître. Discrétion, respect des délais et maîtrise des enjeux internationaux. Des vrais pros du transfert B2B.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=EuroTech` },
-];
 
 const BELGIUM_CITIES = [
   { name: "Bruxelles", desc: "La capitale européenne et ses communes (Ixelles, Uccle...)" },
@@ -78,15 +72,15 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Quelle est la durée d'un déménagement vers la Belgique ?", 
-    answer: "Grâce à la proximité géographique, un déménagement vers Bruxelles ou le Hainaut depuis l'Île-de-France ou la Normandie peut s'effectuer en 24h à 48h. Nous chargeons le matin en France et livrons généralement le lendemain matin en Belgique pour garantir un repos réglementaire à nos chauffeurs et une sécurité maximale." 
+    answer: "Le calendrier vers Bruxelles ou le Hainaut dépend du volume, des accès, du point de départ et des temps de conduite réglementaires. Les créneaux de chargement et de livraison sont confirmés dans le devis."
   },
   { 
     question: "Proposez-vous le groupage pour les petits volumes ?", 
-    answer: "Oui, c'est l'une de nos offres les plus demandées sur l'axe Paris-Bruxelles. Si vous avez moins de 15m³ (studio, appartement étudiant, quelques meubles), nous mutualisons le transport. Cela vous permet de bénéficier de tarifs ultra-compétitifs en partageant les frais de route avec d'autres clients." 
+    answer: "Pour certains petits volumes, le groupage peut être étudié lorsque les calendriers sont compatibles. Le devis précise alors le tarif et les conditions de mutualisation du trajet."
   },
   { 
     question: "Gérez-vous le stationnement à Bruxelles ou Anvers ?", 
-    answer: "Absolument. Les villes belges sont très strictes sur le stationnement (panneaux d'interdiction obligatoires). Nous coordonnons ces démarches avec les services de police locaux ou des partenaires sur place pour réserver les emplacements nécessaires et garantir la présence de nos camions au plus près de votre porte." 
+    answer: "Les règles de stationnement varient selon la commune belge. Les autorisations, les délais et la signalisation nécessaires sont vérifiés pour chaque adresse avant de confirmer l'organisation."
   },
   { 
     question: "Quelles sont les formalités pour déménager en Belgique ?", 
@@ -312,7 +306,7 @@ export default function BelgiumPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-belgium" className="py-24 bg-slate-50">
@@ -359,13 +353,13 @@ export default function BelgiumPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas les frontières ou la réglementation compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Ne laissez pas les frontières ou la réglementation compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

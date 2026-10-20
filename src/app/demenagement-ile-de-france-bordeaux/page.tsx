@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,17 +28,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Paris → Bordeaux (33) | Devis Gratuit & Groupage",
-  description: "Déménageur expert sur l'axe Paris-Bordeaux. Liaisons hebdomadaires, solutions de groupage et transport de caves à vin. Devis gratuit en 24h.",
+  description: "Déménageur sur l'axe Paris-Bordeaux. Solutions de groupage et préparation adaptée au transport de bouteilles et de mobilier. Devis gratuit personnalisé.",
   alternates: {
-    canonical: "https://demenagementduvexin.fr/demenagement-idf-bordeaux",
+    canonical: "https://demenagementduvexin.fr/demenagement-ile-de-france-bordeaux",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Dupuis", text: "Le déménagement de nos vies de Paris à Bordeaux a été une réussite totale. L'équipe a été d'un professionnalisme exemplaire du début à la fin malgré les 500km. Un grand merci !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dupuis33` },
-  { id: "fallback-2", name: "Antoine G.", text: "Service impeccable pour mon déménagement longue distance. La formule groupage était parfaite pour mon budget de jeune actif et tout est arrivé intact. Je recommande.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=AntoineG33` },
-  { id: "fallback-3", name: "Cave & Châteaux", text: "Le transfert de notre stock de grands crus a été géré avec un soin particulier. Une équipe qui comprend les contraintes du transport de biens fragiles. Des vrais pros.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=CaveChateaux33` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -274,7 +268,7 @@ export default function BordeauxPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-bordeaux" className="py-24 bg-slate-50">
@@ -321,13 +315,13 @@ export default function BordeauxPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la distance compliquer votre projet d'expatriation en région. Contactez nos experts nationaux pour une étude personnalisée et recevez un devis gratuit et ferme sous 24h.
+                    Ne laissez pas la distance compliquer votre projet d'expatriation en région. Contactez nos experts nationaux pour une étude personnalisée et recevez un devis gratuit et ferme après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit sous 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

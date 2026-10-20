@@ -79,7 +79,7 @@ export default function AboutPage() {
           </h1>
           
           <p className="text-lg md:text-xl text-slate-300 leading-relaxed font-light mx-auto max-w-2xl">
-            Découvrez l'histoire d'une entreprise familiale qui a fait le choix de l'excellence, de la transparence et de la protection absolue de votre patrimoine.
+            Découvrez l'histoire d'une entreprise familiale attachée à la transparence, à la préparation et à la protection adaptée de vos biens.
           </p>
         </div>
       </section>

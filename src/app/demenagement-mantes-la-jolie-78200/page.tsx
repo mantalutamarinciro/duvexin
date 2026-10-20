@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,17 +28,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Mantes-la-Jolie (78) | Expert Mantois & Devis Gratuit",
-  description: "Déménageur de confiance à Mantes-la-Jolie (78200). Spécialiste du centre historique, du Val Fourré et des zones d'activités. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Mantes-la-Jolie (78200). Spécialiste du centre historique, du Val Fourré et des zones d'activités. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-mantes-la-jolie-78200",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Dubois", text: "Très bonne expérience pour notre déménagement à Mantes. L'équipe a été efficace, ponctuelle et très précautionneuse avec nos meubles anciens. Nous recommandons vivement Marne Transdem.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dubois78` },
-  { id: "fallback-2", name: "Sophie G.", text: "Service client parfait et équipe au top pour mon appartement en centre-ville. Ils ont su gérer les accès difficiles de la rue piétonne sans aucun souci. Un vrai soulagement !", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieG78` },
-  { id: "fallback-3", name: "Entreprise Mantois BTP", text: "Le transfert de nos bureaux s'est fait avec une rigueur exemplaire. Une équipe qui comprend les enjeux de planning pour une société. Très satisfaits de la prestation.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MantoisBTP` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -55,7 +49,7 @@ const WHY_US_ITEMS = [
   {
     icon: Truck,
     title: "Logistique A13/A14",
-    description: "Une organisation rodée pour vos déménagements vers Paris ou la Normandie, garantissant une ponctualité totale."
+    description: "Une organisation adaptée pour vos déménagements vers Paris ou la Normandie, avec un planning défini selon votre projet."
   },
   {
     icon: ShieldCheck,
@@ -159,7 +153,7 @@ export default function MantesLaJoliePage() {
                 Mantes-la-Jolie est une ville dynamique, mêlant patrimoine médiéval et nouveaux quartiers en plein essor. Déménager dans cet environnement exige une agilité technique capable de s'adapter aussi bien aux immeubles anciens du centre-ville qu'aux résidences modernes.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons chaque spécificité de la commune. Que vous emménagiez dans un appartement près de la Collégiale ou que vous transfériez votre entreprise vers un nouveau centre d'activités, nous garantissons une transition fluide.
+                Chez Déménagement du Vexin, nous adaptons l'organisation aux appartements proches de la Collégiale comme aux transferts vers les zones d'activités.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -269,7 +263,7 @@ export default function MantesLaJoliePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-mantes" className="py-20 lg:py-32 bg-slate-50">
@@ -315,13 +309,13 @@ export default function MantesLaJoliePage() {
                     <span className="text-[#00ad9f]">départ de Mantes ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la logistique urbaine ou les accès complexes ternir votre projet. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine ou les accès complexes ternir votre projet. Contactez nos équipes pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

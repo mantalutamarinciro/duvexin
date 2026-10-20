@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -33,17 +32,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement France → Royaume-Uni | Devis Gratuit & Douanes",
-  description: "Déménageur expert sur l'axe France-UK. Liaisons régulières vers Londres, Manchester. Formalités douanières post-Brexit incluses. Devis gratuit sous 24h.",
+  description: "Déménageur expert sur l'axe France-UK. Liaisons régulières vers Londres, Manchester. Formalités douanières post-Brexit incluses. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-france-royaume-uni",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Harrison", text: "Déménagement de Paris vers Londres (Chelsea) parfaitement géré. L'équipe a pris en charge toute la liasse documentaire pour la douane britannique, ce qui nous a sauvé un temps précieux. Tout est arrivé intact malgré les contrôles au port.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=HarrisonUK` },
-  { id: "fallback-2", name: "Jean-Baptiste L.", text: "Excellente prestation pour mon installation à Bristol. Le passage par l'Eurotunnel a été très rapide grâce à la préparation du dossier par leurs soins. Équipe bilingue et très pro au déchargement.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=JBLUK` },
-  { id: "fallback-3", name: "Tech-Services Ltd", text: "Le transfert de nos bureaux de Paris vers Manchester a été mené avec une rigueur exemplaire. Une maîtrise parfaite des spécificités post-Brexit. Un partenaire de confiance pour l'international.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=TechServicesUK` },
-];
 
 const UK_CITIES = [
   { name: "Londres (London)", desc: "Expertise des quartiers denses (Kensington, Chelsea, Canary Wharf...)" },
@@ -86,7 +80,7 @@ const FAQS = [
   },
   { 
     question: "Combien de temps prend un déménagement Paris-Londres ?", 
-    answer: "Il faut compter généralement 48h à 72h. Nous chargeons le premier jour en Île-de-France. Le camion effectue la traversée et les formalités douanières le lendemain matin, pour une livraison et une réinstallation complète dans l'après-midi même ou le surlendemain à Londres, selon le temps de passage en douane." 
+    answer: "Le calendrier dépend du volume, de la traversée, des accès et du temps nécessaire aux formalités douanières. Les dates prévues sont précisées dans le devis et peuvent évoluer en cas de contrôle."
   },
   { 
     question: "Gérez-vous le stationnement très strict à Londres ?", 
@@ -316,7 +310,7 @@ export default function UKPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-uk" className="py-24 bg-slate-50">
@@ -363,13 +357,13 @@ export default function UKPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas le Brexit compliquer votre projet d'expatriation. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Ne laissez pas le Brexit compliquer votre projet d'expatriation. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

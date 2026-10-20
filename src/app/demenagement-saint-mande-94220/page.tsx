@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -32,17 +31,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Saint-Mandé (94) | Service Prestige & Devis Gratuit",
-  description: "Déménageur de confiance à Saint-Mandé (94220). Spécialiste immeubles de standing, bordure du Bois de Vincennes et objets de valeur. Devis sous 24h.",
+  description: "Déménageur de confiance à Saint-Mandé (94220). Spécialiste immeubles de standing, bordure du Bois de Vincennes et objets de valeur. Devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-saint-mande-94220",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Dufresne", text: "Un déménagement géré avec un professionnalisme rare. L'équipe a été particulièrement soigneuse avec nos meubles anciens et a respecté la quiétude de l'immeuble. Service impeccable à Saint-Mandé.", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dufresne94` },
-  { id: "fallback-2", name: "Charles E.", text: "Très satisfait. Ils ont obtenu l'autorisation de stationnement dans une rue complexe près de la mairie et le déménagement s'est déroulé rapidement. Une logistique parfaite.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=CharlesE94` },
-  { id: "fallback-3", name: "Cabinet Médical", text: "Le transfert de notre matériel s'est fait avec discrétion et efficacité. Une équipe très professionnelle et à l'écoute de nos contraintes de planning. À recommander pour le B2B.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MedicalSM` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -70,7 +64,7 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Le stationnement est-il garanti devant mon domicile à Saint-Mandé ?", 
-    answer: "Oui, Saint-Mandé est une ville dense où le stationnement est un défi. Nous gérons intégralement la demande d'arrêté municipal de stationnement (environ 15 jours à l'avance) pour bloquer l'espace nécessaire au pied de votre immeuble." 
+    answer: "Saint-Mandé est une ville dense où le stationnement doit être anticipé. Selon la formule retenue, nous pouvons vous accompagner dans cette démarche en tenant compte des règles municipales applicables."
   },
   { 
     question: "Comment protégez-vous les objets d'art et le mobilier fragile ?", 
@@ -82,7 +76,7 @@ const FAQS = [
   },
   { 
     question: "Quels sont vos délais pour obtenir un devis ?", 
-    answer: "Nous sommes très réactifs. Nous réalisons une visite technique sous 48h (physique ou en visio, selon vos disponibilités). Votre devis détaillé, transparent et sans aucun frais caché, vous est ensuite envoyé sous 24h ouvrées." 
+    answer: "Nous organisons une visite technique, sur place ou en visio, selon les besoins du projet. Le devis est ensuite préparé à partir du volume, des accès et des prestations retenues."
   }
 ];
 
@@ -162,7 +156,7 @@ export default function SaintMandePage() {
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  Saint-Mandé est un territoire unique où l'élégance architecturale rencontre la sérénité du Bois de Vincennes. Déménager dans ce secteur demande bien plus qu'une simple manutention : c'est un engagement de discrétion, de respect du voisinage et de protection absolue du patrimoine.
+                  Saint-Mandé est un territoire unique où l'élégance architecturale rencontre la sérénité du Bois de Vincennes. Déménager dans ce secteur demande bien plus qu'une simple manutention : c'est un engagement de discrétion, de respect du voisinage et de protection adaptée du patrimoine.
                 </p>
                 <p>
                   Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque spécificité de la commune. Que vous emménagiez dans un appartement de standing surplombant le bois ou un immeuble bourgeois du centre, nous planifions chaque détail pour garantir une transition fluide et hautement confidentielle.
@@ -277,7 +271,7 @@ export default function SaintMandePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-saint-mande" className="py-24 bg-slate-50">
@@ -324,13 +318,13 @@ export default function SaintMandePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne confiez pas votre patrimoine au hasard. Contactez nos experts pour une étude technique confidentielle et recevez un devis détaillé sous 24h.
+                    Ne confiez pas votre patrimoine au hasard. Contactez nos experts pour une étude technique confidentielle et recevez un devis détaillé après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -31,17 +30,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Saint-Germain-en-Laye (78) | Expert local & Devis Gratuit",
-  description: "Déménageur de confiance à Saint-Germain-en-Laye (78100). Spécialiste centre historique, demeures de caractère et mobilier de standing. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Saint-Germain-en-Laye (78100). Spécialiste centre historique, demeures de caractère et mobilier de standing. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-saint-germain-en-laye-78100",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Lambert", text: "Le déménagement de notre maison à Saint-Germain-en-Laye a été parfaitement exécuté. Une équipe professionnelle, soigneuse avec nos antiquités et très à l'écoute. Un service à la hauteur du prestige de la ville.", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Lambert78` },
-  { id: "fallback-2", name: "Alice D.", text: "Service impeccable pour mon appartement dans le centre ancien. Ils ont géré les accès difficiles de la rue au Pain avec brio grâce à leur petit porteur. Je recommande vivement leurs services.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=AliceD78` },
-  { id: "fallback-3", name: "M. Fournier", text: "Efficacité et discrétion sont les maîtres mots. Mon transfert vers Marly-le-Roi s'est déroulé sans le moindre stress. Une entreprise de confiance que je n'hésiterai pas à recontacter.", rating: 5, createTime: "il y a 11 mois", avatarUrl: `https://i.pravatar.cc/48?u=Fournier78` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -164,7 +158,7 @@ export default function SaintGermainPage() {
                   Déménager à Saint-Germain-en-Laye exige bien plus qu'une simple manutention. C'est un engagement de soin pour un patrimoine architectural unique. Entre les rues pavées du quartier du château et les majestueuses villas de la lisière de forêt, chaque projet est une opération de haute précision.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous avons développé un savoir-faire spécifique pour cette clientèle exigeante. Nous garantissons une transition fluide, extrêmement discrète, tout en préservant l'intégrité de vos biens les plus précieux et des parties communes.
+                  Chez <strong>Déménagement du Vexin</strong>, nous adaptons les protections au mobilier fragile et aux parties communes, avec une attention particulière à la discrétion de l'intervention.
                 </p>
               </div>
               
@@ -260,7 +254,7 @@ export default function SaintGermainPage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Formule "Prestige"</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Un service 100% clé en main : nous emballons, transportons et réinstallons l'intégralité de vos effets personnels avec la plus grande délicatesse.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Un service clé en main : nous emballons, transportons et réinstallons l'intégralité de vos effets personnels avec la plus grande délicatesse.</p>
                   </div>
                 </li>
               </ul>
@@ -276,7 +270,7 @@ export default function SaintGermainPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-st-germain" className="py-24 bg-slate-50">
@@ -323,13 +317,13 @@ export default function SaintGermainPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne confiez pas votre patrimoine au hasard. Contactez nos experts pour une étude technique confidentielle et recevez un devis détaillé sous 24h.
+                    Ne confiez pas votre patrimoine au hasard. Contactez nos experts pour une étude technique confidentielle et recevez un devis détaillé dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

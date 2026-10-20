@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,17 +28,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Ivry-sur-Seine (94) | Expert Local & Devis Gratuit",
-  description: "Déménageur de confiance à Ivry-sur-Seine (94200). Spécialiste des accès urbains denses, transferts de bureaux et ateliers. Devis gratuit en 24h.",
+  description: "Déménageur de confiance à Ivry-sur-Seine (94200). Spécialiste des accès urbains denses, transferts de bureaux et ateliers. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-ivry-sur-seine-94200",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Simon", text: "Déménagement de notre appartement à Ivry géré avec une grande efficacité. L'équipe a été rapide, pro et a su s'adapter à la circulation difficile du centre-ville. Un grand bravo !", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Simon94` },
-  { id: "fallback-2", name: "Entreprise Print-Solution", text: "Le transfert de notre imprimerie a été une opération complexe. Matériel lourd, machines de précision... tout a été parfaitement géré. Une vraie expertise technique.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=PrintSolution94` },
-  { id: "fallback-3", name: "Lucie D.", text: "Très bonne expérience pour mon premier loft à Ivry. Devis clair, pas de mauvaise surprise et équipe ponctuelle. Je recommande Marne Transdem sans hésiter.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=LucieD94` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -159,7 +153,7 @@ export default function IvrySurSeinePage() {
                 Ivry-sur-Seine est un territoire dynamique, mêlant héritage industriel et nouveaux quartiers d'habitation modernes. Déménager dans cet environnement urbain complexe exige une agilité technique et une parfaite connaissance des flux de circulation locaux.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous accompagnons cette transformation. Que vous emménagiez dans un loft aux Bords de Seine ou que vous transfériez votre entreprise vers un nouveau centre d'activités, nous garantissons une transition sans faille.
+                Chez Déménagement du Vexin, nous accompagnons cette transformation. Loft en bord de Seine ou transfert d'entreprise, la prestation est préparée selon les accès et les contraintes du site.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -269,7 +263,7 @@ export default function IvrySurSeinePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-ivry" className="py-20 lg:py-32 bg-slate-50">
@@ -314,13 +308,13 @@ export default function IvrySurSeinePage() {
                     <span className="text-[#00ad9f]">départ d'Ivry ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la densité urbaine vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la densité urbaine vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Sartrouville (78) | Expert Local & Devis Gratuit",
-  description: "Déménageur de confiance à Sartrouville (78500). Spécialiste du Plateau, du centre-ville et des bords de Seine. Devis gratuit sous 24h et visite technique.",
+  description: "Déménageur de confiance à Sartrouville (78500). Spécialiste du Plateau, du centre-ville et des bords de Seine. Devis gratuit personnalisé et visite technique.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-sartrouville-78500",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Dufour", text: "Un grand merci pour notre déménagement sur le Plateau. L'équipe a été rapide, organisée et a su manœuvrer sans problème dans notre allée étroite. Une prestation sans faille !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dufour78` },
-  { id: "fallback-2", name: "Karine P.", text: "Service au top pour mon appartement près de la gare. Le devis était clair, sans frais cachés, et l'équipe a fait preuve d'un grand soin avec mes cartons fragiles. Je recommande chaudement.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=KarineP78` },
-  { id: "fallback-3", name: "Entreprise Tech Solutions", text: "Le transfert de nos bureaux à Sartrouville a été mené avec une rigueur exemplaire. Une équipe discrète qui a su respecter notre planning serré pour ne pas stopper l'activité.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=TechSolutions78` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -163,7 +157,7 @@ export default function SartrouvillePage() {
                   Sartrouville est une ville aux multiples facettes, mêlant ses vastes quartiers pavillonnaires historiques et son dynamisme moderne en bord de Seine. Déménager dans la deuxième ville des Yvelines demande une agilité technique capable de s'adapter aussi bien aux avenues commerçantes qu'aux rues résidentielles calmes.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque spécificité de la ville. Que vous emménagiez dans une maison avec jardin ou que vous transfériez votre activité professionnelle près de la gare, nous garantissons une transition fluide, sans stress et hautement sécurisée.
+                  Chez <strong>Déménagement du Vexin</strong>, nous adaptons la prestation aux maisons avec jardin comme aux transferts professionnels près de la gare.
                 </p>
               </div>
               
@@ -275,7 +269,7 @@ export default function SartrouvillePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-sartrouville" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function SartrouvillePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine ou les accès complexes ternir votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine ou les accès complexes ternir votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

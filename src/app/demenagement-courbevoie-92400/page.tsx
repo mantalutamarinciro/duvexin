@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,17 +27,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Courbevoie (92) | Expert La Défense | Devis Gratuit",
-  description: "Déménageur de confiance à Courbevoie (92400). Spécialiste des tours de La Défense, du Faubourg de l'Arche et de Bécon. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Courbevoie (92400). Spécialiste des tours de La Défense, du Faubourg de l'Arche et de Bécon. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-courbevoie-92400",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Société Vision IT", text: "Le transfert de notre siège dans une des tours de Courbevoie a été parfaitement orchestré. Discrétion, rapidité et professionnalisme. Je recommande pour tout déménagement d'entreprise à La Défense.", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=VisionIT92` },
-  { id: "fallback-2", name: "Valérie et Luc", text: "Déménagement de notre 4 pièces à Courbevoie sans le moindre souci. L'équipe a été très prudente avec nos affaires et a géré le monte-meubles de manière très pro.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=ValerieLuc92` },
-  { id: "fallback-3", name: "Julien R.", text: "Excellent service pour mon déménagement au Faubourg de l'Arche. Devis respecté, équipe ponctuelle et efficace. Rien à redire.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=JulienR92` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -273,7 +267,7 @@ export default function CourbevoiePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-courbevoie" className="py-24 bg-slate-50">
@@ -320,13 +314,13 @@ export default function CourbevoiePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine ou les protocoles des tours vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine ou les protocoles des tours vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

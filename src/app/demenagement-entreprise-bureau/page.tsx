@@ -27,8 +27,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement d'Entreprise & Transfert de Bureaux | Devis 24h",
-  description: "Expert en transfert d'entreprise : bureaux, informatique, archives et industries. Solutions sur-mesure avec continuité d'activité garantie. Devis pro sous 24h.",
+  title: "Déménagement d'Entreprise & Transfert de Bureaux | Devis personnalisé",
+  description: "Expert en transfert d'entreprise : bureaux, informatique, archives et industries. Solutions sur-mesure avec continuité d'activité préparée. Devis pro dans les meilleurs délais.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-entreprise-bureau",
   }
@@ -111,7 +111,7 @@ export default function DemenagementEntreprisePage() {
           <div className="max-w-4xl flex flex-col items-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-[#00ad9f]/30 bg-[#00ad9f]/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-[#00ad9f] mb-8 shadow-sm backdrop-blur-md">
               <Clock className="h-4 w-4" />
-              Continuité d'activité garantie
+              continuité d'activité préparée
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
@@ -151,14 +151,14 @@ export default function DemenagementEntreprisePage() {
                   Un déménagement d'entreprise n'est pas qu'une affaire de cartons. C'est un défi logistique, technique et humain qui impacte directement vos résultats et le bien-être de vos collaborateurs.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous traitons chaque transfert comme un projet stratégique. Nos chefs de projets dédiés collaborent avec vos services (Moyens Généraux, DSI, RH) pour garantir que votre infrastructure soit 100% opérationnelle dès la première heure à votre nouvelle adresse.
+                  Chez <strong>Déménagement du Vexin</strong>, nous traitons chaque transfert comme un projet stratégique. La préparation avec vos services généraux, votre DSI et vos ressources humaines vise à limiter l'interruption et à organiser la reprise d'activité.
                 </p>
               </div>
               
               <div className="pt-6 grid grid-cols-2 gap-8 border-t border-slate-100">
                 <div className="flex flex-col gap-2">
-                  <span className="text-4xl font-black text-slate-900">24h</span>
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Devis Pro Garanti</span>
+                  <span className="text-4xl font-black text-slate-900">Sur mesure</span>
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Étude du cahier des charges</span>
                 </div>
                 <div className="flex flex-col gap-2">
                   <span className="text-4xl font-black text-slate-900">100%</span>
@@ -289,7 +289,7 @@ export default function DemenagementEntreprisePage() {
                 </span>
               </h2>
               <p className="text-xl md:text-2xl text-slate-400 mb-12 max-w-3xl mx-auto font-light leading-relaxed">
-                Nos experts B2B vous accompagnent pour établir un devis détaillé basé sur votre cahier des charges spécifique. Réponse assurée sous 24 heures.
+                Nos experts B2B vous accompagnent pour établir un devis détaillé basé sur votre cahier des charges spécifique. Réponse assurée après étude de votre demande.
               </p>
               
               <div className="flex flex-col sm:flex-row justify-center gap-6">

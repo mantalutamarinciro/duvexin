@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -27,17 +26,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Asnières-sur-Seine (92) | Expert Local & Devis Gratuit",
-  description: "Déménageur de confiance à Asnières (92600). Spécialiste des quais de Seine et du centre-ville. Logistique adaptée et devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Asnières (92600). Spécialiste des quais de Seine et du centre-ville. Logistique adaptée et devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-asnieres-sur-seine-92600",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Sophie et Thomas", text: "Notre déménagement à Asnières s'est déroulé à merveille. L'équipe a géré les accès près des quais avec une grande expertise. Très professionnels et sympathiques.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieT92` },
-  { id: "fallback-2", name: "Entreprise Connect", text: "Transfert de nos bureaux à Asnières sans aucune fausse note. Planification parfaite, exécution rapide. Une équipe sur qui on peut compter les yeux fermés.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=Connect92` },
-  { id: "fallback-3", name: "David L.", text: "Excellent service pour mon appartement en centre-ville. Devis clair et respecté. Le monte-meubles a été très utile. Je recommande vivement.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=DavidL92` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -260,7 +254,7 @@ export default function AsnieresPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-asnieres" className="py-24 bg-slate-50">
@@ -313,7 +307,7 @@ export default function AsnieresPage() {
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

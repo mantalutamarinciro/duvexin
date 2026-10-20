@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,18 +29,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Verneuil d'Avre et d'Iton (27) | Expert Local | Devis 24h",
-  description: "Déménageur de confiance à Verneuil d'Avre et d'Iton (27130). Spécialiste cité médiévale, maisons à pans de bois et longères. Devis gratuit sous 24h et visite technique.",
+  title: "Déménagement Verneuil d'Avre et d'Iton (27) | Expert Local | Devis personnalisé",
+  description: "Déménageur de confiance à Verneuil d'Avre et d'Iton (27130). Spécialiste cité médiévale, maisons à pans de bois et longères. Devis gratuit personnalisé et visite technique.",
   alternates: {
-    canonical: "https://demenagementduvexin.fr/demenagement-verneuil-d-avre-et-d-iton-27130",
+    canonical: "https://demenagementduvexin.fr/demenagement-verneuil-davre-et-diton-27130",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Marchand", text: "Notre déménagement dans le centre historique de Verneuil a été une réussite totale. L'équipe a été très professionnelle et a su gérer les accès complexes d'une rue ancienne avec un monte-meubles adapté. Un service d'orfèvre.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=Marchand27` },
-  { id: "fallback-2", name: "Julien B.", text: "Très bonne expérience pour ma maison de campagne. Devis clair, équipe ponctuelle et matériel de protection impeccable pour mes meubles anciens. Un déménagement sans stress aux portes du Perche.", rating: 5, createTime: "il y a 10 mois", avatarUrl: `https://i.pravatar.cc/48?u=JulienB27` },
-  { id: "fallback-3", name: "Sophie M.", text: "Efficacité, soin et courtoisie. Ils ont géré mon installation à Verneuil avec une grande maîtrise du stationnement en centre-ville. Je recommande vivement Déménagement du Vexin.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=SophieM27V` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -62,7 +56,7 @@ const WHY_US_ITEMS = [
   {
     icon: ShieldCheck,
     title: "Proximité Évreux",
-    description: "Notre base régionale dans l'Eure garantit une réactivité maximale pour vos visites techniques et une ponctualité totale le jour J."
+    description: "Notre base régionale dans l'Eure facilite l'organisation des visites techniques et la préparation du planning le jour J."
   }
 ];
 
@@ -81,7 +75,7 @@ const FAQS = [
   },
   { 
     question: "Quel est le délai pour obtenir un devis définitif ?", 
-    answer: "Nous sommes très réactifs dans le sud de l'Eure. Après notre premier contact téléphonique ou une visite technique (réalisable en visio si vous préférez), vous recevez votre devis détaillé, ferme et définitif sous 24 heures ouvrées." 
+    answer: "Nous sommes très réactifs dans le sud de l'Eure. Après notre premier contact téléphonique ou une visite technique (réalisable en visio si vous préférez), vous recevez votre devis détaillé, ferme et définitif après étude de votre demande."
   }
 ];
 
@@ -164,7 +158,7 @@ export default function VerneuilPage() {
                   Verneuil d'Avre et d'Iton est l'un des "Plus Beaux Détours de France", fier de son architecture médiévale et de ses églises monumentales. Déménager dans ce cadre exceptionnel demande une agilité technique capable de s'adapter aux maisons à colombages du centre historique comme aux vastes longères normandes des hameaux voisins.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque spécificité du Pays d'Avre. Que vous emménagiez dans une rue pavée étroite ou dans un quartier résidentiel récent, nous garantissons une transition fluide, sécurisée et profondément respectueuse de votre patrimoine.
+                  Chez <strong>Déménagement du Vexin</strong>, nous adaptons la préparation aux rues pavées étroites comme aux quartiers résidentiels récents du Pays d'Avre.
                 </p>
               </div>
               
@@ -276,7 +270,7 @@ export default function VerneuilPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-verneuil" className="py-24 bg-slate-50">
@@ -323,13 +317,13 @@ export default function VerneuilPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique ternir votre projet dans l'Eure. Contactez nos experts pour une visite technique gratuite et obtenez un devis transparent sous 24h.
+                    Ne laissez pas la logistique ternir votre projet dans l'Eure. Contactez nos experts pour une visite technique gratuite et obtenez un devis transparent dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

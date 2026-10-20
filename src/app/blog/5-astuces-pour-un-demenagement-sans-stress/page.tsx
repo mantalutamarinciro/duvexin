@@ -263,7 +263,7 @@ export default function ArticleStressFree() {
                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
                 <h3 className="text-2xl font-bold mb-4 relative z-10">Prêt pour une estimation ?</h3>
                 <p className="text-slate-400 mb-8 font-light relative z-10 leading-relaxed">
-                  Maintenant que vous avez les clés d'un projet zen, obtenez votre chiffrage précis sous 24h.
+                  Maintenant que vous avez les clés d'un projet bien préparé, demandez une estimation personnalisée.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 relative z-10">
                   <Button className="rounded-full h-14 px-8 bg-[#00ad9f] hover:bg-[#009286] font-bold" asChild>

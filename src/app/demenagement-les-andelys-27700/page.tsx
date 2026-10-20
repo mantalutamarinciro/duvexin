@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -31,17 +30,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Les Andelys (27) | Expert local & Bord de Seine",
-  description: "Déménageur de confiance aux Andelys (27700). Spécialiste du Petit et Grand Andely, accès Château-Gaillard et bords de Seine. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance aux Andelys (27700). Spécialiste du Petit et Grand Andely, accès Château-Gaillard et bords de Seine. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-les-andelys-27700",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Carpentier", text: "Notre déménagement au Petit Andely, avec vue sur le Château-Gaillard, s'est parfaitement déroulé. L'équipe a été très professionnelle et a su gérer les accès délicats du bord de Seine. Un sans-faute !", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Carpentier27` },
-  { id: "fallback-2", name: "Sophie G.", text: "Très bonne expérience pour mon appartement. Devis clair, pas de frais cachés et équipe ponctuelle. Un déménagement sans stress dans ce cadre magnifique. Je recommande Marne Transdem.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieG27A` },
-  { id: "fallback-3", name: "Marc T.", text: "Efficacité et discrétion. Ils ont déménagé notre commerce du Grand Andely en une matinée. Très bonne connaissance des contraintes de stationnement locales.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MarcT27A` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -62,7 +56,7 @@ const WHY_US_ITEMS = [
   {
     icon: ShieldCheck,
     title: "Proximité Agence Évreux",
-    description: "Notre ancrage dans l'Eure garantit une réactivité maximale et une connaissance parfaite du Vexin Normand."
+    description: "Notre ancrage dans l'Eure facilite l'organisation des projets dans le Vexin normand."
   }
 ];
 
@@ -161,7 +155,7 @@ export default function LesAndelysPage() {
                 Les Andelys est une ville d'exception, dont l'urbanisme médiéval et la situation en bord de boucle de Seine imposent des défis logistiques réels. Déménager dans ce secteur demande une approche respectueuse des lieux et une parfaite connaissance des accès fluviaux et escarpés.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons chaque spécificité de la cité Richard Cœur de Lion. Que vous emménagiez dans une demeure de caractère du Petit Andely ou un pavillon du Grand Andely, nous garantissons une prestation fluide, rapide et parfaitement sécurisée.
+                Chez Déménagement du Vexin, nous adaptons la préparation aux spécificités de la cité Richard Cœur de Lion. Demeure du Petit Andely ou pavillon du Grand Andely, les accès et la protection du mobilier sont étudiés selon votre projet.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -271,7 +265,7 @@ export default function LesAndelysPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-andelys" className="py-20 lg:py-32 bg-slate-50">
@@ -316,13 +310,13 @@ export default function LesAndelysPage() {
                     <span className="text-[#00ad9f]">départ des Andelys ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la logistique ternir votre projet dans ce cadre exceptionnel. Contactez nos équipes pour une visite gratuite et obtenez un devis détaillé sous 24h.
+                    Ne laissez pas la logistique ternir votre projet dans ce cadre exceptionnel. Contactez nos équipes pour une visite gratuite et obtenez un devis détaillé dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

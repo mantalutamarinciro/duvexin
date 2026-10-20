@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,18 +27,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Paris → Nantes (44) | Devis Gratuit & Groupage | 24h",
-  description: "Déménageur expert sur l'axe Paris-Nantes. Liaisons hebdomadaires, solutions de groupage et expertise centre-ville. Votre devis gratuit sous 24h.",
+  title: "Déménagement Paris → Nantes (44) | Devis Gratuit & Groupage",
+  description: "Déménageur expert sur l'axe Paris-Nantes. Liaisons hebdomadaires, solutions de groupage et expertise centre-ville. Votre devis gratuit personnalisé.",
   alternates: {
-    canonical: "https://demenagementduvexin.fr/demenagement-idf-nantes",
+    canonical: "https://demenagementduvexin.fr/demenagement-ile-de-france-nantes",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Le Gall", text: "Le déménagement de notre famille de la région parisienne à Nantes a été une réussite totale. L'équipe a été très professionnelle et sympathique, même pour le remontage complexe de notre bibliothèque. Efficacité redoutable !", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=LeGall44` },
-  { id: "fallback-2", name: "Marion D.", text: "Super service pour mon déménagement étudiant. La formule groupage était idéale pour mon budget et tout est arrivé à Nantes en parfait état. Je recommande vivement pour les petits volumes.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=MarionD44` },
-  { id: "fallback-3", name: "Société Ouest-Innov", text: "Le transfert de notre bureau vers l'île de Nantes a été mené de manière très professionnelle. Une équipe qui comprend parfaitement les enjeux d'un déménagement d'entreprise longue distance.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=OuestInnov44` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -67,7 +61,7 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Quelle est la durée d'un déménagement Paris-Nantes ?", 
-    answer: "Pour les volumes standards, l'opération peut se faire sur 24h : chargement le matin en IDF et livraison en fin de journée à Nantes. Pour les volumes plus importants (maisons complètes), nous préconisons un format 48h pour garantir un soin maximal lors du déchargement." 
+    answer: "La durée dépend du volume, des accès, du temps de chargement et des règles de conduite. Le planning précis est confirmé au devis selon les adresses et la prestation retenue."
   },
   { 
     question: "Comment fonctionne votre solution de groupage vers Nantes ?", 
@@ -139,7 +133,7 @@ export default function NantesPage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="rounded-full h-14 px-8 text-base bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
                 <Link href="/demande-devis">
-                  Obtenir mon devis en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                  Obtenir mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -156,10 +150,10 @@ export default function NantesPage() {
                 De l'Île-de-France au <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">cœur de la métropole de l'Ouest</u>.
               </h2>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Rejoindre Nantes est un projet attractif qui marque souvent un nouveau départ. Pour que ce changement se fasse en toute sérénité, la maîtrise de l'axe A11 est impérative. Les 400 km séparant l'IDF de la Bretagne historique exigent une planification sans faille.
+                Rejoindre Nantes est un projet attractif qui marque souvent un nouveau départ. Pour que ce changement se fasse en toute sérénité, la maîtrise de l'axe A11 est impérative. Les 400 km séparant l'IDF de la Bretagne historique exigent une planification rigoureuse.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons les deux extrémités de votre projet : la gestion du stationnement parisien et les accès parfois étroits du centre nantais, du quartier Bouffay aux résidences de l'Île de Nantes ou de Procé.
+                Chez Déménagement du Vexin, nous maîtrisons les deux extrémités de votre projet : la gestion du stationnement parisien et les accès parfois étroits du centre nantais, du quartier Bouffay aux résidences de l'Île de Nantes ou de Procé.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -269,7 +263,7 @@ export default function NantesPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-nantes" className="py-20 lg:py-32 bg-slate-50">
@@ -314,13 +308,13 @@ export default function NantesPage() {
                     <span className="text-[#00ad9f]">vie à Nantes ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la distance compliquer votre projet. Contactez nos experts pour une étude personnalisée et recevez un devis gratuit sous 24h.
+                    Ne laissez pas la distance compliquer votre projet. Contactez nos experts pour une étude personnalisée et recevez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

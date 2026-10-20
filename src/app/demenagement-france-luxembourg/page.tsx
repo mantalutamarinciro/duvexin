@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -32,17 +31,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement France → Luxembourg | Devis Gratuit & Sécurisé",
-  description: "Déménageur expert sur l'axe France-Luxembourg. Liaisons régulières, groupage et transfert de bureaux (Kirchberg). Devis gratuit sous 24h.",
+  description: "Déménageur expert sur l'axe France-Luxembourg. Liaisons régulières, groupage et transfert de bureaux (Kirchberg). Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-france-luxembourg",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Roussel", text: "Déménagement de Boulogne-Billancourt vers Luxembourg-Ville géré à la perfection. L'équipe a été d'une ponctualité exemplaire et a su s'adapter aux accès restreints de notre nouveau quartier. Un service de grande qualité.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=RousselLux` },
-  { id: "fallback-2", name: "Marc-Antoine D.", text: "Très bonne expérience pour mon installation à Kirchberg. Le devis était clair et l'option groupage m'a permis de faire de vraies économies sur le trajet. Équipe efficace et sympathique. Je recommande !", rating: 5, createTime: "il y a 6 മാസ", avatarUrl: `https://i.pravatar.cc/48?u=MALux` },
-  { id: "fallback-3", name: "Finance-Global SA", text: "Le transfert de nos bureaux vers le centre financier du Luxembourg a été mené avec une rigueur et une discrétion totales. Des experts de la logistique internationale.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=FinanceLux` },
-];
 
 const LUX_CITIES = [
   { name: "Luxembourg-Ville", desc: "Expertise des quartiers Ville-Haute, Grund et Kirchberg." },
@@ -81,7 +75,7 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Combien de temps faut-il prévoir pour un déménagement Paris-Luxembourg ?", 
-    answer: "Pour une distance d'environ 370 km, l'opération s'effectue généralement en 24h à 48h. Nous chargeons le matin en France pour une livraison le lendemain matin au Luxembourg, ce qui permet de sécuriser le trajet et de respecter la réglementation sociale européenne." 
+    answer: "Le calendrier dépend du point de départ, du volume, des accès et de la réglementation sur les temps de conduite. Les créneaux sont confirmés dans le devis."
   },
   { 
     question: "Gérez-vous le stationnement à Luxembourg-Ville ?", 
@@ -315,7 +309,7 @@ export default function LuxembourgPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-lux" className="py-24 bg-slate-50">
@@ -362,13 +356,13 @@ export default function LuxembourgPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas les frontières compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Ne laissez pas les frontières compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

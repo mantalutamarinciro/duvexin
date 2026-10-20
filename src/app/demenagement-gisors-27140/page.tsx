@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Gisors (27) | Expert Patrimoine | Devis Gratuit",
-  description: "Déménageur de confiance à Gisors (27140). Spécialiste de la capitale du Vexin normand : centre historique et pavillons. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Gisors (27140). Spécialiste de la capitale du Vexin normand : centre historique et pavillons. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-gisors-27140",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Lecomte", text: "Notre déménagement à Gisors a été une réussite totale. L'équipe a été très professionnelle et a su gérer les accès du centre-ville sans aucun problème. Un grand merci !", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Lecomte27` },
-  { id: "fallback-2", name: "Sophie G.", text: "Très bonne expérience pour mon appartement. Devis clair, équipe ponctuelle et du matériel de qualité. Je recommande Déménagement du Vexin pour leur sérieux dans l'Eure.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieG27` },
-  { id: "fallback-3", name: "Marc T.", text: "Efficacité et professionnalisme. Mon déménagement vers le quartier de la gare s'est déroulé sans stress grâce à leur organisation millimétrée.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MarcT27` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -72,7 +66,7 @@ const FAQS = [
   },
   { 
     question: "Gérez-vous les trajets vers d'autres régions depuis Gisors ?", 
-    answer: "Oui, nous sommes d'excellents experts en déménagements nationaux. Que vous quittiez l'Eure (27) pour l'Île-de-France, la Bretagne, le Sud, ou inversement, nous gérons la logistique de A à Z avec nos propres équipes 100% salariées, sans aucune sous-traitance." 
+    answer: "Oui. Que vous quittiez l'Eure pour l'Île-de-France, la Bretagne, le Sud, ou que vous suiviez le trajet inverse, nous préparons la logistique avec nos équipes salariées."
   },
   { 
     question: "Comment faites-vous si l'accès à mon pavillon est trop étroit ?", 
@@ -163,7 +157,7 @@ export default function GisorsPage() {
                   Gisors est une ville au patrimoine historique exceptionnel, dont l'urbanisme très ancien, dominé par son célèbre château fort, et ses quartiers pavillonnaires environnants imposent des défis logistiques bien réels. Déménager dans ce secteur demande une approche très respectueuse des lieux et une parfaite connaissance des axes de circulation.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque recoin de la cité et de ses villages limitrophes. Que vous emménagiez dans une magnifique demeure de caractère du centre-ville, nécessitant une manutention délicate, ou dans un pavillon plus moderne, nous vous garantissons une prestation fluide, rapide et parfaitement sécurisée.
+                  Chez <strong>Déménagement du Vexin</strong>, nous adaptons la prestation aux accès de Gisors et des villages limitrophes. Une demeure du centre-ville comme un pavillon récent peut nécessiter une étude spécifique du stationnement et de la manutention.
                 </p>
               </div>
               
@@ -173,7 +167,7 @@ export default function GisorsPage() {
                  </div>
                  <div>
                    <h3 className="text-xl font-bold text-slate-900 mb-1">Expertise Patrimoine</h3>
-                   <p className="text-slate-500 font-light">Protection absolue des parties communes et discrétion garantie dans les rues historiques.</p>
+                   <p className="text-slate-500 font-light">Protection adaptée des parties communes et discrétion garantie dans les rues historiques.</p>
                  </div>
               </div>
             </div>
@@ -275,7 +269,7 @@ export default function GisorsPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-gisors" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function GisorsPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Confiez votre mobilier à des experts locaux du Vexin. Contactez nos équipes pour une visite technique gratuite et recevez un devis ferme et détaillé sous 24h.
+                    Confiez votre mobilier à des experts locaux du Vexin. Contactez nos équipes pour une visite technique gratuite et recevez un devis ferme et détaillé dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

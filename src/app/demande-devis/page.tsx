@@ -121,7 +121,7 @@ export default function PublicQuotePage() {
                    <Clock className="h-6 w-6 text-[#00ad9f]" />
                 </div>
                 <div>
-                   <h3 className="font-bold text-slate-900 text-lg">Réponse sous 24h</h3>
+                   <h3 className="font-bold text-slate-900 text-lg">Réponse dans les meilleurs délais</h3>
                    <p className="text-slate-500 mt-1">Nous nous engageons à traiter votre demande dans les plus brefs délais (jours ouvrés).</p>
                 </div>
               </div>

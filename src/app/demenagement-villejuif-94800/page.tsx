@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -27,17 +26,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Villejuif (94) | Particuliers & Pros | Devis Gratuit",
-  description: "Déménageur expert à Villejuif (94800). Du centre-ville aux pôles de santé (IGR), nous gérons votre déménagement avec efficacité. Devis gratuit en 24h.",
+  description: "Déménageur expert à Villejuif (94800). Du centre-ville aux pôles de santé (IGR), nous gérons votre déménagement avec efficacité. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-villejuif-94800",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Dr. Lemoine", text: "Déménagement de mon appartement près de l'IGR. Équipe très professionnelle, ponctuelle et discrète. Tout a été géré avec un grand soin. Je recommande.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Lemoine94` },
-  { id: "fallback-2", name: "Famille Martin", text: "Très bonne expérience. Devis clair et service efficace. Un déménagement sans aucun stress en plein centre de Villejuif, le monte-meubles a été décisif.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=MartinVJ` },
-  { id: "fallback-3", name: "Société BioTech", text: "Le transfert de notre laboratoire s'est déroulé sans accroc. Une équipe qui comprend parfaitement les contraintes du matériel médical sensible.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=BioTech94` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -260,7 +254,7 @@ export default function VillejuifPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-villejuif" className="py-24 bg-slate-50">
@@ -313,7 +307,7 @@ export default function VillejuifPage() {
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

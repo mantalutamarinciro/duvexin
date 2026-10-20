@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -27,17 +26,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Bayeux (14) | Expert Patrimoine | Devis Gratuit",
-  description: "Déménageur de confiance à Bayeux (14400). Spécialiste du centre médiéval et des demeures du Bessin. Protection du patrimoine et devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Bayeux (14400). Spécialiste du centre médiéval et des demeures du Bessin. Protection du patrimoine et devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-bayeux-14400",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Leclair", text: "Déménagement dans le centre ancien de Bayeux géré avec un professionnalisme remarquable. L'équipe a pris un soin infini de nos affaires et des lieux. Un grand merci !", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=Leclair14` },
-  { id: "fallback-2", name: "Jean-Eudes R.", text: "Très bonne expérience pour mon appartement. Devis clair, équipe ponctuelle et du matériel de qualité. Une entreprise sérieuse pour une ville historique.", rating: 5, createTime: "il y a 10 mois", avatarUrl: `https://i.pravatar.cc/48?u=JER14` },
-  { id: "fallback-3", name: "Sophie B.", text: "Efficacité et professionnalisme. Je recommande vivement Déménagement du Vexin pour leur sérieux et leur respect du patrimoine.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=SophieB14` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -170,7 +164,7 @@ export default function BayeuxPage() {
                  </div>
                  <div>
                    <h3 className="text-xl font-bold text-slate-900 mb-1">Spécialiste Centre Ancien</h3>
-                   <p className="text-slate-500 font-light">Protection absolue de vos intérieurs, parquets anciens et boiseries d'époque.</p>
+                   <p className="text-slate-500 font-light">Protection adaptée de vos intérieurs, parquets anciens et boiseries d'époque.</p>
                  </div>
               </div>
             </div>
@@ -272,7 +266,7 @@ export default function BayeuxPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-bayeux" className="py-24 bg-slate-50">
@@ -319,13 +313,13 @@ export default function BayeuxPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Confiez votre patrimoine à des experts de la région. Contactez nos équipes pour une visite technique gratuite et recevez un devis détaillé sous 24h.
+                    Confiez votre patrimoine à des experts de la région. Contactez nos équipes pour une visite technique gratuite et recevez un devis détaillé dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

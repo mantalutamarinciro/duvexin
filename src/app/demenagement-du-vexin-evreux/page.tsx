@@ -5,8 +5,7 @@ import Link from "next/link";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,15 +28,10 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Évreux (27) | Agence Normandie Marne Transdem",
-  description: "Marne Transdem Évreux : expert du déménagement en Normandie (Eure, Calvados, Seine-Maritime). Local, National et International. Devis gratuit en 24h.",
+  title: "Déménagement Évreux (27) | Agence Normandie Déménagement du Vexin",
+  description: "Déménagement du Vexin Évreux : expert du déménagement en Normandie (Eure, Calvados, Seine-Maritime). Local, National et International. Devis gratuit personnalisé.",
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Clotilde Duran", text: "Une équipe très réactive et très professionnelle, vraiment rien à dire, du très bon travail! Les affaires ont été emballées avec le plus grand soin. Nous conseillons les yeux fermés!", rating: 5, createTime: "il y a 2 ans", avatarUrl: `https://i.pravatar.cc/48?u=Clotilde` },
-  { id: "fallback-2", name: "Jean-michel Marot", text: "Un déménagement en Bretagne parfaitement réalisé. Professionnel du début jusqu'à la livraison finale. Très bon contact. Équipe efficace, rapide, et sympathique. Travail de qualité.", rating: 5, createTime: "il y a 2 ans", avatarUrl: `https://i.pravatar.cc/48?u=Jean-michel` },
-  { id: "fallback-3", name: "Robert GALAND", text: "Une interlocutrice réactive, une équipe ultra efficace, des affaires très bien protégées. Rapidité, professionnalisme. On voit le côté 'familial' sans prestataire ou intérimaire. Sincèrement je suis bluffé. Je recommande totalement. MERCI", rating: 5, createTime: "il y a 19 jours", avatarUrl: `https://i.pravatar.cc/48?u=Robert` },
-];
 
 const SERVICES = [
   { title: "Déménagement Local", icon: MapPin, description: "Expertise complète pour vos projets à Évreux, dans l'Eure et dans toute la Normandie." },
@@ -236,7 +230,7 @@ export default function EvreuxPage() {
               </h2>
               <div className="space-y-6">
                 {[
-                  "Intervention rapide (24h/48h) pour vos visites techniques.",
+                  "Intervention rapide (selon vos disponibilités) pour vos visites techniques.",
                   "Fourniture d'emballages spécifiques haute protection.",
                   "Un interlocuteur unique basé à Évreux pour un suivi simplifié.",
                   "Assurance Ad Valorem complète pour vos biens de valeur."
@@ -279,7 +273,7 @@ export default function EvreuxPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- CTA FINAL --- */}
       <section className="py-24 bg-white">
@@ -293,7 +287,7 @@ export default function EvreuxPage() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-300">départ ?</span>
             </h2>
             <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
-              Contactez l'agence d'Évreux dès aujourd'hui pour planifier votre visite technique gratuite et obtenez un devis ferme sous 24h.
+              Contactez l'agence d'Évreux dès aujourd'hui pour planifier votre visite technique gratuite et obtenez un devis ferme dans les meilleurs délais.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-6">
               <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>

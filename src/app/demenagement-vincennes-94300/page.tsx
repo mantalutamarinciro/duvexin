@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -27,17 +26,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Vincennes (94) | Service Premium & Devis Gratuit",
-  description: "Votre déménageur de confiance à Vincennes (94300). Experts en immeubles de standing, passages difficiles et protection de mobilier de valeur. Devis en 24h.",
+  description: "Votre déménageur de confiance à Vincennes (94300). Experts en immeubles de standing, passages difficiles et protection de mobilier de valeur. Devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-vincennes-94300",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Chevalier", text: "Déménager à Vincennes, près du château, demande des vrais pros. L'équipe a été exceptionnelle : discrète, efficace et très soigneuse avec notre mobilier ancien. Un service irréprochable.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Chevalier94` },
-  { id: "fallback-2", name: "Hélène B.", text: "Le service était parfait. Ils ont géré les accès très difficiles de ma rue et ont protégé les parties communes de l'immeuble avec un soin impressionnant. Je recommande à 100%.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=HeleneB94` },
-  { id: "fallback-3", name: "Cabinet d'avocats", text: "Le transfert de notre cabinet vincennois s'est déroulé à la perfection. Ponctualité, efficacité et confidentialité absolue pour nos dossiers. Une entreprise sur qui l'on peut compter.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Avocats94` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -58,7 +52,7 @@ const WHY_US_ITEMS = [
   {
     icon: Lock,
     title: "Confidentialité & Sécurité",
-    description: "Nous garantissons une discrétion absolue et une sécurité maximale, indispensable pour le déplacement de vos biens les plus précieux."
+    description: "Des protections et une manutention adaptées au déplacement de mobilier fragile ou de valeur."
   }
 ];
 
@@ -260,7 +254,7 @@ export default function VincennesPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-vincennes" className="py-24 bg-slate-50">

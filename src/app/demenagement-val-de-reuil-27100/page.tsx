@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -31,18 +30,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Val-de-Reuil (27) | Particuliers & Entreprises | Devis 24h",
-  description: "Déménageur de confiance à Val-de-Reuil (27100). Spécialiste transfert de bureaux, industrie pharmaceutique et résidences. Devis gratuit sous 24h et expertise locale.",
+  title: "Déménagement Val-de-Reuil (27) | Particuliers & Entreprises | Devis personnalisé",
+  description: "Déménageur de confiance à Val-de-Reuil (27100). Spécialiste transfert de bureaux, industrie pharmaceutique et résidences. Devis gratuit personnalisé et expertise locale.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-val-de-reuil-27100",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Dufour", text: "Notre déménagement à Val-de-Reuil a été une réussite totale. L'équipe a été très professionnelle et a su s'adapter parfaitement à l'urbanisme de la ville nouvelle. Un service rapide et efficace.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dufour27` },
-  { id: "fallback-2", name: "Société Pharma-Log", text: "Le transfert de notre site de production a été géré avec une rigueur exemplaire. Une équipe qui connaît bien les enjeux de sécurité des zones d'activités rolivaloises. Indispensable pour le B2B.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=PharmaLog27` },
-  { id: "fallback-3", name: "Marc T.", text: "Service impeccable pour mon appartement. Devis clair, pas de frais cachés et équipe ponctuelle. Un déménagement sans stress dans le centre-ville. Je recommande Déménagement du Vexin.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MarcT27VDR` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -277,7 +271,7 @@ export default function ValDeReuilPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-vdr" className="py-24 bg-slate-50">
@@ -324,13 +318,13 @@ export default function ValDeReuilPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique freiner vos ambitions professionnelles ou familiales. Contactez nos experts de l'Eure pour une visite technique et obtenez un devis gratuit en 24h.
+                    Ne laissez pas la logistique freiner vos ambitions professionnelles ou familiales. Contactez nos experts de l'Eure pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

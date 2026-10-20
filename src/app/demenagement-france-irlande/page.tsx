@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -34,17 +33,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement France → Irlande | Devis Gratuit & Sécurisé",
-  description: "Déménageur expert sur l'axe France-Irlande. Liaisons régulières vers Dublin, Cork, Galway. Traversée ferry sécurisée et groupage. Devis gratuit sous 24h.",
+  description: "Déménageur expert sur l'axe France-Irlande. Liaisons régulières vers Dublin, Cork, Galway. Traversée ferry sécurisée et groupage. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-france-irlande",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille O'Sullivan", text: "Déménagement de Versailles vers Dublin (Dun Laoghaire) réalisé avec une efficacité remarquable. L'équipe a parfaitement géré la traversée en ferry et le déchargement. Un grand professionnalisme sur 1200 km.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=OSullivanIE` },
-  { id: "fallback-2", name: "Pierre-Yves L.", text: "Très bonne expérience pour mon installation à Cork. Le devis était clair et l'option groupage m'a permis de faire de vraies économies sur le trajet maritime. Équipe ponctuelle et matériel de qualité. Je recommande !", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=PYLIE` },
-  { id: "fallback-3", name: "IT-Global Dublin", text: "Le transfert de nos bureaux de Paris vers le quartier des Silicon Docks a été mené avec une rigueur totale. Des experts de la logistique internationale capables de gérer des contraintes de planning serrées.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=ITGlobalIE` },
-];
 
 const IRELAND_CITIES = [
   { name: "Dublin", desc: "La capitale et ses quartiers dynamiques (Silicon Docks, Rathmines, Howth...)" },
@@ -75,7 +69,7 @@ const WHY_US_ITEMS = [
   },
   {
     icon: ShieldCheck,
-    title: "Garantie Totale",
+    title: "Protection contractuelle",
     description: "Votre patrimoine est couvert par une assurance Ad Valorem (valeur déclarée) incluse sur l'intégralité du trajet (route + mer)."
   }
 ];
@@ -83,7 +77,7 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Quelle est la durée d'un déménagement France-Irlande ?", 
-    answer: "Il faut prévoir environ 48h à 72h. Le premier jour est dédié au chargement en France et au trajet vers le port d'embarquement (généralement Cherbourg ou Roscoff). La traversée maritime dure environ 17h. Le second ou troisième jour est consacré au transport sur le sol irlandais, au déchargement et à l'installation finale." 
+    answer: "Le calendrier dépend du port d'embarquement, des horaires de ferry, du volume et des accès. Le devis précise l'itinéraire envisagé ainsi que les créneaux de chargement et de livraison."
   },
   { 
     question: "L'Irlande est-elle impactée par le Brexit pour les déménagements ?", 
@@ -317,7 +311,7 @@ export default function IrelandPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-ie" className="py-24 bg-slate-50">
@@ -364,13 +358,13 @@ export default function IrelandPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique maritime compliquer votre projet d'expatriation. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Ne laissez pas la logistique maritime compliquer votre projet d'expatriation. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

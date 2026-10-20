@@ -127,7 +127,7 @@ export default function OeuvresArtPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Tableaux de maîtres, sculptures, antiquités ou mobilier design. Nous déployons un savoir-faire d'exception et une discrétion absolue pour préserver votre patrimoine.
+              Tableaux de maîtres, sculptures, antiquités ou mobilier design. Nous déployons un savoir-faire d'exception et une discrétion professionnelle pour préserver votre patrimoine.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">

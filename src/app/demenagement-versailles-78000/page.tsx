@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -27,17 +26,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Versailles (78) | Service Prestige & Devis Gratuit",
-  description: "Déménageur expert à Versailles (78000). Nous maîtrisons les accès historiques (Saint-Louis, Notre-Dame) et protégeons votre patrimoine. Devis en 24h.",
+  description: "Déménageur expert à Versailles (78000). Nous maîtrisons les accès historiques (Saint-Louis, Notre-Dame) et protégeons votre patrimoine. Devis dans les meilleurs délais.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-versailles-78000",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Royer", text: "Déménager à Versailles était un rêve et grâce à vous, ça a été une expérience sans stress. L'équipe a été très respectueuse des lieux et de nos affaires.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Royer78` },
-  { id: "fallback-2", name: "M. Lefèvre", text: "Très professionnels, ils ont su gérer les accès compliqués de ma rue dans le quartier Saint-Louis. Service impeccable, je recommande vivement.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=Lefevre78` },
-  { id: "fallback-3", name: "Cabinet d'architectes", text: "Le transfert de nos bureaux près du château s'est déroulé à la perfection. Discrétion et efficacité, une équipe au top.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Architectes78` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -65,7 +59,7 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { question: "Comment gérez-vous un déménagement dans le quartier historique de Saint-Louis ?", answer: "C'est un secteur que nous connaissons très bien pour ses accès qui peuvent être compliqués. Nous effectuons toujours une visite technique en amont pour définir la meilleure stratégie. Nous utilisons des véhicules de taille adaptée et nous nous chargeons de la demande d'autorisation de stationnement." },
   { question: "Le monte-meubles est-il souvent nécessaire pour un déménagement à Versailles ?", answer: "Oui, c'est une solution que nous utilisons fréquemment. Beaucoup d'immeubles versaillais, bien que magnifiques, n'ont pas d'ascenseur ou des cages d'escalier très étroites. Le monte-meubles garantit un déménagement rapide, sécurisé pour vos biens et respectueux des parties communes." },
-  { question: "Déménagez-vous les objets d'art et les meubles anciens ?", answer: "Absolument. C'est l'une de nos spécialités. Nos équipes sont formées pour l'emballage et la manipulation d'objets de valeur. Nous utilisons des matériaux de protection professionnels (caisses sur-mesure, papier de soie, bullkraft) pour assurer une sécurité maximale à votre patrimoine." },
+  { question: "Déménagez-vous les objets d'art et les meubles anciens ?", answer: "Nous pouvons étudier le transport d'objets de valeur et de mobilier ancien. Les protections nécessaires, comme une caisse sur mesure ou du bullkraft, sont définies après inventaire et visite technique." },
   { question: "Quels sont les délais pour organiser un déménagement à Versailles ?", answer: "Compte tenu des démarches administratives pour le stationnement, nous recommandons de nous contacter au moins 3 à 4 semaines à l'avance. Cependant, n'hésitez pas à nous appeler pour des besoins plus urgents, nous ferons notre possible pour débloquer une solution." }
 ];
 
@@ -158,7 +152,7 @@ export default function VersaillesPage() {
                  </div>
                  <div>
                    <h3 className="text-xl font-bold text-slate-900 mb-1">Expertise Patrimoniale</h3>
-                   <p className="text-slate-500 font-light">Protection absolue des intérieurs anciens, des parquets et des parties communes.</p>
+                   <p className="text-slate-500 font-light">Protection adaptée des intérieurs anciens, des parquets et des parties communes.</p>
                  </div>
               </div>
             </div>
@@ -260,7 +254,7 @@ export default function VersaillesPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-versailles" className="py-24 bg-slate-50">

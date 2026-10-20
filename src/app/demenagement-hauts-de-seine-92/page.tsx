@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,7 +27,7 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Hauts-de-Seine (92) | Expert La Défense & Standing",
-  description: "Déménageur de confiance dans les Hauts-de-Seine (92). Spécialiste La Défense, Boulogne, Neuilly et Levallois. Solutions pros et particuliers. Devis gratuit en 24h.",
+  description: "Déménageur de confiance dans les Hauts-de-Seine (92). Spécialiste La Défense, Boulogne, Neuilly et Levallois. Solutions pros et particuliers. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-hauts-de-seine-92",
   }
@@ -91,11 +90,6 @@ const FAQS = [
   }
 ];
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Société HexaCorp", text: "Le transfert de nos bureaux à La Défense a été un succès total. L'équipe a été discrète, rapide et incroyablement organisée. Aucune interruption d'activité. Une référence pour le B2B.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=HexaCorp92` },
-  { id: "fallback-2", name: "Famille Petit", text: "Un grand merci pour notre déménagement à Boulogne-Billancourt. Équipe très soigneuse et professionnelle. Le monte-meubles a été une solution parfaite pour notre mobilier de standing.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=Petit92` },
-  { id: "fallback-3", name: "Anne-Sophie V.", text: "Service impeccable pour mon appartement à Neuilly-sur-Seine. Le devis était clair et l'équipe a été ponctuelle et efficace. Je recommande chaudement pour la qualité de l'emballage.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=AnneSophie92` },
-];
 
 export default function HautsDeSeinePage() {
   return (
@@ -157,7 +151,7 @@ export default function HautsDeSeinePage() {
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
                 <Link href="/demande-devis">
-                  Obtenir mon devis gratuit sous 24h <ArrowRight className="ml-2 h-5 w-5" />
+                  Obtenir mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </div>
@@ -318,7 +312,7 @@ export default function HautsDeSeinePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-92" className="py-24 bg-slate-50">
@@ -365,13 +359,13 @@ export default function HautsDeSeinePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la forte densité urbaine ou les règles des copropriétés vous stresser. Contactez nos experts pour une étude personnalisée et recevez un devis gratuit sous 24h.
+                    Ne laissez pas la forte densité urbaine ou les règles des copropriétés vous stresser. Contactez nos experts pour une étude personnalisée et recevez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

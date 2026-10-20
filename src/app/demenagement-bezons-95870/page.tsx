@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,17 +27,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Bezons (95) | Particuliers & Entreprises | Devis Gratuit",
-  description: "Déménageur expert à Bezons (95870). Proximité La Défense, gestion du Pont de Bezons et transferts de bureaux. Devis gratuit et intervention sous 24h.",
+  description: "Déménageur à Bezons (95870), près de La Défense : appartements, pavillons et transferts de bureaux. Demandez un devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-bezons-95870",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Société ConnectIT", text: "Déménagement de nos bureaux à Bezons parfaitement géré. L'équipe a été rapide, professionnelle et très efficace. Une transition sans le moindre souci pour nos collaborateurs.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=ConnectIT95` },
-  { id: "fallback-2", name: "Nathalie D.", text: "Très bonne expérience pour mon appartement. Devis clair et service impeccable. Un déménagement sans stress, même dans un quartier dense et circulant.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=NathalieD95` },
-  { id: "fallback-3", name: "M. Lefevre", text: "Je recommande vivement pour leur sérieux. Ils ont trouvé des solutions pour les accès difficiles et le stationnement près du pont. Le monte-meubles a sauvé la journée !", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Lefevre95B` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -74,7 +68,7 @@ const FAQS = [
   },
   { 
     question: "L'autorisation de stationnement est-elle incluse dans le devis ?", 
-    answer: "Dans le cadre de nos prestations Standards et Confort, nous prenons en charge l'intégralité de la demande administrative. Nous vous informons en amont des éventuels frais de voirie appliqués par la commune de Bezons pour une transparence tarifaire totale." 
+    answer: "Selon la formule retenue, nous pouvons accompagner la demande administrative. Les modalités et éventuels frais de voirie appliqués par la commune sont précisés avant l'intervention."
   },
   { 
     question: "Quelles sont les options pour un petit volume (studio/T1) ?", 
@@ -273,7 +267,7 @@ export default function BezonsPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-bezons" className="py-24 bg-slate-50">
@@ -320,13 +314,13 @@ export default function BezonsPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique au hasard dans cette zone stratégique. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique au hasard dans cette zone stratégique. Contactez nos équipes pour une visite technique et obtenez un devis gratuit.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

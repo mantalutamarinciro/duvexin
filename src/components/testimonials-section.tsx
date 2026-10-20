@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,8 @@ import { Star } from "lucide-react";
 import Link from "next/link";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import type { FormattedReview } from "@/app/api/reviews/route";
+
+const GOOGLE_REVIEWS_URL = "https://www.google.com/maps/place/Demenagement+du+Vexin/@49.0633959,2.1832366,17z/data=!3m1!4b1!4m6!3m5!1s0x47e66194b9a53be1:0x619ea9289f231032!8m2!3d49.0633924!4d2.1858115!16s%2Fg%2F11g0dgf3v_?entry=ttu";
 
 function StarRating({ rating }: { rating: number }) {
     return (
@@ -25,6 +27,20 @@ export function TestimonialsSection({ reviews }: { reviews: FormattedReview[] })
     const autoplayPlugin = useRef(
         Autoplay({ delay: 5000, stopOnInteraction: true })
     );
+
+    if (!reviews?.length) {
+        return (
+            <section className="py-12 bg-slate-50 dark:bg-slate-900/50">
+                <div className="container text-center">
+                    <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Consultez nos avis vérifiés</h2>
+                    <p className="mt-3 text-slate-600 dark:text-slate-400">Les témoignages sont consultables directement sur notre fiche Google.</p>
+                    <Button variant="outline" className="mt-6 rounded-full font-bold border-slate-200" asChild>
+                        <Link href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener noreferrer">Voir les avis sur Google</Link>
+                    </Button>
+                </div>
+            </section>
+        );
+    }
 
     return (
          <section className="py-16 md:py-24 bg-slate-50 dark:bg-slate-900/50">
@@ -70,10 +86,28 @@ export function TestimonialsSection({ reviews }: { reviews: FormattedReview[] })
                 </Carousel>
                 <div className="text-center mt-12">
                     <Button variant="outline" className="rounded-full font-bold border-slate-200" asChild>
-                        <Link href="https://www.google.com/maps/place/Demenagement+du+Vexin/@49.0633959,2.1832366,17z/data=!3m1!4b1!4m6!3m5!1s0x47e66194b9a53be1:0x619ea9289f231032!8m2!3d49.0633924!4d2.1858115!16s%2Fg%2F11g0dgf3v_?entry=ttu" target="_blank">Voir tous nos avis sur Google</Link>
+                        <Link href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener noreferrer">Voir tous nos avis sur Google</Link>
                     </Button>
                 </div>
             </div>
         </section>
     );
+}
+
+export function VerifiedTestimonialsSection() {
+    const [reviews, setReviews] = useState<FormattedReview[] | null>(null);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        fetch("/api/reviews", { signal: controller.signal })
+            .then((response) => response.ok ? response.json() : Promise.reject(new Error("Reviews unavailable")))
+            .then((data: { reviews?: FormattedReview[] }) => setReviews(Array.isArray(data.reviews) ? data.reviews : []))
+            .catch((error: unknown) => {
+                if (!(error instanceof DOMException && error.name === "AbortError")) setReviews([]);
+            });
+        return () => controller.abort();
+    }, []);
+
+    if (reviews === null) return null;
+    return <TestimonialsSection reviews={reviews} />;
 }

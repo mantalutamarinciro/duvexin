@@ -217,7 +217,7 @@ export function PriceEstimator() {
                 </Button>
                 
                 <p className="flex items-center justify-center gap-2 text-[10px] text-slate-500 font-bold uppercase">
-                  <ShieldCheck className="h-3 w-3 text-primary" /> Devis définitif sous 24h
+                  <ShieldCheck className="h-3 w-3 text-primary" /> Devis détaillé après étude
                 </p>
               </div>
             </CardContent>

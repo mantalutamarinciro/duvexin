@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -33,11 +32,6 @@ export const metadata: Metadata = {
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Moreau", text: "Un déménagement parfaitement orchestré à Nogent. L'équipe a fait preuve d'un grand soin et d'une efficacité remarquable pour nos objets d'art. Un service vraiment premium que je recommande.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Moreau94` },
-  { id: "fallback-2", name: "Julien C.", text: "Très satisfait de la prestation pour mon appartement près du port. Ils ont géré les accès difficiles de la rue piétonne avec professionnalisme. Devis clair et sans surprise.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=JulienC94` },
-  { id: "fallback-3", name: "Mme. Lefevre", text: "Une équipe ponctuelle, discrète et très respectueuse des lieux. Mon installation dans ma nouvelle maison s'est déroulée dans les meilleures conditions. Merci à tous !", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Lefevre94` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -256,7 +250,7 @@ export default function NogentSurMarnePage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Formule "Prestige"</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Un service 100% clé en main : emballage complet de vos effets fragiles, penderies pour vêtements, déballage et remise en place de votre intérieur.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Une prestation clé en main selon la formule retenue : emballage des effets fragiles, penderies, déballage et remise en place.</p>
                   </div>
                 </li>
               </ul>
@@ -272,7 +266,7 @@ export default function NogentSurMarnePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-nogent" className="py-24 bg-slate-50">

@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -26,11 +25,6 @@ export const metadata: Metadata = {
 };
 
 // --- DATA ---
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Conservatoire de Musique", text: "Déplacement de deux pianos à queue de concert. Une équipe d'un calme et d'une précision remarquables. Du grand art logistique.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Conservatoire` },
-  { id: "fallback-2", name: "Marc Deschamp", text: "Ils ont réussi à monter un coffre-fort de 300kg au 2ème étage avec leur robot monte-escalier sans faire la moindre égratignure aux boiseries. Impressionnant.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=MarcD` },
-  { id: "fallback-3", name: "Sophie L.", text: "Démontage, transport et remontage complet de notre billard en ardoise. L'équipe a été très minutieuse pour la mise à niveau finale. Merci !", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=SophieL` },
-];
 
 const HEAVY_OBJECTS = [
   {
@@ -258,7 +252,7 @@ export default function ObjetsLourdsPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-heavy" className="py-24 bg-white">

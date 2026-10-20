@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -36,11 +35,6 @@ export const metadata: Metadata = {
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille de La Roche", text: "Un service irréprochable pour notre déménagement à Neuilly. L'équipe a fait preuve d'une grande discrétion et d'un soin extrême pour nos objets de valeur. C'est un service de prestige que nous recommandons sans hésiter.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=LaRoche92` },
-  { id: "fallback-2", name: "Hélène B.", text: "Très satisfaite de la prestation. Ils ont géré les accès compliqués de ma rue près du Bois de Boulogne et protégé les parquets avec beaucoup de professionnalisme. Une entreprise sérieuse.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=HeleneB92` },
-  { id: "fallback-3", name: "Cabinet d'avocats G&P", text: "Le transfert de nos archives et de notre mobilier a été mené avec une efficacité et une confidentialité parfaites. Une équipe ponctuelle sur qui l'on peut compter pour du B2B exigeant.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=GPavocats` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -55,7 +49,7 @@ const WHY_US_ITEMS = [
   },
   {
     icon: ShieldAlert,
-    title: "Discrétion Absolue",
+    title: "Discrétion et méthode",
     description: "Interventions silencieuses et confidentielles adaptées aux exigences des résidences de grand standing et hôtels particuliers."
   },
   {
@@ -136,7 +130,7 @@ export default function NeuillySurSeinePage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              L'excellence logistique pour les résidences d'exception de Neuilly-sur-Seine (92200). Rigueur, discrétion et protection absolue de votre patrimoine.
+              L'excellence logistique pour les résidences d'exception de Neuilly-sur-Seine (92200). Rigueur, discrétion et protection adaptée de votre patrimoine.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -163,7 +157,7 @@ export default function NeuillySurSeinePage() {
                   Neuilly-sur-Seine incarne un art de vivre où l'élégance architecturale rencontre des exigences de service particulièrement élevées. Déménager dans ce contexte, que ce soit près du Bois de Boulogne ou sur l'Île de la Jatte, demande bien plus qu'une simple manutention : c'est un engagement de soin, de propreté et de confidentialité.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous avons développé une expertise spécifique pour les appartements haussmanniens, les grandes propriétés et les bureaux de prestige. Nous garantissons une transition d'une fluidité exemplaire, préservant l'intégrité de vos biens les plus précieux et la quiétude de vos voisins.
+                  Chez <strong>Déménagement du Vexin</strong>, nous adaptons nos méthodes aux appartements haussmanniens, aux grandes propriétés et aux bureaux. Les protections, les accès et les contraintes de voisinage sont intégrés à la préparation.
                 </p>
               </div>
               
@@ -275,7 +269,7 @@ export default function NeuillySurSeinePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-neuilly" className="py-24 bg-slate-50">
@@ -322,7 +316,7 @@ export default function NeuillySurSeinePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne confiez pas votre patrimoine au hasard. Contactez nos experts pour une étude technique confidentielle et recevez un devis détaillé, ferme et sans surprise sous 24h.
+                    Ne confiez pas votre patrimoine au hasard. Contactez nos experts pour une étude technique confidentielle et recevez un devis détaillé, ferme et sans surprise dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">

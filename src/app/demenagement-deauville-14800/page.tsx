@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Deauville (14) | Service Prestige & Standing",
-  description: "Déménageur expert à Deauville (14800). Spécialiste des villas de la Côte Fleurie, mobilier de luxe et résidences secondaires. Devis gratuit sous 24h.",
+  description: "Déménageur expert à Deauville (14800). Spécialiste des villas de la Côte Fleurie, mobilier de luxe et résidences secondaires. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-deauville-14800",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Dufour", text: "Notre déménagement de Paris à notre résidence secondaire de Deauville a été géré de main de maître. L'équipe a été très professionnelle et discrète. Un service à la hauteur du lieu.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dufour14` },
-  { id: "fallback-2", name: "H. de la Roche", text: "Excellent service. Ils ont su gérer le stationnement en pleine saison et le déménagement de mon appartement s'est fait sans une égratignure. Je recommande vivement.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=HdeLaRoche14` },
-  { id: "fallback-3", name: "Boutique de Luxe", text: "Le transfert de notre boutique a été réalisé avec un soin infini pour notre stock et notre mobilier d'agencement. Une équipe de grande confiance.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Luxe14` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -61,14 +55,14 @@ const WHY_US_ITEMS = [
   {
     icon: ShieldCheck,
     title: "Hub Normandie",
-    description: "Grâce à notre base d'Évreux, nous offrons une réactivité totale pour vos projets sur Deauville, Trouville et toute la Côte Fleurie."
+    description: "Grâce à notre base d'Évreux, nous offrons une organisation de proximité pour vos projets sur Deauville, Trouville et toute la Côte Fleurie."
   }
 ];
 
 const FAQS = [
   { 
     question: "Comment organisez-vous un déménagement en haute saison à Deauville ?", 
-    answer: "La clé est l'anticipation absolue. Nous déposons les demandes d'arrêté de stationnement au minimum 3 semaines à l'avance. Nous privilégions les interventions très matinales pour éviter les flux touristiques et garantissons un périmètre 100% sécurisé pour nos camions." 
+    answer: "L'anticipation est essentielle. Selon l'adresse et les règles municipales en vigueur, nous préparons la demande de stationnement suffisamment tôt et adaptons les horaires pour limiter l'impact des flux touristiques."
   },
   { 
     question: "Déménagez-vous les résidences secondaires ?", 
@@ -136,7 +130,7 @@ export default function DeauvillePage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Un service d'exception pour votre projet dans la plus glamour des stations normandes (14800). Discrétion absolue, soin infini et logistique de haut standing.
+              Une prestation soignée pour votre projet à Deauville (14800), adaptée aux résidences secondaires et au mobilier fragile.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -275,7 +269,7 @@ export default function DeauvillePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-deauville" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function DeauvillePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Confiez votre mobilier et vos objets précieux à des professionnels du standing. Contactez-nous pour une étude personnalisée discrète et recevez un devis détaillé sous 24h.
+                    Confiez votre mobilier et vos objets précieux à des professionnels du standing. Contactez-nous pour une étude personnalisée discrète et recevez un devis détaillé dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis Prestige en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis Prestige <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

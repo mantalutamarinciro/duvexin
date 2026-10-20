@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -31,17 +30,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement France → Italie | Devis Gratuit & Groupage",
-  description: "Déménageur expert sur l'axe France-Italie. Liaisons régulières vers Rome, Milan, Turin. Solutions de groupage économique. Devis gratuit sous 24h.",
+  description: "Déménageur expert sur l'axe France-Italie. Liaisons régulières vers Rome, Milan, Turin. Solutions de groupage économique. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-france-italie",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Rossi", text: "Déménagement de Lyon vers Milan réalisé avec une efficacité incroyable. L'équipe a géré le passage des Alpes et le déchargement dans une cour intérieure étroite sans aucun souci. Un grand merci pour votre professionnalisme !", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=RossiIT` },
-  { id: "fallback-2", name: "Marc-Antoine L.", text: "Service parfait pour mon installation à Rome. La formule groupage m'a permis de faire de vraies économies sur le transport. Équipe ponctuelle, polie et matériel de protection de haute qualité. Je recommande vivement.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=MALIT` },
-  { id: "fallback-3", name: "Design-Studio Turin", text: "Le transfert de notre mobilier d'exposition vers Turin a été orchestré de main de maître. Une maîtrise parfaite des liaisons internationales et des délais respectés. Des vrais pros du transport européen.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=DesignIT` },
-];
 
 const ITALY_CITIES = [
   { name: "Rome (Roma)", desc: "La cité éternelle et ses quartiers historiques aux accès complexes." },
@@ -72,7 +66,7 @@ const WHY_US_ITEMS = [
   },
   {
     icon: ShieldCheck,
-    title: "Garantie Totale",
+    title: "Protection contractuelle",
     description: "Votre patrimoine est couvert par une assurance Ad Valorem (valeur déclarée) incluse sur l'intégralité du trajet européen."
   }
 ];
@@ -80,7 +74,7 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Quelle est la durée d'un déménagement vers l'Italie ?", 
-    answer: "Pour un trajet comme Paris-Milan (environ 850 km), il faut compter 48h. Pour Rome ou le sud de l'Italie (plus de 1400 km), prévoyez plutôt 3 à 4 jours. Le premier jour est dédié au chargement en France, suivi du transport sécurisé (avec respect des temps de repos) et du déchargement minutieux à l'arrivée." 
+    answer: "La durée varie selon la destination, le volume, les accès et les temps de conduite réglementaires. Le planning de chargement et de livraison est défini au devis, notamment pour Rome et le sud de l'Italie."
   },
   { 
     question: "Comment fonctionne le groupage vers l'Italie ?", 
@@ -314,7 +308,7 @@ export default function ItalyPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-it" className="py-24 bg-slate-50">
@@ -361,13 +355,13 @@ export default function ItalyPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas les frontières compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Ne laissez pas les frontières compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

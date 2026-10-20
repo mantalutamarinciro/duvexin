@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Rueil-Malmaison (92) | Expert local & Devis Gratuit",
-  description: "Déménageur de confiance à Rueil-Malmaison (92500). Spécialiste Rueil 2000, Arsenal et centre historique. Devis gratuit sous 24h, monte-meubles et garanties.",
+  description: "Déménageur de confiance à Rueil-Malmaison (92500). Spécialiste Rueil 2000, Arsenal et centre historique. Devis gratuit personnalisé, monte-meubles et garanties.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-rueil-malmaison-92500",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Giraud", text: "Notre déménagement dans une maison à Rueil s'est parfaitement déroulé. L'équipe a été très professionnelle et a su gérer les accès spécifiques de notre rue près du centre. Un grand merci !", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Giraud92` },
-  { id: "fallback-2", name: "Claire L.", text: "Un service client à l'écoute et une équipe de déménageurs au top pour mon appartement à Rueil 2000. Ils ont géré les badges d'accès et les horaires avec brio. Je recommande !", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=ClaireL92` },
-  { id: "fallback-3", name: "Marc D.", text: "Devis clair, pas de surprise, et une efficacité redoutable. Le transfert de mon bureau vers le quartier de l'Arsenal a été simple et rapide grâce à eux.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MarcD92` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -56,7 +50,7 @@ const WHY_US_ITEMS = [
   {
     icon: Truck,
     title: "Logistique A86 & Arsenal",
-    description: "Une organisation rodée sur les grands axes pour garantir une ponctualité totale, y compris dans le nouvel éco-quartier."
+    description: "Une organisation rodée sur les grands axes pour garantir une planning préparé en amont, y compris dans le nouvel éco-quartier."
   },
   {
     icon: ShieldCheck,
@@ -80,7 +74,7 @@ const FAQS = [
   },
   { 
     question: "Quel est le délai pour obtenir une visite technique à Rueil ?", 
-    answer: "Grâce à notre présence constante dans le 92, nous pouvons intervenir sous 48h pour une visite à domicile (ou par visio) afin de vous transmettre un devis détaillé, ferme et définitif sous 24h ouvrées." 
+    answer: "Nous organisons une visite à domicile ou en visio selon les besoins du projet. Le devis détaillé est ensuite préparé après étude du volume, des accès et des prestations."
   }
 ];
 
@@ -275,7 +269,7 @@ export default function RueilMalmaisonPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-rueil" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function RueilMalmaisonPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine ou les contraintes d'accès freiner votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine ou les contraintes d'accès freiner votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

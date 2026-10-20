@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,18 +27,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Paris → Toulouse (31) | Devis Gratuit & Groupage | 24h",
-  description: "Déménageur expert sur l'axe Paris-Toulouse. Liaisons hebdomadaires, solutions de groupage et expertise longue distance. Votre devis gratuit sous 24h.",
+  title: "Déménagement Paris → Toulouse (31) | Devis Gratuit & Groupage",
+  description: "Déménageur expert sur l'axe Paris-Toulouse. Liaisons hebdomadaires, solutions de groupage et expertise longue distance. Votre devis gratuit personnalisé.",
   alternates: {
-    canonical: "https://demenagementduvexin.fr/demenagement-idf-toulouse",
+    canonical: "https://demenagementduvexin.fr/demenagement-ile-de-france-toulouse",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Boyer", text: "Déménagement de la région parisienne à Toulouse parfaitement réussi. L'équipe a été d'un grand professionnalisme, à l'écoute et très efficace malgré les 700km. Un service irréprochable !", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=Boyer31` },
-  { id: "fallback-2", name: "Vincent R.", text: "Service impeccable pour mon déménagement longue distance. La formule groupage était idéale pour mon budget et tout est arrivé à Toulouse sans le moindre souci. Je recommande vivement.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=VincentR31` },
-  { id: "fallback-3", name: "AeroSolutions", text: "Le transfert de notre bureau d'études vers Toulouse s'est déroulé avec une rigueur exemplaire. Une équipe qui comprend les enjeux de sécurité pour du matériel technologique.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=AeroSolutions31` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -71,7 +65,7 @@ const FAQS = [
   },
   { 
     question: "Comment fonctionne le groupage vers la Ville Rose ?", 
-    answer: "Le groupage est idéal pour les petits volumes. Nous regroupons plusieurs clients dans un même grand porteur de 50m³ ou 100m³. Cela permet de diviser les frais de péage (A20) et de carburant, offrant un tarif ultra-compétitif." 
+    answer: "Le groupage peut convenir à certains petits volumes lorsque les calendriers sont compatibles. Le tarif est alors étudié selon le volume, les accès et les possibilités de mutualisation du trajet."
   },
   { 
     question: "Gérez-vous le stationnement dans le centre de Toulouse ?", 
@@ -156,10 +150,10 @@ export default function ToulousePage() {
                 De la capitale à la <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">Ville Rose</u>.
               </h2>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Rejoindre Toulouse est un projet de vie enthousiasmant, au cœur du dynamisme de l'Occitanie. Pour que ce transfert se fasse sans stress, la maîtrise de la logistique longue distance est impérative. Les 700 km séparant l'IDF du Sud-Ouest exigent une planification sans faille.
+                Rejoindre Toulouse est un projet de vie enthousiasmant, au cœur du dynamisme de l'Occitanie. Pour que ce transfert se fasse sans stress, la maîtrise de la logistique longue distance est impérative. Les 700 km séparant l'IDF du Sud-Ouest exigent une planification rigoureuse.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons les deux extrémités de votre projet : la gestion du stationnement parisien et les accès parfois complexes du centre toulousain, des briques roses des Carmes aux résidences modernes de Blagnac ou Colomiers.
+                Chez Déménagement du Vexin, nous maîtrisons les deux extrémités de votre projet : la gestion du stationnement parisien et les accès parfois complexes du centre toulousain, des briques roses des Carmes aux résidences modernes de Blagnac ou Colomiers.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -269,7 +263,7 @@ export default function ToulousePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-toulouse" className="py-20 lg:py-32 bg-slate-50">
@@ -314,13 +308,13 @@ export default function ToulousePage() {
                     <span className="text-[#00ad9f]">vie à Toulouse ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la distance compliquer votre projet. Contactez nos experts pour une étude personnalisée et recevez un devis gratuit sous 24h.
+                    Ne laissez pas la distance compliquer votre projet. Contactez nos experts pour une étude personnalisée et recevez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

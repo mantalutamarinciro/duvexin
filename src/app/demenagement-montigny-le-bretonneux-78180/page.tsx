@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Montigny-le-Bretonneux (78) | Expert SQY | Devis Gratuit",
-  description: "Déménageur de confiance à Montigny-le-Bretonneux (78180). Spécialiste Saint-Quentin-en-Yvelines : transferts de bureaux, résidences et étudiants. Devis sous 24h.",
+  description: "Déménageur de confiance à Montigny-le-Bretonneux (78180). Spécialiste Saint-Quentin-en-Yvelines : transferts de bureaux, résidences et étudiants. Devis dans les meilleurs délais.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-montigny-le-bretonneux-78180",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Laurent", text: "Déménagement de notre maison à Montigny-le-Bretonneux géré de main de maître. L'équipe était professionnelle, ponctuelle et particulièrement soigneuse avec nos meubles volumineux. Un service 5 étoiles.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Laurent78` },
-  { id: "fallback-2", name: "Société InnovTech", text: "Le transfert de nos bureaux à Saint-Quentin-en-Yvelines a été géré de manière exemplaire. Planification rigoureuse et exécution rapide le week-end pour éviter toute coupure d'activité. Des vrais pros.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=InnovTech78` },
-  { id: "fallback-3", name: "Sophie C.", text: "Très bonne expérience pour mon appartement au Pas du Lac. De la prise de contact au jour J, tout a été fluide. Le monte-meubles a permis de gagner un temps précieux. Je recommande.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=SophieC78` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -80,7 +74,7 @@ const FAQS = [
   },
   { 
     question: "Quel est le délai pour obtenir un devis aux Yvelines ?", 
-    answer: "Grâce à notre forte présence dans le 78, nous pouvons réaliser une visite technique (physique ou en visio) sous 48h. Votre devis détaillé et définitif vous est envoyé dans la foulée, sans aucun frais caché." 
+    answer: "Nous organisons une visite technique, sur place ou en visio, selon vos disponibilités. Le devis détaille ensuite la prestation et les contraintes prises en compte."
   }
 ];
 
@@ -163,7 +157,7 @@ export default function MontignyLeBretonneuxPage() {
                   Montigny-le-Bretonneux est une ville stratégique, véritable pôle d'attraction majeur de l'ouest francilien. Déménager dans cet environnement dynamique, qui mêle quartiers pavillonnaires calmes et zones tertiaires extrêmement denses, demande une organisation millimétrée.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque quartier, des Manet au Plan de l'Église. Que vous emménagiez dans un appartement moderne avec accès sécurisé ou que vous transfériez votre entreprise près de la gare de Saint-Quentin, nous vous garantissons une transition fluide, discrète et professionnelle.
+                  Chez <strong>Déménagement du Vexin</strong>, nous préparons les interventions des Manet au Plan de l'Église selon les accès, le volume et les contraintes du site.
                 </p>
               </div>
               
@@ -275,7 +269,7 @@ export default function MontignyLeBretonneuxPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-montigny" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function MontignyLeBretonneuxPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine ou les contraintes d'accès ternir votre projet. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine ou les contraintes d'accès ternir votre projet. Contactez nos équipes pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

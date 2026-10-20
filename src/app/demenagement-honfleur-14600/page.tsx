@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -27,17 +26,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Honfleur (14) | Expert local & Côte Fleurie | Devis Gratuit",
-  description: "Déménageur de confiance à Honfleur (14600). Spécialiste du centre historique, du Vieux Bassin et des galeries d'art. Devis gratuit sous 24h et visite technique.",
+  description: "Déménageur de confiance à Honfleur (14600). Spécialiste du centre historique, du Vieux Bassin et des galeries d'art. Devis gratuit personnalisé et visite technique.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-honfleur-14600",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Le Gall", text: "Déménagement dans le centre de Honfleur parfaitement géré. L'équipe a été très professionnelle et a su s'adapter aux rues étroites et à l'affluence du Vieux Bassin. Un service exemplaire.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=LeGall14` },
-  { id: "fallback-2", name: "Marc D.", text: "Très bonne expérience. Devis clair, équipe ponctuelle et surtout très soigneuse. Un déménagement sans stress dans cette ville magnifique. Je recommande pour le Calvados.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=MarcD14H` },
-  { id: "fallback-3", name: "Galerie du Port", text: "Le transport de nos œuvres a été mené avec un soin et une rigueur exemplaires. Une équipe de confiance pour manipuler des pièces de valeur. Merci !", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Galerie14` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -58,7 +52,7 @@ const WHY_US_ITEMS = [
   {
     icon: ShieldCheck,
     title: "Hub Normandie",
-    description: "Grâce à notre agence normande, nous offrons une réactivité maximale et des tarifs très compétitifs sur toute la Côte Fleurie."
+    description: "Grâce à notre agence normande, nous offrons une organisation de proximité et des tarifs très compétitifs sur toute la Côte Fleurie."
   }
 ];
 
@@ -272,7 +266,7 @@ export default function HonfleurPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-honfleur" className="py-24 bg-slate-50">
@@ -319,13 +313,13 @@ export default function HonfleurPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine ou les rues étroites vous stresser. Contactez nos équipes pour une visite technique gratuite et obtenez un devis ferme sous 24h.
+                    Ne laissez pas la logistique urbaine ou les rues étroites vous stresser. Contactez nos équipes pour une visite technique gratuite et obtenez un devis ferme dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

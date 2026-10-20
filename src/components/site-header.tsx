@@ -57,7 +57,7 @@ const SERVICES_FEATURED = [
   {
     title: "Garde-meubles Sécurisé",
     href: "/demenagement-garde-meubles",
-    desc: "Stockage plombé sous surveillance 24h/24.",
+    desc: "Stockage en conteneurs avec accès organisé.",
     icon: Warehouse,
     color: "text-amber-600",
     bg: "bg-amber-50 dark:bg-amber-950/30",
@@ -112,7 +112,7 @@ const TOOLS_LINKS = [
   {
     title: "Devis déménagement",
     href: "/devis-demenagement",
-    desc: "Guide complet et demande gratuite sous 24h.",
+    desc: "Guide complet et demande de devis gratuite.",
     icon: FileText,
     color: "text-primary",
     bg: "bg-primary/5",
@@ -275,7 +275,7 @@ export function SiteHeader() {
                       <Sparkles className="h-4 w-4 text-primary" />
                     </span>
                     <div className="leading-tight">
-                      <div className="text-xs font-extrabold text-slate-900 dark:text-white">Devis Gratuit en 24h</div>
+                      <div className="text-xs font-extrabold text-slate-900 dark:text-white">Devis gratuit personnalisé</div>
                       <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Étude technique sans engagement</div>
                     </div>
                   </div>

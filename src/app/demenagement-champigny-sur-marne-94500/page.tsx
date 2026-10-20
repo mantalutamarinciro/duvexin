@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,17 +27,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Champigny-sur-Marne (94) | Bords de Marne | Devis Gratuit",
-  description: "Déménageur expert à Champigny-sur-Marne (94500). Du quartier du Plant aux bords de Marne, nous gérons votre déménagement de A à Z. Devis gratuit en 24h.",
+  description: "Déménageur expert à Champigny-sur-Marne (94500). Du quartier du Plant aux bords de Marne, nous gérons votre déménagement de A à Z. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-champigny-sur-marne-94500",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Lecomte", text: "Déménagement de our maison à Champigny, au bord de la Marne. L'équipe a été super, très pro et a pris grand soin de nos affaires. Un service au top.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=Lecomte94` },
-  { id: "fallback-2", name: "Patrick G.", text: "Très bonne expérience pour mon appartement. Devis clair et équipe ponctuelle et efficace. Le déménagement s'est fait sans aucun stress, je recommande.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=PatrickG94` },
-  { id: "fallback-3", name: "Société BâtiPro", text: "Le transfert de nos bureaux a été mené avec rigueur et efficacité. Une équipe professionnelle sur qui l'on peut compter pour un déménagement sans accroc.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=BatiPro94` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -120,7 +114,7 @@ export default function ChampignySurMarnePage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              La solution logistique efficace pour les particuliers et les entreprises à Champigny-sur-Marne (94500). Savoir-faire local et protection absolue de vos biens.
+              La solution logistique efficace pour les particuliers et les entreprises à Champigny-sur-Marne (94500). Savoir-faire local et protection adaptée de vos biens.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
@@ -146,7 +140,7 @@ export default function ChampignySurMarnePage() {
                 Champigny-sur-Marne est une ville aux multiples facettes : de son centre-ville historique à ses quartiers pavillonnaires en bord de rivière. Cette diversité demande une approche logistique flexible et une excellente connaissance des accès locaux.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons ces spécificités. Que vous quittiez un appartement moderne ou un pavillon de charme sur les bords de Marne, nous planifions chaque détail logistique pour une transition sans stress.
+                Chez Déménagement du Vexin, nous maîtrisons ces spécificités. Que vous quittiez un appartement moderne ou un pavillon de charme sur les bords de Marne, nous planifions chaque détail logistique pour une transition sans stress.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -256,7 +250,7 @@ export default function ChampignySurMarnePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-champigny" className="py-20 lg:py-32 bg-slate-50">
@@ -308,7 +302,7 @@ export default function ChampignySurMarnePage() {
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

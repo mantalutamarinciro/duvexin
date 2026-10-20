@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,17 +27,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Ifs (14) | Expert Sud-Caen | Devis Gratuit",
-  description: "Déménageur de confiance à Ifs (14123). Spécialiste du sud de l'agglomération de Caen : pavillons, résidences et zone Object'Ifs Sud. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Ifs (14123). Spécialiste du sud de l'agglomération de Caen : pavillons, résidences et zone Object'Ifs Sud. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-ifs-14123",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Simon", text: "Déménagement de notre maison à Ifs parfaitement organisé. L'équipe a été très professionnelle et efficace, même pour le démontage de notre grande armoire. Un service de qualité.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=Simon14` },
-  { id: "fallback-2", name: "Marc D.", text: "Très bonne expérience pour mon appartement. Devis clair, sans frais cachés et service impeccable. Un déménagement sans stress au sud de Caen. Merci !", rating: 5, createTime: "il y a 10 mois", avatarUrl: `https://i.pravatar.cc/48?u=MarcD14I` },
-  { id: "fallback-3", name: "Société Sud-Caen", text: "Le transfert de nos bureaux sur la zone d'activité a été mené avec rigueur. Une équipe qui connaît bien le secteur, les accès et les contraintes pro.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=SudCaen14` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -59,7 +53,7 @@ const WHY_US_ITEMS = [
   {
     icon: ShieldCheck,
     title: "Ancrage Régional",
-    description: "Grâce à notre agence normande, nous garantissons une réactivité maximale et des tarifs ultra-compétitifs sur toute l'agglomération."
+    description: "Notre implantation normande facilite une organisation de proximité et une tarification étudiée selon chaque projet."
   }
 ];
 
@@ -134,7 +128,7 @@ export default function IfsPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              La solution logistique de référence pour les résidences et les nombreuses entreprises d'Ifs (14123). Efficacité, proximité et protection absolue de vos biens.
+              La solution logistique de référence pour les résidences et les nombreuses entreprises d'Ifs (14123). Efficacité, proximité et protection adaptée de vos biens.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -161,7 +155,7 @@ export default function IfsPage() {
                   Ifs est une commune très dynamique en plein essor, offrant un cadre de vie résidentiel qualitatif aux portes immédiates de Caen. Son développement urbain allie harmonieusement quartiers familiaux, nouvelles résidences et pôles d'activités majeurs (Object'Ifs Sud), exigeant une organisation rigoureuse.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque spécificité de la ville. Que vous emménagiez dans un appartement moderne nécessitant l'utilisation d'un monte-meubles, dans un pavillon traditionnel, ou que vous transfériez votre entreprise, nous vous garantissons une logistique fluide, rapide et parfaitement sécurisée.
+                  Chez <strong>Déménagement du Vexin</strong>, nous adaptons l'organisation aux spécificités de la ville. Appartement nécessitant un monte-meubles, pavillon ou transfert d'entreprise : les moyens sont définis après étude des accès et du volume.
                 </p>
               </div>
               
@@ -273,7 +267,7 @@ export default function IfsPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-ifs" className="py-24 bg-slate-50">
@@ -320,13 +314,13 @@ export default function IfsPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine ou les accès pavillonnaires vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis ferme et gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine ou les accès pavillonnaires vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis ferme et gratuit dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

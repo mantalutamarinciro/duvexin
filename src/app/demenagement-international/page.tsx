@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -34,11 +33,6 @@ import {
   Crown
 } from "lucide-react";
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Roussel", text: "Un déménagement vers le Luxembourg géré à la perfection. L'équipe a été d'une ponctualité exemplaire et a su s'adapter aux accès restreints. Un service international de grande qualité.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=RousselLux` },
-  { id: "fallback-2", name: "Marc-Antoine D.", text: "Excellente prestation pour mon installation à Londres. Le dédouanement post-Brexit a été très rapide grâce à la préparation du dossier par leurs soins. Je recommande vivement !", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=MALux` },
-  { id: "fallback-3", name: "Mme. Schmidt", text: "Déménagement Paris-Berlin sans aucune fausse note. Nos meubles fragiles sont arrivés impeccables après 1000km de route. Une équipe de confiance.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=SchmidtDE` },
-];
 
 const INTERNATIONAL_DESTINATIONS = [
   { name: "Monaco", href: "/demenagement-france-monaco", desc: "Service Prestige & IGH", icon: Crown },
@@ -264,7 +258,7 @@ export default function InternationalHubPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ HUB --- */}
       <section id="faq-international" className="py-24 bg-slate-50">
@@ -311,7 +305,7 @@ export default function InternationalHubPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme sous 24h ouvrées.
+                    Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme après étude de votre demande.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">

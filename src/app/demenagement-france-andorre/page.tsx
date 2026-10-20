@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,11 +29,6 @@ import {
   Snowflake
 } from "lucide-react";
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Pujol", text: "Déménagement de Toulouse vers Andorre-la-Vieille parfaitement géré. L'équipe a pris en charge toutes les formalités de douane, ce qui nous a évité bien des soucis à la frontière. Un service d'une grande rigueur malgré les routes enneigées.", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=PujolAD` },
-  { id: "fallback-2", name: "Marc-Antoine D.", text: "Excellente prestation pour mon installation à Escaldes-Engordany. Le dédouanement a été très rapide grâce à la préparation du dossier par leurs soins. Équipe ponctuelle et matériel de protection de haute qualité.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=MADAnd` },
-  { id: "fallback-3", name: "Consulting-And SA", text: "Le transfert de nos bureaux vers le centre d'affaires d'Andorre a été mené avec une rigueur et une discrétion totales. Une maîtrise parfaite des spécificités fiscales et douanières du pays.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=ConsultingAD` },
-];
 
 const ANDORRA_PARISHES = [
   { name: "Andorre-la-Vieille", desc: "La capitale et son centre commercial et administratif dynamique." },
@@ -76,7 +70,7 @@ const FAQS = [
   },
   { 
     question: "Comment se déroule le passage à la frontière (Pas de la Case) ?", 
-    answer: "Grâce à notre expertise, nous préparons les documents 48h avant le départ. Le camion se présente au bureau de douane, nous effectuons les formalités administratives, et après validation, nous poursuivons la route vers votre nouvelle paroisse." 
+    answer: "Les documents sont préparés avant le départ selon les formalités applicables. Le passage en douane et la poursuite du trajet dépendent ensuite de la validation du dossier par les autorités."
   },
   { 
     question: "Déménagez-vous en hiver malgré la neige ?", 
@@ -305,7 +299,7 @@ export default function AndorraPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-ad" className="py-24 bg-slate-50">
@@ -352,13 +346,13 @@ export default function AndorraPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Contactez nos experts internationaux pour une étude personnalisée incluant l'ingénierie douanière et recevez un devis ferme sous 24h.
+                    Contactez nos experts internationaux pour une étude personnalisée incluant l'ingénierie douanière et recevez un devis ferme après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

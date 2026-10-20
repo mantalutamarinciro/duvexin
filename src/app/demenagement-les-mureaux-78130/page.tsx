@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,17 +28,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Les Mureaux (78) | Expert Local & Devis Gratuit",
-  description: "Déménageur de confiance aux Mureaux (78130). Spécialiste éco-quartiers, pavillons et transferts industriels (Arianegroup). Devis gratuit sous 24h.",
+  description: "Déménageur de confiance aux Mureaux (78130). Spécialiste éco-quartiers, pavillons et transferts industriels (Arianegroup). Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-les-mureaux-78130",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Traoré", text: "Déménagement de notre pavillon aux Mureaux très bien organisé. L'équipe a été super efficace et très sympathique malgré les accès de notre jardin. Rien à redire, service parfait !", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Traore78` },
-  { id: "fallback-2", name: "Julien P.", text: "Très bonne expérience pour mon appartement dans le nouvel éco-quartier. Le devis était clair, aucune mauvaise surprise et l'équipe très ponctuelle. Un déménagement sans stress.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=JulienP78` },
-  { id: "fallback-3", name: "Aéro-Club des Mureaux", text: "Le transfert de notre matériel a été géré avec un soin et un professionnalisme remarquables. Une entreprise sérieuse que nous recommandons pour son savoir-faire technique.", rating: 5, createTime: "il y a 10 mois", avatarUrl: `https://i.pravatar.cc/48?u=AeroClub78` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -159,7 +153,7 @@ export default function LesMureauxPage() {
                 Les Mureaux est une ville en pleine mutation, mariant son héritage de cité industrielle à une transformation urbaine exemplaire. Déménager dans cet environnement demande une agilité technique capable de s'adapter aussi bien aux résidences basse consommation qu'aux pavillons traditionnels.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous accompagnons ce renouveau. Que vous emménagiez dans un appartement moderne aux abords du parc Molière ou que vous transfériez votre entreprise vers la zone industrielle aérospatiale, nous garantissons une transition fluide.
+                Chez Déménagement du Vexin, nous accompagnons ce renouveau. Appartement près du parc Molière ou transfert vers la zone industrielle : la prestation est préparée selon les accès et le volume.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -269,7 +263,7 @@ export default function LesMureauxPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-mureaux" className="py-20 lg:py-32 bg-slate-50">
@@ -314,13 +308,13 @@ export default function LesMureauxPage() {
                     <span className="text-[#00ad9f]">départ des Mureaux ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la logistique urbaine ou les contraintes d'accès vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine ou les contraintes d'accès vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

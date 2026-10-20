@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Vélizy-Villacoublay (78) | Expert Inovel Parc & Résidences",
-  description: "Déménageur de confiance à Vélizy-Villacoublay (78140). Spécialiste transferts de bureaux Inovel Parc et déménagements particuliers. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Vélizy-Villacoublay (78140). Spécialiste transferts de bureaux Inovel Parc et déménagements particuliers. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-velizy-villacoublay-78140",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Société TechMove", text: "Le transfert de nos bureaux à Inovel Parc a été une réussite totale. Une équipe discrète, rapide et très organisée pour la gestion du parc informatique. Des professionnels de confiance.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=TechMove78` },
-  { id: "fallback-2", name: "Laura et Kevin", text: "Déménagement de notre appartement à Vélizy sans aucun stress. L'équipe a été super efficace malgré l'accès complexe. Ils ont géré les autorisations de stationnement, un vrai plus !", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=LauraK78` },
-  { id: "fallback-3", name: "M. Brunet", text: "Service de qualité, devis respecté et une équipe très pro. Mon installation s'est parfaitement déroulée, avec un soin particulier pour le mobilier fragile. Je recommande.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Brunet78` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -80,7 +74,7 @@ const FAQS = [
   },
   { 
     question: "Quels sont vos délais pour un devis à Vélizy ?", 
-    answer: "Nous intervenons sous 48h pour une visite technique (physique ou en visio). Votre devis détaillé, ferme et définitif vous est ensuite envoyé sous 24 heures ouvrées." 
+    answer: "Nous organisons une visite technique, sur place ou en visio, selon vos disponibilités. Votre devis détaillé est ensuite préparé après étude de la demande."
   }
 ];
 
@@ -163,7 +157,7 @@ export default function VelizyVillacoublayPage() {
                   Vélizy-Villacoublay est un territoire stratégique unique, combinant l'hyper-dynamisme du pôle d'affaires Inovel Parc et un cadre de vie résidentiel recherché. Déménager dans cet environnement exige une logistique capable de s'adapter aux protocoles de sécurité des grands sièges sociaux comme aux accès des résidences privées.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque spécificité de la ville. Que vous transfériez votre entreprise ou que vous emménagiez dans un appartement moderne, nous vous garantissons une transition fluide, hautement sécurisée et d'une ponctualité absolue.
+                  Chez <strong>Déménagement du Vexin</strong>, nous adaptons le planning, les accès et les protections aux transferts d'entreprise comme aux déménagements résidentiels.
                 </p>
               </div>
               
@@ -275,7 +269,7 @@ export default function VelizyVillacoublayPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-velizy" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function VelizyVillacoublayPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique tertiaire ou les accès complexes freiner votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique tertiaire ou les accès complexes freiner votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

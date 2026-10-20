@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -26,17 +25,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Villiers-le-Bel (95) | Expert Local & Devis Gratuit",
-  description: "Déménageur expert à Villiers-le-Bel (95400). Des quartiers pavillonnaires aux grands ensembles, nous gérons votre déménagement de A à Z. Devis en 24h.",
+  description: "Déménageur à Villiers-le-Bel (95400) pour pavillons et appartements : étude des accès, stationnement et prestations adaptées. Demandez un devis.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-villiers-le-bel-95400",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Fernandes", text: "Déménagement de notre pavillon à Villiers-le-Bel géré avec beaucoup de professionnalisme. L'équipe a été efficace et très soigneuse. Un grand merci !", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=Fernandes95` },
-  { id: "fallback-2", name: "Sandra M.", text: "Très bonne expérience pour mon appartement. Le devis était clair et l'équipe super sympa et rapide. Le monte-meubles a été un vrai plus. Je recommande leurs services.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=SandraM95` },
-  { id: "fallback-3", name: "M. Traoré", text: "Service impeccable. Ils ont trouvé une solution pour le stationnement difficile et tout s'est déroulé sans accroc. Une entreprise locale très sérieuse.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Traore95VLB` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -52,7 +46,7 @@ const WHY_US_ITEMS = [
   {
     icon: Truck,
     title: "Logistique & Ponctualité",
-    description: "Nous maîtrisons le trafic local du 95 et les itinéraires pour assurer une ponctualité exemplaire le jour de votre déménagement."
+    description: "Nous préparons les itinéraires en fonction des accès et des conditions de circulation locales."
   },
   {
     icon: ShieldCheck,
@@ -63,9 +57,9 @@ const WHY_US_ITEMS = [
 
 const FAQS = [
   { question: "Comment se déroule un déménagement dans un grand immeuble à Villiers-le-Bel ?", answer: "C'est une situation que nous gérons très régulièrement. La clé est une bonne préparation : nous réalisons une visite technique pour évaluer les accès, les ascenseurs, et si besoin, nous mettons en place un monte-meubles par la fenêtre ou le balcon." },
-  { question: "Le stationnement est-il compliqué pour un déménagement à Villiers-le-Bel ?", answer: "Dans certains secteurs, cela peut être un enjeu. C'est pourquoi nous incluons la gestion des autorisations de stationnement dans nos prestations (formules Standard et Prestige). Nous nous occupons des démarches pour garantir un emplacement au camion." },
+  { question: "Le stationnement est-il compliqué pour un déménagement à Villiers-le-Bel ?", answer: "Dans certains secteurs, cela peut être un enjeu. Selon la formule retenue, nous pouvons accompagner la demande d'autorisation, dont l'accord et l'emplacement dépendent de la commune." },
   { question: "Quelles sont vos formules pour un petit budget ?", answer: "Nous proposons notre formule 'Économique'. Elle est idéale pour maîtriser votre budget : vous vous chargez d'emballer vos cartons en amont, et nos professionnels assurent la manutention lourde, la protection du mobilier et le transport sécurisé." },
-  { question: "Comment protégez-vous les parties communes de mon immeuble ?", answer: "Le respect des lieux est une priorité absolue. Nos équipes protègent systématiquement les zones de passage : ascenseurs (capitonnage), couloirs, cages d'escalier, pour ne laisser aucune trace et éviter tout conflit avec votre syndic de copropriété." }
+  { question: "Comment protégez-vous les parties communes de mon immeuble ?", answer: "Nous prévoyons des protections adaptées aux zones de passage, notamment les ascenseurs, couloirs et cages d'escalier, selon la configuration constatée lors de la visite." }
 ];
 
 const faqStructuredData = {
@@ -259,7 +253,7 @@ export default function VilliersLeBelPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-villiers" className="py-24 bg-slate-50">
@@ -312,7 +306,7 @@ export default function VilliersLeBelPage() {
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

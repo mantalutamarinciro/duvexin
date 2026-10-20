@@ -48,7 +48,7 @@ const CASE_STUDIES = [
     challenges: [
       "Emballage sur-mesure (caisserie bois) pour œuvres d'art fragiles.",
       "Mise en place d'un monte-meubles sur terrain escarpé et arboré.",
-      "Discrétion absolue et protocole de confidentialité."
+      "Discrétion professionnelle et protocole de confidentialité."
     ]
   },
   {

@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,18 +27,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Paris → Rennes (35) | Devis Gratuit & Groupage | 24h",
-  description: "Déménageur expert sur l'axe Paris-Rennes. Liaisons hebdomadaires, solutions de groupage et expertise centre-ville. Votre devis gratuit sous 24h.",
+  title: "Déménagement Paris → Rennes (35) | Devis Gratuit & Groupage",
+  description: "Déménageur expert sur l'axe Paris-Rennes. Liaisons hebdomadaires, solutions de groupage et expertise centre-ville. Votre devis gratuit personnalisé.",
   alternates: {
-    canonical: "https://demenagementduvexin.fr/demenagement-idf-rennes",
+    canonical: "https://demenagementduvexin.fr/demenagement-ile-de-france-rennes",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Le Drian", text: "Le déménagement de notre famille d'Antony à Rennes a été une vraie réussite. L'équipe a été d'un grand professionnalisme, à l'écoute et très efficace malgré les accès difficiles de notre rue rennaise. Nous recommandons !", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=LeDrian35` },
-  { id: "fallback-2", name: "Camille J.", text: "Service impeccable pour mon déménagement étudiant. La formule groupage était une solution économique parfaite et tout est arrivé à Rennes en parfait état. Un grand merci pour votre réactivité !", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=CamilleJ35` },
-  { id: "fallback-3", name: "Société Ouest-Innov", text: "Le transfert de notre agence de La Défense vers la zone Atalante a été mené de main de maître. Une équipe fiable, organisée et respectueuse du matériel informatique.", rating: 5, createTime: "il y a 10 mois", avatarUrl: `https://i.pravatar.cc/48?u=OuestInnov35` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -49,7 +43,7 @@ const WHY_US_ITEMS = [
   },
   {
     icon: Timer,
-    title: "Déménagement en 24h",
+    title: "Planning personnalisé",
     description: "Pour les volumes courants, nous réalisons le chargement le matin en IDF et la livraison l'après-midi à Rennes."
   },
   {
@@ -139,7 +133,7 @@ export default function RennesPage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="rounded-full h-14 px-8 text-base bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
                 <Link href="/demande-devis">
-                  Obtenir mon devis en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                  Obtenir mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -159,7 +153,7 @@ export default function RennesPage() {
                 S'installer à Rennes est un projet attractif qui marque un nouveau départ vers une métropole dynamique. Pour que cette transition se fasse sans stress, la maîtrise de la logistique longue distance est impérative. Les 350 km séparant l'IDF de la Bretagne exigent une planification millimétrée.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons les deux extrémités de votre projet : la gestion du stationnement parisien et les accès parfois étroits du centre rennais, des Portes Mordelaises aux résidences modernes de Beauregard ou du Mail François-Mitterrand.
+                Chez Déménagement du Vexin, nous maîtrisons les deux extrémités de votre projet : la gestion du stationnement parisien et les accès parfois étroits du centre rennais, des Portes Mordelaises aux résidences modernes de Beauregard ou du Mail François-Mitterrand.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -269,7 +263,7 @@ export default function RennesPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-rennes" className="py-20 lg:py-32 bg-slate-50">
@@ -314,13 +308,13 @@ export default function RennesPage() {
                     <span className="text-[#00ad9f]">vie à Rennes ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la distance compliquer votre projet. Contactez nos experts pour une étude personnalisée et recevez un devis gratuit sous 24h.
+                    Ne laissez pas la distance compliquer votre projet. Contactez nos experts pour une étude personnalisée et recevez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

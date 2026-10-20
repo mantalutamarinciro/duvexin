@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,23 +28,18 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Levallois-Perret (92) | Expert local & Devis Gratuit",
-  description: "Déménageur de confiance à Levallois-Perret (92300). Spécialiste des immeubles haussmanniens, accès denses et monte-meubles. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Levallois-Perret (92300). Spécialiste des immeubles haussmanniens, accès denses et monte-meubles. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-levallois-perret-92300",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Lefebvre", text: "Le déménagement de notre appartement à Levallois a été une réussite totale. L'équipe a géré les accès étroits et le monte-meubles avec un professionnalisme impressionnant. Un vrai soulagement !", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Lefebvre92` },
-  { id: "fallback-2", name: "Alexandre P.", text: "Service impeccable et très réactif. Devis clair et équipe ponctuelle. Pour une ville comme Levallois où le stationnement est un enfer, leur organisation a fait la différence.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=AlexandreP92` },
-  { id: "fallback-3", name: "Start-up Connect", text: "Le transfert de nos bureaux s'est fait sans accroc. L'équipe a été discrète et a respecté notre planning serré. Une prestation B2B de grande qualité.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=ConnectLP` },
-];
 
 const WHY_US_ITEMS = [
   {
     icon: MapPin,
     title: "Expertise de Levallois",
-    description: "Rues à sens unique, zones piétonnes ou forte densité : nous maîtrisons chaque spécificité du 92300 pour une ponctualité totale."
+    description: "Rues à sens unique, zones piétonnes ou forte densité : nous maîtrisons chaque spécificité du 92300 pour une planning préparé en amont."
   },
   {
     icon: Building2,
@@ -159,7 +153,7 @@ export default function LevalloisPerretPage() {
                 Levallois-Perret est un territoire d'exigence logistique. Entre les immeubles haussmanniens au charme authentique et les sièges sociaux tertiaires, chaque mètre carré est optimisé. Déménager dans ce contexte ne tolère aucune improvisation.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous avons fait de cette densité notre spécialité. Que vous emménagiez dans un appartement de standing près du Parc de la Planchette ou que vous transfériez vos bureaux, nous planifions chaque détail pour garantir une transition fluide.
+                Chez Déménagement du Vexin, nous avons fait de cette densité notre spécialité. Que vous emménagiez dans un appartement de standing près du Parc de la Planchette ou que vous transfériez vos bureaux, nous planifions chaque détail pour garantir une transition fluide.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -269,7 +263,7 @@ export default function LevalloisPerretPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-levallois" className="py-20 lg:py-32 bg-slate-50">
@@ -314,13 +308,13 @@ export default function LevalloisPerretPage() {
                     <span className="text-[#00ad9f]">départ de Levallois ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la densité urbaine vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la densité urbaine vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

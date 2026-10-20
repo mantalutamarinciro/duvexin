@@ -40,7 +40,7 @@ export function SiteFooter() {
                 Prêt pour votre <span className="text-primary">nouveau départ ?</span>
               </h3>
               <p className="text-lg text-slate-300 font-light">
-                Obtenez une étude personnalisée et gratuite de votre projet sous 24h ouvrées.
+                Obtenez une étude personnalisée et gratuite de votre projet de déménagement.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">

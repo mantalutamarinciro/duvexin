@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,18 +28,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Puteaux (92) | Expert La Défense & Devis Gratuit 24h",
-  description: "Déménageur de confiance à Puteaux (92800). Spécialiste transferts de bureaux à La Défense, accès tours IGH et Vieux Puteaux. Devis gratuit sous 24h.",
+  title: "Déménagement Puteaux (92) | Expert La Défense & Devis Gratuit Personnalisé",
+  description: "Déménageur de confiance à Puteaux (92800). Spécialiste transferts de bureaux à La Défense, accès tours IGH et Vieux Puteaux. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-puteaux-92800",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Société DataSys", text: "Le transfert de nos serveurs et bureaux à Puteaux a été une opération critique, parfaitement maîtrisée. Leur expertise des protocoles de sécurité de La Défense est incontestable. Une efficacité redoutable.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=DataSys92` },
-  { id: "fallback-2", name: "Hortense F.", text: "Déménagement de mon appartement sur l'esplanade. L'équipe a été incroyablement professionnelle, gérant les accès monte-charge et les autorisations complexes avec la gestion de la tour. Service premium.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=HortenseF92` },
-  { id: "fallback-3", name: "Julien V.", text: "Excellent service pour mon installation dans le vieux Puteaux. Ils ont su s'adapter aux rues étroites et ont protégé les parties communes avec soin. Je recommande leur sérieux.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=JulienV92` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -80,7 +74,7 @@ const FAQS = [
   },
   { 
     question: "Proposez-vous des prestations spécifiques pour le matériel informatique ?", 
-    answer: "Absolument. Le pôle tertiaire exige une grande rigueur : nous utilisons des bacs de transport scellés pour les archives confidentielles et des emballages antistatiques (bullkraft spécifique, rolls) pour les serveurs et postes de travail, garantissant une sécurité maximale." 
+    answer: "Le pôle tertiaire exige une préparation rigoureuse. Selon les besoins, nous utilisons des bacs pour les archives et des protections adaptées aux serveurs et postes de travail."
   }
 ];
 
@@ -163,7 +157,7 @@ export default function PuteauxPage() {
                   Puteaux offre un environnement urbain et logistique hors norme. Entre la complexité structurelle des tours de La Défense (IGH) et les rues pittoresques de son centre ancien, chaque déménagement exige une expertise technique pointue et une planification sans aucune faille.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous avons fait de cette complexité urbaine notre spécialité. Que vous transfériez votre siège social un week-end ou que vous emménagiez dans une résidence moderne du front de Seine, nous vous garantissons une transition fluide, hautement sécurisée et ponctuelle.
+                  Chez <strong>Déménagement du Vexin</strong>, nous préparons les interventions selon les contraintes urbaines. Transfert de siège social ou emménagement sur le front de Seine, le planning, les accès et les protections sont définis en amont.
                 </p>
               </div>
               
@@ -275,7 +269,7 @@ export default function PuteauxPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-puteaux" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function PuteauxPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine ou les contraintes d'accès aux tours freiner votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine ou les contraintes d'accès aux tours freiner votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

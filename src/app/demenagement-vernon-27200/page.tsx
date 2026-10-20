@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -26,17 +25,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Vernon (27) | Expert Normandie & Devis Gratuit",
-  description: "Votre déménageur expert à Vernon (27200) et Giverny. Logistique adaptée au centre-ville historique et aux bords de Seine. Devis gratuit en 24h.",
+  description: "Votre déménageur expert à Vernon (27200) et Giverny. Logistique adaptée au centre-ville historique et aux bords de Seine. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-vernon-27200",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Roussel", text: "Notre déménagement à Vernon s'est déroulé sans le moindre accroc. L'équipe a été très professionnelle et a pris grand soin de nos affaires. Un grand merci !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Roussel27` },
-  { id: "fallback-2", name: "Marc D.", text: "Très bonne expérience pour mon appartement en centre-ville. Ils ont géré les accès étroits avec une grande facilité. Le monte-meubles a été parfait. Je recommande.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=MarcD27` },
-  { id: "fallback-3", name: "Sophie Lambert", text: "Efficacité, ponctualité et une équipe sympathique. Mon déménagement de Paris vers Vernon a été bien plus simple que je l'imaginais.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Lambert27` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -243,7 +237,7 @@ export default function VernonPage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Formules à la carte</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">De la prestation économique (où vous emballez vos cartons) au service tout confort (100% clé en main).</p>
+                    <p className="text-slate-500 font-light leading-relaxed">De la prestation économique (où vous emballez vos cartons) au service tout confort (clé en main).</p>
                   </div>
                 </li>
               </ul>
@@ -259,7 +253,7 @@ export default function VernonPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-vernon" className="py-24 bg-slate-50">
@@ -312,7 +306,7 @@ export default function VernonPage() {
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

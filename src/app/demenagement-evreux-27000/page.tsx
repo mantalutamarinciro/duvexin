@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,23 +27,18 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Évreux (27) | Votre Agence Locale de Confiance",
-  description: "Déménageur expert basé à Évreux (27000). Service de proximité pour particuliers et entreprises dans l'Eure. Devis gratuit sous 24h et visite à domicile.",
+  description: "Déménageur expert basé à Évreux (27000). Service de proximité pour particuliers et entreprises dans l'Eure. Devis gratuit personnalisé et visite à domicile.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-evreux-27000",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Clotilde Duran", text: "Une équipe très réactive et très professionnelle à Évreux, vraiment rien à dire, du très bon travail ! Les affaires ont été emballées avec le plus grand soin. Nous conseillons les yeux fermés !", rating: 5, createTime: "il y a 2 ans", avatarUrl: `https://i.pravatar.cc/48?u=Clotilde` },
-  { id: "fallback-2", name: "Jean-michel Marot", text: "Déménagement parfaitement réalisé au départ d'Évreux. Professionnel du début jusqu'à la livraison finale. Équipe efficace, rapide et sympathique. Travail de qualité.", rating: 5, createTime: "il y a 2 ans", avatarUrl: `https://i.pravatar.cc/48?u=Jean-michel` },
-  { id: "fallback-3", name: "Robert GALAND", text: "On voit le côté 'familial' sans prestataire ou intérimaire. Sincèrement je suis bluffé par la réactivité de l'agence d'Évreux. Je recommande totalement. MERCI !", rating: 5, createTime: "il y a 19 jours", avatarUrl: `https://i.pravatar.cc/48?u=Robert` },
-];
 
 const WHY_US_ITEMS = [
   {
     icon: MapPin,
     title: "Ancrage Local Total",
-    description: "Basés à Évreux, nous connaissons chaque quartier, du centre historique à Navarre ou Nétreville, pour une logistique sans faille."
+    description: "Basés à Évreux, nous préparons la logistique selon les accès du centre historique, de Navarre ou de Nétreville."
   },
   {
     icon: Users,
@@ -59,26 +53,26 @@ const WHY_US_ITEMS = [
   {
     icon: ShieldCheck,
     title: "Qualité & Réactivité",
-    description: "Un interlocuteur unique dans notre agence locale pour des visites techniques sous 24h et un suivi personnalisé de A à Z."
+    description: "Un interlocuteur unique dans notre agence locale pour des visites techniques dans les meilleurs délais et un suivi personnalisé de A à Z."
   }
 ];
 
 const FAQS = [
   { 
     question: "Quels sont les avantages de passer par votre agence d'Évreux ?", 
-    answer: "La proximité est notre très grande force : nous réalisons des visites techniques gratuites à votre domicile sous 24h, nous pouvons vous livrer vos cartons immédiatement et nous gérons les imprévus avec une flexibilité totale. C'est l'assurance d'un service 'voisin' avec la rigueur d'un grand professionnel." 
+    answer: "La proximité facilite l'organisation : nous pouvons réaliser une visite technique gratuite à votre domicile, préparer la livraison de vos cartons et adapter la logistique aux contraintes identifiées."
   },
   { 
     question: "Comment gérez-vous le stationnement dans le centre d'Évreux ?", 
-    answer: "Nous connaissons parfaitement les règles de la ville. Nous déposons les demandes d'arrêtés municipaux 15 jours avant le déménagement pour réserver l'emplacement exact au pied de votre domicile (et le balisons la veille), garantissant sécurité et rapidité d'exécution." 
+    answer: "Selon l'adresse et les règles municipales applicables, nous pouvons vous accompagner pour anticiper la demande de stationnement et choisir un emplacement adapté au véhicule."
   },
   { 
     question: "Intervenez-vous dans les communes autour d'Évreux ?", 
-    answer: "Oui, nous couvrons quotidiennement toute l'agglomération Évreux Portes de Normandie : Guichainville, Arnières-sur-Iton, Gravigny, Saint-Sébastien-de-Morsent, etc. De manière plus globale, nous sommes votre partenaire numéro 1 dans tout le département de l'Eure." 
+    answer: "Oui, nous intervenons dans l'agglomération Évreux Portes de Normandie, notamment à Guichainville, Arnières-sur-Iton, Gravigny et Saint-Sébastien-de-Morsent, ainsi que dans le reste de l'Eure selon votre projet."
   },
   { 
     question: "Je quitte l'Eure pour une autre région, est-ce possible ?", 
-    answer: "Absolument. Spécialistes du déménagement national, nous organisons votre départ d'Évreux vers n'importe quelle destination en France (Bretagne, Sud, Alpes...) avec des tournées souvent optimisées (groupages) pour vous offrir des tarifs ultra-compétitifs." 
+    answer: "Oui. Nous organisons les déménagements au départ d'Évreux vers la France métropolitaine et pouvons étudier une solution de groupage lorsque le calendrier et le volume s'y prêtent."
   }
 ];
 
@@ -161,7 +155,7 @@ export default function EvreuxPage() {
                   Capitale de l'Eure, Évreux allie un riche patrimoine historique à un véritable dynamisme économique. En tant qu'entreprise implantée localement (avec notre agence dédiée), nous ne sommes pas seulement vos déménageurs : nous sommes littéralement vos voisins.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque spécificité ébroïcienne. Que vous emménagiez dans un appartement du centre-ville historique ou un pavillon dans les quartiers récents de Navarre ou Nétreville, nous vous garantissons une logistique fluide, rapide et parfaitement sécurisée.
+                  Chez <strong>Déménagement du Vexin</strong>, nous adaptons l'organisation aux spécificités ébroïciennes. Appartement du centre historique, pavillon à Navarre ou à Nétreville : les accès, le stationnement et la protection du mobilier sont étudiés avant l'intervention.
                 </p>
               </div>
               
@@ -171,7 +165,7 @@ export default function EvreuxPage() {
                  </div>
                  <div>
                    <h3 className="text-xl font-bold text-slate-900 mb-1">Expertise Ébroïcienne</h3>
-                   <p className="text-slate-500 font-light">Intervention sous 24h pour vos visites techniques et livraison express de cartons.</p>
+                   <p className="text-slate-500 font-light">Intervention dans les meilleurs délais pour vos visites techniques et livraison express de cartons.</p>
                  </div>
               </div>
             </div>
@@ -257,7 +251,7 @@ export default function EvreuxPage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Boxes className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Garde-Meubles Sécurisé à Évreux</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Solution de stockage locale, flexible et 100% sécurisée dans nos entrepôts plombés d'Évreux pour vos périodes de transition.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Solution de stockage locale, flexible et sécurisée dans nos entrepôts plombés d'Évreux pour vos périodes de transition.</p>
                   </div>
                 </li>
               </ul>
@@ -273,7 +267,7 @@ export default function EvreuxPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-evreux" className="py-24 bg-slate-50">
@@ -326,7 +320,7 @@ export default function EvreuxPage() {
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,18 +29,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Trouville-sur-Mer (14) | Expert Côte Fleurie | Devis 24h",
-  description: "Déménageur de confiance à Trouville-sur-Mer (14360). Spécialiste villas Belle Époque, résidences secondaires et mobilier de valeur. Devis gratuit sous 24h.",
+  title: "Déménagement Trouville-sur-Mer (14) | Expert Côte Fleurie | Devis personnalisé",
+  description: "Déménageur de confiance à Trouville-sur-Mer (14360). Spécialiste villas Belle Époque, résidences secondaires et mobilier de valeur. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-trouville-sur-mer-14360",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Gaudin", text: "Notre déménagement dans notre maison des hauteurs de Trouville a été géré à la perfection. L'équipe a su s'adapter aux rues étroites et à l'affluence du mois d'août. Un service irréprochable et très courtois.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Gaudin14` },
-  { id: "fallback-2", name: "H. de la Roche", text: "Excellent service pour ma résidence secondaire. Ils ont su gérer le stationnement sur les quais en pleine saison et le déménagement de mon appartement s'est fait sans une égratignure. Je recommande vivement.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=HdeLaRoche14` },
-  { id: "fallback-3", name: "Restaurant Le Quai", text: "Le transfert de notre matériel de cuisine et du mobilier de salle a été réalisé avec un soin infini. Une équipe de confiance pour les professionnels de la Côte Fleurie.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Quai14` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -62,7 +56,7 @@ const WHY_US_ITEMS = [
   {
     icon: ShieldCheck,
     title: "Proximité Normande",
-    description: "Grâce à notre agence d'Évreux, nous garantissons une réactivité maximale sur toute la Côte Fleurie."
+    description: "Notre implantation à Évreux facilite l'organisation des projets sur la Côte Fleurie."
   }
 ];
 
@@ -81,7 +75,7 @@ const FAQS = [
   },
   { 
     question: "Quel est le délai pour obtenir un devis ?", 
-    answer: "Nous sommes très réactifs. Après notre visite technique (physique ou visio), vous recevez votre devis détaillé et définitif sous 24 heures ouvrées." 
+    answer: "Après une visite technique, sur place ou en visio, nous préparons un devis détaillé qui tient compte du volume, des accès et des prestations demandées."
   }
 ];
 
@@ -161,7 +155,7 @@ export default function TrouvillePage() {
                 Déménager à Trouville-sur-Mer, c'est conjuguer le charme d'un port de pêche séculaire avec l'élégance architecturale du XIXe siècle. Ce cadre exceptionnel impose une rigueur logistique absolue pour manœuvrer dans les ruelles pavées et préserver l'intégrité des villas Belle Époque.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque recoin de la station. Que vous emménagiez dans une villa sur les hauteurs de Bonsecours ou un appartement face au Casino, nous garantissons une transition fluide et discrète.
+                Chez <strong>Déménagement du Vexin</strong>, nous adaptons la préparation aux accès de la station. Villa sur les hauteurs de Bonsecours ou appartement face au Casino, chaque configuration fait l'objet d'une organisation dédiée.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -271,7 +265,7 @@ export default function TrouvillePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-trouville" className="py-20 lg:py-32 bg-slate-50">
@@ -316,13 +310,13 @@ export default function TrouvillePage() {
                     <span className="text-[#00ad9f]">départ de Trouville ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la logistique saisonnière ou les accès complexes freiner votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique saisonnière ou les accès complexes freiner votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/dashboard/quote">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

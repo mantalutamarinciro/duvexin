@@ -62,6 +62,53 @@ test('sitemap includes priority pages, unique URLs and existing public routes', 
   }
 });
 
+test('sitemap covers every indexable static marketing page', () => {
+  const { readdirSync } = require('node:fs');
+  function walk(directory) {
+    return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+      const file = path.join(directory, entry.name);
+      return entry.isDirectory() ? walk(file) : [file];
+    });
+  }
+
+  const sitemapPaths = new Set(load('src/app/sitemap.ts').default()
+    .map(entry => new URL(entry.url).pathname));
+  const appDirectory = path.join(root, 'src/app');
+  const excludedRoute = /^\/(?:dashboard|crew|track|quote|print|login|remerciements)(?:\/|$)/;
+
+  for (const file of walk(appDirectory).filter(file => file.endsWith('page.tsx'))) {
+    const relativeDirectory = path.dirname(path.relative(appDirectory, file));
+    const segments = relativeDirectory.split(path.sep).filter(segment => !/^\(.+\)$/.test(segment));
+    const route = relativeDirectory === '.' || segments.length === 0 ? '/' : `/${segments.join('/')}`;
+    if (route.includes('[') || excludedRoute.test(route)) continue;
+    assert.ok(sitemapPaths.has(route), `${route} is indexable but missing from sitemap`);
+  }
+});
+
+test('literal canonicals are self-referencing and match their public route', () => {
+  const { readdirSync } = require('node:fs');
+  function walk(directory) {
+    return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+      const file = path.join(directory, entry.name);
+      return entry.isDirectory() ? walk(file) : [file];
+    });
+  }
+
+  const appDirectory = path.join(root, 'src/app');
+  for (const file of walk(appDirectory).filter(file => /(?:page|layout)\.tsx$/.test(file))) {
+    const route = path.dirname(path.relative(appDirectory, file)).split(path.sep)
+      .filter(segment => !/^\(.+\)$/.test(segment))
+      .join('/');
+    if (route.includes('[')) continue;
+
+    const source = readFileSync(file, 'utf8');
+    for (const match of source.matchAll(/canonical:\s*["']https:\/\/demenagementduvexin\.fr([^"']*)["']/g)) {
+      const expectedCanonicalPath = route === '.' ? '' : `/${route}`;
+      assert.equal(match[1], expectedCanonicalPath, `${path.relative(root, file)} has a canonical for another URL`);
+    }
+  }
+});
+
 test('legacy local URLs redirect permanently to existing pages without chains', async () => {
   const redirects = await load('next.config.ts').default.redirects();
   for (const [source, destination] of [
@@ -128,6 +175,128 @@ test('review statistics are validated and unknown values are never invented', ()
   for (const [rating, count] of [[0, 0], [4.9, 0], [undefined, 282], [NaN, 282],
     [Infinity, 282], [6, 282], [-1, 282], ['4.9', 282], [4.9, -1], [4.9, 1.5]]) {
     assert.equal(reviewSummary(rating, count), null);
+  }
+});
+
+test('public pages never ship invented fallback testimonials', () => {
+  const { readdirSync } = require('node:fs');
+  function walk(directory) {
+    return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+      const file = path.join(directory, entry.name);
+      return entry.isDirectory() ? walk(file) : [file];
+    });
+  }
+  for (const file of walk(path.join(root, 'src/app')).filter(file => file.endsWith('.tsx'))) {
+    const source = readFileSync(file, 'utf8');
+    assert.doesNotMatch(source, /fallbackTestimonials/, file);
+    assert.doesNotMatch(source, /i\.pravatar\.cc/, file);
+  }
+  const section = readFileSync(path.join(root, 'src/components/testimonials-section.tsx'), 'utf8');
+  assert.match(section, /fetch\("\/api\/reviews"/);
+  assert.match(section, /Les témoignages sont consultables directement sur notre fiche Google/);
+});
+
+test('Val-d’Oise pages avoid unverified turnaround and absolute promises', () => {
+  for (const route of ['demenagement-val-d-oise-95', 'demenagement-argenteuil-95100',
+    'demenagement-bezons-95870', 'demenagement-cergy-95000',
+    'demenagement-cormeilles-en-parisis-95240', 'demenagement-eaubonne-95600',
+    'demenagement-enghien-les-bains-95880', 'demenagement-ermont-95120',
+    'demenagement-franconville-95130', 'demenagement-garges-les-gonesse-95140',
+    'demenagement-goussainville-95190', 'demenagement-herblay-sur-seine-95220',
+    'demenagement-lisle-adam-95290', 'demenagement-mery-sur-oise-95540',
+    'demenagement-montmorency-95160', 'demenagement-pontoise-95300',
+    'demenagement-saint-ouen-l-aumone-95310',
+    'demenagement-sarcelles-95200', 'demenagement-taverny-95150',
+    'demenagement-villiers-le-bel-95400']) {
+    const source = readFileSync(path.join(root, 'src/app', route, 'page.tsx'), 'utf8');
+    assert.doesNotMatch(source, /24h|24 heures|Marne Transdem/i, route);
+    assert.doesNotMatch(source, /priorité absolue|ponctualité (?:absolue|garantie)|protégeant ainsi absolument|sérénité absolue|continuité totale|réactivité imbattable|sans aucune faille|parfaite maîtrise/i, route);
+  }
+});
+
+test('audited Eure, Oise, Yvelines and Normandy pages avoid unverified commercial promises', () => {
+  const routes = [
+    'demenagement-eure-27', 'demenagement-bernay-27300',
+    'demenagement-evreux-27000', 'demenagement-gaillon-27600',
+    'demenagement-gisors-27140', 'demenagement-les-andelys-27700',
+    'demenagement-louviers-27400', 'demenagement-pont-audemer-27500',
+    'demenagement-val-de-reuil-27100',
+    'demenagement-verneuil-davre-et-diton-27130', 'demenagement-vernon-27200',
+    'demenagement-yvelines-78', 'demenagement-conflans-sainte-honorine-78700',
+    'demenagement-le-chesnay-rocquencourt-78150', 'demenagement-les-mureaux-78130',
+    'demenagement-mantes-la-jolie-78200',
+    'demenagement-montigny-le-bretonneux-78180', 'demenagement-plaisir-78370',
+    'demenagement-poissy-78300', 'demenagement-rambouillet-78120',
+    'demenagement-saint-germain-en-laye-78100', 'demenagement-sartrouville-78500',
+    'demenagement-velizy-villacoublay-78140', 'demenagement-versailles-78000',
+    'demenagement-calvados-14', 'demenagement-caen-14000',
+    'demenagement-bayeux-14400', 'demenagement-deauville-14800',
+    'demenagement-falaise-14700', 'demenagement-herouville-saint-clair-14200',
+    'demenagement-honfleur-14600', 'demenagement-ifs-14123',
+    'demenagement-lisieux-14100', 'demenagement-mondeville-14200',
+    'demenagement-ouistreham-14150', 'demenagement-trouville-sur-mer-14360',
+    'demenagement-vire-14500', 'demenagement-orne-61',
+    'demenagement-seine-maritime-76', 'demenagement-du-vexin-evreux',
+    'demenagement-paris-75', 'demenagement-hauts-de-seine-92',
+    'demenagement-antony-92160', 'demenagement-asnieres-sur-seine-92600',
+    'demenagement-boulogne-billancourt-92100', 'demenagement-clichy-92110',
+    'demenagement-colombes-92700', 'demenagement-courbevoie-92400',
+    'demenagement-issy-les-moulineaux-92130', 'demenagement-levallois-perret-92300',
+    'demenagement-nanterre-92000', 'demenagement-neuilly-sur-seine-92200',
+    'demenagement-puteaux-92800', 'demenagement-rueil-malmaison-92500',
+    'demenagement-val-de-marne-94', 'demenagement-seine-saint-denis-93',
+    'demenagement-essonne-91', 'demenagement-seine-et-marne-77',
+    'demenagement-alfortville-94140', 'demenagement-arcueil-94110',
+    'demenagement-cachan-94230', 'demenagement-champigny-sur-marne-94500',
+    'demenagement-charenton-le-pont-94220', 'demenagement-choisy-le-roi-94600',
+    'demenagement-creteil-94000', 'demenagement-fontenay-sous-bois-94120',
+    'demenagement-ivry-sur-seine-94200', 'demenagement-le-perreux-sur-marne-94170',
+    'demenagement-lhay-les-roses-94240', 'demenagement-maisons-alfort-94700',
+    'demenagement-nogent-sur-marne-94130', 'demenagement-saint-mande-94220',
+    'demenagement-saint-maur-des-fosses-94100', 'demenagement-villejuif-94800',
+    'demenagement-vincennes-94300', 'demenagement-vitry-sur-seine-94400',
+  ];
+  const forbidden = /24h|24 heures|48h|Marne Transdem|protection absolue|ponctualité totale|partenaire numéro 1|réactivité totale|réactivité maximale|extrêmement ponctuelle|sans accroc|sans faille|fluidité exemplaire|discrétion absolue|sécurité maximale|100% (?:sécurisé|sécurisée|clé en main|démarches|villes|salarié|salariée)/i;
+  for (const route of routes) {
+    const source = readFileSync(path.join(root, 'src/app', route, 'page.tsx'), 'utf8');
+    assert.doesNotMatch(source, forbidden, route);
+  }
+  const oise = readFileSync(path.join(root, 'src/lib/oise-locations.ts'), 'utf8');
+  assert.doesNotMatch(oise, forbidden);
+});
+
+test('long-distance corridors and core service pages avoid fixed turnaround promises', () => {
+  for (const route of [
+    'demenagement-ile-de-france-bordeaux', 'demenagement-ile-de-france-lille',
+    'demenagement-ile-de-france-lyon', 'demenagement-ile-de-france-marseille',
+    'demenagement-ile-de-france-nantes', 'demenagement-ile-de-france-nice',
+    'demenagement-ile-de-france-rennes', 'demenagement-ile-de-france-strasbourg',
+    'demenagement-ile-de-france-toulouse', 'demenagement-national',
+    'demenagement-international', 'demenagement-particuliers',
+    'demenagement-entreprise-bureau', 'demenagement-garde-meubles',
+    'demenagement-oeuvres-art', 'services', 'devis-demenagement',
+    'demande-devis', 'tarif-demenagement',
+    'demenagement-france-allemagne', 'demenagement-france-andorre',
+    'demenagement-france-belgique', 'demenagement-france-espagne',
+    'demenagement-france-irlande', 'demenagement-france-italie',
+    'demenagement-france-luxembourg', 'demenagement-france-monaco',
+    'demenagement-france-pays-bas', 'demenagement-france-portugal',
+    'demenagement-france-royaume-uni', 'demenagement-france-suisse',
+  ]) {
+    const source = readFileSync(path.join(root, 'src/app', route, 'page.tsx'), 'utf8');
+    assert.doesNotMatch(source, /24h|24 heures|48h|72h|Marne Transdem|sans faille|fiabilité absolue|discrétion absolue|efficacité absolue|sécurité maximale|100% sécurisée|continuité d'activité garantie/i, route);
+  }
+});
+
+test('shared conversion surfaces do not promise an unverified 24-hour turnaround', () => {
+  for (const file of [
+    'src/components/site-header.tsx', 'src/components/site-footer.tsx',
+    'src/components/price-estimator.tsx', 'src/app/remerciements/page.tsx',
+    'src/app/zones-intervention/page.tsx',
+    'src/app/blog/5-astuces-pour-un-demenagement-sans-stress/page.tsx',
+  ]) {
+    const source = readFileSync(path.join(root, file), 'utf8');
+    assert.doesNotMatch(source, /(?:devis|réponse|étude|chiffrage)[^\n]{0,40}(?:24h|24 heures)/i, file);
   }
 });
 

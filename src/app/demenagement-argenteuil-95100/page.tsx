@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -27,17 +26,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Argenteuil (95) | Expert Local & Devis Gratuit",
-  description: "Déménageur de confiance à Argenteuil (95100). Du Val d'Argent aux Coteaux, nous gérons votre déménagement en zone dense avec soin. Devis gratuit en 24h.",
+  description: "Déménageur de confiance à Argenteuil (95100). Du Val d'Argent aux Coteaux, nous gérons votre déménagement en zone dense avec soin. Devis gratuit.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-argenteuil-95100",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Dubois", text: "Déménagement très bien géré à Argenteuil. L'équipe a été très professionnelle et efficace, malgré les difficultés de circulation. Un grand bravo !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dubois95` },
-  { id: "fallback-2", name: "Sophie G.", text: "Un service client à l'écoute et une équipe de déménageurs au top pour mon appartement en centre-ville. Je recommande vivement.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieG95A` },
-  { id: "fallback-3", name: "Marc T.", text: "Devis clair, équipe ponctuelle et matériel de qualité. Mon déménagement s'est déroulé sans stress grâce à leur excellente organisation.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MarcT95A` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -53,7 +47,7 @@ const WHY_US_ITEMS = [
   {
     icon: Route,
     title: "Accès A15 / A86",
-    description: "Nous optimisons nos trajets via les grands axes pour garantir une ponctualité exemplaire dans la ville la plus peuplée du 95."
+    description: "Nous préparons les trajets en tenant compte des grands axes, des horaires et des conditions de circulation annoncées."
   },
   {
     icon: ShieldCheck,
@@ -63,7 +57,7 @@ const WHY_US_ITEMS = [
 ];
 
 const FAQS = [
-  { question: "Le stationnement est-il compliqué pour un déménagement à Argenteuil ?", answer: "Le stationnement peut être un défi à Argenteuil. C'est pourquoi nous prenons en charge la demande d'arrêté municipal auprès de la mairie bien en amont pour vous réserver un emplacement exclusif le jour J." },
+  { question: "Le stationnement est-il compliqué pour un déménagement à Argenteuil ?", answer: "Le stationnement peut être un défi à Argenteuil. Nous pouvons anticiper avec vous la demande d'autorisation municipale nécessaire, sous réserve de l'accord de la commune." },
   { question: "Déménagez-vous les appartements dans les grands ensembles ?", answer: "Oui, c'est notre quotidien. La clé est une visite technique pour évaluer l'accès des camions, la résistance des ascenseurs ou la nécessité d'un monte-meubles extérieur pour les étages élevés." },
   { question: "Quelles sont vos formules pour un petit budget ?", answer: "Nous proposons la formule 'Économique'. Elle est idéale pour maîtriser vos coûts : vous emballez vos cartons, et nos professionnels assurent la manutention lourde, le calage en camion et le transport sécurisé." },
   { question: "Comment protégez-vous les parties communes de mon immeuble ?", answer: "Nous protégeons systématiquement les zones de passage (ascenseurs, sols, couloirs) avec des tapis et protections adaptées pour éviter toute dégradation et respecter scrupuleusement le règlement de votre copropriété." }
@@ -260,7 +254,7 @@ export default function ArgenteuilPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-argenteuil" className="py-24 bg-slate-50">
@@ -313,7 +307,7 @@ export default function ArgenteuilPage() {
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

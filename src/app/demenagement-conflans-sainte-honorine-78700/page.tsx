@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,17 +28,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Conflans-Sainte-Honorine (78) | Expert Local & Devis Gratuit",
-  description: "Déménageur de confiance à Conflans (78700). Spécialiste des quais de Seine, du centre ancien et des hauts de Conflans. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Conflans (78700). Spécialiste des quais de Seine, du centre ancien et des hauts de Conflans. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-conflans-sainte-honorine-78700",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Bernard", text: "Notre déménagement à Conflans a été une vraie réussite. L'équipe a été très professionnelle et a su s'adapter aux accès parfois étroits du centre historique. Un grand merci !", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Bernard78` },
-  { id: "fallback-2", name: "Nathalie D.", text: "Un service de grande qualité. Devis clair, équipe ponctuelle et matériel adapté. Déménager près des quais de Seine a été bien plus simple que je ne l'imaginais.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=NathalieD78` },
-  { id: "fallback-3", name: "Marc T.", text: "Efficacité et bonne humeur, je recommande Déménagement du Vexin pour tout projet à Conflans. Des vrais pros qui connaissent le 78 !", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MarcT78` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -200,7 +194,7 @@ export default function ConflansPage() {
               Le bon choix pour le 78
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Une connaissance millimétrée du terrain pour un service ponctuel, réactif et sans faille.
+              Une préparation adaptée aux accès urbains et aux quais de Conflans-Sainte-Honorine.
             </p>
           </div>
 
@@ -274,7 +268,7 @@ export default function ConflansPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-conflans" className="py-24 bg-slate-50">
@@ -321,13 +315,13 @@ export default function ConflansPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique au hasard dans cette ville de caractère. Contactez nos équipes pour une visite technique gratuite et obtenez un devis sous 24h.
+                    Ne laissez pas la logistique au hasard dans cette ville de caractère. Contactez nos équipes pour une visite technique gratuite et obtenez un devis dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

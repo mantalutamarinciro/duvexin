@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -28,17 +27,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Hérouville-Saint-Clair (14) | Expert local & Devis Gratuit",
-  description: "Déménageur de confiance à Hérouville-Saint-Clair (14200). Spécialiste de l'agglomération de Caen : résidences modernes, pavillons et bureaux. Devis gratuit en 24h.",
+  description: "Déménageur de confiance à Hérouville-Saint-Clair (14200). Spécialiste de l'agglomération de Caen : résidences modernes, pavillons et bureaux. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-herouville-saint-clair-14200",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Leconte", text: "Déménagement de notre appartement à Hérouville parfaitement géré. L'équipe a été efficace, ponctuelle et très professionnelle malgré l'accès complexe au parking. Nous les recommandons sans hésiter.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=Leconte14` },
-  { id: "fallback-2", name: "Marc D.", text: "Très bonne expérience pour mon emménagement dans le Calvados. Devis clair et service impeccable. Un déménagement sans stress, même avec un grand volume de livres. Merci !", rating: 5, createTime: "il y a 10 mois", avatarUrl: `https://i.pravatar.cc/48?u=MarcD14H` },
-  { id: "fallback-3", name: "Société Innova", text: "Le transfert de nos bureaux à Hérouville a été mené avec une rigueur exemplaire. Une équipe qui connaît bien le secteur, les zones d'activités et leurs accès.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Innova14` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -273,7 +267,7 @@ export default function HerouvillePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-herouville" className="py-24 bg-slate-50">
@@ -320,13 +314,13 @@ export default function HerouvillePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine ou les accès en immeuble vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis ferme sous 24h.
+                    Ne laissez pas la logistique urbaine ou les accès en immeuble vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis ferme dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

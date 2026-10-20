@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,11 +29,6 @@ import {
   Navigation
 } from "lucide-react";
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille de Saint-Albin", text: "Déménagement de Neuilly vers Monaco parfaitement orchestré. L'équipe a géré l'accès complexe à la tour avec une discrétion et une efficacité remarquables. Un service à la hauteur du prestige de la Principauté.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=StAlbin` },
-  { id: "fallback-2", name: "Jean-Christophe M.", text: "Excellente prestation pour mon installation à Fontvieille. Le monte-meubles a été installé dans un espace très réduit avec une maîtrise technique impressionnante. Devis respecté et équipe très polie.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=JCMonaco` },
-  { id: "fallback-3", name: "Cabinet Finance-MC", text: "Le transfert de nos bureaux vers le quartier de Monte-Carlo a été mené avec une rigueur et une confidentialité totales. Un partenaire de confiance pour les entreprises exigeantes.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=FinanceMC` },
-];
 
 const MONACO_DISTRICTS = [
   { name: "Monte-Carlo", desc: "Le cœur battant, ses résidences de luxe et ses accès prestigieux." },
@@ -53,7 +47,7 @@ const WHY_US_ITEMS = [
   },
   {
     icon: ShieldAlert,
-    title: "Discrétion Absolue",
+    title: "Discrétion professionnelle",
     description: "Nos équipes sont formées pour intervenir avec la plus grande réserve, respectant l'intimité des résidences les plus exclusives."
   },
   {
@@ -138,7 +132,7 @@ export default function MonacoPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              L'excellence logistique pour votre installation en Principauté. Discrétion absolue, soin infini et maîtrise totale des contraintes urbaines de Monaco.
+              Une logistique adaptée à votre installation en Principauté, avec une attention particulière aux accès, aux monte-charges et au mobilier fragile.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -165,7 +159,7 @@ export default function MonacoPage() {
                   S'installer à Monaco est un projet exclusif qui demande une rigueur logistique et un niveau de service irréprochables. La verticalité de la ville, ses accès souvent confinés et la réglementation très stricte de circulation imposent de faire appel à un déménageur habitué aux plus hauts standards.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous traitons chaque transfert vers Monaco comme une opération de précision. De la coordination avec les conciergeries des tours les plus prestigieuses à la gestion minutieuse des accès quais et monte-charges, nous vous garantissons une transition d'une discrétion et d'une efficacité absolues.
+                  Chez <strong>Déménagement du Vexin</strong>, nous préparons les transferts vers Monaco avec attention. La coordination avec les conciergeries, les quais et les monte-charges est intégrée à l'étude des accès.
                 </p>
               </div>
               
@@ -304,7 +298,7 @@ export default function MonacoPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-mc" className="py-24 bg-slate-50">
@@ -351,13 +345,13 @@ export default function MonacoPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Confiez votre projet aux experts de la logistique de prestige. Contactez nos conseillers pour une étude personnalisée et recevez un devis ferme sous 24h.
+                    Confiez votre projet aux experts de la logistique de prestige. Contactez nos conseillers pour une étude personnalisée et recevez un devis ferme après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis Prestige en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis Prestige <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

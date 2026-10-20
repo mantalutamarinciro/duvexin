@@ -7,20 +7,19 @@ import { LocalMovingGuide } from "@/components/local-moving-guide";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
-import { 
-  CheckCircle2, 
-  MapPin, 
-  ShieldCheck, 
-  Users, 
-  Building, 
-  Truck, 
+import {
+  CheckCircle2,
+  MapPin,
+  ShieldCheck,
+  Users,
+  Building,
+  Truck,
   GraduationCap,
-  ArrowRight, 
-  ChevronRight, 
+  ArrowRight,
+  ChevronRight,
   Map,
   Briefcase,
   Home
@@ -29,17 +28,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Cergy (95) | Étudiants, Particuliers & Pros | Devis Gratuit",
-  description: "Déménageur expert à Cergy (95000). Spécialiste de l'agglomération de Cergy-Pontoise : offres étudiants ESSEC/CY, transferts de bureaux et pavillons. Devis en 24h.",
+  description: "Déménageur à Cergy (95000) pour étudiants, particuliers et entreprises : petits volumes, pavillons et transferts de bureaux. Demandez un devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-cergy-95000",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Lefevre", text: "Déménagement de notre maison dans un des villages de Cergy. L'équipe a été très professionnelle, efficace et a su s'adapter à la configuration des lieux. Nous recommandons !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Lefevre95` },
-  { id: "fallback-2", name: "Mathieu, étudiant ESSEC", text: "Service impeccable pour mon studio à Cergy-Port. La formule économique était parfaite et l'équipe a été rapide et très sympa. Idéal pour les étudiants.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=MathieuE` },
-  { id: "fallback-3", name: "Entreprise Innov+", text: "Le transfert de nos bureaux à Cergy-Préfecture a été géré de manière très professionnelle. Une planification rigoureuse et une exécution sans faille.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Innov95` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -65,21 +59,21 @@ const WHY_US_ITEMS = [
 ];
 
 const FAQS = [
-  { 
-    question: "Je suis étudiant à Cergy, proposez-vous des tarifs spécifiques ?", 
-    answer: "Oui, nous proposons une formule 'Économique' idéale pour les studios étudiants. Vous préparez vos cartons, et nos déménageurs professionnels s'occupent du mobilier lourd, de la protection et du transport. Nous proposons aussi des solutions de groupage pour réduire fortement les frais si plusieurs étudiants déménagent simultanément vers le même secteur." 
+  {
+    question: "Je suis étudiant à Cergy, proposez-vous des tarifs spécifiques ?",
+    answer: "Oui, nous proposons une formule 'Économique' idéale pour les studios étudiants. Vous préparez vos cartons, et nos déménageurs professionnels s'occupent du mobilier lourd, de la protection et du transport. Nous proposons aussi des solutions de groupage pour réduire fortement les frais si plusieurs étudiants déménagent simultanément vers le même secteur."
   },
-  { 
-    question: "Comment se déroule un déménagement dans le Grand Centre de Cergy ?", 
-    answer: "C'est une zone très dense avec beaucoup de bureaux, de commerces et de résidences. Nous planifions l'intervention bien en amont avec les autorisations de voirie. Pour les étages sans ascenseur ou les accès difficiles, nous déployons quasi systématiquement un monte-meubles extérieur sécurisé." 
+  {
+    question: "Comment se déroule un déménagement dans le Grand Centre de Cergy ?",
+    answer: "C'est une zone très dense avec beaucoup de bureaux, de commerces et de résidences. Nous planifions l'intervention bien en amont avec les autorisations de voirie. Pour les étages sans ascenseur ou les accès difficiles, nous déployons quasi systématiquement un monte-meubles extérieur sécurisé."
   },
-  { 
-    question: "Déménagez-vous les entreprises du parc Saint-Christophe ?", 
-    answer: "Absolument. Nous avons une offre dédiée au transfert de bureaux, serveurs informatiques et archives. Nous intervenons si nécessaire le week-end ou en horaires décalés (nuit) pour garantir la continuité totale de votre activité économique." 
+  {
+    question: "Déménagez-vous les entreprises du parc Saint-Christophe ?",
+    answer: "Nous proposons une organisation adaptée au transfert de bureaux, de matériel informatique et d'archives. Les modalités et horaires sont définis avec l'entreprise afin de limiter l'interruption de son activité."
   },
-  { 
-    question: "Comment protégez-vous mes écrans et objets fragiles ?", 
-    answer: "La protection est notre priorité absolue. Nous utilisons des couvertures professionnelles épaisses, des housses matelassées pour la literie et des cartons renforcés (ou bullkraft) pour les écrans PC, la vaisselle et les objets de valeur." 
+  {
+    question: "Comment protégez-vous mes écrans et objets fragiles ?",
+    answer: "Nous utilisons des couvertures professionnelles, des housses adaptées à la literie et des emballages renforcés pour les écrans, la vaisselle et les objets fragiles."
   }
 ];
 
@@ -97,10 +91,10 @@ export default function CergyPage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
       <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
-      
+
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
-        <Image 
+        <Image
           src="/images/entete-pages.webp"
           alt="Déménageur professionnel préparant une intervention"
           fill
@@ -109,9 +103,9 @@ export default function CergyPage() {
           className="object-cover opacity-30 mix-blend-luminosity grayscale-[20%] scale-105 animate-in fade-in duration-1000"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19] via-[#0b0f19]/80 to-transparent" />
-        
+
         <div className="container relative z-10 mx-auto px-4 md:px-6">
-          
+
           {/* Fil d'Ariane Intégré au Hero */}
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
@@ -126,18 +120,18 @@ export default function CergyPage() {
               <Map className="h-4 w-4" />
               Cœur de l'Agglomération 95
             </div>
-            
+
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
               Votre déménagement <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
                 à Cergy-Pontoise.
               </span>
             </h1>
-            
+
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              La solution logistique experte pour les étudiants, les familles et les entreprises de Cergy. Une maîtrise parfaite du terrain pour une transition sans faille.
+              Une solution logistique pour les étudiants, les familles et les entreprises de Cergy, adaptée aux accès et au volume.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
                 <Link href="/demande-devis">
@@ -165,7 +159,7 @@ export default function CergyPage() {
                   Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque recoin de l'agglomération. Que vous rejoigniez le campus, emménagiez dans un pavillon familial ou transfériez un plateau de bureaux entier, nous vous garantissons une organisation sans stress, du stationnement à la remise des clés.
                 </p>
               </div>
-              
+
               <div className="pt-6 flex items-start gap-5">
                  <div className="h-16 w-16 rounded-2xl bg-teal-50 flex items-center justify-center shrink-0 border border-teal-100">
                     <GraduationCap className="h-8 w-8 text-[#00ad9f]" />
@@ -176,7 +170,7 @@ export default function CergyPage() {
                  </div>
               </div>
             </div>
-            
+
             <div className="relative group">
               <div className="absolute -inset-4 bg-slate-100 rounded-[3rem] rotate-3 transform-gpu -z-10 transition-transform duration-700 group-hover:-rotate-1" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
@@ -222,7 +216,7 @@ export default function CergyPage() {
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            
+
             <div className="order-2 lg:order-1 relative group">
               <div className="absolute inset-0 bg-[#00ad9f] transform -translate-x-4 translate-y-4 rounded-[2.5rem] opacity-10 -z-10 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0" />
               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
@@ -274,7 +268,7 @@ export default function CergyPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       <LocalMovingGuide city="cergy" />
 
@@ -287,12 +281,12 @@ export default function CergyPage() {
             </h2>
             <p className="text-lg text-slate-500 font-light">Nos réponses pour préparer votre installation réussie dans le 95.</p>
           </div>
-          
+
           <Accordion type="single" collapsible className="w-full space-y-4">
             {FAQS.map((item, i) => (
-              <AccordionItem 
-                value={`item-${i}`} 
-                key={i} 
+              <AccordionItem
+                value={`item-${i}`}
+                key={i}
                 className="bg-white border border-slate-200 rounded-2xl px-4 data-[state=open]:border-[#00ad9f]/40 data-[state=open]:shadow-md transition-all duration-300"
               >
                 <AccordionTrigger className="text-lg font-bold text-slate-900 py-6 px-4 hover:no-underline hover:text-[#00ad9f] transition-colors text-left">
@@ -311,10 +305,10 @@ export default function CergyPage() {
       <section className="py-24 bg-white">
          <div className="container mx-auto px-4 md:px-6">
             <div className="relative rounded-[4rem] bg-[#0f172a] p-12 md:p-24 text-center overflow-hidden shadow-2xl isolate">
-               
+
                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00ad9f]/20 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[100px] -z-10 -translate-x-1/3 translate-y-1/3 pointer-events-none" />
-               
+
                <div className="relative z-10 space-y-8">
                  <h2 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-tight">
                     On organise votre <br className="hidden md:block"/>
@@ -323,9 +317,9 @@ export default function CergyPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique au hasard. Contactez nos équipes pour une visite technique et obtenez un devis gratuit en 24h.
+                    Ne laissez pas la logistique au hasard. Contactez nos équipes pour une visite technique et obtenez un devis gratuit.
                  </p>
-                 
+
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">

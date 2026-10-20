@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -32,11 +31,6 @@ export const metadata: Metadata = {
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Dubois", text: "Déménagement de notre appartement à Vitry parfaitement orchestré. L'équipe a géré les accès à l'immeuble avec une grande efficacité. Un grand merci !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dubois94` },
-  { id: "fallback-2", name: "Marc T.", text: "Très bonne expérience. De la prise de contact au jour J, tout a été fluide et sans stress. Une entreprise sérieuse et fiable pour un déménagement à Vitry.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=MarcT94` },
-  { id: "fallback-3", name: "Atelier Créa", text: "Le transfert de notre atelier d'artiste a été une réussite. L'équipe a pris un soin particulier de nos œuvres et de notre matériel. Des vrais pros !", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Crea94` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -259,7 +253,7 @@ export default function VitrySurSeinePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-vitry" className="py-24 bg-slate-50">

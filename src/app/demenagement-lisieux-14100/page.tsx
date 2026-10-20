@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,17 +28,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Lisieux (14) | Expert local Pays d'Auge & Devis Gratuit",
-  description: "Déménageur de confiance à Lisieux (14100). Spécialiste du centre historique, des longères normandes et transferts de bureaux. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Lisieux (14100). Spécialiste du centre historique, des longères normandes et transferts de bureaux. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-lisieux-14100",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Levasseur", text: "Notre déménagement à Lisieux a été une réussite totale. L'équipe a été très professionnelle et a su gérer les accès du centre-ville avec un soin particulier pour nos meubles anciens. Un grand merci !", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=Levasseur14` },
-  { id: "fallback-2", name: "Jean-Pierre D.", text: "Très bonne expérience pour mon appartement près de la Basilique. Devis clair, pas de frais cachés et équipe ponctuelle. Un déménagement sans stress, je recommande.", rating: 5, createTime: "il y a 10 mois", avatarUrl: `https://i.pravatar.cc/48?u=JPD14` },
-  { id: "fallback-3", name: "Sophie M.", text: "Efficacité et professionnalisme. Ils ont déménagé ma longère normande avec une grande dextérité malgré l'accès étroit du chemin. Je recommande vivement Déménagement du Vexin.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=SophieM14` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -60,7 +54,7 @@ const WHY_US_ITEMS = [
   {
     icon: ShieldCheck,
     title: "Ancrage Régional",
-    description: "Grâce à notre agence locale, nous garantissons une réactivité maximale et des tarifs ultra-compétitifs dans tout le Calvados."
+    description: "Notre implantation normande facilite une organisation de proximité et une tarification étudiée selon chaque projet."
   }
 ];
 
@@ -159,7 +153,7 @@ export default function LisieuxPage() {
                 Lisieux est une ville d'histoire et de caractère, mêlant urbanisme d'après-guerre et joyaux médiévaux. Déménager dans cet environnement demande une logistique agile capable de s'adapter aussi bien aux résidences du centre-ville qu'aux propriétés de campagne.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons chaque recoin de la cité lexovienne. Que vous emménagiez dans un appartement moderne ou une longère traditionnelle, nous planifions chaque étape pour garantir une transition fluide et sécurisée.
+                Chez Déménagement du Vexin, nous maîtrisons chaque recoin de la cité lexovienne. Que vous emménagiez dans un appartement moderne ou une longère traditionnelle, nous planifions chaque étape pour garantir une transition fluide et sécurisée.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -269,7 +263,7 @@ export default function LisieuxPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-lisieux" className="py-20 lg:py-32 bg-slate-50">
@@ -314,13 +308,13 @@ export default function LisieuxPage() {
                     <span className="text-[#00ad9f]">départ de Lisieux ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la logistique ternir votre projet dans le Pays d'Auge. Contactez nos équipes pour une visite gratuite et obtenez un devis détaillé sous 24h.
+                    Ne laissez pas la logistique ternir votre projet dans le Pays d'Auge. Contactez nos équipes pour une visite gratuite et obtenez un devis détaillé dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -32,17 +31,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Saint-Maur-des-Fossés (94) | Expert local & Devis Gratuit",
-  description: "Déménageur de confiance à Saint-Maur-des-Fossés (94100). Spécialiste La Varenne, bords de Marne et maisons de maître. Devis gratuit sous 24h et service prestige.",
+  description: "Déménageur de confiance à Saint-Maur-des-Fossés (94100). Spécialiste La Varenne, bords de Marne et maisons de maître. Devis gratuit personnalisé et service prestige.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-saint-maur-des-fosses-94100",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Gauthier", text: "Un déménagement géré de main de maître à La Varenne. L'équipe a été d'un grand professionnalisme et d'une précaution extrême avec nos tableaux et nos meubles anciens. Un service de prestige à recommander sans hésiter.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Gauthier94` },
-  { id: "fallback-2", name: "Hélène B.", text: "Service impeccable pour mon appartement dans le quartier du Parc. Ils ont su gérer les accès complexes de ma rue et protéger les parties communes avec beaucoup de soin. Très sérieux et ponctuels.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=HeleneB94` },
-  { id: "fallback-3", name: "Dr. Marchand", text: "Ponctualité, efficacité et discrétion. Le déménagement de mon cabinet s'est déroulé sans le moindre souci. Une équipe qui comprend les contraintes des professionnels. Parfait.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Marchand94` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -277,7 +271,7 @@ export default function SaintMaurPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-saint-maur" className="py-24 bg-slate-50">
@@ -324,13 +318,13 @@ export default function SaintMaurPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne confiez pas votre patrimoine au hasard. Contactez nos experts pour une étude technique confidentielle et recevez un devis détaillé sous 24h.
+                    Ne confiez pas votre patrimoine au hasard. Contactez nos experts pour une étude technique confidentielle et recevez un devis détaillé après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

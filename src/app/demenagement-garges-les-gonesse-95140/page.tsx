@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Garges-lès-Gonesse (95) | Expert local & Devis Gratuit",
-  description: "Déménageur de confiance à Garges-lès-Gonesse (95140). Spécialiste des zones urbaines denses et accès A1/A3. Particuliers & Entreprises. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Garges-lès-Gonesse (95140). Spécialiste des zones urbaines denses et accès A1/A3. Particuliers & Entreprises. Devis gratuit.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-garges-les-gonesse-95140",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Yilmaz", text: "Déménagement très bien organisé à Garges. L'équipe a été rapide, professionnelle et a fait très attention à nos meubles fragiles dans l'ascenseur étroit. Un grand merci !", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Yilmaz95` },
-  { id: "fallback-2", name: "David M.", text: "Service impeccable. Devis clair et équipe ponctuelle. Le déménagement s'est déroulé sans le moindre stress malgré la difficulté de stationnement dans ma rue.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=DavidM95` },
-  { id: "fallback-3", name: "Mme. Ait", text: "Efficacité et professionnalisme. Ils ont géré les accès à mon immeuble sans problème avec un monte-meubles très rapide. Je recommande vivement.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Ait95` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -56,7 +50,7 @@ const WHY_US_ITEMS = [
   {
     icon: Navigation,
     title: "Proximité A1 / A3",
-    description: "Une planification logistique rigoureuse tenant compte du trafic francilien local pour garantir une ponctualité exemplaire à Garges."
+    description: "Une planification tenant compte des accès A1 et A3 ainsi que des conditions de circulation franciliennes."
   },
   {
     icon: ShieldCheck,
@@ -72,7 +66,7 @@ const FAQS = [
   },
   { 
     question: "Prenez-vous en charge les autorisations de stationnement ?", 
-    answer: "Oui, c'est inclus dans nos prestations Standard et Confort. Garges est une ville dense où stationner un camion de 20m³ ou 50m³ peut être complexe. Nous déposons la demande d'arrêté municipal au moins 15 jours en amont pour réserver l'emplacement exact au pied de votre entrée." 
+    answer: "Selon la formule retenue, nous pouvons accompagner la demande d'autorisation de stationnement. Le délai, l'emplacement et les conditions dépendent de la commune."
   },
   { 
     question: "Déménagez-vous aussi les commerces et bureaux de la ville ?", 
@@ -275,7 +269,7 @@ export default function GargesLesGonessePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-garges" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function GargesLesGonessePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine complexe vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine complexe vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

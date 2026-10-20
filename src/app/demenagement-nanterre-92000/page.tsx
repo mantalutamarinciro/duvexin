@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,17 +28,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Nanterre (92) | Expert Hauts-de-Seine | Devis Gratuit",
-  description: "Déménageur de confiance à Nanterre (92000). Spécialiste transferts de bureaux (La Défense), résidences universitaires et pavillons. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Nanterre (92000). Spécialiste transferts de bureaux (La Défense), résidences universitaires et pavillons. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-nanterre-92000",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Société ProDev", text: "Le transfert de nos bureaux à Nanterre, à deux pas de La Défense, a été un franc succès. Planification rigoureuse et exécution rapide le week-end. Une équipe très professionnelle.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=ProDev92` },
-  { id: "fallback-2", name: "Marc et Hélène", text: "Déménagement de notre pavillon à Nanterre géré de main de maître. L'équipe a été prudente avec nos meubles fragiles et très efficace. Nous sommes ravis du service.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=MarcHelene92` },
-  { id: "fallback-3", name: "Cécile D.", text: "Service impeccable pour mon appartement dans le centre de Nanterre. Le devis était clair, sans frais cachés, et l'équipe ponctuelle. Je recommande sans hésiter.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=CecileD92` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -162,7 +156,7 @@ export default function NanterrePage() {
                   Nanterre est un territoire unique et bouillonnant, mêlant le dynamisme économique du quartier d'affaires de La Défense, l'énergie de son vaste pôle universitaire et le calme de ses zones pavillonnaires historiques. Déménager dans cette ville exige une expertise capable de s'adapter à chaque configuration urbaine.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque quartier, du Chemin de l'Île au Mont-Valérien. Que vous soyez un particulier emménageant dans une résidence moderne ou une entreprise transférant ses bureaux, nous garantissons une transition fluide, sécurisée et extrêmement ponctuelle.
+                  Chez <strong>Déménagement du Vexin</strong>, nous préparons les interventions du Chemin de l'Île au Mont-Valérien. Déménagement résidentiel ou transfert de bureaux, le planning et les moyens sont définis selon les accès et le volume.
                 </p>
               </div>
               
@@ -274,7 +268,7 @@ export default function NanterrePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-nanterre" className="py-24 bg-slate-50">
@@ -321,13 +315,13 @@ export default function NanterrePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la densité urbaine ou les contraintes d'accès ternir votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit, transparent et ferme sous 24h.
+                    Ne laissez pas la densité urbaine ou les contraintes d'accès ternir votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit, transparent et ferme dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

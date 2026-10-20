@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,17 +28,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Falaise (14) | Expert Patrimoine | Devis Gratuit",
-  description: "Déménageur de confiance à Falaise (14700). Spécialiste du centre historique et du Pays de Falaise. Protection du patrimoine et devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Falaise (14700). Spécialiste du centre historique et du Pays de Falaise. Protection du patrimoine et devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-falaise-14700",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Hamel", text: "Déménagement de notre maison près de Falaise parfaitement orchestré. L'équipe a été très professionnelle et a pris grand soin de nos meubles anciens. Une prestation de qualité.", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Hamel14` },
-  { id: "fallback-2", name: "Marc D.", text: "Très bonne expérience pour mon appartement. Devis clair et service impeccable. Un déménagement sans stress dans cette ville chargée d'histoire.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=MarcD14F` },
-  { id: "fallback-3", name: "Société Agri-Normandie", text: "Le transfert de nos bureaux à Falaise s'est déroulé à la perfection. Une équipe efficace qui connaît bien les contraintes du secteur.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=AgriNormandie14` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -60,7 +54,7 @@ const WHY_US_ITEMS = [
   {
     icon: ShieldCheck,
     title: "Hub Normandie",
-    description: "Notre antenne locale normande garantit une réactivité maximale et des tarifs ultra-compétitifs sur tout le Pays de Falaise."
+    description: "Notre antenne locale normande garantit une organisation de proximité et des tarifs étudiés selon le projet sur tout le Pays de Falaise."
   }
 ];
 
@@ -172,7 +166,7 @@ export default function FalaisePage() {
                  </div>
                  <div>
                    <h3 className="text-xl font-bold text-slate-900 mb-1">Expertise Patrimoine</h3>
-                   <p className="text-slate-500 font-light">Protection absolue des intérieurs et discrétion garantie pour vos demeures de caractère.</p>
+                   <p className="text-slate-500 font-light">Protection adaptée des intérieurs et discrétion garantie pour vos demeures de caractère.</p>
                  </div>
               </div>
             </div>
@@ -274,7 +268,7 @@ export default function FalaisePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-falaise" className="py-24 bg-slate-50">
@@ -321,13 +315,13 @@ export default function FalaisePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Confiez votre mobilier à nos experts normands. Contactez nos équipes pour une visite technique gratuite et recevez un devis détaillé, ferme et sans engagement sous 24h.
+                    Confiez votre mobilier à nos experts normands. Contactez nos équipes pour une visite technique gratuite et recevez un devis détaillé, ferme et sans engagement dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -27,17 +26,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Boulogne-Billancourt (92) | Expert Local & Devis Gratuit",
-  description: "Déménageur de confiance à Boulogne-Billancourt (92100). Spécialiste des accès difficiles, monte-meubles et transferts de bureaux. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Boulogne-Billancourt (92100). Spécialiste des accès difficiles, monte-meubles et transferts de bureaux. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-boulogne-billancourt-92100",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-2", name: "Famille Petit", text: "Un grand merci pour notre déménagement à Boulogne-Billancourt. Équipe très soigneuse et professionnelle. Le monte-meubles a été une solution parfaite pour notre piano.", rating: 5, createTime: "il y a 5 mois", avatarUrl: `https://i.pravatar.cc/48?u=Petit92` },
-  { id: "fallback-1", name: "Société HexaCorp", text: "Le transfert de nos bureaux à Boulogne a été un succès total. L'équipe a été discrète, rapide et incroyablement organisée. Aucune interruption d'activité.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=HexaCorp92` },
-  { id: "fallback-3", name: "Anne-Sophie V.", text: "Service impeccable pour mon appartement. Le devis était clair et l'équipe a été ponctuelle et efficace. Je recommande chaudement Déménagement du Vexin.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=AnneSophie92` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -73,11 +67,11 @@ const FAQS = [
   },
   { 
     question: "Déménagez-vous aussi les entreprises boulonnaises ?", 
-    answer: "Oui, Boulogne-Billancourt est un pôle tertiaire majeur. Nous effectuons des transferts de bureaux et de sièges sociaux avec un protocole strict : étiquetage, emballage informatique sécurisé (bacs, rolls) et respect absolu des délais pour éviter toute perte d'exploitation." 
+    answer: "Oui, Boulogne-Billancourt est un pôle tertiaire majeur. Pour les transferts de bureaux, nous préparons l'étiquetage, la protection du matériel informatique et un planning adapté à la continuité de l'activité."
   },
   { 
     question: "Quels sont vos délais pour obtenir un devis ?", 
-    answer: "Nous sommes très réactifs dans le 92. Après votre demande en ligne ou téléphonique, nous vous contactons sous 24h pour organiser une visite technique (physique ou vidéo). Le devis final, détaillé et ferme, vous est envoyé immédiatement après." 
+    answer: "Après votre demande en ligne ou téléphonique, nous organisons si nécessaire une visite technique, sur place ou en vidéo. Le devis est ensuite préparé à partir du volume, des accès et des prestations retenues."
   }
 ];
 
@@ -272,7 +266,7 @@ export default function BoulogneBillancourtPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-boulogne" className="py-24 bg-slate-50">
@@ -319,13 +313,13 @@ export default function BoulogneBillancourtPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la densité urbaine vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit et transparent sous 24h.
+                    Ne laissez pas la densité urbaine vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit et transparent dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -26,17 +25,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Colombes (92) | Expert Pavillonnaire & Devis Gratuit",
-  description: "Déménageur de confiance à Colombes (92700). Spécialiste des Vallées, de la Petite Garenne et de l'Arc Sportif. Devis gratuit et intervention sous 24h.",
+  description: "Déménageur de confiance à Colombes (92700). Spécialiste des Vallées, de la Petite Garenne et de l'Arc Sportif. Devis gratuit et intervention dans les meilleurs délais.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-colombes-92700",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Le Goff", text: "Notre déménagement dans le quartier des Vallées à Colombes a été parfait. L'équipe était professionnelle, efficace et a pris grand soin de notre jardin lors du portage. Un sans-faute !", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=LeGoff92` },
-  { id: "fallback-2", name: "Amélie N.", text: "Un grand merci pour la gestion de mon déménagement à la Petite Garenne. Devis clair, équipe ponctuelle et matériel de qualité. Tout s'est déroulé sans stress.", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=AmelieN92` },
-  { id: "fallback-3", name: "Jonathan C.", text: "Service impeccable pour mon appartement près du centre-ville. Ils ont géré les accès et le stationnement de manière très pro. Je ferai de nouveau appel à eux.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=JonathanC92` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -271,7 +265,7 @@ export default function ColombesPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-colombes" className="py-24 bg-slate-50">
@@ -318,13 +312,13 @@ export default function ColombesPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique au hasard. Contactez nos experts pour une visite technique et obtenez un devis gratuit et transparent sous 24h.
+                    Ne laissez pas la logistique au hasard. Contactez nos experts pour une visite technique et obtenez un devis gratuit et transparent dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

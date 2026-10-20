@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Enghien-les-Bains (95) | Service Prestige | Devis Gratuit",
-  description: "Déménageur de confiance à Enghien-les-Bains (95880). Spécialiste des appartements de standing, villas historiques et objets de valeur. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Enghien-les-Bains (95880). Spécialiste des appartements de standing, villas historiques et objets de valeur. Devis gratuit.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-enghien-les-bains-95880",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Lefevre", text: "Déménagement dans notre nouvel appartement à Enghien parfaitement géré. L'équipe a fait preuve d'un professionnalisme et d'une discrétion exemplaires pour nos objets d'art.", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Lefevre95` },
-  { id: "fallback-2", name: "Alexandre G.", text: "Très bonne expérience. Ils ont géré les accès difficiles en plein centre d'Enghien sans aucun problème. Une entreprise sérieuse pour une ville exigeante.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=AlexandreG95` },
-  { id: "fallback-3", name: "Cabinet de conseil", text: "Le transfert de nos bureaux à Enghien s'est déroulé à la perfection. Efficacité, ponctualité et une équipe très à l'écoute des contraintes de sécurité.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=Conseil95` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -51,7 +45,7 @@ const WHY_US_ITEMS = [
   {
     icon: Gem,
     title: "Respect du Patrimoine",
-    description: "Protection de qualité muséale de vos intérieurs (parquets, moulures) et emballages sur-mesure pour vos biens de très haute valeur."
+    description: "Protections adaptées aux parquets, moulures et biens fragiles, après évaluation des accès et des objets à transporter."
   },
   {
     icon: Sparkles,
@@ -68,7 +62,7 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { 
     question: "Le stationnement est-il complexe à Enghien-les-Bains ?", 
-    answer: "La forte densité d'Enghien exige une organisation parfaite. Nous incluons systématiquement la gestion des autorisations auprès de la voirie dans nos devis. Nous balisons l'emplacement 48h à l'avance pour garantir l'accès au camion sans gêner le trafic thermal." 
+    answer: "La densité d'Enghien exige une préparation précise. Les besoins de stationnement et les démarches de voirie sont évalués selon l'adresse et la formule retenue."
   },
   { 
     question: "Déménagez-vous des objets fragiles comme des pianos ou des sculptures ?", 
@@ -80,7 +74,7 @@ const FAQS = [
   },
   { 
     question: "Quels sont vos délais pour une visite technique à Enghien ?", 
-    answer: "Nous sommes extrêmement réactifs dans ce secteur. Nous pouvons organiser une visite à domicile ou par appel vidéo sous 24h à 48h afin de vous remettre très rapidement un devis détaillé, ferme et adapté à vos exigences de standing." 
+    answer: "Une visite à domicile ou un échange vidéo permet d'évaluer le volume, les accès et les besoins de protection avant la préparation du devis."
   }
 ];
 
@@ -252,7 +246,7 @@ export default function EnghienLesBainsPage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Home className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Villas & Maisons Historiques</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Logistique parfaitement adaptée aux propriétés d'Enghien, avec une protection absolue de vos jardins, portails et sols intérieurs.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Logistique étudiée selon les propriétés d'Enghien et protections adaptées aux jardins, portails et sols intérieurs.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
@@ -275,7 +269,7 @@ export default function EnghienLesBainsPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-enghien" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function EnghienLesBainsPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Confiez votre mobilier et vos objets précieux à des professionnels habitués aux plus hauts standards de qualité. Contactez-nous pour une visite technique et obtenez un devis ferme sous 24h.
+                    Confiez votre mobilier et vos objets précieux à des professionnels habitués aux plus hauts standards de qualité. Contactez-nous pour une visite technique et obtenez un devis ferme.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis Prestige en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Mon devis Prestige <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

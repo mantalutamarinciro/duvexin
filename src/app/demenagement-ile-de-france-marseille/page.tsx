@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -29,18 +28,13 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Paris → Marseille (13) | Devis Gratuit & Groupage | 24h",
-  description: "Déménageur expert sur l'axe Paris-Marseille. Liaisons hebdomadaires, solutions de groupage et expertise longue distance. Votre devis gratuit sous 24h.",
+  title: "Déménagement Paris → Marseille (13) | Devis Gratuit & Groupage",
+  description: "Déménageur expert sur l'axe Paris-Marseille. Liaisons hebdomadaires, solutions de groupage et expertise longue distance. Votre devis gratuit personnalisé.",
   alternates: {
-    canonical: "https://demenagementduvexin.fr/demenagement-idf-marseille",
+    canonical: "https://demenagementduvexin.fr/demenagement-ile-de-france-marseille",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Dubois", text: "Le grand saut de Paris à Marseille s'est fait sans la moindre anicroche. Une équipe professionnelle, ponctuelle et qui a pris grand soin de nos affaires sur ce trajet de 800km. Chapeau !", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dubois13` },
-  { id: "fallback-2", name: "Antoine L.", text: "Service impeccable pour mon déménagement étudiant. La formule groupage était parfaite pour mon budget et tout est arrivé en parfait état à la Joliette. Je recommande vivement.", rating: 5, createTime: "il y a 6 mois", avatarUrl: `https://i.pravatar.cc/48?u=AntoineL13` },
-  { id: "fallback-3", name: "Société MedTec", text: "Le transfert de notre agence francilienne vers Marseille a été une réussite totale. Logistique millimétrée, respect des délais et équipe très réactive. Des vrais pros du national.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MedTec13` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -275,7 +269,7 @@ export default function MarseillePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-marseille" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function MarseillePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la distance ou la chaleur compliquer votre projet. Contactez nos experts nationaux pour une étude personnalisée et recevez un devis ferme et gratuit sous 24h.
+                    Ne laissez pas la distance ou la chaleur compliquer votre projet. Contactez nos experts nationaux pour une étude personnalisée et recevez un devis ferme et gratuit après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

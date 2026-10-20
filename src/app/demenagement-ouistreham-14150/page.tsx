@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Ouistreham (14) | Expert Côte de Nacre & Devis Gratuit",
-  description: "Déménageur de confiance à Ouistreham Riva-Bella (14150). Spécialiste bords de mer, logistique portuaire et résidences secondaires. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance à Ouistreham Riva-Bella (14150). Spécialiste bords de mer, logistique portuaire et résidences secondaires. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-ouistreham-14150",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Dubois", text: "Notre déménagement à Ouistreham a été une vraie réussite. L'équipe a géré l'accès complexe près de la plage avec beaucoup de professionnalisme. Un service efficace et respectueux.", rating: 5, createTime: "il y a 2 mois", avatarUrl: `https://i.pravatar.cc/48?u=Dubois14` },
-  { id: "fallback-2", name: "Marc D.", text: "Très bonne expérience pour ma résidence secondaire. Devis clair, équipe ponctuelle et aucun accroc malgré la saison estivale. Une logistique parfaitement maîtrisée.", rating: 5, createTime: "il y a 7 mois", avatarUrl: `https://i.pravatar.cc/48?u=MarcD14O` },
-  { id: "fallback-3", name: "Sophie C.", text: "Efficacité, soin et bonne humeur. Ils ont déménagé mon appartement du port en un temps record. Je recommande Marne Transdem pour leur sérieux dans le Calvados.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=SophieC14` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -61,7 +55,7 @@ const WHY_US_ITEMS = [
   {
     icon: ShieldCheck,
     title: "Ancrage Régional",
-    description: "Grâce à notre agence d'Évreux, nous garantissons une réactivité maximale sur toute la Côte de Nacre."
+    description: "Notre implantation à Évreux facilite l'organisation des projets sur la Côte de Nacre."
   }
 ];
 
@@ -134,7 +128,7 @@ export default function OuistrehamPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              L'excellence logistique entre terre et mer. Profitez de l'expertise Marne Transdem pour votre projet à Riva-Bella (14150).
+              L'excellence logistique entre terre et mer. Profitez de l'expertise Déménagement du Vexin pour votre projet à Riva-Bella (14150).
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
@@ -160,7 +154,7 @@ export default function OuistrehamPage() {
                 Ouistreham est un territoire unique, mêlant le charme d'une station balnéaire historique et le dynamisme d'un port ouvert sur l'international. Déménager dans ce contexte exige une agilité technique capable de s'adapter aux villas de Riva-Bella comme aux zones d'activités portuaires.
               </p>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Chez Marne Transdem, nous maîtrisons chaque spécificité de la ville. Que vous emménagiez dans une résidence face à la mer ou que vous transfériez votre activité professionnelle, nous garantissons une transition fluide, même lors des pics de fréquentation estivale.
+                Chez Déménagement du Vexin, nous adaptons la préparation aux spécificités de la ville. Résidence face à la mer ou transfert professionnel : les accès et les périodes de fréquentation estivale sont intégrés au planning.
               </p>
               
               <div className="pt-6 flex items-center gap-4">
@@ -270,7 +264,7 @@ export default function OuistrehamPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-ouistreham" className="py-20 lg:py-32 bg-slate-50">
@@ -315,13 +309,13 @@ export default function OuistrehamPage() {
                     <span className="text-[#00ad9f]">départ de Ouistreham ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas les contraintes saisonnières ou la logistique portuaire freiner votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas les contraintes saisonnières ou la logistique portuaire freiner votre projet. Contactez nos experts pour une visite technique et obtenez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-14 px-10 text-base font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_0_40px_-10px_rgba(0,173,159,0.4)] relative z-20" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-4 w-4" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-4 w-4" />
                        </Link>
                     </Button>
                  </div>

@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Franconville (95) | Expert local & Devis Gratuit",
-  description: "Déménageur de confiance à Franconville (95130). Spécialiste de la Vallée de Montmorency : pavillons, appartements et transferts de bureaux. Devis en 24h.",
+  description: "Déménageur à Franconville (95130) pour pavillons, appartements et transferts de bureaux. Demandez un devis personnalisé selon vos accès et votre volume.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-franconville-95130",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Lebrun", text: "Déménagement de notre maison à Franconville sans aucun accroc. L'équipe a été très professionnelle et a pris soin de notre jardin lors du passage. Nous les recommandons vivement.", rating: 5, createTime: "il y a 3 mois", avatarUrl: `https://i.pravatar.cc/48?u=Lebrun95` },
-  { id: "fallback-2", name: "Sophie D.", text: "Un grand merci pour votre aide précieuse. Devis clair, équipe ponctuelle et un déménagement qui s'est déroulé dans la bonne humeur malgré les 4 étages sans ascenseur !", rating: 5, createTime: "il y a 8 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieD95` },
-  { id: "fallback-3", name: "Marc T.", text: "Service impeccable pour mon appartement. Ils ont géré les accès et le stationnement de manière très pro. Je ferai de nouveau appel à eux sans hésiter.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MarcT95F` },
-];
 
 const WHY_US_ITEMS = [
   {
@@ -51,7 +45,7 @@ const WHY_US_ITEMS = [
   {
     icon: Navigation,
     title: "Maîtrise des Flux (A15)",
-    description: "Nous planifions méticuleusement nos interventions pour éviter les congestions locales et garantir une ponctualité exemplaire."
+    description: "Nous planifions les interventions en tenant compte des accès à l'A15 et des conditions de circulation locales."
   },
   {
     icon: Building2,
@@ -72,7 +66,7 @@ const FAQS = [
   },
   { 
     question: "Prenez-vous en charge les autorisations de stationnement ?", 
-    answer: "Oui, c'est inclus dans nos formules Standard et Confort. Nous gérons toutes les démarches avec la police municipale de Franconville pour réserver un emplacement dédié au pied de votre porte, vous garantissant un immense gain de temps et une manutention sécurisée." 
+    answer: "Selon la formule retenue, nous pouvons accompagner les démarches de stationnement auprès de la commune. L'emplacement reste soumis à son autorisation."
   },
   { 
     question: "Déménagez-vous les entreprises des zones d'activités ?", 
@@ -201,7 +195,7 @@ export default function FranconvillePage() {
               Le bon choix pour le 95
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Une connaissance millimétrée du terrain franconvillois pour un service ponctuel, réactif et sans faille.
+              Une préparation adaptée aux accès et aux quartiers de Franconville.
             </p>
           </div>
 
@@ -275,7 +269,7 @@ export default function FranconvillePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-franconville" className="py-24 bg-slate-50">
@@ -322,13 +316,13 @@ export default function FranconvillePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine ou les accès complexes vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique urbaine ou les accès complexes vous stresser. Contactez nos équipes pour une visite technique et obtenez un devis gratuit.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -30,17 +29,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Seine-Maritime (76) | Expert Normand & Devis Gratuit",
-  description: "Marne Transdem : votre expert pour déménager en Seine-Maritime (76). Rouen, Le Havre, Dieppe. Réactivité via notre agence d'Évreux. Devis gratuit sous 24h.",
+  description: "Déménagement du Vexin : votre expert pour déménager en Seine-Maritime (76). Rouen, Le Havre, Dieppe. Réactivité via notre agence d'Évreux. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-seine-maritime-76",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Lefevre", text: "Le déménagement de notre maison de Paris vers Le Havre a été une vraie réussite. L'équipe a été très professionnelle et a parfaitement géré la longue distance. Une organisation sans faille !", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Lefevre76` },
-  { id: "fallback-2", name: "Sophie G.", text: "Un service client au top et une équipe de déménageurs très efficace pour mon appartement à Rouen. Ils connaissent bien les rues étroites du centre. Je recommande vivement.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieG76` },
-  { id: "fallback-3", name: "Marc D.", text: "Devis clair, pas de surprise. Mon transfert de bureaux vers Dieppe s'est déroulé sans stress grâce à leur rigueur. Une entreprise normande fiable.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MarcD76` },
-];
 
 const SEINE_MARITIME_CITIES = [
   "Le Havre", "Rouen", "Dieppe", "Sotteville-lès-Rouen", "Saint-Étienne-du-Rouvray", 
@@ -57,7 +51,7 @@ const WHY_US_ITEMS = [
   {
     icon: Truck,
     title: "Proximité Évreux",
-    description: "Notre agence régionale nous permet une réactivité maximale pour vos visites techniques et vos interventions dans tout le 76."
+    description: "Notre agence régionale nous permet une organisation de proximité pour vos visites techniques et vos interventions dans tout le 76."
   },
   {
     icon: ShieldCheck,
@@ -305,7 +299,7 @@ export default function SeineMaritimePage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-76" className="py-24 bg-white">
@@ -352,13 +346,13 @@ export default function SeineMaritimePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique ternir votre projet normand. Contactez nos experts régionaux pour une visite technique gratuite et obtenez un devis complet sous 24h.
+                    Ne laissez pas la logistique ternir votre projet normand. Contactez nos experts régionaux pour une visite technique gratuite et obtenez un devis complet dans les meilleurs délais.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

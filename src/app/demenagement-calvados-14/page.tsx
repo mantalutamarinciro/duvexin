@@ -6,8 +6,7 @@ import Script from "next/script";
 // UI Components
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { TestimonialsSection } from "@/components/testimonials-section";
-import type { FormattedReview } from "@/app/api/reviews/route";
+import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
 import { 
@@ -27,17 +26,12 @@ import {
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "Déménagement Calvados (14) | Expert Normandie & Devis Gratuit",
-  description: "Déménageur de confiance dans le Calvados. De Caen à Deauville, nous gérons vos transferts Île-de-France / Normandie avec soin. Devis gratuit sous 24h.",
+  description: "Déménageur de confiance dans le Calvados. De Caen à Deauville, nous gérons vos transferts Île-de-France / Normandie avec soin. Devis gratuit personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-calvados-14",
   }
 };
 
-const fallbackTestimonials: FormattedReview[] = [
-  { id: "fallback-1", name: "Famille Lefebvre", text: "Le déménagement de notre maison de Paris à Caen a été une vraie réussite. L'équipe a été très professionnelle et a parfaitement géré la logistique. Bravo !", rating: 5, createTime: "il y a 4 mois", avatarUrl: `https://i.pravatar.cc/48?u=Lefebvre14` },
-  { id: "fallback-2", name: "Sophie G.", text: "Un service client au top et une équipe de déménageurs très efficace pour mon appartement à Deauville. Je recommande vivement Déménagement du Vexin.", rating: 5, createTime: "il y a 9 mois", avatarUrl: `https://i.pravatar.cc/48?u=SophieG14` },
-  { id: "fallback-3", name: "Marc D.", text: "Devis clair, équipe ponctuelle et matériel de protection de qualité. Mon installation dans le Calvados s'est déroulée sans stress.", rating: 5, createTime: "il y a 1 an", avatarUrl: `https://i.pravatar.cc/48?u=MarcD14` },
-];
 
 const CALVADOS_CITIES = [
   { name: "Caen", link: "/demenagement-caen-14000"},
@@ -92,7 +86,7 @@ const FAQS = [
   },
   { 
     question: "Quels sont les avantages de votre agence d'Évreux ?", 
-    answer: "Située à la frontière du 27 et du 14, notre agence d'Évreux sert de hub logistique. Cela nous permet d'être ultra-compétitifs sur les tarifs, extrêmement réactifs pour les visites techniques, et de proposer des groupages réguliers pour réduire considérablement vos coûts de transport." 
+    answer: "Située à proximité du Calvados, notre agence d'Évreux sert de base logistique. Elle nous permet d'étudier précisément les accès, la visite technique, le tarif et les possibilités de groupage selon le calendrier."
   }
 ];
 
@@ -177,7 +171,7 @@ export default function CalvadosPage() {
                   Le département 14 offre un cadre de vie exceptionnel et varié : du dynamisme métropolitain de l'agglomération caennaise au prestige balnéaire de Deauville, Trouville et Honfleur. Déménager dans cette région demande une connaissance fine des accès urbains comme des contraintes propres au littoral.
                 </p>
                 <p>
-                  Grâce à notre agence régionale basée à Évreux, <strong>Déménagement du Vexin</strong> intervient avec une réactivité totale sur l'ensemble du Calvados. Que vous soyez un particulier ou une entreprise, nous déployons les moyens techniques adéquats (monte-meubles, emballages maritimes, véhicules de toutes tailles) pour une protection absolue de vos biens.
+                  Grâce à notre agence régionale basée à Évreux, <strong>Déménagement du Vexin</strong> intervient avec une organisation de proximité sur l'ensemble du Calvados. Que vous soyez un particulier ou une entreprise, nous déployons les moyens techniques adéquats (monte-meubles, emballages maritimes, véhicules de toutes tailles) pour une protection adaptée de vos biens.
                 </p>
               </div>
               
@@ -297,7 +291,7 @@ export default function CalvadosPage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><MapIcon className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Garde-Meubles Sécurisé</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Besoin de stocker vos biens pendant une transition ? Nos box situés en Normandie sont plombés et 100% sécurisés sous vidéosurveillance.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Besoin de stocker vos biens pendant une transition ? Nos box situés en Normandie sont plombés et sécurisés sous vidéosurveillance.</p>
                   </div>
                 </li>
               </ul>
@@ -313,7 +307,7 @@ export default function CalvadosPage() {
       </section>
 
       {/* --- AVIS CLIENTS --- */}
-      <TestimonialsSection reviews={fallbackTestimonials} />
+      <VerifiedTestimonialsSection />
 
       {/* --- FAQ --- */}
       <section id="faq-calvados" className="py-24 bg-slate-50">
@@ -360,13 +354,13 @@ export default function CalvadosPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique au hasard. Contactez nos experts normands pour une étude personnalisée et recevez un devis gratuit sous 24h.
+                    Ne laissez pas la logistique au hasard. Contactez nos experts normands pour une étude personnalisée et recevez un devis gratuit personnalisé.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Mon devis gratuit en 24h <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>
