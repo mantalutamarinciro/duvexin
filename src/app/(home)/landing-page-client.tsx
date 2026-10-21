@@ -229,9 +229,9 @@ export function LandingPageClient({
             </div>
 
             <h1 className="mt-8 text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter text-white leading-[1.05]">
-              Votre déménageur <br/>
+              Déménagement du Vexin <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-teal-200">
-                dans le Val-d’Oise
+                à Méry-sur-Oise
               </span>.
             </h1>
 
@@ -289,6 +289,7 @@ export function LandingPageClient({
             Un devis dépend du volume à transporter, des accès aux deux logements et de la préparation que vous souhaitez nous confier. Retrouvez les points à vérifier pour votre commune.
           </p>
           <nav aria-label="Déménagements dans le Val-d’Oise" className="mt-6 flex flex-wrap gap-x-8 gap-y-4">
+            <Link className="underline underline-offset-4 font-semibold" href="/demenagement-val-d-oise-95">Déménageur dans le Val-d’Oise (95)</Link>
             <Link className="underline underline-offset-4" href="/demenagement-mery-sur-oise-95540">Déménagement à Méry-sur-Oise</Link>
             <Link className="underline underline-offset-4" href="/demenagement-cergy-95000">Déménagement à Cergy</Link>
             <Link className="underline underline-offset-4" href="/demenagement-pontoise-95300">Déménagement à Pontoise</Link>

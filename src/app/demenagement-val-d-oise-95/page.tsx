@@ -32,8 +32,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Val-d'Oise (95) | Expert Local & Devis Gratuit",
-  description: "Déménagement du Vexin accompagne particuliers et entreprises dans le Val-d'Oise, de Cergy à Argenteuil. Demandez un devis personnalisé.",
+  title: "Déménageur Val-d'Oise (95) | Devis personnalisé",
+  description: "Besoin d'un déménageur dans le Val-d'Oise ? Notre équipe intervient à Cergy, Pontoise, Argenteuil et dans tout le 95. Demandez votre devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-val-d-oise-95",
   }

@@ -382,10 +382,10 @@ test('local guides render distinct content and links to existing pages', () => {
   assert.equal(new Set(rendered).size, 6);
 });
 
-test('homepage has a local heading and links to all three priority towns', () => {
+test('homepage has a branded local heading and links to all three priority towns', () => {
   const source = readFileSync(path.join(root, 'src/app/(home)/landing-page-client.tsx'), 'utf8');
   assert.equal((source.match(/<h1\b/g) || []).length, 1);
-  assert.match(source, /<h1[\s\S]*?Votre déménageur[\s\S]*?dans le Val-d’Oise[\s\S]*?<\/h1>/);
+  assert.match(source, /<h1[\s\S]*?Déménagement du Vexin[\s\S]*?à Méry-sur-Oise[\s\S]*?<\/h1>/);
   for (const route of ['demenagement-mery-sur-oise-95540', 'demenagement-cergy-95000', 'demenagement-pontoise-95300']) {
     assert.ok(source.includes(`href="/${route}"`));
   }
@@ -479,4 +479,43 @@ test('legacy redirects have unique sources, existing destinations and no chains'
   }
   assert.ok(redirects.some(item => item.source === '/calcul-volume-demenagement' && item.destination === '/calculateur-volume'));
   assert.ok(redirects.some(item => item.source === '/devis' && item.destination === '/demande-devis'));
+});
+
+test('Val-d’Oise intent is assigned to the departmental hub, not the homepage', () => {
+  const homePage = readFileSync(path.join(root, 'src/app/page.tsx'), 'utf8');
+  const homeClient = readFileSync(path.join(root, 'src/app/(home)/landing-page-client.tsx'), 'utf8');
+  const departmentPage = readFileSync(path.join(root, 'src/app/demenagement-val-d-oise-95/page.tsx'), 'utf8');
+
+  assert.ok(homePage.includes('Déménagement du Vexin | Déménageur à Méry-sur-Oise'));
+  assert.ok(homeClient.includes('Déménageur dans le Val-d’Oise (95)'));
+  assert.ok(homeClient.includes('href="/demenagement-val-d-oise-95"'));
+  assert.ok(departmentPage.includes("Déménageur Val-d'Oise (95) | Devis personnalisé"));
+  assert.match(departmentPage, /<h1[\s\S]*?Votre déménageur[\s\S]*?dans le Val-d'Oise \(95\)/);
+});
+
+test('Val-d’Oise city breadcrumbs consolidate authority on the departmental hub', () => {
+  for (const route of [
+    'demenagement-argenteuil-95100',
+    'demenagement-bezons-95870',
+    'demenagement-cergy-95000',
+    'demenagement-cormeilles-en-parisis-95240',
+    'demenagement-eaubonne-95600',
+    'demenagement-enghien-les-bains-95880',
+    'demenagement-ermont-95120',
+    'demenagement-franconville-95130',
+    'demenagement-garges-les-gonesse-95140',
+    'demenagement-goussainville-95190',
+    'demenagement-herblay-sur-seine-95220',
+    'demenagement-lisle-adam-95290',
+    'demenagement-mery-sur-oise-95540',
+    'demenagement-montmorency-95160',
+    'demenagement-pontoise-95300',
+    'demenagement-saint-ouen-l-aumone-95310',
+    'demenagement-sarcelles-95200',
+    'demenagement-taverny-95150',
+    'demenagement-villiers-le-bel-95400',
+  ]) {
+    const source = readFileSync(path.join(root, 'src/app', route, 'page.tsx'), 'utf8');
+    assert.match(source, /href="\/demenagement-val-d-oise-95"[^>]*>Val-d'Oise \(95\)<\/Link>/, route);
+  }
 });
