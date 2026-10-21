@@ -112,7 +112,7 @@ export default function SaintGermainPage() {
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
-            <Link href="/zones-intervention" className="hover:text-white transition-colors">Yvelines (78)</Link>
+            <Link href="/demenagement-yvelines-78" className="hover:text-white transition-colors">Yvelines (78)</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
             <span className="text-[#00ad9f]">Saint-Germain-en-Laye</span>
           </nav>

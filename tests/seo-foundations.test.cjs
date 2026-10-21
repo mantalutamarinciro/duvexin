@@ -519,3 +519,27 @@ test('Val-d’Oise city breadcrumbs consolidate authority on the departmental hu
     assert.match(source, /href="\/demenagement-val-d-oise-95"[^>]*>Val-d'Oise \(95\)<\/Link>/, route);
   }
 });
+
+test('Yvelines intent and city breadcrumbs consolidate on the departmental hub', () => {
+  const departmentPage = readFileSync(path.join(root, 'src/app/demenagement-yvelines-78/page.tsx'), 'utf8');
+  assert.ok(departmentPage.includes('Déménageur Yvelines (78) | Devis personnalisé'));
+  assert.match(departmentPage, /<h1[\s\S]*?Votre déménageur[\s\S]*?dans les Yvelines/);
+
+  for (const route of [
+    'demenagement-versailles-78000',
+    'demenagement-saint-germain-en-laye-78100',
+    'demenagement-rambouillet-78120',
+    'demenagement-poissy-78300',
+    'demenagement-sartrouville-78500',
+    'demenagement-mantes-la-jolie-78200',
+    'demenagement-conflans-sainte-honorine-78700',
+    'demenagement-plaisir-78370',
+    'demenagement-le-chesnay-rocquencourt-78150',
+    'demenagement-velizy-villacoublay-78140',
+    'demenagement-montigny-le-bretonneux-78180',
+    'demenagement-les-mureaux-78130',
+  ]) {
+    const source = readFileSync(path.join(root, 'src/app', route, 'page.tsx'), 'utf8');
+    assert.match(source, /href="\/demenagement-yvelines-78"[^>]*>Yvelines \(78\)<\/Link>/, route);
+  }
+});

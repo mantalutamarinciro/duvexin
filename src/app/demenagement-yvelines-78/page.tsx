@@ -23,8 +23,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Yvelines (78) | Expert Local & Devis Gratuit",
-  description: "Votre déménageur de confiance dans les Yvelines. De Versailles à Rambouillet, nous gérons votre déménagement avec des équipes locales salariées.",
+  title: "Déménageur Yvelines (78) | Devis personnalisé",
+  description: "Besoin d'un déménageur dans les Yvelines ? Notre équipe intervient à Versailles, Poissy, Mantes-la-Jolie et dans tout le 78. Demandez votre devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-yvelines-78",
   }
@@ -128,7 +128,7 @@ export default function YvelinesPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              De Versailles à Rambouillet en passant par Saint-Germain-en-Laye, confiez votre projet à des experts locaux qui connaissent votre département sur le bout des doigts.
+              Pour votre déménagement dans les Yvelines, notre équipe intervient à Versailles, Poissy, Mantes-la-Jolie, Saint-Germain-en-Laye et dans les autres communes du 78.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -216,7 +216,7 @@ export default function YvelinesPage() {
           </div>
 
           <div className="mt-12 text-center text-sm text-slate-500 font-light">
-            Votre commune n'est pas listée ? Nous intervenons dans <strong>100% des villes des Yvelines</strong>.
+            Votre commune n'est pas listée ? Contactez-nous pour vérifier nos possibilités d'intervention dans les Yvelines.
           </div>
         </div>
       </section>
