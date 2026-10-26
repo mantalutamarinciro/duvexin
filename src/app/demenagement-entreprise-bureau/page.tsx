@@ -27,8 +27,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement d'Entreprise & Transfert de Bureaux | Devis personnalisé",
-  description: "Expert en transfert d'entreprise : bureaux, informatique, archives et industries. Solutions sur-mesure avec continuité d'activité préparée. Devis pro dans les meilleurs délais.",
+  title: "Transfert de bureaux | Déménagement d'entreprise",
+  description: "Préparez votre transfert de bureaux : inventaire, accès, mobilier, informatique, archives et calendrier. Demandez un devis professionnel personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-entreprise-bureau",
   }
@@ -37,36 +37,36 @@ export const metadata: Metadata = {
 // --- DATA ---
 const enterpriseServices = [
   { title: "Ingénierie de transfert", icon: LayoutDashboard, description: "Cahier des charges, rétroplanning et pilotage complet de votre projet logistique." },
-  { title: "Parc Informatique", icon: Server, description: "Déconnexion, emballage antistatique et reconnexion sécurisée de vos serveurs et postes." },
+  { title: "Parc informatique", icon: Server, description: "Repérage, emballage adapté et coordination avec votre DSI pour les postes et équipements concernés." },
   { title: "Mobilier & Montage", icon: Building2, description: "Démontage et remontage de vos postes de travail, open spaces et espaces collaboratifs." },
-  { title: "Gestion d'Archives", icon: FileText, description: "Transfert sécurisé et confidentiel de vos documents sensibles avec inventaire rigoureux." },
-  { title: "Logistique Adaptée", icon: Truck, description: "Flotte de véhicules capitonnés, hayons et monte-meubles pour une manutention sans risque." },
-  { title: "Aménagement Final", icon: CheckCircle2, description: "Installation précise selon vos plans d'implantation (Space Planning) pour une reprise immédiate." },
+  { title: "Gestion d'archives", icon: FileText, description: "Repérage et transfert des documents selon l'inventaire et l'organisation définis avec vos équipes." },
+  { title: "Logistique adaptée", icon: Truck, description: "Véhicules, hayons, monte-meubles et moyens de manutention sont choisis après l'étude des accès et des charges." },
+  { title: "Implantation à l'arrivée", icon: CheckCircle2, description: "Remise en place du mobilier selon les plans d'implantation transmis avant le transfert." },
 ];
 
 const enterpriseTypes = [
-  { icon: Building2, title: "Tertiaire & PME", description: "Déménagement de bureaux agile pour minimiser l'impact sur vos collaborateurs et votre CA." },
+  { icon: Building2, title: "Tertiaire & PME", description: "Organisation du déménagement de bureaux en tenant compte des équipes, des accès et du calendrier d'activité." },
   { icon: Globe2, title: "Multi-sites & Sièges", description: "Coordination de transferts complexes de grande envergure entre plusieurs pôles géographiques." },
-  { icon: Store, title: "Retail & Commerces", description: "Gestion des stocks, présentoirs et mobilier commercial avec une rapidité d'exécution absolue." },
+  { icon: Store, title: "Retail & Commerces", description: "Gestion des stocks, présentoirs et mobilier commercial selon l'inventaire et le phasage convenus." },
   { icon: Factory, title: "Industrie & Ateliers", description: "Transfert de machines-outils, laboratoires et équipements lourds avec matériel de levage spécifique." },
 ];
 
 const faqItems = [
   {
-    question: "Comment garantissez-vous la continuité de notre activité ?",
-    answer: "L'anticipation est la clé. Nous proposons des interventions en horaires décalés : soirées, week-ends ou jours fériés. L'objectif est que vos collaborateurs quittent leurs bureaux le vendredi soir et retrouvent leur poste 100% opérationnel le lundi matin."
+    question: "Comment limiter l'interruption de notre activité ?",
+    answer: "Le phasage est défini avec vos responsables selon les contraintes des équipes, des locaux et des prestataires techniques. Des créneaux décalés peuvent être étudiés selon le projet, sans présumer d'une reprise tant que le calendrier n'est pas validé."
   },
   {
     question: "Gérez-vous le matériel informatique sensible ?",
-    answer: "Absolument. C'est un point critique de nos transferts. Nous utilisons des bacs de protection scellés, des housses antistatiques et des chariots spécifiques. Nos équipes peuvent travailler de concert avec votre DSI pour le rackage de vos serveurs."
+    answer: "Le matériel informatique est recensé et son conditionnement est défini avec votre DSI. Les responsabilités de déconnexion, de transport et de reconnexion sont précisées dans le cahier des charges avant l'intervention."
   },
   {
     question: "Quelle assurance couvre notre matériel professionnel ?",
-    answer: "En plus de notre RC Professionnelle, nous proposons systématiquement une assurance 'Ad Valorem'. Elle garantit votre matériel à sa valeur d'usage ou à neuf selon vos besoins, couvrant l'intégralité des risques liés à la manutention et au transport."
+    answer: "Les garanties applicables, les limites et la valeur déclarée du matériel doivent être examinées dans les documents contractuels du projet. Le devis précise les informations et justificatifs nécessaires avant le transfert."
   },
   {
     question: "Pouvez-vous évacuer et recycler le mobilier obsolète ?",
-    answer: "Oui, dans le cadre d'une démarche RSE. Nous gérons le curage de vos anciens locaux et proposons l'évacuation de votre ancien mobilier vers des centres de tri agréés (filière Valdelia) ou des associations partenaires pour le réemploi."
+    answer: "L'évacuation du mobilier peut être étudiée après inventaire. Les modalités de réemploi, de collecte ou de traitement dépendent de la nature, de l'état et du volume des éléments concernés."
   }
 ];
 
@@ -80,10 +80,25 @@ const faqStructuredData = {
   }))
 };
 
+const serviceStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Transfert de bureaux et déménagement d'entreprise",
+  "serviceType": "Transfert de bureaux",
+  "url": "https://demenagementduvexin.fr/demenagement-entreprise-bureau",
+  "provider": {
+    "@type": "MovingCompany",
+    "name": "Déménagement du Vexin",
+    "url": "https://demenagementduvexin.fr"
+  },
+  "areaServed": { "@type": "Country", "name": "France" }
+};
+
 export default function DemenagementEntreprisePage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
       <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      <Script id="service-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceStructuredData) }} />
 
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center text-center text-white overflow-hidden bg-[#0b0f19] pt-32 lg:pt-40 pb-20">
@@ -115,18 +130,18 @@ export default function DemenagementEntreprisePage() {
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
-              Transfert d'<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-300">Entreprises</span> <br className="hidden sm:block" />
-              & Bureaux.
+              Transfert de <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-300">bureaux</span> <br className="hidden sm:block" />
+              et déménagement d'entreprise
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Parce que votre temps est précieux, nous orchestrons votre déménagement professionnel avec une précision chirurgicale. Zéro interruption, efficacité totale.
+              Inventaire, accès, mobilier, informatique, archives et calendrier : chaque étape est définie dans un cahier des charges adapté à votre organisation.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
-                <Link href="/dashboard/quote">
-                  Estimation Professionnelle <ArrowRight className="ml-2 h-5 w-5" />
+                <Link href="/demande-devis">
+                  Demander une étude professionnelle <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </div>
@@ -143,8 +158,8 @@ export default function DemenagementEntreprisePage() {
                 <ShieldCheck className="h-8 w-8 text-[#00ad9f]" />
               </div>
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                Le transfert de vos locaux, <br />
-                <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">sans perte de productivité</u>.
+                Préparer le transfert <br />
+                <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">de vos locaux professionnels</u>.
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
@@ -161,8 +176,8 @@ export default function DemenagementEntreprisePage() {
                   <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Étude du cahier des charges</span>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <span className="text-4xl font-black text-slate-900">100%</span>
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Salariés Formés</span>
+                  <span className="text-4xl font-black text-slate-900">Phasage</span>
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Calendrier d'intervention</span>
                 </div>
               </div>
             </div>
@@ -294,8 +309,8 @@ export default function DemenagementEntreprisePage() {
               
               <div className="flex flex-col sm:flex-row justify-center gap-6">
                 <Button size="lg" className="rounded-full h-16 px-12 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)] hover:scale-105" asChild>
-                  <Link href="/dashboard/quote">
-                    Étude gratuite & Devis <ArrowRight className="ml-2 h-5 w-5" />
+                  <Link href="/demande-devis">
+                    Demander un devis professionnel <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" className="rounded-full h-16 px-12 text-lg font-bold border-white/20 bg-white/5 text-white hover:bg-white/10 backdrop-blur-sm transition-all" asChild>
