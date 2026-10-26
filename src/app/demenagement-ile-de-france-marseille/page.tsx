@@ -28,8 +28,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Paris → Marseille (13) | Devis Gratuit & Groupage",
-  description: "Déménageur expert sur l'axe Paris-Marseille. Liaisons hebdomadaires, solutions de groupage et expertise longue distance. Votre devis gratuit personnalisé.",
+  title: "Déménagement Paris Marseille | Devis longue distance",
+  description: "Préparez votre déménagement entre Paris et Marseille : trajet dédié ou groupage selon le volume, les dates et les accès. Demandez un devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-ile-de-france-marseille",
   }
@@ -39,42 +39,42 @@ export const metadata: Metadata = {
 const WHY_US_ITEMS = [
   {
     icon: Route,
-    title: "Liaisons Hebdomadaires",
-    description: "Nous assurons des navettes régulières entre l'Île-de-France et la Provence pour une flexibilité totale de vos dates."
+    title: "Trajet planifié",
+    description: "Le calendrier est établi selon votre volume, vos adresses, les contraintes d'accès et la formule choisie."
   },
   {
     icon: Truck,
-    title: "Sécurité Longue Distance",
-    description: "Véhicules récents avec arrimage spécifique pour garantir l'intégrité absolue de vos biens sur 800 km d'autoroute."
+    title: "Protection longue distance",
+    description: "Le mobilier est protégé et arrimé en tenant compte de la durée du transport et des manipulations prévues."
   },
   {
     icon: Scale,
-    title: "Groupage Économique",
-    description: "Divisez vos frais de transport par deux en mutualisant le trajet avec d'autres clients (pour les volumes < 15m³)."
+    title: "Trajet dédié ou groupage",
+    description: "Selon le volume et vos dates, nous étudions un camion dédié ou la mutualisation du transport avec d'autres chargements."
   },
   {
     icon: Anchor,
-    title: "Maîtrise Marseille-Centre",
-    description: "Nous gérons les accès complexes (ruelles du Panier, fortes pentes) et les autorisations auprès de la voirie de Marseille."
+    title: "Accès à anticiper",
+    description: "Ruelles, étages, ascenseur, portage et stationnement sont vérifiés avant de définir les moyens nécessaires à Marseille."
   }
 ];
 
 const FAQS = [
   { 
     question: "Quelle est la durée d'un déménagement entre Paris et Marseille ?", 
-    answer: "Il faut généralement prévoir 48 à 72 heures. Le premier jour est consacré au chargement en Île-de-France. Le trajet s'effectue ensuite (environ 8h de route pour un poids lourd), suivi du déchargement et de l'installation complète à Marseille le jour suivant ou le surlendemain, selon votre volume." 
+    answer: "La durée dépend du volume, des accès, de la formule et du mode de transport retenu. Après l'étude de votre projet, le devis précise le calendrier de chargement, de transport et de livraison proposé."
   },
   { 
     question: "Proposez-vous le groupage vers la cité phocéenne ?", 
-    answer: "Oui, l'axe Paris-Marseille est l'un de nos trajets les plus réguliers en groupage. C'est la solution idéale pour les petits appartements, les studios ou les résidences secondaires, permettant de réduire considérablement le coût des péages et du carburant." 
+    answer: "Le groupage peut être étudié lorsque le volume et la souplesse des dates le permettent. Le coût et le calendrier sont alors comparés avec ceux d'un trajet dédié afin de retenir la solution adaptée au projet."
   },
   { 
     question: "Comment gérez-vous le stationnement à Marseille ?", 
-    answer: "Marseille possède des règles de voirie spécifiques et des rues très denses. Nous nous occupons de déposer les demandes d'arrêté de stationnement 15 jours à l'avance auprès des services municipaux pour garantir un emplacement sécurisé pour nos camions à l'arrivée." 
+    answer: "Les besoins de stationnement et d'autorisation dépendent de l'adresse et des règles locales en vigueur. Nous identifions ces contraintes lors de l'étude des accès et précisons les démarches à prévoir avant l'intervention."
   },
   { 
     question: "Comment mes affaires fragiles sont-elles protégées ?", 
-    answer: "Pour les trajets nationaux longue distance, nous utilisons un emballage renforcé. Vos meubles sont protégés par des couvertures de déménagement épaisses. La vaisselle, les tableaux et les écrans bénéficient de cartons spécifiques (barrels, caisses) pour résister parfaitement aux vibrations de la route." 
+    answer: "La protection est adaptée à la nature des biens et à la formule retenue : couvertures pour le mobilier, cartons appropriés pour la vaisselle et protections spécifiques pour les tableaux ou écrans lorsque le projet l'exige."
   }
 ];
 
@@ -88,10 +88,28 @@ const faqStructuredData = {
   }))
 };
 
+const serviceStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Déménagement Paris Marseille",
+  "serviceType": "Déménagement longue distance",
+  "url": "https://demenagementduvexin.fr/demenagement-ile-de-france-marseille",
+  "provider": {
+    "@type": "MovingCompany",
+    "name": "Déménagement du Vexin",
+    "url": "https://demenagementduvexin.fr"
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Paris" },
+    { "@type": "City", "name": "Marseille" }
+  ]
+};
+
 export default function MarseillePage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
       <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      <Script id="service-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceStructuredData) }} />
       
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
@@ -123,14 +141,14 @@ export default function MarseillePage() {
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
-              Votre déménagement <br className="hidden sm:block" />
+              Déménagement <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
-                Paris - Marseille.
+                Paris – Marseille
               </span>
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Mettez le cap sur la cité phocéenne. Profitez d'une logistique rodée pour un déménagement longue distance rapide, sécurisé et au meilleur prix grâce à nos groupages.
+              Organisez votre liaison entre l'Île-de-France et les Bouches-du-Rhône avec une étude du volume, des accès et du calendrier. Trajet dédié ou groupage sont comparés selon votre projet.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -154,10 +172,10 @@ export default function MarseillePage() {
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  Rejoindre Marseille est un projet de vie enthousiasmant. Pour que ce grand changement se fasse en toute sérénité, la maîtrise de la logistique longue distance est impérative. Les 800 km d'autoroute séparant l'Île-de-France de la Provence exigent une protection renforcée des biens et une planification rigoureuse.
+                  Un déménagement entre Paris et Marseille représente plus de 750 km par la route. Cette distance demande de coordonner les horaires, la protection du mobilier, le chargement et les conditions de livraison à l'arrivée.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons parfaitement les deux extrémités de votre projet : la gestion complexe du stationnement francilien, et les accès parfois étroits ou très pentus des collines marseillaises, du Panier à Mazargues, en passant par les résidences de la Corniche.
+                  Chez <strong>Déménagement du Vexin</strong>, nous préparons les deux extrémités du trajet : stationnement et portage au départ, puis accès marseillais, étage, ascenseur et distance entre le camion et le logement à l'arrivée.
                 </p>
               </div>
               
@@ -166,8 +184,8 @@ export default function MarseillePage() {
                     <Timer className="h-8 w-8 text-[#00ad9f]" />
                  </div>
                  <div>
-                   <h3 className="text-xl font-bold text-slate-900 mb-1">Logistique Optimisée</h3>
-                   <p className="text-slate-500 font-light">Des liaisons régulières et sécurisées pour diviser vos frais de transport.</p>
+                   <h3 className="text-xl font-bold text-slate-900 mb-1">Devis fondé sur votre projet</h3>
+                   <p className="text-slate-500 font-light">Volume, accès, prestations et souplesse des dates déterminent l'organisation et le prix proposés.</p>
                  </div>
               </div>
             </div>
@@ -195,7 +213,7 @@ export default function MarseillePage() {
               Pourquoi nous confier votre trajet ?
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Une organisation millimétrée pour une liaison Paris-Marseille parfaitement maîtrisée.
+              Les points à étudier avant de chiffrer et planifier une liaison Paris–Marseille.
             </p>
           </div>
 
@@ -245,8 +263,8 @@ export default function MarseillePage() {
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Scale className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Groupage Malin & Économique</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Divisez vos frais de péage et de carburant par deux en partageant l'espace d'un grand camion vers les Bouches-du-Rhône.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Groupage ou camion dédié</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">La mutualisation peut réduire la part de transport lorsque le volume et les dates sont compatibles. Un trajet dédié offre davantage de maîtrise sur le calendrier.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">

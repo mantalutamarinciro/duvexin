@@ -559,3 +559,12 @@ test('national intent and corridor breadcrumbs consolidate on the national hub',
     assert.match(source, /href="\/demenagement-national"[^>]*>Déménagement National<\/Link>/, route);
   }
 });
+
+test('Paris–Marseille corridor targets the exact intent without unverifiable promises', () => {
+  const source = readFileSync(path.join(root, 'src/app/demenagement-ile-de-france-marseille/page.tsx'), 'utf8');
+  assert.ok(source.includes('Déménagement Paris Marseille | Devis longue distance'));
+  assert.match(source, /<h1[\s\S]*?Déménagement[\s\S]*?Paris – Marseille[\s\S]*?<\/h1>/);
+  assert.ok(source.includes('"@type": "Service"'));
+  assert.ok(source.includes('href="/demenagement-national"'));
+  assert.doesNotMatch(source, /liaisons hebdomadaires|flexibilité totale|intégrité absolue|par deux|48 à 72 heures|15 jours à l'avance|parfaitement aux vibrations/i);
+});
