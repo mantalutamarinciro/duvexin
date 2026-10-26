@@ -586,3 +586,22 @@ test('office-transfer intent uses the public quote path and qualified claims', (
   assert.ok(source.includes('href="/demande-devis"'));
   assert.doesNotMatch(source, /href="\/dashboard\/quote"|Zéro interruption|efficacité totale|100% opérationnel|rapidité d'exécution absolue|l'intégralité des risques/i);
 });
+
+test('Le Havre intent has a dedicated page linked to the Seine-Maritime hub', () => {
+  const route = 'demenagement-le-havre-76600';
+  const page = readFileSync(path.join(root, 'src/app', route, 'page.tsx'), 'utf8');
+  const layout = readFileSync(path.join(root, 'src/app', route, 'layout.tsx'), 'utf8');
+  const hub = readFileSync(path.join(root, 'src/app/demenagement-seine-maritime-76/page.tsx'), 'utf8');
+  const sitemap = readFileSync(path.join(root, 'src/app/sitemap.ts'), 'utf8');
+
+  assert.ok(layout.includes('Déménageur Le Havre (76600) | Devis personnalisé'));
+  assert.ok(layout.includes('https://demenagementduvexin.fr/demenagement-le-havre-76600'));
+  assert.match(page, /<h1[\s\S]*?Votre déménageur au Havre \(76600\)[\s\S]*?<\/h1>/);
+  assert.ok(page.includes('"@type": "Service"'));
+  assert.ok(page.includes('"@type": "FAQPage"'));
+  assert.ok(page.includes('href="/demenagement-seine-maritime-76"'));
+  assert.ok(page.includes('href="/demande-devis"'));
+  assert.ok(hub.includes('href="/demenagement-le-havre-76600"'));
+  assert.ok(sitemap.includes("'/demenagement-le-havre-76600'"));
+  assert.doesNotMatch(page, /liaisons régulières|prix garanti|meilleur prix|sans accroc|parfaite connaissance|leader|24h|48h|72h/i);
+});

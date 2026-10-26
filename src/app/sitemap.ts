@@ -125,6 +125,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/demenagement-herouville-saint-clair-14200',
     '/demenagement-honfleur-14600',
     '/demenagement-ifs-14123',
+    '/demenagement-le-havre-76600',
     '/demenagement-issy-les-moulineaux-92130',
     '/demenagement-ivry-sur-seine-94200',
     '/demenagement-le-chesnay-rocquencourt-78150',

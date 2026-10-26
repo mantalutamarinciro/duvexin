@@ -208,7 +208,11 @@ export default function SeineMaritimePage() {
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
-            {SEINE_MARITIME_CITIES.map((city) => (
+            {SEINE_MARITIME_CITIES.map((city) => city === "Le Havre" ? (
+              <Link key={city} href="/demenagement-le-havre-76600" className="bg-white border border-[#00ad9f]/30 rounded-2xl p-5 text-center text-sm font-bold text-[#007f76] shadow-sm hover:shadow-md hover:border-[#00ad9f] transition-all flex items-center justify-center">
+                Déménagement au Havre
+              </Link>
+            ) : (
               <div key={city} className="bg-white border border-slate-200 rounded-2xl p-5 text-center text-sm font-bold text-slate-700 shadow-sm hover:shadow-md hover:border-[#00ad9f]/30 hover:text-[#00ad9f] transition-all cursor-default flex items-center justify-center">
                 {city}
               </div>
