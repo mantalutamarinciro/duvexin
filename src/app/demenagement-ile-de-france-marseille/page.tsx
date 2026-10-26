@@ -111,7 +111,7 @@ export default function MarseillePage() {
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
-            <Link href="/services" className="hover:text-white transition-colors">Déménagement National</Link>
+            <Link href="/demenagement-national" className="hover:text-white transition-colors">Déménagement National</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
             <span className="text-[#00ad9f]">Axe Paris-Marseille</span>
           </nav>

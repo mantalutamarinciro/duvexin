@@ -543,3 +543,19 @@ test('Yvelines intent and city breadcrumbs consolidate on the departmental hub',
     assert.match(source, /href="\/demenagement-yvelines-78"[^>]*>Yvelines \(78\)<\/Link>/, route);
   }
 });
+
+test('national intent and corridor breadcrumbs consolidate on the national hub', () => {
+  const nationalPage = readFileSync(path.join(root, 'src/app/demenagement-national/page.tsx'), 'utf8');
+  assert.ok(nationalPage.includes('Déménagement national | Devis longue distance'));
+  assert.match(nationalPage, /<h1[\s\S]*?Déménagement national[\s\S]*?et longue distance/);
+  assert.doesNotMatch(nationalPage, /100%|50k€|liaisons hebdomadaires|livrons absolument/i);
+
+  for (const city of [
+    'bordeaux', 'lille', 'lyon', 'marseille', 'nantes',
+    'nice', 'rennes', 'strasbourg', 'toulouse',
+  ]) {
+    const route = `demenagement-ile-de-france-${city}`;
+    const source = readFileSync(path.join(root, 'src/app', route, 'page.tsx'), 'utf8');
+    assert.match(source, /href="\/demenagement-national"[^>]*>Déménagement National<\/Link>/, route);
+  }
+});

@@ -14,8 +14,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement National & Longue Distance | Partout en France",
-  description: "Déménagez de l'Île-de-France vers toute la France en toute sérénité. Lignes régulières, groupage, transport sécurisé. Devis gratuit.",
+  title: "Déménagement national | Devis longue distance",
+  description: "Organisez votre déménagement national depuis ou vers l'Île-de-France : trajet dédié ou groupage selon le volume, les dates et la destination. Demandez votre devis.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-national",
   }
@@ -69,9 +69,9 @@ export default function DemenagementNationalPage() {
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
-              Où que la vie <br className="hidden sm:block" />
+              Déménagement national <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-300">
-                vous mène en France.
+                et longue distance.
               </span>
             </h1>
             
@@ -103,7 +103,7 @@ export default function DemenagementNationalPage() {
                   Quitter sa région pour une nouvelle aventure professionnelle ou personnelle est une étape majeure. Un déménagement à 500 ou 800 kilomètres ne pardonne aucune erreur : il est matériellement impossible de faire un aller-retour pour un carton oublié.
                 </p>
                 <p>
-                  Cela exige une planification rigoureuse, une logistique optimisée (gestion des péages, respect des temps de conduite réglementaires) et un partenaire d'une organisation expérimentée. Grâce à nos tournées nationales régulières, nous vous offrons une solution économique et adaptée aux contraintes du trajet.
+                  Cela exige une planification rigoureuse, une logistique optimisée (gestion des péages, respect des temps de conduite réglementaires) et une organisation adaptée au trajet. Selon votre volume et vos dates, nous étudions une solution dédiée ou un groupage compatible avec votre destination.
                 </p>
               </div>
               
@@ -111,16 +111,16 @@ export default function DemenagementNationalPage() {
                  <div className="flex flex-col gap-2 border-l-4 border-[#00ad9f] pl-6 bg-slate-50 py-4 rounded-r-2xl">
                     <div className="flex items-center gap-3">
                        <Route className="h-7 w-7 text-[#00ad9f]" />
-                       <span className="text-3xl font-extrabold text-slate-900">100%</span>
+                       <span className="text-xl font-extrabold text-slate-900">France</span>
                     </div>
                     <span className="text-sm font-medium text-slate-500 uppercase tracking-wider">Couverture nationale</span>
                  </div>
                  <div className="flex flex-col gap-2 border-l-4 border-[#00ad9f] pl-6 bg-slate-50 py-4 rounded-r-2xl">
                     <div className="flex items-center gap-3">
                        <ShieldCheck className="h-7 w-7 text-[#00ad9f]" />
-                       <span className="text-3xl font-extrabold text-slate-900">50k€</span>
+                       <span className="text-xl font-extrabold text-slate-900">Sur mesure</span>
                     </div>
-                    <span className="text-sm font-medium text-slate-500 uppercase tracking-wider">Assurance incluse</span>
+                    <span className="text-sm font-medium text-slate-500 uppercase tracking-wider">Protection adaptée</span>
                  </div>
               </div>
             </div>
@@ -182,7 +182,7 @@ export default function DemenagementNationalPage() {
               </div>
               <h3 className="text-2xl font-bold text-slate-900 mb-4">Voyage Spécial Dédié</h3>
               <p className="text-slate-500 font-light leading-relaxed flex-grow">
-                Vous avez un grand volume (maison entière) ou une date impérative pour la signature notaire ? Optez pour le voyage spécial. Le camion vous est 100% dédié et nous livrons à la date et à l'heure exactes de votre choix.
+                Vous avez un grand volume ou une contrainte de calendrier ? Le voyage spécial réserve le véhicule à votre projet. Les dates de chargement et de livraison sont définies dans le devis selon le trajet et les accès.
               </p>
             </div>
           </div>
@@ -198,7 +198,7 @@ export default function DemenagementNationalPage() {
               Nos lignes <span className="text-[#00ad9f]">régulières</span>
             </h2>
             <p className="text-lg text-slate-400 font-light leading-relaxed">
-              Nous couvrons l'ensemble du territoire français avec des liaisons hebdomadaires vers les grandes métropoles régionales.
+              Consultez nos principaux axes longue distance depuis ou vers l'Île-de-France. Les possibilités de groupage dépendent du volume, de la destination et des dates souhaitées.
             </p>
           </div>
           
@@ -220,7 +220,7 @@ export default function DemenagementNationalPage() {
 
           <div className="mt-16 text-center">
             <div className="inline-block bg-slate-800/50 border border-slate-700 rounded-full px-8 py-4 text-sm text-slate-300 font-light">
-              Votre ville n'est pas dans la liste ? Pas d'inquiétude, nous livrons absolument <strong className="text-white font-bold">partout en France métropolitaine</strong>.
+              Votre ville n'est pas dans la liste ? Contactez-nous pour étudier votre trajet en <strong className="text-white font-bold">France métropolitaine</strong>.
             </div>
           </div>
         </div>
@@ -252,7 +252,7 @@ export default function DemenagementNationalPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Demandez une étude kilométrique et volumétrique gratuite. Réponse rapide et ferme pour vous aider à budgétiser votre départ.
+                    Demandez une étude kilométrique et volumétrique afin d'obtenir un devis adapté au volume, aux accès et à la distance de votre projet.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
