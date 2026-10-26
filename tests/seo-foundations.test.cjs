@@ -605,3 +605,21 @@ test('Le Havre intent has a dedicated page linked to the Seine-Maritime hub', ()
   assert.ok(sitemap.includes("'/demenagement-le-havre-76600'"));
   assert.doesNotMatch(page, /liaisons régulières|prix garanti|meilleur prix|sans accroc|parfaite connaissance|leader|24h|48h|72h/i);
 });
+
+test('France–Spain intent is consolidated on the dedicated international page', () => {
+  const route = 'demenagement-france-espagne';
+  const page = readFileSync(path.join(root, 'src/app', route, 'page.tsx'), 'utf8');
+  const layout = readFileSync(path.join(root, 'src/app', route, 'layout.tsx'), 'utf8');
+  const hub = readFileSync(path.join(root, 'src/app/demenagement-international/page.tsx'), 'utf8');
+
+  assert.ok(page.includes('Déménagement France Espagne | Devis international'));
+  assert.ok(layout.includes('https://demenagementduvexin.fr/demenagement-france-espagne'));
+  assert.match(page, /<h1[\s\S]*?Déménagement[\s\S]*?France–Espagne[\s\S]*?<\/h1>/);
+  assert.ok(page.includes('"@type": "Service"'));
+  assert.ok(page.includes('"@type": "FAQPage"'));
+  assert.ok(page.includes('href="/demenagement-international"'));
+  assert.ok(page.includes('href="/demande-devis"'));
+  assert.ok(hub.includes('Déménagement France–Espagne'));
+  assert.ok(hub.includes('href: "/demenagement-france-espagne"'));
+  assert.doesNotMatch(page, /départs réguliers|chaque semaine|divisez vos frais par deux|maîtrise totale|véritable spécialité|garantir|partenaires locaux|incluse sur l'intégralité/i);
+});

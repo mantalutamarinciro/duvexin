@@ -30,8 +30,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement France → Espagne | Devis Gratuit & Sécurisé",
-  description: "Déménageur expert sur l'axe France-Espagne. Liaisons régulières vers Madrid, Barcelone, Valence. Groupage et transfert d'entreprise. Devis personnalisé.",
+  title: "Déménagement France Espagne | Devis international",
+  description: "Préparez votre déménagement entre la France et l'Espagne : volume, accès, inventaire, transport direct ou groupage. Demandez un devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-france-espagne",
   }
@@ -40,35 +40,35 @@ export const metadata: Metadata = {
 
 const SPAIN_CITIES = [
   { name: "Madrid", desc: "La capitale et ses quartiers dynamiques (Salamanca, Chamberí...)" },
-  { name: "Barcelone", desc: "Gestion experte des accès en zone dense et quartiers historiques." },
-  { name: "Valence", desc: "Liaisons régulières vers le Levant espagnol." },
-  { name: "Séville", desc: "Logistique dédiée vers le cœur de l'Andalousie." },
-  { name: "Bilbao", desc: "Expertise des accès au Pays Basque espagnol." },
-  { name: "Malaga", desc: "Service premium vers la Costa del Sol." },
-  { name: "Alicante", desc: "Liaisons fréquentes vers la province d'Alicante." },
-  { name: "Saragosse", desc: "Logistique optimisée via l'axe Aragonais." }
+  { name: "Barcelone", desc: "Accès en zone dense et quartiers historiques à vérifier selon l'adresse." },
+  { name: "Valence", desc: "Projet étudié selon l'adresse exacte, le volume et le calendrier." },
+  { name: "Séville", desc: "Organisation à définir selon les accès et la distance jusqu'à l'adresse." },
+  { name: "Bilbao", desc: "Accès au logement et stationnement vérifiés avant le départ." },
+  { name: "Malaga", desc: "Transport longue distance dimensionné selon le volume à livrer." },
+  { name: "Alicante", desc: "Solution dédiée ou mutualisée étudiée selon les contraintes du projet." },
+  { name: "Saragosse", desc: "Planification personnalisée du chargement à la livraison." }
 ];
 
 const WHY_US_ITEMS = [
   {
     icon: Route,
     title: "Liaisons France-Espagne",
-    description: "Nous assurons des navettes régulières entre l'Île-de-France et les grandes métropoles espagnoles via l'axe A10 / AP-7."
+    description: "Le trajet et son calendrier sont étudiés selon les adresses, le volume et les contraintes de livraison."
   },
   {
     icon: Sun,
-    title: "Expertise Ibérique",
-    description: "Nos équipes maîtrisent les spécificités d'accès locales et les réglementations de stationnement des grandes villes espagnoles."
+    title: "Accès aux deux adresses",
+    description: "Étages, ascenseurs, portage et possibilités de stationnement sont vérifiés au départ comme à l'arrivée."
   },
   {
     icon: Scale,
     title: "Groupage Économique",
-    description: "Divisez vos frais de transport par deux en mutualisant le trajet avec d'autres clients pour vos volumes entre 5 et 20m³."
+    description: "Le transport mutualisé peut être étudié lorsque le volume, la destination et les dates sont compatibles."
   },
   {
     icon: ShieldCheck,
     title: "Protection contractuelle",
-    description: "Votre patrimoine est couvert par une assurance Ad Valorem (valeur déclarée) incluse sur l'intégralité du trajet européen."
+    description: "L'inventaire et la déclaration de valeur permettent de cadrer contractuellement les biens confiés."
   }
 ];
 
@@ -79,15 +79,15 @@ const FAQS = [
   },
   { 
     question: "Comment fonctionne le groupage vers l'Espagne ?", 
-    answer: "Le groupage est la solution idéale pour les volumes inférieurs à 15m³. Nous mutualisons le transport dans un grand camion avec d'autres clients allant dans la même direction (Catalogne, Andalousie...). Cela permet de partager les frais de route (péages très nombreux, carburant) et de vous offrir un tarif extrêmement avantageux." 
+    answer: "Le groupage peut être étudié lorsque le volume, la destination et les dates sont compatibles avec une tournée mutualisée. Une livraison dédiée reste préférable lorsqu'un calendrier précis ou un volume important l'exige."
   },
   { 
     question: "Gérez-vous le stationnement à Madrid ou Barcelone ?", 
-    answer: "Absolument. Les villes espagnoles sont très denses et la 'multa' (amende) peut vite arriver. Nous coordonnons avec nos partenaires locaux ou les services de voirie (Ayuntamiento) pour réserver les emplacements nécessaires et garantir que le camion puisse stationner au plus proche de votre adresse." 
+    answer: "Les étages, l'ascenseur, la largeur des voies, la distance de portage et les règles de stationnement doivent être vérifiés aux deux adresses. Ces informations servent à étudier le véhicule et les moyens de manutention adaptés."
   },
   { 
     question: "Quelles sont les formalités administratives ?", 
-    answer: "Pour un déménagement au sein de l'Union Européenne (Espace Schengen), les formalités douanières sont simplifiées. Il nous faudra principalement établir ensemble un inventaire détaillé et vous demander vos justificatifs de changement de résidence (contrat de travail, NIE, bail) pour l'assurance et les éventuels contrôles routiers." 
+    answer: "Un inventaire détaillé et une déclaration de valeur sont généralement utiles à la préparation du transport. Les justificatifs et démarches complémentaires dépendent de votre situation, des biens transportés et des exigences applicables aux adresses concernées."
   }
 ];
 
@@ -101,10 +101,27 @@ export default function SpainPage() {
       "acceptedAnswer": { "@type": "Answer", "text": item.answer }
     }))
   };
+  const serviceStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Déménagement France Espagne",
+    serviceType: "Déménagement international entre la France et l'Espagne",
+    url: "https://demenagementduvexin.fr/demenagement-france-espagne",
+    provider: {
+      "@type": "MovingCompany",
+      name: "Déménagement du Vexin",
+      url: "https://demenagementduvexin.fr",
+    },
+    areaServed: [
+      { "@type": "Country", name: "France" },
+      { "@type": "Country", name: "Espagne" },
+    ],
+  };
 
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
       <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      <Script id="service-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceStructuredData) }} />
       
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
@@ -124,7 +141,7 @@ export default function SpainPage() {
           <nav className="flex items-center text-[11px] font-black uppercase tracking-[0.2em] text-white/50 mb-8" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
-            <Link href="/services" className="hover:text-white transition-colors">International</Link>
+            <Link href="/demenagement-international" className="hover:text-white transition-colors">Déménagement international</Link>
             <ChevronRight className="h-3 w-3 mx-3 opacity-50" />
             <span className="text-[#00ad9f]">France - Espagne</span>
           </nav>
@@ -136,14 +153,14 @@ export default function SpainPage() {
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
-              Votre déménagement <br className="hidden sm:block" />
+              Déménagement <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
-                vers l'Espagne.
+                France–Espagne
               </span>
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Mettez le cap sur la péninsule ibérique en toute sérénité. De la France vers Madrid, Barcelone ou l'Andalousie, profitez d'une logistique rodée pour un déménagement international fluide.
+              Préparez votre départ ou votre retour avec une étude précise du volume, des accès aux deux adresses et de la solution de transport adaptée.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -163,14 +180,14 @@ export default function SpainPage() {
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div className="space-y-8 relative z-10">
               <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                Une logistique sans frontières <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">pour votre nouveau départ</u>.
+                Bien cadrer chaque étape <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">entre la France et l'Espagne</u>.
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  S'installer en Espagne est un projet de vie majeur, que ce soit pour le dynamisme économique de Madrid, l'effervescence culturelle de Barcelone ou la douceur de vivre méditerranéenne d'Alicante. Pour réussir cette transition, la maîtrise totale des liaisons longue distance européennes est impérative.
+                  Une longue distance ne se résume pas au nombre de kilomètres. Le volume réel, les accès au logement, les règles de stationnement et les dates souhaitées déterminent l'organisation du transport.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous avons fait de l'axe France-Espagne une véritable spécialité. Nous gérons aussi bien les accès très denses des grandes métropoles espagnoles que les livraisons complexes dans les zones résidentielles escarpées (Costa Blanca, Costa del Sol) ou les parcs d'activités tertiaires.
+                  L'étude commence par les deux adresses et l'inventaire des biens. Elle permet de comparer une prestation dédiée avec une solution de groupage lorsqu'elle est compatible avec le projet, sans arrêter un calendrier avant vérification.
                 </p>
               </div>
               
@@ -179,8 +196,8 @@ export default function SpainPage() {
                     <Timer className="h-8 w-8 text-[#00ad9f]" />
                  </div>
                  <div>
-                   <h3 className="text-xl font-bold text-slate-900 mb-1">Rapidité & Fiabilité</h3>
-                   <p className="text-slate-500 font-light">Des départs réguliers chaque semaine pour garantir une flexibilité de vos dates d'emménagement.</p>
+                   <h3 className="text-xl font-bold text-slate-900 mb-1">Un devis lisible</h3>
+                   <p className="text-slate-500 font-light">Les prestations, les options et les contraintes identifiées sont précisées avant validation.</p>
                  </div>
               </div>
             </div>
@@ -205,10 +222,10 @@ export default function SpainPage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-              L'excellence pour votre expatriation
+              Les points qui structurent votre devis
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Une organisation millimétrée pour une liaison France-Espagne parfaitement maîtrisée.
+              Une préparation fondée sur le volume, les accès, le calendrier et le niveau de prestation souhaité.
             </p>
           </div>
 
@@ -232,10 +249,10 @@ export default function SpainPage() {
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mb-16 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight">
-              Nous couvrons <span className="text-[#00ad9f]">toute l'Espagne.</span>
+              Préparer votre arrivée <span className="text-[#00ad9f]">selon la destination.</span>
             </h2>
             <p className="text-lg text-slate-400 font-light leading-relaxed">
-              De la Castille à l'Andalousie en passant par la Catalogne, nos camions assurent des liaisons régulières vers les plus grandes métropoles espagnoles.
+              Chaque projet est étudié à partir de l'adresse exacte plutôt qu'à partir d'une promesse générique par ville.
             </p>
           </div>
           
@@ -272,28 +289,28 @@ export default function SpainPage() {
 
             <div className="order-1 lg:order-2 space-y-10 lg:pl-10">
               <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                Une réponse à <br/> <span className="text-[#00ad9f]">chaque profil international.</span>
+                Une prestation adaptée <br/> <span className="text-[#00ad9f]">à votre projet international.</span>
               </h2>
               <ul className="space-y-8">
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Building2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Expatriés & Particuliers</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Service premium incluant l'emballage complet (mise en caisse), le déballage et la réinstallation de votre intérieur pour une transition immédiate sous le soleil.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">L'emballage, le démontage, le remontage et la protection spécifique peuvent être intégrés selon la formule retenue.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Scale className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Groupage Économique Européen</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Divisez vos frais de péages internationaux et de transport par deux en mutualisant le trajet avec d'autres clients vers Madrid ou Barcelone.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">La mutualisation peut être étudiée selon le volume, la destination et la compatibilité des dates de chargement et de livraison.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts de Bureaux (B2B)</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Logistique B2B experte : transfert de serveurs informatiques, d'archives sécurisées et de mobiliers professionnels entre la France et l'Espagne.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Le transfert de mobilier, d'archives ou d'équipements est défini selon l'inventaire, les accès et les contraintes de continuité propres à l'entreprise.</p>
                   </div>
                 </li>
               </ul>
@@ -356,7 +373,7 @@ export default function SpainPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas les frontières ou les kilomètres compliquer votre projet. Contactez nos experts internationaux pour une étude personnalisée et recevez un devis ferme après étude.
+                    Indiquez vos adresses, votre volume estimé et vos contraintes de dates pour recevoir une proposition adaptée après étude.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">

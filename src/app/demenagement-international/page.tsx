@@ -41,7 +41,7 @@ const INTERNATIONAL_DESTINATIONS = [
   { name: "Belgique", href: "/demenagement-france-belgique", desc: "Liaisons Hebdomadaires", icon: Truck },
   { name: "Luxembourg", href: "/demenagement-france-luxembourg", desc: "Service Expatriés Premium", icon: Building2 },
   { name: "Allemagne", href: "/demenagement-france-allemagne", desc: "Axe Paris - Berlin - Munich", icon: Globe },
-  { name: "Espagne", href: "/demenagement-france-espagne", desc: "Liaisons France - Péninsule", icon: Route },
+  { name: "Déménagement France–Espagne", href: "/demenagement-france-espagne", desc: "Accès, volume, transport direct ou groupage", icon: Route },
   { name: "Portugal", href: "/demenagement-france-portugal", desc: "Longue Distance Sécurisée", icon: MapPin },
   { name: "Italie", href: "/demenagement-france-italie", desc: "Expertise Transalpine", icon: Route },
   { name: "Pays-Bas", href: "/demenagement-france-pays-bas", desc: "Gestion Accès Canaux", icon: Ship },
