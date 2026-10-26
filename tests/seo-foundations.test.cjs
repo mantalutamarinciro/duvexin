@@ -568,3 +568,12 @@ test('Paris–Marseille corridor targets the exact intent without unverifiable p
   assert.ok(source.includes('href="/demenagement-national"'));
   assert.doesNotMatch(source, /liaisons hebdomadaires|flexibilité totale|intégrité absolue|par deux|48 à 72 heures|15 jours à l'avance|parfaitement aux vibrations/i);
 });
+
+test('Paris–Lyon corridor targets the exact intent without unverifiable promises', () => {
+  const source = readFileSync(path.join(root, 'src/app/demenagement-ile-de-france-lyon/page.tsx'), 'utf8');
+  assert.ok(source.includes('Déménagement Paris Lyon | Devis longue distance'));
+  assert.match(source, /<h1[\s\S]*?Déménagement[\s\S]*?Paris – Lyon[\s\S]*?<\/h1>/);
+  assert.ok(source.includes('"@type": "Service"'));
+  assert.ok(source.includes('href="/demenagement-national"'));
+  assert.doesNotMatch(source, /navettes hebdomadaires|flexibilité totale|protéger parfaitement|jusqu'à 40%|48 heures|15 jours à l'avance|par deux/i);
+});

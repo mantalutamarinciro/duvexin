@@ -27,8 +27,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Paris → Lyon (69) | Devis Gratuit & Groupage",
-  description: "Déménageur expert sur l'axe Paris-Lyon. Liaisons hebdomadaires, solutions de groupage et expertise Croix-Rousse/Monts d'Or. Votre devis gratuit personnalisé.",
+  title: "Déménagement Paris Lyon | Devis longue distance",
+  description: "Préparez votre déménagement entre Paris et Lyon : trajet dédié ou groupage selon le volume, les dates et les accès. Demandez un devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-ile-de-france-lyon",
   }
@@ -38,42 +38,42 @@ export const metadata: Metadata = {
 const WHY_US_ITEMS = [
   {
     icon: Route,
-    title: "Liaisons Régulières",
-    description: "Nous assurons des navettes hebdomadaires entre l'Île-de-France et la région lyonnaise pour une flexibilité totale de vos dates."
+    title: "Trajet planifié",
+    description: "Le calendrier est défini selon le volume, les deux adresses, les accès et la formule retenue."
   },
   {
     icon: Truck,
-    title: "Sécurité Autoroutière",
-    description: "Véhicules capitonnés et techniques d'arrimage spécifiques pour protéger parfaitement vos biens sur les 450 km de trajet."
+    title: "Protection longue distance",
+    description: "Le mobilier est protégé et arrimé en tenant compte de la durée du transport et des manipulations prévues."
   },
   {
     icon: Scale,
-    title: "Groupage Intelligent",
-    description: "Optimisez votre budget en partageant les frais de route (péages, carburant) avec d'autres clients pour vos volumes de 5 à 15 m³."
+    title: "Trajet dédié ou groupage",
+    description: "Selon le volume et la souplesse de vos dates, nous comparons un camion dédié et la mutualisation du transport."
   },
   {
     icon: ShieldCheck,
-    title: "Maîtrise Lyon-Centre",
-    description: "Nous gérons les accès complexes (Croix-Rousse, Presqu'île) et les autorisations de stationnement auprès de la voirie."
+    title: "Accès lyonnais à anticiper",
+    description: "Pentes, rues étroites, étages, ascenseur, portage et stationnement sont étudiés avant de définir les moyens nécessaires."
   }
 ];
 
 const FAQS = [
   { 
     question: "Combien de temps dure un déménagement entre Paris et Lyon ?", 
-    answer: "Il faut généralement compter 48 heures au total. Le premier jour est consacré au chargement en région parisienne et au début du transit via l'A6. Le second jour est dédié à la fin du transport, au déchargement et à l'installation complète dans votre nouveau domicile lyonnais." 
+    answer: "La durée dépend du volume, des accès, de la formule et du mode de transport retenu. Après l'étude du projet, le devis précise le calendrier de chargement, de transport et de livraison proposé."
   },
   { 
     question: "Comment fonctionne votre solution de groupage pour Lyon ?", 
-    answer: "Le groupage permet de mutualiser un camion de grand volume (50m³ ou 100m³) pour plusieurs clients allant dans la même direction. C'est la solution idéale pour les petits appartements ou les étudiants, permettant de réduire les coûts de transport jusqu'à 40% sans rogner sur la qualité." 
+    answer: "Le groupage mutualise une partie du transport avec d'autres chargements allant dans la même direction. Il peut être étudié lorsque le volume et les dates le permettent, puis comparé avec un trajet dédié."
   },
   { 
     question: "Comment gérez-vous le stationnement à Lyon ?", 
-    answer: "Lyon est une ville dense avec des règles de stationnement strictes. Dans le cadre de nos prestations, nous nous occupons de déposer les demandes d'autorisation auprès de la Direction de la Voirie de Lyon 15 jours à l'avance pour sécuriser l'emplacement du camion au pied de votre adresse." 
+    answer: "Les besoins de stationnement et d'autorisation dépendent de l'adresse et des règles locales en vigueur. Nous identifions les contraintes d'accès et précisons les démarches à prévoir avant l'intervention."
   },
   { 
     question: "Comment sont protégés mes meubles pendant le long trajet ?", 
-    answer: "Pour les longues distances, nous doublons systématiquement les protections : couvertures épaisses, sangles de maintien professionnelles, et housses plastiques sur-mesure pour la literie et les canapés. Les objets fragiles sont placés dans des zones spécifiques du camion pour éviter toute pression lors des freinages." 
+    answer: "La protection est adaptée aux biens et à la formule retenue : couvertures et arrimage pour le mobilier, protections de literie et cartons appropriés pour les objets fragiles lorsque le projet l'exige."
   }
 ];
 
@@ -87,10 +87,28 @@ const faqStructuredData = {
   }))
 };
 
+const serviceStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Déménagement Paris Lyon",
+  "serviceType": "Déménagement longue distance",
+  "url": "https://demenagementduvexin.fr/demenagement-ile-de-france-lyon",
+  "provider": {
+    "@type": "MovingCompany",
+    "name": "Déménagement du Vexin",
+    "url": "https://demenagementduvexin.fr"
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Paris" },
+    { "@type": "City", "name": "Lyon" }
+  ]
+};
+
 export default function LyonPage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
       <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      <Script id="service-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceStructuredData) }} />
       
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
@@ -122,14 +140,14 @@ export default function LyonPage() {
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
-              Votre déménagement <br className="hidden sm:block" />
+              Déménagement <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
-                Paris - Lyon.
+                Paris – Lyon
               </span>
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Mettez le cap sur la capitale des Gaules. Profitez d'une logistique rodée pour un déménagement longue distance rapide, sécurisé et toujours au tarif le plus juste grâce à nos groupages.
+              Organisez votre liaison entre l'Île-de-France et le Rhône avec une étude du volume, des accès et du calendrier. Trajet dédié ou groupage sont comparés selon votre projet.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -153,10 +171,10 @@ export default function LyonPage() {
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  Partir vivre à Lyon est un projet de vie majeur. Pour que ce nouveau chapitre commence sans le moindre accroc, nous avons optimisé nos trajets réguliers sur l'autoroute A6 afin de vous proposer des solutions logistiques agiles, que vous soyez un particulier ou une entreprise.
+                  Un déménagement entre Paris et Lyon représente environ 465 km par la route. Cette distance demande de coordonner les horaires, la protection du mobilier, le chargement et les conditions de livraison à l'arrivée.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons parfaitement les deux extrémités de votre projet : la complexité du stationnement francilien et les particularités de l'urbanisme lyonnais, des pentes escarpées de la Croix-Rousse aux superbes résidences de standing du 6ème arrondissement ou des Monts d'Or.
+                  Chez <strong>Déménagement du Vexin</strong>, nous préparons les deux extrémités du trajet : stationnement et portage au départ, puis rue, pente, étage, ascenseur et distance entre le camion et le logement à Lyon.
                 </p>
               </div>
               
@@ -165,8 +183,8 @@ export default function LyonPage() {
                     <PackageCheck className="h-8 w-8 text-[#00ad9f]" />
                  </div>
                  <div>
-                   <h3 className="text-xl font-bold text-slate-900 mb-1">Logistique Longue Distance</h3>
-                   <p className="text-slate-500 font-light">Protection renforcée pour les trajets autoroutiers et suivi rigoureux de l'acheminement.</p>
+                   <h3 className="text-xl font-bold text-slate-900 mb-1">Devis fondé sur votre projet</h3>
+                   <p className="text-slate-500 font-light">Volume, accès, prestations et souplesse des dates déterminent l'organisation et le prix proposés.</p>
                  </div>
               </div>
             </div>
@@ -194,7 +212,7 @@ export default function LyonPage() {
               Pourquoi nous confier votre trajet ?
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Une organisation rigoureuse pour une liaison Paris-Lyon parfaitement maîtrisée.
+              Les points à étudier avant de chiffrer et planifier une liaison Paris–Lyon.
             </p>
           </div>
 
@@ -244,15 +262,15 @@ export default function LyonPage() {
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Scale className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Groupage Économique</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Divisez vos frais de transport par deux en mutualisant le trajet avec d'autres clients vers le département du Rhône.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Groupage ou camion dédié</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">La mutualisation peut réduire la part de transport lorsque le volume et les dates sont compatibles. Un trajet dédié offre davantage de maîtrise sur le calendrier.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Formules Modulables</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">De l'offre Éco (vous emballez) au service Premium Clé-en-main (nous gérons tout), nous adaptons notre niveau d'intervention à vos attentes exactes.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Les formules distinguent notamment l'emballage, la protection des objets fragiles et le démontage du mobilier afin d'adapter la prestation à vos besoins.</p>
                   </div>
                 </li>
               </ul>
