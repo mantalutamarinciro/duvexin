@@ -158,13 +158,13 @@ export default function AboutPage() {
                 Préparer votre déménagement avec Déménizo
               </h2>
               <p className="mt-4 text-base md:text-lg leading-relaxed font-light text-slate-600">
-                Vous préparez un changement de logement ? Déménizo propose des conseils pour organiser votre déménagement : estimer le volume à transporter, anticiper les accès et le stationnement, et comparer le contenu des devis professionnels.
+                Pour préparer votre projet, Déménizo propose des conseils sur le volume à transporter, les accès et les démarches de stationnement. Vous pouvez également y déposer une demande de devis de déménagement.
               </p>
               <a
-                href="https://demenizo.fr/comment-ca-marche"
+                href="https://demenizo.fr/"
                 className="mt-6 inline-flex items-center gap-2 text-sm md:text-base font-bold text-[#008f84] underline decoration-[#00ad9f]/40 underline-offset-4 transition-colors hover:text-[#006f67] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00ad9f] focus-visible:ring-offset-4"
               >
-                Consulter les conseils déménagement de Déménizo
+                découvrir Déménizo
                 <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
               </a>
             </div>

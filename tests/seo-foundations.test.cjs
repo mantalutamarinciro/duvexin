@@ -623,3 +623,12 @@ test('France–Spain intent is consolidated on the dedicated international page'
   assert.ok(hub.includes('href: "/demenagement-france-espagne"'));
   assert.doesNotMatch(page, /départs réguliers|chaque semaine|divisez vos frais par deux|maîtrise totale|véritable spécialité|garantir|partenaires locaux|incluse sur l'intégralité/i);
 });
+
+test('about page contains one server-rendered editorial link to Déménizo', () => {
+  const source = readFileSync(path.join(root, 'src/app/a-propos-de-demenagement-du-vexin/page.tsx'), 'utf8');
+  assert.equal((source.match(/https:\/\/demenizo\.fr\//g) || []).length, 1);
+  assert.match(source, /<a[\s\S]*?href="https:\/\/demenizo\.fr\/"[\s\S]*?>[\s\S]*?découvrir Déménizo[\s\S]*?<\/a>/);
+  assert.doesNotMatch(source, /target="_blank"|rel="sponsored"/);
+  assert.ok(source.includes('les accès et les démarches de stationnement'));
+  assert.ok(source.includes('demande de devis de déménagement'));
+});
