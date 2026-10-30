@@ -73,23 +73,23 @@ const FEATURED_VAL_D_OISE_CITIES = [
 const WHY_US_ITEMS = [
   {
     icon: MapPin,
-    title: "Ancrage Historique",
-    description: "Basés au cœur du Val-d'Oise, nous maîtrisons chaque commune, du Vexin rural aux pôles urbains denses."
+    title: "Équipe basée dans le 95",
+    description: "Depuis Méry-sur-Oise, nous préparons les interventions dans le Vexin rural comme dans les secteurs urbains du département."
   },
   {
     icon: Users,
-    title: "Équipes du Vexin",
-    description: "Nos déménageurs sont des professionnels salariés de la région. Pas de sous-traitance, pour un soin garanti."
+    title: "Organisation adaptée",
+    description: "Volume, étage, ascenseur, portage et stationnement sont étudiés afin d'adapter l'équipe, le véhicule et le matériel."
   },
   {
     icon: ShieldCheck,
-    title: "Protection Adaptée",
-    description: "Emballages spécifiques pour le mobilier fragile et matériel de pointe (monte-meubles, camions capitonnés)."
+    title: "Protection adaptée",
+    description: "Les protections et les moyens de manutention sont définis selon le mobilier, les accès et les prestations retenues au devis."
   },
   {
     icon: Star,
-    title: "Réputation locale",
-    description: "Une note d'excellence dans le 95. Nous accompagnons nos voisins avec la fierté du travail bien fait."
+    title: "Devis détaillé",
+    description: "Chaque proposition précise les prestations prévues afin de comparer clairement le périmètre de l'intervention."
   }
 ];
 
@@ -113,8 +113,46 @@ const FAQS = [
 ];
 
 export default function ValDOisePage() {
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Déménagement dans le Val-d'Oise (95)",
+    serviceType: "Service de déménagement",
+    areaServed: {
+      "@type": "AdministrativeArea",
+      name: "Val-d'Oise",
+    },
+    provider: {
+      "@type": "MovingCompany",
+      name: "Déménagement du Vexin",
+      url: "https://demenagementduvexin.fr/",
+    },
+    url: "https://demenagementduvexin.fr/demenagement-val-d-oise-95",
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Accueil",
+        item: "https://demenagementduvexin.fr/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Déménagement Val-d'Oise (95)",
+        item: "https://demenagementduvexin.fr/demenagement-val-d-oise-95",
+      },
+    ],
+  };
+
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
+      <Script id="val-doise-service-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <Script id="val-doise-breadcrumb-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "FAQPage",
@@ -147,7 +185,7 @@ export default function ValDOisePage() {
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-teal-300 mb-8 shadow-sm backdrop-blur-md">
               <Trees className="h-4 w-4" />
-              L'expert Déménagement du 95
+              Déménagement local dans le 95
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
@@ -158,7 +196,7 @@ export default function ValDOisePage() {
             </h1>
 
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              De Cergy au Vexin Français, bénéficiez du savoir-faire d'un acteur local historique. Une logistique maîtrisée pour une transition en toute sérénité.
+              Basée à Méry-sur-Oise, notre équipe prépare les déménagements de particuliers et d'entreprises à Cergy, Pontoise, Argenteuil et dans les autres communes du département.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-5">
@@ -200,7 +238,7 @@ export default function ValDOisePage() {
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  Le Val-d'Oise (95) est notre département d'origine. De la technopole de Cergy-Pontoise aux demeures historiques de l'Isle-Adam, nous maîtrisons la diversité et les spécificités de chaque secteur.
+                  Le Val-d'Oise (95) réunit des contextes très différents : appartements en centre-ville, résidences, pavillons, villages et locaux professionnels. Cette diversité impose d'évaluer précisément les accès avant de choisir les moyens nécessaires.
                 </p>
                 <p>
                   Pour préparer votre départ, nous vous conseillons de consulter notre <Link href="/blog/checklist-demenagement" className="text-primary font-bold hover:underline">checklist complète</Link> ou d'utiliser notre <Link href="/calculateur-volume" className="text-primary font-bold hover:underline">calculateur de volume</Link> pour une première estimation précise.

@@ -491,6 +491,10 @@ test('Val-d’Oise intent is assigned to the departmental hub, not the homepage'
   assert.ok(homeClient.includes('href="/demenagement-val-d-oise-95"'));
   assert.ok(departmentPage.includes("Déménageur Val-d'Oise (95) | Devis personnalisé"));
   assert.match(departmentPage, /<h1[\s\S]*?Votre déménageur[\s\S]*?dans le Val-d'Oise \(95\)/);
+  assert.ok(departmentPage.includes('"@type": "Service"'));
+  assert.ok(departmentPage.includes('"@type": "BreadcrumbList"'));
+  assert.ok(departmentPage.includes('Basée à Méry-sur-Oise'));
+  assert.doesNotMatch(departmentPage, /acteur local historique|note d'excellence|Pas de sous-traitance|soin garanti/i);
 });
 
 test('Val-d’Oise city breadcrumbs consolidate authority on the departmental hub', () => {
