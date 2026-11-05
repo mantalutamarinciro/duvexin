@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
@@ -34,9 +35,55 @@ const topDestinations = [
   { name: "Rennes", link: "/demenagement-ile-de-france-rennes" },
 ];
 
+const FAQS = [
+  {
+    question: "Quelle différence entre un déménagement dédié et un groupage ?",
+    answer: "Un trajet dédié réserve le véhicule à votre projet et permet de fixer les dates selon l'organisation retenue. En groupage, plusieurs déménagements compatibles partagent un même trajet ; la solution dépend du volume, de la destination et de la souplesse de vos dates."
+  },
+  {
+    question: "Comment est calculé le prix d'un déménagement national ?",
+    answer: "Le devis tient notamment compte du volume, de la distance, des accès aux deux adresses, des étages, du portage, des prestations d'emballage et de la solution de transport retenue."
+  },
+  {
+    question: "Quand demander un devis pour une longue distance ?",
+    answer: "Il est préférable d'anticiper afin de disposer de davantage de choix pour les dates et d'étudier les possibilités de groupage. Le délai nécessaire varie selon la destination, le volume et la période."
+  },
+  {
+    question: "Intervenez-vous depuis la province vers l'Île-de-France ?",
+    answer: "Oui. La page concerne les départs depuis l'Île-de-France comme les arrivées en Île-de-France, sous réserve de l'étude du trajet, du volume et des accès."
+  }
+];
+
 export default function DemenagementNationalPage() {
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Déménagement national et longue distance",
+    serviceType: "Déménagement longue distance",
+    areaServed: {
+      "@type": "Country",
+      name: "France",
+    },
+    provider: {
+      "@type": "MovingCompany",
+      name: "Déménagement du Vexin",
+      url: "https://demenagementduvexin.fr/",
+    },
+    url: "https://demenagementduvexin.fr/demenagement-national",
+  };
+
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
+      <Script id="national-service-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <Script id="national-faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: FAQS.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: { "@type": "Answer", text: item.answer },
+        })),
+      }) }} />
       
       {/* --- HERO SECTION (Voyage & Distance) --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
@@ -76,7 +123,7 @@ export default function DemenagementNationalPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              De Paris à la province, ou de la province vers l'Île-de-France. Nous organisons votre déménagement longue distance avec la même rigueur et le même soin qu'un trajet local.
+              Depuis l'Île-de-France vers la province, ou depuis la province vers l'Île-de-France, nous organisons votre déménagement national selon le volume, les accès, la distance et vos dates.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -100,7 +147,7 @@ export default function DemenagementNationalPage() {
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  Quitter sa région pour une nouvelle aventure professionnelle ou personnelle est une étape majeure. Un déménagement à 500 ou 800 kilomètres ne pardonne aucune erreur : il est matériellement impossible de faire un aller-retour pour un carton oublié.
+                  Changer de région pour un projet professionnel ou personnel demande davantage d'anticipation qu'un trajet local. L'inventaire, les accès aux deux adresses et les conditions de livraison doivent être vérifiés avant le départ.
                 </p>
                 <p>
                   Cela exige une planification rigoureuse, une logistique optimisée (gestion des péages, respect des temps de conduite réglementaires) et une organisation adaptée au trajet. Selon votre volume et vos dates, nous étudions une solution dédiée ou un groupage compatible avec votre destination.
@@ -148,7 +195,7 @@ export default function DemenagementNationalPage() {
               Les défis de la longue distance, <br/> <span className="text-[#00ad9f]">notre métier.</span>
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Parce qu'un trajet de 8 heures sur autoroute secoue bien plus qu'un trajet de 20 minutes en ville, nos standards de qualité sont relevés.
+              Sur une longue distance, le calage, l'arrimage, le choix du véhicule et la coordination des deux adresses doivent être définis avec précision.
             </p>
           </div>
 
@@ -158,9 +205,9 @@ export default function DemenagementNationalPage() {
               <div className="h-16 w-16 rounded-2xl bg-slate-50 shadow-sm flex items-center justify-center mb-8">
                 <PackageCheck className="h-8 w-8 text-[#00ad9f]" />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">Protection Renforcée</h3>
+              <h3 className="text-2xl font-bold text-slate-900 mb-4">Protection adaptée</h3>
               <p className="text-slate-500 font-light leading-relaxed flex-grow">
-                L'emballage et le calage dans le camion font l'objet d'une attention maniaque. Nous utilisons des sangles d'arrimage lourdes et des couvertures très épaisses pour absorber toutes les vibrations liées à l'autoroute.
+                L'emballage, le calage et l'arrimage sont adaptés au mobilier, à la durée du trajet et aux prestations prévues dans le devis.
               </p>
             </div>
             
@@ -171,7 +218,7 @@ export default function DemenagementNationalPage() {
               </div>
               <h3 className="text-2xl font-bold text-slate-900 mb-4">Lignes Groupées (Groupage)</h3>
               <p className="text-slate-500 font-light leading-relaxed flex-grow">
-                Pour les petits et moyens volumes, le groupage est la solution idéale. Nous groupons plusieurs clients de la même région dans un seul grand camion afin de diviser drastiquement vos frais kilométriques et de péage.
+                Pour certains petits et moyens volumes, plusieurs déménagements compatibles peuvent partager un trajet. La faisabilité dépend de la destination, des dates et de l'espace disponible.
               </p>
             </div>
 
@@ -195,7 +242,7 @@ export default function DemenagementNationalPage() {
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mb-16 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight">
-              Nos lignes <span className="text-[#00ad9f]">régulières</span>
+              Nos destinations <span className="text-[#00ad9f]">nationales</span>
             </h2>
             <p className="text-lg text-slate-400 font-light leading-relaxed">
               Consultez nos principaux axes longue distance depuis ou vers l'Île-de-France. Les possibilités de groupage dépendent du volume, de la destination et des dates souhaitées.
@@ -223,6 +270,31 @@ export default function DemenagementNationalPage() {
               Votre ville n'est pas dans la liste ? Contactez-nous pour étudier votre trajet en <strong className="text-white font-bold">France métropolitaine</strong>.
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl">
+          <div className="text-center mb-14 space-y-4">
+            <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+              Questions sur le déménagement national
+            </h2>
+            <p className="text-lg text-slate-500 font-light">
+              Les points à vérifier avant de comparer les solutions longue distance.
+            </p>
+          </div>
+          <Accordion type="single" collapsible className="space-y-4">
+            {FAQS.map((item, index) => (
+              <AccordionItem key={item.question} value={`national-${index}`} className="rounded-2xl border border-slate-200 bg-slate-50 px-6">
+                <AccordionTrigger className="text-left text-lg font-bold text-slate-900 hover:no-underline">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-base leading-relaxed text-slate-600">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </section>
 
@@ -262,7 +334,7 @@ export default function DemenagementNationalPage() {
                        </Link>
                     </Button>
                     <Button size="lg" variant="outline" className="rounded-full h-16 px-10 text-lg font-bold border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white transition-all relative z-20" asChild>
-                       <a href="tel:+33144935486">Appeler la logistique</a>
+                       <a href="tel:+33130751235">Appeler la logistique</a>
                     </Button>
                  </div>
                </div>

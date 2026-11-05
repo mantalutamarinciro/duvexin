@@ -552,7 +552,10 @@ test('national intent and corridor breadcrumbs consolidate on the national hub',
   const nationalPage = readFileSync(path.join(root, 'src/app/demenagement-national/page.tsx'), 'utf8');
   assert.ok(nationalPage.includes('Déménagement national | Devis longue distance'));
   assert.match(nationalPage, /<h1[\s\S]*?Déménagement national[\s\S]*?et longue distance/);
-  assert.doesNotMatch(nationalPage, /100%|50k€|liaisons hebdomadaires|livrons absolument/i);
+  assert.ok(nationalPage.includes('"@type": "Service"'));
+  assert.ok(nationalPage.includes('"@type": "FAQPage"'));
+  assert.ok(nationalPage.includes('tel:+33130751235'));
+  assert.doesNotMatch(nationalPage, /100%|50k€|liaisons hebdomadaires|livrons absolument|attention maniaque|solution idéale|diviser drastiquement|lignes régulières/i);
 
   for (const city of [
     'bordeaux', 'lille', 'lyon', 'marseille', 'nantes',
