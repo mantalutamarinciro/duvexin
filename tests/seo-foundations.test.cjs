@@ -66,9 +66,12 @@ test('Val-d’Oise featured links point directly to canonical town routes', () =
 
 test('Évreux metadata and H1 target the searched déménageur intent', () => {
   const source = readFileSync(path.join(root, 'src/app/demenagement-du-vexin-evreux/page.tsx'), 'utf8');
+  const department = readFileSync(path.join(root, 'src/app/demenagement-eure-27/page.tsx'), 'utf8');
   assert.match(source, /title:\s*["']Déménageur à Évreux \(27\)/);
   assert.match(source, /description:\s*["']Besoin d’un déménageur à Évreux/);
   assert.match(source, /Votre déménageur à Évreux/);
+  assert.ok(department.includes('link: "/demenagement-du-vexin-evreux"'));
+  assert.ok(!department.includes('link: "/demenagement-evreux-27000"'));
 });
 
 test('sitemap includes priority pages, unique URLs and existing public routes', () => {
@@ -142,6 +145,7 @@ test('legacy local URLs redirect permanently to existing pages without chains', 
     ['/zones', '/zones-intervention'],
     ['/demenagement-enghien-95880', '/demenagement-enghien-les-bains-95880'],
     ["/demenagement-l'isle-adam-95290", '/demenagement-lisle-adam-95290'],
+    ['/demenagement-evreux-27000', '/demenagement-du-vexin-evreux'],
   ]) {
     const redirect = redirects.find(item => item.source === source);
     assert.equal(redirect?.destination, destination);
@@ -243,7 +247,7 @@ test('Val-d’Oise pages avoid unverified turnaround and absolute promises', () 
 test('audited Eure, Oise, Yvelines and Normandy pages avoid unverified commercial promises', () => {
   const routes = [
     'demenagement-eure-27', 'demenagement-bernay-27300',
-    'demenagement-evreux-27000', 'demenagement-gaillon-27600',
+    'demenagement-du-vexin-evreux', 'demenagement-gaillon-27600',
     'demenagement-gisors-27140', 'demenagement-les-andelys-27700',
     'demenagement-louviers-27400', 'demenagement-pont-audemer-27500',
     'demenagement-val-de-reuil-27100',

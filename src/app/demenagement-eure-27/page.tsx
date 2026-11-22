@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 };
 
 const EURE_CITIES = [
-  { name: "Évreux", link: "/demenagement-evreux-27000"},
+  { name: "Évreux", link: "/demenagement-du-vexin-evreux"},
   { name: "Vernon", link: "/demenagement-vernon-27200"},
   { name: "Louviers", link: "/demenagement-louviers-27400"},
   { name: "Val-de-Reuil", link: "/demenagement-val-de-reuil-27100"},

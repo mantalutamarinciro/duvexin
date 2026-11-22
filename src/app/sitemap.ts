@@ -113,7 +113,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/demenagement-eaubonne-95600',
     '/demenagement-enghien-les-bains-95880',
     '/demenagement-ermont-95120',
-    '/demenagement-evreux-27000',
     '/demenagement-falaise-14700',
     '/demenagement-fontenay-sous-bois-94120',
     '/demenagement-franconville-95130',

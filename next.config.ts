@@ -117,6 +117,7 @@ const nextConfig: NextConfig = {
         ['/calcul-volume-demenagement', '/calculateur-volume'],
         ['/demenagement-val-d-oise', '/demenagement-val-d-oise-95'],
         ['/demenagement-local-val-d-oise', '/demenagement-val-d-oise-95'],
+        ['/demenagement-evreux-27000', '/demenagement-du-vexin-evreux'],
         ['/demenagement-oeuvres-d-art', '/demenagement-oeuvres-art'],
         ['/devis', '/demande-devis'],
         ['/politique-de-confidentialite', '/politique-confidentialite'],
