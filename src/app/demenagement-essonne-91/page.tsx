@@ -69,7 +69,7 @@ const FAQS = [
   },
   { 
     question: "Comment gérez-vous les déménagements en zone dense comme Évry ?", 
-    answer: "La planification est notre priorité absolue. Nous gérons très en amont les demandes d'arrêtés municipaux pour le stationnement et utilisons systématiquement des monte-meubles pour les immeubles de grande hauteur (très fréquents à Évry ou Massy) afin de garantir rapidité et sécurité." 
+    answer: "Nous vérifions en amont les besoins d'autorisation de stationnement et les contraintes d'accès. Un monte-meubles peut être proposé lorsque la configuration de l'immeuble et du mobilier le justifie."
   },
   { 
     question: "Déménagez-vous dans le sud rural de l'Essonne ?", 

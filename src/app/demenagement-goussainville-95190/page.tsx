@@ -130,7 +130,7 @@ export default function GoussainvillePage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              La solution logistique de référence pour les résidents et les entreprises de Goussainville (95190). Performance, sécurité absolue et réactivité de proximité.
+              Une organisation adaptée aux résidents et aux entreprises de Goussainville (95190), avec une étude des accès, du stationnement et du volume à transporter.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">

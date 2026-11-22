@@ -126,7 +126,7 @@ export default function ColombesPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              La solution logistique experte pour les pavillons, appartements et entreprises de Colombes (92700). Réactivité, sécurité absolue et maîtrise totale du terrain.
+              Une organisation adaptée aux pavillons, appartements et entreprises de Colombes (92700), tenant compte des accès et des contraintes de stationnement.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">

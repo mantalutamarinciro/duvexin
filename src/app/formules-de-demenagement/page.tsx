@@ -24,7 +24,7 @@ const FORMULAS = [
   {
     id: "eco",
     title: "Économique",
-    priceText: "Le meilleur prix",
+    priceText: "L'essentiel du transport",
     icon: Gift,
     description: "La solution idéale pour les petits budgets et les volumes simples. Vous préparez, nous transportons.",
     color: "text-blue-600",

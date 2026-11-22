@@ -72,7 +72,7 @@ const FAQS = [
   },
   { 
     question: "Comment sont protégés mes meubles ?", 
-    answer: "La sécurité est notre priorité absolue. Nous utilisons systématiquement des couvertures professionnelles de fort grammage pour tout le mobilier, des housses matelassées sur-mesure pour la literie et du bullkraft renforcé pour vos objets les plus fragiles (miroirs, cadres, écrans TV)." 
+    answer: "Nous adaptons les protections au mobilier et aux objets fragiles : couvertures, housses pour la literie et emballages renforcés pour les miroirs, cadres ou écrans, selon les besoins constatés."
   }
 ];
 
@@ -128,7 +128,7 @@ export default function HerouvillePage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              La solution logistique de référence pour les résidences et les entreprises d'Hérouville-Saint-Clair (14200). Réactivité, sécurité absolue et parfaite expertise locale.
+              Une organisation pensée pour les résidences et les entreprises d'Hérouville-Saint-Clair (14200), selon le volume, les accès et les contraintes du site.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">

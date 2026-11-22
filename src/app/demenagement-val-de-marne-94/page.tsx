@@ -151,7 +151,7 @@ export default function ValDeMarnePage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              De Vincennes à Créteil, bénéficiez d'une logistique experte pour vos projets résidentiels et d'entreprise. Une transition sereine au meilleur prix.
+              De Vincennes à Créteil, préparez votre projet résidentiel ou professionnel avec une étude personnalisée du volume, des accès et des prestations.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">

@@ -63,7 +63,7 @@ const FAQS = [
   },
   { 
     question: "Assurez-vous le transport d'objets d'art et de tableaux ?", 
-    answer: "Oui, c'est l'une de nos grandes spécialités dans la cité des peintres. Nous utilisons des emballages spécifiques haut de gamme (bullkraft renforcé, caisses en bois sur-mesure) et nos équipes sont spécifiquement formées au portage délicat pour garantir une sécurité absolue de vos œuvres." 
+    answer: "Nous étudions les besoins de protection et de manutention en fonction de la nature, des dimensions et de la fragilité de chaque œuvre. Des emballages renforcés ou des caisses adaptées peuvent être prévus dans le devis."
   },
   { 
     question: "Intervenez-vous pour les résidences secondaires sur la Côte Fleurie ?", 

@@ -66,7 +66,7 @@ const METHODOLOGY = [
     step: "03",
     icon: Users,
     title: "Portage Hyper-Spécialisé",
-    description: "Intervention de nos 'Porteurs Lourds', des techniciens d'élite coordonnés au millimètre, équipés d'EPI pour une sécurité absolue."
+    description: "Une équipe et des moyens de manutention définis selon le poids, les dimensions, les accès et les risques propres à l'objet."
   }
 ];
 
@@ -167,7 +167,7 @@ export default function ObjetsLourdsPage() {
                  </div>
                  <div>
                     <p className="font-bold text-slate-900 text-lg mb-1">Prévention des risques</p>
-                    <p className="text-sm text-slate-600 leading-relaxed">Nos méthodes garantissent la sécurité absolue de l'objet, de l'intégrité de vos bâtiments et des personnes présentes.</p>
+                    <p className="text-sm text-slate-600 leading-relaxed">Le protocole de manutention tient compte de l'objet, des bâtiments et des personnes présentes afin de limiter les risques pendant chaque étape.</p>
                  </div>
               </div>
             </div>

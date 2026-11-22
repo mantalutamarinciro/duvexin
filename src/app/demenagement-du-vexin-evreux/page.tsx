@@ -226,7 +226,7 @@ export default function EvreuxPage() {
             <div className="space-y-10 lg:pl-10">
               <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 leading-tight">
                 Votre projet, <br />
-                <span className="text-[#00ad9f]">notre priorité absolue.</span>
+                <span className="text-[#00ad9f]">préparé avec attention.</span>
               </h2>
               <div className="space-y-6">
                 {[

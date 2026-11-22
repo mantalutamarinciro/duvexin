@@ -128,7 +128,7 @@ export default function ClichyPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              La solution logistique de confiance pour les résidents et les sièges sociaux de Clichy (92110). Réactivité, sécurité absolue et parfaite maîtrise urbaine.
+              Une organisation adaptée aux résidents et aux entreprises de Clichy (92110), tenant compte des accès, du stationnement et des contraintes urbaines.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">

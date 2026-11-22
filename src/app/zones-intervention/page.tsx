@@ -81,7 +81,7 @@ const NATIONAL = [
   { name: "Nantes (44)", description: "Accompagnement expert vers la Loire-Atlantique et le Grand Ouest.", link: "/demenagement-ile-de-france-nantes" },
   { name: "Toulouse (31)", description: "Logistique sécurisée vers la Ville Rose et l'Occitanie.", link: "/demenagement-ile-de-france-toulouse" },
   { name: "Nice (06)", description: "Service prestige vers la Côte d'Azur et les Alpes-Maritimes.", link: "/demenagement-ile-de-france-nice" },
-  { name: "Strasbourg (67)", description: "Lignes régulières vers l'Alsace et le Grand Est.", link: "/demenagement-ile-de-france-strasbourg" },
+  { name: "Strasbourg (67)", description: "Trajets étudiés vers l'Alsace et le Grand Est.", link: "/demenagement-ile-de-france-strasbourg" },
   { name: "Rennes (35)", description: "Votre installation en Bretagne gérée avec rigueur et ponctualité.", link: "/demenagement-ile-de-france-rennes" },
 ];
 

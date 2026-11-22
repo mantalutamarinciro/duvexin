@@ -130,7 +130,7 @@ export default function LillePage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Mettez le cap sur la capitale des Flandres. Profitez d'une logistique rodée pour un déménagement national rapide, hautement sécurisé et toujours au meilleur prix.
+              Mettez le cap sur la capitale des Flandres avec une organisation adaptée à la distance, au volume et aux contraintes des deux adresses.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">

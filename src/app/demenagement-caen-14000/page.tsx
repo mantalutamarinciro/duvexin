@@ -73,7 +73,7 @@ const FAQS = [
   },
   { 
     question: "Comment protégez-vous mes biens les plus fragiles ?", 
-    answer: "La sécurité est notre priorité absolue. Nous utilisons des couvertures épaisses pour tout le mobilier, des housses matelassées sur-mesure pour la literie et les canapés, et des cartons renforcés (ou caisses) pour vos objets d'art et de valeur." 
+    answer: "Nous choisissons les protections selon les biens à transporter : couvertures pour le mobilier, housses pour la literie et les canapés, et emballages renforcés lorsque la nature des objets le nécessite."
   }
 ];
 

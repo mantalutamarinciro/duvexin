@@ -132,7 +132,7 @@ export default function OrnePage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              D'Alençon au Perche, profitez de la force logistique de notre agence régionale pour un déménagement sans stress et au meilleur prix.
+              D'Alençon au Perche, bénéficiez d'une étude personnalisée selon le volume, les accès et la distance de votre déménagement.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">

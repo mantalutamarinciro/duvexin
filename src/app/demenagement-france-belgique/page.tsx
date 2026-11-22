@@ -140,7 +140,7 @@ export default function BelgiumPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Mettez le cap sur le plat pays en toute sérénité. Depuis la France, profitez d'une logistique rodée pour un déménagement international fluide, sécurisé et au meilleur prix.
+              Mettez le cap sur le plat pays avec une organisation adaptée au volume, aux accès et aux formalités de votre déménagement entre la France et la Belgique.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">

@@ -127,7 +127,7 @@ export default function NicePage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Cap vers la French Riviera. Profitez d'une logistique rodée pour un déménagement longue distance sécurisé, fluide et au meilleur prix.
+              Cap vers la Côte d'Azur avec une organisation longue distance adaptée au volume, aux accès et aux dates de votre projet.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">

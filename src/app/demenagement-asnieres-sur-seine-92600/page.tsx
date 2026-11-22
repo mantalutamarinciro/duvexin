@@ -59,7 +59,7 @@ const WHY_US_ITEMS = [
 const FAQS = [
   { question: "Comment se passe un déménagement dans une rue étroite à Asnières ?", answer: "Nous réalisons une étude d'accès précise en amont. Nous choisissons le véhicule le plus adapté (camionnette ou petit porteur) pour ne pas bloquer la circulation. La réservation de stationnement est gérée par nos soins pour garantir notre emplacement." },
   { question: "Déménager près des quais de Seine pose-t-il un problème ?", answer: "Non, c'est un secteur que nous pratiquons quotidiennement. Nous planifions les interventions en dehors des heures de pointe et sécurisons la zone de chargement pour assurer une protection maximale de vos biens et de vos voisins." },
-  { question: "Proposez-vous des formules pour les petits volumes ?", answer: "Absolument. Nous avons des formules 'Économiques' idéales pour les studios et T2, très fréquents à Asnières. C'est la solution parfaite pour les jeunes actifs souhaitant un service professionnel au meilleur prix." },
+  { question: "Proposez-vous des formules pour les petits volumes ?", answer: "Oui. Pour un studio ou un T2, nous étudions une formule adaptée au volume, aux accès et à la souplesse des dates. Le devis précise les prestations retenues et les conditions de transport." },
   { question: "Comment sont protégés mes meubles ?", answer: "Chaque meuble est emballé sous couvertures de déménagement épaisses. Pour le fragile (canapés, matelas), nous utilisons des housses spécifiques. La vaisselle et les objets précieux bénéficient de cartons renforcés et de calage (bullkraft)." }
 ];
 

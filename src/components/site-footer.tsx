@@ -92,7 +92,7 @@ export function SiteFooter() {
 
             <div className="pt-4 flex items-center gap-6 text-xs font-bold uppercase tracking-widest text-slate-400">
                <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-primary" /> Assurance incluse</div>
-               <div className="flex items-center gap-2"><Award className="h-4 w-4 text-primary" /> Certifié Pro</div>
+               <div className="flex items-center gap-2"><Award className="h-4 w-4 text-primary" /> Devis personnalisé</div>
             </div>
           </div>
 

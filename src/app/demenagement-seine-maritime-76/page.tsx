@@ -136,7 +136,7 @@ export default function SeineMaritimePage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              De Rouen au Havre, bénéficiez de l'expertise d'un déménageur local pour vos projets résidentiels et professionnels, au meilleur prix et en toute sécurité.
+              De Rouen au Havre, préparez votre projet résidentiel ou professionnel avec une étude du volume, des accès et de la distance à parcourir.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">

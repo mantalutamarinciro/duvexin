@@ -73,7 +73,7 @@ const FAQS = [
   },
   { 
     question: "Comment sont protégés mes meubles ?", 
-    answer: "La protection est notre priorité absolue. Nous utilisons des couvertures épaisses pour tout le mobilier, des housses matelassées sur-mesure pour la literie et les canapés, ainsi que du bullkraft renforcé pour les objets fragiles (vaisselle, cadres, écrans TV)." 
+    answer: "Nous adaptons les protections aux biens transportés : couvertures pour le mobilier, housses pour la literie et les canapés, ainsi que des emballages renforcés pour les objets fragiles lorsque cela est nécessaire."
   }
 ];
 
