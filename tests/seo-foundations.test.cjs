@@ -514,6 +514,11 @@ test('Val-d’Oise intent is assigned to the departmental hub, not the homepage'
   assert.ok(departmentPage.includes('"@type": "Service"'));
   assert.ok(departmentPage.includes('"@type": "BreadcrumbList"'));
   assert.ok(departmentPage.includes('Basée à Méry-sur-Oise'));
+  assert.ok(departmentPage.includes('Quel prix pour un déménagement dans le Val-d’Oise ?'));
+  assert.ok(departmentPage.includes('Questions sur le déménagement dans le 95'));
+  assert.ok(departmentPage.includes('href="/calculateur-volume"'));
+  assert.ok(departmentPage.includes('href="/formules-de-demenagement"'));
+  assert.equal((departmentPage.match(/FAQS\.map\(/g) || []).length, 2);
   assert.doesNotMatch(departmentPage, /acteur local historique|note d'excellence|Pas de sous-traitance|soin garanti/i);
 });
 

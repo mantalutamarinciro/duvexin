@@ -62,6 +62,7 @@ const VAL_D_OISE_CITIES = [
 ];
 
 const FEATURED_VAL_D_OISE_CITIES = [
+  { name: "Méry-sur-Oise", link: "/demenagement-mery-sur-oise-95540" },
   { name: "Cergy", link: "/demenagement-cergy-95000" },
   { name: "Pontoise", link: "/demenagement-pontoise-95300" },
   { name: "Argenteuil", link: "/demenagement-argenteuil-95100" },
@@ -96,15 +97,15 @@ const WHY_US_ITEMS = [
 const FAQS = [
   {
     question: "Gérez-vous les accès difficiles dans les villages du Vexin ?",
-    answer: "C'est notre spécialité. Pour les rues étroites de La Roche-Guyon ou d'Auvers-sur-Oise, nous utilisons des véhicules petits porteurs et prévoyons des distances de portage adaptées."
+    answer: "Les rues étroites, limitations d'accès et distances de portage doivent être signalées avant le déménagement. Le véhicule, l'équipe et les moyens de manutention sont définis après l'étude des deux adresses."
   },
   {
     question: "Intervenez-vous dans les résidences neuves de Cergy-Pontoise ?",
-    answer: "Oui, nous connaissons parfaitement les nouvelles zones résidentielles. Nous gérons les accès logistiques et le stationnement en accord avec les règlements de copropriété."
+    answer: "Oui. Pour une résidence, nous vérifions notamment l'étage, les dimensions de l'ascenseur, les badges, le règlement des parties communes et l'emplacement possible du véhicule."
   },
   {
     question: "Proposez-vous le monte-meubles à Argenteuil ou Sarcelles ?",
-    answer: "Absolument. Pour les immeubles sans ascenseur ou les étages élevés, le monte-meubles est souvent la solution la plus sûre et la plus rapide que nous déployons régulièrement."
+    answer: "Un monte-meubles peut être proposé lorsqu'un objet ne passe pas par l'escalier ou l'ascenseur. Sa faisabilité dépend de la façade, de l'ouverture utilisable, du recul disponible et des règles de stationnement."
   },
   {
     question: "Quel est le délai pour un déménagement dans le 95 ?",
@@ -272,6 +273,45 @@ export default function ValDOisePage() {
         </div>
       </section>
 
+      {/* --- CRITÈRES DU DEVIS --- */}
+      <section className="py-24 bg-slate-950 text-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-3xl mb-14">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-300 mb-4">Comprendre votre devis</p>
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">
+              Quel prix pour un déménagement dans le Val-d’Oise ?
+            </h2>
+            <p className="mt-5 text-lg leading-relaxed text-slate-300">
+              Il n’existe pas de tarif unique par commune. Le devis dépend du volume, des deux adresses, des accès et des prestations que vous choisissez de préparer ou de confier à l’équipe.
+            </p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {[
+              { icon: Calculator, title: "Volume à transporter", text: "L’inventaire inclut le logement, la cave, le garage, les dépendances et les objets encombrants." },
+              { icon: Building2, title: "Accès et portage", text: "Étages, ascenseur, escaliers, portail et distance entre le camion et l’entrée influencent la manutention." },
+              { icon: Truck, title: "Trajet et stationnement", text: "La distance entre les adresses et les conditions de stationnement sont étudiées au départ comme à l’arrivée." },
+              { icon: LayoutGrid, title: "Niveau de prestation", text: "Emballage, démontage, remontage et déballage varient selon la formule retenue dans le devis." },
+            ].map((item) => (
+              <article key={item.title} className="rounded-3xl border border-white/10 bg-white/5 p-7">
+                <item.icon className="h-7 w-7 text-teal-300" />
+                <h3 className="mt-5 text-xl font-bold">{item.title}</h3>
+                <p className="mt-3 leading-relaxed text-slate-400">{item.text}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+            <Button asChild className="rounded-full bg-[#00ad9f] text-white hover:bg-[#009286]">
+              <Link href="/calculateur-volume">Estimer mon volume <Calculator className="ml-2 h-4 w-4" /></Link>
+            </Button>
+            <Button asChild variant="outline" className="rounded-full border-slate-600 bg-transparent text-white hover:bg-white/10 hover:text-white">
+              <Link href="/formules-de-demenagement">Comparer les formules <LayoutGrid className="ml-2 h-4 w-4" /></Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* --- CITIES GRID --- */}
       <section className="py-24 bg-slate-50 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#00ad9f]/5 rounded-full blur-[100px] -z-10 pointer-events-none" />
@@ -343,6 +383,30 @@ export default function ValDOisePage() {
               <h3 className="text-xl font-bold text-slate-900 group-hover:text-primary transition-colors">Bien choisir sa formule de service</h3>
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* --- FAQ VISIBLE, ALIGNÉE AVEC LE BALISAGE --- */}
+      <section className="py-24 bg-slate-50" aria-labelledby="faq-val-doise-title">
+        <div className="container mx-auto max-w-4xl px-4 md:px-6">
+          <div className="text-center mb-14">
+            <h2 id="faq-val-doise-title" className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-900">
+              Questions sur le déménagement dans le 95
+            </h2>
+            <p className="mt-4 text-lg text-slate-500">Les points à vérifier avant de demander ou de comparer un devis.</p>
+          </div>
+          <Accordion type="single" collapsible className="space-y-4">
+            {FAQS.map((item, index) => (
+              <AccordionItem key={item.question} value={`val-doise-${index}`} className="rounded-2xl border border-slate-200 bg-white px-6">
+                <AccordionTrigger className="text-left text-lg font-bold text-slate-900 hover:no-underline">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-base leading-relaxed text-slate-600">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </section>
 
