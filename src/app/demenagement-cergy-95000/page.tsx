@@ -27,8 +27,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Cergy (95) | Étudiants, Particuliers & Pros | Devis Gratuit",
-  description: "Déménageur à Cergy (95000) pour étudiants, particuliers et entreprises : petits volumes, pavillons et transferts de bureaux. Demandez un devis personnalisé.",
+  title: "Déménageur à Cergy (95) | Devis personnalisé",
+  description: "Déménageur à Cergy pour studios, appartements, maisons et entreprises : volume, accès, stationnement et prestations étudiés avant votre devis.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-cergy-95000",
   }
@@ -39,33 +39,33 @@ const WHY_US_ITEMS = [
   {
     icon: MapPin,
     title: "Expertise Cergy-Pontoise",
-    description: "De l'Axe-Majeur aux étangs de Neuville, nous couvrons les 13 communes de l'agglomération avec une logistique irréprochable."
+    description: "De l'Axe Majeur à Cergy-Préfecture, nous préparons l'intervention selon le type de logement, les accès et le stationnement disponible."
   },
   {
     icon: Building,
     title: "Tout Type d'Habitat",
-    description: "Nos équipes maîtrisent les accès des résidences ultra-modernes du centre comme ceux des corps de ferme des villages environnants."
+    description: "Résidence, pavillon ou local professionnel : l'étage, l'ascenseur et la distance de portage sont intégrés à l'étude."
   },
   {
     icon: GraduationCap,
-    title: "Spécialiste Étudiant",
-    description: "Formules économiques adaptées aux petits volumes pour les étudiants de l'ESSEC, de l'EBI ou de CY Cergy Paris Université."
+    title: "Petits volumes",
+    description: "Les studios et petits appartements peuvent être étudiés selon l'inventaire, les accès et la souplesse des dates."
   },
   {
     icon: ShieldCheck,
-    title: "Sérénité Totale",
-    description: "Nous gérons les demandes d'autorisation de stationnement auprès de la mairie pour sécuriser l'emplacement de nos camions."
+    title: "Stationnement vérifié",
+    description: "Nous identifions les besoins de réservation ou d'autorisation et précisons les démarches à prévoir avant l'intervention."
   }
 ];
 
 const FAQS = [
   {
     question: "Je suis étudiant à Cergy, proposez-vous des tarifs spécifiques ?",
-    answer: "Oui, nous proposons une formule 'Économique' idéale pour les studios étudiants. Vous préparez vos cartons, et nos déménageurs professionnels s'occupent du mobilier lourd, de la protection et du transport. Nous proposons aussi des solutions de groupage pour réduire fortement les frais si plusieurs étudiants déménagent simultanément vers le même secteur."
+    answer: "Pour un studio, nous étudions notamment la formule Économique : vous préparez les cartons et l'équipe prend en charge la protection du mobilier, le chargement et le transport. Le prix dépend du volume, des accès, de la distance et des dates."
   },
   {
     question: "Comment se déroule un déménagement dans le Grand Centre de Cergy ?",
-    answer: "C'est une zone très dense avec beaucoup de bureaux, de commerces et de résidences. Nous planifions l'intervention bien en amont avec les autorisations de voirie. Pour les étages sans ascenseur ou les accès difficiles, nous déployons quasi systématiquement un monte-meubles extérieur sécurisé."
+    answer: "Dans le Grand Centre, il faut vérifier l'emplacement du véhicule, les accès à la résidence, l'ascenseur et les éventuelles règles de voirie. Un monte-meubles n'est proposé qu'après étude de la configuration et de son emplacement."
   },
   {
     question: "Déménagez-vous les entreprises du parc Saint-Christophe ?",
@@ -87,10 +87,32 @@ const faqStructuredData = {
   }))
 };
 
+const serviceStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Déménagement à Cergy",
+  serviceType: "Service de déménagement",
+  url: "https://demenagementduvexin.fr/demenagement-cergy-95000",
+  areaServed: { "@type": "City", name: "Cergy" },
+  provider: { "@type": "Organization", name: "Déménagement du Vexin", url: "https://demenagementduvexin.fr" }
+};
+
+const breadcrumbStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Accueil", item: "https://demenagementduvexin.fr/" },
+    { "@type": "ListItem", position: 2, name: "Val-d'Oise", item: "https://demenagementduvexin.fr/demenagement-val-d-oise-95" },
+    { "@type": "ListItem", position: 3, name: "Cergy", item: "https://demenagementduvexin.fr/demenagement-cergy-95000" }
+  ]
+};
+
 export default function CergyPage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
       <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      <Script id="service-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceStructuredData) }} />
+      <Script id="breadcrumb-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }} />
 
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
@@ -156,7 +178,7 @@ export default function CergyPage() {
                   Déménager à Cergy, c'est s'installer dans un bassin de vie unique mêlant pôle universitaire d'excellence (ESSEC, CY) et sièges sociaux internationaux. Cette diversité d'urbanisme, entre le Grand Centre très dense et les villages verdoyants environnants, exige une logistique particulièrement agile.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons chaque recoin de l'agglomération. Que vous rejoigniez le campus, emménagiez dans un pavillon familial ou transfériez un plateau de bureaux entier, nous vous garantissons une organisation sans stress, du stationnement à la remise des clés.
+                  Chez <strong>Déménagement du Vexin</strong>, chaque projet est préparé selon le logement, le volume et les deux adresses. Que vous rejoigniez le campus, un pavillon ou des bureaux, le devis précise les moyens et les prestations retenus.
                 </p>
               </div>
 
@@ -194,7 +216,7 @@ export default function CergyPage() {
               Le bon choix pour Cergy
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Une connaissance millimétrée du terrain pour un service ponctuel, sécurisé et maîtrisé.
+              Des points de contrôle concrets pour préparer les accès, le stationnement et la manutention.
             </p>
           </div>
 

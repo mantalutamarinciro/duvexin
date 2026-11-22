@@ -29,8 +29,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Pontoise (95) | Centre historique | Devis gratuit",
-  description: "Déménageur de confiance à Pontoise (95300). Spécialiste centre historique, rues pavées et mobilier de standing. Devis gratuit et monte-meubles.",
+  title: "Déménageur à Pontoise (95) | Devis personnalisé",
+  description: "Déménageur à Pontoise : étude des rues étroites, étages, stationnement et distance de portage dans le centre ancien comme les autres quartiers.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-pontoise-95300",
   }
@@ -41,37 +41,37 @@ const WHY_US_ITEMS = [
   {
     icon: Landmark,
     title: "Savoir-faire Patrimonial",
-    description: "Expertise des accès en zone protégée : rues pavées, escaliers étroits et immeubles de caractère du centre ancien."
+    description: "Les rues étroites, escaliers, paliers et immeubles anciens sont décrits avant de choisir les moyens de manutention."
   },
   {
     icon: MapPin,
     title: "Maîtrise du 95300",
-    description: "Du quartier de l'Hermitage aux berges de l'Oise, nous maîtrisons chaque spécificité logistique de Pontoise."
+    description: "De l'Hermitage aux Louvrais, l'organisation est définie selon l'adresse, le logement et la distance entre le véhicule et l'entrée."
   },
   {
     icon: Truck,
     title: "Logistique Adaptative",
-    description: "Flotte de véhicules variée et monte-meubles performants pour surmonter toutes les contraintes d'étage et d'accès."
+    description: "Le véhicule et l'éventuel recours à un monte-meubles sont déterminés après l'étude du mobilier et des accès."
   },
   {
     icon: ShieldCheck,
     title: "Sérénité Administrative",
-    description: "Nous gérons intégralement vos demandes d'arrêté de stationnement auprès de la mairie de Pontoise."
+    description: "Le besoin d'autorisation ou de réservation de stationnement est vérifié et les démarches sont précisées avant la date retenue."
   }
 ];
 
 const FAQS = [
   {
     question: "Comment gérez-vous les rues étroites du centre historique de Pontoise ?",
-    answer: "C'est notre grande spécialité. Nous réalisons une visite technique préalable pour évaluer l'étroitesse de la rue et de l'immeuble. Nous utilisons des véhicules de 20m³ très agiles pour les accès difficiles et sécurisons le périmètre avec des autorisations de stationnement officielles."
+    answer: "Nous relevons la largeur de la rue, le stationnement possible, les portes, les paliers et les escaliers. Le véhicule et les moyens de manutention sont ensuite choisis selon ces informations et le volume à transporter."
   },
   {
     question: "Proposez-vous des formules pour les étudiants de l'Université ?",
-    answer: "Oui, nous avons conçu des formules 'Économiques' (manutention et transport seuls) idéales pour les studios et petits appartements. Elles permettent aux étudiants de l'agglomération de Cergy-Pontoise de bénéficier d'un transport professionnel à un budget très maîtrisé."
+    answer: "Oui. Pour un studio ou un petit appartement, la formule Économique permet de préparer les cartons et de confier la protection du mobilier, le chargement et le transport à l'équipe. Le devis dépend aussi des accès et de la distance."
   },
   {
     question: "Comment protégez-vous mon mobilier de valeur ou ancien ?",
-    answer: "Nous utilisons des fournitures premium : couvertures de très fort grammage, housses matelassées sur-mesure pour matelas et canapés, et bullkraft pour les objets fragiles (tableaux, miroirs). Chaque pièce est manipulée avec un soin d'orfèvre et sanglée individuellement."
+    answer: "La nature et les dimensions du mobilier sont relevées avant l'intervention. Couvertures, housses et emballages renforcés sont prévus selon les besoins identifiés pour les tableaux, miroirs ou autres objets fragiles."
   },
   {
     question: "Quel est le délai pour obtenir un devis ?",
@@ -89,10 +89,32 @@ const faqStructuredData = {
   }))
 };
 
+const serviceStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Déménagement à Pontoise",
+  serviceType: "Service de déménagement",
+  url: "https://demenagementduvexin.fr/demenagement-pontoise-95300",
+  areaServed: { "@type": "City", name: "Pontoise" },
+  provider: { "@type": "Organization", name: "Déménagement du Vexin", url: "https://demenagementduvexin.fr" }
+};
+
+const breadcrumbStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Accueil", item: "https://demenagementduvexin.fr/" },
+    { "@type": "ListItem", position: 2, name: "Val-d'Oise", item: "https://demenagementduvexin.fr/demenagement-val-d-oise-95" },
+    { "@type": "ListItem", position: 3, name: "Pontoise", item: "https://demenagementduvexin.fr/demenagement-pontoise-95300" }
+  ]
+};
+
 export default function PontoisePage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
       <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      <Script id="service-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceStructuredData) }} />
+      <Script id="breadcrumb-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }} />
 
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
@@ -131,7 +153,7 @@ export default function PontoisePage() {
             </h1>
 
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              L'excellence logistique pour les résidents et entreprises de Pontoise (95300). Une maîtrise parfaite du centre ancien et des hauteurs de la ville.
+              Une organisation adaptée aux résidents et entreprises de Pontoise (95300), du centre ancien aux quartiers en hauteur.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-5">
@@ -155,7 +177,7 @@ export default function PontoisePage() {
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  Pontoise est une ville d'exception, dont le relief vallonné et l'urbanisme médiéval imposent des défis logistiques bien réels. Déménager dans ce secteur demande une approche hautement respectueuse du bâti et une maîtrise parfaite des accès en hauteur.
+                  Le relief vallonné et les immeubles anciens de Pontoise peuvent compliquer le stationnement, le portage et le passage du mobilier. Ces contraintes doivent être décrites avant de choisir le véhicule et les moyens de manutention.
                 </p>
                 <p>
                   Chez <strong>Déménagement du Vexin</strong>, nous préparons les interventions des ruelles de l'Hermitage aux grandes artères des Louvrais, selon les accès et le type de logement.
@@ -196,7 +218,7 @@ export default function PontoisePage() {
               Le bon choix pour le 95
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Notre parfaite connaissance du terrain à Pontoise est votre meilleure garantie de ponctualité et de soin.
+              Des vérifications concrètes pour préparer les accès, le stationnement et le passage du mobilier.
             </p>
           </div>
 
@@ -240,7 +262,7 @@ export default function PontoisePage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Building2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Appartements & Centre Historique</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Protection totale des parties communes et utilisation de monte-meubles pour les accès en étage dans les rues étroites du centre ancien.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Protection des parties communes selon leur configuration et étude d'un monte-meubles lorsque le mobilier ne passe pas par l'intérieur.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
@@ -254,7 +276,7 @@ export default function PontoisePage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><GraduationCap className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Formules Étudiants & Actifs</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Services agiles pour les petits volumes, parfaits pour déménager vers le campus de Cergy-Pontoise à un budget totalement maîtrisé.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Formules comparées selon le petit volume, les accès, la distance et les tâches que vous souhaitez préparer vous-même.</p>
                   </div>
                 </li>
               </ul>

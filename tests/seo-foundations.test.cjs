@@ -173,6 +173,22 @@ test('priority town breadcrumbs link to their department', () => {
   }
 });
 
+test('priority Val-d’Oise pages have distinct local intent and structured data', () => {
+  const expectations = {
+    'demenagement-mery-sur-oise-95540': ['Déménageur à Méry-sur-Oise (95)', 'Méry-sur-Oise'],
+    'demenagement-cergy-95000': ['Déménageur à Cergy (95)', 'Cergy'],
+    'demenagement-pontoise-95300': ['Déménageur à Pontoise (95)', 'Pontoise'],
+  };
+  for (const [route, [title, city]] of Object.entries(expectations)) {
+    const source = readFileSync(path.join(root, 'src/app', route, 'page.tsx'), 'utf8');
+    assert.ok(source.includes(`title: "${title}`), route);
+    assert.ok(source.includes('"@type": "Service"'), route);
+    assert.ok(source.includes('"@type": "BreadcrumbList"'), route);
+    assert.ok(source.includes(`areaServed: { "@type": "City", name: "${city}" }`), route);
+    assert.doesNotMatch(source, /garantissons|irréprochable|maîtrise parfaite|sérénité totale|protection totale|budget totalement maîtrisé/i, route);
+  }
+});
+
 test('Val-de-Marne pages use coherent offers and qualified FAQ answers', () => {
   for (const route of ['demenagement-nogent-sur-marne-94130', 'demenagement-vitry-sur-seine-94400']) {
     const source = readFileSync(path.join(root, 'src/app', route, 'page.tsx'), 'utf8');

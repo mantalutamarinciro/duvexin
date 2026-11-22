@@ -27,8 +27,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Méry-sur-Oise (95) | Expert Local & Devis Gratuit",
-  description: "Déménagement du Vexin accompagne votre projet à Méry-sur-Oise (95540) : estimation du volume, étude des accès et prestations sur mesure. Devis gratuit.",
+  title: "Déménageur à Méry-sur-Oise (95) | Devis gratuit",
+  description: "Déménageur implanté à Méry-sur-Oise : estimation du volume, étude des accès et formules adaptées à votre projet local ou longue distance. Devis gratuit.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-mery-sur-oise-95540",
   }
@@ -43,18 +43,18 @@ const WHY_US_ITEMS = [
   },
   {
     icon: Truck,
-    title: "Réactivité Directe",
-    description: "La proximité nous permet d'organiser des visites techniques immédiates et d'ajuster nos plannings selon vos besoins urgents."
+    title: "Étude de proximité",
+    description: "La proximité facilite l'organisation d'une visite technique lorsque le volume ou les accès nécessitent une évaluation sur place."
   },
   {
     icon: Home,
-    title: "Spécialiste Habitat",
-    description: "Expertise reconnue pour les pavillons avec jardin et les résidences mérysiennes, avec protection systématique des extérieurs."
+    title: "Maisons et résidences",
+    description: "Nous évaluons le mobilier, les dépendances et le parcours de manutention pour adapter les protections et les moyens nécessaires."
   },
   {
     icon: ShieldCheck,
-    title: "Garantie Voisinage",
-    description: "En tant qu'acteur local, nous veillons scrupuleusement au respect de la tranquillité et de la propreté de votre quartier."
+    title: "Accès préparés",
+    description: "Les contraintes de portail, d'allée, d'étage et de stationnement sont relevées avant de confirmer l'organisation du chantier."
   }
 ];
 
@@ -65,15 +65,15 @@ const FAQS = [
   },
   {
     question: "Déménagez-vous également sur de longues distances ?",
-    answer: "Absolument. Si Méry est notre base, nous accompagnons nos clients partout en France et en Europe. Votre projet bénéficie de notre rigueur locale, quelle que soit la destination finale."
+    answer: "Oui. Depuis Méry-sur-Oise, nous étudions les déménagements locaux, nationaux et internationaux selon la destination, le volume et les contraintes d'accès."
   },
   {
     question: "Comment protégez-vous les maisons avec jardin ?",
-    answer: "Nous utilisons des protections spécifiques pour ne pas marquer vos sols intérieurs (tapis de passage) et veillons à ne pas dégrader vos allées ou pelouses lors de la manutention du mobilier lourd."
+    answer: "Le portail, les marches, l'allée et les sols sont examinés pendant la préparation. Les protections et le parcours de manutention sont ensuite adaptés à la configuration constatée."
   },
   {
     question: "Proposez-vous des formules pour les petits appartements ?",
-    answer: "Oui, notre formule 'Économique' est parfaitement adaptée aux petits volumes. Vous préparez vos cartons, et nos professionnels se chargent de la protection du mobilier, du chargement et du transport sécurisé."
+    answer: "Oui. Pour un petit volume, la formule Économique permet de préparer soi-même les cartons et de confier la protection du mobilier, le chargement et le transport à l'équipe."
   }
 ];
 
@@ -87,10 +87,32 @@ const faqStructuredData = {
   }))
 };
 
+const serviceStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Déménagement à Méry-sur-Oise",
+  serviceType: "Service de déménagement",
+  url: "https://demenagementduvexin.fr/demenagement-mery-sur-oise-95540",
+  areaServed: { "@type": "City", name: "Méry-sur-Oise" },
+  provider: { "@type": "Organization", name: "Déménagement du Vexin", url: "https://demenagementduvexin.fr" }
+};
+
+const breadcrumbStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Accueil", item: "https://demenagementduvexin.fr/" },
+    { "@type": "ListItem", position: 2, name: "Val-d'Oise", item: "https://demenagementduvexin.fr/demenagement-val-d-oise-95" },
+    { "@type": "ListItem", position: 3, name: "Méry-sur-Oise", item: "https://demenagementduvexin.fr/demenagement-mery-sur-oise-95540" }
+  ]
+};
+
 export default function MerySurOisePage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
       <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      <Script id="service-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceStructuredData) }} />
+      <Script id="breadcrumb-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }} />
 
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[60vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-24 pb-16 overflow-hidden">
