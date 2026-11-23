@@ -85,8 +85,8 @@ export function LocalMovingGuide({ city }: { city: keyof typeof guides }) {
           ))}
         </div>
         <p className="mt-8 leading-relaxed text-slate-600">
-          Pour comparer les devis, utilisez le même inventaire et le même niveau de prestation.
-          Consultez <Link className="underline underline-offset-4" href="/formules-de-demenagement">nos formules de déménagement</Link>, puis indiquez vos dates, vos deux adresses et vos contraintes dans votre <Link className="underline underline-offset-4" href="/demande-devis">demande de devis</Link>.
+          Pour comparer les devis, utilisez le même inventaire et le même niveau de prestation.{" "}
+          Consultez <Link className="underline underline-offset-4" href="/tarif-demenagement">les critères qui déterminent le prix d’un déménagement</Link> et <Link className="underline underline-offset-4" href="/formules-de-demenagement">nos formules de déménagement</Link>, puis indiquez vos dates, vos deux adresses et vos contraintes dans votre <Link className="underline underline-offset-4" href="/demande-devis">demande de devis</Link>.
         </p>
         <nav aria-label={`Autres communes près de ${guide.city}`} className="mt-8 flex flex-wrap gap-x-6 gap-y-3 border-t border-slate-200 pt-6">
           {Object.entries(guides).filter(([key]) => key !== city).map(([key, nearby]) => (

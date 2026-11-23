@@ -245,7 +245,8 @@ export default function ArticleFormulas() {
                 <strong>beaucoup de fragile</strong> ? Et vos accès sont-ils{" "}
                 <strong>simples</strong> (stationnement, ascenseur, étage, portage) ?
                 Plus l’accès est compliqué et le fragile important, plus une formule
-                encadrée devient rentable — même si elle semble plus chère au départ.
+                encadrée devient rentable — même si elle semble plus chère au départ.{" "}
+                Pour comparer sur une base cohérente, consultez aussi les <Link href="/tarif-demenagement" className="font-semibold text-[#008f84] underline underline-offset-4">facteurs pris en compte dans le prix d’un déménagement</Link>.
               </p>
 
               {/* ✅ Comparatif rapide */}

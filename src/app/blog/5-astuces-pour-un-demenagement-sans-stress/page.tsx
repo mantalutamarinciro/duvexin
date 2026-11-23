@@ -247,7 +247,7 @@ export default function ArticleStressFree() {
                 2. Faites un tri drastique avant de demander un devis
               </h2>
               <p>
-                Déménager, c’est payer du <strong>volume</strong>. Si vous gardez “au cas où”, vous augmentez le cubage et donc le tarif. Utilisez notre <Link href="/tarif-demenagement" className="text-primary font-bold hover:underline">estimateur de prix</Link> pour voir l'impact du volume sur votre budget.
+                Le <strong>volume</strong> fait partie des éléments examinés pour établir un devis. Si vous gardez “au cas où”, vous augmentez le cubage à transporter. Consultez notre <Link href="/tarif-demenagement" className="text-primary font-bold hover:underline">guide sur le prix d’un déménagement</Link> pour comprendre le rôle du volume, de la distance, des accès et de la formule choisie.
               </p>
 
               {/* --- ASTUCE 5 --- */}
@@ -270,7 +270,7 @@ export default function ArticleStressFree() {
                     <Link href="/demande-devis">Démarrer mon devis <ArrowRight className="ml-2 h-5 w-5" /></Link>
                   </Button>
                   <Button variant="outline" className="rounded-full h-14 px-8 border-slate-700 hover:bg-white hover:text-slate-900 font-bold" asChild>
-                    <Link href="/tarif-demenagement">Simuler mon tarif</Link>
+                    <Link href="/tarif-demenagement">Comprendre le prix</Link>
                   </Button>
                 </div>
               </div>

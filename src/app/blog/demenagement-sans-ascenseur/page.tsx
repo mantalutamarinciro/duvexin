@@ -137,7 +137,8 @@ export default function ArticleNoElevator() {
 
               <h2>Quand faut-il louer un monte-meubles ?</h2>
               <p>
-                À partir du 3ème étage avec un volume important ou des meubles lourds (canapé, frigo américain, armoire massive), le monte-meubles devient souvent indispensable.
+                À partir du 3ème étage avec un volume important ou des meubles lourds (canapé, frigo américain, armoire massive), le monte-meubles devient souvent indispensable.{" "}
+                L’étage, le portage et le matériel nécessaire font partie des <Link href="/tarif-demenagement" className="font-semibold text-[#008f84] underline underline-offset-4">éléments qui influencent le devis</Link>.
               </p>
 
               <div className="bg-[#00ad9f]/5 p-6 rounded-xl border-l-4 border-[#00ad9f]">

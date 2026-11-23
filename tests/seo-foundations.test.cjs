@@ -391,6 +391,7 @@ test('local guides render distinct content and links to existing pages', () => {
     rendered.push(html);
     assert.ok(html.includes(`id="moving-guide-${city}"`));
     assert.equal((html.match(/<h3/g) || []).length, 3);
+    assert.ok(html.includes('href="/tarif-demenagement"'));
     assert.ok(!html.includes(`href="/${route}"`), 'No redundant self-link');
     for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
       assert.ok(existsSync(path.join(root, 'src/app', href, 'page.tsx')), href);
@@ -494,6 +495,21 @@ test('pricing guide explains quote factors without invented universal rates', ()
   assert.equal((page.match(/FAQS\.map\(/g) || []).length, 2);
   assert.ok(page.includes('href="/calculateur-volume"'));
   assert.doesNotMatch(page, /35€|75€|1\.50€|2\.20€|450€|850€|1600€|2400€|transparence totale|tarif ferme et définitif/i);
+});
+
+test('pricing guide receives contextual editorial links with accurate anchors', () => {
+  const sources = [
+    'src/components/local-moving-guide.tsx',
+    'src/app/blog/5-astuces-pour-un-demenagement-sans-stress/page.tsx',
+    'src/app/blog/comment-choisir-la-bonne-formule-de-demenagement/page.tsx',
+    'src/app/blog/demenagement-sans-ascenseur/page.tsx',
+  ].map(file => readFileSync(path.join(root, file), 'utf8'));
+  for (const source of sources) assert.ok(source.includes('href="/tarif-demenagement"'));
+  const combined = sources.join('\n');
+  assert.doesNotMatch(combined, /Simuler mon tarif|estimateur de prix/i);
+  assert.match(combined, /guide sur le prix d’un déménagement/);
+  assert.match(combined, /facteurs pris en compte dans le prix d’un déménagement/);
+  assert.match(combined, /éléments qui influencent le devis/);
 });
 
 test('legacy redirects have unique sources, existing destinations and no chains', async () => {
