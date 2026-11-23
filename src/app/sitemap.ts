@@ -46,7 +46,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ].map((route) => ({
     url: `${BASE_URL}${route}`,
     changeFrequency: 'monthly' as const,
-    priority: route === '' ? 1 : route === '/devis-demenagement' ? 0.9 : 0.8,
+    priority: route === '' ? 1 : route === '/demande-devis' ? 0.9 : route === '/devis-demenagement' ? 0.7 : 0.8,
   }))
 
   // 2. Destinations Internationales

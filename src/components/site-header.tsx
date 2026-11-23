@@ -111,8 +111,8 @@ const ZONES = [
 const TOOLS_LINKS = [
   {
     title: "Devis déménagement",
-    href: "/devis-demenagement",
-    desc: "Guide complet et demande de devis gratuite.",
+    href: "/demande-devis",
+    desc: "Décrivez votre projet pour recevoir une proposition personnalisée.",
     icon: FileText,
     color: "text-primary",
     bg: "bg-primary/5",

@@ -150,7 +150,7 @@ export default function PublicQuotePage() {
                 Décrivez votre trajet et vos contraintes pour recevoir une proposition adaptée à votre volume, à vos accès et au niveau de prestation souhaité.
               </p>
               <p className="mt-4 text-sm leading-relaxed text-slate-500">
-                Vous hésitez sur les informations à préparer ? Consultez notre <Link href="/calculateur-volume" className="font-semibold text-[#008f84] underline underline-offset-4">calculateur de volume</Link> et les <Link href="/tarif-demenagement" className="font-semibold text-[#008f84] underline underline-offset-4">éléments qui déterminent le prix</Link>.
+                Vous hésitez sur les informations à préparer ? Consultez notre <Link href="/calculateur-volume" className="font-semibold text-[#008f84] underline underline-offset-4">calculateur de volume</Link>, les <Link href="/tarif-demenagement" className="font-semibold text-[#008f84] underline underline-offset-4">éléments qui déterminent le prix</Link> et le <Link href="/devis-demenagement" className="font-semibold text-[#008f84] underline underline-offset-4">guide pour comparer un devis</Link>.
               </p>
             </div>
 

@@ -560,6 +560,23 @@ test('public volume calculator is isolated, indexable and passes its result to t
   assert.ok(quoteForm.includes('volume: initialData?.volume ?? 0'));
 });
 
+test('quote guide and quote form target distinct intents without unsupported budgets', () => {
+  const guide = readFileSync(path.join(root, 'src/app/devis-demenagement/page.tsx'), 'utf8');
+  const form = readFileSync(path.join(root, 'src/app/demande-devis/page.tsx'), 'utf8');
+  const header = readFileSync(path.join(root, 'src/components/site-header.tsx'), 'utf8');
+  const footer = readFileSync(path.join(root, 'src/components/site-footer.tsx'), 'utf8');
+  const sitemap = readFileSync(path.join(root, 'src/app/sitemap.ts'), 'utf8');
+  assert.ok(guide.includes('Devis de déménagement : contenu et points à comparer'));
+  assert.match(guide, /<h1[\s\S]*?Comprendre un devis de déménagement[\s\S]*?les points à comparer/);
+  assert.ok(guide.includes('https://www.economie.gouv.fr/dgccrf/les-fiches-pratiques/demenagement'));
+  assert.ok(form.includes('href="/devis-demenagement"'));
+  assert.ok(header.includes('href: "/demande-devis"'));
+  assert.ok(footer.includes('href="/demande-devis"'));
+  assert.ok(sitemap.includes("route === '/demande-devis' ? 0.9"));
+  assert.doesNotMatch(guide, /450 à 850|800 à 1 600|1 400 à 2 400|zéro sous-traitance|Équipes salariées|Voir les tarifs moyens/);
+  assert.equal((guide.match(/name: "(Économique|Standard|Prestige)"/g) || []).length, 3);
+});
+
 test('legacy redirects have unique sources, existing destinations and no chains', async () => {
   const redirects = await load('next.config.ts').default.redirects();
   assert.equal(new Set(redirects.map(item => item.source)).size, redirects.length);

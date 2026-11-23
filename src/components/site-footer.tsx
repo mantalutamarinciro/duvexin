@@ -50,7 +50,7 @@ export function SiteFooter() {
                 </Link>
               </Button>
               <Button size="lg" className="rounded-full bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20 h-14 px-8 font-black transition-all hover:scale-105" asChild>
-                <Link href="/devis-demenagement">
+                <Link href="/demande-devis">
                   Estimation en ligne <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
@@ -107,7 +107,7 @@ export function SiteFooter() {
                   { label: "National", href: "/demenagement-national" },
                   { label: "Garde-Meubles", href: "/demenagement-garde-meubles" },
                   { label: "Objets Lourds", href: "/demenagement-objets-lourds" },
-                  { label: "Devis déménagement", href: "/devis-demenagement" },
+                  { label: "Demander un devis", href: "/demande-devis" },
                   { label: "Tarifs m³", href: "/tarif-demenagement" },
                 ].map(item => (
                   <li key={item.label}>

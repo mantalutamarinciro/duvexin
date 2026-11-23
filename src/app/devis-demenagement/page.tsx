@@ -20,7 +20,6 @@ import {
   ShieldCheck,
   Sparkles,
   Truck,
-  Users,
   Warehouse,
 } from "lucide-react";
 
@@ -29,14 +28,14 @@ import { Button } from "@/components/ui/button";
 const BASE_URL = "https://demenagementduvexin.fr";
 
 export const metadata: Metadata = {
-  title: "Devis déménagement gratuit | Estimation personnalisée dans les meilleurs délais",
+  title: "Devis de déménagement : contenu et points à comparer",
   description:
-    "Obtenez un devis de déménagement gratuit, clair et personnalisé : volume, distance, accès, formule, assurance et prix ferme après validation technique.",
+    "Découvrez comment lire et comparer un devis de déménagement : volume, accès, distance, prestations, garanties, prix et informations obligatoires.",
   alternates: {
     canonical: `${BASE_URL}/devis-demenagement`,
   },
   openGraph: {
-    title: "Devis déménagement gratuit | Déménagement du Vexin",
+    title: "Comment lire et comparer un devis de déménagement",
     description:
       "Demandez une estimation personnalisée pour votre déménagement : analyse du volume, des accès, de la distance, des options et des garanties.",
     url: `${BASE_URL}/devis-demenagement`,
@@ -57,7 +56,7 @@ const trustSignals = [
   { label: "Devis gratuit", detail: "sans engagement", icon: Euro },
   { label: "Réponse dans les meilleurs délais", detail: "jours ouvrés", icon: Clock },
   { label: "Prix détaillé", detail: "volume, accès, distance", icon: FileText },
-  { label: "Équipes salariées", detail: "zéro sous-traitance", icon: Users },
+  { label: "Projet détaillé", detail: "volume, accès et prestations", icon: ClipboardCheck },
 ];
 
 const steps = [
@@ -111,33 +110,6 @@ const priceFactors = [
   },
 ];
 
-const sampleBudgets = [
-  {
-    project: "Studio ou chambre",
-    volume: "10 à 15 m³",
-    situation: "trajet local, accès simples",
-    budget: "environ 450 à 850 €",
-  },
-  {
-    project: "Appartement T2 / T3",
-    volume: "20 à 30 m³",
-    situation: "formule standard, distance courte",
-    budget: "environ 800 à 1 600 €",
-  },
-  {
-    project: "Appartement familial",
-    volume: "35 à 45 m³",
-    situation: "étages, démontage et fragile",
-    budget: "environ 1 400 à 2 400 €",
-  },
-  {
-    project: "Maison ou longue distance",
-    volume: "50 m³ et plus",
-    situation: "visite technique conseillée",
-    budget: "sur devis personnalisé",
-  },
-];
-
 const formulas = [
   {
     name: "Économique",
@@ -150,14 +122,9 @@ const formulas = [
     includes: "Formule économique + emballage du fragile, démontage et remontage selon besoin.",
   },
   {
-    name: "Confort",
-    target: "Vous manquez de temps ou déménagez un logement complet.",
-    includes: "Prise en charge élargie de l'emballage, préparation méthodique et accompagnement renforcé.",
-  },
-  {
     name: "Prestige",
-    target: "Vous souhaitez une prestation très encadrée, discrète et complète.",
-    includes: "Organisation avancée, protection premium, objets sensibles, coordination fine et remise en place.",
+    target: "Vous souhaitez déléguer également l'emballage des objets non fragiles.",
+    includes: "Formule standard + emballage des objets non fragiles, mise en penderie et déballage du fragile.",
   },
 ];
 
@@ -307,9 +274,9 @@ export default function DevisDemenagementPage() {
               </div>
 
               <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-7xl">
-                Devis déménagement gratuit :{" "}
+                Comprendre un devis de déménagement :{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-teal-200">
-                  un prix clair, pas une surprise.
+                  les points à comparer.
                 </span>
               </h1>
 
@@ -362,14 +329,13 @@ export default function DevisDemenagementPage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
             <div className="lg:sticky lg:top-28">
-              <span className="text-xs font-black uppercase tracking-[0.2em] text-primary">Intention de recherche</span>
+              <span className="text-xs font-black uppercase tracking-[0.2em] text-primary">Avant de comparer</span>
               <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 md:text-5xl">
-                Vous ne cherchez pas “un devis”. Vous cherchez une décision fiable.
+                Comparez le périmètre, pas seulement le montant
               </h2>
               <p className="mt-6 text-lg leading-relaxed text-slate-600">
-                La requête “devis déménagement” cache souvent une inquiétude très concrète : combien cela va coûter,
-                que comprend le prix, comment éviter les frais imprévus et à qui confier ses biens. Cette page répond
-                à ces questions avant de vous orienter vers le formulaire.
+                Deux montants ne sont comparables que s'ils couvrent le même volume, les mêmes accès, les mêmes tâches
+                d'emballage et les mêmes options. Ce guide vous aide à vérifier ces éléments avant de remplir le formulaire.
               </p>
             </div>
 
@@ -421,7 +387,7 @@ export default function DevisDemenagementPage() {
               </Link>
             </Button>
             <Button variant="outline" className="h-14 rounded-full border-slate-200 px-7 font-bold" asChild>
-              <Link href="/tarif-demenagement">Voir les tarifs moyens</Link>
+              <Link href="/tarif-demenagement">Comprendre les facteurs de prix</Link>
             </Button>
           </div>
         </div>
@@ -448,12 +414,12 @@ export default function DevisDemenagementPage() {
                 <p>
                   Source officielle :{" "}
                   <a
-                    href="https://entreprendre.service-public.gouv.fr/vosdroits/F31144"
+                    href="https://www.economie.gouv.fr/dgccrf/les-fiches-pratiques/demenagement"
                     target="_blank"
                     rel="noreferrer"
                     className="font-bold text-primary underline underline-offset-4"
                   >
-                    Service Public Entreprendre
+                    fiche pratique Déménagement de la DGCCRF
                   </a>
                   .
                 </p>
@@ -483,48 +449,6 @@ export default function DevisDemenagementPage() {
         </div>
       </section>
 
-      <section className="bg-[#0f172a] py-20 text-white lg:py-28">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div>
-              <span className="text-xs font-black uppercase tracking-[0.2em] text-primary">Budget indicatif</span>
-              <h2 className="mt-4 text-3xl font-extrabold tracking-tight md:text-5xl">
-                Des fourchettes pour cadrer, un devis pour décider
-              </h2>
-              <p className="mt-6 text-lg leading-relaxed text-slate-300">
-                Les prix ci-dessous donnent un ordre d'idée pour un déménagement local avec des accès classiques.
-                Ils ne remplacent pas une étude personnalisée : le volume réel, les accès et la formule peuvent faire
-                évoluer le montant.
-              </p>
-              <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-5 text-sm leading-relaxed text-slate-300">
-                Pour une estimation plus fine, commencez par le{" "}
-                <Link href="/calculateur-volume" className="font-bold text-primary underline underline-offset-4">
-                  calculateur de volume
-                </Link>
-                , puis transmettez votre demande de devis.
-              </div>
-            </div>
-
-            <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5">
-              <div className="grid grid-cols-4 bg-white/10 px-5 py-4 text-xs font-black uppercase tracking-widest text-slate-300">
-                <span>Projet</span>
-                <span>Volume</span>
-                <span>Situation</span>
-                <span className="text-right">Budget</span>
-              </div>
-              {sampleBudgets.map((row) => (
-                <div key={row.project} className="grid grid-cols-1 gap-2 border-t border-white/10 px-5 py-5 text-sm md:grid-cols-4 md:gap-4">
-                  <span className="font-extrabold text-white">{row.project}</span>
-                  <span className="text-slate-300">{row.volume}</span>
-                  <span className="text-slate-300">{row.situation}</span>
-                  <span className="font-black text-primary md:text-right">{row.budget}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section className="bg-white py-20 lg:py-28">
         <div className="container mx-auto px-4 md:px-6">
           <div className="mx-auto max-w-3xl text-center">
@@ -538,7 +462,7 @@ export default function DevisDemenagementPage() {
             </p>
           </div>
 
-          <div className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-14 grid gap-6 md:grid-cols-3">
             {formulas.map((formula) => (
               <article key={formula.name} className="flex flex-col rounded-[2rem] border border-slate-100 bg-slate-50 p-7">
                 <h3 className="text-2xl font-extrabold text-slate-900">{formula.name}</h3>
