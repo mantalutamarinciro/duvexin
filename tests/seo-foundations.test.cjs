@@ -540,6 +540,26 @@ test('quote request page targets quote intent with factual reassurance and struc
   assert.ok(form.includes('href="/politique-confidentialite"'));
 });
 
+test('public volume calculator is isolated, indexable and passes its result to the quote form', () => {
+  const page = readFileSync(path.join(root, 'src/app/calculateur-volume/page.tsx'), 'utf8');
+  const layout = readFileSync(path.join(root, 'src/app/calculateur-volume/layout.tsx'), 'utf8');
+  const calculator = readFileSync(path.join(root, 'src/components/volume-calculator-client.tsx'), 'utf8');
+  const quoteForm = readFileSync(path.join(root, 'src/components/quote-form.tsx'), 'utf8');
+  assert.ok(page.includes('Calculateur de volume déménagement (m³) | Gratuit'));
+  assert.ok(page.includes('"@type": "WebApplication"'));
+  assert.ok(page.includes('"@type": "FAQPage"'));
+  assert.ok(page.includes('"@type": "BreadcrumbList"'));
+  assert.ok(page.includes('href="/tarif-demenagement"'));
+  assert.ok(page.includes('href="/formules-de-demenagement"'));
+  assert.ok(page.includes('href="/demande-devis"'));
+  assert.doesNotMatch(page, /force-dynamic|getInventoryList|estimation précise/i);
+  assert.doesNotMatch(layout, /export const metadata/);
+  assert.doesNotMatch(calculator, /updateInventoryList|main_inventory/);
+  assert.ok(calculator.includes('window.sessionStorage'));
+  assert.ok(quoteForm.includes('duvexin-public-volume-inventory-v1'));
+  assert.ok(quoteForm.includes('volume: initialData?.volume ?? 0'));
+});
+
 test('legacy redirects have unique sources, existing destinations and no chains', async () => {
   const redirects = await load('next.config.ts').default.redirects();
   assert.equal(new Set(redirects.map(item => item.source)).size, redirects.length);

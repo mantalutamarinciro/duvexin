@@ -113,7 +113,7 @@ export function QuoteForm({
       originAddress: initialData?.originAddress ?? "",
       destinationAddress: initialData?.destinationAddress ?? "",
       distance: initialData?.distance ?? 0,
-      volume: initialData?.volume ?? 10,
+      volume: initialData?.volume ?? 0,
       details: initialData?.details ?? "",
       clientAddress: initialData?.clientAddress ?? "",
       clientCode: initialData?.clientCode ?? "",
@@ -130,6 +130,26 @@ export function QuoteForm({
           : "basic",
     },
   })
+
+  useEffect(() => {
+    if (isDashboard || initialData?.volume !== undefined) return
+    try {
+      const stored = window.sessionStorage.getItem("duvexin-public-volume-inventory-v1")
+      if (!stored) return
+      const items = JSON.parse(stored)
+      if (!Array.isArray(items)) return
+      const volume = items.reduce((total, item) => {
+        const itemVolume = Number(item?.volume)
+        const quantity = Number(item?.quantity)
+        return Number.isFinite(itemVolume) && Number.isFinite(quantity)
+          ? total + itemVolume * quantity
+          : total
+      }, 0)
+      form.setValue("volume", Number(volume.toFixed(1)))
+    } catch {
+      window.sessionStorage.removeItem("duvexin-public-volume-inventory-v1")
+    }
+  }, [form, initialData?.volume, isDashboard])
 
   const originAddress = form.watch("originAddress")
   const destinationAddress = form.watch("destinationAddress")

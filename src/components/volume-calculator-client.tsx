@@ -8,7 +8,6 @@ import React, {
   useMemo,
   useRef,
   useState,
-  useTransition,
 } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -55,22 +54,19 @@ import {
   PackagePlus,
   Wand2,
   ArrowRight,
-  CheckCircle,
   PackageSearch,
   Truck,
   ShoppingCart,
-  AlertTriangle,
   X,
 } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { updateInventoryList, type InventoryItem } from "@/services/inventoryService";
+import type { InventoryItem } from "@/services/inventoryService";
 import { type RoomCategory, type PredefinedItem } from "@/lib/predefined-items";
 import { generateInventoryFromText } from "@/ai/flows/inventory-from-text";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
-import { useDebouncedCallback } from "use-debounce";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 // ------------------------------
@@ -287,12 +283,12 @@ SummaryItemLine.displayName = "SummaryItemLine";
 // ------------------------------
 interface VolumeCalculatorClientProps {
   roomCategories: RoomCategory[];
-  initialItems: InventoryItem[];
 }
+
+const PUBLIC_INVENTORY_STORAGE_KEY = "duvexin-public-volume-inventory-v1";
 
 export function VolumeCalculatorClient({
   roomCategories,
-  initialItems,
 }: VolumeCalculatorClientProps) {
   const router = useRouter();
   const { toast } = useToast();
@@ -300,9 +296,7 @@ export function VolumeCalculatorClient({
   const safeCategories = roomCategories ?? [];
   const firstCategoryId = safeCategories[0]?.id ?? "other";
 
-  const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>(
-    Array.isArray(initialItems) ? initialItems : []
-  );
+  const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
   const [activeCategory, setActiveCategory] = useState(firstCategoryId);
 
   const [isGeneratingAi, setIsGeneratingAi] = useState(false);
@@ -391,10 +385,6 @@ export function VolumeCalculatorClient({
   };
 
 
-  const [isSaving, startSavingTransition] = useTransition();
-  const [saveError, setSaveError] = useState<string | null>(null);
-  const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
-
   const didHydrateRef = useRef(false);
 
   // Le seuil pour déclencher le scroll
@@ -437,33 +427,23 @@ export function VolumeCalculatorClient({
     mode: "onChange",
   });
 
-  const debouncedSave = useDebouncedCallback(async (items: InventoryItem[]) => {
-    startSavingTransition(() => {
-      setSaveError(null);
-      return updateInventoryList(items)
-        .then(() => {
-          setLastSavedAt(new Date());
-        })
-        .catch((err) => {
-          console.error("Autosave failed:", err);
-          setSaveError("Erreur de sauvegarde");
-        });
-    });
-  }, 900);
-
   useEffect(() => {
-    if (!didHydrateRef.current) {
-      didHydrateRef.current = true;
-      return;
+    try {
+      const stored = window.sessionStorage.getItem(PUBLIC_INVENTORY_STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) setInventoryItems(parsed);
+      }
+    } catch {
+      window.sessionStorage.removeItem(PUBLIC_INVENTORY_STORAGE_KEY);
     }
-    debouncedSave(inventoryItems);
-  }, [inventoryItems, debouncedSave]);
+    didHydrateRef.current = true;
+  }, []);
 
   useEffect(() => {
-    return () => {
-      debouncedSave.cancel();
-    };
-  }, [debouncedSave]);
+    if (!didHydrateRef.current) return;
+    window.sessionStorage.setItem(PUBLIC_INVENTORY_STORAGE_KEY, JSON.stringify(inventoryItems));
+  }, [inventoryItems]);
 
   const handleAddItem = useCallback((item: PredefinedItem) => {
     setInventoryItems((prev) => {
@@ -866,13 +846,7 @@ export function VolumeCalculatorClient({
 
           <CardFooter className="flex-col gap-2 p-4 border-t border-border shrink-0">
             <div className="flex items-center justify-center text-[10px] text-muted-foreground w-full mb-1 h-4">
-              {saveError ? (
-                <span className="text-destructive flex items-center"><AlertTriangle className="h-3 w-3 mr-1" /> {saveError}</span>
-              ) : isSaving ? (
-                <span className="flex items-center"><Loader2 className="h-3 w-3 animate-spin mr-1"/> Sauvegarde...</span>
-              ) : lastSavedAt ? (
-                <span className="text-emerald-600 flex items-center"><CheckCircle className="h-3 w-3 mr-1" /> Sauvegardé</span>
-              ) : null}
+              {inventoryItems.length > 0 ? <span>Inventaire conservé dans cet onglet</span> : null}
             </div>
             <Button
               type="button"

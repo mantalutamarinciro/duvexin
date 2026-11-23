@@ -1,32 +1,68 @@
 import type { Metadata } from "next";
 import { Calculator, Sparkles } from "lucide-react";
+import Link from "next/link";
 
 import { roomCategories } from "@/lib/predefined-items";
 import { VolumeCalculatorClient } from "@/components/volume-calculator-client";
-import { getInventoryList } from "@/services/inventoryService";
 
 // SEO
 export const metadata: Metadata = {
   title: "Calculateur de volume déménagement (m³) | Gratuit",
   description:
-    "Estimez le volume de votre déménagement pièce par pièce. Outil gratuit avec aide IA pour gagner du temps.",
+    "Estimez gratuitement le volume de votre déménagement en m³, pièce par pièce. Ajoutez vos meubles et préparez les informations utiles à votre devis.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/calculateur-volume",
   },
 };
 
-export const dynamic = 'force-dynamic';
+const VOLUME_FAQS = [
+  {
+    question: "Comment calculer le volume d’un déménagement ?",
+    answer: "Ajoutez chaque meuble, appareil et carton à l’inventaire, puis ajustez les quantités. Le calculateur additionne les volumes indicatifs pour produire une estimation en mètres cubes.",
+  },
+  {
+    question: "L’estimation en m³ remplace-t-elle une visite technique ?",
+    answer: "Non. Les dimensions réelles, le démontage, les objets atypiques et les accès peuvent modifier l’évaluation. L’inventaire sert à préparer le projet et doit être confirmé pour établir un devis.",
+  },
+  {
+    question: "À quoi sert le volume estimé ?",
+    answer: "Le volume aide à préparer les moyens de transport et la manutention. Il fait partie des informations examinées avec la distance, les accès, le stationnement et la formule demandée.",
+  },
+];
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://demenagementduvexin.fr/" },
+      { "@type": "ListItem", position: 2, name: "Calculateur de volume", item: "https://demenagementduvexin.fr/calculateur-volume" },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Calculateur de volume de déménagement",
+    url: "https://demenagementduvexin.fr/calculateur-volume",
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Web",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: VOLUME_FAQS.map(({ question, answer }) => ({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: { "@type": "Answer", text: answer },
+    })),
+  },
+];
 
 export default async function VolumeCalculatorPage() {
-  let initialInventory = null;
-  try {
-    initialInventory = await getInventoryList();
-  } catch {
-    // During build, db may not be available — safe to ignore
-  }
-
   return (
     <main className="min-h-screen bg-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       {/* HERO */}
       <section className="relative border-b border-slate-100 bg-white pt-24 pb-14 sm:pt-28 sm:pb-16">
         {/* Subtle background */}
@@ -56,7 +92,7 @@ export default async function VolumeCalculatorPage() {
             {/* Description */}
             <p className="mt-5 text-base leading-relaxed text-slate-600 sm:text-lg">
               Ajoutez vos meubles pièce par pièce, ou décrivez votre logement : notre assistant IA
-              vous aide à accélérer la saisie pour obtenir une estimation plus fiable.
+              vous aide à accélérer la saisie. Le résultat reste indicatif jusqu’à la vérification de l’inventaire et des accès.
             </p>
 
             {/* Trust line */}
@@ -104,15 +140,36 @@ export default async function VolumeCalculatorPage() {
             <div className="p-4 sm:p-6">
               <VolumeCalculatorClient
                 roomCategories={roomCategories}
-                initialItems={initialInventory?.items || []}
               />
             </div>
           </div>
 
           {/* Optional bottom helper (kept minimal) */}
           <p className="mx-auto mt-6 max-w-3xl text-center text-xs leading-relaxed text-slate-500">
-            Astuce : une estimation précise du volume facilite le choix du camion et réduit les imprévus le jour J.
+            Astuce : détaillez aussi les caves, garages, balcons et objets lourds. Ils peuvent modifier le volume et les moyens de manutention nécessaires.
           </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="volume-guide-title" className="border-t border-slate-100 bg-slate-50 py-16 sm:py-20">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="mx-auto max-w-5xl">
+            <div className="max-w-3xl">
+              <p className="text-sm font-bold uppercase tracking-[0.18em] text-primary">Comprendre votre estimation</p>
+              <h2 id="volume-guide-title" className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Du volume estimé au devis de déménagement</h2>
+              <p className="mt-5 text-base leading-7 text-slate-600">
+                Le cubage ne suffit pas à déterminer le coût d’un déménagement. La distance, les étages, l’ascenseur, le portage, le stationnement et les prestations choisies comptent également. Consultez notre <Link href="/tarif-demenagement" className="font-semibold text-primary underline underline-offset-4">guide sur le prix d’un déménagement</Link>, puis comparez les <Link href="/formules-de-demenagement" className="font-semibold text-primary underline underline-offset-4">formules de prestation</Link> avant de transmettre votre <Link href="/demande-devis" className="font-semibold text-primary underline underline-offset-4">demande de devis</Link>.
+              </p>
+            </div>
+            <div className="mt-10 grid gap-5 md:grid-cols-3">
+              {VOLUME_FAQS.map(({ question, answer }) => (
+                <article key={question} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <h3 className="font-bold leading-snug text-slate-900">{question}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{answer}</p>
+                </article>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </main>
