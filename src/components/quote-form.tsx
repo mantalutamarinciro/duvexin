@@ -740,6 +740,14 @@ export function QuoteForm({
               )}
               {submitButtonText}
             </Button>
+            {!isDashboard && (
+              <p className="max-w-md text-right text-xs leading-5 text-slate-500">
+                En envoyant cette demande, vous nous autorisez à utiliser ces informations pour étudier votre projet et vous recontacter. Consultez notre{" "}
+                <Link href="/politique-confidentialite" className="font-semibold text-primary underline underline-offset-4">
+                  politique de confidentialité
+                </Link>.
+              </p>
+            )}
           </div>
         </form>
       </Form>

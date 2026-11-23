@@ -16,10 +16,44 @@ import {
   Clock, 
   ShieldCheck, 
   ArrowLeft, 
-  Star, 
   Calculator,
   MessageCircle
 } from "lucide-react"
+
+const QUOTE_FAQS = [
+  {
+    question: "Quelles informations faut-il fournir pour préparer un devis de déménagement ?",
+    answer: "Les adresses de départ et d’arrivée sont indispensables. Pour affiner l’étude, indiquez aussi le type de logement, les étages, les ascenseurs, le stationnement, la date souhaitée et les objets lourds ou fragiles.",
+  },
+  {
+    question: "La demande de devis est-elle gratuite et sans engagement ?",
+    answer: "Oui. La demande permet d’étudier votre projet et ne vous oblige pas à accepter la proposition reçue.",
+  },
+  {
+    question: "Quels éléments influencent le prix d’un déménagement ?",
+    answer: "Le volume à transporter, la distance, les conditions d’accès, le stationnement, la période et le niveau de prestation demandé font partie des principaux éléments examinés.",
+  },
+]
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://demenagementduvexin.fr/" },
+      { "@type": "ListItem", position: 2, name: "Demande de devis", item: "https://demenagementduvexin.fr/demande-devis" },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: QUOTE_FAQS.map(({ question, answer }) => ({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: { "@type": "Answer", text: answer },
+    })),
+  },
+]
 
 export default function PublicQuotePage() {
   const [saving, setSaving] = useState(false)
@@ -77,6 +111,10 @@ export default function PublicQuotePage() {
 
   return (
     <main className="min-h-screen bg-slate-50 selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       
       {/* HEADER SIMPLIFIÉ (Pour garder le focus sur le formulaire) */}
       <div className="bg-white border-b border-slate-200">
@@ -86,11 +124,10 @@ export default function PublicQuotePage() {
                Retour au site
             </Link>
             
-            {/* Petit badge de confiance Google */}
+            {/* Réassurance factuelle */}
             <div className="hidden sm:flex items-center gap-2 bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-full">
-               <div className="flex text-amber-400"><Star className="h-3.5 w-3.5 fill-current" /></div>
-               <span className="text-xs font-bold text-slate-700">4.9/5</span>
-               <span className="text-xs text-slate-500">Avis Google</span>
+               <ShieldCheck className="h-4 w-4 text-[#00ad9f]" />
+               <span className="text-xs font-bold text-slate-700">Demande gratuite et sans engagement</span>
             </div>
          </div>
       </div>
@@ -103,14 +140,17 @@ export default function PublicQuotePage() {
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-[#00ad9f]/30 bg-[#00ad9f]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#00ad9f] mb-6 shadow-sm">
                 <Calculator className="h-4 w-4" />
-                Estimation rapide
+                Devis personnalisé
               </div>
               <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 mb-6 leading-tight">
-                Votre devis <br/>
-                <span className="text-[#00ad9f]">gratuit.</span>
+                Demande de devis <br/>
+                <span className="text-[#00ad9f]">déménagement.</span>
               </h1>
               <p className="text-lg text-slate-500 leading-relaxed">
-                Remplissez ce formulaire pour nous détailler votre projet. Nos experts l'analyseront pour vous proposer la formule la plus adaptée.
+                Décrivez votre trajet et vos contraintes pour recevoir une proposition adaptée à votre volume, à vos accès et au niveau de prestation souhaité.
+              </p>
+              <p className="mt-4 text-sm leading-relaxed text-slate-500">
+                Vous hésitez sur les informations à préparer ? Consultez notre <Link href="/calculateur-volume" className="font-semibold text-[#008f84] underline underline-offset-4">calculateur de volume</Link> et les <Link href="/tarif-demenagement" className="font-semibold text-[#008f84] underline underline-offset-4">éléments qui déterminent le prix</Link>.
               </p>
             </div>
 
@@ -165,6 +205,21 @@ export default function PublicQuotePage() {
           </div>
           
         </div>
+
+        <section aria-labelledby="quote-faq-title" className="mx-auto mt-16 max-w-4xl border-t border-slate-200 pt-12 lg:mt-20">
+          <div className="text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#008f84]">Préparer votre demande</p>
+            <h2 id="quote-faq-title" className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900">Questions fréquentes sur le devis</h2>
+          </div>
+          <div className="mt-8 grid gap-5 md:grid-cols-3">
+            {QUOTE_FAQS.map(({ question, answer }) => (
+              <article key={question} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h3 className="font-bold leading-snug text-slate-900">{question}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{answer}</p>
+              </article>
+            ))}
+          </div>
+        </section>
       </div>
     </main>
   )

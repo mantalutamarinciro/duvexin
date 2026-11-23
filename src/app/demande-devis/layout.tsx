@@ -5,8 +5,8 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   alternates: { canonical: "https://demenagementduvexin.fr/demande-devis" },
-  title: "Demande de Devis Déménagement | DemDuVexin",
-  description: "Obtenez un devis gratuit et personnalisé pour votre déménagement. Remplissez notre formulaire en quelques minutes et recevez une estimation rapide.",
+  title: "Devis déménagement gratuit | Demande personnalisée",
+  description: "Demandez un devis de déménagement gratuit et sans engagement. Indiquez vos adresses, vos accès et votre inventaire pour obtenir une proposition adaptée.",
 };
 
 

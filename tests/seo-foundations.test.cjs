@@ -512,6 +512,21 @@ test('pricing guide receives contextual editorial links with accurate anchors', 
   assert.match(combined, /éléments qui influencent le devis/);
 });
 
+test('quote request page targets quote intent with factual reassurance and structured help', () => {
+  const page = readFileSync(path.join(root, 'src/app/demande-devis/page.tsx'), 'utf8');
+  const layout = readFileSync(path.join(root, 'src/app/demande-devis/layout.tsx'), 'utf8');
+  const form = readFileSync(path.join(root, 'src/components/quote-form.tsx'), 'utf8');
+  assert.ok(layout.includes('Devis déménagement gratuit | Demande personnalisée'));
+  assert.ok(layout.includes('alternates: { canonical: "https://demenagementduvexin.fr/demande-devis" }'));
+  assert.match(page, /<h1[\s\S]*?Demande de devis[\s\S]*?déménagement/);
+  assert.ok(page.includes('"@type": "FAQPage"'));
+  assert.ok(page.includes('"@type": "BreadcrumbList"'));
+  assert.ok(page.includes('href="/calculateur-volume"'));
+  assert.ok(page.includes('href="/tarif-demenagement"'));
+  assert.doesNotMatch(page, /4\.9\/5|Avis Google|Estimation rapide/);
+  assert.ok(form.includes('href="/politique-confidentialite"'));
+});
+
 test('legacy redirects have unique sources, existing destinations and no chains', async () => {
   const redirects = await load('next.config.ts').default.redirects();
   assert.equal(new Set(redirects.map(item => item.source)).size, redirects.length);
