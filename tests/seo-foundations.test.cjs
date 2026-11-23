@@ -485,6 +485,17 @@ test('home offers match the reference formulas and use an explicit quote CTA', (
   assert.doesNotMatch(home, /Devis sous 24h|4 niveaux de|Total Confort|Le plus choisi/);
 });
 
+test('pricing guide explains quote factors without invented universal rates', () => {
+  const page = readFileSync(path.join(root, 'src/app/tarif-demenagement/page.tsx'), 'utf8');
+  const layout = readFileSync(path.join(root, 'src/app/tarif-demenagement/layout.tsx'), 'utf8');
+  assert.ok(layout.includes('Prix d’un déménagement | Volume, distance et devis'));
+  assert.ok(page.includes('"@type": "FAQPage"'));
+  assert.ok(page.includes('"@type": "BreadcrumbList"'));
+  assert.equal((page.match(/FAQS\.map\(/g) || []).length, 2);
+  assert.ok(page.includes('href="/calculateur-volume"'));
+  assert.doesNotMatch(page, /35€|75€|1\.50€|2\.20€|450€|850€|1600€|2400€|transparence totale|tarif ferme et définitif/i);
+});
+
 test('legacy redirects have unique sources, existing destinations and no chains', async () => {
   const redirects = await load('next.config.ts').default.redirects();
   assert.equal(new Set(redirects.map(item => item.source)).size, redirects.length);

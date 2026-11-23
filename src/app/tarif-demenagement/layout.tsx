@@ -3,8 +3,8 @@ import type { PropsWithChildren } from "react";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Tarifs Déménagement 2026 : Quel est le prix au m³ ? | DemDuVexin",
-  description: "Découvrez les tarifs de déménagement en 2026. Guide complet sur le prix au m³, l'estimation de budget selon la distance et les formules. Obtenez votre devis gratuit personnalisé.",
+  title: "Prix d’un déménagement | Volume, distance et devis",
+  description: "Comprenez le prix d’un déménagement : volume, distance, accès, stationnement et formule. Préparez les mêmes informations pour comparer vos devis.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/tarif-demenagement",
   },
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     "estimation déménagement",
     "devis déménagement",
     "prix m3 déménagement",
-    "coût déménagement paris",
+    "coût déménagement",
     "tarif déménageur professionnel"
   ]
 };
