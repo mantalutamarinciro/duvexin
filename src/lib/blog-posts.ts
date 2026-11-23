@@ -26,7 +26,7 @@ export const blogPosts: BlogPost[] = [
   {
     id: '2',
     title: 'Comment choisir la bonne formule de déménagement ?',
-    description: 'Économique, Standard ou Confort ? Chaque formule a ses avantages. Nous vous aidons à choisir celle qui correspond le mieux à vos besoins et votre budget.',
+    description: 'Économique, Standard ou Prestige ? Comparez les tâches que vous préparez vous-même et celles que vous souhaitez confier aux déménageurs.',
     imageUrl: '/images/blog/formules-demenagement.webp',
     aiHint: 'moving boxes',
     link: '/blog/comment-choisir-la-bonne-formule-de-demenagement',

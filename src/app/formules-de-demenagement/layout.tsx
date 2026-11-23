@@ -3,8 +3,8 @@ import type { PropsWithChildren } from "react";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Nos Formules de Déménagement : Économique, Standard, Prestige | DemDuVexin",
-  description: "Comparez nos 3 formules de déménagement sur-mesure. De la manutention simple au service clé en main, trouvez l'offre adaptée à votre budget et vos besoins.",
+  title: "Formules de déménagement | Économique, Standard, Prestige",
+  description: "Comparez les prestations incluses dans nos formules Économique, Standard et Prestige : transport, cartons, mobilier, objets fragiles et déballage.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/formules-de-demenagement",
   }

@@ -486,6 +486,19 @@ test('home offers match the reference formulas and use an explicit quote CTA', (
   assert.doesNotMatch(home, /Devis sous 24h|4 niveaux de|Total Confort|Le plus choisi/);
 });
 
+test('formula comparison uses factual differences and consistent naming', () => {
+  const page = readFileSync(path.join(root, 'src/app/formules-de-demenagement/page.tsx'), 'utf8');
+  const layout = readFileSync(path.join(root, 'src/app/formules-de-demenagement/layout.tsx'), 'utf8');
+  const posts = readFileSync(path.join(root, 'src/lib/blog-posts.ts'), 'utf8');
+  assert.ok(layout.includes('Formules de déménagement | Économique, Standard, Prestige'));
+  assert.match(page, /<h1[\s\S]*?formules de déménagement[\s\S]*?à comparer/);
+  assert.ok(page.includes('"@type": "Service"'));
+  assert.ok(page.includes('"@type": "BreadcrumbList"'));
+  assert.ok(page.includes('href="/tarif-demenagement"'));
+  assert.ok(posts.includes('Économique, Standard ou Prestige ?'));
+  assert.doesNotMatch(page, /offre la plus populaire|La plus demandée|Sérénité absolue|service gants blancs|aucun stress|Déménageurs salariés uniquement/i);
+});
+
 test('pricing guide explains quote factors without invented universal rates', () => {
   const page = readFileSync(path.join(root, 'src/app/tarif-demenagement/page.tsx'), 'utf8');
   const layout = readFileSync(path.join(root, 'src/app/tarif-demenagement/layout.tsx'), 'utf8');

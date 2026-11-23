@@ -26,31 +26,57 @@ const FORMULAS = [
     title: "Économique",
     priceText: "L'essentiel du transport",
     icon: Gift,
-    description: "La solution idéale pour les petits budgets et les volumes simples. Vous préparez, nous transportons.",
+    description: "Vous emballez vos cartons et préparez vos effets. Notre équipe protège le mobilier, charge, transporte et décharge.",
     color: "text-blue-600",
     bg: "bg-blue-50 dark:bg-blue-950/30",
   },
   {
     id: "standard",
     title: "Standard",
-    priceText: "L'équilibre parfait",
+    priceText: "Mobilier et fragile pris en charge",
     icon: Package,
-    description: "Notre offre la plus populaire. Nous gérons le mobilier et les objets fragiles pour votre sécurité.",
+    description: "La formule ajoute notamment les cartons, le démontage et remontage du mobilier ainsi que l’emballage des objets fragiles.",
     color: "text-primary",
     bg: "bg-primary/5",
     border: "border-primary/20",
-    popular: true,
+    highlighted: true,
   },
   {
     id: "prestige",
     title: "Prestige",
-    priceText: "Sérénité absolue",
+    priceText: "Emballage plus complet",
     icon: Sparkles,
-    description: "Le service gants blancs. Nos équipes s'occupent de l'intégralité de votre déménagement.",
+    description: "La formule ajoute l’emballage des objets non fragiles, la mise en penderie des vêtements et le déballage du fragile à l’arrivée.",
     color: "text-amber-600",
     bg: "bg-amber-50",
     border: "border-amber-100",
   }
+];
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://demenagementduvexin.fr/" },
+      { "@type": "ListItem", position: 2, name: "Formules de déménagement", item: "https://demenagementduvexin.fr/formules-de-demenagement" },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Formules de déménagement",
+    provider: { "@type": "MovingCompany", name: "Déménagement du Vexin", url: "https://demenagementduvexin.fr/" },
+    serviceType: "Déménagement de particuliers",
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Niveaux de prestation",
+      itemListElement: FORMULAS.map((formula) => ({
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: `Formule ${formula.title}`, description: formula.description },
+      })),
+    },
+  },
 ];
 
 const FEATURES = [
@@ -71,6 +97,7 @@ const FEATURES = [
 export default function FormulesPage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-primary/20 selection:text-primary">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       
       {/* --- HERO SECTION --- */}
       <section className="relative pt-32 pb-16 lg:pt-48 lg:pb-24 bg-[#0b0f19] text-white overflow-hidden">
@@ -94,14 +121,13 @@ export default function FormulesPage() {
           </nav>
 
           <h1 className="text-4xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
-            3 niveaux de <br />
+            3 formules de déménagement <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-teal-300">
-              tranquillité.
+              à comparer.
             </span>
           </h1>
           <p className="text-lg md:text-xl text-slate-300 font-light max-w-2xl mx-auto leading-relaxed">
-            Du simple transport à l'installation complète "clés en main". 
-            Choisissez la formule qui correspond à votre rythme et à votre budget.
+            Choisissez les tâches que vous préparez vous-même et celles que vous souhaitez confier à nos équipes : cartons, mobilier, objets fragiles ou déballage.
           </p>
         </div>
       </section>
@@ -115,18 +141,18 @@ export default function FormulesPage() {
                 key={formula.id} 
                 className={cn(
                   "relative rounded-[2.5rem] border-none shadow-2xl flex flex-col transition-all duration-500 overflow-hidden",
-                  formula.popular ? "lg:scale-105 z-10" : "z-0"
+                  formula.highlighted ? "lg:scale-105 z-10" : "z-0"
                 )}
               >
-                {formula.popular && (
+                {formula.highlighted && (
                   <div className="absolute top-0 inset-x-0 h-2 bg-primary" />
                 )}
                 
                 <CardHeader className="p-10 pb-6 text-center">
-                  {formula.popular && (
+                  {formula.highlighted && (
                     <div className="mb-6">
                       <span className="bg-primary text-white text-[10px] font-black uppercase tracking-widest py-2 px-6 rounded-full shadow-lg">
-                        La plus demandée
+                        Formule intermédiaire
                       </span>
                     </div>
                   )}
@@ -167,7 +193,7 @@ export default function FormulesPage() {
                     size="lg" 
                     className={cn(
                       "w-full h-14 rounded-2xl font-black transition-all hover:scale-[1.02] active:scale-95 shadow-xl",
-                      formula.popular ? "bg-primary text-white shadow-primary/20" : "bg-slate-900 text-white shadow-slate-900/20"
+                      formula.highlighted ? "bg-primary text-white shadow-primary/20" : "bg-slate-900 text-white shadow-slate-900/20"
                     )}
                   >
                     <Link href="/demande-devis">
@@ -236,13 +262,16 @@ export default function FormulesPage() {
               <h3 className="text-2xl font-bold text-slate-900">Quelle formule choisir ?</h3>
               <div className="space-y-4 text-slate-500 font-light leading-relaxed">
                 <p>
-                  <strong>Économique</strong> : Recommandée pour les petits budgets ou si vous disposez de beaucoup de temps pour emballer.
+                  <strong>Économique</strong> : à envisager si vous souhaitez emballer vous-même vos cartons et préparer vos effets avant l’intervention.
                 </p>
                 <p>
-                  <strong>Standard</strong> : Le choix de la sécurité. Nous gérons le plus risqué : le démontage des meubles et l'emballage de la vaisselle fragile.
+                  <strong>Standard</strong> : ajoute le démontage et remontage du mobilier ainsi que l’emballage des objets fragiles.
                 </p>
                 <p>
-                  <strong>Prestige</strong> : Pour ceux qui ne veulent aucun stress. On s'occupe de tout, vous n'avez qu'à nous donner les clés.
+                  <strong>Prestige</strong> : ajoute notamment l’emballage des objets non fragiles, la mise en penderie et le déballage du fragile.
+                </p>
+                <p>
+                  Le volume, la distance et les accès restent déterminants. Consultez les <Link href="/tarif-demenagement" className="font-semibold text-primary underline underline-offset-4">critères pris en compte dans le prix</Link> avant de demander une proposition.
                 </p>
               </div>
             </div>
@@ -252,12 +281,12 @@ export default function FormulesPage() {
               <div className="h-12 w-12 rounded-xl bg-white/10 flex items-center justify-center text-primary">
                 <ShieldCheck className="h-6 w-6" />
               </div>
-              <h3 className="text-2xl font-bold">L'engagement Qualité</h3>
+              <h3 className="text-2xl font-bold">Les prestations communes</h3>
               <p className="text-slate-400 font-light leading-relaxed">
                 Quelle que soit la formule choisie, vous bénéficiez des mêmes garanties de base :
               </p>
               <ul className="space-y-3">
-                {["Déménageurs salariés uniquement", "Camions capitonnés sécurisés", "Protection systématique des meubles", "Assurance contractuelle incluse"].map(item => (
+                {["Camion capitonné", "Protection du mobilier sous couvertures", "Chargement, transport et déchargement", "Assurance contractuelle incluse"].map(item => (
                   <li key={item} className="flex items-center gap-3 text-sm font-medium">
                     <CheckCircle2 className="h-4 w-4 text-primary" /> {item}
                   </li>
@@ -284,7 +313,7 @@ export default function FormulesPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Lors de notre visite technique gratuite, nous pourrons vous chiffrer plusieurs options pour vous aider à choisir sereinement.
+                    Décrivez votre projet et vos accès : la demande de devis permet de comparer les niveaux de prestation adaptés à votre situation.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
