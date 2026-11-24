@@ -106,6 +106,18 @@ function buildJsonLd(location: OiseLocation) {
       },
       url: `${BASE_URL}${location.route}`,
     },
+    ...(location.kind === "department" ? [{
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: "Villes de l’Oise",
+      numberOfItems: OISE_CITY_LOCATIONS.length,
+      itemListElement: OISE_CITY_LOCATIONS.map((city, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: city.name,
+        url: `${BASE_URL}${city.route}`,
+      })),
+    }] : []),
     {
       "@context": "https://schema.org",
       "@type": "FAQPage",
@@ -199,7 +211,7 @@ export function OiseLocationPage({ location }: OiseLocationPageProps) {
         <div className="container flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-center gap-3 text-sm font-bold text-slate-500">
             <Truck className="h-5 w-5 text-primary" />
-            <span>Maillage Oise : département, villes prioritaires, services et outils de conversion.</span>
+            <span>Oise : pages locales, services et outils pour préparer votre projet.</span>
           </div>
           <div className="flex flex-wrap gap-2">
             <Link href="/demenagement-particuliers" className="rounded-full border border-slate-200 px-4 py-2 text-xs font-bold text-slate-600 transition-colors hover:border-primary/40 hover:text-primary">
@@ -221,7 +233,7 @@ export function OiseLocationPage({ location }: OiseLocationPageProps) {
       <section className="bg-white py-24">
         <div className="container grid gap-14 lg:grid-cols-[1fr_420px] lg:items-start">
           <div className="max-w-3xl">
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-primary">Expertise locale</span>
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-primary">Préparation locale</span>
             <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950 md:text-5xl">
               {location.introTitle}
             </h2>
@@ -280,14 +292,14 @@ export function OiseLocationPage({ location }: OiseLocationPageProps) {
       <section className="bg-slate-950 py-24 text-white">
         <div className="container grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
           <div>
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-primary">Maillage local</span>
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-primary">Villes et secteurs proches</span>
             <h2 className="mt-4 text-3xl font-black tracking-tight md:text-5xl">
               {isDepartment ? "Les villes prioritaires de l'Oise" : `Autour de ${location.name}`}
             </h2>
             <p className="mt-6 text-lg font-light leading-relaxed text-slate-300">
               {isDepartment
-                ? "Chaque page ville renforce le silo Oise avec des contenus locaux, des canoniques propres et des liens utiles vers les services."
-                : "Ces liens de proximité aident l'utilisateur à se repérer et renforcent la cohérence SEO du silo Oise."}
+                ? "Consultez les informations propres aux principales villes du département : accès, types de logements, stationnement et secteurs voisins."
+                : "Retrouvez les pages des secteurs proches pour préparer un départ, une arrivée ou un trajet entre plusieurs communes de l’Oise."}
             </p>
           </div>
 
@@ -305,7 +317,7 @@ export function OiseLocationPage({ location }: OiseLocationPageProps) {
               <Link href={OISE_DEPARTMENT_LOCATION.route} className="group flex items-center justify-between rounded-2xl border border-primary/30 bg-primary/10 px-5 py-4 transition-colors hover:bg-primary/20 sm:col-span-2">
                 <span>
                   <span className="block text-sm font-black text-white">Voir tout le département de l'Oise</span>
-                  <span className="mt-1 block text-xs font-medium text-teal-100">Page pilier 60</span>
+                  <span className="mt-1 block text-xs font-medium text-teal-100">Villes, accès et conseils départementaux</span>
                 </span>
                 <ArrowRight className="h-5 w-5 text-teal-100 transition-transform group-hover:translate-x-1" />
               </Link>
@@ -326,7 +338,7 @@ export function OiseLocationPage({ location }: OiseLocationPageProps) {
             />
           </div>
           <div>
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-primary">Conversion</span>
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-primary">Préparer le devis</span>
             <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950 md:text-5xl">
               {location.conversionTitle}
             </h2>
@@ -337,7 +349,7 @@ export function OiseLocationPage({ location }: OiseLocationPageProps) {
               <div className="rounded-2xl border border-slate-200 p-5">
                 <Users className="h-6 w-6 text-primary" />
                 <h3 className="mt-3 text-sm font-black uppercase tracking-widest text-slate-950">Équipe salariée</h3>
-                <p className="mt-2 text-sm text-slate-600">Pas de sous-traitance opaque : suivi clair et méthode stable.</p>
+                <p className="mt-2 text-sm text-slate-600">La proposition précise les prestations et l’organisation prévues pour le projet.</p>
               </div>
               <div className="rounded-2xl border border-slate-200 p-5">
                 <ClipboardList className="h-6 w-6 text-primary" />
@@ -390,7 +402,7 @@ export function OiseLocationPage({ location }: OiseLocationPageProps) {
               On prépare votre déménagement {isDepartment ? "dans l'Oise" : `à ${location.name}`} ?
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-lg font-light leading-relaxed text-slate-300">
-              Décrivez votre projet, vos adresses, votre volume estimé et la période souhaitée. Nous vous répondons avec une proposition claire et actionnable.
+              Décrivez votre projet, vos adresses, votre volume estimé et la période souhaitée. Ces informations permettent d’étudier la faisabilité et de préparer une proposition personnalisée.
             </p>
             <div className="mt-10 flex justify-center">
               <Button asChild size="lg" className="h-14 rounded-full px-8 text-base font-black">

@@ -453,6 +453,21 @@ test('Calvados hub targets Caen and Côte Fleurie with structured city links', (
   assert.doesNotMatch(source, /expert normandie|connaissance fine de tout le Calvados|ponctualité et une réactivité exemplaires|garantissant|humidité saline|sans aucun accroc|sillonnent quotidiennement|sans interruption de votre activité|vidéosurveillance|trajet très fréquent/i);
 });
 
+test('Oise department hub exposes its city cluster without internal SEO language', () => {
+  const data = readFileSync(path.join(root, 'src/lib/oise-locations.ts'), 'utf8');
+  const component = readFileSync(path.join(root, 'src/components/oise-location-page.tsx'), 'utf8');
+  assert.match(data, /title: "Déménageur dans l’Oise \(60\) \| Beauvais, Compiègne, Creil"/);
+  assert.match(component, /"@type": "ItemList"/);
+  for (const route of [
+    '/demenagement-beauvais-60000', '/demenagement-compiegne-60200',
+    '/demenagement-creil-60100', '/demenagement-senlis-60300',
+    '/demenagement-chantilly-60500',
+  ]) assert.ok(data.includes(`route: "${route}"`), route);
+  assert.doesNotMatch(component, /silo Oise|canoniques propres|outils de conversion|page pilier 60|sous-traitance opaque/i);
+  const departmentBlock = data.slice(data.indexOf('id: "oise"'), data.indexOf('id: "beauvais"'));
+  assert.doesNotMatch(departmentBlock, /locale et fiable|portage maîtrisé|décider vite|tout le département/i);
+});
+
 test('homepage Journal cards match existing articles and image files', () => {
   const source = readFileSync(path.join(root, 'src/app/(home)/landing-page-client.tsx'), 'utf8');
   const tree = ts.createSourceFile('home.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);

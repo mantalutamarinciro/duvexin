@@ -58,7 +58,7 @@ const commonFaqs = {
   parking: {
     question: "Pouvez-vous gérer les accès et le stationnement ?",
     answer:
-      "Oui. Lorsque le contexte l'exige, nous anticipons les autorisations de stationnement, les zones de livraison, les rues étroites, les étages sans ascenseur et l'usage éventuel d'un monte-meubles pour sécuriser l'intervention.",
+      "Les accès et le stationnement sont étudiés avant le devis. Selon la commune, l’adresse et la formule retenue, la proposition précise les démarches nécessaires, les informations à fournir et l’usage éventuel d’un monte-meubles.",
   },
   services: {
     question: "Intervenez-vous pour les particuliers et les entreprises ?",
@@ -74,30 +74,30 @@ export const OISE_LOCATIONS: OiseLocation[] = [
     name: "Oise",
     route: "/demenagement-oise-60",
     postalCode: "60",
-    title: "Déménagement Oise (60) | Déménageur local, devis gratuit personnalisé",
+    title: "Déménageur dans l’Oise (60) | Beauvais, Compiègne, Creil",
     description:
-      "Déménagement du Vexin accompagne particuliers et entreprises dans l'Oise (60) : Beauvais, Compiègne, Creil, Senlis, Chantilly, Méru, Noyon et tout le département. Devis gratuit personnalisé.",
+      "Préparez votre déménagement dans l’Oise : Beauvais, Compiègne, Creil, Senlis, Chantilly, Méru et Noyon. Accès, volume, trajet et devis personnalisé.",
     eyebrow: "Département 60",
     h1: "Votre déménageur dans l'Oise (60)",
     heroLead:
-      "Une organisation locale et fiable pour déménager dans l'Oise, entre Beauvaisis, Compiégnois, Creillois, Valois, Clermontois et sud de l'Oise.",
+      "Préparez votre déménagement dans l’Oise, entre Beauvaisis, Compiégnois, bassin creillois, Valois, Clermontois et sud du département.",
     introTitle: "Un département stratégique entre Hauts-de-France et Île-de-France",
     intro: [
       "L'Oise concentre des profils de déménagement très différents : appartements en centre-ville à Beauvais ou Compiègne, maisons familiales autour de Senlis et Chantilly, logements collectifs dans le bassin creillois, pavillons du Pays de Valois, résidences proches des gares et mutations professionnelles vers Paris.",
-      "Cette diversité impose une vraie préparation : étude des accès, choix du camion, protection des parties communes, créneau de stationnement, gestion des volumes et anticipation des trajets sur l'A1, l'A16, la N31, la D1016 ou les axes de la vallée de l'Oise.",
+      "Cette diversité demande une préparation précise : accès aux deux adresses, étage, ascenseur, portage, stationnement, volume et trajet sur l’A1, l’A16, la N31, la D1016 ou les axes de la vallée de l’Oise.",
     ],
     localProof:
-      "Nous construisons chaque intervention comme une opération locale : visite ou analyse technique, protection adaptée au bâti, équipe salariée, planning clair et interlocuteur unique jusqu'à la livraison.",
+      "La visite ou l’analyse technique permet de vérifier le passage du mobilier, les parties communes, les accès du véhicule et les prestations à inscrire dans la proposition.",
     accessTitle: "Nos priorités logistiques dans le 60",
     accessPoints: [
-      "Centres anciens : rues étroites, stationnement à réserver, portage maîtrisé.",
+      "Centres anciens : rues étroites, stationnement et distance de portage.",
       "Résidences et copropriétés : ascenseurs, protections, horaires autorisés.",
       "Maisons et pavillons : accès camion, allées, portails, jardins, volumes lourds.",
-      "Entreprises : transfert de bureaux, archives, informatique, intervention en horaires adaptés.",
+      "Entreprises : mobilier, archives, informatique, accès et calendrier de l’activité.",
     ],
-    conversionTitle: "Un devis Oise conçu pour décider vite",
+    conversionTitle: "Un devis détaillé pour votre projet dans l’Oise",
     conversionText:
-      "Votre devis précise la formule, les moyens humains, le volume, les protections prévues et les options utiles : monte-meubles, emballage du fragile, démontage, garde-meubles ou groupage longue distance.",
+      "Votre devis précise la formule, le volume, les accès, les protections prévues et les options retenues : monte-meubles éventuel, emballage, démontage, stockage ou trajet longue distance.",
     nearby: [
       "beauvais",
       "compiegne",
