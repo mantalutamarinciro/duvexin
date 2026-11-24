@@ -381,6 +381,24 @@ test('Eure hub targets departmental intent with factual local guidance and city 
   assert.doesNotMatch(source, /maîtrise totale|ultra-personnalisé|sillonnent quotidiennement|sécurité et une intégrité absolues|tarifs compétitifs|transition sans stress|flotte variée de camions de tous gabarits/i);
 });
 
+test('Yvelines hub targets departmental intent with structured city navigation', () => {
+  const source = readFileSync(path.join(root, 'src/app/demenagement-yvelines-78/page.tsx'), 'utf8');
+  assert.match(source, /title: "Déménageur dans les Yvelines \(78\)/);
+  assert.match(source, /"@type": "BreadcrumbList"/);
+  assert.match(source, /"@type": "ItemList"/);
+  assert.match(source, /"@type": "FAQPage"/);
+  for (const href of [
+    '/demenagement-versailles-78000',
+    '/demenagement-poissy-78300',
+    '/demenagement-mantes-la-jolie-78200',
+    '/demenagement-saint-germain-en-laye-78100',
+    '/demenagement-rambouillet-78120',
+  ]) {
+    assert.ok(source.includes(`link: "${href}"`), href);
+  }
+  assert.doesNotMatch(source, /maîtrisons les spécificités|pas d'intérimaires|efficacité redoutable|service VIP|parfaitement équipés|créneaux d'urgence|devis ferme et définitif|grand nom du déménagement/i);
+});
+
 test('homepage Journal cards match existing articles and image files', () => {
   const source = readFileSync(path.join(root, 'src/app/(home)/landing-page-client.tsx'), 'utf8');
   const tree = ts.createSourceFile('home.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
@@ -678,7 +696,7 @@ test('Val-d’Oise city breadcrumbs consolidate authority on the departmental hu
 
 test('Yvelines intent and city breadcrumbs consolidate on the departmental hub', () => {
   const departmentPage = readFileSync(path.join(root, 'src/app/demenagement-yvelines-78/page.tsx'), 'utf8');
-  assert.ok(departmentPage.includes('Déménageur Yvelines (78) | Devis personnalisé'));
+  assert.ok(departmentPage.includes('Déménageur dans les Yvelines (78) | Devis personnalisé'));
   assert.match(departmentPage, /<h1[\s\S]*?Votre déménageur[\s\S]*?dans les Yvelines/);
 
   for (const route of [

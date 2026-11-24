@@ -12,9 +12,8 @@ import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 import { 
   CheckCircle2, 
   MapPin, 
-  ShieldCheck, 
-  Star, 
-  Users, 
+  Calculator,
+  Route,
   ArrowRight, 
   ChevronRight, 
   TreePine, 
@@ -23,8 +22,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménageur Yvelines (78) | Devis personnalisé",
-  description: "Besoin d'un déménageur dans les Yvelines ? Notre équipe intervient à Versailles, Poissy, Mantes-la-Jolie et dans tout le 78. Demandez votre devis personnalisé.",
+  title: "Déménageur dans les Yvelines (78) | Devis personnalisé",
+  description: "Préparez votre déménagement dans les Yvelines : Versailles, Poissy, Mantes-la-Jolie, Saint-Germain-en-Laye et leurs environs. Demandez un devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-yvelines-78",
   }
@@ -49,47 +48,70 @@ const YVELINES_CITIES = [
 const WHY_US_ITEMS = [
   {
     icon: MapPin,
-    title: "Connaissance du 78",
-    description: "De la densité de Versailles aux routes forestières de Rambouillet, nous maîtrisons les spécificités de chaque commune."
+    title: "Secteurs variés",
+    description: "Centre historique, résidence, maison rurale ou zone d’activité : les accès sont décrits selon les deux adresses."
   },
   {
-    icon: Users,
-    title: "Équipes Salariées",
-    description: "Pas d'intérimaires. Nos déménageurs sont formés en interne, habitués à travailler ensemble pour une efficacité redoutable."
+    icon: Calculator,
+    title: "Devis détaillé",
+    description: "Le volume, la distance, les accès, la formule et les options sont pris en compte dans la proposition."
   },
   {
-    icon: ShieldCheck,
+    icon: Route,
     title: "Protection du mobilier",
-    description: "Matériel de protection premium (housses capitonnées, bullkraft) et camions équipés pour préserver vos biens les plus précieux."
+    description: "Les protections et les moyens de manutention sont définis selon le mobilier et les prestations retenues."
   },
   {
-    icon: Star,
-    title: "Service VIP",
-    description: "Selon la formule retenue, nous vous accompagnons pour le stationnement et vous attribuons un interlocuteur unique."
+    icon: CheckCircle2,
+    title: "Prestations définies",
+    description: "Emballage, démontage, remontage et déballage sont précisés selon la formule choisie."
   }
 ];
 
 const FAQS = [
   { question: "Gérez-vous les autorisations de stationnement à Versailles ou Saint-Germain ?", answer: "Ces démarches peuvent être complexes dans les villes historiques. Selon la formule retenue, nous pouvons vous accompagner en tenant compte des règles et délais indiqués par la commune." },
-  { question: "Comment évaluez-vous le coût d'un déménagement dans les Yvelines ?", answer: "Le coût dépend du volume (m³), de la distance, de la formule choisie et des accès (étages, portage). Nous privilégions une visite technique gratuite à votre domicile dans le 78 pour un devis ferme et définitif." },
-  { question: "Intervenez-vous dans les zones rurales de la vallée de Chevreuse ?", answer: "Bien sûr. Nous sommes parfaitement équipés pour intervenir dans toutes les communes, y compris les zones reculées ou les propriétés avec des accès difficiles (chemins de terre, portails étroits)." },
-  { question: "Quels sont vos délais d'intervention ?", answer: "Nous vous conseillons de nous contacter 3 à 4 semaines à l'avance. Cependant, grâce à notre forte implantation locale, nous pouvons régulièrement débloquer des créneaux d'urgence. Appelez-nous !" }
+  { question: "Comment évaluez-vous le coût d'un déménagement dans les Yvelines ?", answer: "Le coût dépend notamment du volume, de la distance, de la formule choisie, des étages, de l’ascenseur, du portage et du stationnement. La proposition détaille les prestations prévues pour votre projet." },
+  { question: "Intervenez-vous dans les zones rurales de la vallée de Chevreuse ?", answer: "Pour une adresse rurale ou un accès difficile, indiquez la largeur de la voie et du portail, la possibilité de stationner et la distance jusqu’au logement. Ces éléments permettent de vérifier la faisabilité et d’adapter les moyens au devis." },
+  { question: "Quand demander un devis pour déménager dans les Yvelines ?", answer: "Demandez votre devis dès que les deux adresses et la période sont connues, surtout pour une date contrainte. La disponibilité dépend du calendrier, du trajet, du volume et des prestations souhaitées." }
 ];
 
-const faqStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": FAQS.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
-  }))
-};
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://demenagementduvexin.fr/" },
+      { "@type": "ListItem", position: 2, name: "Zones d’intervention", item: "https://demenagementduvexin.fr/zones-intervention" },
+      { "@type": "ListItem", position: 3, name: "Déménagement Yvelines (78)", item: "https://demenagementduvexin.fr/demenagement-yvelines-78" },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Villes des Yvelines",
+    numberOfItems: YVELINES_CITIES.length,
+    itemListElement: YVELINES_CITIES.map((city, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: city.name,
+      url: `https://demenagementduvexin.fr${city.link}`,
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQS.map(item => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  },
+];
 
 export default function YvelinesPage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
-      <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      <Script id="yvelines-structured-data" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
@@ -117,7 +139,7 @@ export default function YvelinesPage() {
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-teal-300 mb-8 shadow-sm backdrop-blur-md">
               <Castle className="h-4 w-4" />
-              Agence Locale IDF Ouest
+              Déménagement dans le 78
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
@@ -134,7 +156,7 @@ export default function YvelinesPage() {
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
                 <Link href="/demande-devis">
-                  Obtenir mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
+                  Demander mon devis <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </div>
@@ -148,14 +170,14 @@ export default function YvelinesPage() {
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div className="space-y-8 relative z-10">
               <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                Entre ville historique <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">et nature préservée</u>.
+                Préparer les accès <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">aux deux adresses</u>.
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  Les Yvelines offrent une diversité unique : le prestige des avenues versaillaises, le dynamisme économique de Saint-Quentin-en-Yvelines, ou encore les accès escarpés et forestiers de la vallée de Chevreuse.
+                  Les conditions diffèrent entre les centres historiques de Versailles ou Saint-Germain-en-Laye, les secteurs urbains de la vallée de la Seine et les communes rurales autour de Rambouillet.
                 </p>
                 <p>
-                  Un déménagement ici exige bien plus que de la simple manutention. Cela demande de l'anticipation. Nous gérons les stationnements complexes, les arrêtés municipaux spécifiques, et nous adaptons nos camions (fourgons agiles ou poids lourds) à la topographie de votre secteur.
+                  Étages, ascenseur, largeur de voie, portail, distance de portage et stationnement doivent être signalés dès la demande. Selon le projet, les démarches de stationnement sont à anticiper auprès de la commune concernée.
                 </p>
               </div>
               
@@ -164,8 +186,8 @@ export default function YvelinesPage() {
                     <TreePine className="h-8 w-8 text-[#00ad9f]" />
                  </div>
                  <div>
-                   <h3 className="text-xl font-bold text-slate-900 mb-1">Logistique Maîtrisée</h3>
-                   <p className="text-slate-500 font-light">Une efficacité éprouvée, du centre-ville très dense jusqu'à la campagne reculée.</p>
+                   <h3 className="text-xl font-bold text-slate-900 mb-1">Informations utiles au devis</h3>
+                   <p className="text-slate-500 font-light">Volume, accès, trajet, date et formule permettent de préparer une proposition adaptée.</p>
                  </div>
               </div>
             </div>
@@ -193,10 +215,10 @@ export default function YvelinesPage() {
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-              Nous couvrons <span className="text-[#00ad9f]">tout le 78.</span>
+              Nos pages locales <span className="text-[#00ad9f]">dans les Yvelines.</span>
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              De l'agglomération de Versailles Grand Parc à la boucle de la Seine.
+              Retrouvez les informations dédiées aux principales villes du département, de Versailles à Mantes-la-Jolie.
             </p>
           </div>
           
@@ -226,10 +248,10 @@ export default function YvelinesPage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-              Pourquoi nous confier votre projet ?
+              Ce qui est étudié avant le déménagement
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              La force d'un grand nom du déménagement, l'agilité et l'écoute d'un artisan local.
+              Une demande précise permet de comparer le périmètre des prestations et d’éviter les oublis au chiffrage.
             </p>
           </div>
 
@@ -257,7 +279,7 @@ export default function YvelinesPage() {
             <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-900">
               Questions <span className="text-[#00ad9f]">fréquentes</span>
             </h2>
-            <p className="text-lg text-slate-500 font-light">Tout savoir pour préparer votre installation réussie dans les Yvelines.</p>
+            <p className="text-lg text-slate-500 font-light">Les réponses utiles pour préparer un déménagement dans le 78.</p>
           </div>
           
           <Accordion type="single" collapsible className="w-full space-y-4">
@@ -295,13 +317,13 @@ export default function YvelinesPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Contactez-nous dès aujourd'hui pour organiser votre visite technique gratuite dans les Yvelines et recevoir votre devis dans les meilleurs délais.
+                    Décrivez les deux adresses, les accès, le volume estimé, la date et les prestations souhaitées pour obtenir une proposition personnalisée.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Obtenir mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>
