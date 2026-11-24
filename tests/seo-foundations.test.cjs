@@ -363,6 +363,24 @@ test('zones hub exposes a structured geographic hierarchy without unsupported se
   assert.doesNotMatch(source, /liaisons quotidiennes|navettes hebdomadaires|groupages hebdomadaires|zéro sous-traitance|agences physiques|100% maîtrise interne|connaissance millimétrée|sillonnent les routes quotidiennement|parfaitement rodée|maîtrisons parfaitement/i);
 });
 
+test('Eure hub targets departmental intent with factual local guidance and city links', () => {
+  const source = readFileSync(path.join(root, 'src/app/demenagement-eure-27/page.tsx'), 'utf8');
+  assert.match(source, /title: "Déménageur dans l’Eure \(27\)/);
+  assert.match(source, /"@type": "BreadcrumbList"/);
+  assert.match(source, /"@type": "ItemList"/);
+  assert.match(source, /"@type": "FAQPage"/);
+  for (const href of [
+    '/demenagement-du-vexin-evreux',
+    '/demenagement-vernon-27200',
+    '/demenagement-louviers-27400',
+    '/demenagement-gisors-27140',
+    '/demenagement-bernay-27300',
+  ]) {
+    assert.ok(source.includes(`link: "${href}"`), href);
+  }
+  assert.doesNotMatch(source, /maîtrise totale|ultra-personnalisé|sillonnent quotidiennement|sécurité et une intégrité absolues|tarifs compétitifs|transition sans stress|flotte variée de camions de tous gabarits/i);
+});
+
 test('homepage Journal cards match existing articles and image files', () => {
   const source = readFileSync(path.join(root, 'src/app/(home)/landing-page-client.tsx'), 'utf8');
   const tree = ts.createSourceFile('home.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);

@@ -12,9 +12,8 @@ import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 import { 
   CheckCircle2, 
   MapPin, 
-  ShieldCheck, 
-  Star, 
-  Users, 
+  Calculator,
+  Route,
   ArrowRight, 
   ChevronRight,
   Map as MapIcon,
@@ -26,8 +25,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Eure (27) | Agence Locale Évreux & Devis Gratuit",
-  description: "Déménageur expert dans l'Eure (27). Agence à Évreux pour un service de proximité à Vernon, Louviers, Gisors. Particuliers & Entreprises. Devis dans les meilleurs délais.",
+  title: "Déménageur dans l’Eure (27) | Évreux, Vernon, Louviers",
+  description: "Préparez votre déménagement dans l’Eure : Évreux, Vernon, Louviers, Gisors, Bernay et leurs environs. Accès, volume, formules et devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-eure-27",
   }
@@ -49,23 +48,23 @@ const EURE_CITIES = [
 const WHY_US_ITEMS = [
   {
     icon: MapPin,
-    title: "Agence Locale à Évreux",
+    title: "Agence à Évreux",
     description: "Notre présence à Évreux facilite l'organisation des visites techniques et la préparation des devis."
   },
   {
-    icon: Users,
-    title: "Équipes Normandes",
-    description: "Des déménageurs professionnels salariés issus de la région, experts des accès urbains comme ruraux de l'Eure."
+    icon: Calculator,
+    title: "Devis détaillé",
+    description: "Le volume, les accès, la distance, la formule et les options sont précisés avant le chiffrage."
   },
   {
-    icon: ShieldCheck,
-    title: "Expertise Vexin & Seine",
-    description: "Maîtrise totale des spécificités locales, des centres-villes anciens très étroits aux grandes propriétés du Vexin Normand."
+    icon: Route,
+    title: "Accès étudiés",
+    description: "Centre-ville, maison rurale, étage, portage et stationnement sont étudiés aux deux adresses."
   },
   {
-    icon: Star,
-    title: "Engagement Qualité",
-    description: "Un interlocuteur unique et un suivi ultra-personnalisé pour une transition sereine vers votre nouveau foyer eurois."
+    icon: CheckCircle2,
+    title: "Prestations définies",
+    description: "Emballage, démontage, remontage et déballage dépendent de la formule choisie et figurent au devis."
   }
 ];
 
@@ -76,16 +75,49 @@ const FAQS = [
   },
   { 
     question: "Gérez-vous les accès difficiles en pleine campagne normande ?", 
-    answer: "Oui, c'est notre quotidien dans le 27. Nous disposons d'une flotte variée de camions de tous gabarits (du 20m³ au semi-remorque de 100m³) pour accéder aux fermes isolées, aux longères ou aux rues étroites des villages de l'Eure. Nos équipes sont spécialement formées à la manutention délicate pour protéger vos extérieurs, portails et jardins." 
+    answer: "Les accès sont étudiés avant le déménagement : largeur de voie et de portail, capacité de stationnement, distance de portage, escaliers et contraintes autour du logement. Ces informations permettent d’adapter les moyens indiqués dans le devis."
   },
   { 
     question: "Intervenez-vous sur tout le département de l'Eure ?", 
-    answer: "Absolument. De Vernon à Bernay, de Louviers à Gisors en passant par Les Andelys ou Pont-Audemer, nos camions sillonnent quotidiennement le département 27 pour accompagner aussi bien les particuliers que les professionnels." 
+    answer: "La page réunit nos principaux secteurs publiés dans le département, notamment Évreux, Vernon, Louviers, Gisors, Bernay, Les Andelys et Pont-Audemer. Pour une autre commune, indiquez les deux adresses dans votre demande afin de vérifier la faisabilité du trajet."
   },
   { 
     question: "Quelles sont les garanties pour mes objets de valeur ?", 
-    answer: "Chaque déménagement est obligatoirement couvert par notre assurance responsabilité civile professionnelle. Pour vos biens particulièrement précieux, vos œuvres d'art ou vos antiquités normandes, nous vous proposons des extensions d'assurance 'Ad Valorem' pour une couverture optimale à la valeur réelle." 
+    answer: "Signalez les objets fragiles, lourds ou de valeur dès l’inventaire. Le devis et les documents contractuels précisent les prestations de protection ainsi que les conditions de déclaration et de couverture applicables au projet."
   }
+];
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://demenagementduvexin.fr/" },
+      { "@type": "ListItem", position: 2, name: "Zones d’intervention", item: "https://demenagementduvexin.fr/zones-intervention" },
+      { "@type": "ListItem", position: 3, name: "Déménagement Eure (27)", item: "https://demenagementduvexin.fr/demenagement-eure-27" },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Villes de l’Eure",
+    numberOfItems: EURE_CITIES.length,
+    itemListElement: EURE_CITIES.map((city, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: city.name,
+      url: `https://demenagementduvexin.fr${city.link}`,
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQS.map(item => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  },
 ];
 
 
@@ -93,17 +125,9 @@ export default function EurePage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
       <Script 
-        id="faq-schema" 
-        type="application/ld+json" 
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          "mainEntity": FAQS.map(item => ({
-            "@type": "Question",
-            "name": item.question,
-            "acceptedAnswer": { "@type": "Answer", "text": item.answer }
-          }))
-        })}} 
+        id="eure-structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       
       {/* --- HERO SECTION --- */}
@@ -143,13 +167,13 @@ export default function EurePage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              Profitez de l'expertise de notre agence d'Évreux pour votre installation dans le 27. Réactivité, proximité géographique et véritable savoir-faire normand pour une transition sans stress.
+              Préparez votre départ ou votre arrivée dans l’Eure depuis notre agence d’Évreux : volume, accès, trajet et niveau de prestation sont étudiés pour établir un devis personnalisé.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
                 <Link href="/demande-devis">
-                  Obtenir mon devis normand <ArrowRight className="ml-2 h-5 w-5" />
+                  Demander mon devis <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </div>
@@ -163,14 +187,14 @@ export default function EurePage() {
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div className="space-y-8 relative z-10">
               <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                L'Eure en toute confiance <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">via notre agence d'Évreux</u>.
+                Préparer un déménagement dans l’Eure <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">depuis Évreux</u>.
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  Déménager dans l'Eure (27) exige une parfaite connaissance du territoire, de la vallée de la Seine fortement urbanisée aux vastes plaines plus isolées du Vexin normand. Pour réussir ce projet, s'appuyer sur un partenaire véritablement local est un atout majeur et rassurant.
+                  Entre la vallée de la Seine, les centres-villes et les secteurs ruraux, les conditions d’accès peuvent varier fortement dans l’Eure. Le stationnement, le portage et le gabarit nécessaire doivent être décrits dès la demande.
                 </p>
                 <p>
-                  Notre agence implantée à Évreux vous apporte un interlocuteur de proximité. Nos équipes salariées préparent la logistique selon le terrain et les accès de Vernon, Louviers, Bernay ou Gisors.
+                  Notre agence implantée à Évreux permet de préparer les projets autour de Vernon, Louviers, Bernay, Gisors et des autres communes du département.
                 </p>
               </div>
               
@@ -180,7 +204,7 @@ export default function EurePage() {
                  </div>
                  <div>
                    <h3 className="text-xl font-bold text-slate-900 mb-1">Agence Évreux</h3>
-                   <p className="text-slate-500 font-light">Le hub normand pour une logistique rapide, efficace et des tarifs compétitifs.</p>
+                   <p className="text-slate-500 font-light">Un point de départ pour étudier les accès, le volume et le trajet de votre projet normand.</p>
                  </div>
               </div>
             </div>
@@ -205,10 +229,10 @@ export default function EurePage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-              L'expert local du 27
+              Les éléments étudiés avant le devis
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Notre solide ancrage normand fait absolument toute la différence pour sécuriser votre logistique.
+              Un chiffrage pertinent commence par des informations précises sur le logement, le mobilier et les deux adresses.
             </p>
           </div>
 
@@ -232,10 +256,10 @@ export default function EurePage() {
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mb-16 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight">
-              Présents dans <span className="text-[#00ad9f]">tout le 27.</span>
+              Nos pages locales <span className="text-[#00ad9f]">dans l’Eure.</span>
             </h2>
             <p className="text-lg text-slate-400 font-light leading-relaxed">
-              Nos camions, au départ d'Évreux, sillonnent quotidiennement l'ensemble des routes de l'Eure et de la Normandie. Retrouvez nos secteurs phares :
+              Consultez les informations publiées pour les principales villes du département. Pour une autre commune, décrivez votre trajet dans la demande de devis.
             </p>
           </div>
           
@@ -280,21 +304,21 @@ export default function EurePage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Home className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Déménagement Particuliers</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">De la formule Économique (vous emballez) au service Tout Confort, nous adaptons parfaitement nos moyens à votre budget et à vos volumes.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Les formules distinguent notamment l’emballage, le démontage, le remontage et le déballage. Le périmètre retenu est détaillé dans le devis.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Building2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts de Bureaux</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Logistique B2B experte dédiée aux entreprises de l'Eure : transfert d'archives, parcs informatiques complets et mobilier professionnel.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Le transfert de mobilier, d’archives ou de matériel professionnel est préparé selon les accès, le calendrier et les contraintes de l’activité.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Boxes className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Garde-Meubles à Évreux</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Solution de stockage en containers plombés, sécurisée et sous vidéosurveillance dans nos propres entrepôts d'Évreux.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Lorsqu’un stockage est nécessaire entre les deux adresses, sa durée, son volume et ses conditions sont précisés dans la proposition.</p>
                   </div>
                 </li>
               </ul>
@@ -357,7 +381,7 @@ export default function EurePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique au hasard. Contactez l'équipe de notre agence d'Évreux pour une étude personnalisée et recevez un devis ferme et gratuit dans les meilleurs délais.
+                    Indiquez les adresses, le logement, les accès, le volume estimé et la date souhaitée pour recevoir une proposition adaptée au projet.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
