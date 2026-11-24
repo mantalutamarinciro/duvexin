@@ -411,6 +411,24 @@ test('Paris hub targets access and parking intent without absolute promises', ()
   assert.doesNotMatch(source, /gestion totale|rigueur absolue|parfaitement fluide|zéro stress garanti|100% de la gestion|zéro casse|qualité muséale|grandes spécialités|ultra-spécifique|devis ferme/i);
 });
 
+test('Hauts-de-Seine hub supports residential and business intent with city links', () => {
+  const source = readFileSync(path.join(root, 'src/app/demenagement-hauts-de-seine-92/page.tsx'), 'utf8');
+  assert.match(source, /title: "Déménageur Hauts-de-Seine \(92\) \| Accès et devis"/);
+  assert.match(source, /"@type": "BreadcrumbList"/);
+  assert.match(source, /"@type": "ItemList"/);
+  assert.match(source, /"@type": "FAQPage"/);
+  for (const href of [
+    '/demenagement-boulogne-billancourt-92100',
+    '/demenagement-neuilly-sur-seine-92200',
+    '/demenagement-levallois-perret-92300',
+    '/demenagement-courbevoie-92400',
+    '/demenagement-puteaux-92800',
+  ]) {
+    assert.ok(source.includes(`link: "${href}"`), href);
+  }
+  assert.doesNotMatch(source, /maîtrise totale|sans interruption d'activité|dernière génération|service gants blancs|leader logistique|précision d'horloger|gestion redoutable|sillonnent très régulièrement|qualité muséale|ultra-sécurisée|protection juridique totale/i);
+});
+
 test('homepage Journal cards match existing articles and image files', () => {
   const source = readFileSync(path.join(root, 'src/app/(home)/landing-page-client.tsx'), 'utf8');
   const tree = ts.createSourceFile('home.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);

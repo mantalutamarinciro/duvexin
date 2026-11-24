@@ -9,15 +9,10 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 
 // Icons
-import { 
-  CheckCircle2, 
-  MapPin, 
-  ShieldCheck, 
-  Star, 
-  Users, 
+import {
+  Calculator,
   ArrowRight, 
   ChevronRight,
-  Map as MapIcon,
   Briefcase,
   Building2,
   MoveUp,
@@ -26,8 +21,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Hauts-de-Seine (92) | Expert La Défense & Standing",
-  description: "Déménageur de confiance dans les Hauts-de-Seine (92). Spécialiste La Défense, Boulogne, Neuilly et Levallois. Solutions pros et particuliers. Devis gratuit personnalisé.",
+  title: "Déménageur Hauts-de-Seine (92) | Accès et devis",
+  description: "Préparez votre déménagement dans les Hauts-de-Seine : Boulogne, Neuilly, Levallois, Nanterre et La Défense. Accès, stationnement et devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-hauts-de-seine-92",
   }
@@ -51,43 +46,76 @@ const HAUTS_DE_SEINE_CITIES = [
 const WHY_CHOOSE_ITEMS = [
   {
     icon: Building2,
-    title: "Expertise Urbaine Dense",
-    description: "Maîtrise totale des accès complexes à Boulogne, Neuilly ou Levallois : rues étroites, stationnement et sens uniques."
+    title: "Accès urbains",
+    description: "Rues étroites, stationnement, sens uniques, étage et distance de portage sont étudiés aux deux adresses."
   },
   {
     icon: Briefcase,
-    title: "Spécialiste La Défense",
-    description: "Équipes spécifiquement formées aux protocoles des tours (IGH) et aux transferts de bureaux sans interruption d'activité."
+    title: "Transferts à La Défense",
+    description: "Les accès de livraison, monte-charges, créneaux et règles du bâtiment doivent être confirmés avant le transfert."
   },
   {
     icon: MoveUp,
-    title: "Levage de Précision",
-    description: "Déploiement de monte-meubles dernière génération (autoportés ou sur remorque) pour les étages élevés très fréquents dans le 92."
+    title: "Levage si nécessaire",
+    description: "La possibilité d’un monte-meubles dépend du mobilier, de l’étage, de la façade et du recul disponible."
   },
   {
-    icon: Star,
-    title: "Service Gants Blancs",
-    description: "Un accompagnement premium et sur-mesure, avec interlocuteur unique, pour vos projets résidentiels de haut standing."
+    icon: Calculator,
+    title: "Devis détaillé",
+    description: "Volume, accès, trajet, formule et options sont précisés afin de comparer le périmètre des prestations."
   }
 ];
 
 const FAQS = [
   { 
     question: "Comment organisez-vous un transfert d'entreprise à La Défense ?", 
-    answer: "La clé est la coordination avec la tour. Nous planifions les opérations en horaires décalés (soir, nuit ou week-end) pour éviter toute perte de productivité. Nous gérons très en amont les accès logistiques des quais de livraison, les réservations de monte-charges et nous respectons à la lettre les protocoles de sécurité IGH spécifiques au quartier d'affaires." 
+    answer: "Le gestionnaire du bâtiment doit confirmer les créneaux autorisés, les accès logistiques, la réservation du monte-charge et les règles applicables aux intervenants. Ces contraintes, ainsi que le mobilier et le calendrier de l’activité, sont intégrées à la préparation du devis."
   },
   { 
     question: "Le monte-meubles est-il obligatoire dans les Hauts-de-Seine ?", 
-    answer: "Il n'est pas obligatoire juridiquement, mais il est très fortement recommandé. Dans les zones très denses comme Neuilly, Levallois ou Boulogne, il permet d'éviter l'utilisation de cages d'escalier étroites, protégeant ainsi les parties communes (ce que demandent les syndics) et sécurisant la descente de vos pièces volumineuses (pianos, canapés, frigos américains)." 
+    answer: "Il n’est pas systématique. Son intérêt dépend des dimensions du mobilier, de l’ascenseur et de l’escalier, mais aussi de la façade et des possibilités de stationnement. Une vérification des accès permet de décider s’il doit figurer au devis."
   },
   { 
     question: "Prenez-vous en charge les autorisations de stationnement ?", 
-    answer: "Absolument. Nous déposons systématiquement les demandes d'arrêtés municipaux auprès des mairies des Hauts-de-Seine (Boulogne, Nanterre, Asnières, etc.) 15 jours à l'avance pour garantir un emplacement légal et réservé au pied de votre adresse le jour J." 
+    answer: "Les règles et délais varient selon la commune et l’adresse. Le devis doit préciser la répartition de cette démarche et les informations nécessaires, sans présumer qu’un emplacement au pied de l’immeuble sera disponible."
   },
   { 
     question: "Gérez-vous les objets d'art et de valeur ?", 
-    answer: "Oui, c'est notre très grande spécialité, particulièrement demandée pour les résidences de standing du 92. Nous utilisons des emballages sur-mesure (caisses bois capitonnées, papier bulle spécifique) et proposons des assurances Ad Valorem pour une protection juridique totale de votre patrimoine." 
+    answer: "Signalez dès l’inventaire la nature, les dimensions, le poids et la valeur des objets concernés. Les moyens de manutention, les protections et les conditions contractuelles applicables peuvent alors être précisés dans la proposition."
   }
+];
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://demenagementduvexin.fr/" },
+      { "@type": "ListItem", position: 2, name: "Zones d’intervention", item: "https://demenagementduvexin.fr/zones-intervention" },
+      { "@type": "ListItem", position: 3, name: "Déménagement Hauts-de-Seine (92)", item: "https://demenagementduvexin.fr/demenagement-hauts-de-seine-92" },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Villes des Hauts-de-Seine",
+    numberOfItems: HAUTS_DE_SEINE_CITIES.length,
+    itemListElement: HAUTS_DE_SEINE_CITIES.map((city, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: city.name,
+      url: `https://demenagementduvexin.fr${city.link}`,
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQS.map(item => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  },
 ];
 
 
@@ -95,17 +123,9 @@ export default function HautsDeSeinePage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
       <Script 
-        id="faq-schema" 
-        type="application/ld+json" 
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          "mainEntity": FAQS.map(item => ({
-            "@type": "Question",
-            "name": item.question,
-            "acceptedAnswer": { "@type": "Answer", "text": item.answer }
-          }))
-        })}} 
+        id="hauts-de-seine-structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       
       {/* --- HERO SECTION --- */}
@@ -134,7 +154,7 @@ export default function HautsDeSeinePage() {
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-teal-300 mb-8 shadow-sm backdrop-blur-md">
               <Building2 className="h-4 w-4" />
-              Leader Logistique 92
+              Déménagement dans le 92
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
@@ -145,13 +165,13 @@ export default function HautsDeSeinePage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              De l'hyper-densité de La Défense au standing de Boulogne ou Neuilly, nous maîtrisons la complexité du département 92. Solutions premium pour entreprises exigeantes et particuliers.
+              Boulogne, Neuilly, Levallois, Nanterre ou La Défense : décrivez les accès, le stationnement, les étages et le calendrier pour obtenir un devis adapté.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
                 <Link href="/demande-devis">
-                  Obtenir mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
+                  Demander mon devis <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </div>
@@ -165,14 +185,14 @@ export default function HautsDeSeinePage() {
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div className="space-y-8 relative z-10">
               <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                Maîtriser la verticalité <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">et la densité du 92</u>.
+                Préparer la verticalité <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">et les accès du 92</u>.
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  Le département des Hauts-de-Seine est un territoire de défis logistiques permanents. Entre les immenses tours de bureaux de La Défense (Puteaux, Courbevoie, Nanterre) et les quartiers résidentiels extrêmement denses et prisés de Levallois ou Boulogne, chaque mètre carré compte et le droit à l'erreur n'existe pas.
+                  Les tours de La Défense, les rues denses de Levallois et Boulogne ou les résidences de Neuilly imposent des contraintes différentes. Accès de livraison, ascenseur, monte-charge, portage et stationnement doivent être vérifiés.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous avons forgé notre solide réputation sur notre capacité à naviguer dans cet environnement complexe. Nous anticipons et coordonnons chaque étape (autorisations mairie complexes, déploiement de monte-meubles, protocoles sécurité IGH) pour que votre transfert, qu'il soit professionnel (B2B) ou privé, se déroule avec une précision d'horloger.
+                  Pour un logement comme pour des bureaux, les deux adresses, le volume, les créneaux disponibles et les règles du bâtiment permettent de définir les moyens à inclure dans la proposition.
                 </p>
               </div>
               
@@ -181,8 +201,8 @@ export default function HautsDeSeinePage() {
                     <Building className="h-8 w-8 text-[#00ad9f]" />
                  </div>
                  <div>
-                   <h3 className="text-xl font-bold text-slate-900 mb-1">Expertise Zones Denses</h3>
-                   <p className="text-slate-500 font-light">Une gestion redoutable des accès restreints, du stationnement et de la verticalité.</p>
+                   <h3 className="text-xl font-bold text-slate-900 mb-1">Accès à documenter</h3>
+                   <p className="text-slate-500 font-light">Étages, ascenseur, monte-charge, portage et stationnement sont étudiés avant le chiffrage.</p>
                  </div>
               </div>
             </div>
@@ -207,10 +227,10 @@ export default function HautsDeSeinePage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-              Pourquoi nous choisir dans le 92 ?
+              Les points vérifiés avant le devis
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Une logistique de pointe, réactive et sécurisée, parfaitement adaptée aux exigences de l'Ouest parisien.
+              Une description précise du mobilier, des accès et du calendrier permet d’établir une proposition cohérente.
             </p>
           </div>
 
@@ -234,10 +254,10 @@ export default function HautsDeSeinePage() {
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mb-16 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight">
-              Présents dans <span className="text-[#00ad9f]">tout le 92.</span>
+              Nos pages locales <span className="text-[#00ad9f]">dans le 92.</span>
             </h2>
             <p className="text-lg text-slate-400 font-light leading-relaxed">
-              Nos équipes et nos camions sillonnent très régulièrement le département des Hauts-de-Seine. Retrouvez nos secteurs d'intervention phares :
+              Consultez les informations dédiées aux principales villes du département. Pour une autre commune, décrivez les deux adresses dans la demande de devis.
             </p>
           </div>
           
@@ -275,28 +295,28 @@ export default function HautsDeSeinePage() {
 
             <div className="order-1 lg:order-2 space-y-10 lg:pl-10">
               <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                Des prestations <br/> <span className="text-[#00ad9f]">haute couture.</span>
+                Des prestations <br/> <span className="text-[#00ad9f]">définies selon le projet.</span>
               </h2>
               <ul className="space-y-8">
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Briefcase className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts de Bureaux (La Défense)</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Le spécialiste B2B : emballage de vos baies informatiques, transfert sécurisé d'archives et remise en place experte selon vos plans d'implantation.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Mobilier, archives, matériel informatique, accès de livraison et plan d’implantation sont recensés avant la proposition.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Building2 className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Résidences de Standing</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Service premium pour les appartements parisiens : protection stricte des parties communes (ascenseurs, halls) et emballages de qualité muséale.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Immeubles résidentiels</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Les halls, ascenseurs, escaliers et règles de copropriété sont à décrire pour préparer le passage et la protection du mobilier.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><MoveUp className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Location de Monte-Meubles</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">La solution radicale et ultra-sécurisée pour contourner les accès impossibles, les cages d'escalier étroites et les étages élevés très fréquents dans le 92.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Monte-meubles éventuel</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">La façade, l’étage, le mobilier et le recul disponible déterminent si ce moyen est pertinent et réalisable.</p>
                   </div>
                 </li>
               </ul>
@@ -359,13 +379,13 @@ export default function HautsDeSeinePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la forte densité urbaine ou les règles des copropriétés vous stresser. Contactez nos experts pour une étude personnalisée et recevez un devis gratuit personnalisé.
+                    Décrivez les deux adresses, les accès, le volume estimé, le calendrier et les prestations souhaitées pour obtenir une proposition personnalisée.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>
