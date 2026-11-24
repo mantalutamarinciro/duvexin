@@ -11,25 +11,23 @@ import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 // Icons
 import { 
   CheckCircle2, 
-  MapPin, 
-  ShieldCheck, 
-  Users, 
+  Calculator,
   Building2, 
   Truck, 
   ArrowRight, 
   ChevronRight, 
-  Map,
   Anchor,
   Home,
   Briefcase,
   LayoutGrid,
-  Ship
+  Ship,
+  Route
 } from "lucide-react";
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Seine-Maritime (76) | Expert Normand & Devis Gratuit",
-  description: "Déménagement du Vexin : votre expert pour déménager en Seine-Maritime (76). Rouen, Le Havre, Dieppe. Réactivité via notre agence d'Évreux. Devis gratuit personnalisé.",
+  title: "Déménageur Seine-Maritime (76) | Rouen, Le Havre, Dieppe",
+  description: "Préparez votre déménagement en Seine-Maritime : Rouen, Le Havre, Dieppe et leurs environs. Volume, accès, trajet et devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-seine-maritime-76",
   }
@@ -37,67 +35,85 @@ export const metadata: Metadata = {
 
 
 const SEINE_MARITIME_CITIES = [
-  "Le Havre", "Rouen", "Dieppe", "Sotteville-lès-Rouen", "Saint-Étienne-du-Rouvray", 
-  "Le Grand-Quevilly", "Le Petit-Quevilly", "Fécamp", "Elbeuf", "Mont-Saint-Aignan", 
-  "Barentin", "Yvetot"
+  { name: "Le Havre", link: "/demenagement-le-havre-76600" },
+  { name: "Rouen" }, { name: "Dieppe" }, { name: "Sotteville-lès-Rouen" },
+  { name: "Saint-Étienne-du-Rouvray" }, { name: "Le Grand-Quevilly" },
+  { name: "Le Petit-Quevilly" }, { name: "Fécamp" }, { name: "Elbeuf" },
+  { name: "Mont-Saint-Aignan" }, { name: "Barentin" }, { name: "Yvetot" },
 ];
 
 const WHY_US_ITEMS = [
   {
     icon: Ship,
-    title: "Expertise Portuaire",
-    description: "De Rouen au Havre, nous maîtrisons les défis logistiques des grandes zones portuaires et des centres historiques normands."
+    title: "Accès urbains et portuaires",
+    description: "Rues étroites, zones de livraison, étage, portage et stationnement sont étudiés selon les deux adresses."
   },
   {
     icon: Truck,
-    title: "Proximité Évreux",
-    description: "Notre agence régionale nous permet une organisation de proximité pour vos visites techniques et vos interventions dans tout le 76."
+    title: "Préparation depuis Évreux",
+    description: "Notre agence normande permet d’étudier les projets autour de Rouen, du Havre, de Dieppe et des autres secteurs du 76."
   },
   {
-    icon: ShieldCheck,
-    title: "Soin Côte d'Albâtre",
-    description: "Protection spécifique pour le mobilier lors de transferts littoraux (vent, humidité) pour une sécurité et une intégrité absolues."
+    icon: Route,
+    title: "Trajet et accès",
+    description: "La distance, les conditions de chargement et les accès à l’arrivée sont intégrés à la préparation du devis."
   },
   {
-    icon: Users,
-    title: "Équipes Qualifiées",
-    description: "Nos déménageurs sont des salariés formés à nos standards d'excellence pour vous garantir un service respectueux et professionnel."
+    icon: Calculator,
+    title: "Devis détaillé",
+    description: "Volume, formule, options, accès et trajet sont précisés afin de comparer le périmètre des prestations."
   }
 ];
 
 const FAQS = [
   { 
     question: "Comment gérez-vous les accès difficiles à Rouen ou Dieppe ?", 
-    answer: "Les centres historiques normands ont souvent des rues très étroites. Nous réalisons une visite technique préalable pour choisir le véhicule adapté (petit porteur si nécessaire) et gérons les autorisations de stationnement auprès des mairies pour sécuriser l'opération le jour J." 
+    answer: "Les centres historiques peuvent présenter des rues étroites, des zones piétonnes ou un stationnement limité. Largeur de voie, étage, ascenseur et distance de portage doivent être décrits afin de vérifier les moyens nécessaires et les démarches éventuelles."
   },
   { 
     question: "Effectuez-vous des déménagements entre Paris et Le Havre ?", 
-    answer: "Oui, c'est un axe majeur de notre activité logistique. Nous organisons des voyages réguliers en direct ou en groupage (selon votre volume et vos impératifs) pour vous offrir un tarif compétitif sur cette liaison nationale." 
+    answer: "Un trajet entre Paris et Le Havre peut être étudié en fonction des deux adresses, du volume, de la date et des prestations souhaitées. Consultez également notre page dédiée au déménagement au Havre pour préparer les accès locaux."
   },
   { 
     question: "Proposez-vous des solutions pour les entreprises en Seine-Maritime ?", 
-    answer: "Absolument. Nous accompagnons les professionnels pour des transferts de bureaux, d'ateliers, d'archives ou de commerces avec une planification rigoureuse qui minimise l'impact sur votre production ou votre chiffre d'affaires." 
+    answer: "Un transfert de bureaux, d’archives, d’atelier ou de commerce demande un inventaire, un calendrier et des accès précis. Les contraintes de l’activité et la remise en place souhaitée sont à signaler avant le devis."
   },
   { 
     question: "Quelles sont vos garanties en cas de dommage pendant le transport ?", 
-    answer: "La sérénité avant tout : chaque déménagement est couvert par notre assurance contractuelle. Pour vos œuvres d'art ou objets de grande valeur, nous proposons également des extensions d'assurance 'Ad Valorem' sur-mesure." 
+    answer: "Signalez les objets fragiles ou de valeur dès l’inventaire. Le devis et les documents contractuels précisent les protections prévues ainsi que les conditions de déclaration et de couverture applicables au projet."
   }
 ];
 
-const faqStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": FAQS.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
-  }))
-};
+const structuredData = [
+  {
+    "@context": "https://schema.org", "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://demenagementduvexin.fr/" },
+      { "@type": "ListItem", position: 2, name: "Zones d’intervention", item: "https://demenagementduvexin.fr/zones-intervention" },
+      { "@type": "ListItem", position: 3, name: "Déménagement Seine-Maritime (76)", item: "https://demenagementduvexin.fr/demenagement-seine-maritime-76" },
+    ],
+  },
+  {
+    "@context": "https://schema.org", "@type": "ItemList", name: "Villes de Seine-Maritime",
+    numberOfItems: SEINE_MARITIME_CITIES.length,
+    itemListElement: SEINE_MARITIME_CITIES.map((city, index) => ({
+      "@type": "ListItem", position: index + 1, name: city.name,
+      ...(city.link ? { url: `https://demenagementduvexin.fr${city.link}` } : {}),
+    })),
+  },
+  {
+    "@context": "https://schema.org", "@type": "FAQPage",
+    mainEntity: FAQS.map(item => ({
+      "@type": "Question", name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  },
+];
 
 export default function SeineMaritimePage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
-      <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      <Script id="seine-maritime-structured-data" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
@@ -125,7 +141,7 @@ export default function SeineMaritimePage() {
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-teal-300 mb-8 shadow-sm backdrop-blur-md">
               <Anchor className="h-4 w-4" />
-              Expert Déménagement Normandie
+              Déménagement en Seine-Maritime
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
@@ -142,7 +158,7 @@ export default function SeineMaritimePage() {
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
                 <Link href="/demande-devis">
-                  Obtenir mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
+                  Demander mon devis <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </div>
@@ -156,14 +172,14 @@ export default function SeineMaritimePage() {
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div className="space-y-8 relative z-10">
               <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                Une logistique agile <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">pour la Vallée de la Seine</u>.
+                Préparer les accès <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">de Rouen au Havre</u>.
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  La Seine-Maritime est un département de caractère, alliant la densité urbaine et historique de Rouen, la puissance portuaire du Havre et le charme singulier de la Côte d'Albâtre. Déménager dans le 76 demande une parfaite connaissance des axes routiers (A13, A29) et des spécificités d'accès locales.
+                  Les centres historiques de Rouen, les secteurs portuaires du Havre et les communes littorales présentent des contraintes différentes. Stationnement, étage, portage, voie d’accès et distance doivent être décrits précisément.
                 </p>
                 <p>
-                  Grâce à notre agence basée en Normandie, <strong>Déménagement du Vexin</strong> vous offre la réactivité d'un voisin et la force logistique d'un leader. Nous gérons chaque étape de votre transfert, de la protection sur-mesure de votre patrimoine à la réservation du stationnement, pour un emménagement sans aucun accroc.
+                  Depuis notre agence normande, <strong>Déménagement du Vexin</strong> étudie les projets résidentiels et professionnels selon le volume, les deux adresses, la date et la formule souhaitée.
                 </p>
               </div>
               
@@ -172,8 +188,8 @@ export default function SeineMaritimePage() {
                     <LayoutGrid className="h-8 w-8 text-[#00ad9f]" />
                  </div>
                  <div>
-                   <h3 className="text-xl font-bold text-slate-900 mb-1">Maillage Normand</h3>
-                   <p className="text-slate-500 font-light">Une couverture complète du littoral aux grandes agglomérations intérieures.</p>
+                   <h3 className="text-xl font-bold text-slate-900 mb-1">Informations utiles au devis</h3>
+                   <p className="text-slate-500 font-light">Volume, accès, trajet, date et prestations permettent de préparer une proposition adaptée.</p>
                  </div>
               </div>
             </div>
@@ -200,21 +216,21 @@ export default function SeineMaritimePage() {
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-              Nous couvrons l'ensemble <span className="text-[#00ad9f]">du département</span>.
+              Principaux secteurs <span className="text-[#00ad9f]">du département</span>.
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Nos équipes normandes rayonnent quotidiennement sur toutes les communes du 76.
+              Le Havre dispose d’une page locale dédiée ; les autres communes sont étudiées à partir des adresses exactes du projet.
             </p>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
-            {SEINE_MARITIME_CITIES.map((city) => city === "Le Havre" ? (
-              <Link key={city} href="/demenagement-le-havre-76600" className="bg-white border border-[#00ad9f]/30 rounded-2xl p-5 text-center text-sm font-bold text-[#007f76] shadow-sm hover:shadow-md hover:border-[#00ad9f] transition-all flex items-center justify-center">
+            {SEINE_MARITIME_CITIES.map((city) => city.name === "Le Havre" ? (
+              <Link key={city.name} href="/demenagement-le-havre-76600" className="bg-white border border-[#00ad9f]/30 rounded-2xl p-5 text-center text-sm font-bold text-[#007f76] shadow-sm hover:shadow-md hover:border-[#00ad9f] transition-all flex items-center justify-center">
                 Déménagement au Havre
               </Link>
             ) : (
-              <div key={city} className="bg-white border border-slate-200 rounded-2xl p-5 text-center text-sm font-bold text-slate-700 shadow-sm hover:shadow-md hover:border-[#00ad9f]/30 hover:text-[#00ad9f] transition-all cursor-default flex items-center justify-center">
-                {city}
+              <div key={city.name} className="bg-white border border-slate-200 rounded-2xl p-5 text-center text-sm font-bold text-slate-700 shadow-sm hover:shadow-md hover:border-[#00ad9f]/30 hover:text-[#00ad9f] transition-all cursor-default flex items-center justify-center">
+                {city.name}
               </div>
             ))}
           </div>
@@ -226,10 +242,10 @@ export default function SeineMaritimePage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-              Le choix de la sérénité
+              Les points étudiés avant le devis
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Une présence locale forte et une logistique taillée pour la Seine-Maritime.
+              Une demande précise permet de définir les moyens adaptés au logement, au mobilier et au trajet.
             </p>
           </div>
 
@@ -273,21 +289,21 @@ export default function SeineMaritimePage() {
                   <div className="p-4 bg-white border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Home className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Appartements & Centres Historiques</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Protection totale des parties communes et utilisation systématique de monte-meubles pour contourner les accès exigus de Rouen ou Dieppe.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Escalier, ascenseur, parties communes et stationnement sont vérifiés ; un monte-meubles n’est envisagé que si les accès le justifient.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-white border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Briefcase className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts d'Entreprises & Commerces</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Logistique sur-mesure dédiée aux bureaux et magasins : planification optimisée et travail en horaires décalés pour limiter l'arrêt de votre activité.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Mobilier, archives, matériel, accès et calendrier de l’activité sont recensés avant la proposition.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-white border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Garde-Meubles Sécurisé</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Un imprévu ou un besoin de stockage temporaire ? Profitez de nos solutions de box plombés, isolés et sous surveillance continue.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Stockage éventuel</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Lorsqu’un stockage est nécessaire entre les deux adresses, sa durée, son volume et ses conditions sont précisés dans la proposition.</p>
                   </div>
                 </li>
               </ul>
@@ -350,13 +366,13 @@ export default function SeineMaritimePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique ternir votre projet normand. Contactez nos experts régionaux pour une visite technique gratuite et obtenez un devis complet dans les meilleurs délais.
+                    Indiquez les deux adresses, les accès, le volume estimé, la date et les prestations souhaitées pour obtenir une proposition personnalisée.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

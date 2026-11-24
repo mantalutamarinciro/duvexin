@@ -429,6 +429,16 @@ test('Hauts-de-Seine hub supports residential and business intent with city link
   assert.doesNotMatch(source, /maîtrise totale|sans interruption d'activité|dernière génération|service gants blancs|leader logistique|précision d'horloger|gestion redoutable|sillonnent très régulièrement|qualité muséale|ultra-sécurisée|protection juridique totale/i);
 });
 
+test('Seine-Maritime hub consolidates Rouen intent and links to the Le Havre page', () => {
+  const source = readFileSync(path.join(root, 'src/app/demenagement-seine-maritime-76/page.tsx'), 'utf8');
+  assert.match(source, /title: "Déménageur Seine-Maritime \(76\) \| Rouen, Le Havre, Dieppe"/);
+  assert.match(source, /"@type": "BreadcrumbList"/);
+  assert.match(source, /"@type": "ItemList"/);
+  assert.match(source, /"@type": "FAQPage"/);
+  assert.ok(source.includes('link: "/demenagement-le-havre-76600"'));
+  assert.doesNotMatch(source, /maîtrisons les défis|intégrité absolues|standards d'excellence|expert déménagement normandie|parfaite connaissance|force logistique d'un leader|sans aucun accroc|rayonnent quotidiennement|utilisation systématique|protection totale|surveillance continue|tarif compétitif/i);
+});
+
 test('homepage Journal cards match existing articles and image files', () => {
   const source = readFileSync(path.join(root, 'src/app/(home)/landing-page-client.tsx'), 'utf8');
   const tree = ts.createSourceFile('home.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
