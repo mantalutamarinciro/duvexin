@@ -11,10 +11,8 @@ import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 // Icons
 import { 
   CheckCircle2, 
-  MapPin, 
-  ShieldCheck, 
-  Star, 
-  Users, 
+  Calculator,
+  Route,
   ArrowRight, 
   ChevronRight, 
   Anchor,
@@ -25,8 +23,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Calvados (14) | Expert Normandie & Devis Gratuit",
-  description: "Déménageur de confiance dans le Calvados. De Caen à Deauville, nous gérons vos transferts Île-de-France / Normandie avec soin. Devis gratuit personnalisé.",
+  title: "Déménageur Calvados (14) | Caen, Deauville, Lisieux",
+  description: "Préparez votre déménagement dans le Calvados : Caen, Deauville, Lisieux, Honfleur et leurs environs. Accès, volume, trajet et devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-calvados-14",
   }
@@ -51,38 +49,38 @@ const CALVADOS_CITIES = [
 const WHY_US_ITEMS = [
   {
     icon: Compass,
-    title: "Expertise Normande",
-    description: "De la plaine de Caen à la Côte Fleurie, notre agence d'Évreux nous offre une connaissance fine de tout le Calvados."
+    title: "Secteurs variés",
+    description: "Agglomération caennaise, Côte Fleurie et communes rurales présentent des accès différents à décrire au devis."
   },
   {
-    icon: Users,
-    title: "Équipes Locales",
-    description: "Nos déménageurs salariés connaissent parfaitement la région, garantissant une ponctualité et une réactivité exemplaires."
+    icon: Calculator,
+    title: "Devis détaillé",
+    description: "Volume, accès, distance, formule et options sont précisés afin de comparer le périmètre des prestations."
   },
   {
-    icon: ShieldCheck,
-    title: "Protection Littorale",
-    description: "Emballages spécifiques et protections renforcées pour faire face à l'humidité saline des déménagements en bord de mer."
+    icon: Route,
+    title: "Trajet et accès",
+    description: "Stationnement, portage, étage et conditions aux deux adresses sont étudiés avant de définir les moyens."
   },
   {
-    icon: Star,
-    title: "Fiabilité & Suivi",
-    description: "Un interlocuteur unique pour coordonner votre trajet depuis l'Île-de-France vers votre nouvelle adresse normande."
+    icon: CheckCircle2,
+    title: "Prestations définies",
+    description: "Emballage, démontage, remontage, déballage et stockage éventuel dépendent de la formule retenue."
   }
 ];
 
 const FAQS = [
   { 
     question: "Comment se déroule un déménagement Paris vers la Côte Fleurie ?", 
-    answer: "C'est un trajet très fréquent pour nos équipes. Nous planifions souvent l'opération sur deux jours : chargement soigné en Île-de-France le jour J, et livraison matinale le lendemain dans le Calvados. Nous gérons en amont les autorisations de stationnement, cruciales dans des villes comme Deauville ou Honfleur." 
+    answer: "La durée et l’organisation dépendent des deux adresses, du volume, des accès, de la date et de la formule retenue. À Deauville ou Honfleur, les conditions de stationnement doivent être vérifiées suffisamment tôt selon les règles de la commune."
   },
   { 
     question: "Déménagez-vous dans le centre historique de Caen ?", 
-    answer: "Oui, nous maîtrisons les accès complexes du centre caennais (rues piétonnes, sens uniques, Vaugueux). Nous utilisons des véhicules adaptés (petits porteurs) et des monte-meubles pour préserver les cages d'escalier parfois très étroites des immeubles anciens." 
+    answer: "Les rues piétonnes, sens uniques, étages, ascenseurs et possibilités de stationnement doivent être décrits. Un véhicule particulier ou un monte-meubles n’est prévu que si les accès et le mobilier le justifient."
   },
   { 
     question: "Intervenez-vous dans les zones rurales du Calvados ?", 
-    answer: "Absolument. Notre flotte comprend des camions de tous gabarits pour accéder aux propriétés isolées ou aux longères du Pays d'Auge et du Bessin, même via des chemins étroits non goudronnés." 
+    answer: "Pour une maison isolée ou une voie étroite, indiquez la largeur du chemin et du portail, la possibilité de manœuvrer et la distance jusqu’au logement. Ces éléments permettent de vérifier la faisabilité et d’adapter la proposition."
   },
   { 
     question: "Quels sont les avantages de votre agence d'Évreux ?", 
@@ -90,21 +88,39 @@ const FAQS = [
   }
 ];
 
+const structuredData = [
+  {
+    "@context": "https://schema.org", "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://demenagementduvexin.fr/" },
+      { "@type": "ListItem", position: 2, name: "Zones d’intervention", item: "https://demenagementduvexin.fr/zones-intervention" },
+      { "@type": "ListItem", position: 3, name: "Déménagement Calvados (14)", item: "https://demenagementduvexin.fr/demenagement-calvados-14" },
+    ],
+  },
+  {
+    "@context": "https://schema.org", "@type": "ItemList", name: "Villes du Calvados",
+    numberOfItems: CALVADOS_CITIES.length,
+    itemListElement: CALVADOS_CITIES.map((city, index) => ({
+      "@type": "ListItem", position: index + 1, name: city.name,
+      url: `https://demenagementduvexin.fr${city.link}`,
+    })),
+  },
+  {
+    "@context": "https://schema.org", "@type": "FAQPage",
+    mainEntity: FAQS.map(item => ({
+      "@type": "Question", name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  },
+];
+
 export default function CalvadosPage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
       <Script 
-        id="faq-schema" 
-        type="application/ld+json" 
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          "mainEntity": FAQS.map(item => ({
-            "@type": "Question",
-            "name": item.question,
-            "acceptedAnswer": { "@type": "Answer", "text": item.answer }
-          }))
-        })}} 
+        id="calvados-structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       
       {/* --- HERO SECTION --- */}
@@ -133,7 +149,7 @@ export default function CalvadosPage() {
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-teal-300 mb-8 shadow-sm backdrop-blur-md">
               <Anchor className="h-4 w-4" />
-              Expert Normandie
+              Déménagement dans le Calvados
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
@@ -144,13 +160,13 @@ export default function CalvadosPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              De Caen à la Côte Fleurie, nous orchestrons votre installation en Normandie. Profitez d'un service premium, sécurisé et local pour votre nouvelle adresse dans le 14.
+              De Caen à la Côte Fleurie, préparez votre départ ou votre arrivée en décrivant le volume, les accès, le trajet et les prestations souhaitées.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
                 <Link href="/demande-devis">
-                  Obtenir mon devis normand <ArrowRight className="ml-2 h-5 w-5" />
+                  Demander mon devis <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </div>
@@ -164,14 +180,14 @@ export default function CalvadosPage() {
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div className="space-y-8 relative z-10">
               <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                Le Calvados, <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">entre terre et mer</u>.
+                Préparer un trajet <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">entre ville, campagne et littoral</u>.
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  Le département 14 offre un cadre de vie exceptionnel et varié : du dynamisme métropolitain de l'agglomération caennaise au prestige balnéaire de Deauville, Trouville et Honfleur. Déménager dans cette région demande une connaissance fine des accès urbains comme des contraintes propres au littoral.
+                  Les conditions varient entre l’agglomération caennaise, les centres de Deauville, Trouville ou Honfleur et les secteurs ruraux du Pays d’Auge ou du Bessin. Stationnement, portage et largeur des accès sont à préciser.
                 </p>
                 <p>
-                  Grâce à notre agence régionale basée à Évreux, <strong>Déménagement du Vexin</strong> intervient avec une organisation de proximité sur l'ensemble du Calvados. Que vous soyez un particulier ou une entreprise, nous déployons les moyens techniques adéquats (monte-meubles, emballages maritimes, véhicules de toutes tailles) pour une protection adaptée de vos biens.
+                  Depuis notre agence normande, <strong>Déménagement du Vexin</strong> étudie chaque projet selon les deux adresses, le volume, la date, les accès et la formule souhaitée.
                 </p>
               </div>
               
@@ -202,10 +218,10 @@ export default function CalvadosPage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-              L'expert local du 14
+              Les points étudiés avant le devis
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Notre solide ancrage en Normandie est votre meilleure garantie pour une installation sans aucun accroc.
+              Une demande précise permet de prévoir les moyens adaptés au logement, au mobilier et au trajet.
             </p>
           </div>
 
@@ -229,10 +245,10 @@ export default function CalvadosPage() {
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mb-16 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight">
-              Nous couvrons <span className="text-[#00ad9f]">tout le 14.</span>
+              Nos pages locales <span className="text-[#00ad9f]">dans le Calvados.</span>
             </h2>
             <p className="text-lg text-slate-400 font-light leading-relaxed">
-              Nos camions sillonnent quotidiennement les routes du Calvados. Retrouvez nos secteurs d'intervention privilégiés :
+              Consultez les informations dédiées aux principales villes du département. Pour une autre commune, décrivez les deux adresses dans la demande de devis.
             </p>
           </div>
           
@@ -277,21 +293,21 @@ export default function CalvadosPage() {
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Building2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts d'Entreprises</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Logistique de bureaux vers les parcs d'activités de Caen, Lisieux ou Hérouville, planifiée sans interruption de votre activité.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Mobilier, archives, matériel, accès et calendrier de l’activité sont recensés avant la proposition.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Déménagement Particuliers</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">De la formule Économique (vous emballez) au service Tout Confort incluant l'emballage complet et sécurisé de vos objets précieux.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Les formules distinguent notamment l’emballage, le démontage, le remontage et le déballage ; le périmètre retenu figure au devis.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><MapIcon className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Garde-Meubles Sécurisé</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Besoin de stocker vos biens pendant une transition ? Nos box situés en Normandie sont plombés et sécurisés sous vidéosurveillance.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Stockage éventuel</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Lorsqu’un stockage est nécessaire entre les deux adresses, sa durée, son volume et ses conditions sont précisés dans la proposition.</p>
                   </div>
                 </li>
               </ul>
@@ -354,13 +370,13 @@ export default function CalvadosPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique au hasard. Contactez nos experts normands pour une étude personnalisée et recevez un devis gratuit personnalisé.
+                    Indiquez les deux adresses, les accès, le volume estimé, la date et les prestations souhaitées pour obtenir une proposition personnalisée.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>

@@ -439,6 +439,20 @@ test('Seine-Maritime hub consolidates Rouen intent and links to the Le Havre pag
   assert.doesNotMatch(source, /maîtrisons les défis|intégrité absolues|standards d'excellence|expert déménagement normandie|parfaite connaissance|force logistique d'un leader|sans aucun accroc|rayonnent quotidiennement|utilisation systématique|protection totale|surveillance continue|tarif compétitif/i);
 });
 
+test('Calvados hub targets Caen and Côte Fleurie with structured city links', () => {
+  const source = readFileSync(path.join(root, 'src/app/demenagement-calvados-14/page.tsx'), 'utf8');
+  assert.match(source, /title: "Déménageur Calvados \(14\) \| Caen, Deauville, Lisieux"/);
+  assert.match(source, /"@type": "BreadcrumbList"/);
+  assert.match(source, /"@type": "ItemList"/);
+  assert.match(source, /"@type": "FAQPage"/);
+  for (const href of [
+    '/demenagement-caen-14000', '/demenagement-deauville-14800',
+    '/demenagement-lisieux-14100', '/demenagement-honfleur-14600',
+    '/demenagement-trouville-sur-mer-14360',
+  ]) assert.ok(source.includes(`link: "${href}"`), href);
+  assert.doesNotMatch(source, /expert normandie|connaissance fine de tout le Calvados|ponctualité et une réactivité exemplaires|garantissant|humidité saline|sans aucun accroc|sillonnent quotidiennement|sans interruption de votre activité|vidéosurveillance|trajet très fréquent/i);
+});
+
 test('homepage Journal cards match existing articles and image files', () => {
   const source = readFileSync(path.join(root, 'src/app/(home)/landing-page-client.tsx'), 'utf8');
   const tree = ts.createSourceFile('home.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
