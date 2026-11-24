@@ -399,6 +399,18 @@ test('Yvelines hub targets departmental intent with structured city navigation',
   assert.doesNotMatch(source, /maîtrisons les spécificités|pas d'intérimaires|efficacité redoutable|service VIP|parfaitement équipés|créneaux d'urgence|devis ferme et définitif|grand nom du déménagement/i);
 });
 
+test('Paris hub targets access and parking intent without absolute promises', () => {
+  const source = readFileSync(path.join(root, 'src/app/demenagement-paris-75/page.tsx'), 'utf8');
+  assert.match(source, /title: "Déménageur à Paris \(75\) \| Accès, stationnement et devis"/);
+  assert.match(source, /"@type": "BreadcrumbList"/);
+  assert.match(source, /"@type": "ItemList"/);
+  assert.match(source, /"@type": "FAQPage"/);
+  for (const constraint of ['étage', 'ascenseur', 'portage', 'stationnement', 'monte-meubles']) {
+    assert.ok(source.toLowerCase().includes(constraint), constraint);
+  }
+  assert.doesNotMatch(source, /gestion totale|rigueur absolue|parfaitement fluide|zéro stress garanti|100% de la gestion|zéro casse|qualité muséale|grandes spécialités|ultra-spécifique|devis ferme/i);
+});
+
 test('homepage Journal cards match existing articles and image files', () => {
   const source = readFileSync(path.join(root, 'src/app/(home)/landing-page-client.tsx'), 'utf8');
   const tree = ts.createSourceFile('home.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);

@@ -11,25 +11,21 @@ import { VerifiedTestimonialsSection } from "@/components/testimonials-section";
 // Icons
 import { 
   CheckCircle2, 
-  MapPin, 
-  ShieldCheck, 
+  Calculator,
   Truck, 
-  Users, 
   Building2, 
   ArrowRight, 
   ChevronRight, 
-  Map as MapIcon,
   MoveUp,
   Landmark,
   FileText,
-  BadgeCheck,
   Building
 } from "lucide-react";
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Paris (75) | Expert Local & Devis Gratuit Personnalisé",
-  description: "Déménageur professionnel à Paris (75). Spécialiste rues étroites, haussmannien et monte-meubles. Gestion des autorisations de stationnement. Devis gratuit.",
+  title: "Déménageur à Paris (75) | Accès, stationnement et devis",
+  description: "Préparez votre déménagement à Paris : étage, ascenseur, portage, stationnement et éventuel monte-meubles. Demandez un devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-paris-75",
   }
@@ -37,34 +33,34 @@ export const metadata: Metadata = {
 
 
 const PARIS_QUARTIERS = [
-  { name: "Le Marais (3e, 4e)", id: "marais", description: "Expertise rues étroites et cours pavées historiques." },
-  { name: "Montmartre (18e)", id: "montmartre", description: "Spécialiste du portage en escaliers et rues en pente." },
-  { name: "Saint-Germain (6e)", id: "saint-germain", description: "Soin luxe et gants blancs pour immeubles anciens." },
-  { name: "Passy & Auteuil (16e)", id: "passy", description: "Grands volumes et manutention de mobilier de standing." },
-  { name: "Batignolles (17e)", id: "batignolles", description: "Logistique adaptée aux zones denses et nouveaux quartiers." },
-  { name: "QCA / Opéra (8e, 9e)", id: "opera", description: "Transferts de sièges sociaux et logistique B2B experte." }
+  { name: "Le Marais (3e, 4e)", id: "marais", description: "Rues étroites, cours intérieures et conditions de stationnement à préciser." },
+  { name: "Montmartre (18e)", id: "montmartre", description: "Pente, escaliers et distance de portage à évaluer avant le devis." },
+  { name: "Saint-Germain (6e)", id: "saint-germain", description: "Immeubles anciens, parties communes et accès du mobilier à vérifier." },
+  { name: "Passy & Auteuil (16e)", id: "passy", description: "Volume, ascenseur et protection des parties communes à anticiper." },
+  { name: "Batignolles (17e)", id: "batignolles", description: "Circulation, stationnement et accès à décrire aux deux adresses." },
+  { name: "QCA / Opéra (8e, 9e)", id: "opera", description: "Calendrier, accès et contraintes d’activité à préciser pour un transfert professionnel." }
 ];
 
 const WHY_CHOOSE_US = [
   {
     icon: Truck,
-    title: "Maîtrise de l'Hyper-Centre",
-    description: "Rues étroites, cours intérieures, sens uniques... Nous possédons une flotte de petits porteurs adaptés au gabarit parisien."
+    title: "Accès parisiens",
+    description: "Rues étroites, cours intérieures, sens uniques et portage sont étudiés avant de définir les moyens."
   },
   {
     icon: FileText,
-    title: "Autorisations Clés en Main",
-    description: "Nous gérons l'intégralité des demandes de stationnement et arrêtés de voirie auprès de la Préfecture et des mairies."
+    title: "Stationnement anticipé",
+    description: "Les démarches nécessaires et leur répartition sont précisées selon les adresses et la formule retenue."
   },
   {
     icon: MoveUp,
-    title: "Solutions de Levage",
-    description: "Déploiement de monte-meubles dernière génération pour sécuriser vos biens et protéger les cages d'escalier."
+    title: "Levage si nécessaire",
+    description: "La possibilité d’un monte-meubles dépend de l’étage, de la façade, du mobilier et du stationnement."
   },
   {
-    icon: BadgeCheck,
-    title: "Équipes Salariées",
-    description: "Déménageurs 100% professionnels, formés aux techniques d'emballage les plus exigeantes (bullkraft, caisses export)."
+    icon: Calculator,
+    title: "Devis détaillé",
+    description: "Volume, accès, trajet, formule et moyens techniques éventuels sont intégrés à la proposition."
   }
 ];
 
@@ -79,7 +75,7 @@ const FAQS = [
   },
   { 
     question: "Déménagez-vous les pianos et objets d'art ?", 
-    answer: "Oui, c'est l'une de nos grandes spécialités dans la capitale. Nous disposons de matériel ultra-spécifique (housses capitonnées, luges de portage) et d'une assurance Ad Valorem pour couvrir contractuellement vos œuvres et objets de grande valeur à leur prix réel." 
+    answer: "Signalez dès l’inventaire la nature, les dimensions, le poids et la valeur des objets concernés. La faisabilité, les moyens de manutention, les protections et les conditions contractuelles sont alors précisés dans la proposition."
   },
   { 
     question: "Quels sont vos délais pour un devis à Paris ?", 
@@ -87,20 +83,43 @@ const FAQS = [
   }
 ];
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": FAQS.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
-  }))
-};
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://demenagementduvexin.fr/" },
+      { "@type": "ListItem", position: 2, name: "Zones d’intervention", item: "https://demenagementduvexin.fr/zones-intervention" },
+      { "@type": "ListItem", position: 3, name: "Déménagement Paris (75)", item: "https://demenagementduvexin.fr/demenagement-paris-75" },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Secteurs parisiens et contraintes de déménagement",
+    numberOfItems: PARIS_QUARTIERS.length,
+    itemListElement: PARIS_QUARTIERS.map((quartier, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: quartier.name,
+      description: quartier.description,
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQS.map(item => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  },
+];
 
 export default function ParisPage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
-      <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <Script id="paris-structured-data" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
@@ -128,24 +147,24 @@ export default function ParisPage() {
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-teal-300 mb-8 shadow-sm backdrop-blur-md">
               <Landmark className="h-4 w-4" />
-              Expertise Capitale
+              Déménagement à Paris (75)
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
               Votre déménagement <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-200">
-                à Paris sans stress.
+                à Paris, préparé en détail.
               </span>
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              L'expertise logistique de pointe pour la capitale : gestion totale des autorisations de voirie, flotte de monte-meubles et protection prestige pour vos biens de valeur.
+              Étages, ascenseur, portage, stationnement et mobilier encombrant : décrivez les contraintes des deux adresses pour obtenir un devis adapté.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
               <Button size="lg" className="rounded-full h-16 px-10 text-base font-bold bg-[#00ad9f] hover:bg-[#009286] text-white shadow-lg shadow-[#00ad9f]/20 transition-all hover:scale-105" asChild>
                 <Link href="/demande-devis">
-                  Obtenir mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
+                  Demander mon devis <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </div>
@@ -159,24 +178,24 @@ export default function ParisPage() {
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div className="space-y-8 relative z-10">
               <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                Maîtriser la complexité <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">de l'hyper-centre</u>.
+                Anticiper les contraintes <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">de l’adresse parisienne</u>.
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  Déménager dans la Ville Lumière est un projet exaltant, mais c'est avant tout une opération logistique de haute voltige. Circulation dense, rues étroites du centre historique, réglementation stricte de stationnement, immeubles anciens sans ascenseur...
+                  À Paris, une rue étroite, un immeuble sans ascenseur ou un stationnement éloigné peuvent modifier la manutention nécessaire. Les parties communes et le passage du mobilier doivent aussi être vérifiés.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous avons fait de ces contraintes notre terrain d'expertise privilégié. Nous planifions chaque déménagement parisien avec une rigueur absolue, en anticipant chaque détail administratif et technique pour vous assurer une transition parfaitement fluide, que vous soyez un particulier ou une grande entreprise.
+                  Pour préparer le projet, indiquez les étages, les dimensions de l’ascenseur, la distance de portage et les possibilités de stationnement au départ comme à l’arrivée. Ces informations déterminent les moyens à prévoir.
                 </p>
               </div>
               
               <div className="pt-6 flex items-start gap-5">
                  <div className="h-16 w-16 rounded-2xl bg-teal-50 flex items-center justify-center shrink-0 border border-teal-100">
-                    <ShieldCheck className="h-8 w-8 text-[#00ad9f]" />
+                    <FileText className="h-8 w-8 text-[#00ad9f]" />
                  </div>
                  <div>
-                   <h3 className="text-xl font-bold text-slate-900 mb-1">Zéro Stress Garanti</h3>
-                   <p className="text-slate-500 font-light">Nous prenons en charge 100% de la gestion administrative de voirie.</p>
+                   <h3 className="text-xl font-bold text-slate-900 mb-1">Stationnement à clarifier</h3>
+                   <p className="text-slate-500 font-light">Le devis précise les démarches prévues et les informations à fournir pour chaque adresse.</p>
                  </div>
               </div>
             </div>
@@ -201,10 +220,10 @@ export default function ParisPage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-              Pourquoi nous confier vos clés ?
+              Les points vérifiés avant le devis
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Un service pensé sur-mesure pour les particuliers et les entreprises les plus exigeantes de la capitale.
+              Une description précise des accès permet de prévoir les moyens réellement utiles au déménagement.
             </p>
           </div>
 
@@ -228,10 +247,10 @@ export default function ParisPage() {
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mb-16 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight">
-              Intervention dans les <span className="text-[#00ad9f]">20 arrondissements.</span>
+              Contraintes fréquentes selon les <span className="text-[#00ad9f]">secteurs parisiens.</span>
             </h2>
             <p className="text-lg text-slate-400 font-light leading-relaxed">
-              Du petit studio d'étudiant du Quartier Latin aux immenses plateaux de bureaux du QCA, nous couvrons la totalité de Paris intramuros avec une logistique adaptée :
+              Ces exemples aident à identifier les informations utiles. La faisabilité reste étudiée à partir des deux adresses exactes et de leurs accès.
             </p>
           </div>
           
@@ -273,28 +292,28 @@ export default function ParisPage() {
 
             <div className="order-1 lg:order-2 space-y-10 lg:pl-10">
               <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                Des solutions techniques <br/> <span className="text-[#00ad9f]">haute couture.</span>
+                Des moyens techniques <br/> <span className="text-[#00ad9f]">choisis selon les accès.</span>
               </h2>
               <ul className="space-y-8">
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><Building2 className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Haussmannien & Standing</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Protection adaptée des parties communes (tapis, miroirs) et emballages de qualité muséale pour vos biens précieux et œuvres d'art.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Immeubles anciens</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Escalier, ascenseur, cour et parties communes sont décrits pour prévoir le passage et la protection du mobilier.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><MoveUp className="h-7 w-7"/></div>
                   <div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-2">Monte-Meubles Intégré</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">L'outil indispensable à Paris pour les cages d'escalier étroites : gain de temps, zéro casse et respect des normes de votre syndic.</p>
+                    <h4 className="text-xl font-bold text-slate-900 mb-2">Monte-meubles éventuel</h4>
+                    <p className="text-slate-500 font-light leading-relaxed">Son utilisation dépend du mobilier, de la façade, de l’étage, du recul disponible et des conditions de stationnement.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-6">
                   <div className="p-4 bg-slate-50 border border-slate-100 shadow-sm rounded-2xl text-[#00ad9f] shrink-0"><CheckCircle2 className="h-7 w-7"/></div>
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-2">Transferts Pro & Bureaux</h4>
-                    <p className="text-slate-500 font-light leading-relaxed">Service dédié aux entreprises (Opéra, QCA...) : transfert d'archives sécurisées, parcs informatiques et logistique en horaires décalés.</p>
+                    <p className="text-slate-500 font-light leading-relaxed">Le calendrier, les accès, le mobilier, les archives et les contraintes d’activité sont recensés avant la proposition.</p>
                   </div>
                 </li>
               </ul>
@@ -319,7 +338,7 @@ export default function ParisPage() {
             <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-900">
               Questions <span className="text-[#00ad9f]">fréquentes</span>
             </h2>
-            <p className="text-lg text-slate-500 font-light">Tout ce qu'il faut savoir pour préparer votre installation réussie à Paris.</p>
+            <p className="text-lg text-slate-500 font-light">Les réponses utiles pour préparer un déménagement à Paris.</p>
           </div>
           
           <Accordion type="single" collapsible className="w-full space-y-4">
@@ -357,13 +376,13 @@ export default function ParisPage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine complexe de la capitale vous stresser. Contactez nos experts parisiens pour une étude personnalisée et recevez un devis ferme et gratuit après étude.
+                    Décrivez les deux adresses, les étages, l’ascenseur, le stationnement, le volume estimé et la date souhaitée pour obtenir une proposition personnalisée.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
                     <Button size="lg" className="rounded-full h-16 px-10 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>
                        <Link href="/demande-devis">
-                          Demander mon devis gratuit <ArrowRight className="ml-2 h-5 w-5" />
+                          Demander mon devis <ArrowRight className="ml-2 h-5 w-5" />
                        </Link>
                     </Button>
                  </div>
