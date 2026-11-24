@@ -19,21 +19,14 @@ import {
   Compass,
   Navigation,
   Ship,
-  Plane,
   Route,
-  Scale,
-  Timer,
-  Zap,
   PackageCheck,
-  Star,
-  LayoutGrid,
-  ShieldCheck
 } from "lucide-react";
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Nos Zones d'Intervention | Déménagement Île-de-France, Normandie & National",
-  description: "Déménagement du Vexin intervient sur toute l'Île-de-France, la Normandie et organise vos transferts nationaux et internationaux (UK, Suisse, Belgique, etc.).",
+  title: "Zones de déménagement | Île-de-France, Normandie, France",
+  description: "Consultez nos pages de déménagement par département, trajet national et destination internationale depuis l’Île-de-France et la Normandie.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/zones-intervention",
   }
@@ -41,53 +34,79 @@ export const metadata: Metadata = {
 
 
 const ILE_DE_FRANCE = [
-  { name: "Val-d'Oise (95)", description: "Notre siège historique, nous couvrons l'ensemble des communes du département.", link: "/demenagement-val-d-oise-95" },
-  { name: "Yvelines (78)", description: "De Versailles à Saint-Germain... Nous connaissons parfaitement le secteur.", link: "/demenagement-yvelines-78" },
-  { name: "Hauts-de-Seine (92)", description: "Nous maîtrisons les accès complexes et spécifiques de ce département dense.", link: "/demenagement-hauts-de-seine-92" },
-  { name: "Paris (75)", description: "Experts des contraintes parisiennes, étages élevés et arrêtés de stationnement.", link: "/demenagement-paris-75" },
-  { name: "Seine-Saint-Denis (93)", description: "De Montreuil à Saint-Denis, une logistique parfaitement rodée et réactive.", link: "/demenagement-seine-saint-denis-93" },
-  { name: "Val-de-Marne (94)", description: "Nous intervenons dans tout le Val-de-Marne pour vos projets résidentiels ou B2B.", link: "/demenagement-val-de-marne-94" },
-  { name: "Essonne (91)", description: "Une couverture logistique complète du nord au sud du département.", link: "/demenagement-essonne-91" },
-  { name: "Seine-et-Marne (77)", description: "Même dans le plus grand département d'Île-de-France, nous sommes présents.", link: "/demenagement-seine-et-marne-77" },
+  { name: "Val-d'Oise (95)", description: "Page départementale et accès aux principales communes desservies autour de Méry-sur-Oise, Cergy et Pontoise.", link: "/demenagement-val-d-oise-95" },
+  { name: "Yvelines (78)", description: "Préparation des projets dans les Yvelines, notamment autour de Versailles, Poissy et Saint-Germain-en-Laye.", link: "/demenagement-yvelines-78" },
+  { name: "Hauts-de-Seine (92)", description: "Informations sur les accès, le stationnement et les déménagements dans les communes des Hauts-de-Seine.", link: "/demenagement-hauts-de-seine-92" },
+  { name: "Paris (75)", description: "Préparation des étages, ascenseurs, portages et autorisations de stationnement à Paris.", link: "/demenagement-paris-75" },
+  { name: "Seine-Saint-Denis (93)", description: "Page départementale pour préparer un départ ou une arrivée en Seine-Saint-Denis.", link: "/demenagement-seine-saint-denis-93" },
+  { name: "Val-de-Marne (94)", description: "Informations pour préparer un projet résidentiel ou professionnel dans le Val-de-Marne.", link: "/demenagement-val-de-marne-94" },
+  { name: "Essonne (91)", description: "Informations et conseils pour préparer un déménagement dans les communes de l’Essonne.", link: "/demenagement-essonne-91" },
+  { name: "Seine-et-Marne (77)", description: "Page départementale pour les projets en Seine-et-Marne et les trajets vers l’Île-de-France.", link: "/demenagement-seine-et-marne-77" },
 ];
 
 const NORMANDIE = [
-  { name: "Eure (27)", description: "Grâce à notre agence d'Évreux, nous sommes au plus proche de vos projets normands.", link: "/demenagement-eure-27" },
-  { name: "Seine-Maritime (76)", description: "De Rouen au Havre, nous assurons des liaisons et déménagements réguliers.", link: "/demenagement-seine-maritime-76" },
-  { name: "Calvados (14)", description: "Nous vous accompagnons de Caen jusqu'aux stations balnéaires de la côte.", link: "/demenagement-calvados-14" },
-  { name: "Orne (61)", description: "Une présence logistique fiable et robuste pour vos transferts dans l'Orne.", link: "/demenagement-orne-61" },
+  { name: "Eure (27)", description: "Préparation des projets autour d’Évreux, Vernon, Bernay et des principales communes de l’Eure.", link: "/demenagement-eure-27" },
+  { name: "Seine-Maritime (76)", description: "Informations pour les déménagements autour de Rouen, du Havre et en Seine-Maritime.", link: "/demenagement-seine-maritime-76" },
+  { name: "Calvados (14)", description: "Informations pour préparer un déménagement autour de Caen et dans le Calvados.", link: "/demenagement-calvados-14" },
+  { name: "Orne (61)", description: "Page départementale pour préparer les trajets, volumes et accès dans l’Orne.", link: "/demenagement-orne-61" },
 ];
 
 const HAUTS_DE_FRANCE = [
-  { name: "Oise (60)", description: "Une zone stratégique au nord du Val-d'Oise : Beauvais, Compiègne, Creil, Senlis et les principales communes du département.", link: "/demenagement-oise-60" },
+  { name: "Oise (60)", description: "Page départementale pour Beauvais, Compiègne, Creil, Senlis et les principales communes de l’Oise.", link: "/demenagement-oise-60" },
 ];
 
 const INTERNATIONAL = [
-  { name: "Royaume-Uni", description: "Expertise post-Brexit et douanes. Liaisons régulières vers Londres, Manchester...", icon: Ship, link: "/demenagement-france-royaume-uni" },
-  { name: "Suisse", description: "Spécialiste douanes hors UE pour Genève, Lausanne, Zurich et les cantons.", icon: Navigation, link: "/demenagement-france-suisse" },
-  { name: "Belgique", description: "Navettes hebdomadaires entre Paris et Bruxelles pour expatriés et pros.", icon: Truck, link: "/demenagement-france-belgique" },
-  { name: "Luxembourg", description: "Service prestige vers le Grand-Duché : Kirchberg, Ville-Haute et environs.", icon: Building2, link: "/demenagement-france-luxembourg" },
-  { name: "Allemagne", description: "Liaisons transfrontalières rapides vers Berlin, Munich, Francfort et la Ruhr.", icon: Globe, link: "/demenagement-france-allemagne" },
-  { name: "Espagne", description: "Déménagements vers Madrid, Barcelone, Valence et toute la péninsule.", icon: Route, link: "/demenagement-france-espagne" },
-  { name: "Portugal", description: "Expertise longue distance vers Lisbonne, Porto et le sud de l'Algarve.", icon: MapPin, link: "/demenagement-france-portugal" },
-  { name: "Italie", description: "Logistique transalpine vers Rome, Milan, Turin et les régions du Nord.", icon: Route, link: "/demenagement-france-italie" },
+  { name: "Royaume-Uni", description: "Préparer un déménagement vers Londres, Manchester ou une autre destination au Royaume-Uni.", icon: Ship, link: "/demenagement-france-royaume-uni" },
+  { name: "Suisse", description: "Informations pour un projet vers Genève, Lausanne, Zurich ou un autre canton suisse.", icon: Navigation, link: "/demenagement-france-suisse" },
+  { name: "Belgique", description: "Préparer un trajet entre la France, Bruxelles et les principales villes belges.", icon: Truck, link: "/demenagement-france-belgique" },
+  { name: "Luxembourg", description: "Informations pour organiser un déménagement vers le Grand-Duché de Luxembourg.", icon: Building2, link: "/demenagement-france-luxembourg" },
+  { name: "Allemagne", description: "Préparer un déménagement vers Berlin, Munich, Francfort ou une autre ville allemande.", icon: Globe, link: "/demenagement-france-allemagne" },
+  { name: "Espagne", description: "Préparer un déménagement vers Madrid, Barcelone, Valence ou une autre région espagnole.", icon: Route, link: "/demenagement-france-espagne" },
+  { name: "Portugal", description: "Préparer un trajet longue distance vers Lisbonne, Porto ou une autre région du Portugal.", icon: MapPin, link: "/demenagement-france-portugal" },
+  { name: "Italie", description: "Préparer un déménagement vers Rome, Milan, Turin ou une autre région italienne.", icon: Route, link: "/demenagement-france-italie" },
 ];
 
 const NATIONAL = [
-  { name: "Lyon (69)", description: "Liaisons quotidiennes via l'A6 pour vos transferts vers le Rhône.", link: "/demenagement-ile-de-france-lyon" },
-  { name: "Marseille (13)", description: "Expertise longue distance vers la cité phocéenne et la Provence.", link: "/demenagement-ile-de-france-marseille" },
-  { name: "Bordeaux (33)", description: "Navettes régulières vers la Gironde et le Sud-Ouest.", link: "/demenagement-ile-de-france-bordeaux" },
-  { name: "Lille (59)", description: "Liaison express vers la capitale des Flandres et le Nord.", link: "/demenagement-ile-de-france-lille" },
-  { name: "Nantes (44)", description: "Accompagnement expert vers la Loire-Atlantique et le Grand Ouest.", link: "/demenagement-ile-de-france-nantes" },
-  { name: "Toulouse (31)", description: "Logistique sécurisée vers la Ville Rose et l'Occitanie.", link: "/demenagement-ile-de-france-toulouse" },
-  { name: "Nice (06)", description: "Service prestige vers la Côte d'Azur et les Alpes-Maritimes.", link: "/demenagement-ile-de-france-nice" },
+  { name: "Lyon (69)", description: "Préparer un déménagement entre l’Île-de-France et la métropole de Lyon.", link: "/demenagement-ile-de-france-lyon" },
+  { name: "Marseille (13)", description: "Informations pour un trajet longue distance vers Marseille et la Provence.", link: "/demenagement-ile-de-france-marseille" },
+  { name: "Bordeaux (33)", description: "Préparer un déménagement vers Bordeaux, la Gironde et le Sud-Ouest.", link: "/demenagement-ile-de-france-bordeaux" },
+  { name: "Lille (59)", description: "Informations pour un déménagement entre l’Île-de-France, Lille et le Nord.", link: "/demenagement-ile-de-france-lille" },
+  { name: "Nantes (44)", description: "Préparer un trajet vers Nantes, la Loire-Atlantique et le Grand Ouest.", link: "/demenagement-ile-de-france-nantes" },
+  { name: "Toulouse (31)", description: "Informations pour un déménagement vers Toulouse et l’Occitanie.", link: "/demenagement-ile-de-france-toulouse" },
+  { name: "Nice (06)", description: "Préparer un trajet vers Nice, la Côte d’Azur et les Alpes-Maritimes.", link: "/demenagement-ile-de-france-nice" },
   { name: "Strasbourg (67)", description: "Trajets étudiés vers l'Alsace et le Grand Est.", link: "/demenagement-ile-de-france-strasbourg" },
-  { name: "Rennes (35)", description: "Votre installation en Bretagne gérée avec rigueur et ponctualité.", link: "/demenagement-ile-de-france-rennes" },
+  { name: "Rennes (35)", description: "Informations pour un déménagement vers Rennes et la Bretagne.", link: "/demenagement-ile-de-france-rennes" },
+];
+
+const listedAreas = [...ILE_DE_FRANCE, ...HAUTS_DE_FRANCE, ...NORMANDIE, ...NATIONAL, ...INTERNATIONAL];
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: "https://demenagementduvexin.fr/" },
+      { "@type": "ListItem", position: 2, name: "Zones d’intervention", item: "https://demenagementduvexin.fr/zones-intervention" },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Zones et destinations de déménagement",
+    numberOfItems: listedAreas.length,
+    itemListElement: listedAreas.map((area, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: area.name,
+      url: `https://demenagementduvexin.fr${area.link}`,
+    })),
+  },
 ];
 
 export default function InterventionZonePage() {
   return (
     <main className="bg-slate-50 min-h-screen selection:bg-[#00ad9f]/20 selection:text-[#00ad9f]">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[70vh] flex flex-col justify-center bg-[#0b0f19] text-white pt-32 lg:pt-40 pb-20 overflow-hidden">
@@ -116,14 +135,14 @@ export default function InterventionZonePage() {
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
-              Proches de vous, <br className="hidden sm:block" />
+              Zones de déménagement : <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00ad9f] to-teal-300">
-                partout en Europe.
+                local, national et international.
               </span>
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl font-light mb-10">
-              Un ancrage local puissant en Île-de-France et en Normandie, couplé à une expertise logistique internationale pour sécuriser vos transferts sur tout le territoire national et européen.
+              Retrouvez nos pages par département, nos principaux trajets longue distance et les destinations internationales publiées sur le site.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-5">
@@ -147,22 +166,11 @@ export default function InterventionZonePage() {
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
-                  <strong>Déménagement du Vexin</strong> combine la réactivité d'un acteur local profondément ancré dans ses territoires (Val-d'Oise, Eure) avec la capacité technique d'intervenir sur des projets complexes à l'échelle européenne.
+                  <strong>Déménagement du Vexin</strong> prépare des projets au départ ou à l’arrivée de l’Île-de-France, de l’Oise et de la Normandie, ainsi que des trajets nationaux et internationaux.
                 </p>
                 <p>
-                  Notre connaissance millimétrée du terrain est un atout majeur : nous anticipons les contraintes urbaines, gérons les formalités douanières post-Brexit ou hors UE, et nous adaptons nos camions à la topographie de votre secteur de destination.
+                  Chaque page précise les points à anticiper selon la destination : accès, stationnement, distance, volume et informations utiles à transmettre dans la demande de devis.
                 </p>
-              </div>
-              
-              <div className="pt-6 grid grid-cols-2 gap-8 border-t border-slate-100">
-                 <div className="flex flex-col gap-2">
-                    <span className="text-4xl font-black text-slate-900">2</span>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Agences Physiques</span>
-                 </div>
-                 <div className="flex flex-col gap-2">
-                    <span className="text-4xl font-black text-slate-900">100%</span>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Maîtrise Interne</span>
-                 </div>
               </div>
             </div>
             
@@ -285,7 +293,7 @@ export default function InterventionZonePage() {
                 Normandie
               </h2>
               <p className="text-lg text-slate-500 font-light">
-                Grâce à notre agence physique située à Évreux (27), nous avons développé une présence logistique forte pour tous vos projets normands.
+                Retrouvez les pages départementales de l’Eure, de la Seine-Maritime, du Calvados et de l’Orne, ainsi que leurs principales communes publiées.
               </p>
             </div>
           </div>
@@ -331,7 +339,7 @@ export default function InterventionZonePage() {
                 Déménagement International
               </h2>
               <p className="text-lg text-slate-500 font-light">
-                Nous orchestrons votre mobilité vers les plus grandes destinations européennes avec un accompagnement douanier et logistique complet.
+                Consultez les pages dédiées aux principales destinations européennes pour préparer les informations propres à votre trajet.
               </p>
             </div>
             <Button asChild variant="outline" className="rounded-full h-14 px-8 border-slate-200 font-bold hover:bg-slate-900 hover:text-white transition-all">
@@ -354,7 +362,7 @@ export default function InterventionZonePage() {
                   {dest.description}
                 </p>
                 <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#00ad9f]">
-                  Expertise Destination <ArrowRight className="h-3.5 w-3.5" />
+                  Voir la destination <ArrowRight className="h-3.5 w-3.5" />
                 </div>
               </Link>
             ))}
@@ -375,7 +383,7 @@ export default function InterventionZonePage() {
                 Déménagement National
               </h2>
               <p className="text-lg text-slate-500 font-light">
-                Nous assurons des liaisons quotidiennes et des groupages réguliers vers toutes les grandes métropoles françaises.
+                Consultez nos pages de trajets entre l’Île-de-France et les principales métropoles françaises.
               </p>
             </div>
             <Button asChild variant="outline" className="rounded-full h-14 px-8 border-slate-200 font-bold hover:bg-slate-900 hover:text-white transition-all">
@@ -422,28 +430,28 @@ export default function InterventionZonePage() {
                 Savoir-faire Longue Distance
               </div>
               <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight leading-tight">
-                L'expertise nationale <br/> <span className="text-[#00ad9f]">sans compromis.</span>
+                Préparer un trajet national <br/> <span className="text-[#00ad9f]">sans oublier les contraintes.</span>
               </h2>
               <p className="text-lg text-slate-400 font-light leading-relaxed">
-                Parce qu'un trajet de 8 heures sur autoroute exige un calage et un arrimage bien plus rigoureux qu'un transfert local, nous appliquons des standards de sécurité renforcés pour tous vos trajets nationaux.
+                Un trajet longue distance demande un inventaire fiable, des accès décrits précisément et une date compatible avec les contraintes de départ et d’arrivée.
               </p>
               
               <div className="grid sm:grid-cols-2 gap-6 pt-4">
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="h-5 w-5 text-[#00ad9f]" />
-                  <span className="text-sm font-bold">Groupages hebdomadaires</span>
+                  <span className="text-sm font-bold">Volume et inventaire</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="h-5 w-5 text-[#00ad9f]" />
-                  <span className="text-sm font-bold">Assurance Ad Valorem</span>
+                  <span className="text-sm font-bold">Accès aux deux adresses</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="h-5 w-5 text-[#00ad9f]" />
-                  <span className="text-sm font-bold">Flotte géolocalisée</span>
+                  <span className="text-sm font-bold">Date et distance du trajet</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="h-5 w-5 text-[#00ad9f]" />
-                  <span className="text-sm font-bold">Zéro sous-traitance</span>
+                  <span className="text-sm font-bold">Formule et options souhaitées</span>
                 </div>
               </div>
             </div>
@@ -478,7 +486,7 @@ export default function InterventionZonePage() {
                     <span className="text-[#00ad9f]">dans la liste ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light leading-relaxed">
-                    Pas d'inquiétude. Nos équipes sillonnent les routes quotidiennement. Contactez-nous pour vérifier notre disponibilité exacte sur votre commune de départ ou d'arrivée.
+                    La liste présente les principales pages publiées, pas une limite contractuelle de couverture. Décrivez vos deux adresses pour vérifier la faisabilité de votre trajet.
                  </p>
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Button size="lg" className="rounded-full h-16 px-12 text-lg font-bold bg-[#00ad9f] text-white hover:bg-[#009286] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(0,173,159,0.4)]" asChild>

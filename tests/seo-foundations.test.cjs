@@ -346,6 +346,23 @@ test('shared conversion surfaces do not promise an unverified 24-hour turnaround
   }
 });
 
+test('zones hub exposes a structured geographic hierarchy without unsupported service claims', () => {
+  const source = readFileSync(path.join(root, 'src/app/zones-intervention/page.tsx'), 'utf8');
+  assert.match(source, /Zones de déménagement :/);
+  assert.match(source, /"@type": "BreadcrumbList"/);
+  assert.match(source, /"@type": "ItemList"/);
+  for (const href of [
+    '/demenagement-val-d-oise-95',
+    '/demenagement-oise-60',
+    '/demenagement-eure-27',
+    '/demenagement-ile-de-france-lyon',
+    '/demenagement-france-royaume-uni',
+  ]) {
+    assert.ok(source.includes(`link: "${href}"`), href);
+  }
+  assert.doesNotMatch(source, /liaisons quotidiennes|navettes hebdomadaires|groupages hebdomadaires|zéro sous-traitance|agences physiques|100% maîtrise interne|connaissance millimétrée|sillonnent les routes quotidiennement|parfaitement rodée|maîtrisons parfaitement/i);
+});
+
 test('homepage Journal cards match existing articles and image files', () => {
   const source = readFileSync(path.join(root, 'src/app/(home)/landing-page-client.tsx'), 'utf8');
   const tree = ts.createSourceFile('home.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
