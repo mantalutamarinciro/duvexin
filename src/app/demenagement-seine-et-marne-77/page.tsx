@@ -27,8 +27,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Seine-et-Marne (77) | Expert Local & Devis Gratuit",
-  description: "Déménageur de confiance en Seine-et-Marne (77). De Meaux à Fontainebleau, nous gérons vos déménagements résidentiels et transferts de bureaux. Devis personnalisé.",
+  title: "Déménageur en Seine-et-Marne (77) | Devis personnalisé",
+  description: "Préparez votre déménagement en Seine-et-Marne, de Meaux à Fontainebleau en passant par Melun. Accès, stationnement, volume et devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-seine-et-marne-77",
   }
@@ -44,23 +44,23 @@ const SEINE_ET_MARNE_CITIES = [
 const WHY_US_ITEMS = [
   {
     icon: MapPin,
-    title: "Expertise Territoriale",
-    description: "Des pôles urbains du Grand Paris aux zones rurales du sud-Seine-et-Marne, nous maîtrisons chaque itinéraire du 77."
+    title: "Trajet et distance",
+    description: "Indiquez les deux adresses pour tenir compte du trajet et des contraintes de chargement et de livraison."
   },
   {
     icon: Truck,
-    title: "Logistique Adaptée",
-    description: "Flotte de véhicules variée pour s'adapter aussi bien aux rues médiévales de Provins qu'aux larges avenues de Marne-la-Vallée."
+    title: "Accès du véhicule",
+    description: "Signalez les rues étroites, les voies privées et les limites de hauteur ou de largeur aux deux adresses."
   },
   {
     icon: Building2,
-    title: "Gestion des Autorisations",
-    description: "Nous prenons en charge les demandes d'arrêté municipal de stationnement dans toutes les mairies du département."
+    title: "Stationnement du camion",
+    description: "Vérifiez auprès de la commune si une autorisation est nécessaire et faites préciser qui s’en charge dans le devis."
   },
   {
     icon: ShieldCheck,
-    title: "Protection & Assurance",
-    description: "Protection sous bullkraft et couvertures lourdes. Chaque projet bénéficie d'une assurance contractuelle incluse."
+    title: "Protection du mobilier",
+    description: "Signalez les objets fragiles ou encombrants pour préciser les protections et la manutention prévues."
   }
 ];
 
@@ -71,14 +71,14 @@ const FAQS = [
   },
   { 
     question: "Déménagez-vous les grandes propriétés et maisons bourgeoises ?", 
-    answer: "Absolument. Nous sommes habitués aux déménagements de gros volumes (maisons de maître, longères). Une visite technique préalable permet de calibrer le nombre de déménageurs et de camions nécessaires." 
+    answer: "Pour une maison avec cave, garage ou dépendance, ajoutez ces espaces à l’inventaire. Précisez les dimensions des meubles encombrants et les possibilités de manœuvre du camion."
   },
   { 
     question: "Proposez-vous des services pour les entreprises de Seine-et-Marne ?", 
-    answer: "Oui, nous accompagnons les professionnels pour des transferts de bureaux ou de parcs informatiques dans les zones d'activités du département, avec une planification qui minimise l'arrêt de votre productivité." 
+    answer: "Pour un transfert de bureaux, indiquez le mobilier, les archives et le matériel à transporter. Précisez aussi les horaires d’accès, les quais et le calendrier de reprise."
   },
   { 
-    question: "Quel est le délai pour obtenir un devis gratuit ?", 
+    question: "Quelles informations faut-il fournir pour obtenir un devis ?",
     answer: "Après votre demande en ligne ou une visite technique, nous préparons un devis détaillé à partir du volume, des accès et des prestations demandées."
   }
 ];
@@ -124,7 +124,7 @@ export default function SeineEtMarnePage() {
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-teal-300 mb-8 shadow-sm backdrop-blur-md">
               <Map className="h-4 w-4" />
-              Expert Île-de-France Est
+              Déménagement dans le 77
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
@@ -135,7 +135,7 @@ export default function SeineEtMarnePage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              La solution logistique de référence pour le 77. De Melun à Meaux, profitez d'une transition sereine avec nos équipes locales expertes.
+              De Melun à Meaux, indiquez le volume à transporter, les accès et la date souhaitée pour préparer votre devis.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -155,7 +155,7 @@ export default function SeineEtMarnePage() {
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div className="space-y-8 relative z-10">
               <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                Une logistique agile pour <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">le plus grand département du 75</u>.
+                Préparer les accès <br/> <u className="decoration-[#00ad9f] decoration-4 underline-offset-4">aux deux adresses</u>.
               </h2>
               <div className="space-y-5 text-lg text-slate-500 font-light leading-relaxed">
                 <p>
@@ -172,7 +172,7 @@ export default function SeineEtMarnePage() {
                  </div>
                  <div>
                    <h3 className="text-xl font-bold text-slate-900 mb-1">Maillage Territorial</h3>
-                   <p className="text-slate-500 font-light">Une parfaite maîtrise des axes routiers et des accès ruraux du 77.</p>
+                   <p className="text-slate-500 font-light">Vérifiez la largeur du portail, la possibilité de faire demi-tour et la distance entre le camion et l’entrée.</p>
                  </div>
               </div>
             </div>
@@ -346,7 +346,7 @@ export default function SeineEtMarnePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique ternir votre projet. Contactez nos experts pour une visite gratuite et obtenez un devis complet après étude.
+                    Renseignez les deux adresses, le volume estimé et les prestations souhaitées pour obtenir une proposition adaptée.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
