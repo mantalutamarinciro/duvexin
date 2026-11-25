@@ -26,8 +26,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Essonne (91) | Expert Paris-Saclay | Devis Gratuit",
-  description: "Déménageur de confiance en Essonne (91). Spécialiste du plateau de Saclay, Évry et Massy. Solutions pour particuliers, laboratoires et entreprises. Devis personnalisé.",
+  title: "Déménageur en Essonne (91) | Massy, Évry et Paris-Saclay",
+  description: "Vous déménagez en Essonne ? Préparez les accès, le stationnement et le volume à transporter, de Massy et Paris-Saclay à Évry et Étampes.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-essonne-91",
   }
@@ -42,42 +42,42 @@ const ESSONNE_CITIES = [
 const WHY_US_ITEMS = [
   {
     icon: MapPin,
-    title: "Logistique Bimodale",
-    description: "Nous maîtrisons parfaitement la densité urbaine du nord (Massy, Évry) comme les accès ruraux complexes du sud de l'Essonne."
+    title: "Accès au logement",
+    description: "Indiquez l’étage et l’ascenseur pour un appartement, ou la largeur du portail et de l’allée pour une maison."
   },
   {
     icon: Users,
-    title: "Équipes Polyvalentes",
-    description: "Nos déménageurs sont formés au mobilier familial traditionnel comme au matériel professionnel et informatique de haute précision."
+    title: "Inventaire du mobilier",
+    description: "Recensez les meubles encombrants, les objets fragiles et le contenu des caves ou garages."
   },
   {
     icon: Microscope,
-    title: "Expertise Recherche",
-    description: "Spécialistes reconnus du transfert pour les laboratoires, start-ups et campus des pôles d'excellence de Saclay et d'Évry."
+    title: "Accès aux sites professionnels",
+    description: "Pour un transfert de bureaux, précisez les horaires de livraison et les conditions d’accès au bâtiment."
   },
   {
     icon: ShieldCheck,
-    title: "Sérénité Totale",
-    description: "Assurance Ad Valorem complète et gestion intégrale des autorisations de stationnement auprès des 194 communes du 91."
+    title: "Stationnement du camion",
+    description: "Vérifiez les règles auprès de la commune et faites préciser dans le devis qui effectue la démarche éventuelle."
   }
 ];
 
 const FAQS = [
   { 
     question: "Intervenez-vous sur le plateau de Paris-Saclay ?", 
-    answer: "Oui, nous sommes très actifs sur le plateau de Saclay (Palaiseau, Orsay, Gif-sur-Yvette). Nous accompagnons les chercheurs, les étudiants (CentraleSupélec, Polytechnique) et les entreprises technologiques avec des protocoles stricts, parfaitement adaptés aux campus et aux zones d'activités très sécurisées." 
+    answer: "Pour un logement ou des bureaux sur le plateau de Saclay, précisez le bâtiment, le point de livraison et les créneaux d’accès. Sur un campus, demandez au gestionnaire si le véhicule doit être inscrit à l’avance."
   },
   { 
     question: "Comment gérez-vous les déménagements en zone dense comme Évry ?", 
-    answer: "Nous vérifions en amont les besoins d'autorisation de stationnement et les contraintes d'accès. Un monte-meubles peut être proposé lorsque la configuration de l'immeuble et du mobilier le justifie."
+    answer: "Indiquez l’étage, les dimensions de l’ascenseur, la distance de portage et l’emplacement possible du camion. Un monte-meubles peut être étudié selon la façade et l’espace disponible."
   },
   { 
     question: "Déménagez-vous dans le sud rural de l'Essonne ?", 
-    answer: "Absolument. Notre flotte comprend des camions de tous gabarits (notamment des petits porteurs) qui nous permettent d'accéder sans difficulté aux propriétés isolées du sud Essonne (Étampes, Dourdan, Milly-la-Forêt) ou aux centres-villes historiques aux rues parfois très étroites." 
+    answer: "Pour une maison autour d’Étampes ou de Dourdan, indiquez la largeur du chemin et du portail, l’espace de manœuvre et la distance jusqu’à l’entrée."
   },
   { 
     question: "Proposez-vous des tarifs pour les étudiants ?", 
-    answer: "Oui, nous avons conçu des formules 'Économiques' idéales pour les petits volumes (studios, chambres universitaires). C'est la solution préférée des nombreux étudiants des universités d'Évry et de Paris-Saclay pour déménager à moindre coût, tout en bénéficiant d'un transport sécurisé." 
+    answer: "Pour un studio ou une chambre, listez les meubles, les cartons et le contenu des annexes. Le prix dépend aussi des accès, du trajet et de la formule choisie."
   }
 ];
 
@@ -163,7 +163,7 @@ export default function EssonnePage() {
                   L'Essonne est un territoire de grands contrastes. D'un côté, le nord ultra-dynamique avec ses immenses pôles de recherche mondiaux (Plateau de Saclay, Genopole) et ses grands ensembles ; de l'autre, le sud Essonne avec ses zones pavillonnaires calmes et ses villages ruraux paisibles.
                 </p>
                 <p>
-                  Chez <strong>Déménagement du Vexin</strong>, nous maîtrisons parfaitement ces deux univers. Que vous soyez un scientifique emménageant près de son laboratoire à Orsay, ou une famille s'installant dans un grand pavillon à Corbeil-Essonnes, nous déployons les moyens techniques adéquats (camions sur-mesure, monte-meubles) pour une transition sans aucun accroc.
+                  À Massy ou à Évry-Courcouronnes, vérifiez le passage entre la rue et le logement, notamment les portes et l’ascenseur. Dans le sud de l’Essonne, repérez aussi les chemins étroits et les possibilités de manœuvre.
                 </p>
               </div>
               
@@ -228,7 +228,7 @@ export default function EssonnePage() {
               Présents dans <span className="text-[#00ad9f]">tout le 91.</span>
             </h2>
             <p className="text-lg text-slate-400 font-light leading-relaxed">
-              Nos camions sillonnent quotidiennement les routes de l'Essonne, du nord très urbanisé au sud plus rural. Retrouvez nos secteurs d'intervention prioritaires :
+              Votre commune ne figure pas dans la liste ? Indiquez les adresses de départ et d’arrivée pour faire étudier le trajet.
             </p>
           </div>
           
@@ -350,7 +350,7 @@ export default function EssonnePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique au hasard, qu'il s'agisse d'un studio étudiant ou d'un laboratoire de recherche. Contactez nos experts pour une étude personnalisée et recevez un devis gratuit personnalisé.
+                    Indiquez vos deux adresses, la date souhaitée et le volume estimé pour obtenir un devis adapté à votre projet.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
