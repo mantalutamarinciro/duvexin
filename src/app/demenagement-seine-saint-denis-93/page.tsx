@@ -28,8 +28,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Seine-Saint-Denis (93) | Expert Local & Devis personnalisé",
-  description: "Déménageur de confiance en Seine-Saint-Denis (93). De Saint-Denis à Montreuil, nous gérons vos déménagements résidentiels et transferts de bureaux. Devis gratuit.",
+  title: "Déménageur en Seine-Saint-Denis (93) | Devis personnalisé",
+  description: "Déménagement en Seine-Saint-Denis, de Saint-Denis à Montreuil. Préparez les accès, le stationnement et le volume avant de demander votre devis.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-seine-saint-denis-93",
   }
@@ -45,8 +45,8 @@ const SSD_CITIES = [
 const WHY_US_ITEMS = [
   {
     icon: Building2,
-    title: "Expertise Urbaine",
-    description: "Maîtrise totale des accès en grands ensembles et résidences denses pour une logistique fluide sans le moindre imprévu."
+    title: "Accès en immeuble",
+    description: "Indiquez l’étage, les dimensions de l’ascenseur et la distance entre le camion et l’entrée."
   },
   {
     icon: MoveUp,
@@ -55,32 +55,32 @@ const WHY_US_ITEMS = [
   },
   {
     icon: ShieldAlert,
-    title: "Gestion Administrative",
-    description: "Nous gérons l'intégralité des demandes d'autorisation de stationnement auprès des mairies du département 93."
+    title: "Stationnement du camion",
+    description: "Vérifiez les démarches auprès de la commune concernée et demandez qui s’en charge avant de valider le devis."
   },
   {
     icon: Users,
-    title: "Équipes Salariées",
-    description: "Déménageurs qualifiés, formés au portage technique en escaliers et à l'emballage haute protection (bullkraft)."
+    title: "Protection du mobilier",
+    description: "Décrivez les meubles encombrants et les objets fragiles pour préciser les protections à prévoir."
   }
 ];
 
 const FAQS = [
   { 
     question: "Comment gérez-vous le stationnement dans les zones denses du 93 ?", 
-    answer: "C'est notre quotidien. Nous déposons les demandes d'arrêté municipal environ 15 jours à l'avance pour privatiser l'espace au pied de votre immeuble, évitant ainsi les blocages de circulation et les retards le jour J." 
+    answer: "Les démarches et leurs délais varient selon la commune et l’adresse. Vérifiez les conditions auprès de la mairie et faites préciser dans le devis qui dépose la demande."
   },
   { 
     question: "Déménagez-vous les entreprises et bureaux en Seine-Saint-Denis ?", 
-    answer: "Oui, la Seine-Saint-Denis est un pôle économique majeur. Nous accompagnons les professionnels pour des transferts de bureaux ou d'archives avec une planification qui minimise l'arrêt de votre productivité (possibilité de travail en week-end)." 
+    answer: "Pour un transfert de bureaux ou d’archives, indiquez les accès de livraison, le mobilier, le matériel et les créneaux compatibles avec votre activité."
   },
   { 
     question: "Est-il possible de déménager sans ascenseur ?", 
-    answer: "Absolument. Nos équipes sont spécifiquement entraînées au portage en escalier. Pour les volumes importants ou les objets très lourds (canapés, électroménager), nous préconisons l'usage d'un monte-meubles extérieur pour plus de sécurité." 
+    answer: "Indiquez l’étage, la largeur de l’escalier et les dimensions du mobilier. Un monte-meubles peut être envisagé si la façade et l’espace disponible le permettent."
   },
   { 
     question: "Quelles sont les garanties pour mon mobilier ?", 
-    answer: "Chaque déménagement bénéficie d'une assurance contractuelle. Nous utilisons des fournitures professionnelles (couvertures lourdes, bullkraft, housses spécifiques pour la literie) pour garantir l'intégrité absolue de vos biens." 
+    answer: "Signalez les objets fragiles et de valeur dès l’inventaire. Consultez le devis et les documents contractuels pour connaître les protections et les conditions de couverture."
   }
 ];
 
@@ -125,7 +125,7 @@ export default function SeineSaintDenisPage() {
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-teal-300 mb-8 shadow-sm backdrop-blur-md">
               <Map className="h-4 w-4" />
-              Expert Déménagement Grand Paris
+              Déménagement dans le 93
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
@@ -136,7 +136,7 @@ export default function SeineSaintDenisPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl font-light">
-              La solution logistique de référence pour le 93. De Saint-Denis à Montreuil, profitez d'une transition fluide et sécurisée avec nos équipes locales.
+              Vous déménagez à Saint-Denis, Montreuil ou dans une autre commune du 93 ? Indiquez les deux adresses, votre volume et la date souhaitée pour préparer le devis.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5">
@@ -172,8 +172,8 @@ export default function SeineSaintDenisPage() {
                     <LayoutGrid className="h-8 w-8 text-[#00ad9f]" />
                  </div>
                  <div>
-                   <h3 className="text-xl font-bold text-slate-900 mb-1">Maillage Territorial</h3>
-                   <p className="text-slate-500 font-light">Une parfaite maîtrise des accès urbains, des grands ensembles et des flux de circulation du 93.</p>
+                   <h3 className="text-xl font-bold text-slate-900 mb-1">Accès aux deux adresses</h3>
+                   <p className="text-slate-500 font-light">Signalez les barrières, les cours intérieures et les créneaux d’accès à chaque adresse.</p>
                  </div>
               </div>
             </div>
@@ -203,7 +203,7 @@ export default function SeineSaintDenisPage() {
               Interventions dans toute la <br className="hidden sm:block"/> <span className="text-[#00ad9f]">Seine-Saint-Denis</span>
             </h2>
             <p className="text-lg text-slate-500 font-light">
-              Nos équipes couvrent l'intégralité des communes du département 93.
+              Votre commune ne figure pas dans la liste ? Indiquez vos deux adresses dans la demande de devis pour faire étudier le trajet.
             </p>
           </div>
           
@@ -222,7 +222,7 @@ export default function SeineSaintDenisPage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-              Le choix de la sérénité
+              Les points à vérifier avant le devis
             </h2>
             <p className="text-lg text-slate-500 font-light">
               La force d'un réseau structuré pour sécuriser votre projet sur un territoire aussi dense que le 93.
