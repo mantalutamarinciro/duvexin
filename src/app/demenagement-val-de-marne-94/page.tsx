@@ -28,8 +28,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Val-de-Marne (94) | Expert Local & Devis Gratuit",
-  description: "Déménageur de confiance dans le Val-de-Marne (94). De Vincennes à Créteil, nous gérons vos déménagements résidentiels et transferts de bureaux. Devis personnalisé.",
+  title: "Déménageur dans le Val-de-Marne (94) | Devis personnalisé",
+  description: "Préparez votre déménagement dans le Val-de-Marne, de Vincennes à Créteil et Vitry-sur-Seine. Accès, stationnement, volume et devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-val-de-marne-94",
   }
@@ -60,42 +60,42 @@ const VAL_DE_MARNE_CITIES = [
 const WHY_US_ITEMS = [
   {
     icon: MapPin,
-    title: "Expertise du 94",
-    description: "De la densité de la petite couronne (Vincennes, Ivry) aux zones pavillonnaires des bords de Marne, nous maîtrisons chaque accès."
+    title: "Trajet et portage",
+    description: "Précisez les deux adresses, la distance de portage et les accès du camion."
   },
   {
     icon: Building2,
-    title: "Spécialiste Urbain",
-    description: "Habitués aux grands ensembles (Créteil, Vitry), nous déployons des monte-meubles pour sécuriser vos biens en étage élevé."
+    title: "Accès en étage",
+    description: "Indiquez l’étage, les dimensions de l’ascenseur et celles des meubles encombrants. Un monte-meubles peut être étudié selon la façade et l’espace disponible."
   },
   {
     icon: ShieldAlert,
-    title: "Gestion du Stationnement",
-    description: "Nous prenons en charge l'intégralité des demandes d'arrêté municipal pour privatiser l'espace au pied de votre domicile."
+    title: "Stationnement du camion",
+    description: "Vérifiez les règles de stationnement auprès de la commune et demandez qui effectue la démarche avant de valider le devis."
   },
   {
     icon: Users,
-    title: "Équipes Qualifiées",
-    description: "Nos déménageurs sont des professionnels salariés, formés aux techniques d'emballage les plus exigeantes."
+    title: "Protection du mobilier",
+    description: "Recensez les objets fragiles et les meubles à démonter pour préciser les protections et prestations au devis."
   }
 ];
 
 const FAQS = [
   { 
     question: "Comment gérez-vous le stationnement dans les zones denses comme Vincennes ?", 
-    answer: "Nous anticipons systématiquement. Nous déposons les demandes d'autorisation auprès des mairies 15 jours avant le déménagement pour bloquer l'espace nécessaire et garantir une intervention fluide." 
+    answer: "Les modalités et délais varient selon la commune et l’adresse. Vérifiez les conditions auprès de la mairie et demandez que le devis précise qui dépose la demande."
   },
   { 
     question: "Intervenez-vous dans les tours et grands ensembles de Créteil ?", 
-    answer: "Oui, c'est notre quotidien. Nous coordonnons l'utilisation des monte-charges avec les gardiens et déployons nos monte-meubles extérieurs si nécessaire pour protéger les parties communes." 
+    answer: "Indiquez l’étage et les dimensions des portes, de la cabine et de l’escalier. Vérifiez auprès du gestionnaire si un créneau d’utilisation doit être réservé."
   },
   { 
     question: "Déménagez-vous les maisons en bord de Marne (Saint-Maur, Le Perreux) ?", 
-    answer: "Absolument. Nous avons une grande expérience des accès pavillonnaires. Nous protégeons scrupuleusement vos sols, escaliers et jardins lors de la manutention des objets lourds ou encombrants." 
+    answer: "Précisez la largeur du portail, la distance entre le camion et l’entrée et la place disponible pour manœuvrer. Ajoutez les meubles et cartons des annexes à l’inventaire."
   },
   { 
     question: "Proposez-vous le transfert d'entreprises dans le Val-de-Marne ?", 
-    answer: "Oui, nous accompagnons les professionnels du 94 pour le transfert de leurs bureaux, de leur parc informatique ou de leurs archives, avec une planification qui minimise l'arrêt d'activité." 
+    answer: "Pour un transfert de bureaux, indiquez le mobilier, les archives et les équipements à déplacer, ainsi que les accès de livraison et vos dates de reprise."
   }
 ];
 
@@ -188,7 +188,7 @@ export default function ValDeMarnePage() {
                  </div>
                  <div>
                    <h3 className="text-xl font-bold text-slate-900 mb-1">Maillage Territorial</h3>
-                   <p className="text-slate-500 font-light">Une présence quotidienne sur l'ensemble du 94 pour répondre à toutes vos urgences.</p>
+                   <p className="text-slate-500 font-light">Décrivez les accès et les créneaux possibles aux deux adresses pour préparer l’intervention.</p>
                  </div>
               </div>
             </div>
@@ -359,7 +359,7 @@ export default function ValDeMarnePage() {
                     </span>
                  </h2>
                  <p className="text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                    Ne laissez pas la logistique urbaine ternir votre projet. Contactez nos experts pour une visite gratuite et obtenez un devis complet après étude.
+                    Indiquez vos deux adresses, le volume estimé et la date souhaitée pour obtenir un devis adapté.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6 pt-6">
