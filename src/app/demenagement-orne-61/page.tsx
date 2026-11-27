@@ -27,8 +27,8 @@ import {
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
-  title: "Déménagement Orne (61) | Expert Normand & Devis Gratuit",
-  description: "Déménagement du Vexin : votre expert pour déménager dans l'Orne (61). Alençon, Flers, Argentan et le Perche. Réactivité via notre agence d'Évreux. Devis gratuit.",
+  title: "Déménageur dans l’Orne (61) | Alençon, Flers et Argentan",
+  description: "Préparez votre déménagement dans l’Orne, d’Alençon au Perche en passant par Flers et Argentan. Accès, volume, trajet et devis personnalisé.",
   alternates: {
     canonical: "https://demenagementduvexin.fr/demenagement-orne-61",
   }
@@ -43,38 +43,38 @@ const ORNE_CITIES = [
 const WHY_US_ITEMS = [
   {
     icon: Compass,
-    title: "Expertise du 61",
-    description: "Du Perche aux collines de la Suisse Normande, nous maîtrisons la logistique rurale et urbaine du département."
+    title: "Trajet et stationnement",
+    description: "Indiquez les adresses de départ et d’arrivée, ainsi que les contraintes de circulation et de stationnement."
   },
   {
     icon: Truck,
-    title: "Proximité Évreux",
-    description: "Notre ancrage régional nous permet d'intervenir rapidement pour les visites techniques et le jour J dans toute l'Orne."
+    title: "Accès en immeuble",
+    description: "Précisez l’étage, les dimensions de l’ascenseur et la distance entre le camion et l’entrée."
   },
   {
     icon: Home,
-    title: "Spécialiste Longères",
-    description: "Habitués aux contraintes des maisons de campagne : chemins étroits, cours de ferme et protection des extérieurs."
+    title: "Chemins et portails",
+    description: "Pour une maison rurale, mesurez le passage le plus étroit et repérez un espace où le camion peut manœuvrer."
   },
   {
     icon: ShieldCheck,
-    title: "Garantie Sérénité",
-    description: "Assurance contractuelle incluse et interlocuteur unique pour coordonner votre projet de A à Z."
+    title: "Inventaire du mobilier",
+    description: "Recensez le mobilier encombrant, les objets fragiles et le contenu des caves, greniers et dépendances."
   }
 ];
 
 const FAQS = [
   { 
     question: "Comment gérez-vous les accès difficiles en campagne ornaise ?", 
-    answer: "C'est notre spécialité. Nous réalisons une visite technique (physique ou visio) pour évaluer l'étroitesse des chemins. Si besoin, nous utilisons des véhicules légers ou organisons un transbordement pour garantir l'arrivée de vos biens sans dommage." 
+    answer: "Indiquez la largeur du chemin et du portail, l’état du revêtement et les possibilités de demi-tour. Des photos peuvent aider à évaluer l’accès avant le devis."
   },
   { 
     question: "Intervenez-vous sur tout le département de l'Orne ?", 
-    answer: "Oui, nous couvrons l'intégralité du 61 : les pôles urbains comme Alençon, Flers ou Argentan, mais aussi les zones les plus reculées du Perche ou du Bocage." 
+    answer: "Pour un projet à Alençon, Flers, Argentan ou dans une autre commune de l’Orne, renseignez vos deux adresses pour faire étudier le trajet."
   },
   { 
     question: "Proposez-vous des formules pour les petits budgets ?", 
-    answer: "Notre formule 'Économique' est idéale pour maîtriser les coûts. Vous emballez vos cartons, et nos déménageurs professionnels s'occupent de la protection du mobilier, du chargement et du transport sécurisé." 
+    answer: "Comparez les prestations incluses dans chaque formule. Le prix dépend aussi du volume, du trajet, des accès et de la date souhaitée."
   },
   { 
     question: "Quel est le délai pour obtenir un devis dans le 61 ?", 
@@ -121,7 +121,7 @@ export default function OrnePage() {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-[#00ad9f]/30 bg-[#00ad9f]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#00ad9f] mb-6 shadow-sm">
               <Trees className="h-4 w-4" />
-              Expert Déménagement Basse-Normandie
+              Déménagement dans le 61
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
@@ -323,7 +323,7 @@ export default function OrnePage() {
                     <span className="text-[#00ad9f]">départ vers l'Orne ?</span>
                  </h2>
                  <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 font-light">
-                    Ne laissez pas la logistique ternir votre projet. Contactez nos experts régionaux pour une visite gratuite et obtenez un devis détaillé dans les meilleurs délais.
+                    Indiquez vos deux adresses, le volume estimé et la date souhaitée pour obtenir un devis adapté à votre projet.
                  </p>
                  
                  <div className="flex flex-col sm:flex-row justify-center gap-6">
